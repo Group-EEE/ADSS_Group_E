@@ -1,15 +1,15 @@
-import java.util.Map;
+import java.util.List;
+import java.util.Set;
 
 public class Employee {
     private String m_first_name;
     private String m_last_name;
     private int m_age;
     private int m_id;
-    private int m_bank_account;private Map<String,int>[]time;
-    private boolean m_isManager = false;
-    private boolean m_isWearhouse = false;
-    private boolean m_isGeneral = false;
-    private boolean m_isCashier = false;
+    private int m_bank_account;
+    private List<Store> m_stores;
+    private Set<roleType> m_roles; 
+
 
     public Employee(String first_name, String last_name, int age, int id, int bank_account) {
         this.m_first_name = first_name;
@@ -18,40 +18,19 @@ public class Employee {
         this.m_id = id;
         this.m_bank_account = bank_account;
     }
-
-    public boolean canWork(Map<String,int>[] arr_can_work){
-        this.time = arr_can_work;
+    
+    public boolean addStore(Store store){
+        this.m_stores.add(store);
+        return store.addEmployee(this);
     }
-
-    public boolean isManager() {
-        return this.m_isManager;
+    public Set<roleType> getRoles(){
+        return this.m_roles;
     }
-
-    public boolean isCashier() {
-        return m_isCashier;
-    }
-
-    public boolean isWearhouse() {
-        return m_isWearhouse;
-    }
-
-    public boolean isGeneral() {
-        return m_isGeneral;
-    }
-
-    public void setManager(boolean manager) {
-        m_isManager = manager;
-    }
-
-    public void setCashier(boolean cashier) {
-        m_isCashier = cashier;
-    }
-
-    public void setWearhouse(boolean wearhouse) {
-        m_isWearhouse = wearhouse;
-    }
-
-    public void setGeneral(boolean general) {
-        m_isGeneral = general;
+    public boolean setRoles(roleType role) {
+        this.m_roles.add(role);
+        for (Store obj_store : this.m_stores) {
+            obj_store.updateRoles(this);
+        }
+        return true;
     }
 }

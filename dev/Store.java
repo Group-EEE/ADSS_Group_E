@@ -3,16 +3,33 @@ import java.util.List;
 public class Store {
     private String m_address; 
     private List<Employee> m_employees;
+    private List<Employee> m_general_employees;
+    private List<Employee> m_cashier_employees;
+    private List<Employee> m_wearhouse_employees;
+    private List<Employee> m_manager_employees;
     private List<Schedule> m_past_schedule;
     public Store(String address){
         this.m_address = address;
     }
-    public boolean addEmployee(Employee employee){
-        this.m_employees.add(employee);
-        return true;
-    }
-    public boolean removeEmployee(Employee employee){
-        this.m_employees.remove(employee);
+    public boolean updateRoles(Employee employee){
+        for (roleType role : employee.getRoles()) {
+            switch (role) {
+                case cashier:
+                    this.m_cashier_employees.add(employee);
+                    break;
+                case general:
+                    this.m_general_employees.add(employee);
+                    break;
+                case wearhouse:
+                    this.m_wearhouse_employees.add(employee);
+                    break;
+                case manager:
+                    this.m_manager_employees.add(employee);
+                    break;
+                default:
+                    break;
+            }
+        }
         return true;
     }
     public boolean addSchedule(Schedule schedule){
