@@ -1,10 +1,10 @@
-public class System {
+
+public class MangermentSystem {
 
     public static void main(String[] args) {
         int choice = 1;
         while (choice != 0) {
             printMenu();
-            ch
         }
     }
 
