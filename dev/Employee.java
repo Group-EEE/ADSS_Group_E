@@ -27,6 +27,7 @@ public class Employee {
         return this.m_roles;
     }
     public boolean setRoles(roleType role) {
+        if (role == null)
         this.m_roles.add(role);
         for (Store obj_store : this.m_stores) {
             obj_store.updateRoles(this);

@@ -11,7 +11,15 @@ public class Store {
     public Store(String address){
         this.m_address = address;
     }
+    public boolean addEmployee(Employee employee){
+        if (employee == null)
+            return false;
+        this.m_employees.add(employee);
+        return true;
+    }
     public boolean updateRoles(Employee employee){
+        if (employee == null)
+            return false;
         for (roleType role : employee.getRoles()) {
             switch (role) {
                 case cashier:
@@ -27,7 +35,7 @@ public class Store {
                     this.m_manager_employees.add(employee);
                     break;
                 default:
-                    break;
+                    return false;
             }
         }
         return true;
