@@ -1,27 +1,25 @@
 
 import java.util.Scanner;
+import java.util.InputMismatchException;
+
 public class MangermentSystem {
     public static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
-        int choice = 1;
+        //there must be an HR manager in order to use the system
+        HRManager hr_manager = createHREmployee();
+        String choice = "1";
         //write for a menu the user can choose from. must be get a number and not a string or char
-        while (choice != 0) {
-            HRManager hr_manager = null;
-            while (hr_manager == null){
-                System.out.println("Welcome to the HR system.");
-                System.out.println("Please create a HR manager first");
-                hr_manager = createHREmployee();
-            }
-            choice = scanner.nextInt();
+        while (choice != "0") {
             printMenu();
+            choice = scanner.next();
             switch (choice) {
-                    case 1:
+                    case "1":
                     //HRmenu();
                     break;
-                case 2:
-                    //createStore();
+                case "2":
+                    //EmployeeMenu();
                     break;
-                case 0:
+                case "0":
                     System.out.println("Goodbye!");
                     break;
                 default:
@@ -43,7 +41,7 @@ public class MangermentSystem {
         }
     }
 
-    public static void HRmenu(HRManager hr_manager){
+    public static void HRMenu(HRManager hr_manager){
         int choice = 1;
         while (choice != 0) {
             printHRMenu();
@@ -72,17 +70,48 @@ public class MangermentSystem {
     }
 
     public static HRManager createHREmployee(){
-        System.out.println("Please enter the following details:");
-        System.out.println("First name:");
-        String first_name = scanner.next();
-        System.out.println("Last name:");
-        String last_name = scanner.next();
-        System.out.println("Age:");
-        int age = scanner.nextInt();
-        System.out.println("ID:");
-        int id = scanner.nextInt();
-        System.out.println("Bank account:");
-        int bank_account = scanner.nextInt();
+        boolean valid = false;
+        int age = 0;
+        String first_name = "";
+        String last_name = "";
+        int id = 0;
+        int bank_account = 0;
+        System.out.println("Welcome to the HR system!");
+        System.out.println("You must create an HR employee in order to use the system");
+        while(valid == false){ 
+            valid = true;
+            System.out.println("Please enter the following details:");
+            System.out.println("First name:");
+            first_name = scanner.next();
+            System.out.println("Last name:");
+            last_name = scanner.next();
+            System.out.println("Age:");
+            try{
+                age = scanner.nextInt();
+            }
+            catch (InputMismatchException e){
+                System.out.println("Invalid age");
+                valid = false;
+                continue;
+            }
+            System.out.println("ID:");
+            try{
+                id = scanner.nextInt();
+            }
+            catch (InputMismatchException e){
+                System.out.println("Invalid ID");
+                valid = false;
+                continue;
+            }
+            System.out.println("Bank account:");
+            String bank_account_input = scanner.next();
+            if(bank_account_input.compareTo("0")>=0 && bank_account_input.compareTo("120") < 0){
+                bank_account = Integer.parseInt(bank_account_input);
+            } else {
+                System.out.println("Invalid bank account");
+                valid = false;
+            }
+        }
         return new HRManager(first_name, last_name, age, id, bank_account);
 
         
