@@ -6,12 +6,12 @@ public class Employee {
     private String m_last_name;
     private int m_age;
     private int m_id;
-    private int m_bank_account;
+    private String m_bank_account;
     private List<Store> m_stores;
     private Set<roleType> m_roles; 
 
 
-    public Employee(String first_name, String last_name, int age, int id, int bank_account) {
+    public Employee(String first_name, String last_name, int age, int id,String bank_account) {
         this.m_first_name = first_name;
         this.m_last_name = last_name;
         this.m_age = age;

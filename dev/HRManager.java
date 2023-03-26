@@ -5,10 +5,10 @@ public class HRManager {
     private String m_last_name;
     private int m_age;
     private int m_id;
-    private int m_bank_account;
+    private String m_bank_account;
     private List<Store> m_stores;
 
-    public HRManager(String first_name, String last_name, int age, int id, int bank_account) {
+    public HRManager(String first_name, String last_name, int age, int id, String bank_account) {
         this.m_first_name = first_name;
         this.m_last_name = last_name;
         this.m_age = age;
@@ -16,7 +16,7 @@ public class HRManager {
         this.m_bank_account = bank_account;
     }
 
-    public boolean createEmployee(String first_name, String last_name, int age, int id, int bank_account, String store_location) {
+    public boolean createEmployee(String first_name, String last_name, int age, int id, String bank_account, String store_location) {
         Employee new_employee = new Employee(first_name, last_name, age, id, bank_account);
         return addEmployeeToStore(new_employee, store_location);
     }
