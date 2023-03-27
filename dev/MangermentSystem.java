@@ -4,10 +4,9 @@ import java.util.InputMismatchException;
 
 public class MangermentSystem {
     public static Scanner scanner = new Scanner(System.in);
-
+    public static HRManager hr_manager;
     public static void main(String[] args) {
-        // there must be an HR manager in order to use the system
-        HRManager hr_Manager = createHREmployee();
+        HRMenuCreateEmployee(); //create HR manager
         String choice = "1";
         // write for a menu the user can choose from. must be get a number and not a
         // string or char
@@ -16,7 +15,7 @@ public class MangermentSystem {
             choice = scanner.nextLine();
             switch (choice) {
                 case "1":
-                    HRmenu();
+                    HRMenu();
                     break;
                 case "2":
                     EmployeeMenu();
@@ -45,17 +44,17 @@ public class MangermentSystem {
         }
     }
 
-    public static void HRMenu(HRManager hr_manager) {
+    public static void HRMenu() {
         int choice = 1;
         while (choice != 0) {
             printHRMenu();
             choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    // hr_manager.createEmployee();
+                    HRMenuCreateEmployee();
                     break;
                 case 2:
-                    // createStore();
+                    HRMenuCreateStore();
                     break;
                 case 3:
                     // addEmployeeToStore();
@@ -73,7 +72,7 @@ public class MangermentSystem {
         }
     }
 
-    public static HRManager createHREmployee(){
+    public static boolean HRMenuCreateEmployee(){
         boolean valid = false;
         int age = 0;
         String first_name = "";
@@ -110,13 +109,32 @@ public class MangermentSystem {
                 continue;
             }
             System.out.println("Bank account:");
-            bank_account = scanner.nextLine();
+            bank_account = scanner.next();
+            if (hr_manager == null){
+                hr_manager = new HRManager(first_name, last_name, age, id, bank_account);
+                return true;
+            }
         }
-        return new HRManager(first_name, last_name, age, id, bank_account);
-
-        
+        hr_manager.createEmployee(first_name, last_name, age, id, bank_account);        
+        return true;
     }
 
+    public static boolean HRMenuAddEmployeeToStore(){
+        System.out.println("Please enter the following details:");
+        System.out.println("Store name:");
+        String store_name = scanner.nextLine();
+        System.out.println("Employee ID:");
+        int employee_id = scanner.nextInt();
+        return hr_manager.addEmployeeToStore(employee_id, store_name);
+    }
+    public static boolean HRMenuCreateStore(){
+        System.out.println("Please enter the following details:");
+        System.out.println("Store name:");
+        String store_name = scanner.nextLine();
+        System.out.println("Store address:");
+        String store_address = scanner.nextLine();
+        return hr_manager.createStore(store_name, store_address);
+    }
     public static void printMenu() {
         System.out.println("Please select a menu: ");
         System.out.println("1. HR menu");

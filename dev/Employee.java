@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.Set;
 
-public class Employee {
+public class Employee implements IEmployee{
     private String m_first_name;
     private String m_last_name;
     private int m_age;
@@ -17,6 +17,9 @@ public class Employee {
         this.m_age = age;
         this.m_id = id;
         this.m_bank_account = bank_account;
+    }
+    public int getID(){
+        return this.m_id;
     }
     
     public boolean addStore(Store store){

@@ -1,6 +1,7 @@
 import java.util.List;
 
 public class Store {
+    private String m_name;
     private String m_address; 
     private List<Employee> m_employees;
     private List<Employee> m_general_employees;
@@ -8,7 +9,8 @@ public class Store {
     private List<Employee> m_wearhouse_employees;
     private List<Employee> m_manager_employees;
     private List<Schedule> m_past_schedule;
-    public Store(String address){
+    public Store(String m_name, String address){
+        this.m_name = m_name;
         this.m_address = address;
     }
     public boolean addEmployee(Employee employee){
