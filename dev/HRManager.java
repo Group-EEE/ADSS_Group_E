@@ -1,26 +1,20 @@
 import java.util.List;
 
-public class HRManager implements IEmployee{
-    private String m_first_name;
-    private String m_last_name;
-    private int m_age;
-    private int m_id;
-    private String m_bank_account;
+public class HRManager extends AEmployee{
     private List<Employee> m_employees;
     private List<Store> m_stores;
 
-    public HRManager(String first_name, String last_name, int age, int id, String bank_account) {
-        this.m_first_name = first_name;
-        this.m_last_name = last_name;
-        this.m_age = age;
-        this.m_id = id;
-        this.m_bank_account = bank_account;
+    public HRManager(String first_name, String last_name, int age, int id, String bank_account,String password) {
+        super(first_name, last_name, age, id, bank_account);
+        Login.createUser(id, password, this);
     }
 
-    public boolean createEmployee(String first_name, String last_name, int age, int id, String bank_account) {
+    public boolean createEmployee(String first_name, String last_name, int age, int id, String bank_account, String password) {
         if (first_name == null || last_name == null || age < 0 || id < 0 || bank_account == null)
             return false;
-        m_employees.add(new Employee(first_name, last_name, age, id, bank_account));
+        Employee new_employee = new Employee(first_name, last_name, age, id, bank_account);
+        m_employees.add(new_employee);
+        Login.createUser(id, password, new_employee);
         return true; 
         //return addEmployeeToStore(new_employee, store_location);
     }

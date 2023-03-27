@@ -5,13 +5,14 @@ import java.util.InputMismatchException;
 public class MangermentSystem {
     public static Scanner scanner = new Scanner(System.in);
     public static HRManager hr_manager;
+    public static Login login;
     public static void main(String[] args) {
         HRMenuCreateEmployee(); //create HR manager
         String choice = "1";
         // write for a menu the user can choose from. must be get a number and not a
         // string or char
         while (choice != "0") {
-            printMenu();
+            AEmployee user = LoginUser();
             choice = scanner.nextLine();
             switch (choice) {
                 case "1":
@@ -79,6 +80,7 @@ public class MangermentSystem {
         String last_name = "";
         int id = 0;
         String bank_account = "0";
+        String password = "";
         System.out.println("Welcome to the HR system!");
         System.out.println("You must create an HR employee in order to use the system");
         while(valid == false){ 
@@ -108,15 +110,19 @@ public class MangermentSystem {
                 scanner.nextLine();
                 continue;
             }
+            System.out.println("password:");
+            password = scanner.next();
             System.out.println("Bank account:");
             bank_account = scanner.next();
             if (hr_manager == null){
-                hr_manager = new HRManager(first_name, last_name, age, id, bank_account);
+                hr_manager = new HRManager(first_name, last_name, age, id, bank_account,password);
+                if (hr_manager == null)
+                    return false;
                 return true;
             }
+
         }
-        hr_manager.createEmployee(first_name, last_name, age, id, bank_account);        
-        return true;
+        return hr_manager.createEmployee(first_name, last_name, age, id, bank_account,password);
     }
 
     public static boolean HRMenuAddEmployeeToStore(){
@@ -135,11 +141,18 @@ public class MangermentSystem {
         String store_address = scanner.nextLine();
         return hr_manager.createStore(store_name, store_address);
     }
-    public static void printMenu() {
-        System.out.println("Please select a menu: ");
-        System.out.println("1. HR menu");
-        System.out.println("2. Employee menu");
-        System.out.println("0. Exit");
+    public AEmployee LoginUser() {
+        AEmployee user = null;
+        while (user == null) {
+            System.out.println("Please enter your ID:");
+            int id = scanner.nextInt();
+            System.out.println("Please enter your password:");
+            String password = scanner.next();
+            user = Login.login(id, password);
+            if (user == null)
+                System.out.println("Invalid ID or password");
+        }
+        return user;
     }
 
     public static void printEmployeeMenu() {
