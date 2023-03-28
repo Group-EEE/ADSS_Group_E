@@ -1,34 +1,26 @@
 
 import java.util.Scanner;
+
+import Employee.AEmployee;
+import Employee.Employee;
+import Employee.HRManager;
+
 import java.util.InputMismatchException;
 
 public class MangermentSystem {
     public static Scanner scanner = new Scanner(System.in);
     public static HRManager hr_manager;
     public static Login login;
+    public static AEmployee logged_user;
     public static void main(String[] args) {
-        HRMenuCreateEmployee(); //create HR manager
-        String choice = "1";
-        // write for a menu the user can choose from. must be get a number and not a
-        // string or char
-        while (choice != "0") {
-            AEmployee user = LoginUser();
-            choice = scanner.nextLine();
-            switch (choice) {
-                case "1":
-                    HRMenu();
-                    break;
-                case "2":
-                    EmployeeMenu();
-                    break;
-                case "0":
-                    System.out.println("Goodbye!");
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Invalid choice");
-                    break;
-            }
+        if (hr_manager == null)
+            HRMenuCreateEmployee(); //create HR manager
+        while (logged_user == null) {
+            LoginUser();
+            if (logged_user instanceof HRManager)
+                HRMenu();
+            else if (logged_user instanceof Employee)
+                EmployeeMenu();
         }
     }
 
@@ -58,10 +50,10 @@ public class MangermentSystem {
                     HRMenuCreateStore();
                     break;
                 case 3:
-                    // addEmployeeToStore();
+                    HRMenuAddEmployeeToStore();
                     break;
                 case 4:
-                    // addRoleToEmployee();
+                    HRMenuAddRoleToEmployee();
                     break;
                 case 0:
                     System.out.println("Back to main menu");
@@ -116,6 +108,7 @@ public class MangermentSystem {
             bank_account = scanner.next();
             if (hr_manager == null){
                 hr_manager = new HRManager(first_name, last_name, age, id, bank_account,password);
+                //Login.createUser(id, password, hr_manager);
                 if (hr_manager == null)
                     return false;
                 return true;
@@ -136,23 +129,40 @@ public class MangermentSystem {
     public static boolean HRMenuCreateStore(){
         System.out.println("Please enter the following details:");
         System.out.println("Store name:");
-        String store_name = scanner.nextLine();
+        String store_name = scanner.next();
         System.out.println("Store address:");
-        String store_address = scanner.nextLine();
+        String store_address = scanner.next();
         return hr_manager.createStore(store_name, store_address);
     }
-    public AEmployee LoginUser() {
-        AEmployee user = null;
-        while (user == null) {
+
+    public static boolean HRMenuAddRoleToEmployee(){
+        System.out.println("Please enter the following details:");
+        System.out.println("Employee ID:");
+        int employee_id = scanner.nextInt();
+        System.out.println("Role:");
+        System.out.println("1. Cashier");
+        System.out.println("2. Warehouse Employee");
+        System.out.println("3. General Employee");
+        System.out.println("4. Shift Manager");
+        System.out.println("5. Security");
+        System.out.println("6. Cleaner");
+        System.out.println("7. usher");
+
+
+        String role = scanner.next();
+        return hr_manager.addRoleToEmployee(employee_id, role);
+    }
+    public static boolean LoginUser() {
+        while (logged_user == null) {
             System.out.println("Please enter your ID:");
             int id = scanner.nextInt();
             System.out.println("Please enter your password:");
             String password = scanner.next();
-            user = Login.login(id, password);
-            if (user == null)
+            logged_user = Login.login(id, password);
+            if (logged_user == null)
                 System.out.println("Invalid ID or password");
         }
-        return user;
+        return true;
     }
 
     public static void printEmployeeMenu() {
@@ -166,7 +176,7 @@ public class MangermentSystem {
         System.out.println("2. create new store");
         System.out.println("3. add employee to store");
         System.out.println("4. add role to employee");
-        System.out.println("0. Back to main menu");
+        System.out.println("0. log out");
     }
 
     public static void printCreateEmployeeMenu() {

@@ -1,7 +1,9 @@
 import java.util.HashMap;
+
+import Employee.AEmployee;
 public class Login {
-    private static HashMap<Integer,String> m_passwords = new HashMap<Integer,String>();
-    private static HashMap<Integer,AEmployee> m_employees = new HashMap<Integer,AEmployee>();
+    public static HashMap<Integer,String> m_passwords = new HashMap<Integer,String>();
+    public static HashMap<Integer,AEmployee> m_employees = new HashMap<Integer,AEmployee>();
     public static boolean createUser(int id, String password, AEmployee employee){
         if (id < 0 || password == null)
             return false;
@@ -12,7 +14,7 @@ public class Login {
     public static AEmployee login(int id, String password){
         if (id < 0 || password == null)
             return null;
-        if (m_employees.containsKey(id) && m_passwords.containsKey(id) && m_employees.get(id).equals(password))
+        if (m_employees.containsKey(id) && m_passwords.containsKey(id) && m_passwords.get(id).equals(password))
             return m_employees.get(id);
         return null;
     }

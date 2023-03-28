@@ -1,5 +1,7 @@
 import java.util.List;
 
+import Employee.Employee;
+
 public class Store {
     private String m_name;
     private String m_address; 

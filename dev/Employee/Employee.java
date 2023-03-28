@@ -1,5 +1,9 @@
+package Employee;
 import java.util.List;
 import java.util.Set;
+
+import Store;
+
 
 public class Employee extends AEmployee{
     private List<Store> m_stores;

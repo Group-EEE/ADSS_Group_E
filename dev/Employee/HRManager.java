@@ -1,8 +1,15 @@
+package Employee;
 import java.util.List;
 
+import Login;
+import Store;
+import roleType;
+
+import java.util.ArrayList;
+
 public class HRManager extends AEmployee{
-    private List<Employee> m_employees;
-    private List<Store> m_stores;
+    private List<Employee> m_employees = new ArrayList<Employee>();
+    private List<Store> m_stores = new ArrayList<Store>();
 
     public HRManager(String first_name, String last_name, int age, int id, String bank_account,String password) {
         super(first_name, last_name, age, id, bank_account);
