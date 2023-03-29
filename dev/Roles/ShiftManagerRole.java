@@ -1,4 +1,4 @@
 package Roles;
-public class ShiftManagerRole {
+public class ShiftManagerRole implements IRole{
     
 }

@@ -1,6 +1,4 @@
 import java.util.HashMap;
-
-import Employee.AEmployee;
 public class Login {
     public static HashMap<Integer,String> m_passwords = new HashMap<Integer,String>();
     public static HashMap<Integer,AEmployee> m_employees = new HashMap<Integer,AEmployee>();

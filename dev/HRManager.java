@@ -1,9 +1,8 @@
-package Employee;
+
 import java.util.List;
 
-import Login;
-import Store;
 import roleType;
+import Roles.IRole;
 
 import java.util.ArrayList;
 
@@ -30,6 +29,18 @@ public class HRManager extends AEmployee{
             return false;
         m_stores.add(new Store(store_name, store_address));
         return true;
+    }
+
+    public boolean addRoleToEmployee(int id_employee, IRole role) {
+        Employee employee = findEmployeeByID(id_employee);
+        List<Store> stores = employee.getStores(); 
+        List<IRole> roles = employee.getRoles();
+        roles.add(role);
+        for (Store store : stores) {
+            store.updateRoles(employee);
+        }
+
+        return employee.setRoles(role);
     }
 
     public boolean addEmployeeToStore(int id_employee, String store_location) {
@@ -61,11 +72,4 @@ public class HRManager extends AEmployee{
         }
         return null;
     }
-
-    public boolean addRole(Employee employee, roleType role) {
-        if (employee == null || role == null)
-            return false;
-        return employee.setRoles(role);
-    }
-
 }

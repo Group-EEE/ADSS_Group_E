@@ -1,5 +1,5 @@
 package Roles;
 
-public class GeneralRole {
+public class GeneralRole implements IRole{
     
 }

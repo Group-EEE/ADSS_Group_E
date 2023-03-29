@@ -1,5 +1,5 @@
 package Roles;
 
-public class SecurityRole {
+public class SecurityRole implements IRole{
     
 }

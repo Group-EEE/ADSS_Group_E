@@ -1,4 +1,4 @@
 package Roles;
-public class UsherRole {
+public class UsherRole implements IRole{
     
 }

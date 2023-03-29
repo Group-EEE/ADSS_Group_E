@@ -1,9 +1,7 @@
 
 import java.util.Scanner;
 
-import Employee.AEmployee;
-import Employee.Employee;
-import Employee.HRManager;
+import Roles.*;
 
 import java.util.InputMismatchException;
 
@@ -147,9 +145,36 @@ public class MangermentSystem {
         System.out.println("5. Security");
         System.out.println("6. Cleaner");
         System.out.println("7. usher");
+        System.out.println("0. Back to main menu");
 
 
         String role = scanner.next();
+        IRole new_role;
+        switch (role){
+            case "1":
+                new_role = new CashierRole();
+                break;
+            case "2":
+                new_role = new WarehouseRole();
+                break;
+            case "3":
+                new_role = new GeneralRole();
+                break;
+            case "4":
+                new_role = new ShiftRole();
+                break;
+            case "5":
+                new_role = new SecurityRole();
+                break;
+            case "6":
+                new_role = new CleanerRole();
+                break;
+            case "7":
+                new_role = new UsherRole();
+                break;
+            case "0":
+                return false;
+        }
         return hr_manager.addRoleToEmployee(employee_id, role);
     }
     public static boolean LoginUser() {
@@ -167,6 +192,7 @@ public class MangermentSystem {
 
     public static void printEmployeeMenu() {
         System.out.println("Please select an option");
+        System.out.println("1. select shifts for this week");
     }
 
     public static void printHRMenu() {
@@ -176,6 +202,8 @@ public class MangermentSystem {
         System.out.println("2. create new store");
         System.out.println("3. add employee to store");
         System.out.println("4. add role to employee");
+        System.out.println("5. create new schedule");
+        System.out.println("6. approve shifts");
         System.out.println("0. log out");
     }
 

@@ -1,5 +1,5 @@
 package Roles;
 
-public class WarehouseRole {
+public class WarehouseRole implements IRole{
     
 }

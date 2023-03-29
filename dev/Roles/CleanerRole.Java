@@ -1,3 +1,3 @@
 package Roles;
-public class Cleaner implements IRole {
+public class CleanerRole implements IRole{
 }
