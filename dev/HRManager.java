@@ -1,7 +1,6 @@
 
 import java.util.List;
 
-import roleType;
 import Roles.IRole;
 
 import java.util.ArrayList;

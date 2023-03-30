@@ -10,7 +10,7 @@ public class MangermentSystem {
     public static HRManager hr_manager;
     public static Login login;
     public static AEmployee logged_user;
-    public static void main(String[] args) {
+    public static void start() {
         if (hr_manager == null)
             HRMenuCreateEmployee(); //create HR manager
         while (logged_user == null) {
