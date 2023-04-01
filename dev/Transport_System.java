@@ -350,9 +350,9 @@ public class Transport_System {
             if (t.getCold_level().equals(level)) {
                 truck = t;
                 break;
-            } else if (t.getTemperature_capability() < temperature && t.getTemperature_capability() > truck.getTemperature_capability()) {
-                truck = t;
-            }
+//            } else if (t.getTemperature_capability() < temperature && t.getTemperature_capability() > truck.getTemperature_capability()) {
+//                truck = t;
+//            }
         }
         return truck;
     }
