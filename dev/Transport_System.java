@@ -344,7 +344,7 @@ public class Transport_System {
     }
 
     //return truck by temperature level.needs to change by cooling level - !!enum!!
-    public Truck getTruckByCoolingLevel(cold_level level){
+    public Truck  (cold_level level){
         Truck truck = null;
         for(Truck t : trucks){
             if (t.getCold_level().equals(level)) {
@@ -353,7 +353,8 @@ public class Transport_System {
 //            } else if (t.getTemperature_capability() < temperature && t.getTemperature_capability() > truck.getTemperature_capability()) {
 //                truck = t;
 //            }
-        }
+//        }
+//          gal is gay.
         return truck;
     }
 
