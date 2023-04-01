@@ -1,3 +1,5 @@
+import org.junit.jupiter.api.Test;
+
 import java.time.LocalDate;
 
 public class Schedule {
@@ -40,3 +42,4 @@ public class Schedule {
         return _shifts[shiftId];
     }
 }
+
