@@ -17,6 +17,13 @@ public class Employee extends AEmployee{
         this.m_stores.add(store);
         return store.addEmployee(this);
     }
+
+    public boolean setRole(IRole role){
+        if (role == null)
+            return false;
+        m_roles.add(role);
+        return true;
+    }
     public List<IRole> getRoles(){
         return this.m_roles;
     }

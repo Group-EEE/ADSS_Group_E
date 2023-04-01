@@ -31,6 +31,8 @@ public class HRManager extends AEmployee{
     }
 
     public boolean addRoleToEmployee(int id_employee, IRole role) {
+        if (id_employee <0 || role == null)
+            return false;
         Employee employee = findEmployeeByID(id_employee);
         List<Store> stores = employee.getStores(); 
         List<IRole> roles = employee.getRoles();
@@ -39,7 +41,7 @@ public class HRManager extends AEmployee{
             store.updateRoles(employee);
         }
 
-        return employee.setRoles(role);
+        return employee.setRole(role);
     }
 
     public boolean addEmployeeToStore(int id_employee, String store_location) {

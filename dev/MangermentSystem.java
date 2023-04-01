@@ -55,7 +55,8 @@ public class MangermentSystem {
                     break;
                 case 0:
                     System.out.println("Back to main menu");
-                    break;
+                    logged_user = null;
+                    return;
                 default:
                     System.out.println("Invalid choice");
                     break;
@@ -106,7 +107,6 @@ public class MangermentSystem {
             bank_account = scanner.next();
             if (hr_manager == null){
                 hr_manager = new HRManager(first_name, last_name, age, id, bank_account,password);
-                //Login.createUser(id, password, hr_manager);
                 if (hr_manager == null)
                     return false;
                 return true;
@@ -137,19 +137,9 @@ public class MangermentSystem {
         System.out.println("Please enter the following details:");
         System.out.println("Employee ID:");
         int employee_id = scanner.nextInt();
-        System.out.println("Role:");
-        System.out.println("1. Cashier");
-        System.out.println("2. Warehouse Employee");
-        System.out.println("3. General Employee");
-        System.out.println("4. Shift Manager");
-        System.out.println("5. Security");
-        System.out.println("6. Cleaner");
-        System.out.println("7. usher");
-        System.out.println("0. Back to main menu");
-
-
+        printRoles();
         String role = scanner.next();
-        IRole new_role;
+        IRole new_role = null;
         switch (role){
             case "1":
                 new_role = new CashierRole();
@@ -161,7 +151,7 @@ public class MangermentSystem {
                 new_role = new GeneralRole();
                 break;
             case "4":
-                new_role = new ShiftRole();
+                new_role = new ShiftManagerRole();
                 break;
             case "5":
                 new_role = new SecurityRole();
@@ -175,10 +165,11 @@ public class MangermentSystem {
             case "0":
                 return false;
         }
-        return hr_manager.addRoleToEmployee(employee_id, role);
+        return hr_manager.addRoleToEmployee(employee_id, new_role);
     }
     public static boolean LoginUser() {
         while (logged_user == null) {
+            System.out.println("Please login to your user");
             System.out.println("Please enter your ID:");
             int id = scanner.nextInt();
             System.out.println("Please enter your password:");
@@ -189,10 +180,26 @@ public class MangermentSystem {
         }
         return true;
     }
+    public static void updateInformation(){
+        printUpdateInformation();
+        String option = scanner.next();
+        switch (option){
+            case "1": //first name
+                System.out.println("What is your new first name? ");
 
+        }
+    }
     public static void printEmployeeMenu() {
         System.out.println("Please select an option");
         System.out.println("1. select shifts for this week");
+    }
+
+    public static void printUpdateInformation(){
+        System.out.println("Please select what do you want to update");
+        System.out.println("1. first name");
+        System.out.println("2. last name");
+        System.out.println("3. bank account");
+        System.out.println("0. Back to main menu");
     }
 
     public static void printHRMenu() {
@@ -204,15 +211,19 @@ public class MangermentSystem {
         System.out.println("4. add role to employee");
         System.out.println("5. create new schedule");
         System.out.println("6. approve shifts");
+        System.out.println("7. update personal information");
         System.out.println("0. log out");
     }
 
-    public static void printCreateEmployeeMenu() {
-        System.out.println("What kind of Employee do you want to add?");
+    public static void printRoles() {
+        System.out.println("Choose role: ");
         System.out.println("1. Cashier");
         System.out.println("2. Warehouse Employee");
         System.out.println("3. General Employee");
-        System.out.println("4. Shift manager");
+        System.out.println("4. Shift Manager");
+        System.out.println("5. Security");
+        System.out.println("6. Cleaner");
+        System.out.println("7. usher");
         System.out.println("0. Back to main menu");
     }
 }
