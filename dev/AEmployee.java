@@ -15,4 +15,22 @@ public abstract class AEmployee {
     public int getID(){
         return this.m_id;
     }
+    public boolean set_new_first_name(String first_name){
+        if (first_name == null)
+            return false;
+        m_first_name = first_name;
+        return true;
+    }
+    public boolean set_new_last_name(String last_name){
+        if (last_name == null)
+            return false;
+        m_last_name = last_name;
+        return true;
+    }
+    public boolean set_new_bank_account(String bank_account){
+        if (bank_account == null)
+            return false;
+        m_bank_account = bank_account;
+        return true;
+    }
 }

@@ -1,30 +1,84 @@
-import java.time.LocalTime;
+import Roles.*;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Shift{
-    private ShiftType m_shift_type;
-    private int m_start_time;
-    private int m_end_time;
-    private double m_shift_length;
-    private boolean m_need_manager = true;
-    private boolean m_need_cashier = true;
-    private boolean m_need_general = true;
-    private boolean m_need_wearhouse = true;
-    public Shift(ShiftType shift_type, int start_time, int end_time){
-        this.m_shift_type = shift_type;
-        this.m_start_time = start_time;
-        this.m_end_time = end_time;
-        this.m_shift_length = end_time - start_time;
+
+    private ShiftType _shiftType;
+    private int _startTime;
+    private int _endTime;
+    private int _shiftLength;
+    private boolean _approved = false;
+    private LocalDate _date;
+    private List<Employee> _employees = new ArrayList<Employee>();
+    private List<IRole> _required_roles = new ArrayList<IRole>();
+
+    public Shift(ShiftType shiftType, int startTime, int endTime, LocalDate date){
+        this._shiftType = shiftType;
+        this._startTime = startTime;
+        this._endTime = endTime;
+        this._shiftLength = endTime - startTime;
+        this._date = date;
+        this._required_roles.add(new CashierRole());
+        this._required_roles.add(new ShiftManagerRole());
+        this._required_roles.add(new WarehouseRole());
+        this._required_roles.add(new GeneralRole());
     }
-    public boolean setNeedManager(boolean need_manager) {
-        return m_need_manager = need_manager;
+    public boolean setStartHour(int startTime) {
+        if (startTime < 0 || startTime > 24)
+            return false;
+        this._startTime = startTime;
+        _shiftLength = _endTime - _startTime;
+        return true;
     }
-    public boolean setNeedCashier(boolean need_cashier) {
-        return m_need_cashier = need_cashier;
+    public boolean setEndHour(int endTime) {
+        if (endTime < 0 || endTime > 24)
+            return false;
+        this._endTime = endTime;
+        _shiftLength = _endTime - _startTime;
+        return true;
     }
-    public boolean setNeedGeneral(boolean need_general) {
-        return m_need_general = need_general;
+    public boolean addEmployee(Employee employee){
+        if (employee == null)
+            return false;
+        _employees.add(employee);
+        return true;
     }
-    public boolean setNeedWearhouse(boolean need_wearhouse) {
-        return m_need_wearhouse = need_wearhouse;
+    public int getShiftLength() {
+        return _shiftLength;
     }
+    public int getStartHour() {
+        return _startTime;
+    }
+    public int getEndHour() {
+        return _endTime;
+    }
+    public String toString(){
+        return "Date: " + _date + ", Shift type: " + _shiftType + ", Date: "+_date+", Start time: " + _startTime + ", End time: " + _endTime;
+    }
+
+    /**
+     * @param role the role to add to the required roles list
+     * @return true if the role was added successfully, false otherwise
+     */
+    public boolean addRequiredRole(IRole role){
+        if (role == null)
+            return false;
+        _required_roles.add(role);
+        return true;
+    }
+
+    /**
+     * @param role - the role to remove from the required roles list
+     * @return true if the role was removed successfully, false otherwise
+     */
+    public boolean removeRequiredRole(IRole role){
+        if (role == null)
+            return false;
+        _required_roles.remove(role);
+        return true;
+    }
+
 }

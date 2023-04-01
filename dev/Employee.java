@@ -18,6 +18,9 @@ public class Employee extends AEmployee{
         return store.addEmployee(this);
     }
 
+    public String get_first_name(){
+        return this.m_first_name;
+    }
     public boolean setRole(IRole role){
         if (role == null)
             return false;
@@ -27,7 +30,15 @@ public class Employee extends AEmployee{
     public List<IRole> getRoles(){
         return this.m_roles;
     }
+
     public List<Store> getStores(){
         return this.m_stores;
+    }
+
+    public boolean removeStore(Store store){
+        if (store == null)
+            return false;
+        this.m_stores.remove(store);
+        return store.removeEmployee(this);
     }
 }
