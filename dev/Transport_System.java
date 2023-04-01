@@ -131,7 +131,6 @@ public class Transport_System {
         this.trucks = trucks;
     }
 
-
     public boolean change_transport(Transport transport_doc, Truck truck, Truck_Driver driver){
         int choice = 0;
         while (choice != 5) {
@@ -345,15 +344,15 @@ public class Transport_System {
     }
 
     //return truck by temperature level.needs to change by cooling level - !!enum!!
-    public Truck getTruckByCoolingLevel(Double temperature){
+    public Truck getTruckByCoolingLevel(cold_level level){
         Truck truck = null;
         for(Truck t : trucks){
-            if (t.getTemperature_capability() == temperature) {
+            if (t.getCold_level().equals(level)) {
                 truck = t;
                 break;
-            } else if (t.getTemperature_capability() < temperature && t.getTemperature_capability() > truck.getTemperature_capability()) {
-                truck = t;
-            }
+//            } else if (t.getTemperature_capability() < temperature && t.getTemperature_capability() > truck.getTemperature_capability()) {
+//                truck = t;
+//            }
         }
         return truck;
     }
