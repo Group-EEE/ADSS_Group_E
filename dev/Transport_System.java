@@ -6,12 +6,14 @@ public class Transport_System {
     private ArrayList<Truck> trucks;
     private ArrayList<Truck_Driver> drivers;
     private Map<Integer, Transport> Transport_Log;
+    private Map<Store, ArrayList<Site_Supply>> delivered_supplies_documents;
 
     private Logistical_Center logistical_center;
     Transport_System(){
         trucks = new ArrayList<Truck>();
         drivers = new ArrayList<Truck_Driver>();
         Transport_Log = new HashMap<>();
+        delivered_supplies_documents = new HashMap<>();
         this.logistical_center = null;
     }
 
@@ -801,6 +803,50 @@ public class Transport_System {
         }
         else {
             return true;
+        }
+    }
+
+    // unloading all the goods in a store, and update the weight of the truck accordingly.
+    public void unload_goods(Store store, Truck truck, Truck_Driver driver){
+        for (Site_Supply site_supply: driver.getSites_documents()){
+            if (site_supply.getStore().getAddress() == store.getAddress()){
+                if (delivered_supplies_documents.containsKey(store)) {
+                    ArrayList<Site_Supply> site_supplies= delivered_supplies_documents.get(store);
+                    site_supplies.add(site_supply);
+                }
+                else {
+                    ArrayList<Site_Supply> siteSupplies = new ArrayList<>();
+                    siteSupplies.add(site_supply);
+                    delivered_supplies_documents.put(store, siteSupplies);
+                }
+                driver.delete_site_document_by_destination(store.getSite_n());
+            }
+        }
+        System.out.println("Hey there truck driver");
+        boolean valid_input = false;
+        double weight = 0;
+        String input = null;
+        Scanner scanner = new Scanner(System.in);
+        while (!valid_input){
+            System.out.println("please weight your truck after unloading and tell us the weight you got:");
+            input = scanner.nextLine();
+            try {
+                weight = Double.parseDouble(input);
+                if (weight > truck.getMax_weight()){
+                    System.out.println("No way... it's above the maximum weight!");
+                } else if (weight > truck.getCurrent_weight()) {
+                    System.out.println("No way... it's above the weight you had before unloading the goods!");
+                } else if (weight < truck.getNet_weight()) {
+                    System.out.println("No way... it's below the Net weight of the truck!");
+                }
+                else {
+                    truck.setCurrent_weight(weight);
+                    valid_input = true;
+                }
+            }
+             catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid positive double number. ");
+            }
         }
     }
 
