@@ -9,6 +9,8 @@ abstract public class Site {
         this.site_contact_n = site_contact_name;
     }
     public abstract boolean is_supplier();
+    public abstract boolean is_logistical_center();
+    public abstract boolean is_store();
 
     public String getAddress() {
         return address;

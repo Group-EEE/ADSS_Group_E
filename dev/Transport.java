@@ -6,13 +6,13 @@ public class Transport {
     private String departure_time;
     private String truck_number;
     private String driver_n;
-    private Site origin;
+    private Logistical_Center origin;
     private cold_level required_level;
     private ArrayList<Site> destinations;
     private Map<String, Integer> products;
     private ArrayList<Double> weighing;
 
-    public Transport(int transport_ID, String date, String departure_time, String truck_number, String driver_name, Site origin, cold_level cold_level){
+    public Transport(int transport_ID, String date, String departure_time, String truck_number, String driver_name, Logistical_Center origin, cold_level cold_level){
         this.transport_ID = transport_ID;
         this.date = date;
         this.departure_time = departure_time;
@@ -77,7 +77,7 @@ public class Transport {
         return origin;
     }
 
-    public void setOrigin(Site origin) {
+    public void setOrigin(Logistical_Center origin) {
         this.origin = origin;
     }
 
@@ -154,7 +154,7 @@ public class Transport {
     public Store getStoreByAddress(String address){
         Store store = null;
         for(Site site :  destinations){
-            if(site.getAddress().equals(address) && site instanceof Store){
+            if(site.getAddress().equals(address) && site.is_store()){
                 store = (Store)site;
             }
         }
