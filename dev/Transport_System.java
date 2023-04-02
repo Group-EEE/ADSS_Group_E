@@ -243,11 +243,12 @@ public class Transport_System {
                     transport_doc.deleteDestination(site_to_remove);
                     truck.getNavigator().delete_site(site_to_remove);
                     if (!check_weight(truck)){
-                        if (!change_transport(transport_doc, truck, driver));
-                        return false;
+                        if (!change_transport(transport_doc, truck, driver)) {
+                            return false;
+                        }
                     }
-                    choice = 5;
-                    break;
+                    return true;
+
 
                 // changing the truck to a suitable one.
                 case 2:
@@ -279,7 +280,7 @@ public class Transport_System {
                                 }
                                 new_truck.setNavigator(truck.getNavigator().getRoute());
                                 System.out.println("The trucks finished to transfer all the goods and it's ready to go.");
-                                choice = 5;
+                                return true;
                             }
                         }
                         System.out.println("Sorry Boss, we have the right truck for the job, but we don't have a driver with a license for that truck right now...");
@@ -418,7 +419,7 @@ public class Transport_System {
                     break;
                 // have all the trucks by a cold level
                 case 2:
-
+                    getTruckByColdLevel()
                     break;
 
                     // make a new transport
@@ -462,12 +463,16 @@ public class Transport_System {
                         }
                         // unloading the goods in the store
                         else if (current.is_store()){
-                            unload_goods((Store) current, truck, truck.getCurrent_driver());
+                            if (unload_goods((Store) current, truck, truck.getCurrent_driver())){
+                                System.out.println("goods unloaded in " + current.getSite_n());
+                            }
+                            else {
+                                System.out.println("We currently don't have any goods for " + current.getSite_n() " , skip this store for now.");
+                            }
                         }
                         // driving to the next site.
                         current = truck.get_next_site();
                     }
-
             }
 
         }
@@ -810,9 +815,11 @@ public class Transport_System {
     }
 
     // unloading all the goods in a store, and update the weight of the truck accordingly.
-    public void unload_goods(Store store, Truck truck, Truck_Driver driver){
+    public boolean unload_goods(Store store, Truck truck, Truck_Driver driver){
+        boolean unloaded = false;
         for (Site_Supply site_supply: driver.getSites_documents()){
             if (site_supply.getStore().getAddress() == store.getAddress()){
+                unloaded = true;
                 if (delivered_supplies_documents.containsKey(store)) {
                     ArrayList<Site_Supply> site_supplies= delivered_supplies_documents.get(store);
                     site_supplies.add(site_supply);
@@ -851,6 +858,7 @@ public class Transport_System {
                 System.out.println("Invalid input. Please enter a valid positive double number. ");
             }
         }
+        return unloaded;
     }
 
     // adding new truck to list by parameters.
