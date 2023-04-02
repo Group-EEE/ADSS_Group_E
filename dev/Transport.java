@@ -81,7 +81,7 @@ public class Transport {
         this.origin = origin;
     }
 
-    public List<Site> getDestinations() {
+    public ArrayList<Site> getDestinations() {
         return destinations;
     }
 

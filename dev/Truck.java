@@ -40,6 +40,11 @@ public class Truck {
 
     public void setNavigator(ArrayList<Site> destinations) {
         this.navigator = new Navigator(destinations);
+        navigator.create_route();
+    }
+
+    public Truck_Driver getCurrent_driver() {
+        return current_driver;
     }
 
     public Site get_current_location(){

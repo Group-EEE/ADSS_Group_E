@@ -43,7 +43,6 @@ public class Transport_System {
         isValid = false;
         int License_ID = 0;
         // getting The driver's license ID
-        //adkuhda
         while (!isValid) {
             System.out.print("Enter an ID (a 5 digit integer) : \n");
             String input = scanner.nextLine();
@@ -422,7 +421,47 @@ public class Transport_System {
 
                     // make a new transport
                 case 3:
+                    System.out.println("Hey supplier!");
                     Transport transport = create_transport_document();
+                    Truck truck = getTruckByNumber(transport.getTruck_number());
+                    truck.setNavigator(transport.getDestinations());
+                    Site current = truck.get_current_location();
+                    while (current != null){
+                        if (current.is_supplier()){
+                            boolean isValidChoice = false;
+                            String ch = null;
+                            while (!isValidChoice) {
+                                // creating a document
+                                create_site_supply(transport);
+                                // asking if he needs to make another one
+                                System.out.println("Do you have items to ship to another store? (press 1 or 2 only): ");
+                                System.out.println("1 - YES");
+                                System.out.println("2 - NO");
+                                ch = scanner.nextLine();
+                                if (ch == "YES"){
+                                    continue;
+                                }
+                                else if (ch == "NO"){
+                                    isValid = true;
+                                }
+                                else {
+                                    System.out.println("You must enter YES/NO.");
+                                }
+                            }
+                            //checking the weight
+                            if (!check_weight(truck)){
+                                boolean abort_transport = change_transport(transport, truck, truck.getCurrent_driver());
+                                if (abort_transport){
+                                    //delete_transport();
+                                    System.out.println("Transport was aborted.");
+                                    //return;
+                                }
+                            }
+                        }
+                        else if (current.is_store()){
+
+                        }
+                    }
 
             }
 
