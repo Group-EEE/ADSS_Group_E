@@ -2,6 +2,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+
+
 public class Transport_System {
     private ArrayList<Truck> trucks;
     private ArrayList<Truck_Driver> drivers;
@@ -433,6 +435,9 @@ public class Transport_System {
         }
     }
 
+    public static boolean containsOnlyNumbers(String str) {
+        return str.matches("[0-9]+");
+    }
 
     public boolean truck_assigning(int driver_id, String truck_registration_plate){
         Truck_Driver driver = null;
@@ -783,8 +788,77 @@ public class Transport_System {
         }
     }
 
-    // adding new truck to list by parameters.
+
+    // adding new truck to the system.
     public void addNewTruck(){
-        // I'll do it again.
+        Scanner scanner = new Scanner(System.in);
+        String input = null;
+        boolean isValid = false;
+        // ======================== Registration Number ======================== //
+        String registration_number = null;
+        while(!isValid){
+            System.out.println("Please enter the registration number of the truck (8 digits, only with the digits 0-9): ");
+            input = scanner.nextLine();
+            for(Truck truck : trucks){
+                if(truck.getRegistration_plate().equals(input)){
+                    System.out.print("The Truck is already exist in the system! ");
+                }
+            }
+            if(!containsOnlyNumbers(input)){
+                System.out.print("Invalid input. ");
+            }
+            else if (input.length() != 8) {
+                System.out.println("Input must be a 8 digit integer. ");
+            }
+            else{
+                registration_number = input;
+                isValid = true;
+            }
+        }
+        // ======================== Truck Moodle ======================== //
+        System.out.println("Please enter the truck moodle: ");
+        String truck_moodle = scanner.nextLine();
+        // ======================== Truck Net Weight ======================== //
+        double truck_net_weight = 0.0;
+        System.out.println("Please enter the net weight of the truck: ");
+        input = scanner.nextLine();
+        try {
+            truck_net_weight = Double.parseDouble(input);
+        } catch (NumberFormatException e) {
+            System.out.print("Invalid input. ");
+        }
+        // ======================== Truck max Weight ======================== //
+        double truck_max_weight = 0.0;
+        System.out.println("Please enter the maximum weight of the truck: ");
+        input = scanner.nextLine();
+        try {
+            truck_max_weight = Double.parseDouble(input);
+        } catch (NumberFormatException e) {
+            System.out.print("Invalid input. ");
+        }
+        // ======================== Truck Cold Level ======================== //
+        cold_level cool_level = null;
+        isValid = false;
+        while(!isValid){
+            System.out.print("Please enter the cold level of the truck (press 1, 2 or 3 only): ");
+            System.out.println("1 - Freeze");
+            System.out.println("2 - Cold");
+            System.out.println("3 -  Dry");
+            input = scanner.nextLine();
+            if(input.equals("1") || input.equals("2") || input.equals("3")){
+                isValid = true;
+            }
+            else{
+                System.out.print("Invalid input. ");
+            }
+        }
+        switch (input) {
+            case "1" -> cool_level = cold_level.Freeze;
+            case "2" -> cool_level = cold_level.Cold;
+            case "3" -> cool_level = cold_level.Dry;
+        }
+        // ======================== Create And Adding The New Truck  ======================== //
+        Truck truck = new Truck(registration_number, truck_moodle, truck_net_weight, truck_max_weight, cool_level ,truck_net_weight);
+        trucks.add(truck);
     }
 }

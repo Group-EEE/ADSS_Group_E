@@ -23,7 +23,7 @@ public class Truck {
     private Truck_Driver current_driver = null;
     private double current_weight;
     private Navigator navigator = null;
-    private  boolean occupied = false;
+    private boolean occupied = false;
 
     public Truck(String registration, String truck_moodle, double truck_net_weight, double truck_max_weight, cold_level level, double current_weight){
         this.registration_plate = registration;
