@@ -565,8 +565,8 @@ public class Transport_System {
             boolean isValidChoice = false;
             String choice = null;
             while (!isValidChoice) {
-                System.out.println("1 - YES");
-                System.out.println("2 - NO");
+                System.out.println("\t 1 - YES");
+                System.out.println("\t 2 - NO");
                 choice = scanner.nextLine();
                 if(!choice.equals("1") && !choice.equals("2")){
                     System.out.println("Invalid Input. Please choose a valid option: ");
@@ -644,9 +644,9 @@ public class Transport_System {
         isValid = false;
         while(!isValid){
             System.out.print("Please enter the required cold level of the truck (press 1, 2 or 3 only): ");
-            System.out.println("1 - Freeze");
-            System.out.println("2 - Cold");
-            System.out.println("3 -  Dry");
+            System.out.println("\t 1 - Freeze");
+            System.out.println("\t 2 - Cold");
+            System.out.println("\t 3 -  Dry");
             input = scanner.nextLine();
             if(input.equals("1") || input.equals("2") || input.equals("3")){
                 isValid = true;
@@ -704,8 +704,8 @@ public class Transport_System {
             isValid = false;
             while (!isValid) {
                 System.out.println("Is the destination is a store or supplier? (press 1 or 2 only) ");
-                System.out.println("1 - Store ");
-                System.out.println("2 - Supplier ");
+                System.out.println("\t 1 - Store ");
+                System.out.println("\t 2 - Supplier ");
                 site_type = scanner.nextLine();
                 if (!Objects.equals(site_type, "1") || !Objects.equals(site_type, "2")) {
                     System.out.println("Invalid input. try again. ");
@@ -760,8 +760,8 @@ public class Transport_System {
             String choice = null;
             isValid = false;
             while(!isValid) {
-                System.out.println("1 - YES");
-                System.out.println("2 - NO");
+                System.out.println("\t 1 - YES");
+                System.out.println("\t 2 - NO");
                 choice = scanner.nextLine();
                 if(!Objects.equals(choice, "1") || !Objects.equals(choice, "2")){
                     System.out.println("Invalid input. Please enter a valid choice:");
@@ -841,9 +841,9 @@ public class Transport_System {
         isValid = false;
         while(!isValid){
             System.out.print("Please enter the cold level of the truck (press 1, 2 or 3 only): ");
-            System.out.println("1 - Freeze");
-            System.out.println("2 - Cold");
-            System.out.println("3 -  Dry");
+            System.out.println("\t 1 - Freeze");
+            System.out.println("\t 2 - Cold");
+            System.out.println("\t 3 -  Dry");
             input = scanner.nextLine();
             if(input.equals("1") || input.equals("2") || input.equals("3")){
                 isValid = true;
