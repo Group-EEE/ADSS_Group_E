@@ -133,4 +133,8 @@ public class Truck {
     public boolean equals(String registration_plate) {
         return (Objects.equals(this.registration_plate, registration_plate));
     }
+
+    public Truck_Driver getCurrent_driver() {
+        return current_driver;
+    }
 }

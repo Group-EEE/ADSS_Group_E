@@ -140,19 +140,24 @@ public class Transport_System {
     public void add_driver(Truck_Driver driver){
         drivers.add(driver);
     }
-
     public void add_truck(Truck truck){
         trucks.add(truck);
     }
-
     public void setDrivers(ArrayList<Truck_Driver> drivers) {
         this.drivers = drivers;
     }
-
     public void setTrucks(ArrayList<Truck> trucks) {
         this.trucks = trucks;
     }
-
+    public Truck_Driver getDriverByTruckNumber(String truck_number){
+        Truck truck = null;
+        for(Truck t : trucks){
+            if(t.getRegistration_plate().equals(truck_number)){
+                truck = t;
+            }
+        }
+        return truck.getCurrent_driver();
+    }
     public boolean change_transport(Transport transport_doc, Truck truck, Truck_Driver driver){
         int choice = 0;
         while (choice != 5) {
@@ -365,8 +370,7 @@ public class Transport_System {
         return true;
 
     }
-
-    //return truck by temperature level.needs to change by cooling level - !!enum!!
+    // return truck by temperature level.
     public Truck getTruckByColdLevel (cold_level level){
         Truck truck = null;
         for(Truck t : trucks){
@@ -477,6 +481,8 @@ public class Transport_System {
 
         }
     }
+
+
     public boolean truck_assigning(int driver_id, String truck_registration_plate){
         Truck_Driver driver = null;
         Truck truck = null;
@@ -507,27 +513,33 @@ public class Transport_System {
         driver.setCurrent_truck(truck);
         return true;
     }
-
     public void create_site_supply(Transport transport){
         // ======================== Supplier ID ======================== //
         boolean isValid = false;
         Scanner scanner = new Scanner(System.in);
         String input = null;
-        int supplier_ID = 0;
-        System.out.println("Please enter the site supply ID number (5 digits, only with the digits 0-9): ");
+        int site_supplier_ID = 0;
+        Truck_Driver truck_driver = null;
         while(!isValid){
+            System.out.println("Please enter the site supply ID number (5 digits, only with the digits 0-9): ");
             input = scanner.nextLine();
             try {
-                supplier_ID = Integer.parseInt(input);
-
+                site_supplier_ID = Integer.parseInt(input);
                 // Check if the input is a 5 digit integer
                 if (input.length() == 5) {
                     isValid = true;
                 } else {
-                    System.out.println("Input must be a 5 digit integer. ");
+                    System.out.print("Input must be a 5 digit integer. ");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid 5 digit integer: ");
+                System.out.print("Invalid input. ");
+            }
+            truck_driver = getDriverByTruckNumber(transport.getTruck_number());
+            for(Site_Supply driver_doc : truck_driver.getSites_documents()){
+                if(driver_doc.getId() == site_supplier_ID){
+                    isValid = false;
+                    System.out.print("This site supply ID number is already exist in this transport.");
+                }
             }
         }
         // ======================== Supplier Address ======================== //
@@ -542,7 +554,7 @@ public class Transport_System {
                         isValid = true;
                     }
                     else{
-                        System.out.print("The address is not belong to supplier in this transport. ");
+                        System.out.print("The address is exist in this transport, but not belongs to supplier. ");
                     }
                     break;
                 }
@@ -575,7 +587,7 @@ public class Transport_System {
         // ======================== Store As Destination ======================== //
         Store store = transport.getStoreByAddress(store_address);
         // ======================== Create Site Supply Document ======================== //
-        Site_Supply site_supply_doc = new Site_Supply(supplier_ID, store, supplier_address);
+        Site_Supply site_supply_doc = new Site_Supply(site_supplier_ID, store, supplier_address);
         // ======================== Insert Items ======================== //
         isValid = false;
         while(!isValid) {
@@ -629,12 +641,12 @@ public class Transport_System {
         }
         // ======================== Insert Weight To Transport Document ======================== //
         transport.insertToWeights(items_weight);
-
         // ======================== Insert Weight To Truck ======================== //
         Truck truck = getTruckByNumber(transport.getTruck_number());
         truck.addWeight(items_weight);
+        // ======================== Add the Site Supply Document To Truck Driver ======================== //
+        truck_driver.Add_site_document(site_supply_doc);
     }
-
     public Truck getTruckByNumber(String truck_number){
         Truck truck = null;
         for(Truck t : trucks){
@@ -664,6 +676,11 @@ public class Transport_System {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. ");
+            }
+            Transport transport = Transport_Log.get(transport_Id);
+            if(transport != null){
+                isValid = false;
+                System.out.println("The transport ID number is already exist in the transports system. ");
             }
         }
         // ======================== Truck ======================== //
@@ -695,6 +712,7 @@ public class Transport_System {
             if(truck_assigning(driver.getID(), truck.getRegistration_plate())){
                 driver_name = driver.getName();
                 driver.setCurrent_truck(truck);
+                truck.setCurrent_driver(driver);
                 break;
             }
         }
@@ -862,8 +880,7 @@ public class Transport_System {
     }
 
     // adding new truck to list by parameters.
-    public void addNewTruck(String registration, String truck_moodle, double truck_net_weight, double truck_max_weight, cold_level level, double current_weight){
-        Truck truck = new Truck(registration, truck_moodle, truck_net_weight, truck_max_weight, level, current_weight);
-        trucks.add(truck);
+    public void addNewTruck(){
+        // I'll do it again.
     }
 }
