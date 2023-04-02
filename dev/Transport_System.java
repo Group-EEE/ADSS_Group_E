@@ -43,6 +43,7 @@ public class Transport_System {
         isValid = false;
         int License_ID = 0;
         // getting The driver's license ID
+        //adkuhda
         while (!isValid) {
             System.out.print("Enter an ID (a 5 digit integer) : \n");
             String input = scanner.nextLine();
@@ -64,30 +65,47 @@ public class Transport_System {
         }
         isValid = false;
         // getting the driver's license truck restrictions
-        double temperature = 0;
+        cold_level level = null;
         double weight = 0;
+        int level_ch = 0;
         while (!isValid) {
-            System.out.print("Enter the temperature Limit of the truck the driver can drive in, and the the Max weight of the truck he can drive in: \n: ");
+            System.out.print("Enter the cold level of the truck the driver can drive in (1- Freeze, 2- Cold, 3- Dry),\n and the the Max weight of the truck he can drive in: \n: ");
             String input = scanner.nextLine();
             String[] parts = input.split(" ");
 
             try {
                 // Check if the input contains two parts
                 if (parts.length == 2) {
-                    temperature = Double.parseDouble(parts[0]);
+                    level_ch = Integer.parseInt(parts[0]);
                     weight = Double.parseDouble(parts[1]);
 
                     // Check if the input numbers are positive
+                    if (level_ch > 3 || level_ch < 1){
+                        System.out.println("only the number 1-3 is valid for cold level.");
+                    }
+                    else {
+                        switch (level_ch){
+                            case 1:
+                                level = cold_level.Freeze;
+                                break;
+                            case 2:
+                                level = cold_level.Cold;
+                                break;
+                            case 3:
+                                level = cold_level.Dry;
+                                break;
+                        }
+                    }
                     if (weight > 0) {
                         isValid = true;
                     } else {
                         System.out.println("Weight must be positive.");
                     }
                 } else {
-                    System.out.println("Input must contain two integers separated by a space.");
+                    System.out.println("Input must contain two numbers - Int and then Double, separated by a space.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter two valid positive integers separated by a space.");
+                System.out.println("Invalid input. Please enter two valid positive numbers, An integer and then double separated by a space.");
             }
         }
         // getting the driver's name
@@ -115,7 +133,7 @@ public class Transport_System {
             }
         }
 
-        Truck_Driver driver = new Truck_Driver(ID, Driver_name, License_ID, temperature, weight);
+        Truck_Driver driver = new Truck_Driver(ID, Driver_name, License_ID, level, weight);
         drivers.add(driver);
     }
     public void add_driver(Truck_Driver driver){
@@ -150,11 +168,11 @@ public class Transport_System {
                 try {
                     choice = Integer.parseInt(input);
 
-                    // Check if the input is a 1,2 or 3.
-                    if (choice != 1 || choice != 2 || choice != 3) {
+                    // Check if the input is a 1,2,3 or 4.
+                    if (choice < 5 && choice > 0) {
                         isValid = true;
                     } else {
-                        System.out.println("Boss, there's only 3 options...");
+                        System.out.println("Boss, there's only 4 options...");
                     }
 
                 } catch (NumberFormatException e) {
@@ -365,8 +383,50 @@ public class Transport_System {
         return truck;
     }
 
+    //////// MAIN FUNCTION ///////////
     public void start_transport(){
+        int choice = 0;
+        boolean isValid = false;
+        Scanner scanner = new Scanner(System.in);
+        String input = null;
+        while (choice != -1) {
+            System.out.println("Hey Boss! what would you like to do?");
+            System.out.println("1 - Hire a new driver");
+            System.out.println("2 - See all the trucks with a cold level of your choice - \n\t 1- Freeze \n\t 2- Cold \n \t 3- Dry");
+            System.out.println("3 - send a new transport to his way.");
+            System.out.println("4 - quit.");
+            while(!isValid){
+                input = scanner.nextLine();
+                try {
+                    choice = Integer.parseInt(input);
 
+                    // Check if the input is a 5 digit integer
+                    if (input.length() == 1 && choice > 0 && choice < 5) {
+                        isValid = true;
+                    } else {
+                        System.out.println("Input must be an int between 1-4. ");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a valid int between 1-4.: ");
+                }
+            }
+            switch (choice){
+                // hire a new driver
+                case 1:
+                    hire_driver();
+                    break;
+                // have all the trucks by a cold level
+                case 2:
+
+                    break;
+
+                    // make a new transport
+                case 3:
+                    Transport transport = create_transport_document();
+
+            }
+
+        }
     }
     public boolean truck_assigning(int driver_id, String truck_registration_plate){
         Truck_Driver driver = null;
