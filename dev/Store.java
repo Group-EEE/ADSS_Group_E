@@ -6,17 +6,17 @@ public class Store {
     private final String m_name;
     private final String m_address;
 
-    private List<Employee> m_employees;
-    private List<Employee> m_general_employees;
-    private List<Employee> m_cashier_employees;
-    private List<Employee> m_usher_employees;
-    private List<Employee> m_security;
-    private List<Employee> m_warehouse_employees;
-    private List<Employee> m_cleaner_Employees;
-    private List<Employee> m_shift_manager_employees;
+    private List<Employee> m_employees = new ArrayList<>();
+    private List<Employee> m_general_employees = new ArrayList<>();
+    private List<Employee> m_cashier_employees = new ArrayList<>();
+    private List<Employee> m_usher_employees = new ArrayList<>();
+    private List<Employee> m_security = new ArrayList<>();
+    private List<Employee> m_warehouse_employees = new ArrayList<>();
+    private List<Employee> m_cleaner_Employees = new ArrayList<>();
+    private List<Employee> m_shift_manager_employees = new ArrayList<>();
 
     private Schedule curr_schedule;
-    private List<Schedule> m_past_schedule;
+    private List<Schedule> m_past_schedule = new ArrayList<>();
 
     public Store(String m_name, String address){
         this.m_name = m_name;
@@ -37,9 +37,6 @@ public class Store {
     public boolean addEmployee(Employee employee){
         if (employee == null)
             return false;
-        if (this.m_employees == null){
-            this.m_employees = new ArrayList<>();
-        }
         this.m_employees.add(employee);
         return true;
     }

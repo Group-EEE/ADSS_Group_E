@@ -3,6 +3,8 @@ import Roles.IRole;
 import Roles.SecurityRole;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeTest {
@@ -42,9 +44,23 @@ class EmployeeTest {
 
     @Test
     void getStores() {
+        Employee employee = new Employee("daniel", "shapira", 26, 209876676, "234657");
+        Store store = new Store("a", "b");
+        employee.addStore(store);
+        assertEquals(store, employee.getStores().get(0));
     }
 
     @Test
     void removeStore() {
+        Employee employee = new Employee("daniel", "shapira", 26, 209876676, "234657");
+        Store store1 = new Store("a", "b");
+        employee.addStore(store1);
+        Store store2 = new Store("c", "d");
+        employee.addStore(store2);
+        employee.removeStore(store1);
+        assertEquals(store2, employee.getStores().get(0));
+        employee.removeStore(store1);
+        assertTrue(employee.getStores().get(0) == store2);
+        assertTrue(employee.getStores().size() == 1);
     }
 }
