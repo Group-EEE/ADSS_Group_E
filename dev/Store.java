@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import Roles.*;
 
@@ -36,6 +37,9 @@ public class Store {
     public boolean addEmployee(Employee employee){
         if (employee == null)
             return false;
+        if (this.m_employees == null){
+            this.m_employees = new ArrayList<>();
+        }
         this.m_employees.add(employee);
         return true;
     }
