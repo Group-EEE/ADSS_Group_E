@@ -1,7 +1,6 @@
 
 import java.util.List;
 
-import Roles.IRole;
 
 import java.util.ArrayList;
 
@@ -14,12 +13,20 @@ public class HRManager extends AEmployee{
         Login.createUser(id, password, this);
     }
 
+    /**
+     * @param id - the id of the employee
+     * @return - the employee with the given id, null if the id is invalid
+     */
     public String getEmployeeFirstNameById(int id){
         if (id < 0)
             return null;
         return findEmployeeByID(id).get_first_name();
     }
 
+    /**
+     * @param store_name - the name of the store
+     * @return - the store with the given name, null if the name is invalid
+     */
     public Store getStoreByName(String store_name){
         if (store_name == null)
             return null;
@@ -29,15 +36,31 @@ public class HRManager extends AEmployee{
         }
         return null;
     }
+
+    /**
+     * @param first_name - the first name of the employee
+     * @param last_name - the last name of the employee
+     * @param age - the age of the employee
+     * @param id - the id of the employee
+     * @param bank_account - the bank account of the employee
+     * @param password - the password of the employee
+     * @return - true if the employee was created successfully, false otherwise
+     */
     public boolean createEmployee(String first_name, String last_name, int age, int id, String bank_account, String password) {
         if (first_name == null || last_name == null || age < 0 || id < 0 || bank_account == null)
             return false;
         Employee new_employee = new Employee(first_name, last_name, age, id, bank_account);
         m_employees.add(new_employee);
-        Login.createUser(id, password, new_employee);
-        return true; 
-        //return addEmployeeToStore(new_employee, store_location);
+        if (!Login.createUser(id, password, new_employee))
+            return false;
+        return true;
     }
+
+    /**
+     * @param store_name - the name of the store
+     * @param store_address - the address of the store
+     * @return - true if the store was created successfully, false otherwise
+     */
     public boolean createStore(String store_name, String store_address) {
         if (store_name == null || store_address == null)
             return false;
@@ -45,20 +68,30 @@ public class HRManager extends AEmployee{
         return true;
     }
 
-    public boolean addRoleToEmployee(int id_employee, IRole role) {
+    /**
+     * @param id_employee - the id of the employee
+     * @param role - the role of the employee
+     * @return - true if the role was added successfully, false otherwise
+     */
+    public boolean addRoleToEmployee(int id_employee, ARole role) {
         if (id_employee <0 || role == null)
             return false;
         Employee employee = findEmployeeByID(id_employee);
         List<Store> stores = employee.getStores(); 
-        List<IRole> roles = employee.getRoles();
+        List<ARole> roles = employee.getRoles();
         roles.add(role);
         for (Store store : stores) {
-            store.updateRoles(employee);
+            if (!store.updateRoles(employee))
+                return false;
         }
-
         return employee.setRole(role);
     }
 
+    /**
+     * @param id_employee - the id of the employee
+     * @param store_name - the name of the store
+     * @return - true if the employee was added successfully, false otherwise
+     */
     public boolean addEmployeeToStore(int id_employee, String store_name) {
         if (id_employee <0 || store_name == null)
             return false;
@@ -70,8 +103,7 @@ public class HRManager extends AEmployee{
         if (employee == null) {
             return false;
         }
-        store_obj.addEmployee(employee);
-        return true;
+        return store_obj.addEmployee(employee);
     }
 
     /**
@@ -94,7 +126,9 @@ public class HRManager extends AEmployee{
      * @return the list of roles of the employee
      * for HRMenuRemoveRoleFromEmployee
      */
-    public List<IRole> getRolesById(int id) {
+    public List<ARole> getRolesById(int id) {
+        if (id <0)
+            return null;
         Employee employee = findEmployeeByID(id);
         if (employee == null) {
             return null;
@@ -182,7 +216,7 @@ public class HRManager extends AEmployee{
      * @param role - the role to remove
      * @return true if the role was removed successfully, false otherwise
      */
-    public boolean removeRoleFromEmployee(int id_employee, IRole role) {
+    public boolean removeRoleFromEmployee(int id_employee, ARole role) {
         if (id_employee <0 || role == null)
             return false;
         Employee employee = findEmployeeByID(id_employee);
@@ -195,23 +229,106 @@ public class HRManager extends AEmployee{
         return employee.getRoles().remove(role);
     }
 
-    public boolean removeRoleFromShift(Shift shift,IRole role){
+    /**
+     * @param shift - the shift to remove the role from
+     * @param role - the role to remove
+     * @return true if the role was removed successfully, false otherwise
+     */
+    public boolean removeRoleFromShift(Shift shift,ARole role){
         if (shift == null || role == null)
             return false;
         return shift.removeRequiredRole(role);
     }
 
 
-    public boolean approveSchedule(Schedule schedule){
+    /**
+     * @param schedule - the schedule to approve
+     * @return the list of shifts that were rejected
+     */
+    public List<Shift> approveSchedule(Schedule schedule){
         if (schedule == null)
-            return false;
-        for (int i = 0; i < 14; i++) {
+            return null;
+        List<Shift> rejectedShifts = new ArrayList<Shift>();
 
+        for (int i = 0; i < 14; i++) {
+            Shift shift = schedule.getShift(i);
+            if (!approveShift(shift))
+                rejectedShifts.add(shift);
         }
+        return rejectedShifts;
+    }
+
+    /**
+     * @param shift - the shift to approve
+     * @return true if the shift was approved successfully, false otherwise
+     */
+    public boolean approveShift(Shift shift){
+        if (shift == null)
+            return false;
+        if (shift.isApproved() || shift.isRejected()) //shift was already approved or canceled.
+            return false;
+        //first we assign all the employee that has only one match.
+        for (Employee employee : shift.getInquiredEmployees()){
+            ARole role = findMatch(shift, employee);
+            if (role != null){
+                //we found a match, we remove the employee from the seaching list and add the role to the
+                if (!shift.addFilledRole(role, employee))
+                    return false;
+            }
+        }
+        for (ARole role : shift.getRequiredRoles()) {
+            if (role.hasEmployee())
+                continue;
+            for (Employee employee : shift.getInquiredEmployees()) {
+                if (employee.getRoles().contains(role)){
+                    if (!shift.addFilledRole(role, employee))
+                        return false;
+                    break;
+                }
+            }
+        }
+        if (shift.getRequiredRoles().size() == 0){
+            shift.setApproved(true);
+        }
+        else
+            return false;
         return true;
     }
 
-    public boolean addRoleToShift(Shift shift,IRole role){
+    /**
+     * @param shift - the shift to check possible
+     * @param employee - the employee to add to the shift
+     * @return
+     */
+    public ARole findMatch(Shift shift, Employee employee){
+        if (shift == null || employee == null)
+            return null;
+        int counter = 0;
+        ARole lastRole = null;
+        for (ARole Role : employee.getRoles()) {
+            if (shift.getRequiredRoles().contains(Role)){
+                counter++;
+                lastRole = Role;
+            }
+        }
+        if (counter == 1)
+            return lastRole;
+        return null;
+    }
+
+    public List<ARole> shiftHasMissingRequiredRole(Shift shift){
+        if (shift == null)
+            return null;
+        return shift.getRequiredRoles();
+    }
+
+
+    /**
+     * @param shift - the shift to add the required role
+     * @param role - the role to add to the shift
+     * @return true if the role was added successfully, false otherwise
+     */
+    public boolean addRequiredRoleToShift(Shift shift, ARole role){
         if (shift == null || role == null)
             return false;
         return shift.addRequiredRole(role);

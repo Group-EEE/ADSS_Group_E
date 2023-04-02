@@ -1,6 +1,4 @@
-package Roles;
-
-public class SecurityRole implements IRole{
+public class SecurityRole extends ARole{
     public String toString() {
         return "Security";
     }
