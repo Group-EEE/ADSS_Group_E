@@ -705,4 +705,9 @@ public class Transport_System {
         }
     }
 
+    // adding new truck to list by parameters.
+    public void addNewTruck(String registration, String truck_moodle, double truck_net_weight, double truck_max_weight, cold_level level, double current_weight){
+        Truck truck = new Truck(registration, truck_moodle, truck_net_weight, truck_max_weight, level, current_weight);
+        trucks.add(truck);
+    }
 }
