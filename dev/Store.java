@@ -14,6 +14,16 @@ public class Store extends Site{
         return false;
     }
 
+    @Override
+    public boolean is_logistical_center() {
+        return false;
+    }
+
+    @Override
+    public boolean is_store() {
+        return true;
+    }
+
     public String getManager_n() {
         return manager_n;
     }

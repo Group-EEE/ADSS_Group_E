@@ -1,13 +1,21 @@
 public class Supplier extends Site{
-    private String supplier_n;
-    public Supplier(String address, String phone, String site_name, String supplier_name, String contact_name) {
-        super(address, phone, site_name, contact_name);
-        this.supplier_n = supplier_name;
+    public Supplier(String address, String phone, String supplier_name, String contact_name) {
+        super(address, phone, supplier_name, contact_name);
     }
 
     @Override
     public boolean is_supplier() {
         return true;
+    }
+
+    @Override
+    public boolean is_logistical_center() {
+        return false;
+    }
+
+    @Override
+    public boolean is_store() {
+        return false;
     }
 
     public String getSupplier_n() {
