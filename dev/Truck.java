@@ -50,6 +50,9 @@ public class Truck {
     public Site get_current_location(){
         return navigator.getCurrent_location();
     }
+    public Site get_next_site(){
+        return navigator.drive_to_next();
+    }
 
     public ArrayList<Site> get_route(){
         return navigator.getRoute();

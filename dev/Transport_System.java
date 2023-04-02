@@ -460,9 +460,12 @@ public class Transport_System {
                                 }
                             }
                         }
+                        // unloading the goods in the store
                         else if (current.is_store()){
-
+                            unload_goods((Store) current, truck, truck.getCurrent_driver());
                         }
+                        // driving to the next site.
+                        current = truck.get_next_site();
                     }
 
             }
