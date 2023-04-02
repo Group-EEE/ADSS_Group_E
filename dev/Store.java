@@ -6,16 +6,30 @@ public class Store {
     private final String m_name;
     private final String m_address;
 
+
+
     private List<Employee> m_employees = new ArrayList<>();
     private List<Employee> m_general_employees = new ArrayList<>();
+
+
+
     private List<Employee> m_cashier_employees = new ArrayList<>();
+
+
     private List<Employee> m_usher_employees = new ArrayList<>();
+
     private List<Employee> m_security = new ArrayList<>();
+
     private List<Employee> m_warehouse_employees = new ArrayList<>();
+
     private List<Employee> m_cleaner_Employees = new ArrayList<>();
+
     private List<Employee> m_shift_manager_employees = new ArrayList<>();
 
     private Schedule curr_schedule;
+
+
+
     private List<Schedule> m_past_schedule = new ArrayList<>();
 
     public Store(String m_name, String address){
@@ -85,7 +99,9 @@ public class Store {
     public boolean removeEmployee(Employee employee){
         if (employee == null)
             return false;
-        this.m_employees.remove(employee);
+        if(!(this.m_employees.remove(employee))){
+            return false;
+        }
         for(IRole role : employee.getRoles()) {
             if(!removeRoleFromEmployee(role, employee))
                 return false;
@@ -130,5 +146,37 @@ public class Store {
      */
     public String getAddress() {
         return m_address;
+    }
+
+    public List<Employee> getM_general_employees() {
+        return m_general_employees;
+    }
+
+    public List<Employee> getM_cashier_employees() {
+        return m_cashier_employees;
+    }
+
+    public List<Employee> getM_usher_employees() {
+        return m_usher_employees;
+    }
+
+    public List<Employee> getM_security() {
+        return m_security;
+    }
+
+    public List<Employee> getM_warehouse_employees() {
+        return m_warehouse_employees;
+    }
+
+    public List<Employee> getM_cleaner_Employees() {
+        return m_cleaner_Employees;
+    }
+
+    public List<Employee> getM_shift_manager_employees() {
+        return m_shift_manager_employees;
+    }
+
+    public List<Schedule> getM_past_schedule() {
+        return m_past_schedule;
     }
 }
