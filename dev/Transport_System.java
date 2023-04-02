@@ -150,6 +150,7 @@ public class Transport_System {
     public void setTrucks(ArrayList<Truck> trucks) {
         this.trucks = trucks;
     }
+    // return truck driver object by truck number.
     public Truck_Driver getDriverByTruckNumber(String truck_number){
         Truck truck = null;
         for(Truck t : trucks){
@@ -208,7 +209,7 @@ public class Transport_System {
                     while (!exist){
                         String store = scanner.nextLine();
                         for (Site site: transport_doc.getDestinations()){
-                            if (site.getSite_n() == store){
+                            if (site.getSite_n().equals(store)){
                                 if (site.is_supplier()){
                                     System.out.println("You've entered a supplier Boss... you need to put a store!");
                                 }
@@ -220,7 +221,7 @@ public class Transport_System {
                     }
                     // deleting the documents with the relevant documents according to the deleted destination.
                     for (Site_Supply site_supply: driver.getSites_documents()) {
-                        if (site_supply.getStore().getSite_n() == site_to_remove) {
+                        if (site_supply.getStore().getSite_n().equals(site_to_remove)) {
                             for (String product : site_supply.getItems().keySet()) {
                                 transport_doc.deleteProducts(product, site_supply.getItems().get(product));
                                 System.out.println("We dropped " + site_supply.getItems().get(product) + "of the product - " + product + " how much weight it was?");
@@ -309,7 +310,7 @@ public class Transport_System {
                     int manager_choice = 0;
                     System.out.println("Please choose:");
                     System.out.println("1 - cancel this suppliers goods for today.");
-                    System.out.println("2 - get back to this supplier later today.");;
+                    System.out.println("2 - get back to this supplier later today.");
                     boolean exist_2 = false;
                     while (!exist_2){
                         String ch = scanner.nextLine();
@@ -334,14 +335,14 @@ public class Transport_System {
                     if (manager_choice == 2) {
                         truck.getNavigator().add_site(truck.get_current_location());
                         for (Site_Supply site_supply : driver.getSites_documents()) {
-                            if (site_supply.getStore().getSupplier_n() == truck.get_current_location().getSite_n()) {
+                            if (site_supply.getStore().getSupplier_n().equals(truck.get_current_location().getSite_n())) {
                                 truck.getNavigator().add_site(site_supply.getStore());
                             }
                         }
                     }
                     // getting the products back to the supplier and delete the documents that not relevant for now.
                     for (Site_Supply site_supply: driver.getSites_documents()) {
-                        if (site_supply.getOrigin() == truck.get_current_location().getSite_n()) {
+                        if (site_supply.getOrigin().equals(truck.get_current_location().getSite_n())) {
                             for (String product : site_supply.getItems().keySet()) {
                                 transport_doc.deleteProducts(product, site_supply.getItems().get(product));
                             }
@@ -370,7 +371,7 @@ public class Transport_System {
         return true;
 
     }
-    // return truck by temperature level.
+    // return the most fitting truck by cold level.
     public Truck getTruckByColdLevel (cold_level level){
         Truck truck = null;
         for(Truck t : trucks){
@@ -434,11 +435,10 @@ public class Transport_System {
 
         }
     }
-
+    // check if string contain only numbers.
     public static boolean containsOnlyNumbers(String str) {
         return str.matches("[0-9]+");
     }
-
     public boolean truck_assigning(int driver_id, String truck_registration_plate){
         Truck_Driver driver = null;
         Truck truck = null;
@@ -469,6 +469,7 @@ public class Transport_System {
         driver.setCurrent_truck(truck);
         return true;
     }
+    // create site supply document for the truck driver.
     public void create_site_supply(Transport transport){
         // ======================== Supplier ID ======================== //
         boolean isValid = false;
@@ -603,6 +604,7 @@ public class Transport_System {
         // ======================== Add the Site Supply Document To Truck Driver ======================== //
         truck_driver.Add_site_document(site_supply_doc);
     }
+    // return suit truck object from the trucks in the system by the truck registration number.
     public Truck getTruckByNumber(String truck_number){
         Truck truck = null;
         for(Truck t : trucks){
@@ -612,6 +614,7 @@ public class Transport_System {
         }
         return truck;
     }
+    // create a transport document in the system.
     public Transport create_transport_document(){
         Scanner scanner = new Scanner(System.in);
         String input = null;
@@ -787,8 +790,6 @@ public class Transport_System {
             return true;
         }
     }
-
-
     // adding new truck to the system.
     public void addNewTruck(){
         Scanner scanner = new Scanner(System.in);
