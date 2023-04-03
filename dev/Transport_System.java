@@ -34,7 +34,7 @@ public class Transport_System {
                 if (input.length() == 9) {
                     isValid = true;
                 } else {
-                    System.out.println("Input must be a 9 digit integer.\n");
+                    System.out.println("Input must be a 9 digit integer.");
                 }
 
             } catch (NumberFormatException e) {
@@ -57,11 +57,11 @@ public class Transport_System {
 
                     isValid = true;
                 } else {
-                    System.out.println("Input must be a 5 digit integer.\n");
+                    System.out.println("Input must be a 5 digit integer.");
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid 5 digit integer.\n");
+                System.out.println("Invalid input. Please enter a valid 5 digit integer.");
             }
         }
         isValid = false;
@@ -70,7 +70,7 @@ public class Transport_System {
         double weight = 0;
         int level_ch = 0;
         while (!isValid) {
-            System.out.print("Enter the cold level of the truck the driver can drive in (1- Freeze, 2- Cold, 3- Dry),\n and the the Max weight of the truck he can drive in: \n: ");
+            System.out.print("Enter the cold level of the truck the driver can drive in (1- Freeze, 2- Cold, 3- Dry),\n and the the Max weight of the truck he can drive in: \n ");
             String input = scanner.nextLine();
             String[] parts = input.split(" ");
 
@@ -83,6 +83,7 @@ public class Transport_System {
                     // Check if the input numbers are positive
                     if (level_ch > 3 || level_ch < 1){
                         System.out.println("only the number 1-3 is valid for cold level.");
+                        continue;
                     }
                     else {
                         switch (level_ch){
@@ -254,7 +255,6 @@ public class Transport_System {
                     }
                     return true;
 
-
                 // changing the truck to a suitable one.
                 case 2:
                     Truck new_truck = null;
@@ -423,10 +423,34 @@ public class Transport_System {
                     break;
                 // have all the trucks by a cold level
                 case 2:
-                    getTruckByColdLevel()
-                    break;
+                cold_level cool_level = null;
+                isValid = false;
+                while(!isValid){
+                    System.out.print("Please enter the required cold level of the truck (press 1, 2 or 3 only): ");
+                    System.out.println("1 - Freeze");
+                    System.out.println("2 - Cold");
+                    System.out.println("3 -  Dry");
+                    input = scanner.nextLine();
+                    if(input.equals("1") || input.equals("2") || input.equals("3")){
+                        isValid = true;
+                    }
+                    else{
+                        System.out.print("Invalid input. ");
+                    }
+                }
+                switch (input) {
+                    case "1" -> cool_level = cold_level.Freeze;
+                    case "2" -> cool_level = cold_level.Cold;
+                    case "3" -> cool_level = cold_level.Dry;
+                }
+                for(Truck t : trucks){
+                    if(t.getCold_level().getValue() <= cool_level.getValue()) {
+                        System.out.println(t.getRegistration_plate());
+                    }
+                }
+                break;
 
-                    // make a new transport
+                // make a new transport
                 case 3:
                     System.out.println("Hey supplier!");
                     Transport transport = create_transport_document();
@@ -471,12 +495,17 @@ public class Transport_System {
                                 System.out.println("goods unloaded in " + current.getSite_n());
                             }
                             else {
-                                System.out.println("We currently don't have any goods for " + current.getSite_n() " , skip this store for now.");
+                                System.out.println("We currently don't have any goods for " + current.getSite_n() + " , skip this store for now.");
                             }
                         }
                         // driving to the next site.
                         current = truck.get_next_site();
                     }
+                    break;
+
+                // quit the menu
+                case 4:
+                    return;
             }
 
         }
@@ -831,7 +860,6 @@ public class Transport_System {
             return true;
         }
     }
-
     // unloading all the goods in a store, and update the weight of the truck accordingly.
     public boolean unload_goods(Store store, Truck truck, Truck_Driver driver){
         boolean unloaded = false;
@@ -872,7 +900,7 @@ public class Transport_System {
                     valid_input = true;
                 }
             }
-             catch (NumberFormatException e) {
+            catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid positive double number. ");
             }
         }
