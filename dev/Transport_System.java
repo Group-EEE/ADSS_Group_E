@@ -389,7 +389,7 @@ public class Transport_System {
         return truck;
     }
 
-    //////// MAIN FUNCTION ///////////
+    //////// MAIN FUNCTION ///////////////
     public void start_transport(){
         int choice = 0;
         boolean isValid = false;
