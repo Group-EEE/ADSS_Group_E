@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Category {
@@ -8,6 +9,7 @@ public class Category {
     public Category(String n){
         this.Name = n;
         cat_counter++;
+        subCategories = new ArrayList<SubCategory>();
     }
 
     public int getCat_counter() {
