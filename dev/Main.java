@@ -214,7 +214,7 @@ public class Main {
                             Scanner sp6 = new Scanner(System.in);
                             System.out.println("Please enter specific product id:");
                             int spid6 = sp6.nextInt();
-                            Product np6 = productController.getProductByBarcode(barcode6);
+                            productController.change_Shelf_Warehouse(barcode6, spid6);
                             break;
                     }
                     break;

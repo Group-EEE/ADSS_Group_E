@@ -13,6 +13,18 @@ public class CategoryController {
     }
 
 
+    public static List<Category> getCategories() {
+        return categories;
+    }
+
+    public static List<SubCategory> getSubcategories() {
+        return subcategories;
+    }
+
+    public static List<SubSubCategory> getSubSubCategories() {
+        return subSubCategories;
+    }
+
     public static void addCategory(String name){
         Category c = new Category(name);
         categories.add(c);
@@ -37,6 +49,7 @@ public class CategoryController {
         }
         subSubCategories.add(ssc);
     }
+
 
     public void removeCategory(String name){
         boolean exist = false;
