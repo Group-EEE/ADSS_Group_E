@@ -1,5 +1,4 @@
-package Roles;
-public class ShiftManagerRole implements IRole{
+public class ShiftManagerRole extends ARole {
     public String toString() {
         return "Shift Manager";
     }

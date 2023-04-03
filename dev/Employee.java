@@ -2,11 +2,11 @@
 
 import java.util.List;
 import java.util.ArrayList;
-import Roles.*;
+
 
 public class Employee extends AEmployee{
-    private List<Store> m_stores = new ArrayList<Store>();
-    private List<IRole> m_roles = new ArrayList<IRole>(); 
+    private List<Store> _stores = new ArrayList<Store>();
+    private List<ARole> _roles = new ArrayList<ARole>();
 
 
     public Employee(String first_name, String last_name, int age, int id,String bank_account) {
@@ -14,31 +14,41 @@ public class Employee extends AEmployee{
     }
     
     public boolean addStore(Store store){
-        this.m_stores.add(store);
+        this._stores.add(store);
         return store.addEmployee(this);
     }
 
     public String get_first_name(){
-        return this.m_first_name;
+        return this._firstName;
     }
-    public boolean setRole(IRole role){
+    public boolean setRole(ARole role){
         if (role == null)
             return false;
-        m_roles.add(role);
+        _roles.add(role);
         return true;
     }
-    public List<IRole> getRoles(){
-        return this.m_roles;
+    public List<ARole> getRoles(){
+        return this._roles;
     }
 
     public List<Store> getStores(){
-        return this.m_stores;
+        return this._stores;
     }
 
     public boolean removeStore(Store store){
         if (store == null)
             return false;
-        this.m_stores.remove(store);
+        this._stores.remove(store);
         return store.removeEmployee(this);
+    }
+
+    public boolean hasRole(ARole role){
+        if (role == null)
+            return false;
+        for (ARole r : _roles){
+            if (r.equals(role))
+                return true;
+        }
+        return false;
     }
 }

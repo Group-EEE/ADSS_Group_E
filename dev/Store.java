@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import Roles.*;
 
 public class Store {
     private final String m_name;
@@ -69,7 +68,7 @@ public class Store {
     public boolean updateRoles(Employee employee){
         if (employee == null)
             return false;
-        for (IRole role : employee.getRoles()){
+        for (ARole role : employee.getRoles()){
             if (role instanceof CashierRole)
                 this.m_cashier_employees.add(employee);
             else if (role instanceof WarehouseRole)
@@ -102,14 +101,14 @@ public class Store {
         if(!(this.m_employees.remove(employee))){
             return false;
         }
-        for(IRole role : employee.getRoles()) {
+        for(ARole role : employee.getRoles()) {
             if(!removeRoleFromEmployee(role, employee))
                 return false;
         }
         return true;
     }
 
-    public boolean removeRoleFromEmployee(IRole role, Employee employee){
+    public boolean removeRoleFromEmployee(ARole role, Employee employee){
         if (role == null || employee == null)
             return false;
         if (role instanceof CashierRole)

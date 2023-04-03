@@ -1,5 +1,4 @@
-package Roles;
-public class UsherRole implements IRole{
+public class UsherRole extends ARole{
     public String toString() {
         return "Usher";
     }

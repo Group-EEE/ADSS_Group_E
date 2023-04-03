@@ -1,6 +1,4 @@
-package Roles;
-
-public class WarehouseRole implements IRole{
+public class WarehouseRole extends ARole{
     public String toString() {
         return "Warehouse";
     }

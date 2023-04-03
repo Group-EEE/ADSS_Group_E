@@ -3,8 +3,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
-import Roles.*;
-
 import java.util.InputMismatchException;
 
 public class MangementSystem {
@@ -90,7 +88,7 @@ public class MangementSystem {
         for (int i = 0; i < 14; i++) {
             System.out.println(store_schedule.getShift(i));
             if (scanner.next().equals("Y") || scanner.next().equals("Yes")) {
-                boolean res = store_schedule.getShift(i).addEmployee((Employee)logged_user);
+                boolean res = store_schedule.getShift(i).addInquiredEmployee((Employee)logged_user);
                 if (res)
                     System.out.println("You have sighted up for this shift");
                 else
@@ -297,17 +295,17 @@ public class MangementSystem {
         System.out.println("Please enter the following details:");
         System.out.println("Employee ID:");
         int employee_id = validInput("Please enter valid employee ID",0);
-        IRole new_role = getRoleByMenu();
+        ARole new_role = getRoleByMenu();
         return hr_manager.addRoleToEmployee(employee_id, new_role);
     }
 
     /**
      * @return Role by user choice of the roles menu
      */
-    public static IRole getRoleByMenu(){
+    public static ARole getRoleByMenu(){
         printRoles();
         String choice = scanner.next();
-        IRole new_role = null;
+        ARole new_role = null;
         while (choice != "0") {
             switch (choice) {
                 case "1":
@@ -378,7 +376,21 @@ public class MangementSystem {
             System.out.println("You must create a schedule before approving it");
             return false;
         }
-        return hr_manager.approveSchedule(store_scedule);
+        List<Shift> rejectShifts = hr_manager.approveSchedule(store_scedule);
+        for(Shift shift : rejectShifts){
+            System.out.println("The shift " + shift + " was rejected");
+            for (ARole role : shift.getRequiredRoles()){
+                System.out.println("The role " + role + " didn't have an employee");
+                System.out.println("Do you want to remove this role from the shift? (Y)");
+                String choice = scanner.next();
+                if (choice.equals("Y") || choice.equals("y")){
+                    shift.removeRequiredRole(role);
+                }
+
+            }
+        }
+        //return hr_manager.approveSchedule(store_scedule);
+        return true;
     }
 
     /**
@@ -483,7 +495,7 @@ public class MangementSystem {
         int employee_id = validInput("Please enter a valid integer for the employee ID",0);
         System.out.println("Please select what role to remove from "+hr_manager.getEmployeeFirstNameById(employee_id));
         System.out.println("Please enter the role ID:");
-        List<IRole> roles = hr_manager.getRolesById(employee_id);
+        List<ARole> roles = hr_manager.getRolesById(employee_id);
         for(int i=0; i<roles.size(); i++){
             System.out.println(i+". "+roles.get(i));
         }
@@ -554,7 +566,7 @@ public class MangementSystem {
         if (choice == 0)
             return false;
         Shift shift = store_scedule.getShift(choice - 1);
-        IRole new_role;
+        ARole new_role;
         while (choice != 0) {
             System.out.println("Please select if you want to remove or to add role");
             System.out.println("1. Add role");
@@ -564,7 +576,7 @@ public class MangementSystem {
             switch (input) {
                 case "1":
                     new_role = getRoleByMenu();
-                    if (!hr_manager.addRoleToShift(shift, new_role))
+                    if (!hr_manager.addRequiredRoleToShift(shift, new_role))
                         return false;
                     System.out.println("The role "+ new_role + " was added successfully to "+shift);
                     break;

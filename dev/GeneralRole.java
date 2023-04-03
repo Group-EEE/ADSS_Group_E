@@ -1,6 +1,4 @@
-package Roles;
-
-public class GeneralRole implements IRole{
+public class GeneralRole extends ARole{
     public String toString() {
         return "General";
     }
