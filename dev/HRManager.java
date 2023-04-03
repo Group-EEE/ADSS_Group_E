@@ -85,7 +85,7 @@ public class HRManager extends AEmployee{
             if (!store.updateRoles(employee))
                 return false;
         }
-        return employee.setRole(role);
+        return true;
     }
 
     /**

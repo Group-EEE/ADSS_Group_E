@@ -48,22 +48,49 @@ class HRManagerTest {
 
     @Test
     void addEmployeeToStore() {
+        HRManager hrManager = new HRManager("daniel","shapira", 26, 234567890, "a", "kjbhvbu23");
+        hrManager.createEmployee("yossi", "levi", 25, 123456789, "clal", "fjh78");
+        hrManager.createStore("a", "b");
+        assertTrue(hrManager.addEmployeeToStore(123456789, "a"));
     }
 
     @Test
     void findEmployeeByID() {
+        HRManager hrManager = new HRManager("daniel","shapira", 26, 234567890, "a", "kjbhvbu23");
+        hrManager.createEmployee("yossi", "levi", 25, 123456789, "clal", "fjh78");
+        assertEquals(hrManager.getM_employees().get(0), hrManager.findEmployeeByID(123456789));
     }
 
     @Test
     void getRolesById() {
+        HRManager hrManager = new HRManager("daniel","shapira", 26, 234567890, "a", "kjbhvbu23");
+        hrManager.createEmployee("yossi", "levi", 25, 123456789, "clal", "fjh78");
+        hrManager.createStore("a", "b");
+        hrManager.addEmployeeToStore(123456789, "a");
+        CleanerRole c = new CleanerRole();
+        hrManager.addRoleToEmployee(123456789, c);
+        assertEquals(c,hrManager.getRolesById(123456789).get(0));
+        assertNull(hrManager.getRolesById(234567));
     }
 
     @Test
     void findStoreByName() {
+        HRManager hrManager = new HRManager("daniel","shapira", 26, 234567890, "a", "kjbhvbu23");
+        hrManager.createStore("a", "b");
+        assertEquals(hrManager.getM_stores().get(0), hrManager.findStoreByName("a"));
+        assertNull(hrManager.findStoreByName("b"));
     }
 
     @Test
     void removeEmployeeFromStore() {
+        HRManager hrManager = new HRManager("daniel","shapira", 26, 234567890, "a", "kjbhvbu23");
+        hrManager.createStore("a", "b");
+        hrManager.createEmployee("yossi", "levi", 25, 123456789, "clal", "fjh78");
+        hrManager.addEmployeeToStore(123456789, "a");
+        assertTrue(hrManager.removeEmployeeFromStore(123456789, "a"));
+        assertEquals(0, hrManager.getM_stores().get(0).getEmployees().size());
+        assertFalse(hrManager.addEmployeeToStore(-2, "a"));
+        assertFalse(hrManager.addEmployeeToStore(123456789, null));
     }
 
     @Test
