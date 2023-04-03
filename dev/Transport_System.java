@@ -413,7 +413,7 @@ public class Transport_System {
                         System.out.println("Input must be an int between 1-4. ");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. Please enter a valid int between 1-4.: ");
+                    System.out.println("Invalid input. Please enter a valid int between 1-4: ");
                 }
             }
             switch (choice){
