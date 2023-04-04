@@ -1,5 +1,7 @@
 //package Roles;
 
+import java.util.ArrayList;
+
 public abstract class ARole {
     private Employee _employee;
     public abstract String toString();

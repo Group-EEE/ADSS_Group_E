@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class HRManager extends AEmployee{
     private List<Employee> m_employees = new ArrayList<Employee>();
+
     private List<Store> m_stores = new ArrayList<Store>();
 
     public HRManager(String first_name, String last_name, int age, int id, String bank_account,String password) {
@@ -84,7 +85,7 @@ public class HRManager extends AEmployee{
             if (!store.updateRoles(employee))
                 return false;
         }
-        return employee.setRole(role);
+        return true;
     }
 
     /**
@@ -333,4 +334,13 @@ public class HRManager extends AEmployee{
             return false;
         return shift.addRequiredRole(role);
     }
+
+    public List<Employee> getM_employees() {
+        return m_employees;
+    }
+
+    public List<Store> getM_stores() {
+        return m_stores;
+    }
+
 }
