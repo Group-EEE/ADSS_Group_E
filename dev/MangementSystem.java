@@ -75,9 +75,9 @@ public class MangementSystem {
      */
     public static boolean employeeMenuSelectShifts(){
         System.out.println("Please enter the Store name:");
-        String store_name = scanner.next();
-        Store store = hr_manager.getStoreByName(store_name);
-        Schedule store_schedule = store.get_curr_schedule();
+        String storeName = scanner.next();
+        Store store = hr_manager.getStoreByName(storeName);
+        Schedule store_schedule = store.getCurrSchedule();
         if (store_schedule == null){
             System.out.println("HR managed haven't created a schedule for this store yet");
             return false;
@@ -268,10 +268,11 @@ public class MangementSystem {
     public static boolean HRMenuCreateStore(){
         System.out.println("Please enter the following details:");
         System.out.println("Store name:");
-        String store_name = scanner.nextLine();
+        scanner.next();
+        String storeName = scanner.nextLine();
         System.out.println("Store address:");
         String store_address = scanner.nextLine();
-        return hr_manager.createStore(store_name, store_address);
+        return hr_manager.createStore(storeName, store_address);
     }
 
     /**
@@ -281,10 +282,10 @@ public class MangementSystem {
     public static boolean HRMenuAddEmployeeToStore(){
         System.out.println("Please enter the following details:");
         System.out.println("Store name:");
-        String store_name = scanner.nextLine();
+        String storeName = scanner.nextLine();
         System.out.println("Employee ID:");
-        int employee_id = scanner.nextInt();
-        return hr_manager.addEmployeeToStore(employee_id, store_name);
+        int employee_id = validInput("Please enter valid employee ID",0);
+        return hr_manager.addEmployeeToStore(employee_id, storeName);
     }
 
     /**
@@ -341,10 +342,22 @@ public class MangementSystem {
      * //5. create new schedule
      */
     public static boolean HRMenuCreateNewSchedule(){
+        scanner.next();
         System.out.println("Please enter the Store name:");
-        String store_name = scanner.next();
-        Store store = hr_manager.getStoreByName(store_name);
-        Schedule store_scedule = store.get_curr_schedule();
+        System.out.println("Enter 0 to exit");
+        String storeName = "";
+        Store store = null;
+        while (!storeName.equals("0") && store == null){
+            storeName = scanner.nextLine();
+            if (storeName.equals("0"))
+                return false;
+            store = hr_manager.getStoreByName(storeName);
+            if (store == null){
+                System.out.println("There is no store with this name");
+                System.out.println("Please enter a valid store name");
+            }
+        }
+        Schedule store_scedule = store.getCurrSchedule();
         if (store_scedule != null){
             System.out.println("There is already a schedule");
             System.out.println("You must approve a schedule before creating a new one");
@@ -368,9 +381,21 @@ public class MangementSystem {
      */
     public static boolean HRMenuApproveSchedule(){
         System.out.println("Please enter the Store name:");
-        String store_name = scanner.next();
-        Store store = hr_manager.getStoreByName(store_name);
-        Schedule store_scedule = store.get_curr_schedule();
+        System.out.println("Enter '0' to exit");
+        String storeName = "1";
+        Store store = null;
+        scanner.next();
+        while (!storeName.equals("0") && store == null){
+            storeName = scanner.nextLine();
+            if (storeName.equals("0"))
+                return false;
+            store = hr_manager.getStoreByName(storeName);
+            if (store == null){
+                System.out.println("There is no store with this name");
+                System.out.println("Please enter a valid store name");
+            }
+        }
+        Schedule store_scedule = store.getCurrSchedule();
         if (store_scedule == null){
             System.out.println("There is no schedule");
             System.out.println("You must create a schedule before approving it");
@@ -389,7 +414,7 @@ public class MangementSystem {
 
             }
         }
-        return hr_manager.approveSchedule(store_scedule);
+        return true;
     }
 
     /**
@@ -398,9 +423,9 @@ public class MangementSystem {
      */
     public static boolean HRMenuChangeHours(){
         System.out.println("Please enter the Store name:");
-        String store_name = scanner.next();
-        Store store = hr_manager.getStoreByName(store_name);
-        Schedule store_scedule = store.get_curr_schedule();
+        String storeName = scanner.next();
+        Store store = hr_manager.getStoreByName(storeName);
+        Schedule store_scedule = store.getCurrSchedule();
         if (store_scedule == null){
             System.out.println("There is no schedule");
             System.out.println("You must create a schedule before changing the hours");
@@ -484,6 +509,19 @@ public class MangementSystem {
         }
         return input;
     }
+    public static boolean validStringInput(String input){
+        while (!input.equals("0") && input == null){
+            input = scanner.nextLine();
+            if (input.equals("0"))
+                return false;
+            input = hr_manager.getStoreByName(storeName);
+            if (input == null){
+                System.out.println("There is no store with this name");
+                System.out.println("Please enter a valid store name");
+            }
+        }
+        return true;
+    }
 
     /**
      * @return true if the role was added successfully, false otherwise
@@ -514,8 +552,8 @@ public class MangementSystem {
         System.out.println("Please enter the employee ID:");
         int employee_id = scanner.nextInt();
         System.out.println("Please enter the store name:");
-        String store_name = scanner.next();
-        return hr_manager.removeEmployeeFromStore(employee_id, store_name);
+        String storeName = scanner.next();
+        return hr_manager.removeEmployeeFromStore(employee_id, storeName);
     }
 
     /**
@@ -534,8 +572,8 @@ public class MangementSystem {
      */
     public static boolean HRMenuRemoveStoreFromSystem(){ //12. remove store
         System.out.println("Please enter the store name:");
-        String store_name = scanner.next();
-        return hr_manager.removeStore(store_name);
+        String storeName = scanner.next();
+        return hr_manager.removeStore(storeName);
     }
 
     /**
@@ -544,13 +582,13 @@ public class MangementSystem {
      */
     public static boolean HRMenuSelectRequiredRoles() { //13. select required roles
         System.out.println("Please enter the store name:");
-        String store_name = scanner.next();
-        Store store = hr_manager.getStoreByName(store_name);
+        String storeName = scanner.next();
+        Store store = hr_manager.getStoreByName(storeName);
         if (store == null) {
             System.out.println("There is no store with this name");
             return false;
         }
-        Schedule store_scedule = store.get_curr_schedule();
+        Schedule store_scedule = store.getCurrSchedule();
         if (store_scedule == null) {
             System.out.println("There is no schedule");
             System.out.println("You must create a schedule before changing the hours");

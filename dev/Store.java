@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Store {
-    private final String m_name;
-    private final String m_address;
+    private final String _name;
+    private final String _address;
 
     private List<Employee> m_employees = new ArrayList<>();
     private List<Employee> m_general_employees = new ArrayList<>();
@@ -17,16 +17,16 @@ public class Store {
     private Schedule curr_schedule;
     private List<Schedule> m_past_schedule = new ArrayList<>();
 
-    public Store(String m_name, String address){
-        this.m_name = m_name;
-        this.m_address = address;
+    public Store(String _name, String address){
+        this._name = _name;
+        this._address = address;
     }
 
     /**
      * @return the name of the store
      */
     public String getName() {
-        return m_name;
+        return _name;
     }
 
     /**
@@ -43,7 +43,7 @@ public class Store {
     /**
      * @return the current schedule of the store
      */
-    public Schedule get_curr_schedule() {
+    public Schedule getCurrSchedule() {
         return curr_schedule;
     }
 
@@ -128,6 +128,6 @@ public class Store {
      * @return the list of all cashier employees in the store
      */
     public String getAddress() {
-        return m_address;
+        return _address;
     }
 }

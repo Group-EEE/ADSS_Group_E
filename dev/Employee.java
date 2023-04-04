@@ -2,7 +2,6 @@
 
 import java.util.List;
 import java.util.ArrayList;
-import Roles.*;
 
 public class Employee extends AEmployee{
     private List<Store> _stores = new ArrayList<Store>();
