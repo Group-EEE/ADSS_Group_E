@@ -1,5 +1,6 @@
 import java.util.HashMap;
 public class Login {
+
     public static HashMap<Integer,String> m_passwords = new HashMap<Integer,String>();
     public static HashMap<Integer,AEmployee> m_employees = new HashMap<Integer,AEmployee>();
     public static boolean createUser(int id, String password, AEmployee employee){
@@ -34,5 +35,13 @@ public class Login {
             return true;
         }
         return false;
+    }
+
+    public static HashMap<Integer, String> getM_passwords() {
+        return m_passwords;
+    }
+
+    public static HashMap<Integer, AEmployee> getM_employees() {
+        return m_employees;
     }
 }
