@@ -95,14 +95,37 @@ class HRManagerTest {
 
     @Test
     void removeEmployee() {
+        HRManager hrManager = new HRManager("daniel","shapira", 26, 234567890, "a", "kjbhvbu23");
+        hrManager.createEmployee("yossi", "levi", 25, 123456789, "clal", "fjh78");
+        assertFalse(hrManager.removeEmployee(-5));
+        assertFalse(hrManager.removeEmployee(3456567));
+        assertTrue(hrManager.removeEmployee(123456789));
+        assertFalse(hrManager.removeEmployee(123456789));
     }
 
     @Test
     void removeStore() {
+        HRManager hrManager = new HRManager("daniel","shapira", 26, 234567890, "a", "kjbhvbu23");
+        hrManager.createStore("a", "b");
+        assertFalse(hrManager.removeStore(null));
+        assertFalse(hrManager.removeStore("b"));
+        assertTrue(hrManager.removeStore("a"));
+        assertFalse(hrManager.removeStore("a"));
     }
 
     @Test
     void removeRoleFromEmployee() {
+        HRManager hrManager = new HRManager("daniel","shapira", 26, 234567890, "a", "kjbhvbu23");
+        hrManager.createEmployee("yossi", "levi", 25, 123456789, "clal", "fjh78");
+        hrManager.createStore("a", "b");
+        hrManager.addEmployeeToStore(123456789, "a");
+        CleanerRole c = new CleanerRole();
+        SecurityRole s = new SecurityRole();
+        hrManager.addRoleToEmployee(123456789, c);
+        assertFalse(hrManager.removeRoleFromEmployee(345678, c));
+        assertFalse(hrManager.removeRoleFromEmployee(123456789, s));
+        assertTrue(hrManager.removeRoleFromEmployee(123456789, c));
+        assertEquals(0, hrManager.getM_employees().get(0).getRoles().size());
     }
 
     @Test
