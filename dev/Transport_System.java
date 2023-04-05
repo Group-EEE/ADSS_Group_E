@@ -877,7 +877,7 @@ public class Transport_System {
             if (site_supply.getStore().getAddress() == store.getAddress()){
                 unloaded = true;
                 if (delivered_supplies_documents.containsKey(store)) {
-                    ArrayList<Site_Supply> site_supplies= delivered_supplies_documents.get(store);
+                    ArrayList<Site_Supply> site_supplies = delivered_supplies_documents.get(store);
                     site_supplies.add(site_supply);
                 }
                 else {
@@ -885,7 +885,7 @@ public class Transport_System {
                     siteSupplies.add(site_supply);
                     delivered_supplies_documents.put(store, siteSupplies);
                 }
-                driver.delete_site_document_by_destination(store.getSite_n());
+                driver.delete_site_document_by_ID(site_supply.getId());
             }
         }
         System.out.println("Hey there truck driver");
