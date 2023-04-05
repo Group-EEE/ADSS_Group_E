@@ -1,3 +1,5 @@
+package BussinessLayer.Objects;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +15,8 @@ public class Shift{
     private LocalDate _date;
     private List<Employee> _inquiredEmployees = new ArrayList<Employee>();
     private List<Employee> _approvedEmployees = new ArrayList<Employee>();
-    private List<ARole> _requiredRoles = new ArrayList<ARole>();
-    private List<ARole> _filledRoles = new ArrayList<ARole>();
+    private List<RoleType> _requiredRoles = new ArrayList<RoleType>();
+    private List<RoleType> _filledRoles = new ArrayList<RoleType>();
 
     public Shift(ShiftType shiftType, int startTime, int endTime, LocalDate date){
         this._shiftType = shiftType;
@@ -100,7 +102,7 @@ public class Shift{
      * @param role the role to add to the required roles list
      * @return true if the role was added successfully, false otherwise
      */
-    public boolean addRequiredRole(ARole role){
+    public boolean addRequiredRole(RoleType role){
         if (role == null)
             return false;
         return _requiredRoles.add(role);
@@ -110,7 +112,7 @@ public class Shift{
      * @param role - the role to remove from the required roles list
      * @return true if the role was removed successfully, false otherwise
      */
-    public boolean removeRequiredRole(ARole role){
+    public boolean removeRequiredRole(RoleType role){
         if (role == null)
             return false;
         return _requiredRoles.remove(role);
@@ -133,7 +135,7 @@ public class Shift{
     /**
      * @return the list of required roles
      */
-    public List<ARole> getRequiredRoles(){
+    public List<RoleType> getRequiredRoles(){
         return _requiredRoles;
     }
 
@@ -154,7 +156,7 @@ public class Shift{
         return _inquiredEmployees.remove(employee);
     }
 
-    public boolean addFilledRole(ARole role, Employee employee){
+    public boolean addFilledRole(RoleType role, Employee employee){
         if (role == null || employee == null)
             return false;
         if (!removeRequiredRole(role))

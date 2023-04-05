@@ -1,3 +1,6 @@
+package BussinessLayer.Objects;
+
+import BussinessLayer.Controllers.EmployeeController;
 
 import java.util.List;
 
@@ -5,13 +8,23 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class HRManager extends AEmployee{
-    private List<Employee> m_employees = new ArrayList<Employee>();
 
-    private List<Store> m_stores = new ArrayList<Store>();
 
-    public HRManager(String first_name, String last_name, int age, int id, String bank_account,String password) {
+    private static HRManager _HRManager = null;
+
+    private HRManager(String first_name, String last_name, int age, int id, String bank_account,String password) {
         super(first_name, last_name, age, id, bank_account);
-        Login.createUser(id, password, this);
+        //EmployeeController.createUser(id, password, this);
+    }
+
+    public static HRManager getInstace(){
+        return _HRManager;
+    }
+
+    public static void createHRManager(String first_name, String last_name, int age, int id, String bank_account,String password){
+        if (first_name == null || last_name == null || age < 0 || id < 0 || bank_account == null || password == null)
+            return;
+        _HRManager = new HRManager(first_name, last_name, age, id, bank_account, password);
     }
 
     /**
@@ -21,65 +34,22 @@ public class HRManager extends AEmployee{
     public String getEmployeeFirstNameById(int id){
         if (id < 0)
             return null;
-        return findEmployeeByID(id).get_first_name();
+        return findEmployeeByID(id).getFirstName();
     }
 
-    /**
-     * @param store_name - the name of the store
-     * @return - the store with the given name, null if the name is invalid
-     */
-    public Store getStoreByName(String store_name){
-        if (store_name == null)
-            return null;
-        for (Store store : m_stores){
-            if (store.getName().equals(store_name))
-                return store;
-        }
-        return null;
-    }
 
-    /**
-     * @param first_name - the first name of the employee
-     * @param last_name - the last name of the employee
-     * @param age - the age of the employee
-     * @param id - the id of the employee
-     * @param bank_account - the bank account of the employee
-     * @param password - the password of the employee
-     * @return - true if the employee was created successfully, false otherwise
-     */
-    public boolean createEmployee(String first_name, String last_name, int age, int id, String bank_account, String password) {
-        if (first_name == null || last_name == null || age < 0 || id < 0 || bank_account == null)
-            return false;
-        Employee new_employee = new Employee(first_name, last_name, age, id, bank_account);
-        m_employees.add(new_employee);
-        if (!Login.createUser(id, password, new_employee))
-            return false;
-        return true;
-    }
-
-    /**
-     * @param store_name - the name of the store
-     * @param store_address - the address of the store
-     * @return - true if the store was created successfully, false otherwise
-     */
-    public boolean createStore(String store_name, String store_address) {
-        if (store_name == null || store_address == null)
-            return false;
-        m_stores.add(new Store(store_name, store_address));
-        return true;
-    }
 
     /**
      * @param id_employee - the id of the employee
      * @param role - the role of the employee
      * @return - true if the role was added successfully, false otherwise
      */
-    public boolean addRoleToEmployee(int id_employee, ARole role) {
+    public boolean addRoleToEmployee(int id_employee, RoleType role) {
         if (id_employee <0 || role == null)
             return false;
         Employee employee = findEmployeeByID(id_employee);
         List<Store> stores = employee.getStores(); 
-        List<ARole> roles = employee.getRoles();
+        List<RoleType> roles = employee.getRoles();
         roles.add(role);
         for (Store store : stores) {
             if (!store.updateRoles(employee))
@@ -93,18 +63,14 @@ public class HRManager extends AEmployee{
      * @param store_name - the name of the store
      * @return - true if the employee was added successfully, false otherwise
      */
-    public boolean addEmployeeToStore(int id_employee, String store_name) {
-        if (id_employee <0 || store_name == null)
+    public boolean addEmployeeToStore(int id_employee, Store store) {
+        if (id_employee <0 || store == null)
             return false;
-        Store store_obj = findStoreByName(store_name);
-        if (store_obj == null) {
-            return false;
-        }
         Employee employee = findEmployeeByID(id_employee);
         if (employee == null) {
             return false;
         }
-        return store_obj.addEmployee(employee);
+        return store.addEmployee(employee);
     }
 
     /**
@@ -114,7 +80,7 @@ public class HRManager extends AEmployee{
     public Employee findEmployeeByID(int id) {
         if (id <0)
             return null;
-        for (Employee employee : this.m_employees) {
+        for (Employee employee : this._employees) {
             if (employee.getID() == id) {
                 return employee;
             }
@@ -127,7 +93,7 @@ public class HRManager extends AEmployee{
      * @return the list of roles of the employee
      * for HRMenuRemoveRoleFromEmployee
      */
-    public List<ARole> getRolesById(int id) {
+    public List<RoleType> getRolesById(int id) {
         if (id <0)
             return null;
         Employee employee = findEmployeeByID(id);
@@ -144,7 +110,7 @@ public class HRManager extends AEmployee{
     public Store findStoreByName(String store_name) {
         if (store_name == null)
             return null;
-        for (Store store : this.m_stores) {
+        for (Store store : this._stores) {
             if (store.getName().equals(store_name)) {
                 return store;
             }
@@ -188,7 +154,7 @@ public class HRManager extends AEmployee{
             if (!store.removeEmployee(employee))
                 return false;
         }
-        this.m_employees.remove(employee);
+        this._employees.remove(employee);
         return true;
     }
 
@@ -208,7 +174,7 @@ public class HRManager extends AEmployee{
             if (!employee.removeStore(store))
                 return false;
         }
-        this.m_stores.remove(store);
+        this._stores.remove(store);
         return true;
     }
 
@@ -217,7 +183,7 @@ public class HRManager extends AEmployee{
      * @param role - the role to remove
      * @return true if the role was removed successfully, false otherwise
      */
-    public boolean removeRoleFromEmployee(int id_employee, ARole role) {
+    public boolean removeRoleFromEmployee(int id_employee, RoleType role) {
         if (id_employee <0 || role == null)
             return false;
         Employee employee = findEmployeeByID(id_employee);
@@ -235,7 +201,7 @@ public class HRManager extends AEmployee{
      * @param role - the role to remove
      * @return true if the role was removed successfully, false otherwise
      */
-    public boolean removeRoleFromShift(Shift shift,ARole role){
+    public boolean removeRoleFromShift(Shift shift,RoleType role){
         if (shift == null || role == null)
             return false;
         return shift.removeRequiredRole(role);
@@ -270,14 +236,14 @@ public class HRManager extends AEmployee{
             return false;
         //first we assign all the employee that has only one match.
         for (Employee employee : shift.getInquiredEmployees()){
-            ARole role = findMatch(shift, employee);
+            RoleType role = findMatch(shift, employee);
             if (role != null){
                 //we found a match, we remove the employee from the seaching list and add the role to the
                 if (!shift.addFilledRole(role, employee))
                     return false;
             }
         }
-        for (ARole role : shift.getRequiredRoles()) {
+        for (RoleType role : shift.getRequiredRoles()) {
             if (role.hasEmployee())
                 continue;
             for (Employee employee : shift.getInquiredEmployees()) {
@@ -301,12 +267,12 @@ public class HRManager extends AEmployee{
      * @param employee - the employee to add to the shift
      * @return
      */
-    public ARole findMatch(Shift shift, Employee employee){
+    public RoleType findMatch(Shift shift, Employee employee){
         if (shift == null || employee == null)
             return null;
         int counter = 0;
-        ARole lastRole = null;
-        for (ARole Role : employee.getRoles()) {
+        RoleType lastRole = null;
+        for (RoleType Role : employee.getRoles()) {
             if (shift.getRequiredRoles().contains(Role)){
                 counter++;
                 lastRole = Role;
@@ -317,7 +283,7 @@ public class HRManager extends AEmployee{
         return null;
     }
 
-    public List<ARole> shiftHasMissingRequiredRole(Shift shift){
+    public List<RoleType> shiftHasMissingRequiredRole(Shift shift){
         if (shift == null)
             return null;
         return shift.getRequiredRoles();
@@ -329,18 +295,9 @@ public class HRManager extends AEmployee{
      * @param role - the role to add to the shift
      * @return true if the role was added successfully, false otherwise
      */
-    public boolean addRequiredRoleToShift(Shift shift, ARole role){
+    public boolean addRequiredRoleToShift(Shift shift, RoleType role){
         if (shift == null || role == null)
             return false;
         return shift.addRequiredRole(role);
     }
-
-    public List<Employee> getM_employees() {
-        return m_employees;
-    }
-
-    public List<Store> getM_stores() {
-        return m_stores;
-    }
-
 }

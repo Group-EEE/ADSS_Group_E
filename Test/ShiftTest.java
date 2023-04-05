@@ -1,3 +1,6 @@
+import BussinessLayer.Objects.Employee;
+import BussinessLayer.Objects.Shift;
+import BussinessLayer.Objects.ShiftType;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
