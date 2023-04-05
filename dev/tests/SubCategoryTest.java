@@ -5,8 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SubCategoryTest {
 
     SubCategory s = new SubCategory("candy");
-    Product p = new Product(1234, "Bamba", "Osem", 5.00, 6.00, 3,
-            1000, "Snack", "salty", "yam", 5, "Osem", 3);
+    Product p = new Product(1234, "Bamba", "Osem", 5.00, 6.00,"Snack", "salty", "yam", 5, "Osem", 3);
     @Test
     void getName() {
         assertEquals("salty", p.getSubCategory());
@@ -14,7 +13,7 @@ class SubCategoryTest {
 
     @Test
     void getSubSubCategories() {
-        assertEquals("Osem", p.getSubSubCategory());
+        assertEquals("yam", p.getSubSubCategory());
 
     }
 

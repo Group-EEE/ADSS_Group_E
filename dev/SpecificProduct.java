@@ -36,7 +36,7 @@ public class SpecificProduct {
     //change the product ti defective if needed
     public void setDefective(boolean defective ,String dType) {
 
-        Defective = defective;
+        this.Defective = defective;
         this.setDefectType(dType);
 
     }

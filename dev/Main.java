@@ -45,12 +45,6 @@ public class Main {
                             Scanner cp = new Scanner(System.in);
                             System.out.println("Please enter Costumer price:");
                             Double Costumerprice = cp.nextDouble();
-                            Scanner sa = new Scanner(System.in);
-                            System.out.println("Please enter Shelf amount:");
-                            int Shelfamount = sa.nextInt();
-                            Scanner wa = new Scanner(System.in);
-                            System.out.println("Please enter Warehouse amount:");
-                            int Warehouseamount = wa.nextInt();
                             Scanner ca = new Scanner(System.in);
                             System.out.println("Please enter Category:");
                             String Category = ca.nextLine();
@@ -70,7 +64,7 @@ public class Main {
                             System.out.println("Please enter Minimum amount:");
                             int Minimumamount = ma.nextInt();
                             productController.addProduct(Barcode, Name, SupplierName, Supplierprice,
-                                    Costumerprice, Shelfamount,Warehouseamount, Category,Subcategory, Subsubcategory,
+                                    Costumerprice, Category,Subcategory, Subsubcategory,
                                     Supplydays,Manufacturer,Minimumamount);
                             break;
                         case 2:
@@ -170,7 +164,7 @@ public class Main {
                                 System.out.println("Please enter defect reporter:");
                                 String dere = rd3.nextLine();
                                 Scanner dt3 = new Scanner(System.in);
-                                System.out.println("Please enter defect reporter:");
+                                System.out.println("Please enter defect type:");
                                 String dtype = dt3.nextLine();
                                 np3.add_defected_specific_product(spid3, dere, dtype);
                             }
@@ -219,7 +213,7 @@ public class Main {
                             Scanner sp6 = new Scanner(System.in);
                             System.out.println("Please enter specific product id:");
                             int spid6 = sp6.nextInt();
-                            productController.change_Shelf_Warehouse(barcode6, spid6);
+                            productController.change_Shelf_Warehouse(spid6, barcode6);
                             break;
                     }
                     break;
@@ -519,11 +513,11 @@ public class Main {
     }
 
     public static void addData(){
-        productController.addProduct(123, "pasta", "barila", 5, 10, 200,100,"cooking", "italian","gluten free",5,"barila", 100);
-        productController.addProduct(456, "bamba", "osem", 4,5,300,500,"snack", "salty", "contain peanuts", 3, "osem", 150);
-        productController.addProduct(789, "bisli", "osem", 3,4,400,800,"snack","salty", "crunchy", 4,"osem", 200);
-        productController.addProduct(112, "kinder", "ferero", 5,10,200,500,"candy","chocolate bar", "contain milk", 6, "ferero", 300);
-        productController.addProduct(113, "rice", "sugat", 4,6,200, 600, "cooking", "legums", "contain strach", 7, "sugat", 100);
+        productController.addProduct(123, "pasta", "barila", 5, 10,"cooking", "italian","gluten free",5,"barila", 100);
+        productController.addProduct(456, "bamba", "osem", 4,5,"snack", "salty", "contain peanuts", 3, "osem", 150);
+        productController.addProduct(789, "bisli", "osem", 3,4,"snack","salty", "crunchy", 4,"osem", 200);
+        productController.addProduct(112, "kinder", "ferero", 5,10,"candy","chocolate bar", "contain milk", 6, "ferero", 300);
+        productController.addProduct(113, "rice", "sugat", 4,6, "cooking", "legums", "contain strach", 7, "sugat", 100);
         LocalDateTime lcs5 = LocalDateTime.parse("2023-04-10T00:00:00");
         LocalDateTime lce5 = LocalDateTime.parse("2023-04-20T00:00:00");
         LocalDateTime lcs10 = LocalDateTime.parse("2023-06-01T00:00:00");

@@ -6,13 +6,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SpecificProductTest {
 
-    Product p = new Product(1234, "Bamba", "Osem", 5.00, 6.00, 3, 1000, "Snack", "salty", "yam", 5, "Osem", 3);
+    Product p = new Product(1234, "Bamba", "Osem", 5.00, 6.00, "Snack", "salty", "yam", 5, "Osem", 3);
 
     @Test
     void isDefective() {
         Discount d = new Discount(LocalDateTime.parse("2023-03-04T00:00:00"), LocalDateTime.parse("2023-03-15T00:00:00"), 25);
         p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", true, "shufersal", -1, d,"open");
-        assertEquals(true, p.getSpecificProducts().get(0).isDefective());
+        assertEquals(true, p.getDefectedProducts().get(0).isDefective());
     }
 
     @Test

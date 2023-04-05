@@ -22,17 +22,19 @@ public class ExpOrDefectReport extends Report{
         System.out.println("Reporter : "+ reporter);
         for (int i = 0; i < ProductController.getProducts().size(); i++) {
             for (int j = 0; j < ProductController.getProducts().get(i).getSpecificProducts().size(); j++) {
-                if (ProductController.getProducts().get(i).getSpecificProducts().get(j).isDefective() ||
-                        ProductController.getProducts().get(i).getSpecificProducts().get(j).getExpDate().isBefore(LocalDateTime.now())) {
+                if (ProductController.getProducts().get(i).getSpecificProducts().get(j).getExpDate().isBefore(LocalDateTime.now())) {
+                    ProductController.getProducts().get(i).add_defected_specific_product(ProductController.getProducts().get(i).getSpecificProducts().get(j).getSp_ID(), reporter, "Expired");
+                }
+            }
+            for (int a = 0; a < ProductController.getProducts().get(i).getDefectedProducts().size(); a++) {
                     System.out.println("Product's Barcode: " + ProductController.getProducts().get(i).getBarcode() +
-                            " Product's ID: " + ProductController.getProducts().get(i).getSpecificProducts().get(j).getSp_ID() +
+                            " Product's ID: " + ProductController.getProducts().get(i).getDefectedProducts().get(a).getSp_ID() +
                             " Product's Name: " + ProductController.getProducts().get(i).getPName() +
                             " Product's Category: " + ProductController.getProducts().get(i).getCategory() +
-                            " Product's Defect Type: " + ProductController.getProducts().get(i).getSpecificProducts().get(j).getDefectType());
+                            " Product's Defect Type: " + ProductController.getProducts().get(i).getDefectedProducts().get(a).getDefectType());
                 }
-
             }
-        }
+
         System.out.println("***** Products About to be Exp in less than 3 days *****");
         for (int i = 0; i < ProductController.getProducts().size(); i++) {
             for (int j = 0; j < ProductController.getProducts().get(i).getSpecificProducts().size(); j++) {

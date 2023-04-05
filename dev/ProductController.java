@@ -11,12 +11,12 @@ public class ProductController {
         products = new ArrayList<Product>();
     }
 
-    public void addProduct(int Bd, String Pn, String Sp, double s_price, double c_price, int sa, int wa, String cat, String scat, String sscat, int sd, String man, int min){
+    public void addProduct(int Bd, String Pn, String Sp, double s_price, double c_price, String cat, String scat, String sscat, int sd, String man, int min){
         //counter++;
         if(!CategoryController.check_if_exist_cat(cat)){
             CategoryController.addCategory(cat);
         }
-        Product P = new Product(Bd,Pn,Sp,s_price,c_price,sa,wa,cat,scat,sscat,sd,man, min);
+        Product P = new Product(Bd,Pn,Sp,s_price,c_price,cat,scat,sscat,sd,man, min);
         products.add(P);
     }
 

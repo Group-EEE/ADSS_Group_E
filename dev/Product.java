@@ -25,14 +25,14 @@ public class Product {
     private List<SpecificProduct> defectedProducts; //list to save all the defected specific products of this product
 
    //constructor
-    public Product(int Bd, String Pn, String Sp, double s_price, double c_price, int sa, int wa, String cat, String scat, String sscat, int sd, String man, int min){
+    public Product(int Bd, String Pn, String Sp, double s_price, double c_price, String cat, String scat, String sscat, int sd, String man, int min){
         this.Barcode = Bd;
         this.PName = Pn;
         this.Supplier = Sp;
         this.Supplier_Price = s_price;
         this.Costumer_Price = c_price;
-        this.Shelf_amount = sa;
-        this.Warehouse_amount = wa;
+        this.Shelf_amount = 0;
+        this.Warehouse_amount = 0;
         this.Category = cat;
         this.SubCategory = scat;
         this.SubSubCategory = sscat;
@@ -41,10 +41,6 @@ public class Product {
         this.Minimum_Amount = min;
         specificProducts = new ArrayList<SpecificProduct>();
         defectedProducts = new ArrayList<SpecificProduct>();
-        //orderReports = new ArrayList<OrderReport>();
-        //currSupplyReports = new ArrayList<CurrSupplyReport>();
-        //byCategoryReports = new ArrayList<ByCategoryReport>();
-        //expOrDefectReports = new ArrayList<ExpOrDefectReport>();
     }
 
     //function that returns the barcode(id) of the main product
@@ -112,6 +108,11 @@ public class Product {
         return specificProducts;
     }
 
+    //function that return the list of defected/exp products
+    public List<SpecificProduct> getDefectedProducts() {
+        return defectedProducts;
+    }
+
     //function that create specific product of this general product
     public void addSpecificProduct(int pID, LocalDateTime aExp_date, boolean aDefective, String aDefect_report_by, boolean aInWarehouse, String aStoreBranch, int aLocationInStore, Discount aDiscount, String adefectedtype)
     {
@@ -119,7 +120,18 @@ public class Product {
             this.sp_counter++; //gives the specific product its id
             //call the constructor of the specific product
             SpecificProduct SP = new SpecificProduct(this.sp_counter, pID, aExp_date, aDefective, aDefect_report_by, aInWarehouse, aStoreBranch, aLocationInStore, aDiscount, adefectedtype);
-            specificProducts.add(SP); //add the specific product to the list
+            if(SP.isDefective()==false){
+                specificProducts.add(SP); //add the specific product to the list
+            }
+            else{
+                defectedProducts.add(SP);
+            }
+            if(SP.isInWarehouse()==true){
+                this.Warehouse_amount++;
+            }
+            else{
+                this.Shelf_amount++;
+            }
         }
     }
 
@@ -128,10 +140,17 @@ public class Product {
     {
         for(int i=0; i<specificProducts.size();i++){
             if(specificProducts.get(i).getSp_ID() == sp_id){ //looking for the specific product by its id
+                if(specificProducts.get(i).isInWarehouse()==true){
+                    this.Warehouse_amount--;
+                }
+                else{
+                    this.Shelf_amount--;
+                }
                 specificProducts.remove(i);
                 break;
             }
         }
+
     }
 
     //function to add defective product
@@ -157,18 +176,16 @@ public class Product {
     }
 
     //function that return the shelf number if in store or -1 if in warehouse
-    public String getProductLocationInStore(int sp_id){
+    public void getProductLocationInStore(int sp_id){
         for(int i=0; i<specificProducts.size();i++) {
             if (specificProducts.get(i).getSp_ID() == sp_id) {
                 if (specificProducts.get(i).getLocation_in_Store() == -1) {
-                    return "Product is stored in warehouse";
+                    System.out.println("Product is stored in warehouse");
                 } else {
-
-                    return Integer.toString(specificProducts.get(i).getLocation_in_Store());
+                    System.out.println("Product is stored in shelf number "+ Integer.toString(specificProducts.get(i).getLocation_in_Store()));
                 }
             }
         }
-        return null;
     }
 
     //return the product's category
