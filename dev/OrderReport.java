@@ -1,7 +1,10 @@
 import java.util.List;
 
+//this class represents the report of all products that needs to be ordered in the store
+
 public class OrderReport extends Report{
-    private List<String> Supplier;
+
+    //constructor -  creates a report of all products that needs to be ordered in the store
 
     public OrderReport(String reporter){
         super(reporter);
@@ -17,6 +20,8 @@ public class OrderReport extends Report{
         }
         ReportController.addReport(this);
     }
+
+    //this function returns the report type
 
     @Override
     public String getReportType() {

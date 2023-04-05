@@ -1,5 +1,8 @@
+//this class represents the report of supply in the store
+
 public class CurrSupplyReport extends Report{
 
+    //constructor -  creates a report according to the supply in the store
     public CurrSupplyReport(String reporter) {
         super(reporter);
         System.out.println("***** Products Supply Report *****");
@@ -11,6 +14,8 @@ public class CurrSupplyReport extends Report{
         }
         ReportController.addReport(this);
     }
+
+    //this function returns the report type
 
     @Override
     public String getReportType() {

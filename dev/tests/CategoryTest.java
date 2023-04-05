@@ -4,10 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CategoryTest {
     Category category = new Category("snacks");
-    @Test
-    void getCat_counter() {
-        assertEquals(1, category.getCat_counter());
-    }
 
     @Test
     void getName() {

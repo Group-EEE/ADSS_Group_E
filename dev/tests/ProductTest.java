@@ -63,21 +63,21 @@ class ProductTest {
     @Test
     void getSpecificProducts() {
         Discount d = new Discount(LocalDateTime.parse("2023-03-04T00:00:00"), LocalDateTime.parse("2023-03-15T00:00:00"), 25);
-        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", true, "shufersal", -1, d);
+        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", true, "shufersal", -1, d, "opened");
         assertEquals(1, p.getSpecificProducts().get(0).getSp_ID());
     }
 
     @Test
     void addSpecificProduct() {
         Discount d = new Discount(LocalDateTime.parse("2023-03-04T00:00:00"), LocalDateTime.parse("2023-03-15T00:00:00"), 25);
-        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", true, "shufersal", -1, d);
+        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", true, "shufersal", -1, d, "opened");
         assertEquals(-1, p.getSpecificProducts().get(0).getLocation_in_Store());
     }
 
     @Test
     void removeSpecificProduct() {
         Discount d = new Discount(LocalDateTime.parse("2023-03-04T00:00:00"), LocalDateTime.parse("2023-03-15T00:00:00"), 25);
-        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", true, "shufersal", -1, d);
+        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", true, "shufersal", -1, d, "opened");
         p.removeSpecificProduct(1);
         assertEquals(0, p.getSpecificProducts().size());
     }
@@ -85,7 +85,7 @@ class ProductTest {
     @Test
     void add_defected_specific_product() {
         Discount d = new Discount(LocalDateTime.parse("2023-03-04T00:00:00"), LocalDateTime.parse("2023-03-15T00:00:00"), 25);
-        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", true, "shufersal", -1, d);
+        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", true, "shufersal", -1, d, "opened");
         p.add_defected_specific_product(1, "Liron", "wet bamba");
         assertEquals("wet bamba", p.getSpecificProducts().get(0).getDefectType());
     }
@@ -93,14 +93,14 @@ class ProductTest {
     @Test
     void getSpecificProduct() {
         Discount d = new Discount(LocalDateTime.parse("2023-03-04T00:00:00"), LocalDateTime.parse("2023-03-15T00:00:00"), 25);
-        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", true, "shufersal", -1, d);
+        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", true, "shufersal", -1, d, "opened");
     assertEquals(null, p.getSpecificProduct(1).getDefectType());
     }
 
     @Test
     void getProductLocationInStore() {
         Discount d = new Discount(LocalDateTime.parse("2023-03-04T00:00:00"), LocalDateTime.parse("2023-03-15T00:00:00"), 25);
-        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", false, "shufersal", 10, d);
+        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", false, "shufersal", 10, d, null);
         assertEquals(10, p.getSpecificProducts().get(0).getLocation_in_Store());
     }
 

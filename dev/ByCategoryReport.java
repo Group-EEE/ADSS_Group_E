@@ -1,10 +1,8 @@
 import java.util.List;
-
+//this class represents the report by its category.
 public class ByCategoryReport extends Report{
-    private String Category;
-    private String SubCategory;
-    private String SubSubCategory;
 
+    //constructor -  creates a report by category according to the user chosen categories
     public ByCategoryReport(String reporter, List<String> Categories){
         super(reporter);
         System.out.println("***** By Category Products Report *****");
@@ -22,7 +20,7 @@ public class ByCategoryReport extends Report{
         }
         ReportController.addReport(this);
     }
-
+//this function returns the report type
     @Override
     public String getReportType() {
         return "Product By Category Report";

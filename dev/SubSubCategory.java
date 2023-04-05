@@ -3,7 +3,6 @@
 //each subsubcategory belongs to one subcategory that belongs to one main category
 public class SubSubCategory {
     private String Name;
-    //private SubCategory subCategory;
 
     public SubSubCategory(String name) { //constructor
         Name = name;

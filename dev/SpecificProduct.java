@@ -15,7 +15,7 @@ public class SpecificProduct {
     private String DefectType;//if not defected will be null
 
     //constructor
-    public SpecificProduct(int aID, int pID, LocalDateTime aExp_date, boolean aDefective, String aDefect_report_by, boolean aInWarehouse, String aStoreBranch, int aLocationInStore, Discount aDiscount) {
+    public SpecificProduct(int aID, int pID, LocalDateTime aExp_date, boolean aDefective, String aDefect_report_by, boolean aInWarehouse, String aStoreBranch, int aLocationInStore, Discount aDiscount, String defectType) {
         this.Sp_ID = aID;
         this.P_ID = pID;
         this.ExpDate = aExp_date;
@@ -24,7 +24,8 @@ public class SpecificProduct {
         this.InWarehouse = aInWarehouse;
         this.Location_in_Store = aLocationInStore;
         this.Discount = aDiscount;
-        this.DefectType = null;
+        this.DefectType = defectType;
+        this.Store_Branch = aStoreBranch;
     }
 
     //function return true if defective
@@ -85,8 +86,6 @@ public class SpecificProduct {
         return Sp_ID;
     }
 
-    //public void setSp_ID(int sp_ID) {Sp_ID = sp_ID;}
-
     //return the expiration date of the spec. product
     public LocalDateTime getExpDate() {
         return ExpDate;
@@ -97,7 +96,7 @@ public class SpecificProduct {
         return DefectType;
     }
 
-    //chane the defect type- mostly from null
+    //change the defect type-mostly from null
     public void setDefectType(String defectType) {
         DefectType = defectType;
     }

@@ -2,13 +2,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+//the main represents the "SuperLi" supply system. it is a UI that helps the employee gets information
+//of all the products, reports, discounts etc to help him control the supply in store
 public class Main {
+    static ProductController productController = new ProductController();
+    static CategoryController categoryController = new CategoryController();
+    static ReportController reportController = new ReportController();
     public static void main(String[] args) {
-        ProductController productController = new ProductController();
-        CategoryController categoryController = new CategoryController();
-        ReportController reportController = new ReportController();
-        while(true){
+        while(true){ //main menu of all possible choices of information the employee needs
             Scanner option = new Scanner(System.in);
             System.out.println("Please choose an option");
             System.out.println("1. Products");
@@ -16,11 +17,12 @@ public class Main {
             System.out.println("3. Reports");
             System.out.println("4. Categories");
             System.out.println("5. SubCategories");
-            System.out.println("6. SubCategories");
+            System.out.println("6. SubSubCategories");
             System.out.println("7. Discounts");
+            System.out.println("8. Super-Li dataBase exist information");
             int c = option.nextInt();
             switch (c) {
-                case 1:
+                case 1: //sub menu - everything about products
                     Scanner option1 = new Scanner(System.in);
                     System.out.println("Please choose an option");
                     System.out.println("1. Add new product to the store");
@@ -76,7 +78,7 @@ public class Main {
                             break;
                     }
                     break;
-                case 2:
+                case 2: //sub menu - everything about Specific Products
                     Scanner option2 = new Scanner(System.in);
                     System.out.println("Please choose an option");
                     System.out.println("1. Add new specific product to store");
@@ -101,6 +103,9 @@ public class Main {
                             Scanner rd = new Scanner(System.in);
                             System.out.println("Please enter Defect reporter name else press null:");
                             String aDefect_report_by = rd.nextLine();
+                            Scanner dt = new Scanner(System.in);
+                            System.out.println("Please enter Defect type else press null:");
+                            String  defectype = dt.nextLine();
                             Scanner wh = new Scanner(System.in);
                             System.out.println("Is the product stored in warehouse? - please enter true/false:");
                             boolean aInWarehouse = wh.nextBoolean();
@@ -131,7 +136,7 @@ public class Main {
                             if(p!=null) {
                                 Discount dd = new Discount(startdate, enddate, aDiscount);
                                 p.addSpecificProduct(Barcode,aExp_date, aDefective, aDefect_report_by,
-                                aInWarehouse,aStoreBranch,aLocationInStore,dd);
+                                aInWarehouse,aStoreBranch,aLocationInStore,dd, defectype);
                             }
                             else{
                                 System.out.println("Product doesn't exist in store!");
@@ -223,8 +228,8 @@ public class Main {
                     System.out.println("Please choose an option");
                     System.out.println("1. Get all reports in system");
                     System.out.println("2. Issue order products report");
-                    System.out.println("3. Issue EXP/ defected products report");
-                    System.out.println("4. Issue current supply");
+                    System.out.println("3. Issue current supply");
+                    System.out.println("4. Issue EXP/ defected products report");
                     System.out.println("5. Issue report by category");
                     int c3 = option3.nextInt();
                     switch (c3) {
@@ -505,9 +510,46 @@ public class Main {
                             break;
                     }
                     break;
+                case 8: //Super-Li dataBase exist information
+                    addData();
+
             }
 
         }
+    }
+
+    public static void addData(){
+        productController.addProduct(123, "pasta", "barila", 5, 10, 200,100,"cooking", "italian","gluten free",5,"barila", 100);
+        productController.addProduct(456, "bamba", "osem", 4,5,300,500,"snack", "salty", "contain peanuts", 3, "osem", 150);
+        productController.addProduct(789, "bisli", "osem", 3,4,400,800,"snack","salty", "crunchy", 4,"osem", 200);
+        productController.addProduct(112, "kinder", "ferero", 5,10,200,500,"candy","chocolate bar", "contain milk", 6, "ferero", 300);
+        productController.addProduct(113, "rice", "sugat", 4,6,200, 600, "cooking", "legums", "contain strach", 7, "sugat", 100);
+        LocalDateTime lcs5 = LocalDateTime.parse("2023-04-10T00:00:00");
+        LocalDateTime lce5 = LocalDateTime.parse("2023-04-20T00:00:00");
+        LocalDateTime lcs10 = LocalDateTime.parse("2023-06-01T00:00:00");
+        LocalDateTime lce10 = LocalDateTime.parse("2023-06-10T00:00:00");
+        Discount d5 = new Discount(lcs5,lce5,5);
+        Discount d10 = new Discount(lcs10, lce10, 10);
+        LocalDateTime ex1231 = LocalDateTime.parse("2023-04-11T00:00:00");
+        LocalDateTime ex1232 = LocalDateTime.parse("2023-04-12T00:00:00");
+        LocalDateTime ex1233 = LocalDateTime.parse("2023-04-13T00:00:00");
+        productController.getProductByBarcode(123).addSpecificProduct(123,ex1231, false, null, false, "superlirehovot",6,d5, null);
+        productController.getProductByBarcode(123).addSpecificProduct(123,ex1232, true, "sapir", true, "superlirehovot",-1,null, "open package");
+        productController.getProductByBarcode(123).addSpecificProduct(123,ex1233, false, null, true, "superlirehovot",-1,null, null);
+        LocalDateTime ex4561 = LocalDateTime.parse("2023-08-06T00:00:00");
+        productController.getProductByBarcode(456).addSpecificProduct(456,ex4561, false, null, false, "superlirehovot",10,d10, null);
+        productController.getProductByBarcode(456).addSpecificProduct(456,ex4561, false, null, false, "superlirehovot",10,d10, null);
+        productController.getProductByBarcode(456).addSpecificProduct(456,ex4561, false, null, false, "superlirehovot",10,d10, null);
+        LocalDateTime ex7891 = LocalDateTime.parse("2023-10-18T00:00:00");
+        productController.getProductByBarcode(789).addSpecificProduct(789,ex7891,true, "liron", true, "superlirehovot", -1,null,"open package");
+        productController.getProductByBarcode(789).addSpecificProduct(789,ex7891,true, "liron", true, "superlirehovot", -1,null,"open package");
+        LocalDateTime ex1121 = LocalDateTime.parse("2023-10-18T00:00:00");
+        productController.getProductByBarcode(112).addSpecificProduct(112,ex1121,true, "liron", true, "superlirehovot", -1,null,"Expired");
+        productController.getProductByBarcode(112).addSpecificProduct(112,ex1121,true, "liron", true, "superlirehovot", -1,null,"Expired");
+        LocalDateTime ex1131 = LocalDateTime.parse("2023-09-12T00:00:00");
+        LocalDateTime ex1133 = LocalDateTime.parse("2023-09-13T00:00:00");
+        productController.getProductByBarcode(113).addSpecificProduct(113,ex1131,false, null, false, "superlirehovot", 8,null,null);
+        productController.getProductByBarcode(113).addSpecificProduct(113,ex1133,false, null, false, "superlirehovot", 8,null,null);
     }
 
 }

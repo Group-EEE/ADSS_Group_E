@@ -23,10 +23,6 @@ public class Product {
     //Product Associations
     private List<SpecificProduct> specificProducts; //list to save all the specific products of this product
     private List<SpecificProduct> defectedProducts; //list to save all the defected specific products of this product
-   // private List<OrderReport> orderReports;
-    //private List<CurrSupplyReport> currSupplyReports;
-   // private List<ByCategoryReport> byCategoryReports;
-    //private List<ExpOrDefectReport> expOrDefectReports;
 
    //constructor
     public Product(int Bd, String Pn, String Sp, double s_price, double c_price, int sa, int wa, String cat, String scat, String sscat, int sd, String man, int min){
@@ -101,10 +97,6 @@ public class Product {
         return Supply_Days;
     }
 
-    public void setSupply_Days(int supply_Days) {
-        Supply_Days = supply_Days;
-    }
-
     //function that returns the name of the product
     public String getPName() {
         return PName;
@@ -121,16 +113,13 @@ public class Product {
     }
 
     //function that create specific product of this general product
-    public void addSpecificProduct(int pID, LocalDateTime aExp_date, boolean aDefective, String aDefect_report_by, boolean aInWarehouse, String aStoreBranch, int aLocationInStore, Discount aDiscount)
+    public void addSpecificProduct(int pID, LocalDateTime aExp_date, boolean aDefective, String aDefect_report_by, boolean aInWarehouse, String aStoreBranch, int aLocationInStore, Discount aDiscount, String adefectedtype)
     {
         if(this.Barcode == pID){ //check if the specific product is from this product
             this.sp_counter++; //gives the specific product its id
             //call the constructor of the specific product
-            SpecificProduct SP = new SpecificProduct(this.sp_counter, pID, aExp_date, aDefective, aDefect_report_by, aInWarehouse, aStoreBranch, aLocationInStore, aDiscount);
+            SpecificProduct SP = new SpecificProduct(this.sp_counter, pID, aExp_date, aDefective, aDefect_report_by, aInWarehouse, aStoreBranch, aLocationInStore, aDiscount, adefectedtype);
             specificProducts.add(SP); //add the specific product to the list
-        }
-        else{
-            System.out.println("Product doesn't exist in store!");
         }
     }
 

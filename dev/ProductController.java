@@ -45,10 +45,14 @@ public class ProductController {
                     Random r = new Random();
                     int rand = r.nextInt(200);
                     products.get(i).getSpecificProduct(sp_id).setLocation_in_Store(rand);
+                    products.get(i).setWarehouse_amount(products.get(i).getWarehouse_amount()-1);
+                    products.get(i).setShelf_amount(products.get(i).getShelf_amount()+1);
                     System.out.println("Product transfer to store in shelf number " + rand);
                 } else {
                     products.get(i).getSpecificProduct(sp_id).setInWarehouse(true);
                     products.get(i).getSpecificProduct(sp_id).setLocation_in_Store(-1);
+                    products.get(i).setShelf_amount( products.get(i).getShelf_amount()-1);
+                    products.get(i).setWarehouse_amount( products.get(i).getWarehouse_amount()+1);
                     System.out.println("Product transfer to warehouse!");
                 }
             }
