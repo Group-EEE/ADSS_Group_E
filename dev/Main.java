@@ -2,15 +2,15 @@ public class Main {
     public static void main(String[] args) {
 //        System.out.println("Hello world!");
     Transport_System system = new Transport_System();
-    Truck truck1 = new Truck("ABC123", "Volvo VNL", 15000.0, 25000.0, cold_level.Freeze, 10000.0);
-    Truck truck2 = new Truck("DEF456", "Freightliner Cascadia", 18000.0, 30000.0, cold_level.Cold, 12000.0);
-    Truck truck3 = new Truck("GHI789", "Kenworth T680", 17000.0, 28000.0, cold_level.Cold, 11000.0);
-    Truck truck4 = new Truck("JKL012", "Peterbilt 579", 16000.0, 27000.0, cold_level.Dry, 10500.0);
-    Truck truck5 = new Truck("MNO345", "International LT", 17500.0, 29000.0, cold_level.Freeze, 11500.0);
-    Truck truck6 = new Truck("PQR678", "Mack Anthem", 16500.0, 27500.0, cold_level.Cold, 10750.0);
-    Truck truck7 = new Truck("STU901", "Western Star 5700XE", 19000.0, 31000.0, cold_level.Dry, 12500.0);
-    Truck truck8 = new Truck("VWX234", "Kenworth W900", 15500.0, 26000.0, cold_level.Cold, 10250.0);
-    Truck truck9 = new Truck("YZA567", "Volvo VNR", 18500.0, 30500.0, cold_level.Freeze, 12250.0);
+    Truck truck1 = new Truck("ABC123", "Volvo VNL", 15000.0, 25000.0, cold_level.Freeze, 15000.0);
+    Truck truck2 = new Truck("DEF456", "Freightliner Cascadia", 18000.0, 30000.0, cold_level.Cold, 18000.0);
+    Truck truck3 = new Truck("GHI789", "Kenworth T680", 17000.0, 28000.0, cold_level.Cold, 17000.0);
+    Truck truck4 = new Truck("JKL012", "Peterbilt 579", 16000.0, 27000.0, cold_level.Dry, 16000.0);
+    Truck truck5 = new Truck("MNO345", "International LT", 17500.0, 29000.0, cold_level.Freeze, 17500.0);
+    Truck truck6 = new Truck("PQR678", "Mack Anthem", 16500.0, 27500.0, cold_level.Cold, 16500.0);
+    Truck truck7 = new Truck("STU901", "Western Star 5700XE", 19000.0, 31000.0, cold_level.Dry, 19000.0);
+    Truck truck8 = new Truck("VWX234", "Kenworth W900", 15500.0, 26000.0, cold_level.Cold, 15500.0);
+    Truck truck9 = new Truck("YZA567", "Volvo VNR", 18500.0, 30500.0, cold_level.Freeze, 18500.0);
     system.add_truck(truck1);
     system.add_truck(truck2);
     system.add_truck(truck3);
@@ -56,6 +56,6 @@ public class Main {
 //    system.display_transport_doc();
 //    system.display_drivers();
 //    system.display_trucks();
-//    system.display_site_supply();
+    system.display_site_supply();
     }
 }

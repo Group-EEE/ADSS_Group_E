@@ -50,7 +50,6 @@ public class Navigator {
     }
 
     public Site getCurrent_location() {
-        drive_to_next();
         return current_location;
     }
 

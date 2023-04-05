@@ -294,15 +294,17 @@ public class Transport_System {
 
                 // postpone the supplier to the end of the shipment.
                 case 3:
+                    boolean end_case = false;
                     // checking how many suppliers are left for today.
                     int count = 0;
-                    for (Site site: truck.get_route()){
-                        if (site.is_supplier()){
-                            count++;
+                    for (Site_Supply site_supply: driver.getSites_documents()){
+                        if (site_supply.getOrigin() != truck.get_current_location().getSite_n() ){
+                            System.out.println("Sorry Boss, this is the only supplier left for today...");
+                            end_case = true;
+                            break;
                         }
                     }
-                    if (count <= 1){
-                        System.out.println("Sorry Boss, this is the only supplier left for today...");
+                    if (end_case){
                         break;
                     }
 
@@ -457,7 +459,7 @@ public class Transport_System {
                     Transport transport = create_transport_document();
                     Truck truck = getTruckByNumber(transport.getTruck_number());
                     truck.setNavigator(transport.getDestinations());
-                    Site current = truck.get_current_location();
+                    Site current = truck.get_next_site();
                     while (current != null){
                         if (current.is_supplier()){
                             boolean isValidChoice = false;
@@ -877,7 +879,7 @@ public class Transport_System {
     // unloading all the goods in a store, and update the weight of the truck accordingly.
     public boolean unload_goods(Store store, Truck truck, Truck_Driver driver){
         boolean unloaded = false;
-        for (int i = 0; i< driver.getSites_documents().size(); i++){
+        for (int i = 0; i < driver.getSites_documents().size(); i++){
             if (driver.getSites_documents().get(i).getStore().getAddress() == store.getAddress()){
                 unloaded = true;
                 if (delivered_supplies_documents.containsKey(store)) {
@@ -891,6 +893,7 @@ public class Transport_System {
                 }
                 // change to delete only one site.
                 driver.delete_site_document_by_ID(driver.getSites_documents().get(i).getId());
+                i--;
             }
         }
         System.out.println("Hey there truck driver");
