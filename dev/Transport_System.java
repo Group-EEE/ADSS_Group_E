@@ -453,7 +453,7 @@ public class Transport_System {
 
                 // make a new transport
                 case 3:
-                    System.out.println("Hey supplier!");
+                    System.out.println("Hey Boss!");
                     Transport transport = create_transport_document();
                     Truck truck = getTruckByNumber(transport.getTruck_number());
                     truck.setNavigator(transport.getDestinations());
@@ -463,21 +463,25 @@ public class Transport_System {
                             boolean isValidChoice = false;
                             String ch = null;
                             while (!isValidChoice) {
+                                System.out.println("Hey " + current.getSite_n() + " manager!");
                                 // creating a document
                                 create_site_supply(transport);
                                 // asking if he needs to make another one
                                 System.out.println("Do you have items to ship to another store? (Write YES/NO): ");
                                 System.out.println("1 - YES");
                                 System.out.println("2 - NO");
-                                ch = scanner.nextLine();
-                                if (ch.equals("YES")){
-                                    continue;
-                                }
-                                else if (ch.equals("NO")){
-                                    isValidChoice = true;
-                                }
-                                else {
-                                    System.out.println("You must enter YES/NO.");
+                                while (true){
+                                    ch = scanner.nextLine();
+                                    if (ch.equals("YES")){
+                                        break;
+                                    }
+                                    else if (ch.equals("NO")){
+                                        isValidChoice = true;
+                                        break;
+                                    }
+                                    else {
+                                        System.out.println("You must enter YES/NO.");
+                                    }
                                 }
                             }
                             //checking the weight
@@ -873,20 +877,20 @@ public class Transport_System {
     // unloading all the goods in a store, and update the weight of the truck accordingly.
     public boolean unload_goods(Store store, Truck truck, Truck_Driver driver){
         boolean unloaded = false;
-        for (Site_Supply site_supply: driver.getSites_documents()){
-            if (site_supply.getStore().getAddress() == store.getAddress()){
+        for (int i = 0; i< driver.getSites_documents().size(); i++){
+            if (driver.getSites_documents().get(i).getStore().getAddress() == store.getAddress()){
                 unloaded = true;
                 if (delivered_supplies_documents.containsKey(store)) {
                     ArrayList<Site_Supply> site_supplies= delivered_supplies_documents.get(store);
-                    site_supplies.add(site_supply);
+                    site_supplies.add(driver.getSites_documents().get(i));
                 }
                 else {
                     ArrayList<Site_Supply> siteSupplies = new ArrayList<>();
-                    siteSupplies.add(site_supply);
+                    siteSupplies.add(driver.getSites_documents().get(i));
                     delivered_supplies_documents.put(store, siteSupplies);
                 }
                 // change to delete only one site.
-                driver.delete_site_document_by_ID(site_supply.getId());
+                driver.delete_site_document_by_ID(driver.getSites_documents().get(i).getId());
             }
         }
         System.out.println("Hey there truck driver");
