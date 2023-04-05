@@ -389,7 +389,11 @@ public class Transport_System {
         return truck;
     }
 
-    //////// MAIN FUNCTION ///////////////
+
+
+
+
+    // =============================== MAIN FUNCTION =============================== //
     public void start_transport(){
         int choice = 0;
         boolean isValid = false;
@@ -398,22 +402,28 @@ public class Transport_System {
         while (choice != -1) {
             System.out.println("Hey Boss! what would you like to do?");
             System.out.println("1 - Hire a new driver");
-            System.out.println("2 - See all the trucks with a cold level of your choice - \n\t 1- Freeze \n\t 2- Cold \n \t 3- Dry");
-            System.out.println("3 - send a new transport to his way.");
-            System.out.println("4 - quit.");
+            System.out.println("2 - See all the trucks with a cold level of your choice: \n\t 1- Freeze \n\t 2- Cold \n \t 3- Dry");
+            System.out.println("3 - Send a new transport to his way");
+            System.out.println("4 - Quit");
+            System.out.println("5 - Add new truck to the system");
+            System.out.println("6 - Display all drivers in the system");
+            System.out.println("7 - Display all trucks in the system");
+            System.out.println("8 - Display all transport documents in the system");
+            System.out.println("9 - Display all site supplies documents in the system");
+
             while(!isValid){
                 try {
                     input = scanner.nextLine();
                     choice = Integer.parseInt(input);
 
                     // Check if the input is a 5 digit integer
-                    if (input.length() == 1 && choice > 0 && choice < 5) {
+                    if (input.length() == 1 && choice > 0 && choice < 10) {
                         isValid = true;
                     } else {
-                        System.out.println("Input must be an int between 1-4. ");
+                        System.out.println("Input must be an int between 1-9. ");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. Please enter a valid int between 1-4: ");
+                    System.out.println("Invalid input. Please enter a valid int between 1-9.: ");
                 }
             }
             isValid = false;
@@ -511,10 +521,28 @@ public class Transport_System {
                 // quit the menu
                 case 4:
                     return;
+                case 5:
+                    addNewTruck();
+                    break;
+                case 6:
+                    display_drivers();
+                    break;
+                case 7:
+                    display_trucks();
+                    break;
+                case 8:
+                    display_transport_doc();
+                    break;
+                case 9:
+                    display_site_supply();
+                    break;
             }
 
         }
     }
+
+
+
 
     // check if string contain only numbers.
     public static boolean containsOnlyNumbers(String str) {
@@ -890,7 +918,7 @@ public class Transport_System {
                     delivered_supplies_documents.put(store, siteSupplies);
                 }
                 // change to delete only one site.
-                driver.delete_site_document_by_ID(driver.getSites_documents().get(i).getId());
+//                driver.delete_site_document_by_ID(driver.getSites_documents().get(i).getId());
             }
         }
         System.out.println("Hey there truck driver");
@@ -994,7 +1022,6 @@ public class Transport_System {
         Truck truck = new Truck(registration_number, truck_moodle, truck_net_weight, truck_max_weight, cool_level ,truck_net_weight);
         trucks.add(truck);
     }
-
 
 
     /// ========== display for test ======= ///

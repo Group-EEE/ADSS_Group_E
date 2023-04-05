@@ -66,14 +66,16 @@ public class Site_Supply {
 
     // display
     public void sDisplay(){
-        System.out.println("\t Site Supply ID Number: " + id);
+        System.out.println("\t =========== Site Supply - " + id + " - information ===========");
+//        System.out.println("\t Site Supply ID Number: " + id);
         System.out.println("\t Store name: " + store.getSite_n());
         System.out.println("\t Origin: " + origin);
-        System.out.println("\t Items: ");
+        System.out.println("\t ======= Items =======");
         for (Map.Entry<String, Integer> entry : items.entrySet()) {
             System.out.print("\t\t");
             System.out.println(entry.getKey() + " = " + entry.getValue());
         }
+        System.out.println();
 
     }
 }

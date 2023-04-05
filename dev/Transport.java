@@ -193,9 +193,13 @@ public class Transport {
             System.out.println();
             i++;
         }
+        System.out.println("\t ================= Products =================");
         for (Map.Entry<String, Integer> entry : products.entrySet()) {
-            System.out.println(entry.getKey() + " - " + entry.getValue());
+            System.out.println("\t\t" + entry.getKey() + " = " + entry.getValue());
         }
+        System.out.println();
+        System.out.println("\t ================= Last Weight =================");
+
         if(weighing.size() > 0) {
             System.out.println("\t Weight: " + weighing.get(weighing.size() - 1));
         }
