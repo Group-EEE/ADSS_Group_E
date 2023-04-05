@@ -58,5 +58,4 @@ public class Main {
 //    system.display_trucks();
     system.display_site_supply();
     }
-
 }

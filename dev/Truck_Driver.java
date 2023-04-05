@@ -77,6 +77,15 @@ public class Truck_Driver {
         }
     }
 
+    public void delete_site_document_by_ID(int ID){
+        for (int i = 0; i < sites_documents.size(); i++) {
+            if (sites_documents.get(i).getId() == ID){
+                sites_documents.remove(i);
+                return;
+            }
+        }
+    }
+
 
     public int getID() {
         return ID;

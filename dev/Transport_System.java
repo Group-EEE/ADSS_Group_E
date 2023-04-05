@@ -885,7 +885,8 @@ public class Transport_System {
                     siteSupplies.add(site_supply);
                     delivered_supplies_documents.put(store, siteSupplies);
                 }
-                driver.delete_site_document_by_destination(store.getSite_n());
+                // change to delete only one site.
+                driver.delete_site_document_by_ID(site_supply.getId());
             }
         }
         System.out.println("Hey there truck driver");
