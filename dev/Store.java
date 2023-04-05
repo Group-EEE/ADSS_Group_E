@@ -39,4 +39,14 @@ public class Store extends Site{
     public void setSite_area(int site_area) {
         this.site_area = site_area;
     }
+
+
+    //display
+
+    @Override
+    public void siteDisplay() {
+        super.siteDisplay();
+        System.out.println("\t\t Manager store name: " + manager_n);
+        System.out.println("\t\t Area: " + site_area);
+    }
 }

@@ -34,4 +34,12 @@ public class License {
     public void setWeight(double weight) {
         this.weight = weight;
     }
+
+    // display
+
+    public void licenseDisplay(){
+        System.out.println("\t License ID Number: " + L_ID);
+        System.out.println("\t Cold Level: " + cold_level.name());
+        System.out.println("\t Weight: " + weight);
+    }
 }

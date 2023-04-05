@@ -18,4 +18,11 @@ public class Logistical_Center extends Site{
     public boolean is_store() {
         return false;
     }
+
+    // display
+
+    @Override
+    public void siteDisplay() {
+        super.siteDisplay();
+    }
 }

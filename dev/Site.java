@@ -43,4 +43,12 @@ abstract public class Site {
     public void setSupplier_n(String supplier_n) {
         this.supplier_n = supplier_n;
     }
+
+    // display
+    public void siteDisplay(){
+        System.out.println("\t\t Address: " + address);
+        System.out.println("\t\t Phone: " + phone);
+        System.out.println("\t\t Site name: " + site_n);
+        System.out.println("\t\t Person contact name: " + site_contact_n);
+    }
 }

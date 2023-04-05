@@ -1,0 +1,325 @@
+3
+
+69123
+2
+Golomb 64/23, Azur
+08-6589593
+Omer Orenshtain
+1
+111 Ben Yehuda St, Tel Aviv
+054-987-6543
+Shufersal Express
+Avi Cohen
+Rachel Levy
+5
+1
+1
+123 Herzl Blvd, Jerusalem
+052-548-1182
+Rami Levy Discount
+Sarah Roshinski
+Yakir Ben Yehuda
+2
+1
+2
+123 Main Street, Tel Aviv
+054-123-5496
+Sarah Cohen
+XYZ Industries
+1
+2
+Oak Avenue, Jerusalem
+052-987-6543
+David Levy
+ABC Distributors
+1
+2
+789 Maple Road, Haifa
+050-555-1212
+Rachel Katz
+MNO Enterprises
+2
+
+
+
+===============
+83754
+1
+1
+Mega Fresh
+333 HaGefen St, Haifa
+050-123-4567
+OmeriNaor
+Rachel Katz
+3
+1
+1
+555 Ben Gurion St, Be'er Sheva
+053-987-6543
+Yohananof Supermarket
+Miriam Naim
+Tali Tamir
+1
+1
+1
+777 Rothschild St, Netanya
+04-713-1890
+Mega Market
+Yaakov Levi
+Dor Peretz
+4
+1
+2
+321 Elm Street, Be'er Sheva
+053-444-3333
+Dror Cohen
+PQR Trading Co.
+1
+2
+567 Cedar Lane, Netanya
+04-123-4567
+Daniel Shapiro
+DEF Supplies
+1
+2
+890 Birch Street, Ashdod
+03-987-6543
+Yaakov Navon
+GHI Corporation
+2
+
+
+
+=========================
+41509
+1
+1
+999 Hertzl St, Ashdod
+03-123-4567
+Victory Superstore
+Rachel Ben Hamo
+Moshe Levy
+2
+1
+1
+444 Coral Beach St, Eilat
+08-987-6543
+Super Dosh Market
+Avi Levi
+Talia Oren
+6
+1
+1
+Yohananof Mega
+666 HaSharon St, Petah Tikva
+09-845-8924
+Noam Yaniv
+Maya Sharvit
+4
+1
+2
+234 Pine Avenue, Eilat
+08-555-1212
+Rachel Levi
+JKL Industries
+1
+2
+876 Oak Road, Petah Tikva
+09-444-3333
+Or Malka
+STU Distributors
+2
+4
+
+
+===== site supply ======
+
+44852
+Oak Avenue, Jerusalem
+123 Herzl Blvd, Jerusalem
+Toothpaste
+50
+1
+Shampoo
+230
+1
+Body wash
+65
+1
+Hand sanitizer
+520
+1
+Laundry detergent
+150
+1
+Dish soap
+300
+1
+Conditioner
+500
+1
+Facial cleanser
+125
+1
+Sunscreen
+90
+1
+Mouthwash
+45
+2
+
+
+
+==== test 1 =====================================================
+69123
+2
+Golomb 64/23, Azur
+08-6589593
+Omer Orenshtain
+1
+111 Ben Yehuda St, Tel Aviv
+054-987-6543
+Shufersal Express
+Avi Cohen
+Rachel Levy
+5
+1
+1
+123 Herzl Blvd, Jerusalem
+052-548-1182
+Rami Levy Discount
+Sarah Roshinski
+Yakir Ben Yehuda
+2
+1
+2
+123 Main Street, Tel Aviv
+054-123-5496
+Sarah Cohen
+XYZ Industries
+1
+2
+Oak Avenue, Jerusalem
+052-987-6543
+David Levy
+ABC Distributors
+1
+2
+789 Maple Road, Haifa
+050-555-1212
+Rachel Katz
+MNO Enterprises
+2
+
+44852
+Oak Avenue, Jerusalem
+123 Herzl Blvd, Jerusalem
+Toothpaste
+50
+1
+Shampoo
+230
+1
+Body wash
+65
+1
+Hand sanitizer
+520
+1
+Laundry detergent
+150
+1
+Dish soap
+300
+1
+Conditioner
+500
+1
+Facial cleanser
+125
+1
+Sunscreen
+90
+1
+Mouthwash
+45
+2
+
+
+8000
+NO
+
+
+
+54198
+789 Maple Road, Haifa
+111 Ben Yehuda St, Tel Aviv
+Coffee
+250
+1
+Tea
+100
+1
+Orange Juice
+500
+1
+Milk
+1000
+1
+Bread
+450
+1
+Butter
+200
+1
+Cheese
+300
+1
+Eggs
+120
+1
+Chicken
+750
+1
+Beef
+500
+2
+4450
+NO
+
+
+31648
+123 Main Street, Tel Aviv
+123 Herzl Blvd, Jerusalem
+Bananas
+300
+1
+Oranges
+400
+1
+Apples
+500
+1
+Strawberries
+200
+1
+Lettuce
+100
+1
+Carrots
+250
+1
+Cucumbers
+150
+1
+Tomatoes
+350
+1
+Potatoes
+450
+1
+Onions
+200
+2
+3678
+NO

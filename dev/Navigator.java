@@ -32,6 +32,7 @@ public class Navigator {
         }
         Site next_site = iterator.next();
         route.remove(0);
+        iterator = route.iterator();
         current_location = next_site;
         return next_site;
     }
@@ -49,6 +50,7 @@ public class Navigator {
     }
 
     public Site getCurrent_location() {
+        drive_to_next();
         return current_location;
     }
 

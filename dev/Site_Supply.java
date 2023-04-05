@@ -63,4 +63,17 @@ public class Site_Supply {
 //            System.out.println("there's no such amount of this item in the ");
 //        }
 //    }
+
+    // display
+    public void sDisplay(){
+        System.out.println("\t Site Supply ID Number: " + id);
+        System.out.println("\t Store name: " + store.getSite_n());
+        System.out.println("\t Origin: " + origin);
+        System.out.println("\t Items: ");
+        for (Map.Entry<String, Integer> entry : items.entrySet()) {
+            System.out.print("\t\t");
+            System.out.println(entry.getKey() + " = " + entry.getValue());
+        }
+
+    }
 }

@@ -25,4 +25,9 @@ public class Supplier extends Site{
     public void setSupplier_n(String supplier_n) {
         this.supplier_n = supplier_n;
     }
+
+    @Override
+    public void siteDisplay() {
+        super.siteDisplay();
+    }
 }

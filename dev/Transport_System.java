@@ -402,8 +402,8 @@ public class Transport_System {
             System.out.println("3 - send a new transport to his way.");
             System.out.println("4 - quit.");
             while(!isValid){
-                input = scanner.nextLine();
                 try {
+                    input = scanner.nextLine();
                     choice = Integer.parseInt(input);
 
                     // Check if the input is a 5 digit integer
@@ -416,6 +416,7 @@ public class Transport_System {
                     System.out.println("Invalid input. Please enter a valid int between 1-4.: ");
                 }
             }
+            isValid = false;
             switch (choice){
                 // hire a new driver
                 case 1:
@@ -424,15 +425,15 @@ public class Transport_System {
                 // have all the trucks by a cold level
                 case 2:
                 cold_level cool_level = null;
-                isValid = false;
-                while(!isValid){
-                    System.out.print("Please enter the required cold level of the truck (press 1, 2 or 3 only): ");
+                boolean isValid2 = false;
+                while(!isValid2){
+                    System.out.println("Please enter the required cold level of the truck (press 1, 2 or 3 only): ");
                     System.out.println("1 - Freeze");
                     System.out.println("2 - Cold");
                     System.out.println("3 -  Dry");
                     input = scanner.nextLine();
                     if(input.equals("1") || input.equals("2") || input.equals("3")){
-                        isValid = true;
+                        isValid2 = true;
                     }
                     else{
                         System.out.print("Invalid input. ");
@@ -465,15 +466,15 @@ public class Transport_System {
                                 // creating a document
                                 create_site_supply(transport);
                                 // asking if he needs to make another one
-                                System.out.println("Do you have items to ship to another store? (press 1 or 2 only): ");
+                                System.out.println("Do you have items to ship to another store? (Write YES/NO): ");
                                 System.out.println("1 - YES");
                                 System.out.println("2 - NO");
                                 ch = scanner.nextLine();
-                                if (ch == "YES"){
+                                if (ch.equals("YES")){
                                     continue;
                                 }
-                                else if (ch == "NO"){
-                                    isValid = true;
+                                else if (ch.equals("NO")){
+                                    isValidChoice = true;
                                 }
                                 else {
                                     System.out.println("You must enter YES/NO.");
@@ -539,7 +540,7 @@ public class Transport_System {
         }
 
         if (driver.getLicense().getWeight() < truck.getMax_weight() || driver.getLicense().getCold_level().getValue() < truck.getCold_level().getValue()){
-            System.out.println("The driver's license does not fit to the truck");
+//            System.out.println("The driver's license does not fit to the truck");
             return false;
         }
         truck.setCurrent_driver(driver);
@@ -701,7 +702,7 @@ public class Transport_System {
         boolean isValid = false;
         // getting the transport's ID number.
         while (!isValid) {
-            System.out.print("Please enter transport ID number (5 digits, only with the digits 0-9): ");
+            System.out.println("Please enter transport ID number (5 digits, only with the digits 0-9): ");
             input = scanner.nextLine();
             try {
                 transport_Id = Integer.parseInt(input);
@@ -724,7 +725,7 @@ public class Transport_System {
         cold_level cool_level = null;
         isValid = false;
         while(!isValid){
-            System.out.print("Please enter the required cold level of the truck (press 1, 2 or 3 only): ");
+            System.out.println("Please enter the required cold level of the truck (press 1, 2 or 3 only): ");
             System.out.println("\t 1 - Freeze");
             System.out.println("\t 2 - Cold");
             System.out.println("\t 3 -  Dry");
@@ -764,6 +765,7 @@ public class Transport_System {
             System.out.println("Please enter the contact person name of the origin: ");
             String origin_contact_name = scanner.nextLine();
             origin = new Logistical_Center(origin_address, origin_phone, origin_name, origin_contact_name);
+            this.logistical_center = origin;
         }
         else{
             origin = logistical_center;
@@ -788,7 +790,7 @@ public class Transport_System {
                 System.out.println("\t 1 - Store ");
                 System.out.println("\t 2 - Supplier ");
                 site_type = scanner.nextLine();
-                if (!Objects.equals(site_type, "1") || !Objects.equals(site_type, "2")) {
+                if (!site_type.equals("1") && !site_type.equals("2")) {
                     System.out.println("Invalid input. try again. ");
                 } else {
                     isValid = true;
@@ -844,7 +846,7 @@ public class Transport_System {
                 System.out.println("\t 1 - YES");
                 System.out.println("\t 2 - NO");
                 choice = scanner.nextLine();
-                if(!Objects.equals(choice, "1") || !Objects.equals(choice, "2")){
+                if(!choice.equals("1") && !choice.equals("2")){
                     System.out.println("Invalid input. Please enter a valid choice:");
                 }
                 else{
@@ -987,4 +989,43 @@ public class Transport_System {
         Truck truck = new Truck(registration_number, truck_moodle, truck_net_weight, truck_max_weight, cool_level ,truck_net_weight);
         trucks.add(truck);
     }
+
+
+
+    /// ========== display for test ======= ///
+
+    public void display_transport_doc(){
+        for (Map.Entry<Integer, Transport> entry : Transport_Log.entrySet()) {
+            int id = entry.getKey();
+            Transport transport = entry.getValue();
+            System.out.println("=========== Transport - " + id + " - information ===========");
+            transport.transportDisplay();
+        }
+    }
+
+    public void display_trucks(){
+        System.out.println("======================================= Trucks in the system =======================================");
+        for(Truck t : trucks){
+            t.truckDisplay();
+        }
+    }
+
+    public void display_drivers(){
+        System.out.println("======================================= Drivers in the system =======================================");
+        for(Truck_Driver driver : drivers){
+            driver.driverDisplay();
+        }
+    }
+
+    public void display_site_supply(){
+        for (Map.Entry<Store, ArrayList<Site_Supply>> entry : delivered_supplies_documents.entrySet()) {
+            for(Site_Supply siteSupply : entry.getValue()){
+                siteSupply.sDisplay();
+            }
+        }
+    }
+
+
+
+
 }
