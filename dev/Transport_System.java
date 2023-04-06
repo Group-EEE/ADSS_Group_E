@@ -260,7 +260,7 @@ public class Transport_System {
                     Truck new_truck = null;
                     for (Truck tr: trucks){
                         // checks that the new truck have suitable max weight, and also temperature.
-                        if (tr.getCold_level().getValue() >= transport_doc.getRequired_level().getValue()
+                        if (tr.getCold_level().getValue() <= transport_doc.getRequired_level().getValue()
                                 && tr.getMax_weight() > truck.getCurrent_weight()){
                             new_truck = tr;
                         }
