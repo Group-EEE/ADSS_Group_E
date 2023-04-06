@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import java.util.InputMismatchException;
 
-public class EmployeesCLI extends HRModuleCLI{
+public class EmployeesCLI {
     private static EmployeesCLI _employeesCLI;
 
     private EmployeesCLI() {
@@ -72,6 +72,39 @@ public class EmployeesCLI extends HRModuleCLI{
                 else
                     System.out.println("Error");
             }
+        }
+        return true;
+    }
+
+    /**
+     * @return true if the employee was able to update his information
+     * employee menu - 2. update personal Information
+     */
+    public boolean updateInformation() {
+        System.out.println("Please select what do you want to update");
+        System.out.println("1. first name");
+        System.out.println("2. last name");
+        System.out.println("3. bank account");
+        System.out.println("0. Back to main menu");
+        String option = scanner.nextLine();
+        switch (option) {
+            case "1": //first name
+                System.out.println("What is your new first name? ");
+                _loggedUser.setNewFirstName(scanner.nextLine());
+                break;
+            case "2": //last name
+                System.out.println("What is your new last name? ");
+                _loggedUser.setNewLastName(scanner.nextLine());
+                break;
+            case "3": //bank account
+                System.out.println("What is your new bank account? ");
+                _loggedUser.setNewBankAccount(scanner.nextLine());
+                break;
+            case "0": //back to main menu
+                return false;
+            default: //invalid choice
+                System.out.println("Invalid choice");
+                break;
         }
         return true;
     }

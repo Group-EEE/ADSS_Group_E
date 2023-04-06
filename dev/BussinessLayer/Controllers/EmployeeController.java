@@ -1,7 +1,7 @@
 package BussinessLayer.Controllers;
 
-import BussinessLayer.Objects.AEmployee;
 import BussinessLayer.Objects.Employee;
+import BussinessLayer.Objects.RoleType;
 import BussinessLayer.Objects.Store;
 
 import java.util.*;
@@ -11,6 +11,8 @@ public class EmployeeController {
     private HashMap<Integer, Employee> _employees;
     private Scanner scanner;
     private static EmployeeController _employeeController = null;
+
+
     private EmployeeController() {
         scanner = new Scanner(System.in);
         _employees = new HashMap<Integer,Employee>();
@@ -23,21 +25,23 @@ public class EmployeeController {
         }
         return _employeeController;
     }
+
+
     /**
-     * @param first_name - the first name of the employee
-     * @param last_name - the last name of the employee
+     * @param firstName - the first name of the employee
+     * @param lastName - the last name of the employee
      * @param age - the age of the employee
-     * @param id - the id of the employee
+     * @param employeeID - the id of the employee
      * @param bank_account - the bank account of the employee
      * @param password - the password of the employee
      * @return - true if the employee was created successfully, false otherwise
      */
-    public boolean createEmployee(String first_name, String last_name, int age, int id, String bank_account, String password) {
-        if (first_name == null || last_name == null || age < 0 || id < 0 || bank_account == null)
+    public boolean createEmployee(String firstName, String lastName, int age, int employeeID, String bank_account, String password) {
+        if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bank_account == null)
             return false;
-        Employee employee = new Employee(first_name, last_name, age, id, bank_account);
-        _employees.put(id, employee);
-        _passwords.put(id, password);
+        Employee employee = new Employee(firstName, lastName, age, employeeID, bank_account);
+        _employees.put(employeeID, employee);
+        _passwords.put(employeeID, password);
         return true;
     }
 
@@ -48,31 +52,101 @@ public class EmployeeController {
             return _employees.get(id);
         return null;
     }
-    public boolean removeEmployee(int id){
-        if (id < 0)
+
+
+    public boolean changePassword(int employeeID, String newPassword){
+        if (employeeID < 0 || newPassword == null)
             return false;
-        _employees.remove(id);
-        _passwords.remove(id);
-        return true;
-    }
-    public boolean changePassword(int id, String new_password){
-        if (id < 0 || new_password == null)
-            return false;
-        if (_passwords.containsKey(id)){
-            _passwords.replace(id, new_password);
+        if (_passwords.containsKey(employeeID)){
+            _passwords.replace(employeeID, newPassword);
             return true;
         }
         return false;
     }
 
-    public Employee getEmployeeByID(int employee_id){
-        if (employee_id < 0)
-            return null;
+    public Employee getEmployeeByID(int employeeID){
+        if (employeeID < 0)
+            throw new IllegalArgumentException("Illegal employee ID");
         for (Map.Entry<Integer, Employee> entry : _employees.entrySet()){
-            if (entry.getKey().equals(employee_id))
+            if (entry.getKey().equals(employeeID))
                 return entry.getValue();
         }
         return null;
+    }
+
+    /**
+     * @param employeeID - the id of the employee
+     * @return - the employee with the given id, null if the id is invalid
+     */
+    public String getEmployeeFirstNameById(int employeeID){
+        if (employeeID < 0)
+            return null;
+        return getEmployeeByID(employeeID).getFirstName();
+    }
+
+    /**
+     * @param employeeID - the id of the employee
+     * @return the list of roles of the employee
+     * for HRMenuRemoveRoleFromEmployee
+     */
+    public List<RoleType> getRolesById(int employeeID) {
+        if (employeeID <0)
+            return null;
+        Employee employee = getEmployeeByID(employeeID);
+        if (employee == null) {
+            throw new IllegalArgumentException("Employee not found")
+        }
+        return employee.getRoles();
+    }
+
+    /**
+     * @param employeeID - the id of the employee
+     * @return true if the employee was removed successfully, false otherwise
+     */
+    public boolean removeEmployee(int employeeID) {
+        if (employeeID <0)
+            throw new IllegalArgumentException("Illegal employee ID")
+        Employee employee = getEmployeeByID(employeeID);
+        if (employee == null) {
+            throw new IllegalArgumentException("Employee not found")
+        }
+        List<Store> stores = employee.getStores();
+        for (Store store : stores) {
+            if (!store.removeEmployee(employee))
+                return false;
+        }
+        this._employees.remove(employeeID);
+        this._passwords.remove(employeeID);
+        return true;
+    }
+
+    /**
+     * @param employeeID - the id of the employee
+     * @param role - the role to remove
+     * @return true if the role was removed successfully, false otherwise
+     */
+    public boolean removeRoleFromEmployee(int employeeID, RoleType role) {
+        if (employeeID <0 || role == null)
+            return false;
+        Employee employee = getEmployeeByID(employeeID);
+        if (employee == null)
+            return false;
+        return employee.removeRole(role);
+    }
+
+
+    /**
+     * @param employeeID - the id of the employee
+     * @param role - the role of the employee
+     * @return - true if the role was added successfully, false otherwise
+     */
+    public boolean addRoleToEmployee(int employeeID, RoleType role) {
+        if (employeeID <0 || role == null)
+            throw new IllegalArgumentException("Invalid arguments");
+        Employee employee = getEmployeeByID(employeeID);
+        if (employee == null)
+            throw new IllegalArgumentException("employee not found");
+        return employee.addRole(role);
     }
 
 }

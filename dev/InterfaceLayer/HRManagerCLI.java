@@ -1,5 +1,6 @@
 package InterfaceLayer;
 
+import BussinessLayer.Controllers.Facade;
 import BussinessLayer.Objects.RoleType;
 import BussinessLayer.Objects.Schedule;
 import BussinessLayer.Objects.Shift;
@@ -8,10 +9,13 @@ import BussinessLayer.Objects.Store;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
 
-public class HRManagerCLI extends HRModuleCLI{
+public class HRManagerCLI{
 
     private static HRManagerCLI _HRManagerCLI = null;
+    private Facade _facade = Facade.getInstance();
+    private Scanner scanner;
     private HRManagerCLI(){}
 
     public static HRManagerCLI getInstance(){
@@ -26,7 +30,7 @@ public class HRManagerCLI extends HRModuleCLI{
             choice = scanner.nextLine();
             switch (choice) {
                 case "1":
-                    HRMenuCreateEmployee(); //1. create new employee
+                    HRMenuCreateEmployee(false); //1. create new employee
                     break;
                 case "2":
                     HRMenuCreateStore(); //2. create new store
@@ -63,7 +67,7 @@ public class HRManagerCLI extends HRModuleCLI{
                 case "13":
                     HRMenuSelectRequiredRoles();
                 case "0":
-                    _loggedUser = null;
+                    _facade.logout();
                     return;
                 default:
                     System.out.println("Invalid choice");
@@ -72,11 +76,12 @@ public class HRManagerCLI extends HRModuleCLI{
         }
     }
 
+
     /**
      * @return true if the employee was created successfully
      * 1. create new employee
      */
-    public boolean HRMenuCreateEmployee(){
+    public boolean HRMenuCreateEmployee(boolean isHRManager){
         boolean valid = false;
         int age = 0;
         String first_name = "";
@@ -117,10 +122,44 @@ public class HRManagerCLI extends HRModuleCLI{
             password = scanner.nextLine();
             System.out.println("Bank account:");
             bank_account = scanner.nextLine();
-            _employeeController.createEmployee(first_name, last_name, age, id, bank_account,password);
+            _facade.createEmployee(first_name, last_name, age, id, bank_account,password);
         }
         return true;
     }
+
+    /**
+     * @return true if the employee was able to update his information
+     * hr menu - 7. update personal information
+     */
+    public boolean updateInformation() {
+        System.out.println("Please select what do you want to update");
+        System.out.println("1. first name");
+        System.out.println("2. last name");
+        System.out.println("3. bank account");
+        System.out.println("0. Back to main menu");
+        String option = scanner.nextLine();
+        switch (option) {
+            case "1": //first name
+                System.out.println("What is your new first name? ");
+                _facade.setNewFirstName(scanner.nextLine());
+                break;
+            case "2": //last name
+                System.out.println("What is your new last name? ");
+                _facade.setNewLastName(scanner.nextLine());
+                break;
+            case "3": //bank account
+                System.out.println("What is your new bank account? ");
+                _facade.setNewBankAccount(scanner.nextLine());
+                break;
+            case "0": //back to main menu
+                return false;
+            default: //invalid choice
+                System.out.println("Invalid choice");
+                break;
+        }
+        return true;
+    }
+
 
     /**
      * @return true if the store was created successfully, false otherwise
@@ -136,35 +175,46 @@ public class HRManagerCLI extends HRModuleCLI{
                 System.out.println("Store id:");
                 storeId = scanner.nextInt();
                 valid = true;
-            }
-            catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 System.out.println("Invalid store ID");
             }
+            String storeName = scanner.nextLine();
+            System.out.println("Store address:");
+            String storeAddress = scanner.nextLine();
+            try {
+                _facade.createStore(storeId, storeName, storeAddress);
+                valid = true;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         }
-        String storeName = scanner.nextLine();
-        System.out.println("Store address:");
-        String store_address = scanner.nextLine();
-        return _storeController.createStore(storeId,storeName, store_address);
+        return true;
     }
 
     /**
      * @return true if the employee was added successfully, false otherwise
      * 3. add employee to the store
      */
-    public boolean HRMenuAddEmployeeToStore(){
+    public boolean HRMenuAddEmployeeToStore() {
         System.out.println("Please enter the following details:");
-        Store store = getStoreByString();
-        if (store == null)
-            return false;
-        System.out.println("Employee ID:");
-        int employee_id = validInput("Please enter valid employee ID",0);
-        if (_HRManager.addEmployeeToStore(employee_id, store)) {
-            System.out.println("Employee was added successfully");
-            return true;
+        boolean valid = false;
+        while (!valid) {
+            String storeName = getStoreName();
+            if (storeName == null)
+                return false;
+            System.out.println("Employee ID:");
+            int employeeID = validInput("Please enter valid employee ID", 0);
+            if (employeeID == 0)
+                return false;
+            try{
+                _facade.addEmployeeToStore(employeeID, storeName);
+                System.out.println("Employee was added successfully");
+                valid = true;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         }
-        else
-            System.out.println("Employee was not added successfully");
-        return false;
+        return true;
     }
 
     /**
@@ -174,9 +224,9 @@ public class HRManagerCLI extends HRModuleCLI{
     public boolean HRMenuAddRoleToEmployee(){
         System.out.println("Please enter the following details:");
         System.out.println("Employee ID:");
-        int employee_id = validInput("Please enter valid employee ID",0);
+        int employeeID = validInput("Please enter valid employee ID",0);
         RoleType new_role = getRoleByMenu();
-        return _HRManager.addRoleToEmployee(employee_id, new_role);
+        return _facade.addRoleToEmployee(employeeID, new_role);
     }
 
     /**
@@ -360,13 +410,15 @@ public class HRManagerCLI extends HRModuleCLI{
     public int validInput(String error,int min){
         boolean valid = false;
         int input = 0;
+        System.out.println("Enter 0 to quit");
         while (!valid) {
             try {
                 System.out.println("Please enter the employee ID:");
                 input = scanner.nextInt();
+                if (input == 0)
+                    return 0;
                 if (input < min){
-                    System.out.println("Invalid input.");
-                    continue;
+                    throw new InputMismatchException();
                 }
                 valid = true;
             } catch (InputMismatchException e) {
@@ -396,7 +448,7 @@ public class HRManagerCLI extends HRModuleCLI{
         return input;
     }
 
-    public Store getStoreByString(){
+    public String getStoreName(){
         System.out.println("Please enter the Store name:");
         System.out.println("Enter '0' to exit");
         String input = "1";
@@ -406,13 +458,8 @@ public class HRManagerCLI extends HRModuleCLI{
             input = scanner.nextLine();
             if (input.equals("0"))
                 return null;
-            store = _storeController.getStoreByName(input);
-            if (store == null){
-                System.out.println("There is no store with this name");
-                System.out.println("Please enter a valid store name");
-            }
         }
-        return store;
+        return input;
     }
 
     /**
@@ -421,10 +468,10 @@ public class HRManagerCLI extends HRModuleCLI{
      */
     public boolean HRMenuRemoveRoleFromEmployee(){
         System.out.println("Please enter the employee ID:");
-        int employee_id = validInput("Please enter a valid integer for the employee ID",0);
-        System.out.println("Please select what role to remove from "+_HRManager.getEmployeeFirstNameById(employee_id));
+        int employeeID = validInput("Please enter a valid integer for the employee ID",0);
+        System.out.println("Please select what role to remove from "+_HRManager.getEmployeeFirstNameById(employeeID));
         System.out.println("Please enter the role ID:");
-        List<RoleType> roles = _HRManager.getRolesById(employee_id);
+        List<RoleType> roles = _HRManager.getRolesById(employeeID);
         for(int i=0; i<roles.size(); i++){
             System.out.println(i+". "+roles.get(i));
         }
@@ -433,7 +480,7 @@ public class HRManagerCLI extends HRModuleCLI{
         int roleChoice = validInput("Please enter a valid integer for the role",0,roles.size());
         if (roleChoice == 0)
             return false;
-        return _HRManager.removeRoleFromEmployee(employee_id, roles.get(roleChoice));
+        return _HRManager.removeRoleFromEmployee(employeeID, roles.get(roleChoice));
     }
 
     /**
@@ -442,10 +489,10 @@ public class HRManagerCLI extends HRModuleCLI{
      */
     public boolean HRMenuRemoveEmployeeFromStore(){
         System.out.println("Please enter the employee ID:");
-        int employee_id = scanner.nextInt();
+        int employeeID = scanner.nextInt();
         System.out.println("Please enter the store name:");
         String storeName = scanner.nextLine();
-        return _HRManager.removeEmployeeFromStore(employee_id, storeName);
+        return _HRManager.removeEmployeeFromStore(employeeID, storeName);
     }
 
     /**
@@ -454,8 +501,8 @@ public class HRManagerCLI extends HRModuleCLI{
      */
     public boolean HRMenuRemoveEmployeeFromSystem(){
 
-        int employee_id = scanner.nextInt();
-        if (_HRManager.removeEmployee(employee_id)){
+        int employeeID = scanner.nextInt();
+        if (_HRManager.removeEmployee(employeeID)){
             System.out.println("Employee was removed successfully");
             return true;
         }
