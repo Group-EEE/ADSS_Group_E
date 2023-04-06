@@ -5,9 +5,9 @@ import java.util.Scanner;
 //the main represents the "SuperLi" supply system. it is a UI that helps the employee gets information
 //of all the products, reports, discounts etc to help him control the supply in store
 public class Main {
-    static ProductController productController = new ProductController();
-    static CategoryController categoryController = new CategoryController();
-    static ReportController reportController = new ReportController();
+    static ProductController productController = new ProductController(); //create a product controller
+    static CategoryController categoryController = new CategoryController(); //create a category controller
+    static ReportController reportController = new ReportController(); //create a report controller
     public static void main(String[] args) {
         while(true){ //main menu of all possible choices of information the employee needs
             Scanner option = new Scanner(System.in);
@@ -19,7 +19,8 @@ public class Main {
             System.out.println("5. SubCategories");
             System.out.println("6. SubSubCategories");
             System.out.println("7. Discounts");
-            System.out.println("8. Super-Li dataBase exist information");
+            System.out.println("8. Super-Li dataBase exist information");//option to charge information like
+            //data base
             int c = option.nextInt();
             switch (c) {
                 case 1: //sub menu - everything about products
@@ -30,6 +31,7 @@ public class Main {
                     int c1 = option1.nextInt();
                     switch (c1) {
                         case 1:
+                            //get from the warehouse manager all the information needed to create new product
                             Scanner b = new Scanner(System.in);
                             System.out.println("Please enter Barcode:");
                             int Barcode = b.nextInt();
@@ -63,11 +65,13 @@ public class Main {
                             Scanner ma = new Scanner(System.in);
                             System.out.println("Please enter Minimum amount:");
                             int Minimumamount = ma.nextInt();
+                            //add the new product to the controller, inside there is a call to the constructor
                             productController.addProduct(Barcode, Name, SupplierName, Supplierprice,
                                     Costumerprice, Category,Subcategory, Subsubcategory,
                                     Supplydays,Manufacturer,Minimumamount);
                             break;
                         case 2:
+                            //call the function that print all products barcodes
                             productController.GetAllProductBarcode();
                             break;
                     }
@@ -84,6 +88,7 @@ public class Main {
                     int c2 = option2.nextInt();
                     switch (c2) {
                         case 1:
+                            //get from the warehouse manager all the information needed to create new spec. product
                             Scanner b = new Scanner(System.in);
                             System.out.println("Please enter Barcode:");
                             int Barcode = b.nextInt();
@@ -115,24 +120,28 @@ public class Main {
                             Scanner s = new Scanner(System.in);
                             System.out.println("If the product has discount please enter start Date yyyy-MM-dd else press null:");
                             String start = s.nextLine();
-                            if(start.compareTo("null")==0){
+                            if(start.compareTo("null")==0){ //there is no discount
                                 start = "1111-11-11";
                             }
+                            //create local date time for the discount object
                             LocalDateTime startdate = LocalDateTime.parse(start + "T00:00:00");
                             Scanner e = new Scanner(System.in);
                             System.out.println("If the product has discount please enter end Date yyyy-MM-dd else press null:");
-                            String end = s.nextLine();
-                            if(end.compareTo("null")==0){
+                            String end = e.nextLine();
+                            if(end.compareTo("null")==0){ //there is no discount
                                 end = "1111-11-11";
                             }
+                            //create local date time for the discount object
                             LocalDateTime enddate = LocalDateTime.parse(end+"T00:00:00");
-                            Product p = productController.getProductByBarcode(Barcode);
-                            if(p!=null) {
-                                Discount dd = new Discount(startdate, enddate, aDiscount);
+                            Product p = productController.getProductByBarcode(Barcode); //find the general product
+                            if(p!=null) { //general product found
+                                Discount dd = new Discount(startdate, enddate, aDiscount); //create the discount
+                                //use function add spec. product of this general product thar found. call to
+                                //specific product constructor inside
                                 p.addSpecificProduct(Barcode,aExp_date, aDefective, aDefect_report_by,
                                 aInWarehouse,aStoreBranch,aLocationInStore,dd, defectype);
                             }
-                            else{
+                            else{ //general product wasnt found
                                 System.out.println("Product doesn't exist in store!");
                             }
                             break;
@@ -144,10 +153,10 @@ public class Main {
                             System.out.println("Please enter specific product id:");
                             int spid = sp.nextInt();
                             Product np = productController.getProductByBarcode(barcode);
-                            if(np!=null){
+                            if(np!=null){ //general product found
                                 np.removeSpecificProduct(spid);
                             }
-                            else{
+                            else{//general product wasnt found
                                 System.out.println("Product wasn't found!");
                             }
                             break;
