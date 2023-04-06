@@ -55,19 +55,10 @@ public class Site_Supply {
         return (doc_id == this.id);
     }
 
-    //    public boolean delete_item(String item, int amount){
-//        if (!items.containsKey(item)){
-//            System.out.println("There's no such item.");
-//            return false;
-//        } else if (items.get(item) - amount < 0) {
-//            System.out.println("there's no such amount of this item in the ");
-//        }
-//    }
 
     // display
     public void sDisplay(){
         System.out.println("\t =========== Site Supply - " + id + " - information ===========");
-//        System.out.println("\t Site Supply ID Number: " + id);
         System.out.println("\t Store name: " + store.getSite_n());
         System.out.println("\t Origin: " + origin);
         System.out.println("\t ======= Items =======");
