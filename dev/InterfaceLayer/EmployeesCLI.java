@@ -1,5 +1,6 @@
 package InterfaceLayer;
 
+import BussinessLayer.Controllers.Facade;
 import BussinessLayer.Objects.Employee;
 import BussinessLayer.Objects.Schedule;
 import BussinessLayer.Objects.Store;
@@ -9,8 +10,11 @@ import java.util.InputMismatchException;
 
 public class EmployeesCLI {
     private static EmployeesCLI _employeesCLI;
+    private static Facade _facade = Facade.getInstance();
+    private Scanner scanner;
 
     private EmployeesCLI() {
+        scanner = new Scanner(System.in);
     }
 
     public static EmployeesCLI getInstance() {
@@ -38,7 +42,7 @@ public class EmployeesCLI {
                 case "2":
                     updateInformation();
                 case "0":
-                    _loggedUser = null;
+                    _facade.logout();
                     return;
                 default:
                     System.out.println("Invalid choice");
@@ -90,15 +94,15 @@ public class EmployeesCLI {
         switch (option) {
             case "1": //first name
                 System.out.println("What is your new first name? ");
-                _loggedUser.setNewFirstName(scanner.nextLine());
+                _facade.setNewFirstName(scanner.nextLine());
                 break;
             case "2": //last name
                 System.out.println("What is your new last name? ");
-                _loggedUser.setNewLastName(scanner.nextLine());
+                _facade.setNewLastName(scanner.nextLine());
                 break;
             case "3": //bank account
                 System.out.println("What is your new bank account? ");
-                _loggedUser.setNewBankAccount(scanner.nextLine());
+                _facade.setNewBankAccount(scanner.nextLine());
                 break;
             case "0": //back to main menu
                 return false;

@@ -34,7 +34,7 @@ public class StoreController {
             throw new IllegalArgumentException("Store already has this name");
         if (_storesByID.containsKey(storeId))
             throw new IllegalArgumentException("Store already has this id");
-        Store newStore = new Store(storeId,storeName, storeAddress));
+        Store newStore = new Store(storeId,storeName, storeAddress);
         _storesByID.put(storeId, newStore);
         _storesByName.put(storeName, newStore);
         return true;
@@ -69,13 +69,13 @@ public class StoreController {
     }
 
     /**
-     * @param id_employee - the id of the employee
-     * @param store_name - the name of the store
-     * @return - true if the employee was added successfully, false otherwise
+     * @param employee - the employee to add
+     * @param storeName - the name of the store
+     * @return
      */
     public boolean addEmployeeToStore(Employee employee, String storeName) {
         if (employee == null || storeName == null)
-            throw new IllegalArgumentException("Invalid employee id or store name")
+            throw new IllegalArgumentException("Invalid employee id or store name");
         Store store = getStoreByName(storeName);
         if (store == null)
             throw new IllegalArgumentException("Invalid store name");
@@ -83,48 +83,41 @@ public class StoreController {
     }
 
     /**
-     * @param store_name - the name of the store
+     * @param storeName - the name of the store
      * @return the store with the given name
      */
-    public Store findStoreByName(String store_name) {
-        if (store_name == null)
-            return null;
-        for (Store store : this._stores) {
-            if (store.getName().equals(store_name)) {
-                return store;
+    public Store findStoreByName(String storeName) {
+        if (storeName == null)
+            throw new IllegalArgumentException("Invalid store name");
+        for (Map.Entry<String,Store> entry : _storesByName.entrySet()) {
+            if (entry.getKey().equals(storeName)) {
+                return entry.getValue();
             }
         }
-        return null;
+        throw new IllegalArgumentException("Store not found");
     }
 
     /**
-     * @param id_employee - the id of the employee
-     * @param store_name - the name of the store
+     * @param employeeID - the id of the employee
+     * @param storeName - the name of the store
      * @return
      */
-    public boolean removeEmployeeFromStore(int id_employee, String store_name) {
-        if (id_employee <0 || store_name == null)
-            return false;
-        Store store = findStoreByName(store_name);
-        if (store == null) {
-            return false;
-        }
-        Employee employee = findEmployeeByID(id_employee);
-        if (employee == null) {
-            return false;
-        }
+    public boolean removeEmployeeFromStore(Employee employee, String storeName) {
+        if (employee == null || storeName == null)
+            throw new IllegalArgumentException("Invalid employee or store name");
+        Store store = findStoreByName(storeName);
         store.removeEmployee(employee);
         return true;
     }
 
     /**
-     * @param store_name - the name of the store
+     * @param storeName - the name of the store
      * @return true if the store was removed successfully, false otherwise
      */
-    public boolean removeStore(String store_name) {
-        if (store_name == null)
-            return false;
-        Store store = findStoreByName(store_name);
+    public boolean removeStore(String storeName) {
+        if (storeName == null)
+            throw new IllegalArgumentException("Invalid store name");
+        Store store = findStoreByName(storeName);
         if (store == null) {
             return false;
         }
@@ -133,7 +126,8 @@ public class StoreController {
             if (!employee.removeStore(store))
                 return false;
         }
-        this._stores.remove(store);
+        this._storesByName.remove(store);
+        this._storesByID.remove(store);
         return true;
     }
 }

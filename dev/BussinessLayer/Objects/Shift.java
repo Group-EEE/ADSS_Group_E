@@ -24,10 +24,10 @@ public class Shift{
         this._endHour = endTime;
         this._shiftLength = endTime - startTime;
         this._date = date;
-        this._requiredRoles.add(new CashierRole());
-        this._requiredRoles.add(new ShiftManagerRole());
-        this._requiredRoles.add(new WarehouseRole());
-        this._requiredRoles.add(new GeneralRole());
+        this._requiredRoles.add(RoleType.Cashier);
+        this._requiredRoles.add(RoleType.ShiftManager);
+        this._requiredRoles.add(RoleType.Warehouse);
+        this._requiredRoles.add(RoleType.General);
     }
 
     /**
@@ -36,13 +36,14 @@ public class Shift{
      */
     public boolean setStartHour(int startTime) {
         if (startTime < 0 || startTime > 24)
-            return false;
+            throw new IllegalArgumentException("Start time must be between 0 and 24");
         if (startTime > _endHour)
-            return false;
-        this._startHour = startTime;
+            throw new IllegalArgumentException("Start time cannot be after end time");
+        if (_endHour - _startHour < 0) {
+            throw new IllegalArgumentException("Shift length cannot be negative");
+        }
         _shiftLength = _endHour - _startHour;
-        if (_shiftLength < 0)
-            return false;
+        this._startHour = startTime;
         return true;
     }
 
@@ -52,13 +53,13 @@ public class Shift{
      */
     public boolean setEndHour(int endTime) {
         if (endTime < 0 || endTime > 24)
-            return false;
+            throw new IllegalArgumentException("End time must be between 0 and 24");
         if (endTime < _startHour)
-            return false;
+            throw new IllegalArgumentException("End time cannot be before start time");
+        if (_endHour - _startHour < 0)
+            throw new IllegalArgumentException("Shift length cannot be negative");
         this._endHour = endTime;
         _shiftLength = _endHour - _startHour;
-        if (_shiftLength < 0)
-            return false;
         return true;
     }
 
@@ -163,8 +164,6 @@ public class Shift{
             return false;
         if (!removeInquiredEmployee(employee))
             return false;
-        if (!role.setEmployee(employee))
-            return false;
 
         return _filledRoles.add(role);
     }
@@ -174,5 +173,52 @@ public class Shift{
             _rejected = false;
         _approved = approved;
         return true;
+    }
+
+    public boolean approveShift(){
+        if (_approved || _rejected) //shift was already approved or canceled.
+            return false;
+        //first we assign all the employee that has only one match.
+        for (Employee employee : _inquiredEmployees){
+            RoleType role = findMatch(shift, employee);
+            if (role != null){
+                //we found a match, we remove the employee from the seaching list and add the role to the
+                if (!shift.addFilledRole(role, employee))
+                    return false;
+            }
+        }
+        for (RoleType role : shift.getRequiredRoles()) {
+            if (role.hasEmployee())
+                continue;
+            for (Employee employee : shift.getInquiredEmployees()) {
+                if (employee.getRoles().contains(role)){
+                    if (!shift.addFilledRole(role, employee))
+                        return false;
+                    break;
+                }
+            }
+        }
+        if (shift.getRequiredRoles().size() == 0){
+            shift.setApproved(true);
+        }
+        else
+            return false;
+        return true;
+    }
+
+    public RoleType findMatch(Shift shift, Employee employee){
+        if (shift == null || employee == null)
+            return null;
+        int counter = 0;
+        RoleType lastRole = null;
+        for (RoleType Role : employee.getRoles()) {
+            if (shift.getRequiredRoles().contains(Role)){
+                counter++;
+                lastRole = Role;
+            }
+        }
+        if (counter == 1)
+            return lastRole;
+        return null;
     }
 }

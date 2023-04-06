@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Employee{
-    private List<Store> _stores = new ArrayList<Store>();
-    private List<RoleType> _roles = new ArrayList<RoleType>();
-    private int _id;
+    private final List<Store> _stores = new ArrayList<Store>();
+    private final List<RoleType> _roles = new ArrayList<RoleType>();
+    private final int _id;
     private String _firstName;
     private String _lastName;
     private int _age;
@@ -88,13 +88,13 @@ public class Employee{
     }
 
     /**
-     * @param role - the role to remove from the employee
+     * @param roleIndex - the index of the role to remove from the employee
      * @return true if the role was removed successfully, false otherwise
      */
-    public boolean removeRole(RoleType role){
-        if (role == null)
-            return false;
-        _roles.remove(role);
+    public boolean removeRole(int roleIndex){
+        if (roleIndex < 1 || roleIndex > this._roles.size())
+            throw new IllegalArgumentException("Illegal role index");
+        this._roles.remove(roleIndex-1);
         return true;
     }
 

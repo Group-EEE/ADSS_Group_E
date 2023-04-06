@@ -23,6 +23,25 @@ public class HRManagerCLI{
             _HRManagerCLI = new HRManagerCLI();
         return _HRManagerCLI;
     }
+
+    public void printHRMenu() {
+        System.out.println("Please select the following options");
+        System.out.println("1. create new employee");
+        System.out.println("2. create new store");
+        System.out.println("3. add employee to store");
+        System.out.println("4. add role to employee");
+        System.out.println("5. create new schedule");
+        System.out.println("6. approve shifts");
+        System.out.println("7. update personal information");
+        System.out.println("8. change schedule hours");
+        System.out.println("9. remove role from employee");
+        System.out.println("10. remove employee from store");
+        System.out.println("11. remove employee from system");
+        System.out.println("12. remove store from system");
+        System.out.println("13. select required roles for a schedule");
+        System.out.println("0. log out");
+    }
+
     public void HRMenu() {
         String choice = "1";
         while (choice != "0") {
@@ -54,6 +73,7 @@ public class HRManagerCLI{
                     HRMenuChangeHours();
                     break;
                 case "9": // 9. remove role from employee
+                    HRMenuRemoveRoleFromEmployee();
                     break;
                 case "10":
                     HRMenuRemoveEmployeeFromStore();
@@ -160,7 +180,6 @@ public class HRManagerCLI{
         return true;
     }
 
-
     /**
      * @return true if the store was created successfully, false otherwise
      * 2. create new store
@@ -226,7 +245,13 @@ public class HRManagerCLI{
         System.out.println("Employee ID:");
         int employeeID = validInput("Please enter valid employee ID",0);
         RoleType new_role = getRoleByMenu();
-        return _facade.addRoleToEmployee(employeeID, new_role);
+        try{ _facade.addRoleToEmployee(employeeID, new_role); }
+        catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Role was not added to the employee");
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -272,41 +297,21 @@ public class HRManagerCLI{
      */
     public boolean HRMenuCreateNewSchedule(){
         scanner.nextLine();
-        System.out.println("Please enter the Store id:");
+        System.out.println("Please enter the Store name:");
         System.out.println("Enter 0 to exit");
-        int storeId = 0;
-        Store store = null;
-
-        while (storeId != 0 && store == null){
-            try {
-                storeId = scanner.nextInt();
-                if (storeId == 0)
-                    return false;
-                store = _storeController.getStoreByID(storeId);
-                if (store == null){
-                    System.out.println("There is no store with this name");
-                    System.out.println("Please enter a valid store name");
-                }
-            }
-            catch (InputMismatchException e){
-                System.out.println("Please enter a valid integer");
-            }
-        }
-        Schedule store_scedule = store.getCurrSchedule();
-        if (store_scedule != null){
-            System.out.println("There is already a schedule");
-            System.out.println("You must approve a schedule before creating a new one");
+        String storeName = scanner.nextLine();
+       if (storeName.equals("0"))
             return false;
-        }
-
         System.out.println("Please enter the start date of the schedule (dd/mm/yyyy):");
         int day = validInput("Please enter a valid integer for the day.",1,31);
         int month = validInput("Please enter a valid integer for the month.",1,12);
         int year = validInput("Please enter a valid integer for the year.",2020,2025);
-
-        LocalDate start_date = LocalDate.of(year, month, day);
-        store_scedule = new Schedule(start_date);
-
+        try{
+            _facade.createNewSchedule(storeName, day, month, year);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
         return true;
     }
 
@@ -314,42 +319,36 @@ public class HRManagerCLI{
      * @return true if the schedule was approved successfully, false otherwise
      * approve schedule
      */
-    public boolean HRMenuApproveSchedule(){
+    public boolean HRMenuApproveSchedule() {
         System.out.println("Please enter the Store name:");
         System.out.println("Enter '0' to exit");
         String storeName = "1";
         Store store = null;
         scanner.nextLine();
-        while (!storeName.equals("0") && store == null){
+        while (!storeName.equals("0")) {
             storeName = scanner.nextLine();
             if (storeName.equals("0"))
                 return false;
-            store = _storeController.getStoreByName(storeName);
-            if (store == null){
-                System.out.println("There is no store with this name");
-                System.out.println("Please enter a valid store name");
-            }
         }
-        Schedule store_scedule = store.getCurrSchedule();
-        if (store_scedule == null){
-            System.out.println("There is no schedule");
-            System.out.println("You must create a schedule before approving it");
+        List<Shift> rejectShifts;
+        try {
+            rejectShifts = _facade.approveSchedule(storeName);
+        } catch (InputMismatchException e) {
+            System.out.println(e.getMessage());
             return false;
         }
-        List<Shift> rejectShifts = _HRManager.approveSchedule(store_scedule);
-        for(Shift shift : rejectShifts){
+        for (Shift shift : rejectShifts) {
             System.out.println("The shift " + shift + " was rejected");
-            for (RoleType role : shift.getRequiredRoles()){
+            for (RoleType role : shift.getRequiredRoles()) {
                 System.out.println("The role " + role + " didn't have an employee");
                 System.out.println("Do you want to remove this role from the shift? (Y)");
                 String choice = scanner.nextLine();
-                if (choice.equals("Y") || choice.equals("y")){
+                if (choice.equals("Y") || choice.equals("y")) {
                     shift.removeRequiredRole(role);
                 }
 
             }
         }
-        //return _HRManager.approveSchedule(store_scedule);
         return true;
     }
 
@@ -360,27 +359,29 @@ public class HRManagerCLI{
     public boolean HRMenuChangeHours(){
         System.out.println("Please enter the Store name:");
         String storeName = scanner.nextLine();
-        Store store = _storeController.getStoreByName(storeName);
-        Schedule store_scedule = store.getCurrSchedule();
-        if (store_scedule == null){
-            System.out.println("There is no schedule");
-            System.out.println("You must create a schedule before changing the hours");
+        try{
+            _facade.printSchedule(storeName);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
             return false;
         }
-        System.out.println("Please enter 'Y' or 'Yes' in order to change the hours to the shift");
-        for (int i = 0; i < 14; i++) {
-            System.out.println(store_scedule.getShift(i));
-            String choice = scanner.nextLine();
-            System.out.println("Change hours? (Y/N)");
-            if (choice == "Y" || choice == "Yes"){
-                System.out.println("Please enter the start hour of the shift:");
-                int start_hour = validInput("Please enter a valid start hour for the day",0,12);
-                System.out.println("Please enter the end hour of the shift:");
-                int end_hour = validInput("Please enter a valid end hour for the day",12,24);
-                if (!store_scedule.getShift(i).setStartHour(start_hour))
-                    return false;
-                if (!store_scedule.getShift(i).setEndHour(end_hour))
-                    return false;
+        boolean valid = false;
+        while (!valid){
+            System.out.println("Please enter the number of the shift you want to change");
+            System.out.println("Enter 0 to exit");
+            int shiftNum = validInput("Please enter a valid integer",0,14);
+            if (shiftNum == 0)
+                return true;
+            System.out.println("Please select the new start hour");
+            int startHour = validInput("Please enter a valid integer",0,23);
+            System.out.println("Please select the new end hour");
+            int endHour = validInput("Please enter a valid integer",0,23);
+            try{
+                _facade.changeHoursShift(storeName,shiftNum,startHour,endHour);
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage());
             }
         }
         return true;
@@ -469,18 +470,26 @@ public class HRManagerCLI{
     public boolean HRMenuRemoveRoleFromEmployee(){
         System.out.println("Please enter the employee ID:");
         int employeeID = validInput("Please enter a valid integer for the employee ID",0);
-        System.out.println("Please select what role to remove from "+_HRManager.getEmployeeFirstNameById(employeeID));
+        System.out.println("Please select what role to remove from "+_facade.getEmployeeFirstNameById());
         System.out.println("Please enter the role ID:");
-        List<RoleType> roles = _HRManager.getRolesById(employeeID);
-        for(int i=0; i<roles.size(); i++){
-            System.out.println(i+". "+roles.get(i));
-        }
         System.out.println("0. Cancel");
-        boolean validRoleChoice = false;
+        try {
+            _facade.printEmployeeRoles(employeeID);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
         int roleChoice = validInput("Please enter a valid integer for the role",0,roles.size());
         if (roleChoice == 0)
             return false;
-        return _HRManager.removeRoleFromEmployee(employeeID, roles.get(roleChoice));
+        try{
+            _facade.removeRoleFromEmployee(employeeID, roleChoice);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -492,7 +501,13 @@ public class HRManagerCLI{
         int employeeID = scanner.nextInt();
         System.out.println("Please enter the store name:");
         String storeName = scanner.nextLine();
-        return _HRManager.removeEmployeeFromStore(employeeID, storeName);
+        try{
+            _facade.removeEmployeeFromStore(employeeID, storeName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -500,17 +515,19 @@ public class HRManagerCLI{
      * 11. remove employee from system
      */
     public boolean HRMenuRemoveEmployeeFromSystem(){
-
-        int employeeID = scanner.nextInt();
-        if (_HRManager.removeEmployee(employeeID)){
+        int employeeID = validInput("Please enter a valid integer for the employee ID",1);
+        if (employeeID == 0)
+            return false;
+        try{
+            _facade.removeEmployee(employeeID);
             System.out.println("Employee was removed successfully");
-            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Employee was not removed");
+            return false;
         }
-        System.out.println("Employee was not removed");
-        return false;
+        return true;
     }
-
-
 
     /**
      * @return true if the store was removed successfully, false otherwise
@@ -518,8 +535,17 @@ public class HRManagerCLI{
      */
     public boolean HRMenuRemoveStoreFromSystem(){ //12. remove store
         System.out.println("Please enter the store name:");
+        System.out.println("Enter '0' to exit");
         String storeName = scanner.nextLine();
-        return _HRManager.removeStore(storeName);
+        if (storeName.equals("0"))
+            return false;
+        try{ _facade.removeStore(storeName); }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Store was not removed");
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -589,22 +615,5 @@ public class HRManagerCLI{
         System.out.println("7. usher");
         System.out.println("0. Back to main menu");
     }
-    public void printHRMenu() {
 
-        System.out.println("Please select the following options");
-        System.out.println("1. create new employee");
-        System.out.println("2. create new store");
-        System.out.println("3. add employee to store");
-        System.out.println("4. add role to employee");
-        System.out.println("5. create new schedule");
-        System.out.println("6. approve shifts");
-        System.out.println("7. update personal information");
-        System.out.println("8. change schedule hours");
-        System.out.println("9. remove role from employee");
-        System.out.println("10. remove employee from store");
-        System.out.println("11. remove employee from system");
-        System.out.println("12. remove store from system");
-        System.out.println("13. select required roles for a schedule");
-        System.out.println("0. log out");
-    }
 }

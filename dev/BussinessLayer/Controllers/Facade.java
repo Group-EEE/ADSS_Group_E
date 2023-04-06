@@ -1,7 +1,9 @@
 package BussinessLayer.Controllers;
 
-import BussinessLayer.Objects.Employee;
-import BussinessLayer.Objects.RoleType;
+import BussinessLayer.Objects.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 public class Facade {
     private Employee _loggedUser;
@@ -22,6 +24,7 @@ public class Facade {
             _facade = new Facade();
         return _facade;
     }
+
     //_employeeController
     public Employee login(int id, String password){
         _loggedUser =  _employeeController.login(id, password);
@@ -42,29 +45,36 @@ public class Facade {
     }
 
     public boolean logout(){
+        if (_loggedUser == null)
+            throw new IllegalArgumentException("No user is logged in");
         _loggedUser = null;
         return true;
+    }
+
+    public boolean printEmployeeRoles(int employeeID){
+        return _employeeController.printEmployeeRoles(employeeID);
+    }
+
+    public boolean removeRoleFromEmployee(int employeeID, int roleIndex){ //the index needs to be -1 less
+        return _employeeController.removeRoleFromEmployee(employeeID, roleIndex);
     }
 
     public boolean setNewFirstName(String firstName){
         if (firstName == null)
             throw new IllegalArgumentException("Invalid first name");
-        _loggedUser.setNewFirstName(firstName);
-        return true;
+        return _loggedUser.setNewFirstName(firstName);
     }
 
     public boolean setNewLastName(String lastName){
         if (lastName == null)
             throw new IllegalArgumentException("Invalid last name");
-        _loggedUser.setNewLastName(lastName);
-        return true;
+        return _loggedUser.setNewLastName(lastName);
     }
 
     public boolean setNewBankAccount(String bankAccount){
         if (bankAccount == null)
             throw new IllegalArgumentException("Invalid bank account");
-        _loggedUser.setNewBankAccount(bankAccount);
-        return true;
+        return _loggedUser.setNewBankAccount(bankAccount);
     }
 
     public boolean createEmployee(String firstName, String lastName, int age, int id, String bankAccount, String password) {
@@ -77,9 +87,20 @@ public class Facade {
         return _employeeController.addRoleToEmployee(employeeID, role);
     }
 
+    public String getEmployeeFirstNameById(int employeeID){
+        return _employeeController.getEmployeeFirstNameById(employeeID);
+    }
+
+    public boolean removeEmployee(int employeeID){
+        return _employeeController.removeEmployee(employeeID);
+    }
     //_storeController
     public boolean createStore(int storeId, String storeName, String storeAddress){
         return _storeController.createStore(storeId, storeName, storeAddress);
+    }
+
+    public boolean removeStore(String storeName){
+        return _storeController.removeStore(storeName);
     }
 
     public boolean addEmployeeToStore(int employeeID, String storeName){
@@ -87,5 +108,33 @@ public class Facade {
         if (employee == null)
             throw new IllegalArgumentException("Invalid employee id");
         return _storeController.addEmployeeToStore(employee, storeName);
+    }
+
+    public boolean removeEmployeeFromStore(int employeeID, String storeName){
+        Employee employee = _employeeController.getEmployeeByID(employeeID);
+        if (employee == null)
+            throw new IllegalArgumentException("Invalid employee id");
+        return _storeController.removeEmployeeFromStore(employee, storeName);
+    }
+
+    //_ScheduleController
+    public boolean createNewSchedule(String StoreName, int day, int month, int year){
+        Store store = _storeController.getStoreByName(StoreName);
+        return _scheduleController.createNewSchedule(store, day, month, year);
+    }
+
+    public boolean printSchedule(String storeName){
+        Store store = _storeController.getStoreByName(storeName);
+        return _scheduleController.printSchedule(store);
+    }
+
+    public List<Shift> approveSchedule(String storeName){
+        Store store = _storeController.getStoreByName(storeName);
+        return _scheduleController.approveSchedule(store);
+    }
+
+    public boolean changeHoursShift(String storeName, int newStartHour, int newEndHour, int shiftID){
+        Store store = _storeController.getStoreByName(storeName);
+        return _scheduleController.changeShiftHours(store, newStartHour, newEndHour, shiftID);
     }
 }

@@ -89,14 +89,16 @@ public class EmployeeController {
      * @return the list of roles of the employee
      * for HRMenuRemoveRoleFromEmployee
      */
-    public List<RoleType> getRolesById(int employeeID) {
+    public boolean printEmployeeRoles(int employeeID) {
         if (employeeID <0)
-            return null;
+            throw new IllegalArgumentException("Illegal employee ID");
         Employee employee = getEmployeeByID(employeeID);
-        if (employee == null) {
-            throw new IllegalArgumentException("Employee not found")
+        if (employee == null)
+            throw new IllegalArgumentException("Employee not found");
+        for (int i=1; i<=employee.getRoles().size(); i++) {
+            System.out.println(i + ". " + employee.getRoles().get(i-1));
         }
-        return employee.getRoles();
+        return true;
     }
 
     /**
@@ -125,13 +127,13 @@ public class EmployeeController {
      * @param role - the role to remove
      * @return true if the role was removed successfully, false otherwise
      */
-    public boolean removeRoleFromEmployee(int employeeID, RoleType role) {
-        if (employeeID <0 || role == null)
-            return false;
+    public boolean removeRoleFromEmployee(int employeeID, int roleIndex) {
+        if (employeeID <0)
+            throw new IllegalArgumentException("Illegal employee ID")
         Employee employee = getEmployeeByID(employeeID);
         if (employee == null)
-            return false;
-        return employee.removeRole(role);
+            throw new IllegalArgumentException("employee not found")
+        return employee.removeRole(roleIndex);
     }
 
 

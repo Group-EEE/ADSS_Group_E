@@ -1,6 +1,8 @@
 package BussinessLayer.Objects;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Schedule {
     private LocalDate _startDateOfWeek;
@@ -19,27 +21,41 @@ public class Schedule {
     /**
      * @param newStartHour - the new start hour of the shift
      * @param newEndHour - the new end hour of the shift
-     * @param shiftId - the id of the shift
+     * @param shiftID - the id of the shift
      * * @return - true if the change was successful, false otherwise
      */
-    public boolean changeHoursShift(int newStartHour, int newEndHour, int shiftId){
-        if (shiftId < 0 || shiftId > 13 || newEndHour > 24 || newStartHour <0)
+    public boolean changeHoursShift(int newStartHour, int newEndHour, int shiftID){
+        if (shiftID < 0 || shiftID > 13 || newEndHour > 24 || newStartHour <0)
             return false;
-        if (!_shifts[shiftId].setStartHour(newStartHour))
+        if (!_shifts[shiftID].setStartHour(newStartHour))
             return false;
-        if (!_shifts[shiftId].setEndHour(newEndHour))
+        if (!_shifts[shiftID].setEndHour(newEndHour))
             return false;
         return true;
     }
 
     /**
-     * @param shiftId - the id of the shift
+     * @param shiftID - the id of the shift
      * @return - the shift with the given id, null if the id is invalid
      */
-    public Shift getShift(int shiftId){
-        if (shiftId < 0 || shiftId > 13)
+    public Shift getShift(int shiftID){
+        if (shiftID < 0 || shiftID > 13)
             return null;
-        return _shifts[shiftId];
+        return _shifts[shiftID];
+    }
+
+    public List<Shift> approveSchedule(){
+        List<Shift> rejectedShifts = new ArrayList<Shift>();
+        for (int i = 0; i < 14; i++) {
+            Shift shift = _shifts[i];
+            if (!shift.approveShift())
+                rejectedShifts.add(shift);
+        }
+        return rejectedShifts;
+    }
+
+    public Shift[] getShifts() {
+        return _shifts;
     }
 }
 
