@@ -11,25 +11,6 @@ class ProductControllerTest {
         assertEquals(1, ProductController.getProducts().size());
     }
 
-    @Test
-    void update_defected_product() {
-        //didnt use
-    }
-
-    @Test
-    void get_specific_product_location() {
-        //didnt use
-    }
-
-    @Test
-    void change_Shelf_Warehouse() {
-        //didnt use
-    }
-
-    @Test
-    void getAllProductBarcode() {
-        //void
-    }
 
     @Test
     void getProducts() {

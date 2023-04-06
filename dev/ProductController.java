@@ -20,20 +20,6 @@ public class ProductController {
         products.add(P); //add to the controller's list
     }
 
-    public void update_defected_product(int sp_id, int p_id, String defected_reporter, String Dtype){
-        for(int i=0; i< products.size();i++){
-            if(products.get(i).getBarcode()==p_id){
-                products.get(i).add_defected_specific_product(sp_id, defected_reporter, Dtype);
-            }
-        }
-    }
-
-    public int get_specific_product_location(int sp_id, int p_id) {
-        for (int i = 0; i < products.size(); i++)
-            if (products.get(i).getBarcode() == p_id)
-                return products.get(i).getSpecificProduct(sp_id).getLocation_in_Store();
-        return -1;
-    }
 
     //this function removes specific product from shelf in store to the warehouse
     //and from warehouse to the store

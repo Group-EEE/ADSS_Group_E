@@ -18,6 +18,7 @@ public class ExpOrDefectReport extends Report{
     public ExpOrDefectReport(String reporter){
         super(reporter);
         System.out.println("***** Exp/Defected Products Report *****");
+        System.out.println("Report Date: "+ this.getDate().toLocalDate());
         System.out.println("Reporter : "+ reporter);
         for (int i = 0; i < ProductController.getProducts().size(); i++) { //for every product in the store
             //for every specific product of this general product

@@ -8,6 +8,7 @@ public class OrderReport extends Report{
     public OrderReport(String reporter){
         super(reporter); //inherit from abstract report class
         System.out.println("***** Products Order Report *****");
+        System.out.println("Report Date: "+ this.getDate().toLocalDate());
         System.out.println("Reporter : "+ reporter);
         //for every product
         for(int i=0; i<ProductController.getProducts().size();i++){

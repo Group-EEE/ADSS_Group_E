@@ -5,9 +5,6 @@ public abstract class Report {
     private int ID;
     private String Reporter;
     private LocalDateTime Date; //the date of publishing
-    private List<String> Pname;
-    private List<Integer> Barcode;
-    private List<Integer> Amount;
 
     public Report(String Reporter) { //constructor
         ReportController.R_id++;
@@ -22,5 +19,10 @@ public abstract class Report {
     //return the id of the report
     public int getID() {
         return ID;
+    }
+
+    //return the date of the report
+    public LocalDateTime getDate() {
+        return Date;
     }
 }

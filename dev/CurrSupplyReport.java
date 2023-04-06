@@ -7,6 +7,7 @@ public class CurrSupplyReport extends Report{
     public CurrSupplyReport(String reporter) {
         super(reporter); //inherit from abstract report class
         System.out.println("***** Products Supply Report *****");
+        System.out.println("Report Date: "+ this.getDate().toLocalDate());
         System.out.println("Reporter : "+ reporter);
         for(int i=0; i<ProductController.getProducts().size();i++){ //for every product in the store
             System.out.println("Product's Barcode: " +ProductController.getProducts().get(i).getBarcode() +

@@ -7,6 +7,7 @@ public class ByCategoryReport extends Report{
     public ByCategoryReport(String reporter, List<String> Categories){
         super(reporter); //inherit from abstract report class
         System.out.println("***** By Category Products Report *****");
+        System.out.println("Report Date: "+ this.getDate().toLocalDate());
         System.out.println("Reporter : "+ reporter);
         for(int j=0; j<Categories.size();j++){ //for every category in the store, so the report will be
             //by category
