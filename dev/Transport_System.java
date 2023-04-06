@@ -294,9 +294,8 @@ public class Transport_System {
 
                 // postpone the supplier to the end of the shipment.
                 case 3:
-                    boolean end_case = false;
                     // checking how many suppliers are left for today.
-                    int count = 0;
+                    boolean end_case = false;
                     for (Site_Supply site_supply: driver.getSites_documents()){
                         if (site_supply.getOrigin() != truck.get_current_location().getSite_n() ){
                             System.out.println("Sorry Boss, this is the only supplier left for today...");
@@ -391,7 +390,11 @@ public class Transport_System {
         return truck;
     }
 
-    //////// MAIN FUNCTION ///////////////
+
+
+
+
+    // =============================== MAIN FUNCTION =============================== //
     public void start_transport(){
         int choice = 0;
         boolean isValid = false;
@@ -900,7 +903,7 @@ public class Transport_System {
     // unloading all the goods in a store, and update the weight of the truck accordingly.
     public boolean unload_goods(Store store, Truck truck, Truck_Driver driver){
         boolean unloaded = false;
-        for (int i = 0; i < driver.getSites_documents().size(); i++){
+        for (int i = 0; i< driver.getSites_documents().size(); i++){
             if (driver.getSites_documents().get(i).getStore().getAddress() == store.getAddress()){
                 unloaded = true;
                 if (delivered_supplies_documents.containsKey(store)) {
@@ -923,7 +926,7 @@ public class Transport_System {
         String input = null;
         Scanner scanner = new Scanner(System.in);
         while (!valid_input){
-            System.out.println("please weight your truck after unloading and tell us the weight you got:");
+            System.out.println("Please weight your truck after unloading and tell us the weight you got:");
             input = scanner.nextLine();
             try {
                 weight = Double.parseDouble(input);
@@ -1018,7 +1021,6 @@ public class Transport_System {
         Truck truck = new Truck(registration_number, truck_moodle, truck_net_weight, truck_max_weight, cool_level ,truck_net_weight);
         trucks.add(truck);
     }
-
 
 
     /// ========== display for test ======= ///
