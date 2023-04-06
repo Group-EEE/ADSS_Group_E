@@ -71,7 +71,7 @@ public class Truck_Driver {
 
     public void delete_site_document_by_destination(String destination){
         for (int i = 0; i < sites_documents.size(); i++) {
-            if (sites_documents.get(i).getStore().getSite_n() == destination){
+            if (sites_documents.get(i).getStore().getSite_n().equals(destination)){
                 sites_documents.remove(i);
             }
         }

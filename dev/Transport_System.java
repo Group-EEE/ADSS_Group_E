@@ -207,23 +207,28 @@ public class Transport_System {
                     boolean exist = false;
                     while (!exist){
                         String store = scanner.nextLine();
-                        for (Site site: transport_doc.getDestinations()){
-                            if (site.getSite_n() == store){
+                        for (Site site: truck.get_route()){
+                            if (site.getSite_n().equals(store)){
                                 if (site.is_supplier()){
                                     System.out.println("You've entered a supplier Boss... you need to put a store!");
                                 }
-                                site_to_remove = store;
-                                exist = true;
+                                else {
+                                    site_to_remove = store;
+                                    exist = true;
+                                }
+                                break;
                             }
                         }
-                        System.out.println("This store is not on the list boss...");
+                        if (!exist) {
+                            System.out.println("This store is not on the list boss...");
+                        }
                     }
                     // deleting the documents with the relevant documents according to the deleted destination.
                     for (Site_Supply site_supply: driver.getSites_documents()) {
-                        if (site_supply.getStore().getSite_n() == site_to_remove) {
+                        if (site_supply.getStore().getSite_n().equals(site_to_remove)) {
                             for (String product : site_supply.getItems().keySet()) {
                                 transport_doc.deleteProducts(product, site_supply.getItems().get(product));
-                                System.out.println("We dropped " + site_supply.getItems().get(product) + "of the product - " + product + " how much weight it was?");
+                                System.out.println("We dropped " + site_supply.getItems().get(product) + " of the product - " + product + " how much weight it was?");
                                 boolean is_double = false;
                                 String input = "";
                                 double drop_weight = 0.0;
@@ -295,15 +300,15 @@ public class Transport_System {
                 // postpone the supplier to the end of the shipment.
                 case 3:
                     // checking how many suppliers are left for today.
-                    boolean end_case = false;
+                    boolean end_case = true;
                     for (Site_Supply site_supply: driver.getSites_documents()){
-                        if (site_supply.getOrigin() != truck.get_current_location().getSite_n() ){
-                            System.out.println("Sorry Boss, this is the only supplier left for today...");
-                            end_case = true;
+                        if (!site_supply.getOrigin().equals(truck.get_current_location().getSite_n())){
+                            end_case = false;
                             break;
                         }
                     }
                     if (end_case){
+                        System.out.println("Sorry Boss, this is the only supplier left for today...");
                         break;
                     }
 
@@ -335,14 +340,14 @@ public class Transport_System {
                     if (manager_choice == 2) {
                         truck.getNavigator().add_site(truck.get_current_location());
                         for (Site_Supply site_supply : driver.getSites_documents()) {
-                            if (site_supply.getStore().getSupplier_n() == truck.get_current_location().getSite_n()) {
+                            if (site_supply.getStore().getSupplier_n().equals(truck.get_current_location().getSite_n())) {
                                 truck.getNavigator().add_site(site_supply.getStore());
                             }
                         }
                     }
                     // getting the products back to the supplier and delete the documents that not relevant for now.
                     for (Site_Supply site_supply: driver.getSites_documents()) {
-                        if (site_supply.getOrigin() == truck.get_current_location().getSite_n()) {
+                        if (site_supply.getOrigin().equals(truck.get_current_location().getSite_n())) {
                             for (String product : site_supply.getItems().keySet()) {
                                 transport_doc.deleteProducts(product, site_supply.getItems().get(product));
                             }
