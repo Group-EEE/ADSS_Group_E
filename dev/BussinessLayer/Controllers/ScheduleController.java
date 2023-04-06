@@ -76,11 +76,6 @@ public class ScheduleController {
         return shift.removeRequiredRole(role);
     }
 
-    /**
-     * @param shift - the shift to approve
-     * @return true if the shift was approved successfully, false otherwise
-     */
-
 
     /**
      * @param shift - the shift to check possible
@@ -103,5 +98,14 @@ public class ScheduleController {
         if (shift == null || role == null)
             return false;
         return shift.addRequiredRole(role);
+    }
+
+    public boolean addEmployeeToShift(Employee employee, Store store, int choice){
+        if (store == null)
+            throw new IllegalArgumentException("Invalid store");
+        Schedule schedule = _schedules.get(store);
+        if (schedule == null)
+            throw new IllegalArgumentException("schedule not yet made");
+        return schedule.addEmployeeToShift(employee,choice);
     }
 }

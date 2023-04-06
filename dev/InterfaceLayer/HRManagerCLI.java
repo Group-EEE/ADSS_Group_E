@@ -323,7 +323,6 @@ public class HRManagerCLI{
         System.out.println("Please enter the Store name:");
         System.out.println("Enter '0' to exit");
         String storeName = "1";
-        Store store = null;
         scanner.nextLine();
         while (!storeName.equals("0")) {
             storeName = scanner.nextLine();
@@ -479,7 +478,7 @@ public class HRManagerCLI{
             System.out.println(e.getMessage());
             return false;
         }
-        int roleChoice = validInput("Please enter a valid integer for the role",0,roles.size());
+        int roleChoice = validInput("Please enter a valid integer for the role",0);
         if (roleChoice == 0)
             return false;
         try{

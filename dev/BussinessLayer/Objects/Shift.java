@@ -69,7 +69,7 @@ public class Shift{
      */
     public boolean addInquiredEmployee(Employee employee){
         if (employee == null)
-            return false;
+            throw new IllegalArgumentException("Employee cannot be null");
         return _inquiredEmployees.add(employee);
     }
 

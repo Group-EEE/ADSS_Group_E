@@ -107,6 +107,7 @@ public class Facade {
         Employee employee = _employeeController.getEmployeeByID(employeeID);
         if (employee == null)
             throw new IllegalArgumentException("Invalid employee id");
+        _employeeController.addStoreToEmployee(employee, storeName);
         return _storeController.addEmployeeToStore(employee, storeName);
     }
 
@@ -121,6 +122,15 @@ public class Facade {
     public boolean createNewSchedule(String StoreName, int day, int month, int year){
         Store store = _storeController.getStoreByName(StoreName);
         return _scheduleController.createNewSchedule(store, day, month, year);
+    }
+
+    public boolean addEmployeeToShift(String storeName, int choice){
+        //if employee not working in this store
+
+        Store store = _storeController.getStoreByName(storeName);
+        if (!_employeeController.checkIfEmployeeWorkInStore(store, _loggedUser))
+            throw new IllegalArgumentException("Employee not working in this store");
+        return _scheduleController.addEmployeeToShift(_loggedUser, store, choice);
     }
 
     public boolean printSchedule(String storeName){

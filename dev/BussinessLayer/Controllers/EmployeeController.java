@@ -107,10 +107,10 @@ public class EmployeeController {
      */
     public boolean removeEmployee(int employeeID) {
         if (employeeID <0)
-            throw new IllegalArgumentException("Illegal employee ID")
+            throw new IllegalArgumentException("Illegal employee ID");
         Employee employee = getEmployeeByID(employeeID);
         if (employee == null) {
-            throw new IllegalArgumentException("Employee not found")
+            throw new IllegalArgumentException("Employee not found");
         }
         List<Store> stores = employee.getStores();
         for (Store store : stores) {
@@ -122,17 +122,25 @@ public class EmployeeController {
         return true;
     }
 
+    public boolean checkIfEmployeeWorkInStore(Store store,Employee employee){
+        if (store == null)
+            throw new IllegalArgumentException("store not found");
+        if (employee == null)
+            throw new IllegalArgumentException("employee not found");
+        return employee.checkIfEmployeeWorkInStore(store);
+    }
+
     /**
      * @param employeeID - the id of the employee
-     * @param role - the role to remove
+     * @param roleIndex - the role to remove
      * @return true if the role was removed successfully, false otherwise
      */
     public boolean removeRoleFromEmployee(int employeeID, int roleIndex) {
         if (employeeID <0)
-            throw new IllegalArgumentException("Illegal employee ID")
+            throw new IllegalArgumentException("Illegal employee ID");
         Employee employee = getEmployeeByID(employeeID);
         if (employee == null)
-            throw new IllegalArgumentException("employee not found")
+            throw new IllegalArgumentException("employee not found");
         return employee.removeRole(roleIndex);
     }
 

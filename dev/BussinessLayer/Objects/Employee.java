@@ -123,6 +123,12 @@ public class Employee{
         return store.removeEmployee(this);
     }
 
+    public boolean checkIfEmployeeWorkInStore(Store store){
+        if (store == null)
+            return false;
+        return this._stores.contains(store);
+    }
+
     public boolean hasJob(RoleType role){
         if (role == null)
             return false;

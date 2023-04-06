@@ -57,5 +57,13 @@ public class Schedule {
     public Shift[] getShifts() {
         return _shifts;
     }
+
+    public boolean addEmployeeToShift(Employee employee, int choice){
+        if (employee == null)
+            throw new IllegalArgumentException("Employee cannot be null");
+        if (choice < 0 || choice > 13)
+            throw new IllegalArgumentException("Invalid choice");
+        return _shifts[choice].addInquiredEmployee(employee);
+    }
 }
 
