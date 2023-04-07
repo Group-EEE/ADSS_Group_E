@@ -7,7 +7,7 @@ public class Main {
     Truck truck3 = new Truck("GHI789", "Kenworth T680", 17000.0, 28000.0, cold_level.Cold, 17000.0);
     Truck truck4 = new Truck("JKL012", "Peterbilt 579", 16000.0, 27000.0, cold_level.Dry, 16000.0);
     Truck truck5 = new Truck("MNO345", "International LT", 17500.0, 29000.0, cold_level.Freeze, 17500.0);
-    Truck truck6 = new Truck("PQR678", "Mack Anthem", 16500.0, 27500.0, cold_level.Cold, 16500.0);
+    Truck truck6 = new Truck("PQR678", "Mack Anthem", 16500.0, 45000, cold_level.Cold, 16500.0);
     Truck truck7 = new Truck("STU901", "Western Star 5700XE", 19000.0, 31000.0, cold_level.Dry, 19000.0);
     Truck truck8 = new Truck("VWX234", "Kenworth W900", 15500.0, 26000.0, cold_level.Cold, 15500.0);
     Truck truck9 = new Truck("YZA567", "Volvo VNR", 18500.0, 30500.0, cold_level.Freeze, 18500.0);

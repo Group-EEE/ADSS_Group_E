@@ -47,6 +47,7 @@ public class Navigator {
                 route.remove(i);
             }
         }
+        iterator = route.iterator();
     }
 
     public Site getCurrent_location() {
@@ -55,5 +56,6 @@ public class Navigator {
 
     public void add_site(Site site){
         route.add(site);
+        iterator = route.iterator();
     }
 }

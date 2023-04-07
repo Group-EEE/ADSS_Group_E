@@ -262,34 +262,29 @@ public class Transport_System {
 
                 // changing the truck to a suitable one.
                 case 2:
-                    Truck new_truck = null;
-                    for (Truck tr: trucks){
-                        // checks that the new truck have suitable max weight, and also temperature.
-                        if (tr.getCold_level().getValue() <= transport_doc.getRequired_level().getValue()
-                                && tr.getMax_weight() > truck.getCurrent_weight()){
-                            new_truck = tr;
-                        }
-                    }
+                    Truck new_truck = getTruckByColdAndWeight(truck.getCold_level(), truck.getCurrent_weight());
                     if (new_truck == null){
                         System.out.println("Sorry Boss, we don't have a suitable truck...");
                     }
                     else {
                         //now we need to check if we need to assign a driver to the new truck.
                         for (Truck_Driver truck_driver: drivers){
-                            if (truck_assigning(driver.getID(), new_truck.getRegistration_plate())){
+                            if (truck_assigning(truck_driver.getID(), new_truck.getRegistration_plate())){
                                 // updating the current driver's truck and the opposite.
                                 driver.setCurrent_truck(null);
                                 truck.setCurrent_driver(null);
                                 // updating the details in the transport document
                                 transport_doc.setDriver_n(truck_driver.getName());
                                 transport_doc.setTruck_number(new_truck.getRegistration_plate());
+                                new_truck.setCurrent_weight(truck.getCurrent_weight());
                                 // transferring the goods and the documents
                                 if (!truck_driver.equals(driver)){
                                     truck_driver.setSites_documents(driver.getSites_documents());
+                                    new_truck.setNavigator(truck.getNavigator().getRoute());
                                     driver.setSites_documents(null);
                                 }
-                                new_truck.setNavigator(truck.getNavigator().getRoute());
-                                System.out.println("The trucks finished to transfer all the goods and it's ready to go.");
+                                System.out.println("The trucks finished to transfer all the goods and it's ready to go,");
+                                System.out.println("The new driver is: " + truck_driver.getName() + " and his driving the truck: " + new_truck.getRegistration_plate());
                                 return true;
                             }
                         }
@@ -324,7 +319,7 @@ public class Transport_System {
 
                             // Check if the input is a 9 digit integer
                             if (manager_choice == 1 || manager_choice == 2) {
-                                isValid = true;
+                                exist_2 = true;
                             } else {
                                 System.out.println("Input must be a 1 or 2.");
                             }
@@ -340,7 +335,7 @@ public class Transport_System {
                     if (manager_choice == 2) {
                         truck.getNavigator().add_site(truck.get_current_location());
                         for (Site_Supply site_supply : driver.getSites_documents()) {
-                            if (site_supply.getStore().getSupplier_n().equals(truck.get_current_location().getSite_n())) {
+                            if (site_supply.getOrigin().equals(truck.get_current_location().getSite_n())) {
                                 truck.getNavigator().add_site(site_supply.getStore());
                             }
                         }
@@ -364,8 +359,7 @@ public class Transport_System {
                     else {
                         System.out.println("The truck route has changed and the supplier goods will be shipped later today by the truck.");
                     }
-                    choice = 5;
-                    break;
+                    return true;
 
                 // deleting the transport.
                 case 4:
@@ -395,7 +389,23 @@ public class Transport_System {
         return truck;
     }
 
-
+    public Truck getTruckByColdAndWeight(cold_level level, double weight){
+        Truck truck = null;
+        for(Truck t : trucks){
+            if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight) {
+                if(t.getCold_level().getValue() == level.getValue()){
+                    truck = t;
+                    break;
+                }
+                else if (truck == null) {
+                    truck = t;
+                } else if (level.getValue() - t.getCold_level().getValue() < level.getValue() - truck.getCold_level().getValue()) {
+                    truck = t;
+                }
+            }
+        }
+        return truck;
+    }
 
 
 
@@ -500,13 +510,18 @@ public class Transport_System {
                                     }
                                 }
                             }
+                            //insert the weight
+                            transport.insertToWeights(truck.getCurrent_weight());
                             //checking the weight
                             if (!check_weight(truck)){
-                                boolean abort_transport = change_transport(transport, truck, truck.getCurrent_driver());
+                                boolean abort_transport = !change_transport(transport, truck, truck.getCurrent_driver());
                                 if (abort_transport){
                                     //delete_transport();
                                     System.out.println("Transport was aborted.");
                                     //return;
+                                }
+                                else {
+                                    truck = getTruckByNumber(transport.getTruck_number());
                                 }
                             }
                         }
@@ -559,6 +574,7 @@ public class Transport_System {
         for (int i = 0; i < trucks.size(); i++) {
             if (trucks.get(i).equals(truck_registration_plate)){
                 truck = trucks.get(i);
+                break;
             }
         }
         if (truck == null){
@@ -568,13 +584,14 @@ public class Transport_System {
         for (int i = 0; i < drivers.size(); i++) {
             if (drivers.get(i).equals(driver_id)){
                 driver = drivers.get(i);
+                break;
             }
         }
         if (driver == null){
             return false;
         }
 
-        if (driver.getLicense().getWeight() < truck.getMax_weight() || driver.getLicense().getCold_level().getValue() < truck.getCold_level().getValue()){
+        if (driver.getLicense().getWeight() < truck.getMax_weight() || driver.getLicense().getCold_level().getValue() > truck.getCold_level().getValue()){
 //            System.out.println("The driver's license does not fit to the truck");
             return false;
         }
@@ -711,7 +728,7 @@ public class Transport_System {
             }
         }
         // ======================== Insert Weight To Transport Document ======================== //
-        transport.insertToWeights(items_weight);
+//        transport.insertToWeights(items_weight);
         // ======================== Insert Weight To Truck ======================== //
         Truck truck = getTruckByNumber(transport.getTruck_number());
         truck.addWeight(items_weight);
@@ -897,6 +914,7 @@ public class Transport_System {
         return transport_doc;
     }
     public boolean check_weight(Truck truck){
+
         if (truck.getCurrent_weight() > truck.getMax_weight()){
             System.out.println("Alert! the truck is in overweight!");
             return false;
