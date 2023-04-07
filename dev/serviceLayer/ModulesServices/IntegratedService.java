@@ -120,4 +120,12 @@ public class IntegratedService {
     public boolean removeRequiredRoleFromShift(String storeName, int shiftID, RoleType role){
         return _hrModuleService.removeRequiredRoleFromShift(storeName, shiftID, role);
     }
+
+    public boolean printStores(){
+        return _hrModuleService.printStores();
+    }
+
+    public boolean printEmployees(){
+        return _hrModuleService.printEmployees();
+    }
 }

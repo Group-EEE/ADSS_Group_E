@@ -80,8 +80,10 @@ public class Facade {
         if (firstName == null || lastName == null || age < 0 || id < 0 || bankAccount == null)
             throw new IllegalArgumentException("Invalid arguments");
         _employeeController.createEmployee(firstName, lastName, age, id, bankAccount, password);
-        if (isHRManager)
+        if (isHRManager) {
             _HRManager = _employeeController.getEmployeeByID(id);
+            _HRManager.addRole(RoleType.HRManager);
+        }
         return true;
     }
 
@@ -168,4 +170,11 @@ public class Facade {
         return _scheduleController.removeRequiredRoleFromShift(store, shiftID, role);
     }
 
+    public boolean printStores(){
+        return _storeController.printStores();
+    }
+
+    public boolean printEmployees(){
+        return _employeeController.printEmployees();
+    }
 }

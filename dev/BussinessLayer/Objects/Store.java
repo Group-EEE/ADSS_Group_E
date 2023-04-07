@@ -68,4 +68,13 @@ public class Store {
     public List<Schedule> getPastSchedules() {
         return _pastSchedules;
     }
+
+    public String toString(){
+        String storeToString =  "Store ID: " + this._storeID + " Store Name: " + this._name + " Store Address: " + this._address+"\n";
+        storeToString += "Employees:\n";
+        for (Employee employee : this._employees) {
+            storeToString += employee.toString() + "\n";
+        }
+       return storeToString;
+    }
 }

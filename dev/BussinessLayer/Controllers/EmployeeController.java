@@ -186,4 +186,11 @@ public class EmployeeController {
         return employee.removeStore(store);
     }
 
+    public boolean printEmployees() {
+        for (Map.Entry<Integer, Employee> entry : _employees.entrySet()){
+            System.out.println(entry.getValue().toString());
+        }
+        return true;
+    }
+
 }

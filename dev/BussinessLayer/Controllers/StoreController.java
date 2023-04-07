@@ -130,4 +130,11 @@ public class StoreController {
         this._storesByID.remove(store);
         return true;
     }
+
+    public boolean printStores(){
+        for (Map.Entry<String, Store> entry : _storesByName.entrySet()){
+            System.out.println(entry.getValue().toString());
+        }
+        return true;
+    }
 }

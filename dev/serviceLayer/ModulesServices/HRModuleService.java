@@ -129,4 +129,12 @@ public class HRModuleService {
     public boolean removeRequiredRoleFromShift(String storeName, int shiftID, RoleType role){
         return _scheduleService.removeRequiredRoleFromShift(storeName, shiftID, role);
     }
+
+    public boolean printEmployees(){
+        return _employeeService.printEmployees();
+    }
+
+    public boolean printStores(){
+        return _storeService.printStores();
+    }
 }

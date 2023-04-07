@@ -71,4 +71,8 @@ public class EmployeeService {
     public boolean removeEmployee(int employeeID){
         return _facade.removeEmployee(employeeID);
     }
+
+    public boolean printEmployees(){
+        return _facade.printEmployees();
+    }
 }

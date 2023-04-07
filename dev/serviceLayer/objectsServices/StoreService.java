@@ -28,4 +28,8 @@ public class StoreService {
     public boolean removeEmployeeFromStore(int employeeID, String storeName){
         return _facade.removeEmployeeFromStore(employeeID, storeName);
     }
+
+    public boolean printStores(){
+        return _facade.printStores();
+    }
 }

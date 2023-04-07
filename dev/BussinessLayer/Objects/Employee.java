@@ -122,13 +122,14 @@ public class Employee{
         return this._stores.contains(store);
     }
 
-    public boolean hasJob(RoleType role){
-        if (role == null)
-            return false;
-        for (RoleType r : _roles){
-            if (r.equals(role))
-                return true;
+    public String toString(){
+        String employeeToString = "Employee: " + this._firstName + " " + this._lastName + ", ID: " + this._id+", age: "+this._age+"\n";
+        employeeToString += "Roles: ";
+        for (RoleType role : this._roles){
+            employeeToString += role + ", ";
         }
-        return false;
+        return employeeToString;
     }
+
+
 }
