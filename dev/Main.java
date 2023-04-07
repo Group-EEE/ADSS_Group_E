@@ -2,15 +2,15 @@ public class Main {
     public static void main(String[] args) {
 //        System.out.println("Hello world!");
     Transport_System system = new Transport_System();
-    Truck truck1 = new Truck("ABC123", "Volvo VNL", 15000.0, 25000.0, cold_level.Freeze, 15000.0);
-    Truck truck2 = new Truck("DEF456", "Freightliner Cascadia", 18000.0, 30000.0, cold_level.Cold, 18000.0);
-    Truck truck3 = new Truck("GHI789", "Kenworth T680", 17000.0, 28000.0, cold_level.Cold, 17000.0);
-    Truck truck4 = new Truck("JKL012", "Peterbilt 579", 16000.0, 27000.0, cold_level.Dry, 16000.0);
-    Truck truck5 = new Truck("MNO345", "International LT", 17500.0, 29000.0, cold_level.Freeze, 17500.0);
-    Truck truck6 = new Truck("PQR678", "Mack Anthem", 16500.0, 45000, cold_level.Cold, 16500.0);
-    Truck truck7 = new Truck("STU901", "Western Star 5700XE", 19000.0, 31000.0, cold_level.Dry, 19000.0);
-    Truck truck8 = new Truck("VWX234", "Kenworth W900", 15500.0, 26000.0, cold_level.Cold, 15500.0);
-    Truck truck9 = new Truck("YZA567", "Volvo VNR", 18500.0, 30500.0, cold_level.Freeze, 18500.0);
+    Truck truck1 = new Truck("57219843", "Volvo VNL", 15000.0, 25000.0, cold_level.Freeze, 15000.0);
+    Truck truck2 = new Truck("69471352", "Freightliner Cascadia", 18000.0, 30000.0, cold_level.Cold, 18000.0);
+    Truck truck3 = new Truck("83592614", "Kenworth T680", 17000.0, 28000.0, cold_level.Cold, 17000.0);
+    Truck truck4 = new Truck("25761483", "Peterbilt 579", 16000.0, 27000.0, cold_level.Dry, 16000.0);
+    Truck truck5 = new Truck("98654721", "International LT", 17500.0, 29000.0, cold_level.Freeze, 17500.0);
+    Truck truck6 = new Truck("31824796", "Mack Anthem", 16500.0, 27500.0, cold_level.Cold, 16500.0);
+    Truck truck7 = new Truck("42983571", "Western Star 5700XE", 19000.0, 31000.0, cold_level.Dry, 19000.0);
+    Truck truck8 = new Truck("76124958", "Kenworth W900", 15500.0, 26000.0, cold_level.Cold, 15500.0);
+    Truck truck9 = new Truck("59317864", "Volvo VNR", 18500.0, 30500.0, cold_level.Freeze, 18500.0);
     system.add_truck(truck1);
     system.add_truck(truck2);
     system.add_truck(truck3);
@@ -29,7 +29,7 @@ public class Main {
     Truck_Driver driver7 = new Truck_Driver(123456789, "Gina Martinez", 78901, cold_level.Freeze, 52000.0);
     Truck_Driver driver8 = new Truck_Driver(901234567, "Harry Thompson", 89012, cold_level.Cold, 22500.0);
     Truck_Driver driver9 = new Truck_Driver(345678901, "Isabel Ramirez", 90123, cold_level.Dry, 32000.0);
-    Truck_Driver driver10 = new Truck_Driver(765432109, "Jack Brown", 12345, cold_level.Freeze, 16000.0);
+    Truck_Driver driver10 = new Truck_Driver(765432109, "Jack Brown", 76465, cold_level.Freeze, 16000.0);
     Truck_Driver driver11 = new Truck_Driver(321098765, "Kate Davis", 23456, cold_level.Cold, 65000.0);
     Truck_Driver driver12 = new Truck_Driver(890123456, "Larry Green", 34567, cold_level.Dry, 29000.0);
     Truck_Driver driver13 = new Truck_Driver(543210987, "Maggie Lee", 45678, cold_level.Freeze, 26500.0);
@@ -56,6 +56,6 @@ public class Main {
 //    system.display_transport_doc();
 //    system.display_drivers();
 //    system.display_trucks();
-    system.display_site_supply();
+//    system.display_site_supply();
     }
 }

@@ -24,44 +24,72 @@ public class Transport_System {
         boolean isValid = false;
         // getting the driver's ID
         while (!isValid) {
-            System.out.print("Enter an ID (a 9 digit integer) : \n");
+            System.out.println("Enter an ID (a 9 digit integer with no 0 at the beginning): ");
             String input = scanner.nextLine();
-
-            try {
-                ID = Integer.parseInt(input);
-
-                // Check if the input is a 9 digit integer
-                if (input.length() == 9) {
-                    isValid = true;
-                } else {
-                    System.out.println("Input must be a 9 digit integer.");
+            if(input.startsWith("0")){
+                System.out.print("ID number cannot contain 0 at the beginning. ");
+                if(input.length() != 9){
+                    System.out.print("Input must be a 9 digit integer. ");
                 }
+            }
+            else {
+                try {
+                    ID = Integer.parseInt(input);
+                    // Check if the input is a 9 digit integer
+                    if (input.length() == 9) {
+                        isValid = true;
+                    } else {
+                        System.out.print("Input must be a 9 digit integer. ");
+                    }
 
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid 9 digit integer.\n");
+
+                } catch (NumberFormatException e) {
+                    System.out.print("Invalid input. ");
+                }
+                // check if the ID number is already exist in the system.
+                for (Truck_Driver truck_driver : drivers) {
+                    if (truck_driver.getID() == ID) {
+                        isValid = false;
+                        System.out.println("The ID number - " + ID + " - is already belong to some driver in the transport system. Please enter a valid 9 digit integer: ");
+                    }
+                }
             }
         }
-        System.out.println("Please enter the driver's license details:\n");
+        System.out.println("Please enter the driver's license details: ");
         isValid = false;
         int License_ID = 0;
         // getting The driver's license ID
         while (!isValid) {
-            System.out.print("Enter an ID (a 5 digit integer) : \n");
+            System.out.println("Enter an license ID (a 5 digit integer): ");
             String input = scanner.nextLine();
-
-            try {
-                License_ID = Integer.parseInt(input);
-
-                // Check if the input is a 5 digit integer
-                if (input.length() == 5) {
-
-                    isValid = true;
-                } else {
-                    System.out.println("Input must be a 5 digit integer.");
+            if(input.startsWith("0")){
+                System.out.print("License ID number cannot contain 0 at the beginning. ");
+                if(input.length() != 5){
+                    System.out.print("Input must be a 5 digit integer. ");
                 }
+            }
+            else {
+                try {
+                    License_ID = Integer.parseInt(input);
 
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid 5 digit integer.");
+                    // Check if the input is a 5 digit integer
+                    if (input.length() == 5) {
+
+                        isValid = true;
+                    } else {
+                        System.out.print("Input must be a 5 digit integer. ");
+                    }
+
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a valid 5 digit integer.");
+                }
+                // check if the license ID number is already exist in the system.
+                for (Truck_Driver truck_driver : drivers) {
+                    if (truck_driver.getLicense().getL_ID() == License_ID) {
+                        isValid = false;
+                        System.out.println("The license ID number - " + License_ID + " - is already belong to some driver in the transport system. Please enter a valid 5 digit integer: ");
+                    }
+                }
             }
         }
         isValid = false;
@@ -70,7 +98,7 @@ public class Transport_System {
         double weight = 0;
         int level_ch = 0;
         while (!isValid) {
-            System.out.print("Enter the cold level of the truck the driver can drive in (1- Freeze, 2- Cold, 3- Dry),\n and the the Max weight of the truck he can drive in: \n ");
+            System.out.println("Enter the cold level of the truck the driver can drive in (1- Freeze, 2- Cold, 3- Dry),\n and the the Max weight of the truck he can drive in: ");
             String input = scanner.nextLine();
             String[] parts = input.split(" ");
 
@@ -114,7 +142,7 @@ public class Transport_System {
         isValid = false;
         String Driver_name = "";
         while (!isValid) {
-            System.out.print("Enter the driver's full name:\n");
+            System.out.println("Enter the driver's full name: ");
             String input = scanner.nextLine();
 
             // Check if the input only contains alphabetic letters
@@ -150,6 +178,10 @@ public class Transport_System {
     public void setTrucks(ArrayList<Truck> trucks) {
         this.trucks = trucks;
     }
+
+
+
+    // return a truck driver by truck registration number.
     public Truck_Driver getDriverByTruckNumber(String truck_number){
         Truck truck = null;
         for(Truck t : trucks){
@@ -370,7 +402,9 @@ public class Transport_System {
         return true;
 
     }
-    // return truck by temperature level.
+
+
+    // return some truck by temperature level.
     public Truck getTruckByColdLevel (cold_level level){
         Truck truck = null;
         for(Truck t : trucks){
@@ -426,7 +460,6 @@ public class Transport_System {
             System.out.println("7 - Display all trucks in the system");
             System.out.println("8 - Display all transport documents in the system");
             System.out.println("9 - Display all site supplies documents in the system");
-
             while(!isValid){
                 try {
                     input = scanner.nextLine();
@@ -471,7 +504,7 @@ public class Transport_System {
                     case "3" -> cool_level = cold_level.Dry;
                 }
                 for(Truck t : trucks){
-                    if(t.getCold_level().getValue() <= cool_level.getValue()) {
+                    if(t.getCold_level().getValue() == cool_level.getValue()) {
                         System.out.println(t.getRegistration_plate());
                     }
                 }
@@ -491,7 +524,7 @@ public class Transport_System {
                             while (!isValidChoice) {
                                 System.out.println("Hey " + current.getSite_n() + " manager!");
                                 // creating a document
-                                create_site_supply(transport);
+                                create_site_supply(transport, current.getAddress());
                                 // asking if he needs to make another one
                                 System.out.println("Do you have items to ship to another store? (Write YES/NO): ");
                                 System.out.println("1 - YES");
@@ -531,7 +564,7 @@ public class Transport_System {
                                 System.out.println("goods unloaded in " + current.getSite_n());
                             }
                             else {
-                                System.out.println("We currently don't have any goods for " + current.getSite_n() + " , skip this store for now.");
+                                System.out.println("We currently don't have any goods for " + current.getSite_n() + " ,skip this store for now.");
                             }
                         }
                         // driving to the next site.
@@ -563,8 +596,14 @@ public class Transport_System {
     }
 
     // check if string contain only numbers.
-    public static boolean containsOnlyNumbers(String str) {
-        return str.matches("[0-9]+");
+    public boolean containsOnlyNumbers(String str) {
+        try{
+            Integer.parseInt(str);
+            return true;
+        }
+        catch (NumberFormatException e){
+            return false;
+        }
     }
 
     public boolean truck_assigning(int driver_id, String truck_registration_plate){
@@ -601,7 +640,7 @@ public class Transport_System {
     }
 
     // create site supply document for the truck driver.
-    public void create_site_supply(Transport transport){
+    public void create_site_supply(Transport transport, String supplier_address){
         // ======================== Supplier ID ======================== //
         boolean isValid = false;
         Scanner scanner = new Scanner(System.in);
@@ -631,26 +670,26 @@ public class Transport_System {
             }
         }
         // ======================== Supplier Address ======================== //
-        String supplier_address = null;
-        isValid = false;
-        while (!isValid) {
-            System.out.println("Please enter the address of the supplier: ");
-            supplier_address = scanner.nextLine();
-            for (Site site : transport.getDestinations()) {
-                if(site.getAddress().equals(supplier_address)){
-                    if(site.is_supplier()) {
-                        isValid = true;
-                    }
-                    else{
-                        System.out.print("The address is exist in this transport, but not belongs to supplier. ");
-                    }
-                    break;
-                }
-            }
-            if(!isValid){
-                System.out.print("This address is not part of this transport. ");
-            }
-        }
+//        String supplier_address = null;
+//        isValid = false;
+//        while (!isValid) {
+//            System.out.println("Please enter the address of the supplier: ");
+//            supplier_address = scanner.nextLine();
+//            for (Site site : transport.getDestinations()) {
+//                if(site.getAddress().equals(supplier_address)){
+//                    if(site.is_supplier()) {
+//                        isValid = true;
+//                    }
+//                    else{
+//                        System.out.print("The address is exist in this transport, but not belongs to supplier. ");
+//                    }
+//                    break;
+//                }
+//            }
+//            if(!isValid){
+//                System.out.print("This address is not part of this transport. ");
+//            }
+//        }
         // ======================== Store Address ======================== //
         String store_address = null;
         isValid = false;
@@ -756,21 +795,26 @@ public class Transport_System {
         while (!isValid) {
             System.out.println("Please enter transport ID number (5 digits, only with the digits 0-9): ");
             input = scanner.nextLine();
-            try {
-                transport_Id = Integer.parseInt(input);
-                // Check if the input is a 5 digit integer
-                if (input.length() == 5) {
-                    isValid = true;
-                } else {
-                    System.out.print("Input must be a 5 digit integer. ");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. ");
+            if(input.strip().equals("")){
+                System.out.print("Invalid input. ");
             }
-            Transport transport = Transport_Log.get(transport_Id);
-            if(transport != null){
-                isValid = false;
-                System.out.println("The transport ID number is already exist in the transports system. ");
+            else {
+                try {
+                    transport_Id = Integer.parseInt(input);
+                    // Check if the input is a 5 digit integer
+                    if (input.length() == 5) {
+                        isValid = true;
+                    } else {
+                        System.out.print("Input must be a 5 digit integer. ");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.print("Invalid input. ");
+                }
+                Transport transport = Transport_Log.get(transport_Id);
+                if (transport != null) {
+                    isValid = false;
+                    System.out.println("The transport ID number is already exist in the transports system. ");
+                }
             }
         }
         // ======================== Truck ======================== //
@@ -809,13 +853,46 @@ public class Transport_System {
         // ======================== Origin - Logistical Center  ======================== //
         Logistical_Center origin = null;
         if(logistical_center == null) {
-            System.out.println("Please enter the origin address: ");
-            String origin_address = scanner.nextLine();
-            System.out.println("Please enter the origin phone number: ");
-            String origin_phone = scanner.nextLine();
+            System.out.println("Hey Boss, currently the system does not have the details about the logistics center.");
+            String origin_address = null;
+            isValid = false;
+            while (!isValid) {
+                System.out.println("Please enter the logistical center address: ");
+                input = scanner.nextLine();
+                if (input.strip().equals("")) {
+                    System.out.print("Invalid input. ");
+                }
+                else{
+                    origin_address = input;
+                    isValid = true;
+                }
+            }
+            String origin_phone = null;
+            isValid = false;
+            while(!isValid) {
+                System.out.println("Please enter the logistical center phone number (only digits 0-9): ");
+                origin_phone = scanner.nextLine();
+                if(!containsOnlyNumbers(origin_phone) || origin_phone.strip().equals("")){
+                    System.out.print("Invalid input. ");
+                }
+                else{
+                    isValid = true;
+                }
+            }
             String origin_name = "Logistical Center";
-            System.out.println("Please enter the contact person name of the origin: ");
-            String origin_contact_name = scanner.nextLine();
+            isValid = false;
+            String origin_contact_name = null;
+            while (!isValid) {
+                System.out.println("Please enter the contact person name of the logistical center: ");
+                origin_contact_name = scanner.nextLine();
+                if(!origin_contact_name.strip().equals("")){
+                    isValid = true;
+                }
+                else{
+                    System.out.print("Invalid input. ");
+
+                }
+            }
             origin = new Logistical_Center(origin_address, origin_phone, origin_name, origin_contact_name);
             this.logistical_center = origin;
         }
@@ -834,6 +911,8 @@ public class Transport_System {
         // ======================== Add Destinations ======================== //
         boolean stop_adding_destinations = false;
         Site destination;
+        boolean areaValid = false;
+        int area = 0;
         while(!stop_adding_destinations) {
             String site_type = null;
             isValid = false;
@@ -849,49 +928,143 @@ public class Transport_System {
                 }
             }
             if(site_type.equals("1")){
-                System.out.println("Please enter the store address: ");
-                String store_address = scanner.nextLine();
-                System.out.println("Please enter the store phone number: ");
-                String phone_number = scanner.nextLine();
-                System.out.println("Please enter the name of the store: ");
-                String store_name = scanner.nextLine();
-                System.out.println("Please enter the contact person name of the store: ");
-                String store_contact_name = scanner.nextLine();
-                System.out.println("Please enter the manager name of the store: ");
-                String manager_name = scanner.nextLine();
-                System.out.println("Please enter the area of the store (one digit 0-9 number): ");
-                input = scanner.nextLine();
-                int area = 0;
+                if(!areaValid) {
+                    isValid = false;
+                    while (!isValid) {
+                        try {
+                            System.out.println("Please enter the area of the stores in this transport (one digit 0-9 number): ");
+                            input = scanner.nextLine();
+                            area = Integer.parseInt(input);
+                            // Check if the input is one digit integer
+                            if (input.length() == 1) {
+                                isValid = true;
+                                areaValid = true;
+                            } else {
+                                System.out.print("Input must be only one digit integer. ");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.print("Invalid input. ");
+                        }
+                    }
+                }
+                isValid = false;
+                String store_address = null;
+                while(!isValid) {
+                    System.out.println("Please enter the store address: ");
+                    input = scanner.nextLine();
+                    if (input.strip().equals("")) {
+                        System.out.print("Invalid input. ");
+                    }
+                    else{
+                        store_address = input;
+                        isValid = true;
+                    }
+                }
+                String phone_number = null;
                 isValid = false;
                 while(!isValid) {
-                    try {
-                        area = Integer.parseInt(input);
-                        // Check if the input is one digit integer
-                        if (input.length() == 1) {
-                            isValid = true;
-                        } else {
-                            System.out.println("Input must be only one digit integer. ");
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. Please enter a valid 1 digit integer: ");
+                    System.out.println("Please enter the store phone number: ");
+                    phone_number = scanner.nextLine();
+                    if(!containsOnlyNumbers(phone_number) || phone_number.strip().equals("")){
+                        System.out.print("Invalid input. ");
+                    }
+                    else{
+                        isValid = true;
+                    }
+                }
+                isValid = false;
+                String store_name = null;
+                while (!isValid) {
+                    System.out.println("Please enter the name of the store: ");
+                    store_name = scanner.nextLine();
+                    if(!store_name.strip().equals("")){
+                        isValid = true;
+                    }
+                    else {
+                        System.out.print("Invalid input. ");
+                    }
+                }
+                isValid = false;
+                String store_contact_name = null;
+                while (!isValid) {
+                    System.out.println("Please enter the contact person name of the store: ");
+                    store_contact_name = scanner.nextLine();
+                    if(!store_contact_name.strip().equals("")){
+                        isValid = true;
+                    }
+                    else {
+                        System.out.print("Invalid input. ");
+                    }
+                }
+                isValid = false;
+                String manager_name = null;
+                while (!isValid) {
+                    System.out.println("Please enter the manager name of the store: ");
+                    manager_name = scanner.nextLine();
+                    if(!manager_name.strip().equals("")){
+                        isValid = true;
+                    }
+                    else {
+                        System.out.print("Invalid input. ");
                     }
                 }
                 destination = new Store(store_address, phone_number, store_name, manager_name, area, store_contact_name);
                 transport_doc.insertToDestinations(destination);
             }
             if(site_type.equals("2")){
-                System.out.println("Please enter the supplier address: ");
-                String supplier_address = scanner.nextLine();
-                System.out.println("Please enter the supplier phone number: ");
-                String phone_number = scanner.nextLine();
-                System.out.println("Please enter the contact person name of the supplier:");
-                String supplier_contact_name = scanner.nextLine();
-                System.out.println("Please enter the name of the supplier: ");
-                String supplier_name = scanner.nextLine();
+                isValid = false;
+                String supplier_address = null;
+                while(!isValid) {
+                    System.out.println("Please enter the supplier address: ");
+                    supplier_address = scanner.nextLine();
+                    if(!supplier_address.strip().equals("")){
+                        isValid = true;
+                    }
+                    else{
+                        System.out.print("Invalid input. ");
+                    }
+                }
+                String phone_number = null;
+                isValid = false;
+                while(!isValid) {
+                    System.out.println("Please enter the supplier phone number: ");
+                    phone_number = scanner.nextLine();
+                    if(!containsOnlyNumbers(phone_number) || phone_number.strip().equals("")){
+                        System.out.print("Invalid input. ");
+                    }
+                    else{
+                        isValid = true;
+                    }
+                }
+                isValid = false;
+                String supplier_contact_name = null;
+                while(!isValid) {
+                    System.out.println("Please enter the contact person name of the supplier:");
+                    supplier_contact_name = scanner.nextLine();
+                    if(!supplier_contact_name.strip().equals("")){
+                        isValid = true;
+                    }
+                    else {
+                        System.out.print("Invalid input. ");
+                    }
+                }
+                isValid = false;
+                String supplier_name = null;
+                while(!isValid) {
+                    System.out.println("Please enter the name of the supplier: ");
+                    supplier_name = scanner.nextLine();
+                    if(!supplier_name.strip().equals("")){
+                        isValid = true;
+                    }
+                    else{
+                        System.out.print("Invalid input. ");
+                    }
+                }
+
                 destination = new Supplier(supplier_address, phone_number, supplier_name, supplier_contact_name);
                 transport_doc.insertToDestinations(destination);
             }
-            System.out.println("Do you want to add another destination? ");
+            System.out.println("Do you want to add another destination (Store / Supplier)? (press 1 or 2 only) ");
             String choice = null;
             isValid = false;
             while(!isValid) {
@@ -943,13 +1116,13 @@ public class Transport_System {
                 i--;
             }
         }
-        System.out.println("Hey there truck driver");
+        System.out.println("Hey there truck driver, ");
         boolean valid_input = false;
         double weight = 0;
         String input = null;
         Scanner scanner = new Scanner(System.in);
         while (!valid_input){
-            System.out.println("Please weight your truck after unloading and tell us the weight you got:");
+            System.out.print("please weight your truck after unloading and tell us the weight you got:");
             input = scanner.nextLine();
             try {
                 weight = Double.parseDouble(input);

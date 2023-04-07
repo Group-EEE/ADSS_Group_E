@@ -171,48 +171,104 @@ Mouthwash
 
 
 ==== test 1 =====================================================
+3
+
+123
+1234567
+AA34543
+123as
+Edk35
 69123
-2
-Golomb 64/23, Azur
-08-6589593
-Omer Orenshtain
-1
-111 Ben Yehuda St, Tel Aviv
-054-987-6543
-Shufersal Express
-Avi Cohen
-Rachel Levy
 5
+8
+
+2
+
+Golomb 64/23, Azur
+ASDGefd
+asdj04358
+943587owfhs
+04-2346836
+
+042346836
+
+Omer Orenshtain
+0
+3
+
 1
+aa
+10
+-1
+5
+
+111 Ben Yehuda St, Tel Aviv
+kjds
+123kdjn
+ofsl34
+
+054-9876543
+0549876543
+
+Shufersal Express
+
+Avi Cohen
+
+Rachel Levy
+0
+5
+
+1
+4
+
 1
 123 Herzl Blvd, Jerusalem
-052-548-1182
+0525481182
 Rami Levy Discount
 Sarah Roshinski
 Yakir Ben Yehuda
-2
+7
+
 1
+8
+
 2
+
 123 Main Street, Tel Aviv
+
 054-123-5496
+lsje
+lkmds123
+435lk
+0541235496
+
 Sarah Cohen
+
 XYZ Industries
+9
+
 1
 2
+
 Oak Avenue, Jerusalem
+
 052-987-6543
+0529876543
+
 David Levy
 ABC Distributors
+6
+0
+
 1
 2
 789 Maple Road, Haifa
-050-555-1212
+0505551212
 Rachel Katz
 MNO Enterprises
 2
 
 44852
-Oak Avenue, Jerusalem
 123 Herzl Blvd, Jerusalem
 Toothpaste
 50
@@ -252,7 +308,6 @@ NO
 
 
 54198
-789 Maple Road, Haifa
 111 Ben Yehuda St, Tel Aviv
 Coffee
 250
@@ -291,7 +346,6 @@ NO
 
 
 31648
-123 Main Street, Tel Aviv
 123 Herzl Blvd, Jerusalem
 Bananas
 300
