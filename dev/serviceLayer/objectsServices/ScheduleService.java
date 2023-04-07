@@ -8,14 +8,14 @@ import java.util.List;
 
 public class ScheduleService {
 
-    private Facade _facade;
-    private ScheduleService _scheduleService;
+    private final Facade _facade;
+    private static ScheduleService _scheduleService;
 
     private ScheduleService(){
         _facade = Facade.getInstance();
     }
 
-    public ScheduleService getInstance(){
+    public static ScheduleService getInstance(){
         if(_scheduleService == null)
             _scheduleService = new ScheduleService();
         return _scheduleService;

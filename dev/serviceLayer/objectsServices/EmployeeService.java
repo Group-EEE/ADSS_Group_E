@@ -2,10 +2,7 @@ package serviceLayer.objectsServices;
 
 import BussinessLayer.Controllers.Facade;
 import BussinessLayer.Objects.RoleType;
-import BussinessLayer.Objects.Shift;
-import serviceLayer.ModulesServices.HRModuleService;
 
-import java.util.List;
 
 public class EmployeeService {
     private static EmployeeService _employeeService;
