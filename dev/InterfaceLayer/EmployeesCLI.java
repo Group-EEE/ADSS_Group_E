@@ -1,6 +1,7 @@
 package InterfaceLayer;
 
 import BussinessLayer.Controllers.Facade;
+import serviceLayer.IntegratedService;
 
 import java.util.Scanner;
 
@@ -8,10 +9,11 @@ import java.util.InputMismatchException;
 
 public class EmployeesCLI {
     private static EmployeesCLI _employeesCLI;
-    private static final Facade _facade = Facade.getInstance();
+    private final IntegratedService _integrationService;
     private final Scanner scanner;
 
     private EmployeesCLI() {
+        _integrationService = IntegratedService.getInstance();
         scanner = new Scanner(System.in);
     }
 
@@ -40,7 +42,7 @@ public class EmployeesCLI {
                 case "2":
                     updateInformation();
                 case "0":
-                    _facade.logout();
+                    _integrationService.logout();
                     return;
                 default:
                     System.out.println("Invalid choice");
