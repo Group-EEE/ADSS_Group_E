@@ -647,65 +647,53 @@ public class Transport_System {
         while(!isValid){
             System.out.println("Please enter the site supply ID number (5 digits, only with the digits 0-9): ");
             input = scanner.nextLine();
-            try {
-                site_supplier_ID = Integer.parseInt(input);
-                // Check if the input is a 5 digit integer
-                if (input.length() == 5) {
-                    isValid = true;
-                } else {
-                    System.out.print("Input must be a 5 digit integer. ");
-                }
-            } catch (NumberFormatException e) {
+            if(input.strip().equals("")){
                 System.out.print("Invalid input. ");
             }
-            truck_driver = getDriverByTruckNumber(transport.getTruck_number());
-            for(Site_Supply driver_doc : truck_driver.getSites_documents()){
-                if(driver_doc.getId() == site_supplier_ID){
-                    isValid = false;
-                    System.out.print("This site supply ID number is already exist in this transport.");
+            else {
+                try {
+                    site_supplier_ID = Integer.parseInt(input);
+                    // Check if the input is a 5 digit integer
+                    if (input.length() == 5) {
+                        isValid = true;
+                    } else {
+                        System.out.print("Input must be a 5 digit integer. ");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.print("Invalid input. ");
+                }
+                truck_driver = getDriverByTruckNumber(transport.getTruck_number());
+                for (Site_Supply driver_doc : truck_driver.getSites_documents()) {
+                    if (driver_doc.getId() == site_supplier_ID) {
+                        isValid = false;
+                        System.out.print("This site supply ID number is already exist in this transport.");
+                    }
                 }
             }
         }
-        // ======================== Supplier Address ======================== //
-//        String supplier_address = null;
-//        isValid = false;
-//        while (!isValid) {
-//            System.out.println("Please enter the address of the supplier: ");
-//            supplier_address = scanner.nextLine();
-//            for (Site site : transport.getDestinations()) {
-//                if(site.getAddress().equals(supplier_address)){
-//                    if(site.is_supplier()) {
-//                        isValid = true;
-//                    }
-//                    else{
-//                        System.out.print("The address is exist in this transport, but not belongs to supplier. ");
-//                    }
-//                    break;
-//                }
-//            }
-//            if(!isValid){
-//                System.out.print("This address is not part of this transport. ");
-//            }
-//        }
         // ======================== Store Address ======================== //
         String store_address = null;
         isValid = false;
         while (!isValid) {
             System.out.println("Please enter a store destination address: ");
             store_address = scanner.nextLine();
-            for (Site site : transport.getDestinations()) {
-                if(site.getAddress().equals(store_address)){
-                    if(site.is_store()) {
-                        isValid = true;
-                    }
-                    else{
-                        System.out.println("The address is not belong to store. ");
-                    }
-                    break;
-                }
+            if(store_address.strip().equals("")){
+                System.out.println("Invalid input. ");
             }
-            if(!isValid){
-                System.out.print("This address is not part of this transport. ");
+            else {
+                for (Site site : transport.getDestinations()) {
+                    if (site.getAddress().equals(store_address)) {
+                        if (site.is_store()) {
+                            isValid = true;
+                        } else {
+                            System.out.println("The address is not belong to store. ");
+                        }
+                        break;
+                    }
+                }
+                if (!isValid) {
+                    System.out.print("This address is not part of this transport. ");
+                }
             }
         }
         // ======================== Store As Destination ======================== //
@@ -715,8 +703,11 @@ public class Transport_System {
         // ======================== Insert Items ======================== //
         isValid = false;
         while(!isValid) {
-            System.out.println("Please enter the name of the item: ");
-            String item_name = scanner.nextLine();
+            String item_name = "";
+            while (item_name.equals("")) {
+                System.out.println("Please enter the name of the item: ");
+                item_name = scanner.nextLine();
+            }
             boolean isValidNumber = false;
             int item_amount = 0;
             while (!isValidNumber) {
@@ -763,12 +754,12 @@ public class Transport_System {
                 System.out.print("Invalid input. ");
             }
         }
-        // ======================== Insert Weight To Transport Document ======================== //
-//        transport.insertToWeights(items_weight);
+        // ======================== Insert Weight To Site Supply Document ======================== //
+        site_supply_doc.setProducts_total_weight(items_weight);
         // ======================== Insert Weight To Truck ======================== //
         Truck truck = getTruckByNumber(transport.getTruck_number());
         truck.addWeight(items_weight);
-        // ======================== Add the Site Supply Document To Truck Driver ======================== //
+        // ======================== Add The Site Supply Document To Truck Driver ======================== //
         truck_driver.Add_site_document(site_supply_doc);
     }
     public Truck getTruckByNumber(String truck_number){

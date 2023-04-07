@@ -7,6 +7,8 @@ public class Site_Supply {
     private Store store;
     private String origin;
 
+    private double products_total_weight = 0.0;
+
     public Site_Supply(int d_id, Store store_site, String supplier){
         origin = supplier;
         id = d_id;
@@ -68,5 +70,9 @@ public class Site_Supply {
         }
         System.out.println();
 
+    }
+
+    public void setProducts_total_weight(double weight){
+        this.products_total_weight = weight;
     }
 }
