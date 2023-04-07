@@ -21,13 +21,6 @@ public class Employee{
     }
 
     /**
-     * @return the employee's id
-     */
-    public int getID(){
-        return this._id;
-    }
-
-    /**
      * @param firstName - the new first name of the employee
      * @return true if the first name was changed successfully, false otherwise
      */

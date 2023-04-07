@@ -60,12 +60,12 @@ public class StoreController {
      */
     public Store getStoreByName(String storeName){
         if (storeName == null)
-            return null;
+            throw new IllegalArgumentException("Invalid store name");
         for (Map.Entry<String, Store> entry : _storesByName.entrySet()){
             if (entry.getKey().equals(storeName))
                 return entry.getValue();
         }
-        return null;
+        throw new IllegalArgumentException("Store not found");
     }
 
     /**

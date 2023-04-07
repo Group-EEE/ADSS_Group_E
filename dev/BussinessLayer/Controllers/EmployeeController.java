@@ -10,7 +10,7 @@ public class EmployeeController {
     private HashMap<Integer,String> _passwords;
     private HashMap<Integer, Employee> _employees;
     private Scanner scanner;
-    private static EmployeeController _employeeController = null;
+    private static EmployeeController _employeeController;
 
 
     private EmployeeController() {
@@ -21,7 +21,7 @@ public class EmployeeController {
 
     public static EmployeeController getInstance() {
         if (_employeeController == null) {
-            new EmployeeController();
+            _employeeController = new EmployeeController();
         }
         return _employeeController;
     }
@@ -157,6 +157,33 @@ public class EmployeeController {
         if (employee == null)
             throw new IllegalArgumentException("employee not found");
         return employee.addRole(role);
+    }
+
+    /**
+     * @param employeeID - the id of the employee
+     * @param store - the store to add
+     * @return - true if the store was added successfully, false otherwise
+     */
+    public boolean addStoreToEmployee(int employeeID, Store store){
+        if (employeeID < 0)
+            throw new IllegalArgumentException("Invalid employee ID");
+        if (store == null)
+            throw new IllegalArgumentException("Invalid store");
+        Employee employee = getEmployeeByID(employeeID);
+        if (employee == null)
+            throw new IllegalArgumentException("employee not found");
+        return employee.addStore(store);
+    }
+
+    public boolean removeStoreFromEmployee(int employeeID, Store store){
+        if (employeeID < 0)
+            throw new IllegalArgumentException("Invalid employee ID");
+        if (store == null)
+            throw new IllegalArgumentException("Invalid store");
+        Employee employee = getEmployeeByID(employeeID);
+        if (employee == null)
+            throw new IllegalArgumentException("employee not found");
+        return employee.removeStore(store);
     }
 
 }

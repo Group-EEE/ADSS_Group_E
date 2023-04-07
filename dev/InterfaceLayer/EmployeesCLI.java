@@ -1,6 +1,5 @@
 package InterfaceLayer;
 
-import BussinessLayer.Controllers.Facade;
 import serviceLayer.IntegratedService;
 
 import java.util.Scanner;
@@ -59,7 +58,7 @@ public class EmployeesCLI {
         System.out.println("Please enter the Store name:");
         String storeName = scanner.nextLine();
         try{
-            _facade.printSchedule(storeName);
+            _integrationService.printSchedule(storeName);
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -73,7 +72,7 @@ public class EmployeesCLI {
                 int choice = scanner.nextInt();
                 if (choice == 0)
                     return true;
-                _facade.addEmployeeToShift(storeName, choice);
+                _integrationService.addEmployeeToShift(storeName, choice);
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input");
             }
@@ -95,15 +94,15 @@ public class EmployeesCLI {
         switch (option) {
             case "1": //first name
                 System.out.println("What is your new first name? ");
-                _facade.setNewFirstName(scanner.nextLine());
+                _integrationService.setNewFirstName(scanner.nextLine());
                 break;
             case "2": //last name
                 System.out.println("What is your new last name? ");
-                _facade.setNewLastName(scanner.nextLine());
+                _integrationService.setNewLastName(scanner.nextLine());
                 break;
             case "3": //bank account
                 System.out.println("What is your new bank account? ");
-                _facade.setNewBankAccount(scanner.nextLine());
+                _integrationService.setNewBankAccount(scanner.nextLine());
                 break;
             case "0": //back to main menu
                 return false;

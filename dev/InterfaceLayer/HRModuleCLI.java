@@ -40,7 +40,14 @@ public class HRModuleCLI {
         while (_integratedService.hasLoggedUser() == false) {
             System.out.println("Please login to your user");
             System.out.println("Please enter your ID:");
-            int id = scanner.nextInt();
+            int id;
+            try {
+                id = Integer.valueOf(scanner.nextLine());
+            }
+            catch (Exception e){
+                System.out.println("Invalid input");
+                continue;
+            }
             System.out.println("Please enter your password:");
             String password = scanner.nextLine();
             try {

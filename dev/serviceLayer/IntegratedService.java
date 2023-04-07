@@ -21,7 +21,7 @@ public class IntegratedService {
         return _integratedService;
     }
 
-    public Employee login(int id, String password){
+    public boolean login(int id, String password){
         return _employeeService.login(id, password);
     }
     public boolean hasHRManager(){
@@ -60,8 +60,8 @@ public class IntegratedService {
         return _employeeService.setNewBankAccount(bankAccount);
     }
 
-    public boolean createEmployee(String firstName, String lastName, int age, int id, String bankAccount, String password) {
-        return _employeeService.createEmployee(firstName, lastName, age, id, bankAccount, password);
+    public boolean createEmployee(String firstName, String lastName, int age, int id, String bankAccount, String password, boolean isHRManager) {
+        return _employeeService.createEmployee(firstName, lastName, age, id, bankAccount, password, isHRManager);
     }
 
     public boolean addRoleToEmployee(int employeeID, RoleType role){;
@@ -113,5 +113,13 @@ public class IntegratedService {
 
     public boolean changeHoursShift(String storeName, int newStartHour, int newEndHour, int shiftID){
         return _employeeService.changeHoursShift(storeName, newStartHour, newEndHour, shiftID);
+    }
+
+    public boolean addRequiredRoleToShift(String storeName, int shiftID, RoleType role){
+        return _employeeService.addRequiredRoleToShift(storeName, shiftID, role);
+    }
+
+    public boolean removeRequiredRoleFromShift(String storeName, int shiftID, RoleType role){
+        return _employeeService.removeRequiredRoleFromShift(storeName, shiftID, role);
     }
 }

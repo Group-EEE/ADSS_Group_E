@@ -2,6 +2,7 @@ package BussinessLayer.Objects;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Shift{
@@ -10,15 +11,21 @@ public class Shift{
     private int _startHour;
     private int _endHour;
     private int _shiftLength;
-    private boolean _approved = false;
-    private boolean _rejected = false;
+    private boolean _approved;
+    private boolean _rejected;
     private LocalDate _date;
-    private List<Employee> _inquiredEmployees = new ArrayList<Employee>();
-    private List<Employee> _approvedEmployees = new ArrayList<Employee>();
-    private List<RoleType> _requiredRoles = new ArrayList<RoleType>();
-    private List<RoleType> _filledRoles = new ArrayList<RoleType>();
+    private List<Employee> _inquiredEmployees;
+    private HashMap<RoleType,Employee> _assignedEmployees;
+    private List<RoleType> _requiredRoles;
+    private List<RoleType> _filledRoles;
 
     public Shift(ShiftType shiftType, int startTime, int endTime, LocalDate date){
+        this._assignedEmployees = new HashMap<RoleType,Employee>();
+        this._inquiredEmployees = new ArrayList<Employee>();
+        this._requiredRoles = new ArrayList<RoleType>();
+        this._filledRoles = new ArrayList<RoleType>();
+        this._approved = false;
+        this._rejected = false;
         this._shiftType = shiftType;
         this._startHour = startTime;
         this._endHour = endTime;
@@ -73,28 +80,6 @@ public class Shift{
         return _inquiredEmployees.add(employee);
     }
 
-    /**
-     * @return shift length
-     */
-    public int getShiftLength() {
-        return _shiftLength;
-    }
-
-    /**
-     * @return the start hour
-     */
-    public int getStartHour() {
-        return _startHour;
-    }
-
-    /**
-     * @return the end hour
-     */
-    public int getEndHour() {
-        return _endHour;
-    }
-
-
     public String toString(){
         return "Date: " + _date + ", Shift type: " + _shiftType + ", Date: "+_date+", Start time: " + _startHour + ", End time: " + _endHour;
     }
@@ -105,7 +90,7 @@ public class Shift{
      */
     public boolean addRequiredRole(RoleType role){
         if (role == null)
-            return false;
+            throw new IllegalArgumentException("Invalid role");
         return _requiredRoles.add(role);
     }
 
@@ -180,39 +165,36 @@ public class Shift{
             return false;
         //first we assign all the employee that has only one match.
         for (Employee employee : _inquiredEmployees){
-            RoleType role = findMatch(shift, employee);
+            RoleType role = findMatch(employee);
             if (role != null){
                 //we found a match, we remove the employee from the seaching list and add the role to the
-                if (!shift.addFilledRole(role, employee))
-                    return false;
+                addFilledRole(role, employee);
             }
         }
-        for (RoleType role : shift.getRequiredRoles()) {
-            if (role.hasEmployee())
-                continue;
-            for (Employee employee : shift.getInquiredEmployees()) {
+        for (RoleType role : _requiredRoles) {
+            for (Employee employee : _inquiredEmployees) {
                 if (employee.getRoles().contains(role)){
-                    if (!shift.addFilledRole(role, employee))
+                    if (!addFilledRole(role, employee))
                         return false;
                     break;
                 }
             }
         }
-        if (shift.getRequiredRoles().size() == 0){
-            shift.setApproved(true);
+        if (_requiredRoles.size() == 0){
+            setApproved(true);
         }
         else
             return false;
         return true;
     }
 
-    public RoleType findMatch(Shift shift, Employee employee){
-        if (shift == null || employee == null)
-            return null;
+    public RoleType findMatch(Employee employee){
+        if (employee == null)
+            throw new IllegalArgumentException("Invalid Employee");
         int counter = 0;
         RoleType lastRole = null;
         for (RoleType Role : employee.getRoles()) {
-            if (shift.getRequiredRoles().contains(Role)){
+            if (_requiredRoles.contains(Role)){
                 counter++;
                 lastRole = Role;
             }

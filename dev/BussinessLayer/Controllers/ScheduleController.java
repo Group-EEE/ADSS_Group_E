@@ -79,7 +79,6 @@ public class ScheduleController {
 
     /**
      * @param shift - the shift to check possible
-     * @param employee - the employee to add to the shift
      * @return
      */
     public List<RoleType> shiftHasMissingRequiredRole(Shift shift){
@@ -90,14 +89,36 @@ public class ScheduleController {
 
 
     /**
-     * @param shift - the shift to add the required role
+     * @param shiftID - the shift to add the required role
      * @param role - the role to add to the shift
      * @return true if the role was added successfully, false otherwise
      */
-    public boolean addRequiredRoleToShift(Shift shift, RoleType role){
-        if (shift == null || role == null)
-            return false;
+    public boolean addRequiredRoleToShift(Store store, int shiftID, RoleType role){
+        if (store == null)
+            throw new IllegalArgumentException("Invalid store");
+        if (role == null)
+            throw new IllegalArgumentException("Invalid role");
+        Schedule schedule = _schedules.get(store);
+        if (schedule == null)
+            throw new IllegalArgumentException("schedule not yet made");
+        Shift shift = schedule.getShift(shiftID);
+        if (shift == null)
+            throw new IllegalArgumentException("Invalid shift");
         return shift.addRequiredRole(role);
+    }
+
+    public boolean removeRequiredRoleFromShift(Store store, int shiftID, RoleType role){
+        if (store == null)
+            throw new IllegalArgumentException("Invalid store");
+        if (role == null)
+            throw new IllegalArgumentException("Invalid role");
+        Schedule schedule = _schedules.get(store);
+        if (schedule == null)
+            throw new IllegalArgumentException("schedule not yet made");
+        Shift shift = schedule.getShift(shiftID);
+        if (shift == null)
+            throw new IllegalArgumentException("Invalid shift");
+        return shift.removeRequiredRole(role);
     }
 
     public boolean addEmployeeToShift(Employee employee, Store store, int choice){

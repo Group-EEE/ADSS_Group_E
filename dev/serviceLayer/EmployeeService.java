@@ -1,21 +1,16 @@
 package serviceLayer;
 
-import BussinessLayer.Controllers.EmployeeController;
+
 import BussinessLayer.Controllers.Facade;
-import BussinessLayer.Controllers.ScheduleController;
-import BussinessLayer.Controllers.StoreController;
-import BussinessLayer.Objects.Employee;
 import BussinessLayer.Objects.RoleType;
 import BussinessLayer.Objects.Shift;
-import BussinessLayer.Objects.Store;
-import InterfaceLayer.EmployeesCLI;
 
 import java.util.List;
 
 // write for the service layer that connects to the facade in the bussiness Layer
 public class EmployeeService {
     private static EmployeeService _employeeService;
-    private Facade _facade;
+    private final Facade _facade;
 
     private EmployeeService(){_facade = Facade.getInstance();}
 
@@ -24,7 +19,7 @@ public class EmployeeService {
             _employeeService = new EmployeeService();
         return _employeeService;
     }
-    public Employee login(int id, String password){
+    public boolean login(int id, String password){
         return _facade.login(id, password);
     }
     public boolean hasHRManager(){
@@ -63,8 +58,8 @@ public class EmployeeService {
         return _facade.setNewBankAccount(bankAccount);
     }
 
-    public boolean createEmployee(String firstName, String lastName, int age, int id, String bankAccount, String password) {
-        return _facade.createEmployee(firstName, lastName, age, id, bankAccount, password);
+    public boolean createEmployee(String firstName, String lastName, int age, int id, String bankAccount, String password, boolean isHRManager) {
+        return _facade.createEmployee(firstName, lastName, age, id, bankAccount, password, isHRManager);
     }
 
     public boolean addRoleToEmployee(int employeeID, RoleType role){;
@@ -116,5 +111,13 @@ public class EmployeeService {
 
     public boolean changeHoursShift(String storeName, int newStartHour, int newEndHour, int shiftID){
         return _facade.changeHoursShift(storeName, newStartHour, newEndHour, shiftID);
+    }
+
+    public boolean addRequiredRoleToShift(String storeName, int shiftID, RoleType role){
+        return _facade.addRequiredRoleToShift(storeName, shiftID, role);
+    }
+
+    public boolean removeRequiredRoleFromShift(String storeName, int shiftID, RoleType role){
+        return _facade.removeRequiredRoleFromShift(storeName, shiftID, role);
     }
 }
