@@ -3,9 +3,8 @@ package InterfaceLayer;
 import BussinessLayer.Objects.RoleType;
 import BussinessLayer.Objects.Shift;
 import BussinessLayer.Objects.Store;
-import serviceLayer.IntegratedService;
+import serviceLayer.ModulesServices.IntegratedService;
 
-import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -118,7 +117,7 @@ public class HRManagerCLI{
         String bank_account = "0";
         String password = "";
         System.out.println("Welcome to the HR system!");
-        System.out.println("You must create an HR employee in order to use the system");
+
         while(valid == false){
             valid = true;
             System.out.println("Please enter the following details:");
@@ -202,6 +201,7 @@ public class HRManagerCLI{
             } catch (InputMismatchException e) {
                 System.out.println("Invalid store ID");
             }
+            System.out.println("Store name:");
             String storeName = scanner.nextLine();
             System.out.println("Store address:");
             String storeAddress = scanner.nextLine();

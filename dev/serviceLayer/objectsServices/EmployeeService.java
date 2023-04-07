@@ -1,18 +1,19 @@
-package serviceLayer;
-
+package serviceLayer.objectsServices;
 
 import BussinessLayer.Controllers.Facade;
 import BussinessLayer.Objects.RoleType;
 import BussinessLayer.Objects.Shift;
+import serviceLayer.ModulesServices.HRModuleService;
 
 import java.util.List;
 
-// write for the service layer that connects to the facade in the bussiness Layer
 public class EmployeeService {
     private static EmployeeService _employeeService;
     private final Facade _facade;
 
-    private EmployeeService(){_facade = Facade.getInstance();}
+    private EmployeeService(){
+        _facade = Facade.getInstance();
+    }
 
     public static EmployeeService getInstance(){
         if(_employeeService == null)
@@ -72,52 +73,5 @@ public class EmployeeService {
 
     public boolean removeEmployee(int employeeID){
         return _facade.removeEmployee(employeeID);
-    }
-
-    //_storeController
-    public boolean createStore(int storeId, String storeName, String storeAddress){
-        return _facade.createStore(storeId, storeName, storeAddress);
-    }
-
-    public boolean removeStore(String storeName){
-        return _facade.removeStore(storeName);
-    }
-
-    public boolean addEmployeeToStore(int employeeID, String storeName){
-        return _facade.addEmployeeToStore(employeeID, storeName);
-    }
-
-    public boolean removeEmployeeFromStore(int employeeID, String storeName){
-        return _facade.removeEmployeeFromStore(employeeID, storeName);
-    }
-    //
-
-    //_ScheduleController
-    public boolean createNewSchedule(String StoreName, int day, int month, int year){
-        return _facade.createNewSchedule(StoreName, day, month, year);
-    }
-
-    public boolean addEmployeeToShift(String storeName, int choice){
-        return _facade.addEmployeeToShift(storeName, choice);
-    }
-
-    public boolean printSchedule(String storeName){
-       return _facade.printSchedule(storeName);
-    }
-
-    public List<Shift> approveSchedule(String storeName){
-        return _facade.approveSchedule(storeName);
-    }
-
-    public boolean changeHoursShift(String storeName, int newStartHour, int newEndHour, int shiftID){
-        return _facade.changeHoursShift(storeName, newStartHour, newEndHour, shiftID);
-    }
-
-    public boolean addRequiredRoleToShift(String storeName, int shiftID, RoleType role){
-        return _facade.addRequiredRoleToShift(storeName, shiftID, role);
-    }
-
-    public boolean removeRequiredRoleFromShift(String storeName, int shiftID, RoleType role){
-        return _facade.removeRequiredRoleFromShift(storeName, shiftID, role);
     }
 }

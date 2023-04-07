@@ -1,26 +1,34 @@
-package serviceLayer;
+package serviceLayer.ModulesServices;
+
 
 import BussinessLayer.Controllers.Facade;
-import BussinessLayer.Objects.Employee;
 import BussinessLayer.Objects.RoleType;
 import BussinessLayer.Objects.Shift;
+import serviceLayer.objectsServices.EmployeeService;
+import serviceLayer.objectsServices.ScheduleService;
+import serviceLayer.objectsServices.StoreService;
 
 import java.util.List;
 
-public class IntegratedService {
-    private static IntegratedService _integratedService;
-    private EmployeeService _employeeService;
+// write for the service layer that connects to the facade in the bussiness Layer
+public class HRModuleService {
 
-    private IntegratedService(){
-        _employeeService = _employeeService.getInstance();
+    private static HRModuleService _hrModuleService;
+    private final EmployeeService _employeeService;
+    private final StoreService _storeService;
+    private final ScheduleService _scheduleService;
+
+    private HRModuleService(){
+        _employeeService = EmployeeService.getInstance();
+        _storeService = StoreService.getInstance();
+        _scheduleService = ScheduleService.getInstance();
     }
 
-    public static IntegratedService getInstance(){
-        if(_integratedService == null)
-            _integratedService = new IntegratedService();
-        return _integratedService;
+    public static HRModuleService getInstance(){
+        if(_hrModuleService == null)
+            _hrModuleService = new HRModuleService();
+        return _hrModuleService;
     }
-
     public boolean login(int id, String password){
         return _employeeService.login(id, password);
     }
@@ -78,48 +86,47 @@ public class IntegratedService {
 
     //_storeController
     public boolean createStore(int storeId, String storeName, String storeAddress){
-        return _employeeService.createStore(storeId, storeName, storeAddress);
+        return _storeService.createStore(storeId, storeName, storeAddress);
     }
 
     public boolean removeStore(String storeName){
-        return _employeeService.removeStore(storeName);
+        return _storeService.removeStore(storeName);
     }
 
     public boolean addEmployeeToStore(int employeeID, String storeName){
-        return _employeeService.addEmployeeToStore(employeeID, storeName);
+        return _storeService.addEmployeeToStore(employeeID, storeName);
     }
 
     public boolean removeEmployeeFromStore(int employeeID, String storeName){
-        return _employeeService.removeEmployeeFromStore(employeeID, storeName);
+        return _storeService.removeEmployeeFromStore(employeeID, storeName);
     }
-    //
 
     //_ScheduleController
     public boolean createNewSchedule(String StoreName, int day, int month, int year){
-        return _employeeService.createNewSchedule(StoreName, day, month, year);
+        return _scheduleService.createNewSchedule(StoreName, day, month, year);
     }
 
     public boolean addEmployeeToShift(String storeName, int choice){
-        return _employeeService.addEmployeeToShift(storeName, choice);
+        return _scheduleService.addEmployeeToShift(storeName, choice);
     }
 
     public boolean printSchedule(String storeName){
-        return _employeeService.printSchedule(storeName);
+       return _scheduleService.printSchedule(storeName);
     }
 
     public List<Shift> approveSchedule(String storeName){
-        return _employeeService.approveSchedule(storeName);
+        return _scheduleService.approveSchedule(storeName);
     }
 
     public boolean changeHoursShift(String storeName, int newStartHour, int newEndHour, int shiftID){
-        return _employeeService.changeHoursShift(storeName, newStartHour, newEndHour, shiftID);
+        return _scheduleService.changeHoursShift(storeName, newStartHour, newEndHour, shiftID);
     }
 
     public boolean addRequiredRoleToShift(String storeName, int shiftID, RoleType role){
-        return _employeeService.addRequiredRoleToShift(storeName, shiftID, role);
+        return _scheduleService.addRequiredRoleToShift(storeName, shiftID, role);
     }
 
     public boolean removeRequiredRoleFromShift(String storeName, int shiftID, RoleType role){
-        return _employeeService.removeRequiredRoleFromShift(storeName, shiftID, role);
+        return _scheduleService.removeRequiredRoleFromShift(storeName, shiftID, role);
     }
 }

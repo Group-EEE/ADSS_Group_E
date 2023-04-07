@@ -6,15 +6,16 @@ import java.util.List;
 public class Store {
     private final String _name;
     private final String _address;
-    private final int _id;
-    private List<Employee> m_employees = new ArrayList<>();
-    private Schedule curr_schedule;
-    private List<Schedule> m_past_schedule = new ArrayList<>();
+    private final int _storeID;
+    private List<Employee> _employees;
+    private List<Schedule> _pastSchedules;
 
-    public Store(int id, String _name, String address){
-        this._id = id;
-        this._name = _name;
+    public Store(int storeID, String name, String address){
+        this._storeID = storeID;
+        this._name = name;
         this._address = address;
+        this._employees = new ArrayList<>();
+        this._pastSchedules = new ArrayList<>();
     }
 
     /**
@@ -31,15 +32,8 @@ public class Store {
     public boolean addEmployee(Employee employee){
         if (employee == null)
             return false;
-        this.m_employees.add(employee);
+        this._employees.add(employee);
         return true;
-    }
-
-    /**
-     * @return the current schedule of the store
-     */
-    public Schedule getCurrSchedule() {
-        return curr_schedule;
     }
 
     /**
@@ -49,7 +43,7 @@ public class Store {
     public boolean removeEmployee(Employee employee){
         if (employee == null)
             return false;
-        if(!(this.m_employees.remove(employee)))
+        if(!(this._employees.remove(employee)))
             return false;
         return true;
     }
@@ -58,7 +52,7 @@ public class Store {
      * @return the list of all employees in the store
      */
     public List<Employee> getEmployees(){
-        return this.m_employees;
+        return this._employees;
     }
 
     /**
@@ -72,6 +66,6 @@ public class Store {
      * @return the past Schedules
      */
     public List<Schedule> getPastSchedules() {
-        return m_past_schedule;
+        return _pastSchedules;
     }
 }

@@ -1,6 +1,6 @@
 package InterfaceLayer;
 
-import serviceLayer.IntegratedService;
+import serviceLayer.ModulesServices.IntegratedService;
 
 import java.util.Scanner;
 
@@ -40,6 +40,7 @@ public class EmployeesCLI {
                     break;
                 case "2":
                     updateInformation();
+                    break;
                 case "0":
                     _integrationService.logout();
                     return;
@@ -94,15 +95,24 @@ public class EmployeesCLI {
         switch (option) {
             case "1": //first name
                 System.out.println("What is your new first name? ");
-                _integrationService.setNewFirstName(scanner.nextLine());
+                if (_integrationService.setNewFirstName(scanner.nextLine()))
+                    System.out.println("First name updated successfully");
+                else
+                    System.out.println("First name update failed");
                 break;
             case "2": //last name
                 System.out.println("What is your new last name? ");
-                _integrationService.setNewLastName(scanner.nextLine());
+                if (_integrationService.setNewLastName(scanner.nextLine()))
+                    System.out.println("Last name updated successfully");
+                else
+                    System.out.println("Last name update failed");
                 break;
             case "3": //bank account
                 System.out.println("What is your new bank account? ");
-                _integrationService.setNewBankAccount(scanner.nextLine());
+                if (_integrationService.setNewBankAccount(scanner.nextLine()))
+                    System.out.println("Bank account updated successfully");
+                else
+                    System.out.println("Bank account update failed");
                 break;
             case "0": //back to main menu
                 return false;

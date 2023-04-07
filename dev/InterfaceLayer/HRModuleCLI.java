@@ -1,10 +1,6 @@
 package InterfaceLayer;
 
-import BussinessLayer.Controllers.EmployeeController;
-import BussinessLayer.Controllers.Facade;
-import BussinessLayer.Controllers.StoreController;
-import BussinessLayer.Objects.Employee;
-import serviceLayer.IntegratedService;
+import serviceLayer.ModulesServices.IntegratedService;
 
 
 import java.util.Scanner;
@@ -23,8 +19,10 @@ public class HRModuleCLI {
         scanner = new Scanner(System.in);
     }
     public void start(){
-        if (_integratedService.hasHRManager() == false)
+        if (_integratedService.hasHRManager() == false){
+            System.out.println("You must create an HR employee in order to use the system");
             _hrManagerCLI.HRMenuCreateEmployee(true); //create HR manager
+        }
         while (_integratedService.hasLoggedUser() == false) {
             LoginUser();
             if (_integratedService.isLoggedUserIsHRManager()) {
