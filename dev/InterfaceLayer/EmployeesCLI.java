@@ -69,7 +69,7 @@ public class EmployeesCLI {
         boolean valid=false;
         while (!valid){
             try {
-                int choice = scanner.nextInt();
+                int choice = Integer.valueOf(scanner.nextLine());
                 if (choice == 0)
                     return true;
                 _integrationService.addEmployeeToShift(storeName, choice);

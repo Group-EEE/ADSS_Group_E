@@ -133,7 +133,6 @@ public class HRManagerCLI{
             catch (InputMismatchException e){
                 System.out.println("Invalid age");
                 valid = false;
-                scanner.nextLine();
                 continue;
             }
             System.out.println("ID:");
@@ -193,13 +192,12 @@ public class HRManagerCLI{
      */
     public boolean HRMenuCreateStore(){
         System.out.println("Please enter the following details:");
-        scanner.nextLine();
         boolean valid = false;
         int storeId = 0;
         while(!valid) {
             try {
                 System.out.println("Store id:");
-                storeId = scanner.nextInt();
+                storeId = Integer.valueOf(scanner.nextLine());
                 valid = true;
             } catch (InputMismatchException e) {
                 System.out.println("Invalid store ID");
@@ -303,7 +301,6 @@ public class HRManagerCLI{
      * //5. create new schedule
      */
     public boolean HRMenuCreateNewSchedule(){
-        scanner.nextLine();
         System.out.println("Please enter the Store name:");
         System.out.println("Enter 0 to exit");
         String storeName = scanner.nextLine();
@@ -330,7 +327,6 @@ public class HRManagerCLI{
         System.out.println("Please enter the Store name:");
         System.out.println("Enter '0' to exit");
         String storeName = "1";
-        scanner.nextLine();
         while (!storeName.equals("0")) {
             storeName = scanner.nextLine();
             if (storeName.equals("0"))
@@ -405,11 +401,10 @@ public class HRManagerCLI{
         while (!valid) {
             try {
                 System.out.println("Please enter the employee ID:");
-                input = scanner.nextInt();
+                input = Integer.valueOf(scanner.nextLine());
                 valid = true;
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input."+error);
-                scanner.nextLine(); // Consume the invalid input
             }
         }
         return input;
@@ -421,7 +416,7 @@ public class HRManagerCLI{
         while (!valid) {
             try {
                 System.out.println("Please enter the employee ID:");
-                input = scanner.nextInt();
+                input = Integer.valueOf(scanner.nextLine());
                 if (input == 0)
                     return 0;
                 if (input < min){
@@ -430,7 +425,6 @@ public class HRManagerCLI{
                 valid = true;
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input."+error);
-                scanner.nextLine(); // Consume the invalid input
             }
         }
         return input;
@@ -441,7 +435,7 @@ public class HRManagerCLI{
         while (!valid) {
             try {
                 System.out.println("Please enter the employee ID:");
-                input = scanner.nextInt();
+                input = Integer.valueOf(scanner.nextLine());
                 if (input < min || input > max){
                     System.out.println("Invalid input.");
                     continue;
@@ -449,7 +443,6 @@ public class HRManagerCLI{
                 valid = true;
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input."+error);
-                scanner.nextLine(); // Consume the invalid input
             }
         }
         return input;
@@ -460,7 +453,6 @@ public class HRManagerCLI{
         System.out.println("Enter '0' to exit");
         String input = "1";
         Store store = null;
-        scanner.nextLine();
         while (store == null){
             input = scanner.nextLine();
             if (input.equals("0"))
@@ -504,7 +496,7 @@ public class HRManagerCLI{
      */
     public boolean HRMenuRemoveEmployeeFromStore(){
         System.out.println("Please enter the employee ID:");
-        int employeeID = scanner.nextInt();
+        int employeeID = Integer.valueOf(scanner.nextLine());
         System.out.println("Please enter the store name:");
         String storeName = scanner.nextLine();
         try{
