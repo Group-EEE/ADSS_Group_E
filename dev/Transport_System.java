@@ -10,8 +10,8 @@ public class Transport_System {
 
     private Logistical_Center logistical_center;
     Transport_System(){
-        trucks = new ArrayList<Truck>();
-        drivers = new ArrayList<Truck_Driver>();
+        trucks = new ArrayList<>();
+        drivers = new ArrayList<>();
         Transport_Log = new HashMap<>();
         delivered_supplies_documents = new HashMap<>();
         this.logistical_center = null;
@@ -96,7 +96,7 @@ public class Transport_System {
         // getting the driver's license truck restrictions
         cold_level level = null;
         double weight = 0;
-        int level_ch = 0;
+        int level_ch;
         while (!isValid) {
             System.out.println("Enter the cold level of the truck the driver can drive in (1- Freeze, 2- Cold, 3- Dry),\n and the the Max weight of the truck he can drive in: ");
             String input = scanner.nextLine();
@@ -114,16 +114,10 @@ public class Transport_System {
                         continue;
                     }
                     else {
-                        switch (level_ch){
-                            case 1:
-                                level = cold_level.Freeze;
-                                break;
-                            case 2:
-                                level = cold_level.Cold;
-                                break;
-                            case 3:
-                                level = cold_level.Dry;
-                                break;
+                        switch (level_ch) {
+                            case 1 -> level = cold_level.Freeze;
+                            case 2 -> level = cold_level.Cold;
+                            case 3 -> level = cold_level.Dry;
                         }
                     }
                     if (weight > 0) {
@@ -342,7 +336,7 @@ public class Transport_System {
                     int manager_choice = 0;
                     System.out.println("Please choose:");
                     System.out.println("1 - cancel this suppliers goods for today.");
-                    System.out.println("2 - get back to this supplier later today.");;
+                    System.out.println("2 - get back to this supplier later today.");
                     boolean exist_2 = false;
                     while (!exist_2){
                         String ch = scanner.nextLine();
@@ -570,6 +564,9 @@ public class Transport_System {
                         // driving to the next site.
                         current = truck.get_next_site();
                     }
+                    Truck_Driver driver= truck.getCurrent_driver();
+                    driver.setCurrent_truck(null);
+                    truck.setCurrent_driver(null);
                     break;
 
                 // quit the menu
@@ -755,7 +752,7 @@ public class Transport_System {
         }
         // ======================== Items Total Weight ======================== //
         isValid = false;
-        Double items_weight = 0.0;
+        double items_weight = 0.0;
         while(!isValid){
             System.out.println("Please enter the weight of all item together (Integers numbers only):  ");
             try {
