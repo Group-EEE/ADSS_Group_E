@@ -1,4 +1,5 @@
 import BussinessLayer.Objects.Employee;
+import BussinessLayer.Objects.RoleType;
 import BussinessLayer.Objects.Shift;
 import BussinessLayer.Objects.ShiftType;
 import org.junit.jupiter.api.Test;
@@ -28,18 +29,16 @@ class ShiftTest {
     @Test
     void addRequiredRole() {
         Shift shift = new Shift(ShiftType.MORNING, 8, 16, LocalDate.of(2017, 1, 13));
-        CleanerRole a = new CleanerRole();
         assertFalse(shift.addRequiredRole(null));
-        assertTrue(shift.addRequiredRole(a));
+        assertTrue(shift.addRequiredRole(RoleType.Cleaner));
         assertEquals(5, shift.getRequiredRoles().size());
     }
 
     @Test
     void removeRequiredRole() {
         Shift shift = new Shift(ShiftType.MORNING, 8, 16, LocalDate.of(2017, 1, 13));
-        CleanerRole a = new CleanerRole();
-        shift.addRequiredRole(a);
-        assertTrue(shift.removeRequiredRole(a));
+        shift.addRequiredRole(RoleType.Cleaner);
+        assertTrue(shift.removeRequiredRole(RoleType.Cleaner));
         assertEquals(4, shift.getRequiredRoles().size());
     }
 

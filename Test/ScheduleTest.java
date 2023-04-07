@@ -1,3 +1,4 @@
+import BussinessLayer.Objects.Schedule;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
