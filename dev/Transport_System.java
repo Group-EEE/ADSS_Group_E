@@ -381,7 +381,7 @@ public class Transport_System {
     public Truck getTruckByColdLevel (cold_level level){
         Truck truck = null;
         for(Truck t : trucks){
-            if(t.getCold_level().getValue() <= level.getValue()) {
+            if(t.getCold_level().getValue() <= level.getValue() && !t.Occupied()) {
                 if(t.getCold_level().getValue() == level.getValue()){
                     truck = t;
                     break;
@@ -392,6 +392,9 @@ public class Transport_System {
                     truck = t;
                 }
             }
+        }
+        if (truck != null){
+            truck.setOccupied(true);
         }
         return truck;
     }
@@ -424,25 +427,26 @@ public class Transport_System {
         String input = null;
         while (choice != -1) {
             System.out.println("Hey Boss! what would you like to do?");
-            System.out.println("1 - Hire a new driver");
-            System.out.println("2 - See all the trucks with a cold level of your choice: \n\t 1- Freeze \n\t 2- Cold \n \t 3- Dry");
-            System.out.println("3 - Send a new transport to his way");
-            System.out.println("4 - Quit");
-            System.out.println("5 - Add new truck to the system");
-            System.out.println("6 - Display all drivers in the system");
-            System.out.println("7 - Display all trucks in the system");
-            System.out.println("8 - Display all transport documents in the system");
-            System.out.println("9 - Display all site supplies documents in the system");
+            System.out.println("0 - Hire a new driver");
+            System.out.println("1 - See all the trucks with a cold level of your choice: \n\t 1- Freeze \n\t 2- Cold \n \t 3- Dry");
+            System.out.println("2 - create a new transport");
+            System.out.println("3 - send transports");
+            System.out.println("4 - Add new truck to the system");
+            System.out.println("5 - Display all drivers in the system");
+            System.out.println("6 - Display all trucks in the system");
+            System.out.println("7 - Display all transport documents in the system");
+            System.out.println("8 - Display all site supplies documents in the system");
+            System.out.println("9 - quit");
             while(!isValid){
                 try {
                     input = scanner.nextLine();
                     choice = Integer.parseInt(input);
 
                     // Check if the input is a 5 digit integer
-                    if (input.length() == 1 && choice > 0 && choice < 10) {
+                    if (input.length() == 1 && choice >= 0 && choice < 10) {
                         isValid = true;
                     } else {
-                        System.out.println("Input must be an int between 1-9. ");
+                        System.out.println("Input must be an int between 0-9. ");
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("Invalid input. Please enter a valid int between 1-9.: ");
@@ -451,11 +455,11 @@ public class Transport_System {
             isValid = false;
             switch (choice){
                 // hire a new driver
-                case 1:
+                case 0:
                     hire_driver();
                     break;
                 // have all the trucks by a cold level
-                case 2:
+                case 1:
                 cold_level cool_level = null;
                 boolean isValid2 = false;
                 while(!isValid2){
@@ -484,90 +488,163 @@ public class Transport_System {
                 break;
 
                 // make a new transport
-                case 3:
+                case 2:
                     System.out.println("Hey Boss!");
                     Transport transport = create_transport_document();
-                    Truck truck = getTruckByNumber(transport.getTruck_number());
-                    truck.setNavigator(transport.getDestinations());
-                    Site current = truck.get_next_site();
-                    while (current != null){
-                        if (current.is_supplier()){
-                            boolean isValidChoice = false;
-                            String ch = null;
-                            while (!isValidChoice) {
-                                System.out.println("Hey " + current.getSite_n() + " manager!");
-                                // creating a document
-                                create_site_supply(transport, current.getAddress());
-                                // asking if he needs to make another one
-                                System.out.println("Do you have items to ship to another store? (Write YES/NO): ");
-                                System.out.println("1 - YES");
-                                System.out.println("2 - NO");
-                                while (true){
-                                    ch = scanner.nextLine();
-                                    if (ch.equals("YES")){
-                                        break;
-                                    }
-                                    else if (ch.equals("NO")){
-                                        isValidChoice = true;
-                                        break;
-                                    }
-                                    else {
-                                        System.out.println("You must enter YES/NO.");
-                                    }
-                                }
-                            }
-                            //insert the weight
-                            transport.insertToWeights(truck.getCurrent_weight());
-                            //checking the weight
-                            if (!check_weight(truck)){
-                                boolean abort_transport = !change_transport(transport, truck, truck.getCurrent_driver());
-                                if (abort_transport){
-                                    //delete_transport();
-                                    System.out.println("Transport was aborted.");
-                                    //return;
-                                }
-                                else {
-                                    truck = getTruckByNumber(transport.getTruck_number());
-                                }
-                            }
-                        }
-                        // unloading the goods in the store
-                        else if (current.is_store()){
-                            if (unload_goods((Store) current, truck, truck.getCurrent_driver())){
-                                System.out.println("goods unloaded in " + current.getSite_n());
-                            }
-                            else {
-                                System.out.println("We currently don't have any goods for " + current.getSite_n() + " ,skip this store for now.");
-                            }
-                        }
-                        // driving to the next site.
-                        current = truck.get_next_site();
-                    }
-                    Truck_Driver driver= truck.getCurrent_driver();
-                    driver.setCurrent_truck(null);
-                    truck.setCurrent_driver(null);
                     break;
 
                 // quit the menu
+                case 3:
+                    String manager_choice;
+                    ArrayList<Integer> transport_IDS = new ArrayList<>();
+                    boolean choosing = false;
+                    while (!choosing){
+                        System.out.println("Hey Boss, which transport you want to send?");
+                        System.out.println("1 - display all the transports that haven't started:");
+                        System.out.println("2 - send transport by enter his ID:");
+                        System.out.println("3- that's all for now.");
+                        manager_choice = scanner.nextLine();
+                        if (manager_choice.equals("1")){
+                            for (Map.Entry<Integer, Transport> entry : Transport_Log.entrySet()) {
+                                if (!entry.getValue().Started()) {
+                                    int t_id = entry.getKey();
+                                    Transport temp_transport = entry.getValue();
+                                    System.out.println("=========== Transport - " + t_id + " - information ===========");
+                                    temp_transport.transportDisplay();
+                                }
+                            }
+                        } else if (manager_choice.equals("2")) {
+                            int key =0;
+                            if (Transport_Log.size() == 0){
+                                System.out.println("We don't have any registered transport...");
+                                break;
+                            }
+                            boolean end_choosing = false;
+                            while (!end_choosing){
+                                System.out.println("Please enter the transport ID you want to start:");
+                                try {
+                                    String key_input = scanner.nextLine();
+                                    key = Integer.parseInt(key_input);
+                                    // Check if the input is a 5 digit integer
+                                    if (Transport_Log.containsKey(key)) {
+                                        Transport temp = Transport_Log.get(key);
+                                        temp.setStarted(true);
+                                        transport_IDS.add(key);
+                                        System.out.print("Transport " + key + " will start soon. If you want to send another one please press 1, otherwise press anything else:");
+                                        String inp1 = scanner.nextLine();
+                                        if (inp1.equals("1")){
+                                            continue;
+                                        }
+                                        else {
+                                            choosing = true;
+                                            end_choosing = true;
+                                        }
+                                    } else {
+                                        System.out.print("Transport ID does not exist. If you don't want to continue press 1, otherwise press anything else:");
+                                        String inp2 = scanner.nextLine();
+                                        if (inp2.equals("1")){
+                                            choosing = true;
+                                            end_choosing = true;
+                                        }
+                                        else {
+                                            continue;
+                                        }
+                                    }
+
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Invalid input. Please enter a valid 5 digit integer.");
+                                }
+                            }
+                        } else if (manager_choice.equals("3")) {
+                            System.out.println("Starting the transports.");
+                            for (int KEY: transport_IDS){
+                                Transport chosen_transport = Transport_Log.get(KEY);
+                                Truck truck = getTruckByNumber(chosen_transport.getTruck_number());
+                                truck.setNavigator(chosen_transport.getDestinations());
+                                Site current = truck.get_next_site();
+                                while (current != null){
+                                    if (current.is_supplier()){
+                                        boolean isValidChoice = false;
+                                        String ch = null;
+                                        while (!isValidChoice) {
+                                            System.out.println("Hey " + current.getSite_n() + " manager!");
+                                            // creating a document
+                                            create_site_supply(chosen_transport, current.getAddress());
+                                            // asking if he needs to make another one
+                                            System.out.println("Do you have items to ship to another store? (Write YES/NO): ");
+                                            System.out.println("1 - YES");
+                                            System.out.println("2 - NO");
+                                            while (true){
+                                                ch = scanner.nextLine();
+                                                if (ch.equals("YES")){
+                                                    break;
+                                                }
+                                                else if (ch.equals("NO")){
+                                                    isValidChoice = true;
+                                                    break;
+                                                }
+                                                else {
+                                                    System.out.println("You must enter YES/NO.");
+                                                }
+                                            }
+                                        }
+                                        //insert the weight
+                                        chosen_transport.insertToWeights(truck.getCurrent_weight());
+                                        //checking the weight
+                                        if (!check_weight(truck)){
+                                            boolean abort_transport = !change_transport(chosen_transport, truck, truck.getCurrent_driver());
+                                            if (abort_transport){
+                                                //delete_transport();
+                                                System.out.println("Transport was aborted.");
+                                                //return;
+                                            }
+                                            else {
+                                                truck = getTruckByNumber(chosen_transport.getTruck_number());
+                                            }
+                                        }
+                                    }
+                                    // unloading the goods in the store
+                                    else if (current.is_store()){
+                                        if (unload_goods((Store) current, truck, truck.getCurrent_driver())){
+                                            System.out.println("goods unloaded in " + current.getSite_n());
+                                        }
+                                        else {
+                                            System.out.println("We currently don't have any goods for " + current.getSite_n() + " ,skip this store for now.");
+                                        }
+                                    }
+                                    // driving to the next site.
+                                    current = truck.get_next_site();
+                                }
+                                Truck_Driver driver= truck.getCurrent_driver();
+                                driver.setCurrent_truck(null);
+                                truck.setCurrent_driver(null);
+                            }
+                            choosing = true;
+                        }
+                        else{
+                            System.out.println("Invalid input.");
+                        }
+                    }
+                    break;
+
                 case 4:
-                    return;
-                case 5:
                     addNewTruck();
                     break;
-                case 6:
+                case 5:
                     display_drivers();
                     break;
-                case 7:
+                case 6:
                     display_trucks();
                     break;
-                case 8:
+                case 7:
                     display_transport_doc();
                     break;
-                case 9:
+                case 8:
                     display_site_supply();
                     break;
+                case 9:
+                    return;
             }
-
         }
     }
 
@@ -806,16 +883,26 @@ public class Transport_System {
             case "3" -> cool_level = cold_level.Dry;
         }
         Truck truck = getTruckByColdLevel(cool_level);
+        if (truck == null){
+            System.out.println("there's no Truck fit to this transport.");
+            return null;
+        }
         String truck_number = truck.getRegistration_plate();
         // ======================== Truck Driver ======================== //
         String driver_name = null;
+        boolean assigned = false;
         for(Truck_Driver driver: drivers){
             if(truck_assigning(driver.getID(), truck.getRegistration_plate())){
+                assigned = true;
                 driver_name = driver.getName();
                 driver.setCurrent_truck(truck);
                 truck.setCurrent_driver(driver);
                 break;
             }
+        }
+        if (!assigned){
+            System.out.println("there's no driver fit to this transport.");
+            return null;
         }
         // ======================== Origin - Logistical Center  ======================== //
         Logistical_Center origin = null;
@@ -1080,9 +1167,9 @@ public class Transport_System {
                 }
                 // change to delete only one site.
                 driver.delete_site_document_by_ID(driver.getSites_documents().get(i).getId());
-                i--;
                 // subtracts the weight of the goods that was unloaded
                 truck.addWeight(-1 * driver.getSites_documents().get(i).getProducts_total_weight());
+                i--;
             }
         }
         return unloaded;

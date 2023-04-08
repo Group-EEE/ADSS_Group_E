@@ -11,6 +11,7 @@ public class Transport {
     private ArrayList<Site> destinations;
     private Map<String, Integer> products;
     private ArrayList<Double> weighing;
+    private boolean started;
 
     public Transport(int transport_ID, String date, String departure_time, String truck_number, String driver_name, Logistical_Center origin, cold_level cold_level){
         this.transport_ID = transport_ID;
@@ -23,6 +24,15 @@ public class Transport {
         this.destinations = new ArrayList<>();
         this.products = new HashMap<>();
         this.weighing = new ArrayList<>();
+        this.started = false;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
+
+    public boolean Started(){
+        return started;
     }
 
     public cold_level getRequired_level() {

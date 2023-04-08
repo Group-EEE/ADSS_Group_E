@@ -34,6 +34,10 @@ public class Truck {
         this.current_weight = current_weight;
     }
 
+    public boolean Occupied(){
+        return occupied;
+    }
+
     public void setOccupied(boolean occupied) {
         this.occupied = occupied;
     }
