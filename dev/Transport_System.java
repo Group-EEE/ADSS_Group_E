@@ -254,26 +254,9 @@ public class Transport_System {
                         if (site_supply.getStore().getSite_n().equals(site_to_remove)) {
                             for (String product : site_supply.getItems().keySet()) {
                                 transport_doc.deleteProducts(product, site_supply.getItems().get(product));
-                                System.out.println("We dropped " + site_supply.getItems().get(product) + " of the product - " + product + " how much weight it was?");
-                                boolean is_double = false;
-                                String input = "";
-                                double drop_weight = 0.0;
-                                while (!is_double) {
-                                    input = scanner.nextLine();
-                                    try {
-                                        drop_weight = Double.parseDouble(input);
-                                        if (drop_weight > 0) {
-                                            truck.addWeight(-1 * drop_weight);
-                                            is_double = true;
-                                        } else {
-                                            System.out.println("Please enter a positive number.");
-                                        }
-
-                                    } catch (NumberFormatException e) {
-                                        System.out.println("Invalid input. Please enter a valid weight represented by double.");
-                                    }
-                                }
+                                System.out.println("We dropped " + site_supply.getItems().get(product) + " of the product - " + product);
                             }
+                            truck.addWeight(-1 * site_supply.getProducts_total_weight());
                         }
                     }
                     driver.delete_site_document_by_destination(site_to_remove);
@@ -1102,32 +1085,8 @@ public class Transport_System {
                 // change to delete only one site.
                 driver.delete_site_document_by_ID(driver.getSites_documents().get(i).getId());
                 i--;
-            }
-        }
-        System.out.println("Hey there truck driver, ");
-        boolean valid_input = false;
-        double weight = 0;
-        String input = null;
-        Scanner scanner = new Scanner(System.in);
-        while (!valid_input){
-            System.out.print("please weight your truck after unloading and tell us the weight you got:");
-            input = scanner.nextLine();
-            try {
-                weight = Double.parseDouble(input);
-                if (weight > truck.getMax_weight()){
-                    System.out.println("No way... it's above the maximum weight!");
-                } else if (weight > truck.getCurrent_weight()) {
-                    System.out.println("No way... it's above the weight you had before unloading the goods!");
-                } else if (weight < truck.getNet_weight()) {
-                    System.out.println("No way... it's below the Net weight of the truck!");
-                }
-                else {
-                    truck.setCurrent_weight(weight);
-                    valid_input = true;
-                }
-            }
-            catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid positive double number. ");
+                // subtracts the weight of the goods that was unloaded
+                truck.addWeight(-1 * driver.getSites_documents().get(i).getProducts_total_weight());
             }
         }
         return unloaded;

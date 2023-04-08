@@ -75,4 +75,8 @@ public class Site_Supply {
     public void setProducts_total_weight(double weight){
         this.products_total_weight = weight;
     }
+
+    public double getProducts_total_weight() {
+        return products_total_weight;
+    }
 }

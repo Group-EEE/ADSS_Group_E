@@ -51,7 +51,8 @@ public class Truck {
         return navigator.getCurrent_location();
     }
     public Site get_next_site(){
-        return navigator.drive_to_next();
+        System.out.println("GPS: You have arrived to " + navigator.drive_to_next().getSite_n());
+        return navigator.getCurrent_location();
     }
 
     public ArrayList<Site> get_route(){
