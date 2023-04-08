@@ -145,7 +145,7 @@ public class Main {
                                 System.out.println("Product doesn't exist in store!");
                             }
                             break;
-                        case 2:
+                        case 2: //Remove specific product from store
                             Scanner ba = new Scanner(System.in);
                             System.out.println("Please enter product's Barcode:");
                             int barcode = ba.nextInt();
@@ -160,7 +160,7 @@ public class Main {
                                 System.out.println("Product wasn't found!");
                             }
                             break;
-                        case 3:
+                        case 3: //Report defected specific product
                             Scanner ba3 = new Scanner(System.in);
                             System.out.println("Please enter product's Barcode:");
                             int barcode3 = ba3.nextInt();
@@ -181,7 +181,7 @@ public class Main {
                                 System.out.println("Product wasn't found!");
                             }
                             break;
-                        case 4:
+                        case 4: //Find specific product in store
                             Scanner ba4 = new Scanner(System.in);
                             System.out.println("Please enter product's Barcode:");
                             int barcode4 = ba4.nextInt();
@@ -196,7 +196,7 @@ public class Main {
                                 System.out.println("Product wasn't found!");
                             }
                             break;
-                        case 5:
+                        case 5: //Change specific product place in store
                             Scanner ba5 = new Scanner(System.in);
                             System.out.println("Please enter product's Barcode:");
                             int barcode5 = ba5.nextInt();
@@ -215,7 +215,7 @@ public class Main {
                                 System.out.println("Product wasn't found!");
                             }
                             break;
-                        case 6:
+                        case 6: //Transfer specific product from/to warehouse
                             Scanner ba6 = new Scanner(System.in);
                             System.out.println("Please enter product's Barcode:");
                             int barcode6 = ba6.nextInt();
@@ -236,28 +236,28 @@ public class Main {
                     System.out.println("5. Issue report by category");
                     int c3 = option3.nextInt();
                     switch (c3) {
-                        case 1:
+                        case 1: //Get all reports in system
                             reportController.GetAllIssuedReports();
                             break;
-                        case 2:
+                        case 2: //Issue order products report
                             Scanner reporter = new Scanner(System.in);
                             System.out.println("Please enter Issue's reporter's name:");
                             String r = reporter.nextLine();
                             OrderReport orderReport = new OrderReport(r);
                             break;
-                        case 3:
+                        case 3: //Issue current supply
                             Scanner reporter3 = new Scanner(System.in);
                             System.out.println("Please enter Issue's reporter's name:");
                             String r3 = reporter3.nextLine();
                             CurrSupplyReport currSupplyReport = new CurrSupplyReport(r3);
                             break;
-                        case 4:
+                        case 4: //Issue EXP/ defected products report
                             Scanner reporter4 = new Scanner(System.in);
                             System.out.println("Please enter Issue's reporter's name:");
                             String r4 = reporter4.nextLine();
                             ExpOrDefectReport expOrDefectReport = new ExpOrDefectReport(r4);
                             break;
-                        case 5:
+                        case 5: //Issue report by category
                             Scanner reporter5 = new Scanner(System.in);
                             System.out.println("Please enter Issue's reporter's name:");
                             String r5 = reporter5.nextLine();
@@ -283,16 +283,16 @@ public class Main {
                     System.out.println("3. Remove category");
                     int c4 = option4.nextInt();
                     switch (c4) {
-                        case 1:
+                        case 1: //Get all category names
                             categoryController.PrintCategorysInSystem();
                             break;
-                        case 2:
+                        case 2: //Add new category
                             Scanner newcat = new Scanner(System.in);
                             System.out.println("Please enter new Category name:");
                             String cat = newcat.nextLine();
                             CategoryController.addCategory(cat);
                             break;
-                        case 3:
+                        case 3: //Remove category
                             Scanner newcat3 = new Scanner(System.in);
                             System.out.println("Please enter Category name to remove:");
                             String cat3 = newcat3.nextLine();
@@ -307,7 +307,7 @@ public class Main {
                     System.out.println("2. Remove subcategory");
                     int c5 = option5.nextInt();
                     switch (c5) {
-                        case 1:
+                        case 1: //Add new subcategory
                             Scanner newcat = new Scanner(System.in);
                             System.out.println("Please enter new Category name:");
                             String cat = newcat.nextLine();
@@ -316,7 +316,7 @@ public class Main {
                             String subcat = newsubcat.nextLine();
                             CategoryController.addSubCategory(cat,subcat);
                             break;
-                        case 2:
+                        case 2: //Remove subcategory
                             Scanner newcat2 = new Scanner(System.in);
                             System.out.println("Please enter Category name:");
                             String cat2 = newcat2.nextLine();
@@ -334,7 +334,7 @@ public class Main {
                     System.out.println("2. Remove subsubcategory");
                     int c6 = option6.nextInt();
                     switch (c6) {
-                        case 1:
+                        case 1: //Add new subsubcategory
                             Scanner newsubcat1 = new Scanner(System.in);
                             System.out.println("Please enter new SubCategory name:");
                             String subcat1 = newsubcat1.nextLine();
@@ -343,7 +343,7 @@ public class Main {
                             String subsubcat1 = newsubsubcat1.nextLine();
                             CategoryController.addSubSubCategory(subcat1, subsubcat1);
                             break;
-                        case 2:
+                        case 2: //Remove subsubcategory
                             Scanner newcat2 = new Scanner(System.in);
                             System.out.println("Please enter Category name:");
                             String cat2 = newcat2.nextLine();
@@ -370,7 +370,7 @@ public class Main {
                     System.out.println("8. Update store price");
                     int c7 = option7.nextInt();
                     switch (c7) {
-                        case 1:
+                        case 1: //Update discount for category from a specific supplier
                             Scanner cat = new Scanner(System.in);
                             System.out.println("Please enter Category:");
                             String category = cat.nextLine();
@@ -391,7 +391,7 @@ public class Main {
                             Discount dis = new Discount(start1, end1, discount);
                             dis.update_discount_bycategory_from_supplier(category, supplier);
                             break;
-                        case 2:
+                        case 2: //Update discount for product from a specific supplier
                             Scanner name2 = new Scanner(System.in);
                             System.out.println("Please enter Product's name:");
                             String nam2 = name2.nextLine();
@@ -412,7 +412,7 @@ public class Main {
                             Discount dis2 = new Discount(start22, end22, discount2);
                             dis2.update_discount_byproduct_from_supplier(nam2, supplier2);
                             break;
-                        case 3:
+                        case 3: //Update discount for specific product from a specific supplier
                             Scanner name3 = new Scanner(System.in);
                             System.out.println("Please enter Product's name:");
                             String nam3 = name3.nextLine();
@@ -436,7 +436,7 @@ public class Main {
                             Discount dis3 = new Discount(start33, end33, discount3);
                             dis3.update_discount_byspecificproduct_from_supplier(nam3 , pid33, supplier3);
                             break;
-                        case 4:
+                        case 4: //Update discount for category in store
                             Scanner cat4 = new Scanner(System.in);
                             System.out.println("Please enter Category:");
                             String category4 = cat4.nextLine();
@@ -454,7 +454,7 @@ public class Main {
                             Discount dis4 = new Discount(start44, end44, discount4);
                             dis4.update_discount_bycategory(category4);
                             break;
-                        case 5:
+                        case 5: //Update discount for product in store
                             Scanner name5 = new Scanner(System.in);
                             System.out.println("Please enter Product's name:");
                             String nam5 = name5.nextLine();
@@ -472,7 +472,7 @@ public class Main {
                             Discount dis5 = new Discount(start55, end55, discount5);
                             dis5.update_discount_byproduct(nam5);
                             break;
-                        case 6:
+                        case 6: //Update discount for specific product in store
                             Scanner name6 = new Scanner(System.in);
                             System.out.println("Please enter Product's name:");
                             String nam6 = name6.nextLine();
@@ -493,7 +493,7 @@ public class Main {
                             Discount dis6 = new Discount(start66, end66, discount6);
                             dis6.update_discount_byspecificproduct(nam6 , pid66);
                             break;
-                        case 7:
+                        case 7: //Update supplier price
                             Scanner barcode = new Scanner(System.in);
                             System.out.println("Please enter Product's barcode:");
                             int Barcode = barcode.nextInt();
@@ -502,7 +502,7 @@ public class Main {
                             double np = price.nextDouble();
                             productController.getProductByBarcode(Barcode).setSupplier_Price(np);
                             break;
-                        case 8:
+                        case 8: //Update store price
                             Scanner barcode8 = new Scanner(System.in);
                             System.out.println("Please enter Product's barcode:");
                             int Barcode8 = barcode8.nextInt();
