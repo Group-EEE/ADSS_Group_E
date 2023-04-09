@@ -3,18 +3,53 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Transport_System {
-    private ArrayList<Truck> trucks;
-    private ArrayList<Truck_Driver> drivers;
-    private Map<Integer, Transport> Transport_Log;
-    private Map<Store, ArrayList<Site_Supply>> delivered_supplies_documents;
+
     private Logistical_Center logistical_center;
 
     Transport_System(){
-        trucks = new ArrayList<>();
-        drivers = new ArrayList<>();
-        Transport_Log = new HashMap<>();
-        delivered_supplies_documents = new HashMap<>();
-        this.logistical_center = null;
+        System.out.println("Hey Boss, currently the system does not have the details about the logistics center.");
+        String origin_address = null;
+        boolean isValid = false;
+        String input;
+        Scanner scanner = new Scanner(System.in);
+        while (!isValid) {
+            System.out.println("Please enter the logistical center address: ");
+            input = scanner.nextLine();
+            if (input.strip().equals("")) {
+                System.out.print("Invalid input. ");
+            }
+            else{
+                origin_address = input;
+                isValid = true;
+            }
+        }
+        String origin_phone = null;
+        isValid = false;
+        while(!isValid) {
+            System.out.println("Please enter the logistical center phone number (only digits 0-9): ");
+            origin_phone = scanner.nextLine();
+            if(!containsOnlyNumbers(origin_phone) || origin_phone.strip().equals("")){
+                System.out.print("Invalid input. ");
+            }
+            else{
+                isValid = true;
+            }
+        }
+        String origin_name = "Logistical Center";
+        isValid = false;
+        String origin_contact_name = null;
+        while (!isValid) {
+            System.out.println("Please enter the contact person name of the logistical center: ");
+            origin_contact_name = scanner.nextLine();
+            if(!origin_contact_name.strip().equals("")){
+                isValid = true;
+            }
+            else{
+                System.out.print("Invalid input. ");
+
+            }
+        }
+        this.logistical_center = new Logistical_Center(origin_address, origin_phone, origin_name, origin_contact_name);
     }
 
     // assigning a truck for a truck_driver by a given driver ID and a truck's registration plate.
@@ -47,7 +82,7 @@ public class Transport_System {
                     System.out.print("Invalid input. ");
                 }
                 // check if the ID number is already exist in the system.
-                for (Truck_Driver truck_driver : drivers) {
+                for (Truck_Driver truck_driver : logistical_center.getDrivers()) {
                     if (truck_driver.getID() == ID) {
                         isValid = false;
                         System.out.println("The ID number - " + ID + " - is already belong to some driver in the transport system. Please enter a valid 9 digit integer: ");
@@ -84,7 +119,7 @@ public class Transport_System {
                     System.out.println("Invalid input. Please enter a valid 5 digit integer.");
                 }
                 // check if the license ID number is already exist in the system.
-                for (Truck_Driver truck_driver : drivers) {
+                for (Truck_Driver truck_driver : logistical_center.getDrivers()) {
                     if (truck_driver.getLicense().getL_ID() == License_ID) {
                         isValid = false;
                         System.out.println("The license ID number - " + License_ID + " - is already belong to some driver in the transport system. Please enter a valid 5 digit integer: ");
@@ -158,27 +193,20 @@ public class Transport_System {
         }
 
         Truck_Driver driver = new Truck_Driver(ID, Driver_name, License_ID, level, weight);
-        drivers.add(driver);
+        logistical_center.getDrivers().add(driver);
     }
     public void add_driver(Truck_Driver driver){
-        drivers.add(driver);
+        logistical_center.getDrivers().add(driver);
     }
     public void add_truck(Truck truck){
-        trucks.add(truck);
+        logistical_center.getTrucks().add(truck);
     }
-    public void setDrivers(ArrayList<Truck_Driver> drivers) {
-        this.drivers = drivers;
-    }
-    public void setTrucks(ArrayList<Truck> trucks) {
-        this.trucks = trucks;
-    }
-
 
 
     // return a truck driver by truck registration number.
     public Truck_Driver getDriverByTruckNumber(String truck_number){
         Truck truck = null;
-        for(Truck t : trucks){
+        for(Truck t : logistical_center.getTrucks()){
             if(t.getRegistration_plate().equals(truck_number)){
                 truck = t;
             }
@@ -273,7 +301,7 @@ public class Transport_System {
                         System.out.println("Sorry Boss, we don't have a suitable truck...");
                     } else {
                         //now we need to check if we need to assign a driver to the new truck.
-                        for (Truck_Driver truck_driver : drivers) {
+                        for (Truck_Driver truck_driver : logistical_center.getDrivers()) {
                             if (truck_assigning(truck_driver.getID(), new_truck.getRegistration_plate())) {
                                 // updating the current driver's truck and the opposite.
                                 driver.setCurrent_truck(null);
@@ -380,7 +408,7 @@ public class Transport_System {
     // return some truck by temperature level.
     public Truck getTruckByColdLevel (cold_level level){
         Truck truck = null;
-        for(Truck t : trucks){
+        for(Truck t : logistical_center.getTrucks()){
             if(t.getCold_level().getValue() <= level.getValue() && !t.Occupied()) {
                 if(t.getCold_level().getValue() == level.getValue()){
                     truck = t;
@@ -401,7 +429,7 @@ public class Transport_System {
 
     public Truck getTruckByColdAndWeight(cold_level level, double weight){
         Truck truck = null;
-        for(Truck t : trucks){
+        for(Truck t : logistical_center.getTrucks()){
             if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight) {
                 if(t.getCold_level().getValue() == level.getValue()){
                     truck = t;
@@ -480,7 +508,7 @@ public class Transport_System {
                     case "2" -> cool_level = cold_level.Cold;
                     case "3" -> cool_level = cold_level.Dry;
                 }
-                for(Truck t : trucks){
+                for(Truck t : logistical_center.getTrucks()){
                     if(t.getCold_level().getValue() == cool_level.getValue()) {
                         System.out.println(t.getRegistration_plate());
                     }
@@ -505,7 +533,7 @@ public class Transport_System {
                         System.out.println("3- that's all for now.");
                         manager_choice = scanner.nextLine();
                         if (manager_choice.equals("1")){
-                            for (Map.Entry<Integer, Transport> entry : Transport_Log.entrySet()) {
+                            for (Map.Entry<Integer, Transport> entry : logistical_center.getTransport_Log().entrySet()) {
                                 if (!entry.getValue().Started()) {
                                     int t_id = entry.getKey();
                                     Transport temp_transport = entry.getValue();
@@ -515,7 +543,7 @@ public class Transport_System {
                             }
                         } else if (manager_choice.equals("2")) {
                             int key =0;
-                            if (Transport_Log.size() == 0){
+                            if (logistical_center.getTransport_Log().size() == 0){
                                 System.out.println("We don't have any registered transport...");
                                 break;
                             }
@@ -526,8 +554,8 @@ public class Transport_System {
                                     String key_input = scanner.nextLine();
                                     key = Integer.parseInt(key_input);
                                     // Check if the input is a 5 digit integer
-                                    if (Transport_Log.containsKey(key)) {
-                                        Transport temp = Transport_Log.get(key);
+                                    if (logistical_center.getTransport_Log().containsKey(key)) {
+                                        Transport temp = logistical_center.getTransport_Log().get(key);
                                         temp.setStarted(true);
                                         transport_IDS.add(key);
                                         System.out.print("Transport " + key + " will start soon. If you want to send another one please press 1, otherwise press anything else:");
@@ -558,7 +586,7 @@ public class Transport_System {
                         } else if (manager_choice.equals("3")) {
                             System.out.println("Starting the transports.");
                             for (int KEY: transport_IDS){
-                                Transport chosen_transport = Transport_Log.get(KEY);
+                                Transport chosen_transport = logistical_center.getTransport_Log().get(KEY);
                                 Truck truck = getTruckByNumber(chosen_transport.getTruck_number());
                                 truck.setNavigator(chosen_transport.getDestinations());
                                 Site current = truck.get_next_site();
@@ -664,9 +692,9 @@ public class Transport_System {
         Truck_Driver driver = null;
         Truck truck = null;
         // checking if the given parameters are valid, and getting the diver and the truck if they exist.
-        for (int i = 0; i < trucks.size(); i++) {
-            if (trucks.get(i).equals(truck_registration_plate)){
-                truck = trucks.get(i);
+        for (int i = 0; i < logistical_center.getTrucks().size(); i++) {
+            if (logistical_center.getTrucks().get(i).equals(truck_registration_plate)){
+                truck = logistical_center.getTrucks().get(i);
                 break;
             }
         }
@@ -674,9 +702,9 @@ public class Transport_System {
             return false;
         }
 
-        for (int i = 0; i < drivers.size(); i++) {
-            if (drivers.get(i).equals(driver_id)){
-                driver = drivers.get(i);
+        for (int i = 0; i < logistical_center.getDrivers().size(); i++) {
+            if (logistical_center.getDrivers().get(i).equals(driver_id)){
+                driver = logistical_center.getDrivers().get(i);
                 break;
             }
         }
@@ -827,7 +855,7 @@ public class Transport_System {
     }
     public Truck getTruckByNumber(String truck_number){
         Truck truck = null;
-        for(Truck t : trucks){
+        for(Truck t : logistical_center.getTrucks()){
             if(t.getRegistration_plate().equals(truck_number)){
                 truck = t;
             }
@@ -861,7 +889,7 @@ public class Transport_System {
                 } catch (NumberFormatException e) {
                     System.out.print("Invalid input. ");
                 }
-                Transport transport = Transport_Log.get(transport_Id);
+                Transport transport = logistical_center.getTransport_Log().get(transport_Id);
                 if (transport != null) {
                     isValid = false;
                     System.out.println("The transport ID number is already exist in the transports system. ");
@@ -898,7 +926,7 @@ public class Transport_System {
         // ======================== Truck Driver ======================== //
         String driver_name = null;
         boolean assigned = false;
-        for(Truck_Driver driver: drivers){
+        for(Truck_Driver driver: logistical_center.getDrivers()){
             if(truck_assigning(driver.getID(), truck.getRegistration_plate())){
                 assigned = true;
                 driver_name = driver.getName();
@@ -1144,7 +1172,7 @@ public class Transport_System {
             }
         }
         // ======================== Add Transport Document ======================== //
-        Transport_Log.put(transport_Id, transport_doc);
+        logistical_center.getTransport_Log().put(transport_Id, transport_doc);
         return transport_doc;
     }
     public boolean check_weight(Truck truck){
@@ -1163,14 +1191,14 @@ public class Transport_System {
         for (int i = 0; i< driver.getSites_documents().size(); i++){
             if (driver.getSites_documents().get(i).getStore().getAddress() == store.getAddress()){
                 unloaded = true;
-                if (delivered_supplies_documents.containsKey(store)) {
-                    ArrayList<Site_Supply> site_supplies= delivered_supplies_documents.get(store);
+                if (logistical_center.getDelivered_supplies_documents().containsKey(store)) {
+                    ArrayList<Site_Supply> site_supplies= logistical_center.getDelivered_supplies_documents().get(store);
                     site_supplies.add(driver.getSites_documents().get(i));
                 }
                 else {
                     ArrayList<Site_Supply> siteSupplies = new ArrayList<>();
                     siteSupplies.add(driver.getSites_documents().get(i));
-                    delivered_supplies_documents.put(store, siteSupplies);
+                    logistical_center.getDelivered_supplies_documents().put(store, siteSupplies);
                 }
                 // change to delete only one site.
                 driver.delete_site_document_by_ID(driver.getSites_documents().get(i).getId());
@@ -1192,7 +1220,7 @@ public class Transport_System {
         while(!isValid){
             System.out.println("Please enter the registration number of the truck (8 digits, only with the digits 0-9): ");
             input = scanner.nextLine();
-            for(Truck truck : trucks){
+            for(Truck truck : logistical_center.getTrucks()){
                 if(truck.getRegistration_plate().equals(input)){
                     System.out.print("The Truck is already exist in the system! ");
                 }
@@ -1252,14 +1280,14 @@ public class Transport_System {
         }
         // ======================== Create And Adding The New Truck  ======================== //
         Truck truck = new Truck(registration_number, truck_moodle, truck_net_weight, truck_max_weight, cool_level ,truck_net_weight);
-        trucks.add(truck);
+        logistical_center.getTrucks().add(truck);
     }
 
 
     /// ========== display for test ======= ///
 
     public void display_transport_doc(){
-        for (Map.Entry<Integer, Transport> entry : Transport_Log.entrySet()) {
+        for (Map.Entry<Integer, Transport> entry : logistical_center.getTransport_Log().entrySet()) {
             int id = entry.getKey();
             Transport transport = entry.getValue();
             System.out.println("=========== Transport - " + id + " - information ===========");
@@ -1269,20 +1297,20 @@ public class Transport_System {
 
     public void display_trucks(){
         System.out.println("======================================= Trucks in the system =======================================");
-        for(Truck t : trucks){
+        for(Truck t : logistical_center.getTrucks()){
             t.truckDisplay();
         }
     }
 
     public void display_drivers(){
         System.out.println("======================================= Drivers in the system =======================================");
-        for(Truck_Driver driver : drivers){
+        for(Truck_Driver driver : logistical_center.getDrivers()){
             driver.driverDisplay();
         }
     }
 
     public void display_site_supply(){
-        for (Map.Entry<Store, ArrayList<Site_Supply>> entry : delivered_supplies_documents.entrySet()) {
+        for (Map.Entry<Store, ArrayList<Site_Supply>> entry : logistical_center.getDelivered_supplies_documents().entrySet()) {
             for(Site_Supply siteSupply : entry.getValue()){
                 siteSupply.sDisplay();
             }
