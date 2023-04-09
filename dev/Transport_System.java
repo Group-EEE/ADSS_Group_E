@@ -687,6 +687,12 @@ public class Transport_System {
         if (driver.getLicense().getWeight() < truck.getMax_weight() || driver.getLicense().getCold_level().getValue() > truck.getCold_level().getValue()){
 //            System.out.println("The driver's license does not fit to the truck");
             return false;
+        } else if (truck.Occupied()) {
+            System.out.println("The truck is occupied for another transport");
+            return false;
+        } else if (driver.getCurrent_truck() != null) {
+            System.out.println("The driver is occupied for another transport");
+            return false;
         }
         truck.setCurrent_driver(driver);
         driver.setCurrent_truck(truck);
