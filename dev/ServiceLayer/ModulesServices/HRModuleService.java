@@ -1,12 +1,11 @@
-package serviceLayer.ModulesServices;
+package ServiceLayer.ModulesServices;
 
 
-import BussinessLayer.Controllers.Facade;
 import BussinessLayer.Objects.RoleType;
 import BussinessLayer.Objects.Shift;
-import serviceLayer.objectsServices.EmployeeService;
-import serviceLayer.objectsServices.ScheduleService;
-import serviceLayer.objectsServices.StoreService;
+import ServiceLayer.objectsServices.EmployeeService;
+import ServiceLayer.objectsServices.ScheduleService;
+import ServiceLayer.objectsServices.StoreService;
 
 import java.util.List;
 
@@ -22,6 +21,10 @@ public class HRModuleService {
         _employeeService = EmployeeService.getInstance();
         _storeService = StoreService.getInstance();
         _scheduleService = ScheduleService.getInstance();
+    }
+
+    public boolean loadData(){
+        return _employeeService.loadData();
     }
 
     public static HRModuleService getInstance(){

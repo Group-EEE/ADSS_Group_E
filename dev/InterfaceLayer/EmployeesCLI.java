@@ -1,6 +1,6 @@
 package InterfaceLayer;
 
-import serviceLayer.ModulesServices.IntegratedService;
+import ServiceLayer.ModulesServices.IntegratedService;
 
 import java.util.Scanner;
 
@@ -73,7 +73,12 @@ public class EmployeesCLI {
                 int choice = Integer.valueOf(scanner.nextLine());
                 if (choice == 0)
                     return true;
-                _integrationService.addEmployeeToShift(storeName, choice);
+                try {
+                    _integrationService.addEmployeeToShift(storeName, choice - 1);
+                } catch (Exception e) {
+                    System.out.println("Could not add employee to shift");
+                    System.out.println(e.getMessage());
+                }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input");
             }

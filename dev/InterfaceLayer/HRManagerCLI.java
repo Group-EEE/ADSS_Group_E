@@ -2,8 +2,7 @@ package InterfaceLayer;
 
 import BussinessLayer.Objects.RoleType;
 import BussinessLayer.Objects.Shift;
-import BussinessLayer.Objects.Store;
-import serviceLayer.ModulesServices.IntegratedService;
+import ServiceLayer.ModulesServices.IntegratedService;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -40,8 +39,8 @@ public class HRManagerCLI{
         System.out.println("10. remove employee from store");
         System.out.println("11. remove employee from system");
         System.out.println("12. remove store from system");
-        System.out.println("13. select required roles from a schedule");
-        System.out.println("14. remove required roles from a schedule");
+        System.out.println("13. select required roles from a shift");
+        System.out.println("14. remove required roles from a shift");
         System.out.println("15. print all employees");
         System.out.println("16. print all stores");
         System.out.println("0. log out");
@@ -236,7 +235,7 @@ public class HRManagerCLI{
             String storeName = getStoreName();
             if (storeName == null)
                 return false;
-            int employeeID = validInput("Please enter valid employee ID", 0);
+            int employeeID = validInput("Please enter employee id","Please enter valid employee ID", 0);
             if (employeeID == 0)
                 return false;
             try{
@@ -257,7 +256,7 @@ public class HRManagerCLI{
     public boolean HRMenuAddRoleToEmployee(){
         System.out.println("Please enter the following details:");
         System.out.println("Employee ID:");
-        int employeeID = validInput("Please enter valid employee ID",0);
+        int employeeID = validInput("Please enter employee id","Please enter valid employee ID",0);
         if (employeeID == 0)
             return false;
         RoleType newRole = getRoleByMenu();
@@ -320,20 +319,21 @@ public class HRManagerCLI{
      * //5. create new schedule
      */
     public boolean HRMenuCreateNewSchedule(){
-        String storeName = getStoreName();
+       String storeName = getStoreName();
        if (storeName == null)
            return false;
-        System.out.println("Please enter the start date of the schedule (dd/mm/yyyy):");
-        int day = validInput("Please enter a valid integer for the day.",1,31);
-        int month = validInput("Please enter a valid integer for the month.",1,12);
-        int year = validInput("Please enter a valid integer for the year.",2020,2025);
-        try{
-            _integratedService.createNewSchedule(storeName, day, month, year);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-        return true;
+       System.out.println("Please enter the start date of the schedule (dd/mm/yyyy):");
+       int day = validInput("Please enter the start day of the schedule","Please enter a valid integer for the day.",1,31);
+       int month = validInput("Please enter the start day of the schedule","Please enter a valid integer for the month.",1,12);
+       int year = validInput("Please enter the start day of the schedule","The year must start from 2020 to 2025",2020,2025);
+       try{
+           _integratedService.createNewSchedule(storeName, day, month, year);
+           System.out.println("The schedule was created successfully for the store "+storeName);
+       } catch (Exception e) {
+           System.out.println(e.getMessage());
+           return false;
+       }
+       return true;
     }
 
     /**
@@ -347,7 +347,7 @@ public class HRManagerCLI{
         List<Shift> rejectShifts;
         try {
             rejectShifts = _integratedService.approveSchedule(storeName);
-        } catch (InputMismatchException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
@@ -383,15 +383,11 @@ public class HRManagerCLI{
         }
         boolean valid = false;
         while (!valid){
-            System.out.println("Please enter the number of the shift you want to change");
-            System.out.println("Enter 0 to exit");
-            int shiftNum = validInput("Please enter a valid integer",0,14);
+            int shiftNum = validInput("Please enter the number of the shift you want to change","Please enter a valid integer",0,14);
             if (shiftNum == 0)
                 return true;
-            System.out.println("Please select the new start hour");
-            int startHour = validInput("Please enter a valid integer",0,23);
-            System.out.println("Please select the new end hour");
-            int endHour = validInput("Please enter a valid integer",0,23);
+            int startHour = validInput("Please select the new start hour","Please enter a valid integer",0,23);
+            int endHour = validInput("Please select the new end hour","Please enter a valid integer",0,23);
             try{
                 _integratedService.changeHoursShift(storeName,shiftNum,startHour,endHour);
             }
@@ -408,12 +404,12 @@ public class HRManagerCLI{
      * @throws InputMismatchException if the input is not an integer
      * to clean the code
      */
-    public int validInput(String error){
+    public int validInput(String text, String error){
         boolean valid = false;
         int input = 0;
         while (!valid) {
             try {
-                System.out.println("Please enter the employee ID:");
+                System.out.println(text);
                 input = Integer.valueOf(scanner.nextLine());
                 valid = true;
             } catch (NumberFormatException e) {
@@ -422,13 +418,13 @@ public class HRManagerCLI{
         }
         return input;
     }
-    public int validInput(String error,int min){
+    public int validInput(String text,String error,int min){
         boolean valid = false;
         int input = 0;
         System.out.println("Enter 0 to quit");
         while (!valid) {
             try {
-                System.out.println("Please enter the employee ID:");
+                System.out.println(text);
                 input = Integer.valueOf(scanner.nextLine());
                 if (input == 0)
                     return 0;
@@ -442,12 +438,12 @@ public class HRManagerCLI{
         }
         return input;
     }
-    public int validInput(String error,int min,int max){
+    public int validInput(String text, String error,int min,int max){
         boolean valid = false;
         int input = 0;
         while (!valid) {
             try {
-                System.out.println("Please enter the employee ID:");
+                System.out.println(text);
                 input = Integer.valueOf(scanner.nextLine());
                 if (input < min || input > max){
                     System.out.println("Invalid input.");
@@ -475,25 +471,32 @@ public class HRManagerCLI{
      * @return true if the role was added successfully, false otherwise
      * 9. remove role from employee
      */
-    public boolean HRMenuRemoveRoleFromEmployee(){
-        System.out.println("Please enter the employee ID:");
-        int employeeID = validInput("Please enter a valid integer for the employee ID",0);
-        System.out.println("Please select what role to remove from "+_integratedService.getEmployeeFirstNameById(employeeID));
+    public boolean HRMenuRemoveRoleFromEmployee() {
+        int employeeID = validInput("Please enter employee id","Please enter a valid integer for the employee ID", 0);
+        if (employeeID == 0)
+            return false;
+        String firstName;
+        try {
+            firstName = _integratedService.getEmployeeFirstNameById(employeeID);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        System.out.println("Please select what role to remove from " + firstName);
         System.out.println("Please enter the role ID:");
-        System.out.println("0. Cancel");
         try {
             _integratedService.printEmployeeRoles(employeeID);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-        int roleChoice = validInput("Please enter a valid integer for the role",0);
+        int roleChoice = validInput("Please select the role you want to remove", "Please enter a valid integer for the role", 0);
         if (roleChoice == 0)
             return false;
-        try{
+        try {
             _integratedService.removeRoleFromEmployee(employeeID, roleChoice);
-        }
-        catch (Exception e){
+            System.out.println("The role was removed successfully from " + firstName);
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
@@ -524,7 +527,7 @@ public class HRManagerCLI{
      * 11. remove employee from system
      */
     public boolean HRMenuRemoveEmployeeFromSystem(){
-        int employeeID = validInput("Please enter a valid integer for the employee ID",1);
+        int employeeID = validInput("Please enter employee id","Please enter a valid integer for the employee ID",1);
         if (employeeID == 0)
             return false;
         try{
@@ -574,9 +577,7 @@ public class HRManagerCLI{
                 System.out.println(e.getMessage());
                 return false;
             }
-            System.out.println("Please enter the number of the shift you want to change the required roles");
-            System.out.println("Enter 0 to exit");
-            int shiftNum = validInput("Please enter a valid integer", 0, 14);
+            int shiftNum = validInput("Please enter the number of the shift you want to change the required roles","Please enter a valid integer", 0, 14);
             if (shiftNum == 0)
                 exit = true;
             RoleType newRole = getRoleByMenu();
@@ -605,9 +606,7 @@ public class HRManagerCLI{
                 System.out.println(e.getMessage());
                 return false;
             }
-            System.out.println("Please enter the number of the shift you want to remove some of the required roles");
-            System.out.println("Enter 0 to exit");
-            int shiftNum = validInput("Please enter a valid integer", 0, 14);
+            int shiftNum = validInput("Please enter the number of the shift you want to remove some of the required roles","Please enter a valid integer", 0, 14);
             if (shiftNum == 0)
                 exit = true;
             RoleType newRole = getRoleByMenu();

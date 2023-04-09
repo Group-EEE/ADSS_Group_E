@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="df5b817f-255e-40cb-80e6-ff7983d5d385" name="Changes" comment="more tests">
-      <change afterPath="$PROJECT_DIR$/Test/InterfaceLayer/EmployeesCLITest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/EmployeeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/EmployeeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/HRManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/HRManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/LoginTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/LoginTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/ScheduleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/ScheduleTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/ShiftTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/ShiftTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/StoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/StoreTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/Controllers/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/Controllers/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/Controllers/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/Controllers/Facade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/Controllers/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/Controllers/ScheduleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/Controllers/StoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/Controllers/StoreController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/Objects/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/Objects/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/Objects/Store.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/Objects/Store.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/InterfaceLayer/EmployeesCLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/InterfaceLayer/EmployeesCLI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/InterfaceLayer/HRManagerCLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/InterfaceLayer/HRManagerCLI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/InterfaceLayer/HRModuleCLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/InterfaceLayer/HRModuleCLI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/InterfaceLayer/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/InterfaceLayer/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/serviceLayer/ModulesServices/HRModuleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/ModulesServices/HRModuleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/serviceLayer/ModulesServices/IntegratedService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/ModulesServices/IntegratedService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/serviceLayer/objectsServices/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/objectsServices/EmployeeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/serviceLayer/objectsServices/ScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/objectsServices/ScheduleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/serviceLayer/objectsServices/StoreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/objectsServices/StoreService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,24 +49,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "jdk.selected.JAVA_MODULE": "11",
-    "last_opened_file_path": "C:/Users/User/Documents/GitHub/ADSS_Group_E",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;208895656__208009845&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;11&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/Documents/GitHub/ADSS_Group_E&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -65,7 +84,20 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.InterfaceLayer.Main">
+    <configuration name="InterfaceLayer.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="InterfaceLayer.Main" />
+      <module name="ADSS_Group_E1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="InterfaceLayer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ADSS_Group_E1" />
@@ -100,22 +132,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StoreTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ADSS_Group_E1" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="StoreTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.InterfaceLayer.Main" />
         <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.ShiftTest" />
         <item itemvalue="JUnit.ScheduleTest" />
         <item itemvalue="JUnit.EmployeeTest" />
-        <item itemvalue="JUnit.StoreTest" />
       </list>
     </recent_temporary>
   </component>
@@ -127,6 +150,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1680244326048</updated>
+      <workItem from="1680882661732" duration="546000" />
+      <workItem from="1681022093542" duration="10560000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <created>1680244415703</created>
@@ -201,6 +226,9 @@
     <option name="localTasksCounter" value="11" />
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -225,6 +253,36 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BussinessLayer/Objects/Store.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/InterfaceLayer/Main.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BussinessLayer/Controllers/StoreController.java</url>
+          <line>167</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/InterfaceLayer/HRManagerCLI.java</url>
+          <line>348</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/InterfaceLayer/EmployeesCLI.java</url>
+          <line>76</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BussinessLayer/Controllers/Facade.java</url>
+          <line>54</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>

@@ -1,6 +1,6 @@
 package InterfaceLayer;
 
-import serviceLayer.ModulesServices.IntegratedService;
+import ServiceLayer.ModulesServices.IntegratedService;
 
 
 import java.util.Scanner;

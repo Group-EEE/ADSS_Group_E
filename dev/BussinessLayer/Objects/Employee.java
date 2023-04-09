@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Employee{
-    private final List<Store> _stores = new ArrayList<Store>();
+    //private final List<Store> _stores = new ArrayList<Store>();
     private final List<RoleType> _roles = new ArrayList<RoleType>();
     private final int _id;
     private String _firstName;
@@ -53,14 +53,14 @@ public class Employee{
         return true;
     }
 
-    /**
-     * @param store - the store to add to the employee
-     * @return true if the store was added successfully, false otherwise
-     */
-    public boolean addStore(Store store){
-        this._stores.add(store);
-        return store.addEmployee(this);
-    }
+//    /**
+//     * @param store - the store to add to the employee
+//     * @return true if the store was added successfully, false otherwise
+//     */
+//    public boolean addStore(Store store){
+//        this._stores.add(store);
+//        return store.addEmployee(this);
+//    }
 
     /**
      * @return the first name of the employee
@@ -98,38 +98,40 @@ public class Employee{
         return this._roles;
     }
 
-    /**
-     * @return the list of all stores of the employee
-     */
-    public List<Store> getStores(){
-        return this._stores;
-    }
+//    /**
+//     * @return the list of all stores of the employee
+//     */
+//    public List<Store> getStores(){
+//        return this._stores;
+//    }
 
     /**
      * @param store - the store to remove from the employee
      * @return true if the store was removed successfully, false otherwise
      */
-    public boolean removeStore(Store store){
-        if (store == null)
-            return false;
-        this._stores.remove(store);
-        return store.removeEmployee(this);
-    }
-
-    public boolean checkIfEmployeeWorkInStore(Store store){
-        if (store == null)
-            return false;
-        return this._stores.contains(store);
-    }
+//    public boolean removeStore(Store store){
+//        if (store == null)
+//            throw new IllegalArgumentException("Illegal store");
+//        this._stores.remove(store);
+//        return store.removeEmployee(this);
+//    }
+//
+//    public boolean checkIfEmployeeWorkInStore(Store store){
+//        if (store == null)
+//            return false;
+//        return this._stores.contains(store);
+//    }
 
     public String toString(){
-        String employeeToString = "Employee: " + this._firstName + " " + this._lastName + ", ID: " + this._id+", age: "+this._age+"\n";
-        employeeToString += "Roles: ";
+        String employeeToString = "Employee: " + this._firstName + " " + this._lastName + ", ID: " + this._id+", age: "+this._age;
+        employeeToString += ", Roles: ";
         for (RoleType role : this._roles){
             employeeToString += role + ", ";
         }
         return employeeToString;
     }
 
-
+    public int getID(){
+        return this._id;
+    }
 }

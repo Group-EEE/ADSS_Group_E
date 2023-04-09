@@ -4,19 +4,22 @@ import BussinessLayer.Objects.Employee;
 import BussinessLayer.Objects.RoleType;
 import BussinessLayer.Objects.Store;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
 
 public class EmployeeController {
-    private HashMap<Integer,String> _passwords;
-    private HashMap<Integer, Employee> _employees;
-    private Scanner scanner;
+    private final HashMap<Integer,String> _passwords;
+    private final HashMap<Integer, Employee> _employees;
+    private final HashMap<Employee,List<Store>> _employeeStoreMap;
     private static EmployeeController _employeeController;
 
 
     private EmployeeController() {
-        scanner = new Scanner(System.in);
-        _employees = new HashMap<Integer,Employee>();
         _passwords = new HashMap<Integer,String>();
+        _employees = new HashMap<Integer,Employee>();
+        _employeeStoreMap = new HashMap<Employee,List<Store>>();
     }
 
     public static EmployeeController getInstance() {
@@ -38,18 +41,20 @@ public class EmployeeController {
      */
     public boolean createEmployee(String firstName, String lastName, int age, int employeeID, String bank_account, String password) {
         if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bank_account == null)
-            return false;
+            throw new IllegalArgumentException("Invalid arguments");
         Employee employee = new Employee(firstName, lastName, age, employeeID, bank_account);
         _employees.put(employeeID, employee);
         _passwords.put(employeeID, password);
+        _employeeStoreMap.put(employee, new ArrayList<Store>());
+        //_storeEmployeeMap.put(newStore, new ArrayList<Employee>());
         return true;
     }
 
     public Employee login(int id, String password){
         if (id < 0 || password == null)
             return null;
-        if (_employees.containsKey(id) && _passwords.containsKey(id) && _passwords.get(id).equals(password))
-            return _employees.get(id);
+        if (_employees.containsKey(Integer.valueOf(id)) && _passwords.containsKey(Integer.valueOf(id)) && _passwords.get(Integer.valueOf(id)).equals(password))
+            return _employees.get(Integer.valueOf(id));
         return null;
     }
 
@@ -57,7 +62,7 @@ public class EmployeeController {
     public boolean changePassword(int employeeID, String newPassword){
         if (employeeID < 0 || newPassword == null)
             return false;
-        if (_passwords.containsKey(employeeID)){
+        if (_passwords.containsKey(Integer.valueOf(employeeID))){
             _passwords.replace(employeeID, newPassword);
             return true;
         }
@@ -68,7 +73,7 @@ public class EmployeeController {
         if (employeeID < 0)
             throw new IllegalArgumentException("Illegal employee ID");
         for (Map.Entry<Integer, Employee> entry : _employees.entrySet()){
-            if (entry.getKey().equals(employeeID))
+            if (entry.getKey().equals(Integer.valueOf(employeeID)))
                 return entry.getValue();
         }
         return null;
@@ -86,7 +91,6 @@ public class EmployeeController {
 
     /**
      * @param employeeID - the id of the employee
-     * @return the list of roles of the employee
      * for HRMenuRemoveRoleFromEmployee
      */
     public boolean printEmployeeRoles(int employeeID) {
@@ -112,23 +116,20 @@ public class EmployeeController {
         if (employee == null) {
             throw new IllegalArgumentException("Employee not found");
         }
-        List<Store> stores = employee.getStores();
-        for (Store store : stores) {
-            if (!store.removeEmployee(employee))
-                return false;
-        }
-        this._employees.remove(employeeID);
-        this._passwords.remove(employeeID);
+        this._employees.remove(Integer.valueOf(employeeID));
+        this._passwords.remove(Integer.valueOf(employeeID));
+        this._employeeStoreMap.remove(employee);
+
         return true;
     }
 
-    public boolean checkIfEmployeeWorkInStore(Store store,Employee employee){
-        if (store == null)
-            throw new IllegalArgumentException("store not found");
-        if (employee == null)
-            throw new IllegalArgumentException("employee not found");
-        return employee.checkIfEmployeeWorkInStore(store);
-    }
+//    public boolean checkIfEmployeeWorkInStore(Store store,Employee employee){
+//        if (store == null)
+//            throw new IllegalArgumentException("store not found");
+//        if (employee == null)
+//            throw new IllegalArgumentException("employee not found");
+//        return employee.checkIfEmployeeWorkInStore(store);
+//    }
 
     /**
      * @param employeeID - the id of the employee
@@ -172,7 +173,8 @@ public class EmployeeController {
         Employee employee = getEmployeeByID(employeeID);
         if (employee == null)
             throw new IllegalArgumentException("employee not found");
-        return employee.addStore(store);
+        _employeeStoreMap.get(employee).add(store);
+        return true;
     }
 
     public boolean removeStoreFromEmployee(int employeeID, Store store){
@@ -183,7 +185,8 @@ public class EmployeeController {
         Employee employee = getEmployeeByID(employeeID);
         if (employee == null)
             throw new IllegalArgumentException("employee not found");
-        return employee.removeStore(store);
+        _employeeStoreMap.get(employee).remove(store);
+        return true;
     }
 
     public boolean printEmployees() {

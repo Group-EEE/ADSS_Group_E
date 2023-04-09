@@ -24,6 +24,40 @@ public class Facade {
         return _facade;
     }
 
+    //initiate
+    public boolean loadData(){
+        createEmployee("Chen","Frydman", 22, 1,"BankA","123",true);
+        createEmployee("Gali","Frydman", 17, 2,"BankA","234",false);
+        createEmployee("Amit","Oren",23, 3, "BankA", "345", false);
+        createEmployee("Daniel","Sphira", 26, 4, "BankC", "456", false);
+        createEmployee("Ido","Paz", 26, 5, "BankC", "567", false);
+        createEmployee("Gal","Chen", 26, 6, "BankC", "678", false);
+
+        addRoleToEmployee(1, RoleType.ShiftManager);
+        addRoleToEmployee(2, RoleType.Cashier);
+        addRoleToEmployee(3, RoleType.General);
+
+        createStore(1,"a","a");
+        createStore(2,"b","b");
+        createStore(3,"c","c");
+
+        addEmployeeToStore(1,"a");
+        addEmployeeToStore(2,"a");
+        addEmployeeToStore(3,"a");
+        addEmployeeToStore(4,"b");
+        addEmployeeToStore(5,"b");
+        addEmployeeToStore(6,"b");
+
+        login(1,"123");
+        createNewSchedule("a", 1, 1, 2020);
+        logout();
+        login(2,"234");
+        addEmployeeToShift("a", 1);
+        logout();
+
+        return true;
+    }
+
     //_employeeController
     public boolean login(int id, String password){
         _loggedUser =  _employeeController.login(id, password);
@@ -96,6 +130,8 @@ public class Facade {
     }
 
     public boolean removeEmployee(int employeeID){
+        Employee employee = _employeeController.getEmployeeByID(employeeID);
+        _storeController.removeEmployee(employee);
         return _employeeController.removeEmployee(employeeID);
     }
     //_storeController
@@ -104,6 +140,10 @@ public class Facade {
     }
 
     public boolean removeStore(String storeName){
+        Store store = _storeController.getStoreByName(storeName);
+        for (Employee employee : _storeController.getEmployeesByStore(storeName)) {
+            _employeeController.removeStoreFromEmployee(employee.getID(), store);
+        }
         return _storeController.removeStore(storeName);
     }
 
@@ -140,7 +180,7 @@ public class Facade {
         //if employee not working in this store
 
         Store store = _storeController.getStoreByName(storeName);
-        if (!_employeeController.checkIfEmployeeWorkInStore(store, _loggedUser))
+        if (!_storeController.checkIfEmployeeWorkInStore(store, _loggedUser))
             throw new IllegalArgumentException("Employee not working in this store");
         return _scheduleController.addEmployeeToShift(_loggedUser, store, shiftID);
     }

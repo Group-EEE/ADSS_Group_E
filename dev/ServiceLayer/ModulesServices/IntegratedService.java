@@ -1,4 +1,4 @@
-package serviceLayer.ModulesServices;
+package ServiceLayer.ModulesServices;
 
 import BussinessLayer.Objects.RoleType;
 import BussinessLayer.Objects.Shift;
@@ -17,6 +17,10 @@ public class IntegratedService {
         if(_integratedService == null)
             _integratedService = new IntegratedService();
         return _integratedService;
+    }
+
+    public boolean loadData(){
+        return _hrModuleService.loadData();
     }
 
     public boolean login(int id, String password){

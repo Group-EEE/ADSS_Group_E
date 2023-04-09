@@ -1,4 +1,4 @@
-package serviceLayer.objectsServices;
+package ServiceLayer.objectsServices;
 
 import BussinessLayer.Controllers.Facade;
 import BussinessLayer.Objects.RoleType;
@@ -16,6 +16,10 @@ public class EmployeeService {
         if(_employeeService == null)
             _employeeService = new EmployeeService();
         return _employeeService;
+    }
+
+    public boolean loadData(){
+        return _facade.loadData();
     }
     public boolean login(int id, String password){
         return _facade.login(id, password);

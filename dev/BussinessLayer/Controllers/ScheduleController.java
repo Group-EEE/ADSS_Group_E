@@ -36,7 +36,7 @@ public class ScheduleController {
         if (schedule == null)
             throw new IllegalArgumentException("Invalid store");
         for(int i=0; i<schedule.getShifts().length; i++){
-            System.out.println(i+schedule.getShift(i).toString());
+            System.out.println((i+1)+". "+schedule.getShift(i).toString());
         }
         return true;
     }
@@ -61,6 +61,8 @@ public class ScheduleController {
         if (store == null)
             throw new IllegalArgumentException("Invalid store");
         Schedule schedule = _schedules.get(store);
+        if (schedule == null)
+            throw new IllegalArgumentException("Schedule not yet created");
         List<Shift> rejectedShifts = schedule.approveSchedule();
         return rejectedShifts;
     }
