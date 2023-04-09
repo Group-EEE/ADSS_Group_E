@@ -35,6 +35,10 @@ public class ScheduleService {
         return _facade.printSchedule(storeName);
     }
 
+    public boolean printEmployeeSchedule(){
+        return _facade.printEmployeeSchedule();
+    }
+
     public List<Shift> approveSchedule(String storeName){
         return _facade.approveSchedule(storeName);
     }

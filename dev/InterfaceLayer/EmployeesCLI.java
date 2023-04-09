@@ -26,6 +26,7 @@ public class EmployeesCLI {
         System.out.println("Please select an option");
         System.out.println("1. select shifts for this week");
         System.out.println("2. update personal Information");
+        System.out.println("3. Print your schedule");
         System.out.println("0. log out");
     }
 
@@ -40,6 +41,9 @@ public class EmployeesCLI {
                     break;
                 case "2":
                     updateInformation();
+                    break;
+                case "3":
+                    printEmployeeSchedule();
                     break;
                 case "0":
                     _integrationService.logout();
@@ -56,8 +60,7 @@ public class EmployeesCLI {
      * 1. select shifts for this week
      */
     public boolean employeeMenuSelectShifts() {
-        System.out.println("Please enter the Store name:");
-        String storeName = scanner.nextLine();
+        String storeName = getStoreName();
         try{
             _integrationService.printSchedule(storeName);
         }
@@ -65,16 +68,17 @@ public class EmployeesCLI {
             System.out.println(e.getMessage());
             return false;
         }
-        System.out.println("Please select the shifts you ARE AVAILABLE to work at: ");
-        System.out.println("Enter 0 to exit");
         boolean valid=false;
         while (!valid){
+            System.out.println("Please select the shifts you ARE AVAILABLE to work at: ");
+            System.out.println("Enter 0 to exit");
             try {
                 int choice = Integer.valueOf(scanner.nextLine());
                 if (choice == 0)
                     return true;
                 try {
                     _integrationService.addEmployeeToShift(storeName, choice - 1);
+                    System.out.println("You asked to work at the shift number " + choice+" successfully");
                 } catch (Exception e) {
                     System.out.println("Could not add employee to shift");
                     System.out.println(e.getMessage());
@@ -126,5 +130,26 @@ public class EmployeesCLI {
                 break;
         }
         return true;
+    }
+
+    public boolean printEmployeeSchedule(){
+        try{
+            _integrationService.printEmployeeSchedule();
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public String getStoreName(){
+        System.out.println("Please enter the Store name:");
+        System.out.println("Enter '0' to exit");
+        String storeName = null;
+        storeName = scanner.nextLine();
+        if (storeName.equals("0"))
+            return null;
+        return storeName;
     }
 }

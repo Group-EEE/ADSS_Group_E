@@ -80,7 +80,7 @@ public class HRModuleService {
     }
 
     public String getEmployeeFirstNameById(int employeeID){
-        return _employeeService.getEmployeeFirstNameById(employeeID);
+        return _employeeService.getEmployeeNameById(employeeID);
     }
 
     public boolean removeEmployee(int employeeID){
@@ -115,6 +115,10 @@ public class HRModuleService {
 
     public boolean printSchedule(String storeName){
        return _scheduleService.printSchedule(storeName);
+    }
+
+    public boolean printEmployeeSchedule(){
+        return _scheduleService.printEmployeeSchedule();
     }
 
     public List<Shift> approveSchedule(String storeName){

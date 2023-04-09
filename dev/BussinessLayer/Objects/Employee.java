@@ -65,8 +65,8 @@ public class Employee{
     /**
      * @return the first name of the employee
      */
-    public String getFirstName(){
-        return this._firstName;
+    public String getName(){
+        return this._firstName+" "+this._lastName;
     }
 
     /**

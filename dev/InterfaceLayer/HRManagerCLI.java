@@ -4,7 +4,9 @@ import BussinessLayer.Objects.RoleType;
 import BussinessLayer.Objects.Shift;
 import ServiceLayer.ModulesServices.IntegratedService;
 
+import javax.management.relation.Role;
 import java.util.InputMismatchException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -43,6 +45,7 @@ public class HRManagerCLI{
         System.out.println("14. remove required roles from a shift");
         System.out.println("15. print all employees");
         System.out.println("16. print all stores");
+        System.out.println("17. print schedule");
         System.out.println("0. log out");
     }
 
@@ -99,6 +102,9 @@ public class HRManagerCLI{
                     break;
                 case "16":
                     HRMenuPrintStores();
+                    break;
+                case "17":
+                    HRMenuPrintSchedule();
                     break;
                 case "0":
                     _integratedService.logout();
@@ -353,14 +359,17 @@ public class HRManagerCLI{
         }
         for (Shift shift : rejectShifts) {
             System.out.println("The shift " + shift + " was rejected");
-            for (RoleType role : shift.getRequiredRoles()) {
-                System.out.println("The role " + role + " didn't have an employee");
+            List<RoleType> roles = shift.getRequiredRoles();
+            int iter = 0; //because the list is a not deep copy, the roles are getting deleted while in the loop. so foreach not work here
+            while(roles != null && iter < roles.size()) {
+                System.out.println("The role " + roles.get(iter) + " didn't have an employee");
                 System.out.println("Do you want to remove this role from the shift? (Y)");
                 String choice = scanner.nextLine();
                 if (choice.equals("Y") || choice.equals("y")) {
-                    shift.removeRequiredRole(role);
+                    shift.removeRequiredRole(roles.get(iter));
                 }
-
+                else
+                    iter++;
             }
         }
         return true;
@@ -636,6 +645,20 @@ public class HRManagerCLI{
     public boolean HRMenuPrintStores(){
         try{
             _integratedService.printStores();
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public boolean HRMenuPrintSchedule(){
+        String storeName = getStoreName();
+        if (storeName == null)
+            return false;
+        try{
+            _integratedService.printSchedule(storeName);
         }
         catch (Exception e){
             System.out.println(e.getMessage());

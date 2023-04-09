@@ -1,5 +1,6 @@
 package ServiceLayer.ModulesServices;
 
+import BussinessLayer.Objects.Employee;
 import BussinessLayer.Objects.RoleType;
 import BussinessLayer.Objects.Shift;
 
@@ -107,6 +108,10 @@ public class IntegratedService {
 
     public boolean printSchedule(String storeName){
         return _hrModuleService.printSchedule(storeName);
+    }
+
+    public boolean printEmployeeSchedule(){
+        return _hrModuleService.printEmployeeSchedule();
     }
 
     public List<Shift> approveSchedule(String storeName){

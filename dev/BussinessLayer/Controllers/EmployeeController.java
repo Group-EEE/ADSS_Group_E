@@ -83,10 +83,10 @@ public class EmployeeController {
      * @param employeeID - the id of the employee
      * @return - the employee with the given id, null if the id is invalid
      */
-    public String getEmployeeFirstNameById(int employeeID){
+    public String getEmployeeNameById(int employeeID){
         if (employeeID < 0)
             return null;
-        return getEmployeeByID(employeeID).getFirstName();
+        return getEmployeeByID(employeeID).getName();
     }
 
     /**

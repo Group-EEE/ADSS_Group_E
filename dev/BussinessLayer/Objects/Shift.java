@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Shift{
 
@@ -77,11 +78,17 @@ public class Shift{
     public boolean addInquiredEmployee(Employee employee){
         if (employee == null)
             throw new IllegalArgumentException("Employee cannot be null");
+        if (_inquiredEmployees.contains(employee))
+            throw new IllegalArgumentException("Employee already inquired");
         return _inquiredEmployees.add(employee);
     }
 
     public String toString(){
-        return "Date: " + _date + ", Shift type: " + _shiftType + ", Date: "+_date+", Start time: " + _startHour + ", End time: " + _endHour;
+        String output =  "Date: " + _date + ", Shift type: " + _shiftType + ", Date: "+_date+", Start time: " + _startHour + ", End time: " + _endHour+" ";
+        for (Map.Entry<RoleType,Employee> entry : _assignedEmployees.entrySet()){
+            output += entry.getKey() + ": " + entry.getValue().getName()+", ";
+        }
+        return output;
     }
 
     /**
@@ -149,7 +156,7 @@ public class Shift{
             return false;
         if (!removeInquiredEmployee(employee))
             return false;
-
+        _assignedEmployees.put(role, employee);
         return _filledRoles.add(role);
     }
 
@@ -164,12 +171,15 @@ public class Shift{
         if (_approved || _rejected) //shift was already approved or canceled.
             return false;
         //first we assign all the employee that has only one match.
-        for (Employee employee : _inquiredEmployees){
+        int iter=0;
+        while(_inquiredEmployees != null && iter < _inquiredEmployees.size()){
+            Employee employee = _inquiredEmployees.get(iter);
             RoleType role = findMatch(employee);
-            if (role != null){
+            if (role != null)
                 //we found a match, we remove the employee from the seaching list and add the role to the
                 addFilledRole(role, employee);
-            }
+            else
+                iter++;
         }
         for (RoleType role : _requiredRoles) {
             for (Employee employee : _inquiredEmployees) {
@@ -202,5 +212,15 @@ public class Shift{
         if (counter == 1)
             return lastRole;
         return null;
+    }
+
+    public boolean hasEmployee(Employee employee){
+        if (employee == null)
+            throw new IllegalArgumentException("Invalid Employee");
+        for (Map.Entry<RoleType,Employee> entry : _assignedEmployees.entrySet()){
+            if (entry.getValue().equals(employee))
+                return true;
+        }
+        return false;
     }
 }

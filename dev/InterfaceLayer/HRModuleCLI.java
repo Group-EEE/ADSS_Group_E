@@ -5,6 +5,8 @@ import ServiceLayer.ModulesServices.IntegratedService;
 
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 
 public class HRModuleCLI {
     private final Scanner scanner;
@@ -35,12 +37,15 @@ public class HRModuleCLI {
         }
     }
     public boolean LoginUser() {
-        while (_integratedService.hasLoggedUser() == false) {
-            System.out.println("Please login to your user");
+        while (!_integratedService.hasLoggedUser()) {
+            System.out.println("Please login to your user, 0 for exit");
             System.out.println("Please enter your ID:");
             int id;
             try {
                 id = Integer.valueOf(scanner.nextLine());
+                if (id == 0) {
+                    exit(0);
+                }
             }
             catch (Exception e){
                 System.out.println("Invalid input");
@@ -54,8 +59,10 @@ public class HRModuleCLI {
                 System.out.println(e.getMessage());
             }
         }
-        return true;
+        if (_integratedService.hasLoggedUser()){
+            System.out.println("Login successful");
+            return true;
+        }
+        return false;
     }
-
-
 }

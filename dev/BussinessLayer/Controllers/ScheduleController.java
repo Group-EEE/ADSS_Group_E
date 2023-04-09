@@ -36,7 +36,20 @@ public class ScheduleController {
         if (schedule == null)
             throw new IllegalArgumentException("Invalid store");
         for(int i=0; i<schedule.getShifts().length; i++){
-            System.out.println((i+1)+". "+schedule.getShift(i).toString());
+            System.out.println((i+1)+". "+schedule.getShift(i));
+        }
+        return true;
+    }
+
+    public boolean printEmployeeSchedule(Employee employee){
+        if (employee == null)
+            throw new IllegalArgumentException("Invalid employee");
+        for (Schedule schedule : _schedules.values()){
+            for (Shift shift : schedule.getShifts()){
+                if (shift.hasEmployee(employee)){
+                    System.out.println(shift);
+                }
+            }
         }
         return true;
     }

@@ -68,8 +68,8 @@ public class EmployeeService {
         return _facade.addRoleToEmployee(employeeID, role);
     }
 
-    public String getEmployeeFirstNameById(int employeeID){
-        return _facade.getEmployeeFirstNameById(employeeID);
+    public String getEmployeeNameById(int employeeID){
+        return _facade.getEmployeeNameById(employeeID);
     }
 
     public boolean removeEmployee(int employeeID){

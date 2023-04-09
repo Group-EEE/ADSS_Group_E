@@ -34,7 +34,7 @@ public class Facade {
         createEmployee("Gal","Chen", 26, 6, "BankC", "678", false);
 
         addRoleToEmployee(1, RoleType.ShiftManager);
-        addRoleToEmployee(2, RoleType.Cashier);
+        addRoleToEmployee(2, RoleType.ShiftManager);
         addRoleToEmployee(3, RoleType.General);
 
         createStore(1,"a","a");
@@ -48,10 +48,14 @@ public class Facade {
         addEmployeeToStore(5,"b");
         addEmployeeToStore(6,"b");
 
-        login(1,"123");
         createNewSchedule("a", 1, 1, 2020);
+        login(1,"123");
+        addEmployeeToShift("a", 1);
         logout();
         login(2,"234");
+        addEmployeeToShift("a", 1);
+        logout();
+        login(3,"345");
         addEmployeeToShift("a", 1);
         logout();
 
@@ -125,8 +129,8 @@ public class Facade {
         return _employeeController.addRoleToEmployee(employeeID, role);
     }
 
-    public String getEmployeeFirstNameById(int employeeID){
-        return _employeeController.getEmployeeFirstNameById(employeeID);
+    public String getEmployeeNameById(int employeeID){
+        return _employeeController.getEmployeeNameById(employeeID);
     }
 
     public boolean removeEmployee(int employeeID){
@@ -188,6 +192,10 @@ public class Facade {
     public boolean printSchedule(String storeName){
         Store store = _storeController.getStoreByName(storeName);
         return _scheduleController.printSchedule(store);
+    }
+
+    public boolean printEmployeeSchedule(){
+        return _scheduleController.printEmployeeSchedule(_loggedUser);
     }
 
     public List<Shift> approveSchedule(String storeName){
