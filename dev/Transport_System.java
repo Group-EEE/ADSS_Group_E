@@ -421,9 +421,6 @@ public class Transport_System {
                 }
             }
         }
-        if (truck != null){
-            truck.setOccupied(true);
-        }
         return truck;
     }
 
@@ -477,7 +474,7 @@ public class Transport_System {
                         System.out.println("Input must be an int between 0-9. ");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. Please enter a valid int between 1-9.: ");
+                    System.out.println("Invalid input. Please enter a valid int between 1-9. ");
                 }
             }
             isValid = false;
@@ -518,7 +515,7 @@ public class Transport_System {
                 // make a new transport
                 case 2:
                     System.out.println("Hey Boss!");
-                    Transport transport = create_transport_document();
+                    create_transport_document();
                     break;
 
                 // quit the menu
@@ -543,35 +540,32 @@ public class Transport_System {
                             }
                         } else if (manager_choice.equals("2")) {
                             int key =0;
-                            if (logistical_center.getTransport_Log().size() == 0){
-                                System.out.println("We don't have any registered transport...");
-                                break;
-                            }
                             boolean end_choosing = false;
                             while (!end_choosing){
+                                if (logistical_center.getTransport_Log().size() == 0){
+                                    System.out.println("We don't have any registered transport...");
+                                    break;
+                                }
                                 System.out.println("Please enter the transport ID you want to start:");
                                 try {
                                     String key_input = scanner.nextLine();
                                     key = Integer.parseInt(key_input);
-                                    // Check if the input is a 5 digit integer
                                     if (logistical_center.getTransport_Log().containsKey(key)) {
                                         Transport temp = logistical_center.getTransport_Log().get(key);
                                         temp.setStarted(true);
                                         transport_IDS.add(key);
-                                        System.out.print("Transport " + key + " will start soon. If you want to send another one please press 1, otherwise press anything else:");
+                                        System.out.println("Transport " + key + " will start soon. If you want to send another one please press 1, to get back to transports sending menu press anything else:");
                                         String inp1 = scanner.nextLine();
                                         if (inp1.equals("1")){
                                             continue;
                                         }
                                         else {
-                                            choosing = true;
                                             end_choosing = true;
                                         }
                                     } else {
-                                        System.out.print("Transport ID does not exist. If you don't want to continue press 1, otherwise press anything else:");
+                                        System.out.println("Transport ID does not exist. If you don't want to continue press 1, otherwise press anything else:");
                                         String inp2 = scanner.nextLine();
                                         if (inp2.equals("1")){
-                                            choosing = true;
                                             end_choosing = true;
                                         }
                                         else {
@@ -584,76 +578,79 @@ public class Transport_System {
                                 }
                             }
                         } else if (manager_choice.equals("3")) {
-                            System.out.println("Starting the transports.");
-                            for (int KEY: transport_IDS){
-                                Transport chosen_transport = logistical_center.getTransport_Log().get(KEY);
-                                Truck truck = getTruckByNumber(chosen_transport.getTruck_number());
-                                truck.setNavigator(chosen_transport.getDestinations());
-                                Site current = truck.get_next_site();
-                                while (current != null){
-                                    if (current.is_supplier()){
-                                        boolean isValidChoice = false;
-                                        String ch = null;
-                                        while (!isValidChoice) {
-                                            System.out.println("Hey " + current.getSite_n() + " manager!");
-                                            // creating a document
-                                            create_site_supply(chosen_transport, current.getAddress());
-                                            // asking if he needs to make another one
-                                            System.out.println("Do you have items to ship to another store? (Write YES/NO): ");
-                                            System.out.println("1 - YES");
-                                            System.out.println("2 - NO");
-                                            while (true){
-                                                ch = scanner.nextLine();
-                                                if (ch.equals("YES")){
-                                                    break;
-                                                }
-                                                else if (ch.equals("NO")){
-                                                    isValidChoice = true;
-                                                    break;
-                                                }
-                                                else {
-                                                    System.out.println("You must enter YES/NO.");
-                                                }
-                                            }
-                                        }
-                                        //insert the weight
-                                        chosen_transport.insertToWeights(truck.getCurrent_weight());
-                                        //checking the weight
-                                        if (!check_weight(truck)){
-                                            boolean abort_transport = !change_transport(chosen_transport, truck, truck.getCurrent_driver());
-                                            if (abort_transport){
-                                                //delete_transport();
-                                                System.out.println("Transport was aborted.");
-                                                //return;
-                                            }
-                                            else {
-                                                truck = getTruckByNumber(chosen_transport.getTruck_number());
-                                            }
-                                        }
-                                    }
-                                    // unloading the goods in the store
-                                    else if (current.is_store()){
-                                        if (unload_goods((Store) current, truck, truck.getCurrent_driver())){
-                                            System.out.println("goods unloaded in " + current.getSite_n());
-                                        }
-                                        else {
-                                            System.out.println("We currently don't have any goods for " + current.getSite_n() + " ,skip this store for now.");
-                                        }
-                                    }
-                                    // driving to the next site.
-                                    current = truck.get_next_site();
-                                }
-                                Truck_Driver driver= truck.getCurrent_driver();
-                                driver.setCurrent_truck(null);
-                                truck.setCurrent_driver(null);
-                                truck.setOccupied(false);
-                            }
                             choosing = true;
                         }
                         else{
                             System.out.println("Invalid input.");
                         }
                     }
+                    // starting the transports the manager chose.
+                    System.out.println("Starting the transports.");
+                    for (int KEY: transport_IDS){
+                        Transport chosen_transport = logistical_center.getTransport_Log().get(KEY);
+                        Truck truck = getTruckByNumber(chosen_transport.getTruck_number());
+                        truck.setNavigator(chosen_transport.getDestinations());
+                        System.out.println("Transport - " + chosen_transport.getTransport_ID() + " started.");
+                        Site current = truck.get_next_site();
+                        while (current != null){
+                            if (current.is_supplier()){
+                                boolean isValidChoice = false;
+                                String ch = null;
+                                while (!isValidChoice) {
+                                    System.out.println("Hey " + current.getSite_n() + " manager!");
+                                    // creating a document
+                                    create_site_supply(chosen_transport, current.getAddress());
+                                    // asking if he needs to make another one
+                                    System.out.println("Do you have items to ship to another store? (Write YES/NO): ");
+                                    System.out.println("1 - YES");
+                                    System.out.println("2 - NO");
+                                    while (true){
+                                        ch = scanner.nextLine();
+                                        if (ch.equals("YES")){
+                                            break;
+                                        }
+                                        else if (ch.equals("NO")){
+                                            isValidChoice = true;
+                                            break;
+                                        }
+                                        else {
+                                            System.out.println("You must enter YES/NO.");
+                                        }
+                                    }
+                                }
+                                //insert the weight
+                                chosen_transport.insertToWeights(truck.getCurrent_weight());
+                                //checking the weight
+                                if (!check_weight(truck)){
+                                    boolean abort_transport = !change_transport(chosen_transport, truck, truck.getCurrent_driver());
+                                    if (abort_transport){
+                                        //delete_transport();
+                                        System.out.println("Transport was aborted.");
+                                        //return;
+                                    }
+                                    else {
+                                        truck = getTruckByNumber(chosen_transport.getTruck_number());
+                                    }
+                                }
+                            }
+                            // unloading the goods in the store
+                            else if (current.is_store()){
+                                if (unload_goods((Store) current, truck, truck.getCurrent_driver())){
+                                    System.out.println("goods unloaded in " + current.getSite_n());
+                                }
+                                else {
+                                    System.out.println("We currently don't have any goods for " + current.getSite_n() + " ,skip this store for now.");
+                                }
+                            }
+                            // driving to the next site.
+                            current = truck.get_next_site();
+                        }
+                        Truck_Driver driver= truck.getCurrent_driver();
+                        driver.setCurrent_truck(null);
+                        truck.setCurrent_driver(null);
+                        truck.setOccupied(false);
+                    }
+                    choosing = true;
                     break;
 
                 case 4:
@@ -713,16 +710,14 @@ public class Transport_System {
         }
 
         if (driver.getLicense().getWeight() < truck.getMax_weight() || driver.getLicense().getCold_level().getValue() > truck.getCold_level().getValue()){
-//            System.out.println("The driver's license does not fit to the truck");
             return false;
         } else if (truck.Occupied()) {
-            System.out.println("The truck is occupied for another transport");
             return false;
         } else if (driver.getCurrent_truck() != null) {
-            System.out.println("The driver is occupied for another transport");
             return false;
         }
         truck.setCurrent_driver(driver);
+        truck.setOccupied(true);
         driver.setCurrent_truck(truck);
         return true;
     }
@@ -1000,6 +995,8 @@ public class Transport_System {
         // ======================== Add Destinations ======================== //
         boolean stop_adding_destinations = false;
         Site destination;
+        boolean at_least_one_store = false;
+        boolean at_least_one_supplier = false;
         boolean areaValid = false;
         int area = 0;
         while(!stop_adding_destinations) {
@@ -1099,6 +1096,7 @@ public class Transport_System {
                 }
                 destination = new Store(store_address, phone_number, store_name, manager_name, area, store_contact_name);
                 transport_doc.insertToDestinations(destination);
+                at_least_one_store = true;
             }
             if(site_type.equals("2")){
                 isValid = false;
@@ -1152,6 +1150,7 @@ public class Transport_System {
 
                 destination = new Supplier(supplier_address, phone_number, supplier_name, supplier_contact_name);
                 transport_doc.insertToDestinations(destination);
+                at_least_one_supplier = true;
             }
             System.out.println("Do you want to add another destination (Store / Supplier)? (press 1 or 2 only) ");
             String choice = null;
@@ -1168,7 +1167,12 @@ public class Transport_System {
                 }
             }
             if(choice.equals("2")){
-                stop_adding_destinations = true;
+                if (at_least_one_store && at_least_one_supplier) {
+                    stop_adding_destinations = true;
+                }
+                else {
+                    System.out.println("You must add at least one supplier and at least one store.");
+                }
             }
         }
         // ======================== Add Transport Document ======================== //
