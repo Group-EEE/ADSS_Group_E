@@ -618,6 +618,7 @@ public class Transport_System {
                                 Truck_Driver driver= truck.getCurrent_driver();
                                 driver.setCurrent_truck(null);
                                 truck.setCurrent_driver(null);
+                                truck.setOccupied(false);
                             }
                             choosing = true;
                         }
