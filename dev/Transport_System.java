@@ -1230,10 +1230,10 @@ public class Transport_System {
                     siteSupplies.add(driver.getSites_documents().get(i));
                     logistical_center.getDelivered_supplies_documents().put(store, siteSupplies);
                 }
-                // change to delete only one site.
-                driver.delete_site_document_by_ID(driver.getSites_documents().get(i).getId());
                 // subtracts the weight of the goods that was unloaded
                 truck.addWeight(-1 * driver.getSites_documents().get(i).getProducts_total_weight());
+                // change to delete only one site.
+                driver.delete_site_document_by_ID(driver.getSites_documents().get(i).getId());
                 i--;
             }
         }
