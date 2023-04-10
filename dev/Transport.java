@@ -135,6 +135,10 @@ public class Transport {
         }
     }
 
+    public int getProduct(String product){
+        return products.get(product);
+    }
+
     public void deleteDestination(String site){
         int i = 0;
         for(Site s : destinations){
