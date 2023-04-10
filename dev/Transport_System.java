@@ -454,7 +454,7 @@ public class Transport_System {
         boolean isValid = false;
         Scanner scanner = new Scanner(System.in);
         String input = null;
-        while (choice != -1) {
+        while (true) {
             System.out.println("Hey Boss! what would you like to do?");
             System.out.println("0 - Hire a new driver");
             System.out.println("1 - See all the trucks with a cold level of your choice: \n\t 1- Freeze \n\t 2- Cold \n \t 3- Dry");
@@ -572,9 +572,6 @@ public class Transport_System {
                                         if (inp2.equals("1")){
                                             end_choosing = true;
                                         }
-                                        else {
-                                            continue;
-                                        }
                                     }
 
                                 } catch (NumberFormatException e) {
@@ -591,6 +588,7 @@ public class Transport_System {
                     // starting the transports the manager chose.
                     System.out.println("Starting the transports.");
                     for (int KEY: transport_IDS){
+                        boolean aborted = false;
                         Transport chosen_transport = logistical_center.getTransport_Log().get(KEY);
                         Truck truck = getTruckByNumber(chosen_transport.getTruck_number());
                         truck.setNavigator(chosen_transport.getDestinations());
@@ -629,8 +627,10 @@ public class Transport_System {
                                     boolean abort_transport = !change_transport(chosen_transport, truck, truck.getCurrent_driver());
                                     if (abort_transport){
                                         //delete_transport();
-                                        System.out.println("Transport was aborted.");
-                                        //return;
+                                        System.out.println("Transport was aborted. you can try to send it later");
+                                        aborted = true;
+                                        chosen_transport.setStarted(false);
+                                        break;
                                     }
                                     else {
                                         truck = getTruckByNumber(chosen_transport.getTruck_number());
@@ -649,10 +649,12 @@ public class Transport_System {
                             // driving to the next site.
                             current = truck.get_next_site();
                         }
-                        Truck_Driver driver= truck.getCurrent_driver();
-                        driver.setCurrent_truck(null);
-                        truck.setCurrent_driver(null);
-                        truck.setOccupied(false);
+                        if (!aborted) {
+                            Truck_Driver driver = truck.getCurrent_driver();
+                            driver.setCurrent_truck(null);
+                            truck.setCurrent_driver(null);
+                            truck.setOccupied(false);
+                        }
                     }
                     choosing = true;
                     break;
@@ -1091,7 +1093,7 @@ public class Transport_System {
                     System.out.println("Please enter the contact person name of the store: ");
                     store_contact_name = scanner.nextLine();
                     if(!store_contact_name.strip().equals("")){
-                        isValid = true;
+                            isValid = true;
                     }
                     else {
                         System.out.print("Invalid input. ");
@@ -1156,7 +1158,16 @@ public class Transport_System {
                     System.out.println("Please enter the name of the supplier: ");
                     supplier_name = scanner.nextLine();
                     if(!supplier_name.strip().equals("")){
-                        isValid = true;
+                        boolean name_exist = false;
+                        for (Site site: transport_doc.getDestinations()){
+                            if (site.getSite_name().equals(supplier_name)){
+                                System.out.println("This supplier name is already in the system. please enter a new supplier name.");
+                                name_exist = true;
+                            }
+                        }
+                        if (!name_exist) {
+                            isValid = true;
+                        }
                     }
                     else{
                         System.out.print("Invalid input. ");
