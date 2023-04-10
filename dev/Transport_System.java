@@ -654,6 +654,7 @@ public class Transport_System {
                             driver.setCurrent_truck(null);
                             truck.setCurrent_driver(null);
                             truck.setOccupied(false);
+                            System.out.println("Transport " + chosen_transport.getTransport_ID() + " now finished.");
                         }
                     }
                     choosing = true;
