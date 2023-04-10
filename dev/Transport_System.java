@@ -590,6 +590,15 @@ public class Transport_System {
                     for (int KEY: transport_IDS){
                         boolean aborted = false;
                         Transport chosen_transport = logistical_center.getTransport_Log().get(KEY);
+                        // ======================== Date And Time ======================== //
+                        LocalDateTime now  = LocalDateTime.now();
+                        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                        String Date = now.toLocalDate().format(dateFormatter);
+                        String Time = now.toLocalTime().format(timeFormatter);
+                        chosen_transport.setDate(Date);
+                        chosen_transport.setDeparture_time(Time);
+                        // ========================= starting the transport ======================= //
                         Truck truck = getTruckByNumber(chosen_transport.getTruck_number());
                         truck.setNavigator(chosen_transport.getDestinations());
                         System.out.println("Transport - " + chosen_transport.getTransport_ID() + " started.");
@@ -761,6 +770,16 @@ public class Transport_System {
                     if (driver_doc.getId() == site_supplier_ID) {
                         isValid = false;
                         System.out.print("This site supply ID number is already exist in this transport.");
+                    }
+                }
+
+                for (Store store : logistical_center.getDelivered_supplies_documents().keySet()) {
+                    ArrayList<Site_Supply> site_supplies = this.logistical_center.getDelivered_supplies_documents().get(store);
+                    for (Site_Supply site_supply: site_supplies) {
+                        if (site_supply.getId() == site_supplier_ID) {
+                            isValid = false;
+                            System.out.print("This site supply ID number is already exist in the system.");
+                        }
                     }
                 }
             }
@@ -942,15 +961,9 @@ public class Transport_System {
             System.out.println("there's no driver fit to this transport.");
             return null;
         }
-        // ======================== Date And Time ======================== //
-        LocalDateTime now  = LocalDateTime.now();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        String Date = now.toLocalDate().format(dateFormatter);
-        String Time = now.toLocalTime().format(timeFormatter);
         // ======================== Create Transport Document ======================== //
         cold_level cold_level = truck.getCold_level();
-        Transport transport_doc = new Transport(transport_Id, Date, Time, truck_number, driver_name, logistical_center.getSite_name(), cold_level);
+        Transport transport_doc = new Transport(transport_Id, "TBD", "TBD", truck_number, driver_name, logistical_center.getSite_name(), cold_level);
         // ======================== Add Destinations ======================== //
         boolean stop_adding_destinations = false;
         Site destination;
