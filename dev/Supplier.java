@@ -18,16 +18,17 @@ public class Supplier extends Site{
         return false;
     }
 
-    public String getSupplier_n() {
-        return supplier_n;
+    public String getSupplier_name() {
+        return getSite_name();
     }
 
-    public void setSupplier_n(String supplier_n) {
-        this.supplier_n = supplier_n;
+    public void setSupplier_name(String supplier_name) {
+        this.site_name = supplier_name;
     }
 
     @Override
     public void siteDisplay() {
         super.siteDisplay();
     }
+
 }

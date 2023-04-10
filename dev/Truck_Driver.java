@@ -71,7 +71,7 @@ public class Truck_Driver {
 
     public void delete_site_document_by_destination(String destination){
         for (int i = 0; i < sites_documents.size(); i++) {
-            if (sites_documents.get(i).getStore().getSite_n().equals(destination)){
+            if (sites_documents.get(i).getStore().getSite_name().equals(destination)){
                 sites_documents.remove(i);
             }
         }
@@ -115,7 +115,7 @@ public class Truck_Driver {
 
     public boolean is_site_exist(String site){
         for (int i = 0; i < sites_documents.size(); i++) {
-            if (sites_documents.get(i).getStore().getSite_n() == site){
+            if (sites_documents.get(i).getStore().getSite_name() == site){
                 return true;
             }
         }

@@ -1,13 +1,14 @@
 abstract public class Site {
-    protected String address, phone, site_n, site_contact_n, supplier_n;
+    protected String address, phone, site_name, site_contact_name;
 
 
     public Site(String address, String phone, String site_name, String site_contact_name){
         this.address = address;
         this.phone = phone;
-        this.site_n = site_name;
-        this.site_contact_n = site_contact_name;
+        this.site_name = site_name;
+        this.site_contact_name = site_contact_name;
     }
+
     public abstract boolean is_supplier();
     public abstract boolean is_logistical_center();
     public abstract boolean is_store();
@@ -28,27 +29,28 @@ abstract public class Site {
         this.phone = phone;
     }
 
-    public String getSite_n() {
-        return site_n;
+
+    public String getSite_name() {
+        return site_name;
     }
 
-    public void setSite_n(String site_n) {
-        this.site_n = site_n;
+    public void setSite_name(String site_name) {
+        this.site_name = site_name;
     }
 
-    public String getSupplier_n() {
-        return supplier_n;
+    public String getSite_contact_name() {
+        return site_contact_name;
     }
 
-    public void setSupplier_n(String supplier_n) {
-        this.supplier_n = supplier_n;
+    public void setSite_contact_name(String site_contact_name) {
+        this.site_contact_name = site_contact_name;
     }
 
     // display
     public void siteDisplay(){
         System.out.println("\t\t Address: " + address);
         System.out.println("\t\t Phone: " + phone);
-        System.out.println("\t\t Site name: " + site_n);
-        System.out.println("\t\t Person contact name: " + site_contact_n);
+        System.out.println("\t\t Site name: " + site_name);
+        System.out.println("\t\t Person contact name: " + site_contact_name);
     }
 }

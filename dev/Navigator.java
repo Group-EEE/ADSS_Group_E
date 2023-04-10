@@ -43,7 +43,7 @@ public class Navigator {
 
     public void delete_site(String site){
         for (int i = 0; i < route.size(); i++) {
-            if (route.get(i).getSite_n().equals(site)){
+            if (route.get(i).getSite_name().equals(site)){
                 route.remove(i);
             }
         }
@@ -57,5 +57,9 @@ public class Navigator {
     public void add_site(Site site){
         route.add(site);
         iterator = route.iterator();
+    }
+
+    public void setCurrent_location(Site current_location) {
+        this.current_location = current_location;
     }
 }

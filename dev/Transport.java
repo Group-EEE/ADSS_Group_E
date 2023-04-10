@@ -5,7 +5,7 @@ public class Transport {
     private String date;
     private String departure_time;
     private String truck_number;
-    private String driver_n;
+    private String driver_name;
     private Logistical_Center origin;
     private cold_level required_level;
     private ArrayList<Site> destinations;
@@ -18,7 +18,7 @@ public class Transport {
         this.date = date;
         this.departure_time = departure_time;
         this.truck_number = truck_number;
-        this.driver_n = driver_name;
+        this.driver_name = driver_name;
         this.origin = origin;
         this.required_level = cold_level;
         this.destinations = new ArrayList<>();
@@ -75,12 +75,12 @@ public class Transport {
         this.truck_number = truck_number;
     }
 
-    public String getDriver_n() {
-        return driver_n;
+    public String getDriver_name() {
+        return driver_name;
     }
 
-    public void setDriver_n(String driver_n) {
-        this.driver_n = driver_n;
+    public void setDriver_name(String driver_name) {
+        this.driver_name = driver_name;
     }
 
     public Site getOrigin() {
@@ -138,7 +138,7 @@ public class Transport {
     public void deleteDestination(String site){
         int i = 0;
         for(Site s : destinations){
-            if(site.equals(s.getSite_n())){
+            if(site.equals(s.getSite_name())){
                 destinations.remove(i);
                 break;
             }
@@ -182,7 +182,7 @@ public class Transport {
         System.out.println("\t Date: " + date);
         System.out.println("\t Departure Time: " + departure_time);
         System.out.println("\t Truck Number: " +truck_number);
-        System.out.println("\t Driver Name: " + driver_n);
+        System.out.println("\t Driver Name: " + driver_name);
         System.out.println("\t Origin Details: ");
         origin.siteDisplay();
         System.out.println("\t Cold Level: " + required_level.name());

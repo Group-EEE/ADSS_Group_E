@@ -34,10 +34,6 @@ public class Truck {
         this.current_weight = current_weight;
     }
 
-    public boolean Occupied(){
-        return occupied;
-    }
-
     public void setOccupied(boolean occupied) {
         this.occupied = occupied;
     }
@@ -55,7 +51,7 @@ public class Truck {
         return navigator.getCurrent_location();
     }
     public Site get_next_site(){
-        System.out.println("GPS: You have arrived to " + navigator.drive_to_next().getSite_n());
+        System.out.println("GPS: You have arrived to " + navigator.drive_to_next().getSite_name());
         return navigator.getCurrent_location();
     }
 
@@ -139,7 +135,10 @@ public class Truck {
         return (Objects.equals(this.registration_plate, registration_plate));
     }
 
-    //display
+    public boolean Occupied() {
+        return occupied;
+    }
+//display
 
     public void truckDisplay(){
         System.out.println("Truck Registration plate number - " + registration_plate);

@@ -201,6 +201,10 @@ public class Transport_System {
     public void add_truck(Truck truck){
         logistical_center.getTrucks().add(truck);
     }
+    public void setTrucks(ArrayList<Truck> trucks) {
+        this.logistical_center.setTrucks(trucks);
+    }
+
 
 
     // return a truck driver by truck registration number.
@@ -261,7 +265,7 @@ public class Transport_System {
                     while (!exist) {
                         String store = scanner.nextLine();
                         for (Site site : truck.get_route()) {
-                            if (site.getSite_n().equals(store)) {
+                            if (site.getSite_name().equals(store)) {
                                 if (site.is_supplier()) {
                                     System.out.println("You've entered a supplier Boss... you need to put a store!");
                                 } else {
@@ -277,7 +281,7 @@ public class Transport_System {
                     }
                     // deleting the documents with the relevant documents according to the deleted destination.
                     for (Site_Supply site_supply : driver.getSites_documents()) {
-                        if (site_supply.getStore().getSite_n().equals(site_to_remove)) {
+                        if (site_supply.getStore().getSite_name().equals(site_to_remove)) {
                             for (String product : site_supply.getItems().keySet()) {
                                 transport_doc.deleteProducts(product, site_supply.getItems().get(product));
                                 System.out.println("We dropped " + site_supply.getItems().get(product) + " of the product - " + product);
@@ -307,7 +311,7 @@ public class Transport_System {
                                 driver.setCurrent_truck(null);
                                 truck.setCurrent_driver(null);
                                 // updating the details in the transport document
-                                transport_doc.setDriver_n(truck_driver.getName());
+                                transport_doc.setDriver_name(truck_driver.getName());
                                 transport_doc.setTruck_number(new_truck.getRegistration_plate());
                                 new_truck.setCurrent_weight(truck.getCurrent_weight());
                                 // transferring the goods and the documents
@@ -330,7 +334,7 @@ public class Transport_System {
                     // checking how many suppliers are left for today.
                     boolean end_case = true;
                     for (Site_Supply site_supply : driver.getSites_documents()) {
-                        if (!site_supply.getOrigin().equals(truck.get_current_location().getSite_n())) {
+                        if (!site_supply.getOrigin().equals(truck.get_current_location().getSite_name())) {
                             end_case = false;
                             break;
                         }
@@ -362,19 +366,19 @@ public class Transport_System {
                     }
                     // adding the supplier to the end of the route and afterwards the destinations the supplier needs to ship the goods.
 
-                    truck.getNavigator().delete_site(truck.get_current_location().getSite_n());
+                    truck.getNavigator().delete_site(truck.get_current_location().getSite_name());
                     // if the manager chose to  get back to this supplier later today, we're changing te route.
                     if (manager_choice == 2) {
                         truck.getNavigator().add_site(truck.get_current_location());
                         for (Site_Supply site_supply : driver.getSites_documents()) {
-                            if (site_supply.getOrigin().equals(truck.get_current_location().getSite_n())) {
+                            if (site_supply.getOrigin().equals(truck.get_current_location().getSite_name())) {
                                 truck.getNavigator().add_site(site_supply.getStore());
                             }
                         }
                     }
                     // getting the products back to the supplier and delete the documents that not relevant for now.
                     for (Site_Supply site_supply : driver.getSites_documents()) {
-                        if (site_supply.getOrigin().equals(truck.get_current_location().getSite_n())) {
+                        if (site_supply.getOrigin().equals(truck.get_current_location().getSite_name())) {
                             for (String product : site_supply.getItems().keySet()) {
                                 transport_doc.deleteProducts(product, site_supply.getItems().get(product));
                             }
@@ -597,7 +601,7 @@ public class Transport_System {
                                 boolean isValidChoice = false;
                                 String ch = null;
                                 while (!isValidChoice) {
-                                    System.out.println("Hey " + current.getSite_n() + " manager!");
+                                    System.out.println("Hey " + current.getSite_name() + " manager!");
                                     // creating a document
                                     create_site_supply(chosen_transport, current.getAddress());
                                     // asking if he needs to make another one
@@ -636,10 +640,10 @@ public class Transport_System {
                             // unloading the goods in the store
                             else if (current.is_store()){
                                 if (unload_goods((Store) current, truck, truck.getCurrent_driver())){
-                                    System.out.println("goods unloaded in " + current.getSite_n());
+                                    System.out.println("goods unloaded in " + current.getSite_name());
                                 }
                                 else {
-                                    System.out.println("We currently don't have any goods for " + current.getSite_n() + " ,skip this store for now.");
+                                    System.out.println("We currently don't have any goods for " + current.getSite_name() + " ,skip this store for now.");
                                 }
                             }
                             // driving to the next site.
@@ -1067,7 +1071,7 @@ public class Transport_System {
                     if(!store_name.strip().equals("")){
                         boolean name_exist = false;
                         for (Site site: transport_doc.getDestinations()){
-                            if (site.getSite_n().equals(store_name)){
+                            if (site.getSite_name().equals(store_name)){
                                 System.out.println("This store name is already in the system. please enter a new store name.");
                                 name_exist = true;
                             }
@@ -1160,7 +1164,6 @@ public class Transport_System {
 
                 destination = new Supplier(supplier_address, phone_number, supplier_name, supplier_contact_name);
                 transport_doc.insertToDestinations(destination);
-                at_least_one_supplier = true;
             }
             System.out.println("Do you want to add another destination (Store / Supplier)? (press 1 or 2 only) ");
             String choice = null;

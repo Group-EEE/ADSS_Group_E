@@ -1,11 +1,11 @@
 public class Store extends Site{
-    private String manager_n;
+    private String manager_name;
     private int site_area;
 
 
     public Store(String address, String phone, String site_name, String manager_name, int site_area, String contact_name){
         super(address, phone, site_name, contact_name);
-        this.manager_n = manager_name;
+        this.manager_name = manager_name;
         this.site_area = site_area;
     }
 
@@ -24,12 +24,12 @@ public class Store extends Site{
         return true;
     }
 
-    public String getManager_n() {
-        return manager_n;
+    public String getManager_name() {
+        return manager_name;
     }
 
-    public void setManager_n(String manager_n) {
-        this.manager_n = manager_n;
+    public void setManager_name(String manager_name) {
+        this.manager_name = manager_name;
     }
 
     public int getSite_area() {
@@ -46,7 +46,7 @@ public class Store extends Site{
     @Override
     public void siteDisplay() {
         super.siteDisplay();
-        System.out.println("\t\t Manager store name: " + manager_n);
+        System.out.println("\t\t Manager store name: " + manager_name);
         System.out.println("\t\t Area: " + site_area);
     }
 }
