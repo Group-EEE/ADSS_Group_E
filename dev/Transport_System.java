@@ -765,21 +765,21 @@ public class Transport_System {
             }
         }
         // ======================== Store Address ======================== //
-        String store_address = null;
+        String store_name = null;
         isValid = false;
         while (!isValid) {
-            System.out.println("Please enter a store destination address: ");
-            store_address = scanner.nextLine();
-            if(store_address.strip().equals("")){
+            System.out.println("Please enter the store name: ");
+            store_name = scanner.nextLine();
+            if(store_name.strip().equals("")){
                 System.out.println("Invalid input. ");
             }
             else {
                 for (Site site : transport.getDestinations()) {
-                    if (site.getAddress().equals(store_address)) {
+                    if (site.getSite_name().equals(store_name)) {
                         if (site.is_store()) {
                             isValid = true;
                         } else {
-                            System.out.println("The address is not belong to store. ");
+                            System.out.println("The name is not belong to store. ");
                         }
                         break;
                     }
@@ -790,7 +790,7 @@ public class Transport_System {
             }
         }
         // ======================== Store As Destination ======================== //
-        Store store = transport.getStoreByAddress(store_address);
+        Store store = transport.getStoreByName(store_name);
         // ======================== Create Site Supply Document ======================== //
         Site_Supply site_supply_doc = new Site_Supply(site_supplier_ID, store, supplier_address);
         // ======================== Insert Items ======================== //

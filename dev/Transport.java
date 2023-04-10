@@ -165,10 +165,10 @@ public class Transport {
         }
     }
 
-    public Store getStoreByAddress(String address){
+    public Store getStoreByName(String name){
         Store store = null;
         for(Site site :  destinations){
-            if(site.getAddress().equals(address) && site.is_store()){
+            if(site.getSite_name().equals(name) && site.is_store()){
                 store = (Store)site;
             }
         }
