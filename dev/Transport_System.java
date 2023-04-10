@@ -1064,7 +1064,16 @@ public class Transport_System {
                     System.out.println("Please enter the name of the store: ");
                     store_name = scanner.nextLine();
                     if(!store_name.strip().equals("")){
-                        isValid = true;
+                        boolean name_exist = false;
+                        for (Site site: transport_doc.getDestinations()){
+                            if (site.getSite_n().equals(store_name)){
+                                System.out.println("This store name is already in the system. please enter a new store name.");
+                                name_exist = true;
+                            }
+                        }
+                        if (!name_exist) {
+                            isValid = true;
+                        }
                     }
                     else {
                         System.out.print("Invalid input. ");
