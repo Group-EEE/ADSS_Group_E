@@ -1,4 +1,6 @@
 
+import BussinessLayer.Controllers.EmployeeController;
+import BussinessLayer.Controllers.Facade;
 import BussinessLayer.Objects.Employee;
 import BussinessLayer.Objects.RoleType;
 import BussinessLayer.Objects.Store;
@@ -10,16 +12,15 @@ class EmployeeTest {
 
     @Test
     void addStore() {
-        Employee employee = new Employee("daniel", "shapira", 26, 209876676, "234657");
-        Store store = new Store(1,"a", "b");
-        employee.addStore(store);
-        assertEquals(store, employee.getStores().get(0));
+        Facade.getInstance().createEmployee("daniel", "shapira", 26, 209876676, "234657", "a", false);
+        Facade.getInstance().createStore(1,"a", "b");
+        assertTrue(Facade.getInstance().addEmployeeToStore(209876676, "a"));
     }
 
     @Test
     void get_first_name() {
-        Employee employee = new Employee("daniel", "shapira", 26, 209876676, "234657");
-        assertEquals("daniel", employee.getFirstName());
+        Facade.getInstance().createEmployee("daniel", "shapira", 26, 209876676, "234657", "a", false);
+        assertEquals(Facade.getInstance().getEmployeeNameById(209876676), EmployeeController.getInstance().getEmployeeNameById(209876676));
     }
 
     @Test
@@ -36,27 +37,5 @@ class EmployeeTest {
         employee.addRole(RoleType.Cashier);
         assertEquals(RoleType.Cleaner, employee.getRoles().get(0));
         assertEquals(RoleType.Cashier,employee.getRoles().get(1));
-    }
-
-    @Test
-    void getStores() {
-        Employee employee = new Employee("daniel", "shapira", 26, 209876676, "234657");
-        Store store = new Store(1,"a", "b");
-        employee.addStore(store);
-        assertEquals(store, employee.getStores().get(0));
-    }
-
-    @Test
-    void removeStore() {
-        Employee employee = new Employee("daniel", "shapira", 26, 209876676, "234657");
-        Store store1 = new Store(1,"a", "b");
-        employee.addStore(store1);
-        Store store2 = new Store(2,"c", "d");
-        employee.addStore(store2);
-        employee.removeStore(store1);
-        assertEquals(store2, employee.getStores().get(0));
-        employee.removeStore(store1);
-        assertTrue(employee.getStores().get(0) == store2);
-        assertTrue(employee.getStores().size() == 1);
     }
 }

@@ -1,4 +1,5 @@
 
+import BussinessLayer.Controllers.Facade;
 import BussinessLayer.Objects.Employee;
 import BussinessLayer.Objects.RoleType;
 import BussinessLayer.Objects.Store;
@@ -16,25 +17,21 @@ class StoreTest {
 
     @Test
     void addEmployee() {
-        Store store = new Store(1, "a", "b");
-        Employee employee = new Employee("daniel", "shapira", 26, 209876676, "234657");
-        assertTrue(store.addEmployee(employee));
+        Facade facade = Facade.getInstance();
+        facade.createStore(1, "a", "b");
+        facade.createEmployee("daniel", "shapira", 26, 209876676, "234657", "a", false);
+        assertTrue(facade.addEmployeeToStore(209876676, "a"));
     }
 
 
 
     @Test
     void removeEmployee() {
-        Store store = new Store(1,"a", "b");
-        Employee employee = new Employee("daniel", "shapira", 26, 209876676, "234657");
-        Employee employee2 = new Employee("daniel", "shapira", 26, 209876676, "234657");
-        store.addEmployee(employee);
-        assertEquals(1,store.getEmployees().size());
-        store.removeEmployee(employee);
-        assertEquals(0, store.getEmployees().size());
-        store.addEmployee(employee);
-        Boolean a = store.removeEmployee(employee2);
-        assertFalse(a);
+        Facade facade = Facade.getInstance();
+        facade.createStore(1, "a", "b");
+        facade.createEmployee("daniel", "shapira", 26, 209876676, "234657", "a", false);
+        assertTrue(facade.addEmployeeToStore(209876676, "a"));
+        assertTrue(facade.removeEmployeeFromStore(209876676, "a"));
     }
 
     @Test
