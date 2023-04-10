@@ -669,6 +669,7 @@ public class Transport_System {
                     display_site_supply();
                     break;
                 case 9:
+                    logistical_center = null;
                     return;
             }
         }
