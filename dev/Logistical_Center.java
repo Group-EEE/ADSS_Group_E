@@ -6,6 +6,18 @@ public class Logistical_Center extends Site{
 
     private ArrayList<Truck> trucks;
 
+    private ArrayList<Truck_Driver> drivers;
+    private Map<Integer, Transport> Transport_Log;
+    private Map<Store, ArrayList<Site_Supply>> delivered_supplies_documents;
+
+    public Logistical_Center(String address, String phone, String name, String site_contact_name) {
+        super(address, phone, name, site_contact_name);
+        trucks = new ArrayList<>();
+        drivers = new ArrayList<>();
+        Transport_Log = new HashMap<>();
+        delivered_supplies_documents = new HashMap<>();
+    }
+
     public ArrayList<Truck> getTrucks() {
         return trucks;
     }
@@ -37,17 +49,6 @@ public class Logistical_Center extends Site{
     public void setDelivered_supplies_documents(Map<Store, ArrayList<Site_Supply>> delivered_supplies_documents) {
         this.delivered_supplies_documents = delivered_supplies_documents;
     }
-
-    private ArrayList<Truck_Driver> drivers;
-    private Map<Integer, Transport> Transport_Log;
-    private Map<Store, ArrayList<Site_Supply>> delivered_supplies_documents;
-     public Logistical_Center(String address, String phone, String name, String site_contact_name) {
-         super(address, phone, name, site_contact_name);
-         trucks = new ArrayList<>();
-         drivers = new ArrayList<>();
-         Transport_Log = new HashMap<>();
-         delivered_supplies_documents = new HashMap<>();
-     }
 
     @Override
     public boolean is_supplier() {

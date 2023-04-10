@@ -1004,6 +1004,7 @@ public class Transport_System {
         boolean at_least_one_supplier = false;
         boolean areaValid = false;
         int area = 0;
+        System.out.println("Please enter the destinations for this current transport.");
         while(!stop_adding_destinations) {
             String site_type = null;
             isValid = false;
@@ -1164,6 +1165,7 @@ public class Transport_System {
 
                 destination = new Supplier(supplier_address, phone_number, supplier_name, supplier_contact_name);
                 transport_doc.insertToDestinations(destination);
+                at_least_one_supplier = true;
             }
             System.out.println("Do you want to add another destination (Store / Supplier)? (press 1 or 2 only) ");
             String choice = null;
@@ -1237,18 +1239,24 @@ public class Transport_System {
         while(!isValid){
             System.out.println("Please enter the registration number of the truck (8 digits, only with the digits 0-9): ");
             input = scanner.nextLine();
-            for(Truck truck : logistical_center.getTrucks()){
-                if(truck.getRegistration_plate().equals(input)){
-                    System.out.print("The Truck is already exist in the system! ");
-                }
-            }
+            boolean number_exist = false;
             if(!containsOnlyNumbers(input)){
-                System.out.print("Invalid input. ");
+                System.out.println("Invalid input. ");
+                continue;
             }
             else if (input.length() != 8) {
                 System.out.println("Input must be a 8 digit integer. ");
+                continue;
             }
-            else{
+            // checking if the truck already exist
+            for(Truck truck : logistical_center.getTrucks()){
+                if(truck.getRegistration_plate().equals(input)){
+                    System.out.println("The Truck is already exist in the system! ");
+                    number_exist = true;
+                    break;
+                }
+            }
+            if (!number_exist){
                 registration_number = input;
                 isValid = true;
             }
@@ -1258,27 +1266,45 @@ public class Transport_System {
         String truck_moodle = scanner.nextLine();
         // ======================== Truck Net Weight ======================== //
         double truck_net_weight = 0.0;
-        System.out.println("Please enter the net weight of the truck: ");
-        input = scanner.nextLine();
-        try {
-            truck_net_weight = Double.parseDouble(input);
-        } catch (NumberFormatException e) {
-            System.out.print("Invalid input. ");
+        boolean valid_net_weight = false;
+        while (!valid_net_weight) {
+            System.out.println("Please enter the net weight of the truck: ");
+            input = scanner.nextLine();
+            try {
+                truck_net_weight = Double.parseDouble(input);
+                if (truck_net_weight > 0){
+                    valid_net_weight = true;
+                }
+                else {
+                    System.out.println("The weight should be positive...");
+                }
+            } catch (NumberFormatException e) {
+                System.out.print("Invalid input. ");
+            }
         }
         // ======================== Truck max Weight ======================== //
         double truck_max_weight = 0.0;
-        System.out.println("Please enter the maximum weight of the truck: ");
-        input = scanner.nextLine();
-        try {
-            truck_max_weight = Double.parseDouble(input);
-        } catch (NumberFormatException e) {
-            System.out.print("Invalid input. ");
+        boolean valid_max_weight = false;
+        while (!valid_max_weight) {
+            System.out.println("Please enter the maximum weight of the truck: ");
+            input = scanner.nextLine();
+            try {
+                truck_max_weight = Double.parseDouble(input);
+                if (truck_max_weight <= truck_net_weight){
+                    System.out.println("Max weight must be above the net weight.");
+                }
+                else {
+                    valid_max_weight = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.print("Invalid input. ");
+            }
         }
         // ======================== Truck Cold Level ======================== //
         cold_level cool_level = null;
         isValid = false;
         while(!isValid){
-            System.out.print("Please enter the cold level of the truck (press 1, 2 or 3 only): ");
+            System.out.println("Please enter the cold level of the truck (press 1, 2 or 3 only): ");
             System.out.println("\t 1 - Freeze");
             System.out.println("\t 2 - Cold");
             System.out.println("\t 3 -  Dry");
