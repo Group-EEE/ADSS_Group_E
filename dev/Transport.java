@@ -6,14 +6,14 @@ public class Transport {
     private String departure_time;
     private String truck_number;
     private String driver_name;
-    private Logistical_Center origin;
+    private String origin;
     private cold_level required_level;
     private ArrayList<Site> destinations;
     private Map<String, Integer> products;
     private ArrayList<Double> weighing;
     private boolean started;
 
-    public Transport(int transport_ID, String date, String departure_time, String truck_number, String driver_name, Logistical_Center origin, cold_level cold_level){
+    public Transport(int transport_ID, String date, String departure_time, String truck_number, String driver_name, String origin, cold_level cold_level){
         this.transport_ID = transport_ID;
         this.date = date;
         this.departure_time = departure_time;
@@ -83,11 +83,11 @@ public class Transport {
         this.driver_name = driver_name;
     }
 
-    public Site getOrigin() {
+    public String getOrigin() {
         return origin;
     }
 
-    public void setOrigin(Logistical_Center origin) {
+    public void setOrigin(String  origin) {
         this.origin = origin;
     }
 
@@ -188,7 +188,7 @@ public class Transport {
         System.out.println("\t Truck Number: " +truck_number);
         System.out.println("\t Driver Name: " + driver_name);
         System.out.println("\t Origin Details: ");
-        origin.siteDisplay();
+        System.out.println(this.origin);
         System.out.println("\t Cold Level: " + required_level.name());
         System.out.println("\t Destinations: ");
         int i = 1;

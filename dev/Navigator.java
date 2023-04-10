@@ -22,18 +22,19 @@ public class Navigator {
                 new_route.add(site);
             }
         }
-        route = new_route;
-        iterator = route.iterator();
+        this.route = new_route;
+        this.iterator = route.iterator();
     }
 
     public Site drive_to_next(){
         if (!iterator.hasNext()){
+            this.current_location = null;
             return null;
         }
         Site next_site = iterator.next();
         route.remove(0);
         iterator = route.iterator();
-        current_location = next_site;
+        this.current_location = next_site;
         return next_site;
     }
 

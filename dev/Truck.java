@@ -52,7 +52,7 @@ public class Truck {
     }
     public Site get_next_site(){
         if (navigator.drive_to_next() != null) {
-            System.out.println("GPS: You have arrived to " + navigator.drive_to_next().getSite_name());
+            System.out.println("GPS: You have arrived to " + navigator.getCurrent_location().getSite_name());
         }
         return navigator.getCurrent_location();
     }

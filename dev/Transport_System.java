@@ -942,55 +942,6 @@ public class Transport_System {
             System.out.println("there's no driver fit to this transport.");
             return null;
         }
-        // ======================== Origin - Logistical Center  ======================== //
-        Logistical_Center origin = null;
-        if(logistical_center == null) {
-            System.out.println("Hey Boss, currently the system does not have the details about the logistics center.");
-            String origin_address = null;
-            isValid = false;
-            while (!isValid) {
-                System.out.println("Please enter the logistical center address: ");
-                input = scanner.nextLine();
-                if (input.strip().equals("")) {
-                    System.out.print("Invalid input. ");
-                }
-                else{
-                    origin_address = input;
-                    isValid = true;
-                }
-            }
-            String origin_phone = null;
-            isValid = false;
-            while(!isValid) {
-                System.out.println("Please enter the logistical center phone number (only digits 0-9): ");
-                origin_phone = scanner.nextLine();
-                if(!containsOnlyNumbers(origin_phone) || origin_phone.strip().equals("")){
-                    System.out.print("Invalid input. ");
-                }
-                else{
-                    isValid = true;
-                }
-            }
-            String origin_name = "Logistical Center";
-            isValid = false;
-            String origin_contact_name = null;
-            while (!isValid) {
-                System.out.println("Please enter the contact person name of the logistical center: ");
-                origin_contact_name = scanner.nextLine();
-                if(!origin_contact_name.strip().equals("")){
-                    isValid = true;
-                }
-                else{
-                    System.out.print("Invalid input. ");
-
-                }
-            }
-            origin = new Logistical_Center(origin_address, origin_phone, origin_name, origin_contact_name);
-            this.logistical_center = origin;
-        }
-        else{
-            origin = logistical_center;
-        }
         // ======================== Date And Time ======================== //
         LocalDateTime now  = LocalDateTime.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -999,7 +950,7 @@ public class Transport_System {
         String Time = now.toLocalTime().format(timeFormatter);
         // ======================== Create Transport Document ======================== //
         cold_level cold_level = truck.getCold_level();
-        Transport transport_doc = new Transport(transport_Id, Date, Time, truck_number, driver_name, origin, cold_level);
+        Transport transport_doc = new Transport(transport_Id, Date, Time, truck_number, driver_name, logistical_center.getSite_name(), cold_level);
         // ======================== Add Destinations ======================== //
         boolean stop_adding_destinations = false;
         Site destination;
