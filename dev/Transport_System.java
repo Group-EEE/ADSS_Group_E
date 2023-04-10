@@ -1206,7 +1206,7 @@ public class Transport_System {
     public boolean unload_goods(Store store, Truck truck, Truck_Driver driver){
         boolean unloaded = false;
         for (int i = 0; i< driver.getSites_documents().size(); i++){
-            if (driver.getSites_documents().get(i).getStore().getAddress() == store.getAddress()){
+            if (driver.getSites_documents().get(i).getStore().getAddress().equals(store.getAddress())){
                 unloaded = true;
                 if (logistical_center.getDelivered_supplies_documents().containsKey(store)) {
                     ArrayList<Site_Supply> site_supplies= logistical_center.getDelivered_supplies_documents().get(store);
