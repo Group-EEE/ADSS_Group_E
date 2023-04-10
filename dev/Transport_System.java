@@ -478,7 +478,7 @@ public class Transport_System {
                         System.out.println("Input must be an int between 0-9. ");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. Please enter a valid int between 1-9. ");
+                    System.out.println("Invalid input. Please enter a valid int between 0-9. ");
                 }
             }
             isValid = false;
