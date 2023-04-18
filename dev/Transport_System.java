@@ -489,32 +489,32 @@ public class Transport_System {
                     break;
                 // have all the trucks by a cold level
                 case 1:
-                cold_level cool_level = null;
-                boolean isValid2 = false;
-                while(!isValid2){
-                    System.out.println("Please enter the required cold level of the truck (press 1, 2 or 3 only): ");
-                    System.out.println("1 - Freeze");
-                    System.out.println("2 - Cold");
-                    System.out.println("3 -  Dry");
-                    input = scanner.nextLine();
-                    if(input.equals("1") || input.equals("2") || input.equals("3")){
-                        isValid2 = true;
+                    cold_level cool_level = null;
+                    boolean isValid2 = false;
+                    while(!isValid2){
+                        System.out.println("Please enter the required cold level of the truck (press 1, 2 or 3 only): ");
+                        System.out.println("1 - Freeze");
+                        System.out.println("2 - Cold");
+                        System.out.println("3 -  Dry");
+                        input = scanner.nextLine();
+                        if(input.equals("1") || input.equals("2") || input.equals("3")){
+                            isValid2 = true;
+                        }
+                        else{
+                            System.out.print("Invalid input. ");
+                        }
                     }
-                    else{
-                        System.out.print("Invalid input. ");
+                    switch (input) {
+                        case "1" -> cool_level = cold_level.Freeze;
+                        case "2" -> cool_level = cold_level.Cold;
+                        case "3" -> cool_level = cold_level.Dry;
                     }
-                }
-                switch (input) {
-                    case "1" -> cool_level = cold_level.Freeze;
-                    case "2" -> cool_level = cold_level.Cold;
-                    case "3" -> cool_level = cold_level.Dry;
-                }
-                for(Truck t : logistical_center.getTrucks()){
-                    if(t.getCold_level().getValue() == cool_level.getValue()) {
-                        System.out.println(t.getRegistration_plate());
+                    for(Truck t : logistical_center.getTrucks()){
+                        if(t.getCold_level().getValue() == cool_level.getValue()) {
+                            System.out.println(t.getRegistration_plate());
+                        }
                     }
-                }
-                break;
+                    break;
 
                 // make a new transport
                 case 2:
@@ -1058,7 +1058,7 @@ public class Transport_System {
                     System.out.println("Please enter the contact person name of the store: ");
                     store_contact_name = scanner.nextLine();
                     if(!store_contact_name.strip().equals("")){
-                            isValid = true;
+                        isValid = true;
                     }
                     else {
                         System.out.print("Invalid input. ");
