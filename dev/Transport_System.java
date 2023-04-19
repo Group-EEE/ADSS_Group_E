@@ -219,6 +219,7 @@ public class Transport_System {
     }
     public boolean change_transport(Transport transport_doc, Truck truck, Truck_Driver driver){
         int choice = 0;
+        System.out.println("The truck max weight is: " + truck.getMax_weight() + " but her current weight is " + truck.getCurrent_weight() + "!!!");
         while (choice != 5) {
             System.out.println("Hey boss, You need to update the current Transport. please choose one of this following options:");
             System.out.println("1: I want to cancel shipping to a certain store.");
