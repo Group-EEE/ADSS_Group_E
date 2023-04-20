@@ -123,7 +123,6 @@ public class CreateSupplierPresentation {
                 daysToSupply = SupplierModulePresentation.CheckIntInputAndReturn("How many days does it take for the supplier to deliver the products?");
         }
 
-
         supplierGenerator.CreateSupplierAndAgreement(name, supplierNum, bankAccount, paymentTerm, Categories,
                 hasPermanentDays, isSupplierBringProduct, deliveryDays, daysToSupply);
     }

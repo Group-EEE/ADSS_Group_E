@@ -126,10 +126,10 @@ public class Supplier {
     /**
      * print all the orders that we ordered from this supplier
      */
-    public void printOrdersHistory()
+    public String StringOrdersHistory()
     {
         for(OrderFromSupplier orderFromSupplier : myOrderFromSuppliers)
-            System.out.println(orderFromSupplier);
+            return orderFromSupplier.toString();
     }
 
     /**
