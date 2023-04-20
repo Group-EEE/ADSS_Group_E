@@ -1,7 +1,8 @@
 public class Main {
     public static void main(String[] args)
     {
-        SupplierController.PowerOn();
+        SupplierModulePresentation supplierModulePresentation = new SupplierModulePresentation();
+        supplierModulePresentation.PowerOn();
     }
 
 }

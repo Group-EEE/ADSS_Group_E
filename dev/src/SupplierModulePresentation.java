@@ -6,21 +6,25 @@ import java.util.*;
 /**
 The class describes the interface with the user. The user enters inputs, and the class acts accordingly.
 */
-public class SupplierController {
+public class SupplierModulePresentation {
 
-    static OrderController orderController = new OrderController();
+    OrderPresentation orderPresentation = new OrderPresentation();
+    Suppl
 
     //------------------------------------------ Attributes ---------------------------------------
-    static Map<String, Supplier> AllSuppliers = new HashMap<String, Supplier>(); // All the suppliers that we work with
-    static Map<List<String>, GenericProduct> AllProducts = new HashMap<List<String>, GenericProduct>(); // All the products we sell
-    static Map<String, Manufacturer> AllManufacturers = new HashMap<String, Manufacturer>(); // All the manufacturers that we work with
+    Map<String, Supplier> AllSuppliers = new HashMap<String, Supplier>(); // All the suppliers that we work with
+    Map<List<String>, GenericProduct> AllProducts = new HashMap<List<String>, GenericProduct>(); // All the products we sell
+    Map<String, Manufacturer> AllManufacturers = new HashMap<String, Manufacturer>(); // All the manufacturers that we work with
 
     //------------------------------------------ User insertion variables ---------------------------------------
     static Scanner reader = new Scanner(System.in);
     static String yourChoice;
 
     //------------------------------------------ Main menu ---------------------------------------
-    public static void PowerOn() {
+
+
+
+    public void PowerOn() {
 
         System.out.println("Hello, welcome to the suppliers system.");
 
@@ -45,10 +49,10 @@ public class SupplierController {
             Choose = reader.nextLine();
             switch (Choose) {
                 case "1":
-                    SupplierGenerator.createNewSupplier();
+                    SupplierPresentation.createNewSupplier();
                     break;
                 case "2":
-                    orderController.createManualOrder();
+                    orderPresentation.createManualOrder();
                     break;
                 case "3":
                     showOrdersHistory();
@@ -80,7 +84,7 @@ public class SupplierController {
             return;
         }
         while (reader.hasNextLine())
-            SupplierGenerator.createNewSupplier();
+            SupplierPresentation.createNewSupplier();
         reader = new Scanner(System.in);
     }
 
@@ -139,11 +143,11 @@ public class SupplierController {
 
             switch (Choose) {
                 case "1":
-                    SupplierGenerator.CreateSupplierAndAgreement(supplier.getName(), supplier.getSupplierNum(), supplier.getBankAccount(),
+                    SupplierPresentation.CreateSupplierAndAgreement(supplier.getName(), supplier.getSupplierNum(), supplier.getBankAccount(),
                         supplier.getPayment(), supplier.getCategories(), supplier.getMyContacts(), supplier);
                     break;
                 case "2":
-                    SupplierGenerator.createSupplierProduct(supplier);
+                    SupplierPresentation.createSupplierProduct(supplier);
                     break;
                 case "3":
                     DeleteProductFromTheAgreement(supplier);
@@ -192,7 +196,7 @@ public class SupplierController {
                     DeleteProductDiscount(supplier);
                     break;
                 case "3":
-                    SupplierGenerator.addOrderDiscount(supplier.getMyAgreement());
+                    SupplierPresentation.addOrderDiscount(supplier.getMyAgreement());
                     break;
                 case "4":
                     DeleteOrderDiscount(supplier);
@@ -210,7 +214,7 @@ public class SupplierController {
         SupplierProduct currSupplierProduct = findSupplierProduct(supplier);
 
         if(currSupplierProduct != null)
-            SupplierGenerator.addProductDiscount(currSupplierProduct);
+            SupplierPresentation.addProductDiscount(currSupplierProduct);
     }
 
     /**------------------------------------------ Case 5.4.2 -----------------------------------------
@@ -362,7 +366,7 @@ public class SupplierController {
      * Update the payment term of the supplier (Net , Net30days, Net60days)
      */
     private static void UpdateSupplierPaymentTerm(Supplier supplier){
-        int yourPayment = SupplierGenerator.enterPaymentTerm();
+        int yourPayment = SupplierPresentation.enterPaymentTerm();
         PaymentTerm payment = PaymentTerm.values()[yourPayment];
         supplier.setPayment(payment);
     }
