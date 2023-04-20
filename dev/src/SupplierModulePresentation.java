@@ -8,13 +8,12 @@ The class describes the interface with the user. The user enters inputs, and the
 */
 public class SupplierModulePresentation {
 
-    OrderPresentation orderPresentation = new OrderPresentation();
-    Suppl
+    OrderPresentation orderPresentation;
+    CreateSupplierPresentation createSupplierPresentation;
+    SupplierController supplierController;
 
     //------------------------------------------ Attributes ---------------------------------------
-    Map<String, Supplier> AllSuppliers = new HashMap<String, Supplier>(); // All the suppliers that we work with
-    Map<List<String>, GenericProduct> AllProducts = new HashMap<List<String>, GenericProduct>(); // All the products we sell
-    Map<String, Manufacturer> AllManufacturers = new HashMap<String, Manufacturer>(); // All the manufacturers that we work with
+
 
     //------------------------------------------ User insertion variables ---------------------------------------
     static Scanner reader = new Scanner(System.in);
@@ -23,6 +22,11 @@ public class SupplierModulePresentation {
     //------------------------------------------ Main menu ---------------------------------------
 
 
+    public SupplierModulePresentation() {
+        this.orderPresentation = new OrderPresentation();
+        this.createSupplierPresentation = new CreateSupplierPresentation();
+        supplierController = SupplierController.getInstance();
+    }
 
     public void PowerOn() {
 
@@ -49,7 +53,7 @@ public class SupplierModulePresentation {
             Choose = reader.nextLine();
             switch (Choose) {
                 case "1":
-                    SupplierPresentation.createNewSupplier();
+                    CreateSupplierPresentation.createNewSupplier();
                     break;
                 case "2":
                     orderPresentation.createManualOrder();
@@ -84,7 +88,7 @@ public class SupplierModulePresentation {
             return;
         }
         while (reader.hasNextLine())
-            SupplierPresentation.createNewSupplier();
+            CreateSupplierPresentation.createNewSupplier();
         reader = new Scanner(System.in);
     }
 
@@ -143,11 +147,11 @@ public class SupplierModulePresentation {
 
             switch (Choose) {
                 case "1":
-                    SupplierPresentation.CreateSupplierAndAgreement(supplier.getName(), supplier.getSupplierNum(), supplier.getBankAccount(),
+                    CreateSupplierPresentation.CreateSupplierAndAgreement(supplier.getName(), supplier.getSupplierNum(), supplier.getBankAccount(),
                         supplier.getPayment(), supplier.getCategories(), supplier.getMyContacts(), supplier);
                     break;
                 case "2":
-                    SupplierPresentation.createSupplierProduct(supplier);
+                    CreateSupplierPresentation.createSupplierProduct(supplier);
                     break;
                 case "3":
                     DeleteProductFromTheAgreement(supplier);
@@ -196,7 +200,7 @@ public class SupplierModulePresentation {
                     DeleteProductDiscount(supplier);
                     break;
                 case "3":
-                    SupplierPresentation.addOrderDiscount(supplier.getMyAgreement());
+                    CreateSupplierPresentation.addOrderDiscount(supplier.getMyAgreement());
                     break;
                 case "4":
                     DeleteOrderDiscount(supplier);
@@ -214,7 +218,7 @@ public class SupplierModulePresentation {
         SupplierProduct currSupplierProduct = findSupplierProduct(supplier);
 
         if(currSupplierProduct != null)
-            SupplierPresentation.addProductDiscount(currSupplierProduct);
+            CreateSupplierPresentation.addProductDiscount(currSupplierProduct);
     }
 
     /**------------------------------------------ Case 5.4.2 -----------------------------------------
@@ -366,7 +370,7 @@ public class SupplierModulePresentation {
      * Update the payment term of the supplier (Net , Net30days, Net60days)
      */
     private static void UpdateSupplierPaymentTerm(Supplier supplier){
-        int yourPayment = SupplierPresentation.enterPaymentTerm();
+        int yourPayment = CreateSupplierPresentation.enterPaymentTerm();
         PaymentTerm payment = PaymentTerm.values()[yourPayment];
         supplier.setPayment(payment);
     }

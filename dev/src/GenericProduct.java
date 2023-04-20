@@ -6,8 +6,12 @@ A product class that describes a product produced by a manufacturer
 */
 public class GenericProduct {
 
+    private static int uniqueBarcode = 990000;
+
     //------------------------------------------ Attribute ---------------------------------------
     private String Name;
+
+    private int Barcode;
 
     //------------------------------------------ References ---------------------------------------
     private final Manufacturer MyManufacturer; // The manufacturer of the product
@@ -16,7 +20,7 @@ public class GenericProduct {
     //--------------------------------------Methods related to This ----------------------------------------
 
     //Constructor
-    public GenericProduct(String name, Manufacturer myManufacturer) {
+    public GenericProduct(String name, Manufacturer myManufacturer, int barcode) {
 
         if(myManufacturer == null) throw new RuntimeException("Product should have a manufacturer");
 
@@ -24,6 +28,14 @@ public class GenericProduct {
         MyManufacturer = myManufacturer;
         myManufacturer.addProduct(this);                        // Add the product to the manufacturer's products.
         MySuppliersProduct = new ArrayList<SupplierProduct>();
+
+        if(barcode == -1){
+            uniqueBarcode++;
+            barcode = uniqueBarcode;
+        }
+        Barcode = barcode;
+
+
     }
 
     public String getName() {return Name;}

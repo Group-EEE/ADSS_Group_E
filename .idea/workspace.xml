@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="97d4ece4-cda5-44e2-9882-6af0fb1453c9" name="Changes" comment="" />
+=======
+    <list default="true" id="97d4ece4-cda5-44e2-9882-6af0fb1453c9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/GenericProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/GenericProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/Supplier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SupplierModulePresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SupplierModulePresentation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SupplierPresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/CreateSupplierPresentation.java" afterDir="false" />
+    </list>
+>>>>>>> 5bca34f4b4aa8d8cc0527abb9c0fd6eca7f8fd07
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -18,6 +38,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -29,6 +50,12 @@
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
+=======
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+>>>>>>> 5bca34f4b4aa8d8cc0527abb9c0fd6eca7f8fd07
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\user\Documents\GitHub\ADSS_Group_E" />

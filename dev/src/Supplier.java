@@ -19,7 +19,7 @@ public class Supplier {
     //------------------------------------------ References ---------------------------------------
     private Map<String,Contact> MyContacts; // All the contacts of the supplier
     private Map<String,Manufacturer> MyManufacturers; // All the manufacturers that working with this supplier
-    private List<SupplierProduct> MyProducts; // All the products supply by this supplier in the agreement.
+    private Map<String, SupplierProduct> MyProducts; // All the products supply by this supplier in the agreement.
     private List<OrderFromSupplier> myOrderFromSuppliers; // All the orders that we ordered from this supplier
     private Agreement MyAgreement; // The agreement that we signed with this supplier
 
@@ -32,7 +32,7 @@ public class Supplier {
         if (myContacts.size() < minimumContacts())
             throw new RuntimeException("Must at least " + minimumContacts() + " contacts");
 
-        MyProducts = new ArrayList<SupplierProduct>();
+        MyProducts = new HashMap<>();
         MyManufacturers = new HashMap<String, Manufacturer>();
         myOrderFromSuppliers = new ArrayList<OrderFromSupplier>();
         Name = name;
@@ -93,7 +93,7 @@ public class Supplier {
 
     // -------------------------------- Methods related to SupplierProduct ------------------------------
     public void addNewProduct(SupplierProduct newProduct){
-        MyProducts.add(newProduct);
+        MyProducts.put(newProduct.getSupplierCatalog(), newProduct);
         addManufacturer(newProduct.getMyProduct().getMyManufacturer());     //A supplier works with a manufacturer
     }
 
@@ -105,28 +105,19 @@ public class Supplier {
     /**
      * return SupplierProduct object given the name and the manufacturer name of the product.
      */
-    public SupplierProduct getSupplierProduct(String productName, String manufacturerName)
-    {
-        for(SupplierProduct supplierProduct : MyProducts)
-        {
-            GenericProduct currGenericProduct = supplierProduct.getMyProduct();
-            if(currGenericProduct.getName().equals(productName) && currGenericProduct.getMyManufacturer().getName().equals(manufacturerName))
-                return supplierProduct;
-        }
-        return null;
-    }
+    public SupplierProduct getSupplierProduct(String CatalogNumber) {return MyProducts.get(CatalogNumber);}
 
     /**
      * return string describe all the product that this supplier supply to us
      */
     private String printProducts(){
         String s = "";
-        for(SupplierProduct supplierProduct : MyProducts)
-            s += (supplierProduct + "\n");
+        for (Map.Entry<String, SupplierProduct> pair : MyProducts.entrySet())
+            s += pair.getValue().toString();
         return s;
     }
 
-    public List<SupplierProduct> getMyProducts() {return MyProducts;}
+    public Map<String, SupplierProduct> getMyProducts() {return MyProducts;}
 
     // -------------------------------- Methods related to Order ------------------------------
     public void addNewOrder(OrderFromSupplier newOrderFromSupplier) {
@@ -198,17 +189,17 @@ public class Supplier {
             System.out.println("The supplier does not work with this manufacturer");
             return;
         }
-        List<SupplierProduct> newSupplierProducts = new ArrayList<SupplierProduct>(MyProducts);
+        Map<String, SupplierProduct> newSupplierProducts = new HashMap<>(MyProducts);
 
-        for(SupplierProduct myProduct : newSupplierProducts)    //The supplier stops supplying all the manufacturer's products
-        {
-            if(myProduct.getMyProduct().getMyManufacturer().getName().equals(manufacturerName))
-                MyAgreement.deleteProductFromTheAgreement(myProduct);
+        for (Map.Entry<String, SupplierProduct> pair : newSupplierProducts.entrySet()) {     //The supplier stops supplying all the manufacturer's products
+            if (pair.getValue().getMyProduct().getMyManufacturer().getName().equals(manufacturerName))
+                MyAgreement.deleteProductFromTheAgreement(pair.getValue());
         }
 
         MyManufacturers.remove(manufacturerName).deleteSupplier(this);  //Stop their cooperation
-
     }
+
+
     public Map<String, Manufacturer> getMyManufacturers() {return MyManufacturers;}
 
     /**
