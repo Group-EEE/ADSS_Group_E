@@ -1,18 +1,25 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The class SupplierPresentation creates a new supplier and adding it to the system.
  * We use this class when we meet with a new supplier, and we want to sign an agreement with him/her.
  */
-public class SupplierPresentation {
+public class CreateSupplierPresentation {
+    SupplierController supplierController;
+    SupplierGenerator supplierGenerator;
+
+    public CreateSupplierPresentation() {
+        this.supplierController = SupplierController.getInstance();
+        this.supplierGenerator = SupplierGenerator.getInstance();
+    }
+
     /**
      * Creates a new supplier and adding it to the system.
      */
-    public static void createNewSupplier() {
+    public void createNewSupplier() {
         System.out.println("\nWelcome to the Supplier Generator.");
+        supplierGenerator.reset();
 
         // **************************** Asking the user for attributes of the supplier *********************************
         System.out.println("What is the name of the supplier? ");
@@ -20,8 +27,8 @@ public class SupplierPresentation {
 
         System.out.println("What is the supplier's number? ");
         String supplierNum = SupplierModulePresentation.reader.nextLine();
-        if(SupplierModulePresentation.AllSuppliers.containsKey(supplierNum)){
-            System.out.println("Supplier already exist!");
+        if(supplierController.checkIfSupplierExist(supplierNum)){
+            System.out.println("Supplier already exist");
             return;
         }
 
@@ -31,44 +38,41 @@ public class SupplierPresentation {
         int yourPayment = enterPaymentTerm();
         PaymentTerm payment = PaymentTerm.values()[yourPayment];
 
-        Map<String,Contact> contacts = EnterContact();
+        EnterContact();
 
         List<String> Categories = EnterCategories();
 
         // ******************************** create an agreement with the supplier *************************************
-        Supplier newSupplier = CreateSupplierAndAgreement(name, supplierNum, bankAccount, payment, Categories, contacts, null);
 
         // Adding a new products to the agreement
         SupplierModulePresentation.yourChoice = "y";
         while (SupplierModulePresentation.yourChoice.equals("y")) {
-            createSupplierProduct(newSupplier);
+            createSupplierProduct(supplierNum);
             SupplierModulePresentation.checkValidWithMessage("Do the supplier supply another products? (y/n)");
         }
 
-        addOrderDiscount(newSupplier.getMyAgreement());
+        addOrderDiscount(supplierNum);
     }
 
     /**
      * Creates the contacts list of the supplier
      */
-    public static Map<String,Contact> EnterContact() {
-        Map<String,Contact> contacts = new HashMap<String,Contact>();
+    public void EnterContact() {
         SupplierModulePresentation.yourChoice = "y";
         while (SupplierModulePresentation.yourChoice.equals("y")) {
             System.out.println("Enter a contact name: ");
             String name = SupplierModulePresentation.reader.nextLine();
             System.out.println("Enter the contact's phone number: ");
             String phoneNumber = SupplierModulePresentation.reader.nextLine();
-            contacts.put(phoneNumber,new Contact(name, phoneNumber));
+            supplierGenerator.addContact(name,phoneNumber);
             SupplierModulePresentation.checkValidWithMessage("Do you want to insert another contact? (y/n)");
         }
-        return contacts;
     }
 
     /**
      * Creates the categories list of the supplier
      */
-    public static List<String> EnterCategories() {
+    public List<String> EnterCategories() {
         List<String> category = new ArrayList<String>();
         SupplierModulePresentation.yourChoice = "y";
         while (SupplierModulePresentation.yourChoice.equals("y")) {
@@ -82,7 +86,7 @@ public class SupplierPresentation {
     /**
      * Asking the user for the payment term of the supplier: Net, Net 30 days, Net 60 days.
      */
-    public static int enterPaymentTerm(){
+    public int enterPaymentTerm(){
         int yourPayment;
         while (true) {
             System.out.println("What are the terms of payment with the supplier? (enter number)");
@@ -98,8 +102,8 @@ public class SupplierPresentation {
     /**
      * Create a new supplier with an agreement. Returns the supplier object
      */
-    public static Supplier CreateSupplierAndAgreement(String name, String supplierNum, String bankAccount,
-                                                      PaymentTerm paymentTerm, List<String> Categories, Map<String,Contact> contacts, Supplier supplier) {
+    public void CreateSupplierAndAgreement(String name, String supplierNum, String bankAccount,
+                                                      PaymentTerm paymentTerm, List<String> Categories) {
         boolean[] deliveryDays = new boolean[7];
         int daysToSupply = -1; // -1 means that the supplier doesn't supply the product by himself, so this parameter is irrelevant
         boolean isSupplierBringProduct;
@@ -119,23 +123,16 @@ public class SupplierPresentation {
                 daysToSupply = SupplierModulePresentation.CheckIntInputAndReturn("How many days does it take for the supplier to deliver the products?");
         }
 
-        if (supplier != null)
-        {
-            supplier.getMyAgreement().setDetails(hasPermanentDays,isSupplierBringProduct,deliveryDays,daysToSupply);
-            return supplier;
-        }
 
-        Supplier newSupplier = new Supplier(name, supplierNum, bankAccount, paymentTerm, contacts, Categories,
+        supplierGenerator.CreateSupplierAndAgreement(name, supplierNum, bankAccount, paymentTerm, Categories,
                 hasPermanentDays, isSupplierBringProduct, deliveryDays, daysToSupply);
-        SupplierModulePresentation.AllSuppliers.put(supplierNum, newSupplier);
-        return newSupplier;
     }
 
     /**
      * Gets a 7 size boolean array, and change the compatible cells to true if the supplier supply the product in this day.
      * For example, if the supplier supply products every sunday, the first cell (number 0) must be "True"
      */
-    public static void enterThePermanentSupplyDays(boolean[] deliveryDays){
+    public void enterThePermanentSupplyDays(boolean[] deliveryDays){
         SupplierModulePresentation.yourChoice = "y";
         int yourDays;
         while (SupplierModulePresentation.yourChoice.equals("y")) {
@@ -152,7 +149,7 @@ public class SupplierPresentation {
     /**
      * Add to the agreement a new product that supply by the given supplier
      */
-    public static void createSupplierProduct(Supplier supplier) {
+    public void createSupplierProduct(String supplierNum) {
         // ************************ Asking the user for attributes of the supplier's product ***************************
         System.out.println("Enter the product name:");
         String productName = SupplierModulePresentation.reader.nextLine();
@@ -160,43 +157,32 @@ public class SupplierPresentation {
         System.out.println("Enter the manufacturer name:");
         String manufacturerName = SupplierModulePresentation.reader.nextLine();
 
+        int barcode = SupplierModulePresentation.CheckIntInputAndReturn("Enter barcode: (If unknown enter: 99)");
+
         System.out.println("Enter supplier catalog:");
         String supplierCatalog = SupplierModulePresentation.reader.nextLine();
 
         float price = SupplierModulePresentation.CheckFloatInputAndReturn("Enter price per unit:");
         int amount = SupplierModulePresentation.CheckIntInputAndReturn("Enter the quantity of products you can supply:");
 
-        if (!SupplierModulePresentation.AllManufacturers.containsKey(manufacturerName))
-            SupplierModulePresentation.AllManufacturers.put(manufacturerName, new Manufacturer(manufacturerName));
 
-        // Create a key for the products map founded in the database
-        List<String> keyPair = new ArrayList<>();
-        keyPair.add(productName);
-        keyPair.add(manufacturerName);
-
-        // If the product is not in our database, we need to add it
-        if (!SupplierModulePresentation.AllProducts.containsKey(keyPair))
-            SupplierModulePresentation.AllProducts.put(keyPair, new GenericProduct(productName, SupplierModulePresentation.AllManufacturers.get(manufacturerName)));
-
-        SupplierProduct currSupplierProduct = supplier.getSupplierProduct(productName, manufacturerName);
-
-        if(currSupplierProduct != null){
+        if(supplierController.checkIfSupplierSupplyProduct(supplierCatalog, supplierNum)){
             SupplierModulePresentation.checkValidWithMessage("The supplier is already supply this product. Do you want to overwrite it? (y,n)");
             if(SupplierModulePresentation.yourChoice.equals("y"))
-                currSupplierProduct.delete();
+                supplierController.deleteProductFromSupplier(supplierCatalog, supplierNum);
             else return;
         }
 
-        SupplierProduct newSupplierProduct = new SupplierProduct(price,supplierCatalog,amount, supplier,
-                SupplierModulePresentation.AllProducts.get(keyPair), supplier.getMyAgreement());
+        supplierController.addSupplierProduct(productName, manufacturerName, barcode, supplierNum, price, supplierCatalog, amount);
 
-        addProductDiscount(newSupplierProduct);
+
+        addProductDiscount(supplierCatalog, supplierNum);
     }
 
     /**
      * Add new discount related to the given product
      */
-    public static void addProductDiscount(SupplierProduct supplierProduct) {
+    public void addProductDiscount(String supplierCatalog, String supplierNum) {
         SupplierModulePresentation.checkValidWithMessage("Do the supplier provide any discounts for this product? (y/n)");
 
         while (SupplierModulePresentation.yourChoice.equals("y")) {
@@ -205,7 +191,7 @@ public class SupplierPresentation {
 
             float discountPercentage = SupplierModulePresentation.CheckFloatInputAndReturn("How many percent off? ");
 
-            supplierProduct.addProductDiscount(discountPercentage, minimumQuantity);
+            supplierController.addProductDiscount(supplierCatalog, discountPercentage, minimumQuantity, supplierNum);
             SupplierModulePresentation.checkValidWithMessage("Do the supplier provide another discounts for this product? (y/n)");
         }
     }
@@ -214,7 +200,7 @@ public class SupplierPresentation {
      * Add to the given agreement a new "Order Discount".
      * (means discount given for the final order. Can be for minimum price or minimum quantity)
      */
-    public static void addOrderDiscount(Agreement agreement) {
+    public void addOrderDiscount(String supplierNum) {
         SupplierModulePresentation.checkValidWithMessage("Do the supplier supply any discounts for order ? (y/n)");
 
         while (SupplierModulePresentation.yourChoice.equals("y")) {
@@ -233,13 +219,14 @@ public class SupplierPresentation {
 
             float discountPercentage = SupplierModulePresentation.CheckFloatInputAndReturn("How many percent off? ");
 
-            if(agreement.CheckIfExistOrderDiscount(priceOrQuantity,discountPercentage, minimumAmount))
+            if(supplierController.CheckIfExistOrderDiscount(supplierNum, priceOrQuantity, minimumAmount, discountPercentage)) {
+                System.out.println("The discount already exist");
                 return;
+            }
 
-            agreement.addOrderDiscount(priceOrQuantity, minimumAmount, discountPercentage);
+            supplierController.addOrderDiscount(supplierNum, priceOrQuantity, minimumAmount, discountPercentage);
             SupplierModulePresentation.checkValidWithMessage("Do the supplier provide another discounts for order? (y/n)");
         }
     }
-
 
 }

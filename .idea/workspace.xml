@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="97d4ece4-cda5-44e2-9882-6af0fb1453c9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/dev/src/OrderPresentation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ADSS_Group_E.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ADSS_Group_E.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/OrderGenerator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SupplierController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SupplierModulePresentation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SupplierGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SupplierGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/GenericProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/GenericProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/Supplier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SupplierModulePresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SupplierModulePresentation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SupplierPresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/CreateSupplierPresentation.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -26,16 +34,10 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/Desktop/architecture&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
-  }
-}</component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\user\Documents\GitHub\ADSS_Group_E" />
