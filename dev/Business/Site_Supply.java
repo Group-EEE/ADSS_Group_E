@@ -62,8 +62,8 @@ public class Site_Supply {
 
     // display
     public void sDisplay(){
-        System.out.println("\t =========== Business.Site Supply - " + id + " - information ===========");
-        System.out.println("\t Business.Store name: " + store.getSite_name());
+        System.out.println("\t =========== Site Supply - " + id + " - information ===========");
+        System.out.println("\t Store name: " + store.getSite_name());
         System.out.println("\t Origin: " + origin);
         System.out.println("\t ======= Items =======");
         for (Map.Entry<String, Integer> entry : items.entrySet()) {

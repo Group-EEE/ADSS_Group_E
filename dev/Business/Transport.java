@@ -184,26 +184,25 @@ public class Transport {
     // display
 
     public void transportDisplay(){
-        System.out.println("\t Business.Transport ID: " + transport_ID);
+        System.out.println("\t Transport ID: " + transport_ID);
         System.out.println("\t Date: " + date);
         System.out.println("\t Departure Time: " + departure_time);
-        System.out.println("\t Business.Truck Number: " +truck_number);
+        System.out.println("\t Truck Number: " + truck_number);
         System.out.println("\t Driver Name: " + driver_name);
-        System.out.println("\t Origin Details: ");
-        System.out.println(this.origin);
+        System.out.println("\t Origin Details: " + origin);
         System.out.println("\t Cold Level: " + required_level.name());
         System.out.println("\t Destinations: ");
         int i = 1;
         for(Site s : destinations){
             System.out.println("\t ================= Destination " + i + " =================");
             if(s.is_store()) {
-                System.out.println("\t\t Business.Site Type: Business.Store");
+                System.out.println("\t\t Site Type: Store");
             }
             if(s.is_supplier()) {
-                System.out.println("\t\t Business.Site Type: Business.Supplier");
+                System.out.println("\t\t Site Type: Supplier");
             }
             if(s.is_logistical_center()) {
-                System.out.println("\t\t Business.Site Type: Logistical Center");
+                System.out.println("\t\t Site Type: Logistical Center");
             }
             s.siteDisplay();
             System.out.println();
@@ -220,7 +219,7 @@ public class Transport {
             System.out.println("\t Weight: " + weighing.get(weighing.size() - 1));
         }
         else{
-            System.out.println("\t Weight:0.0");
+            System.out.println("\t Weight: 0.0");
         }
         System.out.println();
     }

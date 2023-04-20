@@ -38,8 +38,7 @@ public class License {
     // display
 
     public void licenseDisplay(){
-        System.out.println("\t\t Business.License ID Number: " + L_ID);
-        System.out.println("\t\t Business.Truck Cold Level: " + cold_level.name());
+        System.out.println("\t\t Truck Cold Level: " + cold_level.name());
         System.out.println("\t\t Weight: " + weight);
     }
 }

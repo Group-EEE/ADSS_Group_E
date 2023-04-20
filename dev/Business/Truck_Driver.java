@@ -140,10 +140,10 @@ public class Truck_Driver {
     public void driverDisplay(){
         System.out.println("Driver ID Number - " + ID);
         System.out.println("\t Driver Name: " + name);
-        System.out.println("\t Business.License Details: ");
+        System.out.println("\t License Details: ");
         license.licenseDisplay();
         if(current_truck != null) {
-            System.out.println("\t Current Business.Truck: " + current_truck.getRegistration_plate());
+            System.out.println("\t Current Truck: " + current_truck.getRegistration_plate());
         }
         System.out.println();
     }

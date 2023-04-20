@@ -100,7 +100,7 @@ public class Transport_System {
             System.out.println("Enter an license ID (a 5 digit integer): ");
             String input = scanner.nextLine();
             if(input.startsWith("0")){
-                System.out.print("Business.License ID number cannot contain 0 at the beginning. ");
+                System.out.print("License ID number cannot contain 0 at the beginning. ");
                 if(input.length() != 5){
                     System.out.print("Input must be a 5 digit integer. ");
                 }
@@ -223,7 +223,7 @@ public class Transport_System {
         int choice = 0;
         System.out.println("The truck max weight is: " + truck.getMax_weight() + " but her current weight is " + truck.getCurrent_weight() + "!!!");
         while (choice != 5) {
-            System.out.println("Hey boss, You need to update the current Business.Transport. please choose one of this following options:");
+            System.out.println("Hey boss, You need to update the current Transport. please choose one of this following options:");
             System.out.println("1: I want to cancel shipping to a certain store.");
             System.out.println("2: I want to change the truck to complete the transport.");
             System.out.println("3: I want to get the goods from the current supplier later / skip this supplier goods for today.");
@@ -262,7 +262,7 @@ public class Transport_System {
                         break;
                     }
                     // asking for the store until he gives a valid store name from are current destinations.
-                    System.out.println("Please enter the Business.Store you want to cancel the shipment:");
+                    System.out.println("Please enter the Store you want to cancel the shipment:");
                     String site_to_remove = null;
                     boolean exist = false;
                     while (!exist) {
@@ -541,7 +541,7 @@ public class Transport_System {
                                 if (!entry.getValue().Started()) {
                                     int t_id = entry.getKey();
                                     Transport temp_transport = entry.getValue();
-                                    System.out.println("=========== Business.Transport - " + t_id + " - information ===========");
+                                    System.out.println("=========== Transport - " + t_id + " - information ===========");
                                     temp_transport.transportDisplay();
                                 }
                             }
@@ -561,7 +561,7 @@ public class Transport_System {
                                         Transport temp = logistical_center.getTransport_Log().get(key);
                                         temp.setStarted(true);
                                         transport_IDS.add(key);
-                                        System.out.println("Business.Transport " + key + " will start soon. If you want to send another one please press 1, to get back to transports sending menu press anything else:");
+                                        System.out.println("Transport " + key + " will start soon. If you want to send another one please press 1, to get back to transports sending menu press anything else:");
                                         String inp1 = scanner.nextLine();
                                         if (inp1.equals("1")){
                                             continue;
@@ -570,7 +570,7 @@ public class Transport_System {
                                             end_choosing = true;
                                         }
                                     } else {
-                                        System.out.println("Business.Transport ID does not exist. If you don't want to continue press 1, otherwise press anything else:");
+                                        System.out.println("Transport ID does not exist. If you don't want to continue press 1, otherwise press anything else:");
                                         String inp2 = scanner.nextLine();
                                         if (inp2.equals("1")){
                                             end_choosing = true;
@@ -604,7 +604,7 @@ public class Transport_System {
                         // ========================= starting the transport ======================= //
                         Truck truck = getTruckByNumber(chosen_transport.getTruck_number());
                         truck.setNavigator(chosen_transport.getDestinations());
-                        System.out.println("Business.Transport - " + chosen_transport.getTransport_ID() + " started.");
+                        System.out.println("Transport - " + chosen_transport.getTransport_ID() + " started.");
                         Site current = truck.get_next_site();
                         while (current != null){
                             if (current.is_supplier()){
@@ -639,7 +639,7 @@ public class Transport_System {
                                     boolean abort_transport = !change_transport(chosen_transport, truck, truck.getCurrent_driver());
                                     if (abort_transport){
                                         //delete_transport();
-                                        System.out.println("Business.Transport was aborted. you can try to send it later");
+                                        System.out.println("Transport was aborted. you can try to send it later");
                                         aborted = true;
                                         chosen_transport.setStarted(false);
                                         break;
@@ -666,7 +666,7 @@ public class Transport_System {
                             driver.setCurrent_truck(null);
                             truck.setCurrent_driver(null);
                             truck.setOccupied(false);
-                            System.out.println("Business.Transport " + chosen_transport.getTransport_ID() + " now finished.");
+                            System.out.println("Transport " + chosen_transport.getTransport_ID() + " now finished.");
                         }
                     }
                     choosing = true;
@@ -744,7 +744,7 @@ public class Transport_System {
 
     // create site supply document for the truck driver.
     public void create_site_supply(Transport transport, String supplier_address){
-        // ======================== Business.Supplier ID ======================== //
+        // ======================== Supplier ID ======================== //
         boolean isValid = false;
         Scanner scanner = new Scanner(System.in);
         String input = null;
@@ -787,7 +787,7 @@ public class Transport_System {
                 }
             }
         }
-        // ======================== Business.Store Address ======================== //
+        // ======================== Store Address ======================== //
         String store_name = null;
         isValid = false;
         while (!isValid) {
@@ -812,9 +812,9 @@ public class Transport_System {
                 }
             }
         }
-        // ======================== Business.Store As Destination ======================== //
+        // ======================== Store As Destination ======================== //
         Store store = transport.getStoreByName(store_name);
-        // ======================== Create Business.Site Supply Document ======================== //
+        // ======================== Create Site Supply Document ======================== //
         Site_Supply site_supply_doc = new Site_Supply(site_supplier_ID, store, supplier_address);
         // ======================== Insert Items ======================== //
         isValid = false;
@@ -853,7 +853,7 @@ public class Transport_System {
             if(choice.equals("2")){
                 isValid = true;
             }
-            // ======================== Insert Items To Business.Site Supply And Business.Transport Documents ======================== //
+            // ======================== Insert Items To Site Supply And Transport Documents ======================== //
             site_supply_doc.insert_item(item_name, item_amount);
             transport.insertToProducts(item_name, item_amount);
         }
@@ -870,12 +870,12 @@ public class Transport_System {
                 System.out.print("Invalid input. ");
             }
         }
-        // ======================== Insert Weight To Business.Site Supply Document ======================== //
+        // ======================== Insert Weight To Site Supply Document ======================== //
         site_supply_doc.setProducts_total_weight(items_weight);
-        // ======================== Insert Weight To Business.Truck ======================== //
+        // ======================== Insert Weight To Truck ======================== //
         Truck truck = getTruckByNumber(transport.getTruck_number());
         truck.addWeight(items_weight);
-        // ======================== Add The Business.Site Supply Document To Business.Truck Driver ======================== //
+        // ======================== Add The Site Supply Document To Truck Driver ======================== //
         truck_driver.Add_site_document(site_supply_doc);
     }
     public Truck getTruckByNumber(String truck_number){
@@ -892,7 +892,7 @@ public class Transport_System {
     public Transport create_transport_document(){
         Scanner scanner = new Scanner(System.in);
         String input = null;
-        // ======================== Business.Transport ID ======================== //
+        // ======================== Transport ID ======================== //
         int transport_Id = 0;
         boolean isValid = false;
         // getting the transport's ID number.
@@ -921,7 +921,7 @@ public class Transport_System {
                 }
             }
         }
-        // ======================== Business.Truck ======================== //
+        // ======================== Truck ======================== //
         cold_level cool_level = null;
         isValid = false;
         while(!isValid){
@@ -944,11 +944,11 @@ public class Transport_System {
         }
         Truck truck = getTruckByColdLevel(cool_level);
         if (truck == null){
-            System.out.println("there's no Business.Truck fit to this transport.");
+            System.out.println("there's no Truck fit to this transport.");
             return null;
         }
         String truck_number = truck.getRegistration_plate();
-        // ======================== Business.Truck Driver ======================== //
+        // ======================== Truck Driver ======================== //
         String driver_name = null;
         boolean assigned = false;
         for(Truck_Driver driver: logistical_center.getDrivers()){
@@ -964,9 +964,11 @@ public class Transport_System {
             System.out.println("there's no driver fit to this transport.");
             return null;
         }
-        // ======================== Create Business.Transport Document ======================== //
+        // ======================== Create Transport Document ======================== //
         cold_level cold_level = truck.getCold_level();
         Transport transport_doc = new Transport(transport_Id, "TBD", "TBD", truck_number, driver_name, logistical_center.getSite_name(), cold_level);
+        // ======================== Update Weight - Add Net Weight Of The Truck To Transport Weight List ======================== //
+        transport_doc.insertToWeights(truck.getNet_weight());
         // ======================== Add Destinations ======================== //
         boolean stop_adding_destinations = false;
         Site destination;
@@ -980,8 +982,8 @@ public class Transport_System {
             isValid = false;
             while (!isValid) {
                 System.out.println("Is the destination is a store or supplier? (press 1 or 2 only) ");
-                System.out.println("\t 1 - Business.Store ");
-                System.out.println("\t 2 - Business.Supplier ");
+                System.out.println("\t 1 - Store ");
+                System.out.println("\t 2 - Supplier ");
                 site_type = scanner.nextLine();
                 if (!site_type.equals("1") && !site_type.equals("2")) {
                     System.out.println("Invalid input. try again. ");
@@ -1146,7 +1148,7 @@ public class Transport_System {
                 transport_doc.insertToDestinations(destination);
                 at_least_one_supplier = true;
             }
-            System.out.println("Do you want to add another destination (Business.Store / Business.Supplier)? (press 1 or 2 only) ");
+            System.out.println("Do you want to add another destination (Store / Supplier)? (press 1 or 2 only) ");
             String choice = null;
             isValid = false;
             while(!isValid) {
@@ -1169,7 +1171,7 @@ public class Transport_System {
                 }
             }
         }
-        // ======================== Add Business.Transport Document ======================== //
+        // ======================== Add Transport Document ======================== //
         logistical_center.getTransport_Log().put(transport_Id, transport_doc);
         return transport_doc;
     }
@@ -1230,7 +1232,7 @@ public class Transport_System {
             // checking if the truck already exist
             for(Truck truck : logistical_center.getTrucks()){
                 if(truck.getRegistration_plate().equals(input)){
-                    System.out.println("The Business.Truck is already exist in the system! ");
+                    System.out.println("The Truck is already exist in the system! ");
                     number_exist = true;
                     break;
                 }
@@ -1240,10 +1242,10 @@ public class Transport_System {
                 isValid = true;
             }
         }
-        // ======================== Business.Truck Moodle ======================== //
+        // ======================== Truck Moodle ======================== //
         System.out.println("Please enter the truck moodle: ");
         String truck_moodle = scanner.nextLine();
-        // ======================== Business.Truck Net Weight ======================== //
+        // ======================== Truck Net Weight ======================== //
         double truck_net_weight = 0.0;
         boolean valid_net_weight = false;
         while (!valid_net_weight) {
@@ -1261,7 +1263,7 @@ public class Transport_System {
                 System.out.print("Invalid input. ");
             }
         }
-        // ======================== Business.Truck max Weight ======================== //
+        // ======================== Truck max Weight ======================== //
         double truck_max_weight = 0.0;
         boolean valid_max_weight = false;
         while (!valid_max_weight) {
@@ -1279,7 +1281,7 @@ public class Transport_System {
                 System.out.print("Invalid input. ");
             }
         }
-        // ======================== Business.Truck Cold Level ======================== //
+        // ======================== Truck Cold Level ======================== //
         cold_level cool_level = null;
         isValid = false;
         while(!isValid){
@@ -1300,7 +1302,7 @@ public class Transport_System {
             case "2" -> cool_level = cold_level.Cold;
             case "3" -> cool_level = cold_level.Dry;
         }
-        // ======================== Create And Adding The New Business.Truck  ======================== //
+        // ======================== Create And Adding The New Truck  ======================== //
         Truck truck = new Truck(registration_number, truck_moodle, truck_net_weight, truck_max_weight, cool_level ,truck_net_weight);
         logistical_center.getTrucks().add(truck);
     }
@@ -1312,7 +1314,7 @@ public class Transport_System {
         for (Map.Entry<Integer, Transport> entry : logistical_center.getTransport_Log().entrySet()) {
             int id = entry.getKey();
             Transport transport = entry.getValue();
-            System.out.println("=========== Business.Transport - " + id + " - information ===========");
+            System.out.println("=========== Transport - " + id + " - information ===========");
             transport.transportDisplay();
         }
     }
