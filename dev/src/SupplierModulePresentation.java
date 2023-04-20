@@ -7,12 +7,10 @@ import java.util.*;
 The class describes the interface with the user. The user enters inputs, and the class acts accordingly.
 */
 public class SupplierModulePresentation {
-
+    //------------------------------------------ Attributes ---------------------------------------
     OrderPresentation orderPresentation;
     CreateSupplierPresentation createSupplierPresentation;
     SupplierController supplierController;
-
-    //------------------------------------------ Attributes ---------------------------------------
 
 
     //------------------------------------------ User insertion variables ---------------------------------------
@@ -53,13 +51,13 @@ public class SupplierModulePresentation {
             Choose = reader.nextLine();
             switch (Choose) {
                 case "1":
-                    CreateSupplierPresentation.createNewSupplier();
+                    createSupplierPresentation.createNewSupplier();
                     break;
                 case "2":
                     orderPresentation.createManualOrder();
                     break;
                 case "3":
-                    showOrdersHistory();
+                    showSupplierOrdersHistory();
                     break;
                 case "4":
                     deleteSupplier();
@@ -78,7 +76,7 @@ public class SupplierModulePresentation {
     }
 
     /**------------------------------------------ Create data base ---------------------------------------*/
-    public static void InsertData() {
+    public void InsertData() {
         System.out.println("Please enter file path: ");
         String path = reader.nextLine();
 
@@ -88,49 +86,52 @@ public class SupplierModulePresentation {
             return;
         }
         while (reader.hasNextLine())
-            CreateSupplierPresentation.createNewSupplier();
+            createSupplierPresentation.createNewSupplier();
         reader = new Scanner(System.in);
     }
 
     /**------------------------------------------ Case 3 -----------------------------------------
      * A method that displays the order history from a specific supplier or from all suppliers in the system
      */
-    private static void showOrdersHistory() {
+    private void showSupplierOrdersHistory() {
 
         do {
             System.out.println("\nEnter supplier number. (For all the suppliers enter 'ALL' )");
             yourChoice = reader.nextLine();
-        } while (!AllSuppliers.containsKey(yourChoice) && !yourChoice.equals("ALL"));
+        } while (!supplierController.checkIfSupplierExist(yourChoice) && !yourChoice.equals("ALL"));
 
         if (yourChoice.equals("ALL")) {
-            for (Map.Entry<String, Supplier> pair : AllSuppliers.entrySet()) {
+            for (Map.Entry<String, Supplier> pair : supplierController.returnAllSuppliers().entrySet()) {
                 System.out.println("********************* " + pair.getValue().getName() + " *********************");
-                pair.getValue().printOrdersHistory();
+                System.out.println(pair.getValue().StringOrdersHistory());
             }
-        } else
-            AllSuppliers.get(yourChoice).printOrdersHistory();
+        }
+        else
+            System.out.println(supplierController.returnAllSuppliers().get(yourChoice).StringOrdersHistory());
     }
 
     /**------------------------------------------ Case 4 -----------------------------------------
      * A method that deletes supplier from the system, including all the supplier's products signed in the agreement
      */
-    private static void deleteSupplier() {
+    private void deleteSupplier() {
 
-        Supplier supplier = AskAndCheckSupplierNumber();
-        String supplierNum = supplier.getSupplierNum();
+        String supplierNum;
+        do {
+            System.out.println("\nEnter supplier number\n");
+            supplierNum = reader.nextLine();
+        } while (supplierController.checkIfSupplierExist(supplierNum));
         checkValidWithMessage("Delete supplier: " + supplierNum + "\nAre you sure you want to delete? (y/n)");
+        yourChoice = reader.nextLine();
 
-        if (yourChoice.equals("y")) {
-            supplier.fireSupplier();
-            AllSuppliers.remove(supplierNum);
-        }
+        if (yourChoice.equals("y"))
+            supplierController.fireSupplier(supplierNum);
     }
 
     /**------------------------------------------ Case 5 -------------------------------------------
      * A method that is responsible for updating the details of the supplier's agreement.
      * Inside the method there is an internal menu.
      */
-    private static void UpdateSupplierAgreement() {
+    private void UpdateSupplierAgreement() {
         String Choose = "";
         while (!Choose.equals("0")) {
 
@@ -142,8 +143,13 @@ public class SupplierModulePresentation {
             System.out.println("0. Exit.");
             Choose = reader.nextLine();
 
-            Supplier supplier = null;
-            if (!Choose.equals("0")) supplier = AskAndCheckSupplierNumber();
+            String supplierNum = "";
+            if (!Choose.equals("0")){
+                do {
+                    System.out.println("\nEnter supplier number\n");
+                    supplierNum = reader.nextLine();
+                } while (!supplierController.checkIfSupplierExist(supplierNum));
+            }
 
             switch (Choose) {
                 case "1":
@@ -151,10 +157,10 @@ public class SupplierModulePresentation {
                         supplier.getPayment(), supplier.getCategories(), supplier.getMyContacts(), supplier);
                     break;
                 case "2":
-                    CreateSupplierPresentation.createSupplierProduct(supplier);
+                    createSupplierPresentation.createSupplierProduct(supplierNum);
                     break;
                 case "3":
-                    DeleteProductFromTheAgreement(supplier);
+                    DeleteProductFromTheAgreement(supplierNum);
                     break;
                 case "4":
                     UpdateDiscounts(supplier);
@@ -167,20 +173,24 @@ public class SupplierModulePresentation {
     /**------------------------------------------ Case 5.3 -----------------------------------------
      * The supplier has stopped supplying a product, so it should be deleted from the agreement
      */
-    private static void DeleteProductFromTheAgreement(Supplier supplier){
+    private void DeleteProductFromTheAgreement(String supplierNum){
 
-        SupplierProduct currSupplierProduct = findSupplierProduct(supplier);
-        if(currSupplierProduct != null){
+        System.out.println("Enter SupplierCatalog:");
+        String supplierCatalog = reader.nextLine();
+
+        if(supplierController.checkIfSupplierSupplyProduct(supplierCatalog, supplierNum)) {
             checkValidWithMessage("Are you sure you want to delete this product? (y/n)");
             if(yourChoice.equals("y"))
-                currSupplierProduct.delete();
+                supplierController.deleteProductFromSupplier(supplierCatalog, supplierNum);
         }
+        else
+            System.out.println("The product is not supply by the supplier");
     }
 
     /**------------------------------------------ Case 5.4 -----------------------------------------
      * A method that is responsible for updating discounts on products or orders.
      */
-    private static void UpdateDiscounts(Supplier supplier){
+    private void UpdateDiscounts(String supplierNum){
         String Choose = "";
         while (!Choose.equals("0")) {
 
@@ -194,16 +204,16 @@ public class SupplierModulePresentation {
 
             switch (Choose) {
                 case "1":
-                    AddProductDiscount(supplier);
+                    AddProductDiscount(supplierNum);
                     break;
                 case "2":
-                    DeleteProductDiscount(supplier);
+                    DeleteProductDiscount(supplierNum);
                     break;
                 case "3":
-                    CreateSupplierPresentation.addOrderDiscount(supplier.getMyAgreement());
+                    createSupplierPresentation.addOrderDiscount(supplierNum);
                     break;
                 case "4":
-                    DeleteOrderDiscount(supplier);
+                    DeleteOrderDiscount(supplierNum);
                     break;
             }
         }
@@ -213,33 +223,39 @@ public class SupplierModulePresentation {
     /**------------------------------------------ Case 5.4.1 -----------------------------------------
      * Add a discount of a product supplied by the supplier.
      */
-    private static void AddProductDiscount(Supplier supplier){
+    private void AddProductDiscount(String supplierNum){
 
-        SupplierProduct currSupplierProduct = findSupplierProduct(supplier);
+        System.out.println("Enter SupplierCatalog:");
+        String supplierCatalog = reader.nextLine();
 
-        if(currSupplierProduct != null)
-            CreateSupplierPresentation.addProductDiscount(currSupplierProduct);
+        if(supplierController.checkIfSupplierSupplyProduct(supplierCatalog, supplierNum)){
+            createSupplierPresentation.addProductDiscount(supplierCatalog, supplierNum);
+        }
+        else
+            System.out.println("The product is not supply by the supplier");
+
+
     }
 
     /**------------------------------------------ Case 5.4.2 -----------------------------------------
      * Delete a discount of a product supplied by the supplier.
      */
-    private static void DeleteProductDiscount(Supplier supplier){
+    private void DeleteProductDiscount(String supplierNum){
 
-        SupplierProduct currSupplierProduct = findSupplierProduct(supplier);
-
-        if(currSupplierProduct != null)
-        {
+        System.out.println("Enter SupplierCatalog:");
+        String supplierCatalog = reader.nextLine();
+        if(supplierController.checkIfSupplierSupplyProduct(supplierCatalog, supplierNum)){
             int minimumAmount = CheckIntInputAndReturn("Enter the minimum amount:");
-
-            currSupplierProduct.deleteDiscountProduct(minimumAmount);
+            supplierController.deleteDiscountProduct(supplierNum, supplierCatalog, minimumAmount);
         }
+        else
+            System.out.println("The product is not supply by the supplier");
     }
 
     /**------------------------------------------ Case 5.4.4 -----------------------------------------
      * Delete an order discount to the agreement with the supplier.
      */
-    private static void DeleteOrderDiscount(Supplier supplier){
+    private void DeleteOrderDiscount(String supplierNum){
         String priceOrQuantity;
         do {
             System.out.println("Do the discount is for minimum price or for minimum quantity ? (p/q)");
@@ -248,7 +264,7 @@ public class SupplierModulePresentation {
 
         float discountPercentage = CheckFloatInputAndReturn("Enter the Discount percentage: ");
         int minimumAmount = CheckIntInputAndReturn("Enter the minimum amount:");
-        supplier.getMyAgreement().deleteOrderDiscount(priceOrQuantity, discountPercentage, minimumAmount);
+        supplierController.deleteOrderDiscount(supplierNum, priceOrQuantity, discountPercentage, minimumAmount);
     }
 
     //---------------------------------------Case 6----------------------------------------------
@@ -256,7 +272,7 @@ public class SupplierModulePresentation {
     /**
      * This method used to change the details of the supplier, such as bank account, payment term and contact list.
      */
-    private static void ChangeSupplierDetails(){
+    private void ChangeSupplierDetails(){
         String Choose = "";
         while (!Choose.equals("0")) {
 
@@ -268,21 +284,26 @@ public class SupplierModulePresentation {
             System.out.println("0. Exit.");
             Choose = reader.nextLine();
 
-            Supplier supplier = null;
-            if (!Choose.equals("0")) supplier = AskAndCheckSupplierNumber();
+            String supplierNum = "";
+            if (!Choose.equals("0")){
+                do {
+                    System.out.println("\nEnter supplier number\n");
+                    supplierNum = reader.nextLine();
+                } while (!supplierController.checkIfSupplierExist(supplierNum));
+            }
 
             switch (Choose) {
                 case "1":
-                    UpdateSupplierBankAccount(supplier);
+                    UpdateSupplierBankAccount(supplierNum);
                     break;
                 case "2":
-                    UpdateSupplierPaymentTerm(supplier);
+                    UpdateSupplierPaymentTerm(supplierNum);
                     break;
                 case "3":
-                    UpdateSupplierContactList(supplier);
+                    UpdateSupplierContactList(supplierNum);
                     break;
                 case "4":
-                    StopWorkingWithAManufacturer(supplier);
+                    StopWorkingWithAManufacturer(supplierNum);
                     break;
             }
         }
@@ -291,10 +312,10 @@ public class SupplierModulePresentation {
     /**
      * Update the supplier bank account of the given supplier
      */
-    private static void UpdateSupplierBankAccount(Supplier supplier){
+    private void UpdateSupplierBankAccount(String supplierNum){
         System.out.println("\nEnter supplier new bank account\n");
         yourChoice = reader.nextLine();
-        supplier.setBankAccount(yourChoice);
+        supplierController.setBankAccount(supplierNum, yourChoice);
     }
 
     /**
@@ -398,12 +419,13 @@ public class SupplierModulePresentation {
 
     // ------------------------------------------------------------------------------------------
 
-    /**An "Helper function"
+    /**A "Helper function"
      * Finding a certain product given by the user, that supplied by the given supplier
      */
-    private static SupplierProduct findSupplierProduct(Supplier supplier){
-        System.out.println("Enter the product name:");
-        String productName = reader.nextLine();
+    private static SupplierProduct findSupplierProduct(String supplierNum){
+        System.out.println("Enter SupplierCatalog:");
+        String supplierCatalog = reader.nextLine();
+
 
         System.out.println("Enter the manufacturer name:");
         String manufacturerName = reader.nextLine();
@@ -430,7 +452,7 @@ public class SupplierModulePresentation {
     /** Helper function
      * Asking "yes or no" question given in the function. Checking if the answer is valid and puts the choice in the input variable
      */
-    public static Supplier AskAndCheckSupplierNumber()
+    public static boolean AskAndCheckSupplierNumber()
     {
         Supplier supplier;
         do {

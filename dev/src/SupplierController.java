@@ -72,7 +72,7 @@ public class SupplierController {
     {
         Supplier supplier = AllSuppliers.get(supplierNum);
         Agreement agreement = supplier.getMyAgreement();
-        agreement.CheckIfExistOrderDiscount(priceOrQuantity, discountPercentage, minimumAmount);
+        return agreement.CheckIfExistOrderDiscount(priceOrQuantity, discountPercentage, minimumAmount);
     }
 
     public void addOrderDiscount(String supplierNum, String priceOrQuantity, int minimumAmount, float discountPercentage)
@@ -80,6 +80,33 @@ public class SupplierController {
         Supplier supplier = AllSuppliers.get(supplierNum);
         Agreement agreement = supplier.getMyAgreement();
         agreement.addOrderDiscount(priceOrQuantity, minimumAmount, discountPercentage);
+    }
+
+    public Map<String, Supplier> returnAllSuppliers(){return AllSuppliers;}
+
+    public void fireSupplier(String supplierNum){
+        Supplier supplier = AllSuppliers.get(supplierNum);
+        supplier.fireSupplier();
+        AllSuppliers.remove(supplierNum);
+    }
+
+    public void deleteDiscountProduct(String supplierNum, String supplierCatalog, int amount)
+    {
+        Supplier supplier = AllSuppliers.get(supplierNum);
+        SupplierProduct supplierProduct = supplier.getSupplierProduct(supplierCatalog);
+        supplierProduct.deleteDiscountProduct(amount);
+    }
+
+    public void deleteOrderDiscount(String supplierNum, String priceOrQuantity, float discountPercentage, int minimumAmount)
+    {
+        Supplier supplier = AllSuppliers.get(supplierNum);
+        Agreement agreement = supplier.getMyAgreement();
+        agreement.deleteOrderDiscount(priceOrQuantity, discountPercentage, minimumAmount);
+    }
+
+    public void setBankAccount(String supplierNum, String account){
+        Supplier supplier = AllSuppliers.get(supplierNum);
+        supplier.setBankAccount(account);
     }
 
 }
