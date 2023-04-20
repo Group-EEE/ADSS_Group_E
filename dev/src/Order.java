@@ -13,12 +13,18 @@ public class Order {
 
     Date OrderDate;
 
+    private static int unique = 1;
+
+    private final int Id; // unique order ID
+
     public Order(float totalPrice, Map<Supplier, OrderFromSupplier> ordersFromSuppliers, List<GenericProduct> productsInOrder, List<Integer> productsQuantity) {
         TotalPrice = totalPrice;
         OrdersFromSuppliers = ordersFromSuppliers;
         ProductsInOrder = productsInOrder;
         ProductsQuantity = productsQuantity;
         OrderDate = new Date();
+        Id = unique;
+        unique++;
     }
 
     @Override
@@ -30,5 +36,29 @@ public class Order {
 
         s += "Final price: " + TotalPrice;
         return s;
+    }
+
+    public float getTotalPrice() {
+        return TotalPrice;
+    }
+
+    public Map<Supplier, OrderFromSupplier> getOrdersFromSuppliers() {
+        return OrdersFromSuppliers;
+    }
+
+    public List<GenericProduct> getProductsInOrder() {
+        return ProductsInOrder;
+    }
+
+    public List<Integer> getProductsQuantity() {
+        return ProductsQuantity;
+    }
+
+    public Date getOrderDate() {
+        return OrderDate;
+    }
+
+    public int getId() {
+        return Id;
     }
 }

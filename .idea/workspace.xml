@@ -6,10 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="97d4ece4-cda5-44e2-9882-6af0fb1453c9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/GenericProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/GenericProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/Supplier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SupplierModulePresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SupplierModulePresentation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SupplierPresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/CreateSupplierPresentation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/OrderGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/OrderPresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/OrderPresentation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SupplierController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SupplierController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
