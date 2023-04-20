@@ -1,10 +1,12 @@
+package SuppliersModule.Business;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
-Agreement class describing the agreement signed by the supplier
+SuppliersModule.Business.Agreement class describing the agreement signed by the supplier
 */
 public class Agreement {
 
@@ -17,7 +19,7 @@ public class Agreement {
 
     //------------------------------------------ References ---------------------------------------
 
-    private Map<String ,SupplierProduct> ProductInAgreement; // All the product supplied in the agreement
+    private Map<String , SupplierProduct> ProductInAgreement; // All the product supplied in the agreement
     private Supplier MySupplier;
     private List<OrderDiscount> DiscountOnOrder; // List of the total discounts provided by the supplier. (only discount for the order, not included discounts for specific product)
 
@@ -26,7 +28,7 @@ public class Agreement {
     //Constructor
     public Agreement(boolean hasPermanentDays, boolean isSupplierBringProduct, boolean[] deliveryDays, int numberOdDaysToSupply, Supplier supplier)
     {
-        if(supplier == null) throw new RuntimeException("Agreement should have a supplier");
+        if(supplier == null) throw new RuntimeException("SuppliersModule.Business.Agreement should have a supplier");
 
         HasPermanentDays = hasPermanentDays;
         IsSupplierBringProduct = isSupplierBringProduct;
@@ -34,7 +36,7 @@ public class Agreement {
         NumberOfDaysToSupply = numberOdDaysToSupply;
         DiscountOnOrder = new ArrayList<OrderDiscount>();
         MySupplier = supplier;
-        ProductInAgreement = new HashMap<String ,SupplierProduct>();
+        ProductInAgreement = new HashMap<String , SupplierProduct>();
     }
 
     /**
@@ -49,7 +51,7 @@ public class Agreement {
         NumberOfDaysToSupply = numberOdDaysToSupply;
     }
 
-    // -------------------------------- Methods related to SupplierProduct ------------------------------
+    // -------------------------------- Methods related to SuppliersModule.Business.SupplierProduct ------------------------------
 
     public void addProductToTheAgreement(SupplierProduct supplierProduct){
         ProductInAgreement.put(supplierProduct.getSupplierCatalog() ,supplierProduct);
@@ -61,7 +63,7 @@ public class Agreement {
         ProductInAgreement.remove(supplierProduct.getSupplierCatalog());
     }
 
-    // -------------------------------- Methods related to OrderDiscount ------------------------------
+    // -------------------------------- Methods related to SuppliersModule.Business.OrderDiscount ------------------------------
     public void addOrderDiscount(String discountByPriceOrProducts, int amount, float discount){
         DiscountOnOrder.add(new OrderDiscount(discountByPriceOrProducts, amount, discount, this));
     }
@@ -73,7 +75,7 @@ public class Agreement {
     /**
      * finding if there is an order discount with the given details.
      * @param priceOrQuantity : Describes whether the discount is getting for minimum price or minimum quantity
-     * @param discountPercentages The amount of discount percentages the OrderDiscount provided
+     * @param discountPercentages The amount of discount percentages the SuppliersModule.Business.OrderDiscount provided
      * @param minimumAmount the minimum quantity or price needed to get the discount
      * @return
      */

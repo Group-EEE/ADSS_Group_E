@@ -1,3 +1,5 @@
+package SuppliersModule.Business;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +13,7 @@ public class Manufacturer {
 
     //------------------------------------------ References ---------------------------------------
 
-    private Map<String,Supplier> MySuppliers; //All the suppliers that work with this manufacturer
+    private Map<String, Supplier> MySuppliers; //All the suppliers that work with this manufacturer
     private Map<String, GenericProduct> MyProducts; // All the product that made by the manufacturer
 
     //--------------------------------------Methods related to This ----------------------------------------
@@ -19,7 +21,7 @@ public class Manufacturer {
     //Constructor
     public Manufacturer(String name) {
         Name = name;
-        MySuppliers = new HashMap<String,Supplier>();
+        MySuppliers = new HashMap<String, Supplier>();
         MyProducts = new HashMap<String, GenericProduct>();
     }
 
@@ -31,7 +33,7 @@ public class Manufacturer {
         return Name + "\t";
     }
 
-    //-------------------------------------- Methods related to Supplier ----------------------------------------
+    //-------------------------------------- Methods related to SuppliersModule.Business.Supplier ----------------------------------------
 
     /**
      * Add new supplier that working with this manufacturer

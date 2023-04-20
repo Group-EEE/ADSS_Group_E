@@ -1,3 +1,10 @@
+package SuppliersModule.Business.Generator;
+
+import SuppliersModule.Business.Contact;
+import SuppliersModule.Business.Controllers.SupplierController;
+import SuppliersModule.Business.PaymentTerm;
+import SuppliersModule.Business.Supplier;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

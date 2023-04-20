@@ -1,3 +1,7 @@
+package SuppliersModule.Business.Controllers;
+
+import SuppliersModule.Business.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -109,4 +113,11 @@ public class SupplierController {
         supplier.setBankAccount(account);
     }
 
+    public Map<List<String>, GenericProduct> getAllProducts() {
+        return AllProducts;
+    }
+
+    public Map<String, Manufacturer> getAllManufacturers() {
+        return AllManufacturers;
+    }
 }

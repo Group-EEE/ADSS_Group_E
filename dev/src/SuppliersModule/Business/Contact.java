@@ -1,3 +1,5 @@
+package SuppliersModule.Business;
+
 /**
 A contact class that describes a supplier contact
 */
@@ -20,6 +22,6 @@ public class Contact {
     }
 
     public String toString(){
-        return "Contact name: " + Name + ", phone number: " + PhoneNumber + "\n";
+        return "SuppliersModule.Business.Contact name: " + Name + ", phone number: " + PhoneNumber + "\n";
     }
 }

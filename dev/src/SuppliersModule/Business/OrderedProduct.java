@@ -1,5 +1,7 @@
+package SuppliersModule.Business;
+
 /**
- * OrderedProduct class describe a product in a specific order. Including quantity and price.
+ * SuppliersModule.Business.OrderedProduct class describe a product in a specific order. Including quantity and price.
  */
 public class OrderedProduct {
 
@@ -26,7 +28,7 @@ public class OrderedProduct {
 
     public String toString() {return  MyProduct + ", quantity: " + Quantity + ", price: " + FinalPrice + "\n";}
 
-    // -------------------------------- Methods related to SupplierProduct ------------------------------
+    // -------------------------------- Methods related to SuppliersModule.Business.SupplierProduct ------------------------------
 
     public SupplierProduct getMyProduct() {
         return MyProduct;

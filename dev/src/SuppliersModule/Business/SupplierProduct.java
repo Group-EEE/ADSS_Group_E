@@ -1,7 +1,9 @@
+package SuppliersModule.Business;
+
 import java.util.*;
 
 /**
- * SupplierProduct class describe a certain product that supply by certain supplier in the agreement.
+ * SuppliersModule.Business.SupplierProduct class describe a certain product that supply by certain supplier in the agreement.
  */
 public class SupplierProduct {
 
@@ -52,7 +54,7 @@ public class SupplierProduct {
         MySupplier.deleteSupplierProduct(this);         //The product is no longer supplied by this supplier
     }
 
-    // --------------------------------- Methods related to Supplier ------------------------------
+    // --------------------------------- Methods related to SuppliersModule.Business.Supplier ------------------------------
 
     public Supplier getMySupplier() {return MySupplier;}
 

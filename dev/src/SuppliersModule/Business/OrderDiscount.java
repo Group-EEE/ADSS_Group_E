@@ -1,3 +1,5 @@
+package SuppliersModule.Business;
+
 /**
  * Discount given for the final order. Can be for minimum price or minimum quantity.
  */

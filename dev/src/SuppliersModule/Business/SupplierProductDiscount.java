@@ -1,3 +1,5 @@
+package SuppliersModule.Business;
+
 /**
  * ProductDiscount class describe a discount that related to a specific product
  */

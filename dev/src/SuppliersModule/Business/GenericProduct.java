@@ -1,3 +1,8 @@
+package SuppliersModule.Business;
+
+import SuppliersModule.Business.Manufacturer;
+import SuppliersModule.Business.SupplierProduct;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +20,7 @@ public class GenericProduct {
 
     //------------------------------------------ References ---------------------------------------
     private final Manufacturer MyManufacturer; // The manufacturer of the product
-    private List<SupplierProduct> MySuppliersProduct; //All The suppliers that supply this product. Described by a SupplierProduct object.
+    private List<SupplierProduct> MySuppliersProduct; //All The suppliers that supply this product. Described by a SuppliersModule.Business.SupplierProduct object.
 
     //--------------------------------------Methods related to This ----------------------------------------
 
@@ -42,11 +47,11 @@ public class GenericProduct {
 
     public String toString() {return  "Product name: " + Name + ", manufacturer: " + MyManufacturer.getName();}
 
-    // -------------------------------- Methods related to Manufacturer ------------------------------
+    // -------------------------------- Methods related to SuppliersModule.Business.Manufacturer ------------------------------
 
     public Manufacturer getMyManufacturer() {return MyManufacturer;}
 
-    // -------------------------------- Methods related to Supplier ------------------------------
+    // -------------------------------- Methods related to SuppliersModule.Business.Supplier ------------------------------
 
     public List<SupplierProduct> getMySuppliersProduct() {return MySuppliersProduct;}
 

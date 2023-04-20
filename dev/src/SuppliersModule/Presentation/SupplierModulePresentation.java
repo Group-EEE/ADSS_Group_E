@@ -1,3 +1,5 @@
+package SuppliersModule.Presentation;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -43,7 +45,7 @@ public class SupplierModulePresentation {
             System.out.println("2. Create a new manual order.");
             System.out.println("3. Show orders history.");
             System.out.println("4. Delete supplier from the system.");
-            System.out.println("5. Update Supplier Agreement.");
+            System.out.println("5. Update SuppliersModule.Business.Supplier SuppliersModule.Business.Agreement.");
             System.out.println("6. Change supplier details.");
             System.out.println("7. Print supplier details.");
             System.out.println("0. Exit.");
@@ -137,8 +139,8 @@ public class SupplierModulePresentation {
 
             System.out.println("Please choose one of the options shown in the menu:");
             System.out.println("1. Update delivery details");
-            System.out.println("2. Update/Add new product to the Agreement");
-            System.out.println("3. Delete product from the Agreement");
+            System.out.println("2. Update/Add new product to the SuppliersModule.Business.Agreement");
+            System.out.println("3. Delete product from the SuppliersModule.Business.Agreement");
             System.out.println("4. Update discounts");
             System.out.println("0. Exit.");
             Choose = reader.nextLine();

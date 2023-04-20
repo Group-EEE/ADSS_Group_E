@@ -1,10 +1,12 @@
+package SuppliersModule.Business;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Supplier class describe a certain supplier in the system. The supplier has attributes like: name, bank account,
+ * SuppliersModule.Business.Supplier class describe a certain supplier in the system. The supplier has attributes like: name, bank account,
  * and references like: manufactures that he works with, and product that he supplies.
  */
 public class Supplier {
@@ -18,7 +20,7 @@ public class Supplier {
 
     //------------------------------------------ References ---------------------------------------
     private Map<String,Contact> MyContacts; // All the contacts of the supplier
-    private Map<String,Manufacturer> MyManufacturers; // All the manufacturers that working with this supplier
+    private Map<String, Manufacturer> MyManufacturers; // All the manufacturers that working with this supplier
     private Map<String, SupplierProduct> MyProducts; // All the products supply by this supplier in the agreement.
     private List<OrderFromSupplier> myOrderFromSuppliers; // All the orders that we ordered from this supplier
     private Agreement MyAgreement; // The agreement that we signed with this supplier
@@ -57,14 +59,14 @@ public class Supplier {
     }
 
     public String toString() {
-        return  "Supplier name: " + Name + '\n' +
-                "\nSupplier number: " + SupplierNum + '\n' +
+        return  "SuppliersModule.Business.Supplier name: " + Name + '\n' +
+                "\nSuppliersModule.Business.Supplier number: " + SupplierNum + '\n' +
                 "\nBank account: " + BankAccount + '\n' +
                 "\nPayment: " + Payment + '\n' +
                 "\nCategories: " + Categories + '\n' +
                 "\nWorking with manufacturers:\n" + toStringMyManufacturers(MyManufacturers) + '\n' +
-                "\nSupplier products:\n" + printProducts() + '\n' +
-                "\nSupplier contacts:\n" + stringContacts() + '\n';
+                "\nSuppliersModule.Business.Supplier products:\n" + printProducts() + '\n' +
+                "\nSuppliersModule.Business.Supplier contacts:\n" + stringContacts() + '\n';
     }
 
     // --------------------------------- Methods related to Contacts ------------------------------
@@ -91,7 +93,7 @@ public class Supplier {
             System.out.println("Can't delete, must have at least one contact");
     }
 
-    // -------------------------------- Methods related to SupplierProduct ------------------------------
+    // -------------------------------- Methods related to SuppliersModule.Business.SupplierProduct ------------------------------
     public void addNewProduct(SupplierProduct newProduct){
         MyProducts.put(newProduct.getSupplierCatalog(), newProduct);
         addManufacturer(newProduct.getMyProduct().getMyManufacturer());     //A supplier works with a manufacturer
@@ -103,7 +105,7 @@ public class Supplier {
     }
 
     /**
-     * return SupplierProduct object given the name and the manufacturer name of the product.
+     * return SuppliersModule.Business.SupplierProduct object given the name and the manufacturer name of the product.
      */
     public SupplierProduct getSupplierProduct(String CatalogNumber) {return MyProducts.get(CatalogNumber);}
 
@@ -119,7 +121,7 @@ public class Supplier {
 
     public Map<String, SupplierProduct> getMyProducts() {return MyProducts;}
 
-    // -------------------------------- Methods related to Order ------------------------------
+    // -------------------------------- Methods related to SuppliersModule.Business.Order ------------------------------
     public void addNewOrder(OrderFromSupplier newOrderFromSupplier) {
         myOrderFromSuppliers.add(newOrderFromSupplier);}
 
@@ -147,7 +149,7 @@ public class Supplier {
         return details;
     }
 
-    // -------------------------------- Methods related to Agreement ------------------------------
+    // -------------------------------- Methods related to SuppliersModule.Business.Agreement ------------------------------
 
     public Agreement getMyAgreement() {return MyAgreement;}
     public String getName() {
@@ -173,7 +175,7 @@ public class Supplier {
     }
 
 
-    // -------------------------------- Methods related to Manufacturer ------------------------------
+    // -------------------------------- Methods related to SuppliersModule.Business.Manufacturer ------------------------------
     public void addManufacturer(Manufacturer manufacturer) {
         MyManufacturers.put(manufacturer.getName(), manufacturer);
         manufacturer.addSupplier(this);

@@ -1,10 +1,16 @@
+package SuppliersModule.Business.Generator;
+
+import SuppliersModule.Business.*;
+import SuppliersModule.Business.Controllers.OrderController;
+import SuppliersModule.Business.Controllers.SupplierController;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * The class OrderController ask the user for products that he want to invite.
+ * The class SuppliersModule.Business.Controllers.OrderController ask the user for products that he want to invite.
  * The class creates the cheapest order that he can build, and invite the products from the supplier.
  */
 public class OrderGenerator {
@@ -19,7 +25,7 @@ public class OrderGenerator {
 
     static List<Integer> ProductsQuantity ; // contain the quantity of the products found in the ProductsInOrder list. ProductsQuantity[n] = ProductsInOrder[n] -> quantity
 
-    static List<SupplierProduct>[] productsSuppliersArray; // Array contains a lists of all the suppliers that can supply a certain product with the desired quantity. productsSuppliersArray[n] = ProductsInOrder[n] -> list of the supplier that can supply this product (SupplierProduct object)
+    static List<SupplierProduct>[] productsSuppliersArray; // Array contains a lists of all the suppliers that can supply a certain product with the desired quantity. productsSuppliersArray[n] = ProductsInOrder[n] -> list of the supplier that can supply this product (SuppliersModule.Business.SupplierProduct object)
 
 
     public static String makeOrderFromProductAndQuantityLists(List<GenericProduct> productsInOrder, List<Integer> productsQuantity){
@@ -66,14 +72,14 @@ public class OrderGenerator {
 
     /**
      * create the "ProductsSuppliersArray". This array will use us to find the best combination of orders from suppliers.
-     * Each cell in the array will contain a list of all the suppliers that can supply this product (SupplierProduct object)
+     * Each cell in the array will contain a list of all the suppliers that can supply this product (SuppliersModule.Business.SupplierProduct object)
      */
     private static void createProductsSuppliersArray() {
         productsSuppliersArray = new List[ProductsInOrder.size()];
         int[] numberOfSuppliersThatCanSupplyEachProduct = new int[ProductsInOrder.size()]; // numberOfSuppliersThatCanSupplyEachProduct[n] = ProductsInOrder[n] -> number of suppliers that can supply the product
 
 
-        for (int i = 0; i < productsSuppliersArray.length; i++) { // for each product we build a list of all the suppliers that can supply it (SupplierProduct object)
+        for (int i = 0; i < productsSuppliersArray.length; i++) { // for each product we build a list of all the suppliers that can supply it (SuppliersModule.Business.SupplierProduct object)
             productsSuppliersArray[i] = findSuppliersThatCanSupplyTheProduct(ProductsInOrder.get(i).getMySuppliersProduct(),
                     ProductsQuantity.get(i), i, 0, ProductsInOrder.get(i));
 
@@ -86,7 +92,7 @@ public class OrderGenerator {
     }
 
     /**
-     * return a list of all the suppliers that can supply the given product (SupplierProduct object), with the desired quantity.
+     * return a list of all the suppliers that can supply the given product (SuppliersModule.Business.SupplierProduct object), with the desired quantity.
      * @param suppliersProduct  All the suppliers that the given product found in their agreement
      * @param quantity  The desired quantity
      * @param index The index of the product in the "ProductsInOrder" list
@@ -195,11 +201,11 @@ public class OrderGenerator {
         keyPair.add(productName);
         keyPair.add(manufacturerName);
 
-        if (!supplierController.AllProducts.containsKey(keyPair)) {
+        if (!supplierController.getAllProducts().containsKey(keyPair)) {
             System.out.println("The product does not exist in the system! ");
             return null;
         }
-        return supplierController.AllProducts.get(keyPair);
+        return supplierController.getAllProducts().get(keyPair);
     }
 
     /**

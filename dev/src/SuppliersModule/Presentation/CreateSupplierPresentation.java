@@ -1,3 +1,5 @@
+package SuppliersModule.Presentation;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,7 @@ public class CreateSupplierPresentation {
      * Creates a new supplier and adding it to the system.
      */
     public void createNewSupplier() {
-        System.out.println("\nWelcome to the Supplier Generator.");
+        System.out.println("\nWelcome to the SuppliersModule.Business.Supplier Generator.");
         supplierGenerator.reset();
 
         // **************************** Asking the user for attributes of the supplier *********************************
@@ -28,7 +30,7 @@ public class CreateSupplierPresentation {
         System.out.println("What is the supplier's number? ");
         String supplierNum = SupplierModulePresentation.reader.nextLine();
         if(supplierController.checkIfSupplierExist(supplierNum)){
-            System.out.println("Supplier already exist");
+            System.out.println("SuppliersModule.Business.Supplier already exist");
             return;
         }
 
@@ -103,7 +105,7 @@ public class CreateSupplierPresentation {
      * Create a new supplier with an agreement. Returns the supplier object
      */
     public void CreateSupplierAndAgreement(String name, String supplierNum, String bankAccount,
-                                                      PaymentTerm paymentTerm, List<String> Categories) {
+                                           PaymentTerm paymentTerm, List<String> Categories) {
         boolean[] deliveryDays = new boolean[7];
         int daysToSupply = -1; // -1 means that the supplier doesn't supply the product by himself, so this parameter is irrelevant
         boolean isSupplierBringProduct;
@@ -196,7 +198,7 @@ public class CreateSupplierPresentation {
     }
 
     /**
-     * Add to the given agreement a new "Order Discount".
+     * Add to the given agreement a new "SuppliersModule.Business.Order Discount".
      * (means discount given for the final order. Can be for minimum price or minimum quantity)
      */
     public void addOrderDiscount(String supplierNum) {

@@ -1,3 +1,7 @@
+package SuppliersModule.Presentation;
+
+import SuppliersModule.Business.Generator.OrderGenerator;
+
 public class OrderPresentation {
 
     public void createManualOrder() {

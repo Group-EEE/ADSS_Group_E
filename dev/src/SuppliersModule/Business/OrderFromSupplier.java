@@ -1,8 +1,10 @@
+package SuppliersModule.Business;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Order class describe an order for one supplier
+ * SuppliersModule.Business.Order class describe an order for one supplier
  */
 public class OrderFromSupplier {
 
@@ -12,11 +14,11 @@ public class OrderFromSupplier {
     private final int Id; // unique order ID
     private int Quantity; // The quantity of product in the order
 
-    private float priceBeforeTotalDiscount; // price after calculate the product discount, but before calculate the total Order Discount
+    private float priceBeforeTotalDiscount; // price after calculate the product discount, but before calculate the total SuppliersModule.Business.Order Discount
 
     //------------------------------------------ References ---------------------------------------
 
-    private Supplier MySupplier; // The Supplier that supply the product for the order
+    private Supplier MySupplier; // The SuppliersModule.Business.Supplier that supply the product for the order
     private List<OrderedProduct> ProductsInOrder; // All the product in the order with their quantity.
 
     //-----------------------------------Methods related to This -------------------------------------------
@@ -32,7 +34,7 @@ public class OrderFromSupplier {
     }
 
     /**
-     * Calculates the order price based on the best total discount. (including OrderDiscount)
+     * Calculates the order price based on the best total discount. (including SuppliersModule.Business.OrderDiscount)
      */
     public float getTotalPriceAfterDiscount(){
 
@@ -69,7 +71,7 @@ public class OrderFromSupplier {
     public String toString()
     {
         String details = "\n";
-        details += "Order number " + Id + " from supplier " + MySupplier.getName() + ", supplier number: " + MySupplier.getSupplierNum() + "\n";
+        details += "SuppliersModule.Business.Order number " + Id + " from supplier " + MySupplier.getName() + ", supplier number: " + MySupplier.getSupplierNum() + "\n";
         for (OrderedProduct orderedProduct : ProductsInOrder)
             details += orderedProduct;
         details += "\nTotal order price after discount: " + getTotalPriceAfterDiscount() + "\n";
@@ -79,7 +81,7 @@ public class OrderFromSupplier {
     }
 
     /**
-     * Return new Order object with the same products. The product are being shallow copied
+     * Return new SuppliersModule.Business.Order object with the same products. The product are being shallow copied
      */
     public OrderFromSupplier clone() {
         OrderFromSupplier orderFromSupplierCopy = new OrderFromSupplier(MySupplier);
@@ -88,7 +90,7 @@ public class OrderFromSupplier {
         return orderFromSupplierCopy;
     }
 
-    //-----------------------------------Methods related to OrderedProduct -------------------------------------------
+    //-----------------------------------Methods related to SuppliersModule.Business.OrderedProduct -------------------------------------------
 
     public void addProductToOrder(int quantity, SupplierProduct supplierProduct)
     {
