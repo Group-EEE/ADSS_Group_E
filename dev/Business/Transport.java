@@ -1,3 +1,5 @@
+package Business;
+
 import java.util.*;
 
 public class Transport {
@@ -182,10 +184,10 @@ public class Transport {
     // display
 
     public void transportDisplay(){
-        System.out.println("\t Transport ID: " + transport_ID);
+        System.out.println("\t Business.Transport ID: " + transport_ID);
         System.out.println("\t Date: " + date);
         System.out.println("\t Departure Time: " + departure_time);
-        System.out.println("\t Truck Number: " +truck_number);
+        System.out.println("\t Business.Truck Number: " +truck_number);
         System.out.println("\t Driver Name: " + driver_name);
         System.out.println("\t Origin Details: ");
         System.out.println(this.origin);
@@ -195,13 +197,13 @@ public class Transport {
         for(Site s : destinations){
             System.out.println("\t ================= Destination " + i + " =================");
             if(s.is_store()) {
-                System.out.println("\t\t Site Type: Store");
+                System.out.println("\t\t Business.Site Type: Business.Store");
             }
             if(s.is_supplier()) {
-                System.out.println("\t\t Site Type: Supplier");
+                System.out.println("\t\t Business.Site Type: Business.Supplier");
             }
             if(s.is_logistical_center()) {
-                System.out.println("\t\t Site Type: Logistical Center");
+                System.out.println("\t\t Business.Site Type: Logistical Center");
             }
             s.siteDisplay();
             System.out.println();

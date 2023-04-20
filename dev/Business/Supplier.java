@@ -1,3 +1,5 @@
+package Business;
+
 public class Supplier extends Site{
     public Supplier(String address, String phone, String supplier_name, String contact_name) {
         super(address, phone, supplier_name, contact_name);

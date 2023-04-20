@@ -1,3 +1,5 @@
+package Business;
+
 public class Store extends Site{
     private String manager_name;
     private int site_area;

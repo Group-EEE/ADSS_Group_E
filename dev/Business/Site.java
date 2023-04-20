@@ -1,3 +1,5 @@
+package Business;
+
 abstract public class Site {
     protected String address, phone, site_name, site_contact_name;
 
@@ -50,7 +52,7 @@ abstract public class Site {
     public void siteDisplay(){
         System.out.println("\t\t Address: " + address);
         System.out.println("\t\t Phone: " + phone);
-        System.out.println("\t\t Site name: " + site_name);
+        System.out.println("\t\t Business.Site name: " + site_name);
         System.out.println("\t\t Person contact name: " + site_contact_name);
     }
 }
