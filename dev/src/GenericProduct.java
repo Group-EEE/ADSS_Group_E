@@ -1,0 +1,46 @@
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+A product class that describes a product produced by a manufacturer
+*/
+public class GenericProduct {
+
+    //------------------------------------------ Attribute ---------------------------------------
+    private String Name;
+
+    //------------------------------------------ References ---------------------------------------
+    private final Manufacturer MyManufacturer; // The manufacturer of the product
+    private List<SupplierProduct> MySuppliersProduct; //All The suppliers that supply this product. Described by a SupplierProduct object.
+
+    //--------------------------------------Methods related to This ----------------------------------------
+
+    //Constructor
+    public GenericProduct(String name, Manufacturer myManufacturer) {
+
+        if(myManufacturer == null) throw new RuntimeException("Product should have a manufacturer");
+
+        Name = name;
+        MyManufacturer = myManufacturer;
+        myManufacturer.addProduct(this);                        // Add the product to the manufacturer's products.
+        MySuppliersProduct = new ArrayList<SupplierProduct>();
+    }
+
+    public String getName() {return Name;}
+
+    public String toString() {return  "Product name: " + Name + ", manufacturer: " + MyManufacturer.getName();}
+
+    // -------------------------------- Methods related to Manufacturer ------------------------------
+
+    public Manufacturer getMyManufacturer() {return MyManufacturer;}
+
+    // -------------------------------- Methods related to Supplier ------------------------------
+
+    public List<SupplierProduct> getMySuppliersProduct() {return MySuppliersProduct;}
+
+    /**
+     * This method used when a certain supplier stops supply this product.
+     */
+    public void deleteSupplierProduct(SupplierProduct supplierProduct) {
+        MySuppliersProduct.remove(supplierProduct);}
+}
