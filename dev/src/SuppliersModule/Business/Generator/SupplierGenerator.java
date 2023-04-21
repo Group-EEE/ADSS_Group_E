@@ -15,7 +15,6 @@ public class SupplierGenerator {
 
     SupplierController supplierController;
 
-
     Map<String, Contact> contacts;
 
     private SupplierGenerator() {

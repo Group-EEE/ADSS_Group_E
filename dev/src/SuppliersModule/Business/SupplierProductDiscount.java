@@ -6,18 +6,18 @@ package SuppliersModule.Business;
 public class SupplierProductDiscount {
 
     //------------------------------------------ Attributes ---------------------------------------
-    private final float DiscountPercentages;
+    private final float Percentages;
     private final int MinimumAmount; // The minimum amount (units/kilos) needed to get this discount
 
     //-----------------------------------Methods related to This -------------------------------------------
 
     //Constructor
-    public SupplierProductDiscount(float discountPercentages, int minimumAmount) {
-        DiscountPercentages = discountPercentages;
+    public SupplierProductDiscount(float percentages, int minimumAmount) {
+        Percentages = percentages;
         MinimumAmount = minimumAmount;
     }
-    public float getDiscountPercentages() {
-        return DiscountPercentages;
+    public float getPercentages() {
+        return Percentages;
     }
 
     public int getMinimumAmount() {

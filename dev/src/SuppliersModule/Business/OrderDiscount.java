@@ -7,7 +7,7 @@ public class OrderDiscount {
 
     //------------------------------------------ Attributes ---------------------------------------
 
-    private String DiscountByPriceOrQuantity; // Describes whether the discount is getting for minimum price or minimum quantity
+    private String ByPriceOrQuantity; // Describes whether the discount is getting for minimum price or minimum quantity
     private int amount;             //Can be amounted of money or amount of products
     private float discount; // The amount of the discount percentage
 
@@ -17,8 +17,8 @@ public class OrderDiscount {
     //-----------------------------------Methods related to This -------------------------------------------
 
     //Constructor
-    public OrderDiscount(String discountByPriceOrQuantity, int amount, float discount, Agreement myAgreement) {
-        DiscountByPriceOrQuantity = discountByPriceOrQuantity;
+    public OrderDiscount(String byPriceOrQuantity, int amount, float discount, Agreement myAgreement) {
+        ByPriceOrQuantity = byPriceOrQuantity;
         this.amount = amount;
         this.discount = discount;
         this.myAgreement = myAgreement;
@@ -33,7 +33,7 @@ public class OrderDiscount {
      */
     public float getPriceAfterDiscount(OrderFromSupplier orderFromSupplier)
     {
-        if(DiscountByPriceOrQuantity.equals("p"))       //If by products
+        if(ByPriceOrQuantity.equals("p"))       //If by products
         {
             if(orderFromSupplier.getPriceBeforeTotalDiscount() >= amount)
                 return orderFromSupplier.getPriceBeforeTotalDiscount()*(100-discount)/100;
@@ -45,8 +45,8 @@ public class OrderDiscount {
         return orderFromSupplier.getPriceBeforeTotalDiscount();
     }
 
-    public String getDiscountByPriceOrQuantity() {
-        return DiscountByPriceOrQuantity;
+    public String getByPriceOrQuantity() {
+        return ByPriceOrQuantity;
     }
 }
 

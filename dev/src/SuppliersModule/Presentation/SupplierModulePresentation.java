@@ -20,13 +20,14 @@ public class SupplierModulePresentation {
 
 
     //------------------------------------------ User insertion variables ---------------------------------------
-    static Scanner reader = new Scanner(System.in);
+    static Scanner reader;
     static String yourChoice;
 
     //------------------------------------------ Main menu ---------------------------------------
 
 
     public SupplierModulePresentation() {
+        reader = new Scanner(System.in);
         this.orderPresentation = new OrderPresentation();
         this.createSupplierPresentation = new CreateSupplierPresentation();
         supplierController = SupplierController.getInstance();

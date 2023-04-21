@@ -84,7 +84,7 @@ public class Agreement {
         for(OrderDiscount orderDiscount : DiscountOnOrder)
         {
             if(orderDiscount.getDiscount() == discountPercentages && orderDiscount.getAmount() == minimumAmount
-            && orderDiscount.getDiscountByPriceOrQuantity().equals(priceOrQuantity)) {
+            && orderDiscount.getByPriceOrQuantity().equals(priceOrQuantity)) {
                 System.out.println("The discount is exist\n");
                 return true;
             }
@@ -101,7 +101,7 @@ public class Agreement {
         for(OrderDiscount orderDiscount : DiscountOnOrder)
         {
             if(orderDiscount.getDiscount() == discountPercentages && orderDiscount.getAmount() == minimumAmount
-                    && orderDiscount.getDiscountByPriceOrQuantity().equals(priceOrQuantity)) {
+                    && orderDiscount.getByPriceOrQuantity().equals(priceOrQuantity)) {
                 DiscountOnOrder.remove(orderDiscount);
                 System.out.println("The discount has been deleted\n");
                 return;

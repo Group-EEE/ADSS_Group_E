@@ -1,10 +1,15 @@
+import SuppliersModule.Business.Contact;
+import SuppliersModule.DataAccess.ContactDAO;
+import SuppliersModule.DataAccess.SuperLeeDBConnection;
 import SuppliersModule.Presentation.SupplierModulePresentation;
 
 public class Main {
     public static void main(String[] args)
     {
+
         SupplierModulePresentation supplierModulePresentation = new SupplierModulePresentation();
-        //InventoryModulePresentation supplierModulePresentation = new InventoryModulePresentation();
+        /*
+        InventoryModulePresentation inventoryModulePresentation = new InventoryModulePresentation();
         String yourChoice = "";
         while (!yourChoice.equals("0")) {
             System.out.println("\nPlease choose one of the options shown in the menu:\n");
@@ -12,8 +17,18 @@ public class Main {
             System.out.println("2. Inventory.");
             System.out.println("0. Exit.");
 
+            Choose = reader.nextLine();
+            switch (Choose) {
+                case "1":
+                    supplierModulePresentation.PowerOn();
+                    break;
+                case "2":
+                    inventoryModulePresentation.PowerOn();
+                    break;
+            }
         }
+
+         */
         supplierModulePresentation.PowerOn();
     }
-
 }

@@ -82,7 +82,7 @@ public class SupplierProduct {
     public float getDiscountPercentages(int quantity){
         Map.Entry<Integer, SupplierProductDiscount> pair = DiscountProducts.floorEntry(quantity);   //The maximum discount I will receive
         if(pair != null)
-            return pair.getValue().getDiscountPercentages();
+            return pair.getValue().getPercentages();
         return 0;
     }
 
