@@ -82,40 +82,40 @@
       <Deterministic>1</Deterministic>
       <Variadic>1</Variadic>
     </routine>
-    <routine id="32" parent="1" name="lag">
+    <routine id="32" parent="1" name="max">
+      <Deterministic>1</Deterministic>
+      <Variadic>1</Variadic>
+    </routine>
+    <routine id="33" parent="1" name="min">
+      <Deterministic>1</Deterministic>
+      <Variadic>1</Variadic>
+    </routine>
+    <routine id="34" parent="1" name="json_set">
+      <Deterministic>1</Deterministic>
+      <Variadic>1</Variadic>
+    </routine>
+    <routine id="35" parent="1" name="regexp">
+      <Variadic>1</Variadic>
+    </routine>
+    <routine id="36" parent="1" name="snippet">
+      <Variadic>1</Variadic>
+    </routine>
+    <routine id="37" parent="1" name="rtreecheck">
+      <Variadic>1</Variadic>
+    </routine>
+    <routine id="38" parent="1" name="highlight">
+      <Variadic>1</Variadic>
+    </routine>
+    <routine id="39" parent="1" name="bm25">
+      <Variadic>1</Variadic>
+    </routine>
+    <routine id="40" parent="1" name="lag">
       <FunctionType>window</FunctionType>
     </routine>
-    <routine id="33" parent="1" name="max">
-      <Deterministic>1</Deterministic>
-      <Variadic>1</Variadic>
-    </routine>
-    <routine id="34" parent="1" name="min">
-      <Deterministic>1</Deterministic>
-      <Variadic>1</Variadic>
-    </routine>
-    <routine id="35" parent="1" name="lead">
+    <routine id="41" parent="1" name="lead">
       <FunctionType>window</FunctionType>
     </routine>
-    <routine id="36" parent="1" name="json_set">
-      <Deterministic>1</Deterministic>
-      <Variadic>1</Variadic>
-    </routine>
-    <routine id="37" parent="1" name="regexp">
-      <Variadic>1</Variadic>
-    </routine>
-    <routine id="38" parent="1" name="snippet">
-      <Variadic>1</Variadic>
-    </routine>
-    <routine id="39" parent="1" name="matchinfo"/>
-    <routine id="40" parent="1" name="rtreecheck">
-      <Variadic>1</Variadic>
-    </routine>
-    <routine id="41" parent="1" name="highlight">
-      <Variadic>1</Variadic>
-    </routine>
-    <routine id="42" parent="1" name="bm25">
-      <Variadic>1</Variadic>
-    </routine>
+    <routine id="42" parent="1" name="matchinfo"/>
     <routine id="43" parent="1" name="charindex"/>
     <routine id="44" parent="1" name="fts3_tokenizer"/>
     <routine id="45" parent="1" name="pow">
@@ -484,59 +484,59 @@
     <argument id="190" parent="32">
       <ArgumentDirection>R</ArgumentDirection>
     </argument>
-    <argument id="191" parent="32">
+    <argument id="191" parent="33">
+      <ArgumentDirection>R</ArgumentDirection>
+    </argument>
+    <argument id="192" parent="34">
+      <ArgumentDirection>R</ArgumentDirection>
+    </argument>
+    <argument id="193" parent="35">
+      <ArgumentDirection>R</ArgumentDirection>
+    </argument>
+    <argument id="194" parent="36">
+      <ArgumentDirection>R</ArgumentDirection>
+    </argument>
+    <argument id="195" parent="37">
+      <ArgumentDirection>R</ArgumentDirection>
+    </argument>
+    <argument id="196" parent="38">
+      <ArgumentDirection>R</ArgumentDirection>
+    </argument>
+    <argument id="197" parent="39">
+      <ArgumentDirection>R</ArgumentDirection>
+    </argument>
+    <argument id="198" parent="40">
+      <ArgumentDirection>R</ArgumentDirection>
+    </argument>
+    <argument id="199" parent="40">
       <Position>1</Position>
     </argument>
-    <argument id="192" parent="32">
+    <argument id="200" parent="40">
       <Position>2</Position>
     </argument>
-    <argument id="193" parent="32">
+    <argument id="201" parent="40">
       <Position>3</Position>
     </argument>
-    <argument id="194" parent="33">
+    <argument id="202" parent="41">
       <ArgumentDirection>R</ArgumentDirection>
     </argument>
-    <argument id="195" parent="34">
-      <ArgumentDirection>R</ArgumentDirection>
-    </argument>
-    <argument id="196" parent="35">
-      <ArgumentDirection>R</ArgumentDirection>
-    </argument>
-    <argument id="197" parent="35">
+    <argument id="203" parent="41">
       <Position>1</Position>
     </argument>
-    <argument id="198" parent="35">
+    <argument id="204" parent="41">
       <Position>2</Position>
     </argument>
-    <argument id="199" parent="35">
+    <argument id="205" parent="41">
       <Position>3</Position>
     </argument>
-    <argument id="200" parent="36">
+    <argument id="206" parent="42">
       <ArgumentDirection>R</ArgumentDirection>
     </argument>
-    <argument id="201" parent="37">
-      <ArgumentDirection>R</ArgumentDirection>
-    </argument>
-    <argument id="202" parent="38">
-      <ArgumentDirection>R</ArgumentDirection>
-    </argument>
-    <argument id="203" parent="39">
-      <ArgumentDirection>R</ArgumentDirection>
-    </argument>
-    <argument id="204" parent="39">
+    <argument id="207" parent="42">
       <Position>1</Position>
-    </argument>
-    <argument id="205" parent="39">
-      <Position>2</Position>
-    </argument>
-    <argument id="206" parent="40">
-      <ArgumentDirection>R</ArgumentDirection>
-    </argument>
-    <argument id="207" parent="41">
-      <ArgumentDirection>R</ArgumentDirection>
     </argument>
     <argument id="208" parent="42">
-      <ArgumentDirection>R</ArgumentDirection>
+      <Position>2</Position>
     </argument>
     <argument id="209" parent="43">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1423,41 +1423,96 @@
     <argument id="503" parent="172">
       <Position>1</Position>
     </argument>
-    <table id="504" parent="173" name="Manufacturer"/>
-    <table id="505" parent="173" name="sqlite_master">
+    <table id="504" parent="173" name="Contact"/>
+    <table id="505" parent="173" name="Manufacturer"/>
+    <table id="506" parent="173" name="Supplier"/>
+    <table id="507" parent="173" name="sqlite_master">
       <System>1</System>
     </table>
-    <column id="506" parent="504" name="Name">
+    <column id="508" parent="504" name="SupplierNum">
       <DasType>varchar(255)|0s</DasType>
       <Position>1</Position>
     </column>
-    <index id="507" parent="504" name="sqlite_autoindex_Manufacturer_1">
+    <column id="509" parent="504" name="Name">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="510" parent="504" name="PhoneNumber">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <foreign-key id="511" parent="504">
+      <ColNames>SupplierNum</ColNames>
+      <RefColNames>SupplierNum</RefColNames>
+      <RefTableName>Supplier</RefTableName>
+    </foreign-key>
+    <index id="512" parent="504" name="sqlite_autoindex_Contact_1">
+      <ColNames>PhoneNumber</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="513" parent="504">
+      <ColNames>PhoneNumber</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_Contact_1</UnderlyingIndexName>
+    </key>
+    <column id="514" parent="505" name="Name">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <index id="515" parent="505" name="sqlite_autoindex_Manufacturer_1">
       <ColNames>Name</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="508" parent="504">
+    <key id="516" parent="505">
       <ColNames>Name</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>sqlite_autoindex_Manufacturer_1</UnderlyingIndexName>
     </key>
-    <column id="509" parent="505" name="type">
+    <column id="517" parent="506" name="SupplierNum">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="518" parent="506" name="Name">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="519" parent="506" name="BankAccount">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="520" parent="506" name="PaymentTerm">
+      <DasType>int|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <index id="521" parent="506" name="sqlite_autoindex_Supplier_1">
+      <ColNames>SupplierNum</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="522" parent="506">
+      <ColNames>SupplierNum</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_Supplier_1</UnderlyingIndexName>
+    </key>
+    <column id="523" parent="507" name="type">
       <DasType>TEXT|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="510" parent="505" name="name">
+    <column id="524" parent="507" name="name">
       <DasType>TEXT|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="511" parent="505" name="tbl_name">
+    <column id="525" parent="507" name="tbl_name">
       <DasType>TEXT|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="512" parent="505" name="rootpage">
+    <column id="526" parent="507" name="rootpage">
       <DasType>INT|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="513" parent="505" name="sql">
+    <column id="527" parent="507" name="sql">
       <DasType>TEXT|0s</DasType>
       <Position>5</Position>
     </column>
