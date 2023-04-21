@@ -1,5 +1,9 @@
 package SuppliersModule.Presentation;
 
+import SuppliersModule.Business.Controllers.SupplierController;
+import SuppliersModule.Business.PaymentTerm;
+import SuppliersModule.Business.Supplier;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -121,7 +125,7 @@ public class SupplierModulePresentation {
         do {
             System.out.println("\nEnter supplier number\n");
             supplierNum = reader.nextLine();
-        } while (supplierController.checkIfSupplierExist(supplierNum));
+        } while (!supplierController.checkIfSupplierExist(supplierNum));
         checkValidWithMessage("Delete supplier: " + supplierNum + "\nAre you sure you want to delete? (y/n)");
         yourChoice = reader.nextLine();
 
@@ -155,8 +159,7 @@ public class SupplierModulePresentation {
 
             switch (Choose) {
                 case "1":
-                    CreateSupplierPresentation.CreateSupplierAndAgreement(supplier.getName(), supplier.getSupplierNum(), supplier.getBankAccount(),
-                        supplier.getPayment(), supplier.getCategories(), supplier.getMyContacts(), supplier);
+                    createSupplierPresentation.CreateSupplierAndAgreement("a", supplierNum, "a", PaymentTerm.values()[2], null, true);
                     break;
                 case "2":
                     createSupplierPresentation.createSupplierProduct(supplierNum);
@@ -165,7 +168,7 @@ public class SupplierModulePresentation {
                     DeleteProductFromTheAgreement(supplierNum);
                     break;
                 case "4":
-                    UpdateDiscounts(supplier);
+                    UpdateDiscounts(supplierNum);
                     break;
             }
         }
@@ -323,7 +326,7 @@ public class SupplierModulePresentation {
     /**
      * This method update the contact list of a given supplier
      */
-    private static void UpdateSupplierContactList(Supplier supplier){
+    private void UpdateSupplierContactList(String supplierNum){
         String Choose = "";
         while (!Choose.equals("0")) {
 
@@ -336,13 +339,13 @@ public class SupplierModulePresentation {
 
             switch (Choose) {
                 case "1":
-                    addContact(supplier);
+                    addContact(supplierNum);
                     break;
                 case "2":
-                    updateContactPhoneNumber(supplier);
+                    updateContactPhoneNumber(supplierNum);
                     break;
                 case "3":
-                    deleteContact(supplier);
+                    deleteContact(supplierNum);
                     break;
             }
 
@@ -352,7 +355,7 @@ public class SupplierModulePresentation {
     /**
      * This method add new contact to a given supplier
      */
-    private static void addContact(Supplier supplier){
+    private void addContact(String supplierNum){
         do {
             System.out.println("Enter a contact name: ");
             String name = reader.nextLine();
@@ -360,7 +363,7 @@ public class SupplierModulePresentation {
             System.out.println("Enter the contact's phone number: ");
             String phoneNumber = reader.nextLine();
 
-            supplier.addContact(name,phoneNumber);
+            supplierController.addContactToSupplier(supplierNum, name,phoneNumber);
 
             checkValidWithMessage("Do you want to insert another contact? (y/n)");
         }while (yourChoice.equals("y"));
@@ -369,12 +372,12 @@ public class SupplierModulePresentation {
     /**
      * Update the phone number of a contact, of the given supplier
      */
-    private static void updateContactPhoneNumber(Supplier supplier){
+    private void updateContactPhoneNumber(String supplierNum){
         System.out.println("Enter contact phone number:");
-        Contact currContact = supplier.getContact(reader.nextLine());
-        if(currContact != null) {
+
+        if(supplierController.checkIfContactExist(supplierNum, reader.nextLine())) {
             System.out.println("Enter contact NEW phone number:");
-            currContact.setPhoneNumber(reader.nextLine());
+            supplierController.setNewContactPhone(supplierNum, reader.nextLine());
         }
         else
             System.out.println("This phone is not exist");
@@ -384,28 +387,26 @@ public class SupplierModulePresentation {
     /**
      * Delete a contact of the given supplier
      */
-    private static void deleteContact(Supplier supplier){
+    private void deleteContact(String supplierNum){
         System.out.println("Enter contact phone number:");
-        supplier.deleteContact(reader.nextLine());
+        supplierController.deleteContactFromSupplier(supplierNum, reader.nextLine());
     }
 
     /**
      * Update the payment term of the supplier (Net , Net30days, Net60days)
      */
-    private static void UpdateSupplierPaymentTerm(Supplier supplier){
-        int yourPayment = CreateSupplierPresentation.enterPaymentTerm();
-        PaymentTerm payment = PaymentTerm.values()[yourPayment];
-        supplier.setPayment(payment);
+    private void UpdateSupplierPaymentTerm(String supplierNum){
+        supplierController.updateSupplierPaymentTerm(supplierNum, createSupplierPresentation.enterPaymentTerm());
     }
 
     /**
      * This method used when this supplier stops working with a specific manufacturer. The method delete all the products
      * that produce by this manufacturer, and delete that manufacturer from the map of the manufacturer, that this supplier working with
      */
-    private static void StopWorkingWithAManufacturer(Supplier supplier)
+    private void StopWorkingWithAManufacturer(String supplierNum)
     {
         System.out.println("Enter manufacturer name:");
-        supplier.stopWorkingWithManufacturer(reader.nextLine());
+        supplierController.stopWorkingWithManufacturer(supplierNum, reader.nextLine());
     }
 
     //---------------------------------------Case 7----------------------------------------------
@@ -414,31 +415,17 @@ public class SupplierModulePresentation {
      * Print all the: attributes of the supplier, manufacturers that the supplier work with, product supplied by him to us,
      * and orders that we order from him
      */
-    private static void PrintSupplierDetails(){
-        Supplier supplier = AskAndCheckSupplierNumber();
-        System.out.println(supplier);
+    private void PrintSupplierDetails(){
+        String supplierNum;
+        do {
+            System.out.println("\nEnter supplier number\n");
+            supplierNum = reader.nextLine();
+        } while (!supplierController.checkIfSupplierExist(supplierNum));
+
+        System.out.println(supplierController.StringSupplierDetails(supplierNum));
     }
 
     // ------------------------------------------------------------------------------------------
-
-    /**A "Helper function"
-     * Finding a certain product given by the user, that supplied by the given supplier
-     */
-    private static SupplierProduct findSupplierProduct(String supplierNum){
-        System.out.println("Enter SupplierCatalog:");
-        String supplierCatalog = reader.nextLine();
-
-
-        System.out.println("Enter the manufacturer name:");
-        String manufacturerName = reader.nextLine();
-
-        SupplierProduct currSupplierProduct = supplier.getSupplierProduct(productName, manufacturerName);
-
-        if(currSupplierProduct != null)
-            return currSupplierProduct;
-        System.out.println("The product is not supply by the supplier");
-        return null;
-    }
 
     /** Helper function
      * Asking "yes or no" question given in the function. Checking if the answer is valid and puts the choice in the input variable
@@ -449,20 +436,6 @@ public class SupplierModulePresentation {
             System.out.println(message);
             yourChoice = reader.nextLine();
         } while (!yourChoice.equals("n") && !yourChoice.equals("y"));
-    }
-
-    /** Helper function
-     * Asking "yes or no" question given in the function. Checking if the answer is valid and puts the choice in the input variable
-     */
-    public static boolean AskAndCheckSupplierNumber()
-    {
-        Supplier supplier;
-        do {
-            System.out.println("\nEnter supplier number\n");
-            yourChoice = reader.nextLine();
-            supplier = AllSuppliers.get(yourChoice);
-        } while (supplier == null);
-        return supplier;
     }
 
     /**

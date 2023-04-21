@@ -120,4 +120,52 @@ public class SupplierController {
     public Map<String, Manufacturer> getAllManufacturers() {
         return AllManufacturers;
     }
+
+    public void addContactToSupplier(String supplierNum, String name, String phoneNumber)
+    {
+        Supplier supplier = AllSuppliers.get(supplierNum);
+        supplier.addContact(name, phoneNumber);
+    }
+
+    public boolean checkIfContactExist(String supplierNum, String phoneNumber)
+    {
+        Supplier supplier = AllSuppliers.get(supplierNum);
+        return supplier.getContact(phoneNumber) != null;
+    }
+
+    public void setNewContactPhone(String supplierNum, String phoneNumber)
+    {
+        Supplier supplier = AllSuppliers.get(supplierNum);
+        Contact contact = supplier.getContact(phoneNumber);
+        contact.setPhoneNumber(phoneNumber);
+    }
+
+    public void deleteContactFromSupplier(String supplierNum, String phoneNumber)
+    {
+        Supplier supplier = AllSuppliers.get(supplierNum);
+        supplier.deleteContact(phoneNumber);
+    }
+
+    public void updateSupplierPaymentTerm(String supplierNum, int yourPayment)
+    {
+        PaymentTerm payment = PaymentTerm.values()[yourPayment];
+        Supplier supplier = AllSuppliers.get(supplierNum);
+        supplier.setPayment(payment);
+    }
+
+    public void stopWorkingWithManufacturer(String supplierNum, String manufacturerName)
+    {
+        Supplier supplier = AllSuppliers.get(supplierNum);
+        supplier.stopWorkingWithManufacturer(manufacturerName);
+    }
+
+    public String StringSupplierDetails(String supplierNum)
+    {
+        return AllSuppliers.get(supplierNum).toString();
+    }
+
+    public void editAgreement(String supplierNum, boolean hasPermanentDays, boolean isSupplierBringProduct, boolean[] deliveryDays, int numberOdDaysToSupply)
+    {
+        AllSuppliers.get(supplierNum).getMyAgreement().setDetails(hasPermanentDays, isSupplierBringProduct, deliveryDays, numberOdDaysToSupply);
+    }
 }

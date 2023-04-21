@@ -1,5 +1,9 @@
 package SuppliersModule.Presentation;
 
+import SuppliersModule.Business.Controllers.SupplierController;
+import SuppliersModule.Business.Generator.SupplierGenerator;
+import SuppliersModule.Business.PaymentTerm;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +49,7 @@ public class CreateSupplierPresentation {
         List<String> Categories = EnterCategories();
 
         // ******************************** create an agreement with the supplier *************************************
+        CreateSupplierAndAgreement(name, supplierNum, bankAccount, payment, Categories, false);
 
         // Adding a new products to the agreement
         SupplierModulePresentation.yourChoice = "y";
@@ -105,7 +110,7 @@ public class CreateSupplierPresentation {
      * Create a new supplier with an agreement. Returns the supplier object
      */
     public void CreateSupplierAndAgreement(String name, String supplierNum, String bankAccount,
-                                           PaymentTerm paymentTerm, List<String> Categories) {
+                                           PaymentTerm paymentTerm, List<String> Categories, boolean SupplierAlreadyExist) {
         boolean[] deliveryDays = new boolean[7];
         int daysToSupply = -1; // -1 means that the supplier doesn't supply the product by himself, so this parameter is irrelevant
         boolean isSupplierBringProduct;
@@ -125,7 +130,11 @@ public class CreateSupplierPresentation {
                 daysToSupply = SupplierModulePresentation.CheckIntInputAndReturn("How many days does it take for the supplier to deliver the products?");
         }
 
-        supplierGenerator.CreateSupplierAndAgreement(name, supplierNum, bankAccount, paymentTerm, Categories,
+        if(SupplierAlreadyExist)
+            supplierController.editAgreement(supplierNum, hasPermanentDays, isSupplierBringProduct, deliveryDays, daysToSupply);
+
+        else
+            supplierGenerator.CreateSupplierAndAgreement(name, supplierNum, bankAccount, paymentTerm, Categories,
                 hasPermanentDays, isSupplierBringProduct, deliveryDays, daysToSupply);
     }
 

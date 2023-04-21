@@ -59,14 +59,14 @@ public class Supplier {
     }
 
     public String toString() {
-        return  "SuppliersModule.Business.Supplier name: " + Name + '\n' +
-                "\nSuppliersModule.Business.Supplier number: " + SupplierNum + '\n' +
+        return  "Supplier name: " + Name + '\n' +
+                "\nSupplier number: " + SupplierNum + '\n' +
                 "\nBank account: " + BankAccount + '\n' +
                 "\nPayment: " + Payment + '\n' +
                 "\nCategories: " + Categories + '\n' +
                 "\nWorking with manufacturers:\n" + toStringMyManufacturers(MyManufacturers) + '\n' +
-                "\nSuppliersModule.Business.Supplier products:\n" + printProducts() + '\n' +
-                "\nSuppliersModule.Business.Supplier contacts:\n" + stringContacts() + '\n';
+                "\nSupplier products:\n" + printProducts() + '\n' +
+                "\nSupplier contacts:\n" + stringContacts() + '\n';
     }
 
     // --------------------------------- Methods related to Contacts ------------------------------
@@ -130,8 +130,11 @@ public class Supplier {
      */
     public String StringOrdersHistory()
     {
+        String stringOrdersHistory = "";
         for(OrderFromSupplier orderFromSupplier : myOrderFromSuppliers)
-            return orderFromSupplier.toString();
+            stringOrdersHistory = stringOrdersHistory + orderFromSupplier.toString() + "\n";
+
+        return stringOrdersHistory;
     }
 
     /**

@@ -42,7 +42,7 @@ public class SupplierProduct {
 
     public String toString()
     {
-        return  myGenericProduct + ", catalog number: " + SupplierCatalog;
+        return  myGenericProduct + ", catalog number: " + SupplierCatalog + " ";
     }
 
     /**
