@@ -1,6 +1,3 @@
-import SuppliersModule.Business.Contact;
-import SuppliersModule.DataAccess.ContactDAO;
-import SuppliersModule.DataAccess.SuperLeeDBConnection;
 import SuppliersModule.Presentation.SupplierModulePresentation;
 
 public class Main {

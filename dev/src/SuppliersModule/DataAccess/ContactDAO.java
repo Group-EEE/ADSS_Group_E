@@ -6,13 +6,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ContactDAO {
 
     private Connection conn;
+    private Map<String, Contact> IdentifyMapContact;
 
     public ContactDAO(Connection conn) {
         this.conn = conn;
+        IdentifyMapContact = new HashMap<>();
     }
 
     public void saveContact(Contact contact, String supplierNum) {
@@ -29,6 +33,10 @@ public class ContactDAO {
 
     public Contact getContactByPhoneNumber(String PhoneNumber) {
         Contact contact = null;
+        contact = IdentifyMapContact.get(PhoneNumber);
+        if(contact != null)
+            return contact;
+
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Contact WHERE PhoneNumber = ?");
             stmt.setString(1, PhoneNumber);
@@ -39,6 +47,8 @@ public class ContactDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        IdentifyMapContact.put(PhoneNumber, contact);
         return contact;
     }
 
@@ -54,6 +64,8 @@ public class ContactDAO {
     }
 
     public void deletePhoneNumber(String PhoneNumber) {
+        IdentifyMapContact.remove(PhoneNumber);
+
         try {
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM Contact WHERE PhoneNumber = ?");
             stmt.setString(1, PhoneNumber);
