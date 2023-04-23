@@ -1,6 +1,7 @@
 package SuppliersModule.Business.Controllers;
 
 import SuppliersModule.Business.*;
+import SuppliersModule.DataAccess.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,12 +13,23 @@ public class SupplierController {
     Map<List<String>, GenericProduct> AllProducts; // All the products we sell
     Map<String, Manufacturer> AllManufacturers; // All the manufacturers that we work with
 
+    SupplierDAO supplierDAO;
+    ManufacturerDAO manufacturerDAO;
+    GenericProductDAO genericProductDAO;
+    SupplierProductDAO supplierProductDAO;
+    SuperLeeDBConnection superLeeDBConnection;
     static SupplierController supplierController;
 
     private SupplierController() {
         AllSuppliers = new HashMap<>();
         AllProducts = new HashMap<>();
         AllManufacturers = new HashMap<>();
+
+        superLeeDBConnection = SuperLeeDBConnection.getInstance();
+        supplierDAO = SupplierDAO.getInstance(superLeeDBConnection.getConnection());
+        manufacturerDAO = ManufacturerDAO.getInstance(superLeeDBConnection.getConnection());
+        genericProductDAO = GenericProductDAO.getInstance(superLeeDBConnection.getConnection());
+        supplierProductDAO = SupplierProductDAO.getInstance(superLeeDBConnection.getConnection());
     }
 
     public static SupplierController getInstance() {
@@ -27,31 +39,30 @@ public class SupplierController {
     }
 
     public boolean checkIfSupplierExist(String supplierNum) {
-        return AllSuppliers.containsKey(supplierNum);
+        return supplierDAO.checkIfSupplierExist(supplierNum);
     }
 
     public void addNewSupplier(Supplier supplier) {
-        AllSuppliers.put(supplier.getSupplierNum(), supplier);
+        supplierDAO.saveInCacheSupplier(supplier);
     }
-
 
     public void addSupplierProduct(String productName, String manufacturerName, int barcode, String supplierNum, float price, String supplierCatalog, int amount) {
         List<String> keyPair = new ArrayList<>();
         keyPair.add(productName);
         keyPair.add(manufacturerName);
 
-        if (!AllManufacturers.containsKey(manufacturerName))
-            AllManufacturers.put(manufacturerName, new Manufacturer(manufacturerName));
+        if (!manufacturerDAO.checkIfManufacturerExist(manufacturerName))
+            manufacturerDAO.saveInCacheManufacturer(new Manufacturer(manufacturerName));
 
-        if (!AllProducts.containsKey(keyPair))
-            AllProducts.put(keyPair, new GenericProduct(productName, AllManufacturers.get(manufacturerName), barcode));
+        if (!genericProductDAO.checkIfGenericProductExist(manufacturerName, productName))
+            genericProductDAO.saveInCacheGenericProduct(new GenericProduct(productName, manufacturerDAO.getManufacturer(manufacturerName), barcode));
 
-        Supplier supplier = AllSuppliers.get(supplierNum);
+        Supplier supplier = supplierDAO.getSupplier(supplierNum);
+        GenericProduct genericProduct = genericProductDAO.getGenericProduct(manufacturerName, productName);
 
-        GenericProduct product = AllProducts.get(keyPair);
+        SupplierProduct supplierProduct = new SupplierProduct(price, supplierCatalog, amount, supplier, genericProduct, supplier.getMyAgreement());
 
-        new SupplierProduct(price,supplierCatalog,amount, supplier, product, supplier.getMyAgreement());
-
+        supplierProductDAO.saveInCacheSupplierProduct(supplierProduct);
     }
 
     public boolean checkIfSupplierSupplyProduct(String supplierCatalog, String supplierNum)
@@ -133,11 +144,11 @@ public class SupplierController {
         return supplier.getContact(phoneNumber) != null;
     }
 
-    public void setNewContactPhone(String supplierNum, String phoneNumber)
+    public void setNewContactPhone(String supplierNum, String NewPhone, String OldPhone)
     {
         Supplier supplier = AllSuppliers.get(supplierNum);
-        Contact contact = supplier.getContact(phoneNumber);
-        contact.setPhoneNumber(phoneNumber);
+        Contact contact = supplier.getContact(OldPhone);
+        contact.setPhoneNumber(NewPhone);
     }
 
     public void deleteContactFromSupplier(String supplierNum, String phoneNumber)

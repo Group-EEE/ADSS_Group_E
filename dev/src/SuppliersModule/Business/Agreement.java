@@ -28,8 +28,6 @@ public class Agreement {
     //Constructor
     public Agreement(boolean hasPermanentDays, boolean isSupplierBringProduct, boolean[] deliveryDays, int numberOdDaysToSupply, Supplier supplier)
     {
-        //if(supplier == null) throw new RuntimeException("SuppliersModule.Business.Agreement should have a supplier");
-
         HasPermanentDays = hasPermanentDays;
         IsSupplierBringProduct = isSupplierBringProduct;
         DeliveryDays = deliveryDays;
@@ -131,4 +129,12 @@ public class Agreement {
     public int getNumberOfDaysToSupply() {
         return NumberOfDaysToSupply;
     }
+
+    public void setMySupplier(Supplier mySupplier) {MySupplier = mySupplier;}
+
+    public void setDiscountOnOrder(List<OrderDiscount> discountOnOrder) {
+        DiscountOnOrder = discountOnOrder;
+    }
 }
+
+

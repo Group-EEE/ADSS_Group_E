@@ -1,6 +1,8 @@
 package SuppliersModule.DataAccess;
 
 import SuppliersModule.Business.Agreement;
+import SuppliersModule.Business.OrderDiscount;
+import SuppliersModule.Business.Supplier;
 
 import java.sql.*;
 import java.util.*;
@@ -8,14 +10,15 @@ import java.util.*;
 public class AgreementDAO {
 
     private Connection conn;
-    private Map<String, Agreement> IdentifyMapAgreement;
     private OrderDiscountDAO orderDiscountDAO;
     static AgreementDAO agreementDAO;
 
+    private Map<String, Agreement> IdentifyMapAgreement;
+
     private AgreementDAO(Connection conn) {
         this.conn = conn;
-        IdentifyMapAgreement = new HashMap<>();
         orderDiscountDAO = OrderDiscountDAO.getInstance(this.conn);
+        IdentifyMapAgreement = new HashMap<>();
     }
 
     public static AgreementDAO getInstance(Connection conn) {
@@ -23,6 +26,44 @@ public class AgreementDAO {
             agreementDAO = new AgreementDAO(conn);
         return agreementDAO;
     }
+
+    public void saveInCacheSAgreement(String SupplierNum, Agreement agreement)
+    {
+        IdentifyMapAgreement.put(SupplierNum, agreement);
+    }
+
+
+    public Agreement getAgreement(String supplierNum) {
+        Agreement agreement = IdentifyMapAgreement.get(supplierNum);
+        if(agreement != null)
+            return agreement;
+
+        //-----------------------------------------Create a query-----------------------------------------
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Agreement WHERE SupplierNum = ?");
+            stmt.setString(1, supplierNum);
+            ResultSet rs = stmt.executeQuery();
+
+            //-------------------------------------Create OrderDiscount---------------------------------
+            if (rs.next()) {
+
+                boolean[] days = new boolean[7];
+                for(int i=0 ; i < 7 ; i++)
+                    days[i] = rs.getBoolean(i+4);
+
+                agreement = new Agreement(rs.getBoolean("HasPermanentDays"), rs.getBoolean("IsSupplierBringProduct"), days, rs.getInt("NumberOfDaysToSupply"), null);
+                agreement.setDiscountOnOrder(orderDiscountDAO.getAll(agreement, supplierNum));
+            }
+        }
+        catch (SQLException e) {e.printStackTrace();}
+        return agreement;
+
+    }
+
+
+
+
+
 
     public void saveAgreement(Agreement agreement) {
         //-----------------------------------------Create a query-----------------------------------------
@@ -35,55 +76,20 @@ public class AgreementDAO {
                 stmt.setBoolean(i, agreement.getDeliveryDays()[i-4]);
             stmt.setInt(11, agreement.getNumberOfDaysToSupply());
             stmt.executeUpdate();
-
         }
         catch (SQLException e) {e.printStackTrace();}
 
-        //-----------------------------------------Insert into cache----------------------------------
-        IdentifyMapAgreement.put(agreement.getMySupplier().getSupplierNum(), agreement);
     }
 
-    public Agreement getAgreement(String supplierNum) {
-        Agreement agreement = null;
 
-        //----------------------------------Check if found in cache----------------------------------
-        agreement = IdentifyMapAgreement.get(supplierNum);
-        if(agreement != null)
-            return agreement;
 
-        //-----------------------------------------Create a query-----------------------------------------
-        try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Agreement WHERE SupplierNum = ?");
-            stmt.setString(1, supplierNum);
-            ResultSet rs = stmt.executeQuery();
 
-            //-------------------------------------Create OrderDiscount---------------------------------
-            if (rs.next()) {
-                //Supplier currSupplier = agreementDAO.getAgreement(supplierNum);
-                boolean[] days = new boolean[7];
-                for(int i=0 ; i < 7 ; i++)
-                    days[i] = rs.getBoolean(i+4);
-                agreement = new Agreement(rs.getBoolean("HasPermanentDays"), rs.getBoolean("IsSupplierBringProduct"), days, rs.getInt("NumberOfDaysToSupply"), null);
-            }
-        }
-        catch (SQLException e) {e.printStackTrace();}
 
-        //-----------------------------------------Insert into cache----------------------------------
-        IdentifyMapAgreement.put(supplierNum, agreement);
 
-        orderDiscountDAO.getAll(agreement, supplierNum);
-        return agreement;
 
-    }
+
 
     public void updateAgreement(String supplierNum, boolean hasPermanentDays, boolean isSupplierBringProduct, boolean[] deliveryDays, int numberOdDaysToSupply) {
-
-        //----------------------------------Check if found in cache----------------------------------
-        if (IdentifyMapAgreement.get(supplierNum) != null)
-            IdentifyMapAgreement.get(supplierNum).setDetails(hasPermanentDays, isSupplierBringProduct, deliveryDays, numberOdDaysToSupply);
-
-        // Need to update on supplier.
-
         //-----------------------------------------Create a query-----------------------------------------
         try {
             PreparedStatement stmt = conn.prepareStatement("UPDATE Agreement SET HasPermanentDays = ? , IsSupplierBringProduct = ? , Sunday = ? , Monday = ? , Tuesday = ? , Wednesday = ? , Thursday = ? , Friday = ? , Saturday = ? , NumberOfDaysToSupply = ? WHERE supplierNum = ?");
@@ -99,9 +105,6 @@ public class AgreementDAO {
     }
 
     public void deleteAgreement(String supplierNum) {
-        //----------------------------------Check if found in cache----------------------------------
-        IdentifyMapAgreement.remove(supplierNum);
-
         //-----------------------------------------Create a query-----------------------------------------
         try {
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM Agreement WHERE SupplierNum = ?");
