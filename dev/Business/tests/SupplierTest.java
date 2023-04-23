@@ -1,5 +1,6 @@
-package Business;
+package Business.tests;
 
+import Business.objects.Supplier;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

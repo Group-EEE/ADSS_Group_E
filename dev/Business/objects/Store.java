@@ -1,4 +1,4 @@
-package Business;
+package Business.objects;
 
 public class Store extends Site{
     private String manager_name;

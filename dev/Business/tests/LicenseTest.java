@@ -1,5 +1,7 @@
-package Business;
+package Business.tests;
 
+import Business.objects.License;
+import Business.objects.cold_level;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

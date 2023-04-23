@@ -1,5 +1,6 @@
-package Business;
+package Business.tests;
 
+import Business.objects.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package Business;
+package Business.objects;
 
 public class Supplier extends Site{
     public Supplier(String address, String phone, String supplier_name, String contact_name) {

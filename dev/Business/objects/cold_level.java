@@ -1,4 +1,4 @@
-package Business;
+package Business.objects;
 
 public enum cold_level {
         Freeze (1),

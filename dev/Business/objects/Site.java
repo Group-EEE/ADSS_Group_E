@@ -1,4 +1,4 @@
-package Business;
+package Business.objects;
 
 abstract public class Site {
     protected String address, phone, site_name, site_contact_name;

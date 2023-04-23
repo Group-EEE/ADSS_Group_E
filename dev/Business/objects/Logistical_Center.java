@@ -1,4 +1,4 @@
-package Business;
+package Business.objects;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,8 +48,20 @@ public class Logistical_Center extends Site{
         return delivered_supplies_documents;
     }
 
+    public Transport get_transport_by_id(int id){
+        return Transport_Log.get(id);
+    }
+
+    public void add_transport(Transport transport){
+        Transport_Log.put(transport.getTransport_ID(), transport);
+    }
+
     public void setDelivered_supplies_documents(Map<Store, ArrayList<Site_Supply>> delivered_supplies_documents) {
         this.delivered_supplies_documents = delivered_supplies_documents;
+    }
+
+    public void add_driver(Truck_Driver driver){
+        drivers.add(driver);
     }
 
     @Override

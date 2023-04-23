@@ -1,4 +1,4 @@
-package Business;
+package Business.objects;
 
 public class License {
     private int L_ID;

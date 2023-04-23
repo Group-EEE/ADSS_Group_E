@@ -1,7 +1,9 @@
 package Presentation;
 
-import Business.Transport_System;
-import Business.*;
+import Business.objects.Transport_System;
+import Business.objects.Truck;
+import Business.objects.Truck_Driver;
+import Business.objects.cold_level;
 
 import java.util.Scanner;
 
