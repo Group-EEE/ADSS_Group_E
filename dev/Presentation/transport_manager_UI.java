@@ -3,16 +3,27 @@ package Presentation;
 import Business.controllers.Logistical_center_controller;
 import Business.objects.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * class that present the main menu
+ */
 public class transport_manager_UI {
+    // ===== attributes =====
     Logistical_center_controller controller;
+    underway_transport_UI underway_transport_ui;
     Scanner scanner;
     public transport_manager_UI() {
-        controller = new Logistical_center_controller();
-        scanner = new Scanner(System.in);
+        this.controller = Logistical_center_controller.getInstance();
+        this.underway_transport_ui = new underway_transport_UI();
+        this.scanner = new Scanner(System.in);
     }
 
+    // ===== Main menu =====
     public void start() {
         if (controller.getLogistical_center() == null) {
             get_logistical_center();
@@ -58,19 +69,28 @@ public class transport_manager_UI {
                 case 1:
                     display_trucks_by_cold_level();
                     break;
-                    // creating a new transport
+                // creating a new transport
                 case 2:
                     System.out.println("Hey Boss!");
                     create_transport_document();
                     break;
 
                 case 3:
+                    ArrayList<Integer> chosen_transports = choose_transport_to_send();
+                    for (int key: chosen_transports){
+                        underway_transport_ui.start_transport(key);
+                    }
+
+
             }
 
         }
-
     }
 
+    /**
+     * @param str some string
+     * @return is the string conttains numbers only
+     */
     public boolean containsOnlyNumbers (String str){
         try {
             Integer.parseInt(str);
@@ -80,6 +100,9 @@ public class transport_manager_UI {
         }
     }
 
+    /**
+     * a function that asks from the user all the details for a truck driver and then add it to the database.
+     */
     private void create_driver(){
         int ID = 0;
         boolean isValid = false;
@@ -220,6 +243,10 @@ public class transport_manager_UI {
         controller.add_driver(ID, Driver_name, License_ID, level, weight);
 
     }
+
+    /**
+     * asking from the user details about the logistical center and create it in the controller.
+     */
     private void get_logistical_center() {
         System.out.println("Hey Boss, currently the system does not have the details about the logistics center.");
         String origin_address = null;
@@ -262,6 +289,9 @@ public class transport_manager_UI {
         controller.create_Logistical_Center(origin_address, origin_phone, origin_name, origin_contact_name);
     }
 
+    /**
+     * display trucks by cold level that the user choose
+     */
     private void display_trucks_by_cold_level(){
         cold_level cool_level = null;
         boolean isValid2 = false;
@@ -558,5 +588,68 @@ public class transport_manager_UI {
         }
     }
 
+    /**
+     * @return an array with all the transports ID the manager (user) chose to send.
+     */
+    public ArrayList<Integer> choose_transport_to_send(){
+        String manager_choice;
+        ArrayList<Integer> transport_IDS = new ArrayList<>();
+        boolean choosing = false;
+        while (!choosing) {
+            System.out.println("Hey Boss, which transport you want to send?");
+            System.out.println("1 - display all the transports that haven't started:");
+            System.out.println("2 - send transport by enter his ID:");
+            System.out.println("3- that's all for now.");
+            manager_choice = scanner.nextLine();
+            if (manager_choice.equals("1")) {
+                for (Map.Entry<Integer, Transport> entry : controller.getTransport_Log().entrySet()) {
+                    if (!entry.getValue().Started()) {
+                        int t_id = entry.getKey();
+                        Transport temp_transport = entry.getValue();
+                        System.out.println("=========== Transport - " + t_id + " - information ===========");
+                        temp_transport.transportDisplay();
+                    }
+                }
+            } else if (manager_choice.equals("2")) {
+                int key = 0;
+                boolean end_choosing = false;
+                while (!end_choosing) {
+                    if (controller.getTransport_Log().size() == 0) {
+                        System.out.println("We don't have any registered transport...");
+                        break;
+                    }
+                    System.out.println("Please enter the transport ID you want to start:");
+                    try {
+                        String key_input = scanner.nextLine();
+                        key = Integer.parseInt(key_input);
+                        if (controller.getTransport_Log().containsKey(key)) {
+                            Transport temp = controller.getTransport_Log().get(key);
+                            temp.setStarted(true);
+                            transport_IDS.add(key);
+                            System.out.println("Transport " + key + " will start soon. If you want to send another one please press 1, to get back to transports sending menu press anything else:");
+                            String inp1 = scanner.nextLine();
+                            if (!inp1.equals("1")) {
+                                end_choosing = true;
+                            }
+                        } else {
+                            System.out.println("Transport ID does not exist. If you don't want to continue press 1, otherwise press anything else:");
+                            String inp2 = scanner.nextLine();
+                            if (inp2.equals("1")) {
+                                end_choosing = true;
+                            }
+                        }
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. Please enter a valid 5 digit integer.");
+                    }
+                }
+            } else if (manager_choice.equals("3")) {
+                choosing = true;
+            } else {
+                System.out.println("Invalid input.");
+            }
+        }
+        return transport_IDS;
+    }
 
 }

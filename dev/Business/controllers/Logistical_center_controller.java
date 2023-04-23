@@ -3,6 +3,7 @@ package Business.controllers;
 import Business.objects.*;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 // singleton
 public class Logistical_center_controller {
@@ -18,7 +19,7 @@ public class Logistical_center_controller {
     // singleton
     private Transport_System transport_system;
     private Logistical_Center logistical_center;
-    public Logistical_center_controller(){
+    private Logistical_center_controller(){
         transport_system = new Transport_System();
     }
 
@@ -130,5 +131,19 @@ public class Logistical_center_controller {
         Transport transport = logistical_center.get_transport_by_id(transport_id);
         Supplier supplier = new Supplier(supplier_name, supplier_address, phone_number, contact_name);
         transport.insertToDestinations(supplier);
+    }
+
+    public Map<Integer, Transport> getTransport_Log(){
+        return logistical_center.getTransport_Log();
+    }
+
+    public Truck getTruckByNumber(String truck_number){
+        Truck truck = null;
+        for(Truck t : logistical_center.getTrucks()){
+            if(t.getRegistration_plate().equals(truck_number)){
+                truck = t;
+            }
+        }
+        return truck;
     }
 }
