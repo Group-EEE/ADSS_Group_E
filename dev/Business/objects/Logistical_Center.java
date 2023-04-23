@@ -56,6 +56,14 @@ public class Logistical_Center extends Site{
         Transport_Log.put(transport.getTransport_ID(), transport);
     }
 
+    public Truck_Driver get_driver_by_id(int id){
+        for (Truck_Driver driver : drivers) {
+            if (driver.getID() == id)
+                return driver;
+        }
+        return null;
+    }
+
     public void setDelivered_supplies_documents(Map<Store, ArrayList<Site_Supply>> delivered_supplies_documents) {
         this.delivered_supplies_documents = delivered_supplies_documents;
     }
