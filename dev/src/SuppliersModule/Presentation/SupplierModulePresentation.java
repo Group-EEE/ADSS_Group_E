@@ -268,9 +268,8 @@ public class SupplierModulePresentation {
             priceOrQuantity = reader.nextLine();
         } while (!priceOrQuantity.equals("p") && !priceOrQuantity.equals("q"));
 
-        float discountPercentage = CheckFloatInputAndReturn("Enter the Discount percentage: ");
         int minimumAmount = CheckIntInputAndReturn("Enter the minimum amount:");
-        supplierController.deleteOrderDiscount(supplierNum, priceOrQuantity, discountPercentage, minimumAmount);
+        supplierController.deleteOrderDiscount(supplierNum, priceOrQuantity, minimumAmount);
     }
 
     //---------------------------------------Case 6----------------------------------------------

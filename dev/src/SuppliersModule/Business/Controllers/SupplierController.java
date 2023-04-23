@@ -101,11 +101,11 @@ public class SupplierController {
         supplierProduct.deleteDiscountProduct(amount);
     }
 
-    public void deleteOrderDiscount(String supplierNum, String priceOrQuantity, float discountPercentage, int minimumAmount)
+    public void deleteOrderDiscount(String supplierNum, String priceOrQuantity, int minimumAmount)
     {
         Supplier supplier = AllSuppliers.get(supplierNum);
         Agreement agreement = supplier.getMyAgreement();
-        agreement.deleteOrderDiscount(priceOrQuantity, discountPercentage, minimumAmount);
+        agreement.deleteOrderDiscount(priceOrQuantity, minimumAmount);
     }
 
     public void setBankAccount(String supplierNum, String account){

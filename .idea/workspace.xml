@@ -5,33 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8ab6a62-5a9f-4ada-b7de-51cb98261c12" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/ByCategoryReport.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Category.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/CategoryController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/CurrSupplyReport.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Discount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/ExpOrDefectReport.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/InventoryModulePresentation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/OrderReport.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/ReportPresentation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/SpecificProductPresentation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/ProductController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Report.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/ReportController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/SpecificProduct.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/SubCategory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/SubSubCategory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/SuperLiProduct.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/AgreementDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/OrderDiscountDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/SupplierDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/dev/res/SuperLeeDB" beforeDir="false" afterPath="$PROJECT_DIR$/dev/res/SuperLeeDB" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderFromSupplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderFromSupplier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/InsertData.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Agreement.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Agreement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Controllers/SupplierController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Controllers/SupplierController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderedProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderedProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Supplier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/ContactDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/ContactDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/SuperLeeDBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/SuperLeeDBConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Presentation/SupplierModulePresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Presentation/SupplierModulePresentation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/InventoryModule/Business/stam.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Agreement.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Agreement.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Controllers/SupplierController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Controllers/SupplierController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/OrderedProduct.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/OrderedProduct.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Supplier.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Supplier.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/DataAccess/ContactDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/DataAccess/ContactDAO.class" afterDir="false" />
-=======
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/Business/stam.java" beforeDir="false" />
->>>>>>> 4bb64941a55778157fcf2188d0ce78cff8fc5c99
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Presentation/SupplierModulePresentation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Presentation/SupplierModulePresentation.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,28 +55,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/user/Downloads/sqlite-jdbc-3.41.2.1.jar",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/Downloads/sqlite-jdbc-3.41.2.1.jar&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\sapir\OneDrive\Documents\GitHub\ADSS_Group_E\dev\src\InventoryModule\Presentation" />
@@ -89,7 +84,7 @@
       <recent name="C:\Users\user\Documents\GitHub\ADSS_Group_E\dev\src" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.test">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ADSS_Group_E" />
@@ -97,8 +92,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SuppliersModule.DataAccess.test" />
+      <module name="ADSS_Group_E" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="SuppliersModule.DataAccess.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.test" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -123,15 +132,12 @@
       <workItem from="1682110638412" duration="4672000" />
       <workItem from="1682115603080" duration="9000" />
       <workItem from="1682115828557" duration="2846000" />
-<<<<<<< HEAD
       <workItem from="1682165987568" duration="1058000" />
       <workItem from="1682174475257" duration="21000" />
       <workItem from="1682174618569" duration="21000" />
       <workItem from="1682192017019" duration="86000" />
       <workItem from="1682192210488" duration="609000" />
-=======
       <workItem from="1682185100714" duration="3942000" />
->>>>>>> 4bb64941a55778157fcf2188d0ce78cff8fc5c99
     </task>
     <servers />
   </component>
@@ -151,5 +157,20 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/test.java</url>
+          <line>15</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

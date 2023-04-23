@@ -28,7 +28,7 @@ public class Agreement {
     //Constructor
     public Agreement(boolean hasPermanentDays, boolean isSupplierBringProduct, boolean[] deliveryDays, int numberOdDaysToSupply, Supplier supplier)
     {
-        if(supplier == null) throw new RuntimeException("SuppliersModule.Business.Agreement should have a supplier");
+        //if(supplier == null) throw new RuntimeException("SuppliersModule.Business.Agreement should have a supplier");
 
         HasPermanentDays = hasPermanentDays;
         IsSupplierBringProduct = isSupplierBringProduct;
@@ -96,11 +96,11 @@ public class Agreement {
      * finding the discount with the given details and delete it (Only for OrderDiscounts not for product discounts)
      */
 
-    public void deleteOrderDiscount(String priceOrQuantity, float discountPercentages, int minimumAmount)
+    public void deleteOrderDiscount(String priceOrQuantity,int minimumAmount)
     {
         for(OrderDiscount orderDiscount : DiscountOnOrder)
         {
-            if(orderDiscount.getDiscount() == discountPercentages && orderDiscount.getAmount() == minimumAmount
+            if(orderDiscount.getAmount() == minimumAmount
                     && orderDiscount.getByPriceOrQuantity().equals(priceOrQuantity)) {
                 DiscountOnOrder.remove(orderDiscount);
                 System.out.println("The discount has been deleted\n");
@@ -112,5 +112,23 @@ public class Agreement {
 
     public Map<String, SupplierProduct> getProductInAgreement() {return ProductInAgreement;}
 
+    public Supplier getMySupplier() {
+        return MySupplier;
+    }
 
+    public boolean isHasPermanentDays() {
+        return HasPermanentDays;
+    }
+
+    public boolean isSupplierBringProduct() {
+        return IsSupplierBringProduct;
+    }
+
+    public boolean[] getDeliveryDays() {
+        return DeliveryDays;
+    }
+
+    public int getNumberOfDaysToSupply() {
+        return NumberOfDaysToSupply;
+    }
 }

@@ -10,17 +10,14 @@ public class SuperLeeDBConnection {
     private Connection conn;
 
     private SuperLeeDBConnection() {
-        try {
-            conn = DriverManager.getConnection("jdbc:sqlite:dev/res/SuperLeeDB");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        try {conn = DriverManager.getConnection("jdbc:sqlite:dev/res/SuperLeeDB");}
+        catch (SQLException e) {e.printStackTrace();}
     }
 
     public static SuperLeeDBConnection getInstance() {
-        if (superLeeDBConnection == null) {
+        if (superLeeDBConnection == null)
             superLeeDBConnection = new SuperLeeDBConnection();
-        }
+
         return superLeeDBConnection;
     }
 

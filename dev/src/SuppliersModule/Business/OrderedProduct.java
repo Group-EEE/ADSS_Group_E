@@ -5,10 +5,13 @@ package SuppliersModule.Business;
  */
 public class OrderedProduct {
 
+    private static int unique = 1;
+
     //------------------------------------------ Attributes ---------------------------------------
     private final int Quantity;
     private final float FinalPrice;
     private float Discount;
+    private final int Id; // unique orderProduct ID
 
     //------------------------------------------ References ---------------------------------------
     private SupplierProduct MyProduct;
@@ -21,6 +24,8 @@ public class OrderedProduct {
         MyProduct = myProduct;
         Discount = myProduct.getDiscountPercentages(quantity);
         FinalPrice = quantity * myProduct.getPrice() * ((100 - Discount)/ 100);
+        Id = unique;
+        unique++;
     }
 
     public float getFinalPrice() {return FinalPrice;}
