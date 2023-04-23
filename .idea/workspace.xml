@@ -8,6 +8,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/res/SuperLeeDB" beforeDir="false" afterPath="$PROJECT_DIR$/dev/res/SuperLeeDB" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderFromSupplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderFromSupplier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/DataAccess/ContactDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/DataAccess/ContactDAO.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,6 +99,11 @@
       <workItem from="1682110638412" duration="4672000" />
       <workItem from="1682115603080" duration="9000" />
       <workItem from="1682115828557" duration="2846000" />
+      <workItem from="1682165987568" duration="1058000" />
+      <workItem from="1682174475257" duration="21000" />
+      <workItem from="1682174618569" duration="21000" />
+      <workItem from="1682192017019" duration="86000" />
+      <workItem from="1682192210488" duration="609000" />
     </task>
     <servers />
   </component>

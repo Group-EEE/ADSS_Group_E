@@ -12,7 +12,7 @@ public class OrderFromSupplier {
 
     //------------------------------------------ Attributes ---------------------------------------
     private final int Id; // unique order ID
-    private int Quantity; // The quantity of product in the order
+    private int Quantity; // The quantity of products in the order
 
     private float priceBeforeTotalDiscount; // price after calculate the product discount, but before calculate the total SuppliersModule.Business.Order Discount
 
