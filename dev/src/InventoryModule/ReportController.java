@@ -5,11 +5,18 @@ import java.util.List;
 //class that saves all the details about the reports that was issued
 public class ReportController {
     private static List<Report> AllReports; //list to save al the reports
+    static ReportController reportController;
 
     static int R_id=0; //counter that will give every report its id
 
-    public ReportController(){ //constructor
+    private ReportController(){ //constructor
         AllReports = new ArrayList<Report>();
+    }
+
+    public static ReportController getInstance(){
+        if(reportController == null)
+            reportController = new ReportController();
+        return reportController;
     }
     public void GetAllIssuedReports(){ //function that return the id and type of every issued report
         System.out.println("*****Reports Issued In System*****");
@@ -18,6 +25,22 @@ public class ReportController {
         }
 
     }
+    public void createOrderReport(String reporter){
+        OrderReport orderReport = new OrderReport(reporter);
+    }
+    public void createCurrSupplyReport(String reporter){
+        CurrSupplyReport currSupplyReport = new CurrSupplyReport(reporter);
+    }
+    public void createExpOrDefectReport(String reporter){
+        ExpOrDefectReport expOrDefectReport = new ExpOrDefectReport(reporter);
+    }
+    public void createByCategoryReport(String reporter, List<String> cate){
+        ByCategoryReport byCategoryReport = new ByCategoryReport(reporter, cate);
+    }
+
+
+
+
 
     //add report to the list of reports
     public static void addReport(Report r){

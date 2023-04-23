@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8ab6a62-5a9f-4ada-b7de-51cb98261c12" name="Changes" comment="" />
+    <list default="true" id="e8ab6a62-5a9f-4ada-b7de-51cb98261c12" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/CategoryPresentation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/Discount.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Discount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/InventoryModulePresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/InventoryModulePresentation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/OrderReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/OrderReport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/ReportPresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/ReportPresentation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/SpecificProductPresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/SpecificProductPresentation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/ReportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/SpecificProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/SpecificProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/SuperLiProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/SuperLiProduct.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -116,6 +130,7 @@
       <workItem from="1682192210488" duration="609000" />
       <workItem from="1682185100714" duration="3942000" />
       <workItem from="1682229582794" duration="23000" />
+      <workItem from="1682264445293" duration="4382000" />
     </task>
     <servers />
   </component>

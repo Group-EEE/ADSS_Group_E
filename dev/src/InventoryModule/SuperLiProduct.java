@@ -28,11 +28,10 @@ public class SuperLiProduct {
     private List<SpecificProduct> defectedProducts; //list to save all the defected specific products of this product
 
    //constructor
-    public SuperLiProduct(int Bd, String Pn, String Sp, double s_price, double c_price, String cat, String scat, String sscat, int sd, String man, int min){
-        this.Barcode = Bd;
-        this.PName = Pn;
-        this.Supplier = Sp;
-        this.Supplier_Price = s_price;
+    public SuperLiProduct(GenericProduct gp, double c_price, String cat, String scat, String sscat, int sd, String man, int min){
+        this.genericproduct = gp;
+        //this.Barcode = gp.getBarcode();
+        this.PName = gp.getName();
         this.Costumer_Price = c_price;
         this.Shelf_amount = 0;
         this.Warehouse_amount = 0;
@@ -49,18 +48,6 @@ public class SuperLiProduct {
     //function that returns the barcode(id) of the main product
     public int getBarcode() {
         return Barcode;
-    }
-
-    //public void setBarcode(int barcode) {Barcode = barcode;}
-
-    //function that returns the price that we pay the supplier
-    public double getSupplier_Price() {
-        return Supplier_Price;
-    }
-
-    //function to change the price that we pay the supplier
-    public void setSupplier_Price(double supplier_Price) {
-        Supplier_Price = supplier_Price;
     }
 
     //function that returns the price that the costumers pay
@@ -206,13 +193,9 @@ public class SuperLiProduct {
         return SubSubCategory;
     }
 
-    //return the product's supplier
-    public String getSupplier() {
-        return Supplier;
-    }
-
     //return the product's manufacturer
     public String getManufacturer() {
         return Manufacturer;
     }
+    public GenericProduct getGenericproduct(){ return genericproduct;}
 }

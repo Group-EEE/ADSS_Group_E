@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class SpecificProductPresentation {
     private ProductController productController;
     public SpecificProductPresentation(){
-        productController = new ProductController();
+        productController = ProductController.getInstance();
     }
     public void ShowSpecificProductMenu(){
         Scanner option2 = new Scanner(System.in);

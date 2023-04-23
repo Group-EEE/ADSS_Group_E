@@ -8,12 +8,18 @@ public class CategoryController {
     private static List<Category> categories; // list of all categories in system
     private static List<SubCategory> subcategories; // list of all subcategories in system
     private static List<SubSubCategory> subSubCategories; // list of all subsubcategories in system
+    static CategoryController categoryController;
 
     //constructor of the category controller
-    public CategoryController(){
+    private CategoryController(){
         categories = new ArrayList<Category>();
         subcategories = new ArrayList<SubCategory>();
         subSubCategories = new ArrayList<SubSubCategory>();
+    }
+    public static CategoryController getInstance(){
+        if(categoryController == null)
+            categoryController = new CategoryController();
+        return categoryController;
     }
 
     //this function returns the categories list

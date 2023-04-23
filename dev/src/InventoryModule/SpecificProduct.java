@@ -22,7 +22,7 @@ public class SpecificProduct {
     private double Supplier_Price; //the price that supplier declares from us
 
     //constructor
-    public SpecificProduct(int aID, int pID, LocalDateTime aExp_date, boolean aDefective, String aDefect_report_by, boolean aInWarehouse, String aStoreBranch, int aLocationInStore, Discount aDiscount, String defectType) {
+    public SpecificProduct(SupplierProduct supplierProduct, int aID, int pID, LocalDateTime aExp_date, boolean aDefective, String aDefect_report_by, boolean aInWarehouse, String aStoreBranch, int aLocationInStore, Discount aDiscount, String defectType) {
         this.Sp_ID = aID;
         this.P_ID = pID;
         this.ExpDate = aExp_date;
@@ -33,6 +33,9 @@ public class SpecificProduct {
         this.Discount = aDiscount;
         this.DefectType = defectType;
         this.Store_Branch = aStoreBranch;
+        this.supplierproduct = supplierProduct;
+        this.Supplier_Price = supplierProduct.getPrice();
+        this.Supplier = supplierproduct.getMySupplier().getName();
     }
 
     //function return true if defective
