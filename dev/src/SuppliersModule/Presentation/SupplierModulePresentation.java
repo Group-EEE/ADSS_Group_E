@@ -374,10 +374,11 @@ public class SupplierModulePresentation {
      */
     private void updateContactPhoneNumber(String supplierNum){
         System.out.println("Enter contact phone number:");
+        String OldPhone =  reader.nextLine();
 
-        if(supplierController.checkIfContactExist(supplierNum, reader.nextLine())) {
+        if(supplierController.checkIfContactExist(supplierNum, OldPhone)) {
             System.out.println("Enter contact NEW phone number:");
-            supplierController.setNewContactPhone(supplierNum, reader.nextLine());
+            supplierController.setNewContactPhone(supplierNum, reader.nextLine(), OldPhone);
         }
         else
             System.out.println("This phone is not exist");

@@ -1,8 +1,6 @@
 package SuppliersModule.DataAccess;
 
-import SuppliersModule.Business.Agreement;
 import SuppliersModule.Business.Contact;
-import SuppliersModule.Business.OrderDiscount;
 
 import java.sql.*;
 import java.util.*;
@@ -10,12 +8,10 @@ import java.util.*;
 public class ContactDAO {
 
     private Connection conn;
-    private Map<String, Contact> IdentifyMapContact;
     static ContactDAO contactDAO;
 
     private ContactDAO(Connection conn) {
         this.conn = conn;
-        IdentifyMapContact = new HashMap<>();
     }
 
     public static ContactDAO getInstance(Connection conn) {
@@ -34,17 +30,10 @@ public class ContactDAO {
             stmt.executeUpdate();
         }
         catch (SQLException e) {e.printStackTrace();}
-
-        //-----------------------------------------Insert into cache----------------------------------
-        IdentifyMapContact.put(contact.getPhoneNumber(), contact);
     }
 
     public Contact getContact(String PhoneNumber) {
-        //----------------------------------Check if found in cache----------------------------------
-        Contact contact = IdentifyMapContact.get(PhoneNumber);
-        if(contact != null)
-            return contact;
-
+        Contact contact = null;
         //-----------------------------------------Create a query-----------------------------------------
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Contact WHERE PhoneNumber = ?");
@@ -58,16 +47,10 @@ public class ContactDAO {
         }
         catch (SQLException e) {e.printStackTrace();}
 
-        //-----------------------------------------Insert into cache----------------------------------
-        IdentifyMapContact.put(PhoneNumber, contact);
         return contact;
     }
 
     public void updateContact(String OldPhone, String NewPhone) {
-        //----------------------------------Check if found in cache----------------------------------
-        if(IdentifyMapContact.get(OldPhone) != null)
-            IdentifyMapContact.get(OldPhone).setPhoneNumber(NewPhone);
-
         //-----------------------------------------Create a query-----------------------------------------
         try {
             PreparedStatement stmt = conn.prepareStatement("UPDATE Contact SET PhoneNumber = ? WHERE PhoneNumber = ?");
@@ -79,9 +62,6 @@ public class ContactDAO {
     }
 
     public void deletePhoneNumber(String PhoneNumber) {
-        //----------------------------------Check if found in cache----------------------------------
-        IdentifyMapContact.remove(PhoneNumber);
-
         //-----------------------------------------Create a query-----------------------------------------
         try {
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM Contact WHERE PhoneNumber = ?");

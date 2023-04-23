@@ -9,16 +9,12 @@ import java.util.*;
 public class OrderDiscountDAO {
 
     private Connection conn;
-    private Map<List<String>, OrderDiscount> IdentifyMapOrderDiscount;
     private List<String> key;
-    private AgreementDAO agreementDAO;
     static OrderDiscountDAO orderDiscountDAO;
 
     private OrderDiscountDAO(Connection conn) {
         this.conn = conn;
-        IdentifyMapOrderDiscount = new HashMap<>();
         key = new ArrayList<>();
-        agreementDAO = AgreementDAO.getInstance(this.conn);
     }
 
     public static OrderDiscountDAO getInstance(Connection conn) {
@@ -30,7 +26,7 @@ public class OrderDiscountDAO {
     public void saveOrderDiscount(String supplierNum, OrderDiscount orderDiscount) {
         //---------------------------------Create a query-----------------------------------------
         try {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Contact (SupplierNum, BypPiceOrQuantity, Amount, DiscountPercentage) VALUES (?,?,?,?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO OrderDiscount (SupplierNum, ByPriceOrQuantity, Amount, Discount) VALUES (?,?,?,?)");
             stmt.setString(1, supplierNum);
             stmt.setString(2, orderDiscount.getByPriceOrQuantity());
             stmt.setInt(3, orderDiscount.getAmount());
@@ -38,24 +34,11 @@ public class OrderDiscountDAO {
             stmt.executeUpdate();
         }
         catch (SQLException e) {e.printStackTrace();}
-
-        //-----------------------------------------Insert into cache----------------------------------
-        createKey(supplierNum,orderDiscount.getByPriceOrQuantity(),orderDiscount.getAmount());
-        IdentifyMapOrderDiscount.put(key, orderDiscount);
-
-        //------------------------------Update the add in Agreement cache-------------------------
-        agreementDAO.getAgreement(supplierNum).addOrderDiscount(orderDiscount.getByPriceOrQuantity(), orderDiscount.getAmount(), orderDiscount.getDiscount());
     }
 
 
     public OrderDiscount getOrderDiscount(String supplierNum, String priceOrQuantity, int minimumAmount) {
         OrderDiscount orderDiscount = null;
-
-        //----------------------------------Check if found in cache----------------------------------
-        createKey(supplierNum,priceOrQuantity,minimumAmount);
-        orderDiscount = IdentifyMapOrderDiscount.get(key);
-        if(orderDiscount != null)
-            return orderDiscount;
 
         //-----------------------------------------Create a query-----------------------------------------
         try {
@@ -67,25 +50,15 @@ public class OrderDiscountDAO {
 
             //-------------------------------------Create OrderDiscount---------------------------------
             if (rs.next()) {
-                Agreement currAgreement = agreementDAO.getAgreement(supplierNum);
-                orderDiscount = new OrderDiscount(rs.getString("ByPriceOrQuantity"), rs.getInt("MinimumAmount"), rs.getFloat("Discount"), currAgreement);
+                orderDiscount = new OrderDiscount(rs.getString("ByPriceOrQuantity"), rs.getInt("Amount"), rs.getFloat("Discount"), null);
             }
         }
         catch (SQLException e) {e.printStackTrace();}
 
-        //-----------------------------------------Insert into cache----------------------------------
-        IdentifyMapOrderDiscount.put(key, orderDiscount);
         return orderDiscount;
     }
 
     public void deleteOrderDiscount(String supplierNum, String priceOrQuantity, int minimumAmount) {
-        //----------------------------------Check if found in cache----------------------------------
-        createKey(supplierNum,priceOrQuantity,minimumAmount);
-        IdentifyMapOrderDiscount.remove(key);
-
-        //------------------------------Update the deletion in Agreement cache-------------------------
-        agreementDAO.getAgreement(supplierNum).deleteOrderDiscount(priceOrQuantity, minimumAmount);
-
         //-----------------------------------------Create a query-----------------------------------------
         try {
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM OrderDiscount WHERE SupplierNum = ? AND ByPriceOrQuantity = ? AND MinimumAmount = ?");
@@ -109,7 +82,7 @@ public class OrderDiscountDAO {
 
             //-----------------------------------------Create array-----------------------------------------
             while (rs.next())
-                orderDiscountList.add(new OrderDiscount(rs.getString("ByPriceOrQuantity"), rs.getInt("MinimumAmount"), rs.getFloat("Discount"), agreement));
+                orderDiscountList.add(new OrderDiscount(rs.getString("ByPriceOrQuantity"), rs.getInt("Amount"), rs.getFloat("Discount"), agreement));
         }
         catch (SQLException e) {throw new RuntimeException(e);}
 
