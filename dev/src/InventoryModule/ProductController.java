@@ -1,5 +1,7 @@
 package InventoryModule;
 
+import SuppliersModule.Business.Controllers.OrderController;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,22 +13,24 @@ import static InventoryModule.InventoryModulePresentation.reader;
 //this class saves all the information about the products in the store
 public class ProductController {
     private static List<SuperLiProduct> products; //list that saves akk the products in the store
+    static ProductController productController;
 
-    public ProductController() { //constructor
+    private ProductController() { //constructor
         products = new ArrayList<SuperLiProduct>();
+    }
+    public static ProductController getInstance(){
+        if(productController == null)
+            productController = new ProductController();
+        return productController;
     }
 
     //function that add product to the store- to the controller
     public void addProduct(){
         //get from the warehouse manager all the information needed to create new product
-        System.out.println("Please enter Barcode:");
-        int Barcode = reader.nextInt();
-        System.out.println("Please enter Name:");
-        String Name = reader.nextLine();
-        System.out.println("Please enter Supplier name:");
-        String SupplierName = reader.nextLine();
-        System.out.println("Please enter Supplier price:");
-        Double Supplierprice = reader.nextDouble();
+//        System.out.println("Please enter Barcode:");
+//        int Barcode = reader.nextInt();
+//        System.out.println("Please enter Name:");
+//        String Name = reader.nextLine();
         System.out.println("Please enter Costumer price:");
         Double Costumerprice = reader.nextDouble();
         System.out.println("Please enter Category:");
@@ -46,8 +50,7 @@ public class ProductController {
             CategoryController.addCategory(Category);
         }
         //create the new product - call to its constructor
-        SuperLiProduct P = new SuperLiProduct(Barcode, Name, SupplierName, Supplierprice,
-                Costumerprice, Category,Subcategory, Subsubcategory,
+        SuperLiProduct P = new SuperLiProduct(gp, Costumerprice, Category,Subcategory, Subsubcategory,
                 Supplydays,Manufacturer,Minimumamount);
         products.add(P); //add to the controller's list
     }

@@ -14,82 +14,40 @@ public class Discount {
         this.Discount = d;
     }
 
-    //this function update discount on spec. products that are categorized on given category and
-    //are supplied by given supplier
-    /*public void update_discount_bycategory_from_supplier(String cat, String supplier){
-        for(int i=0; i<ProductController.getProducts().size();i++){ //check for every product in the store
-            //if the product categorized in the given category and supplied by the given supplier
-            if(ProductController.getProducts().get(i).getCategory().compareTo(cat)==0 && ProductController.getProducts().get(i).getSupplier().compareTo(supplier)==0){
-                //update the discount for every spec. product in the main product's list
-                for(int j=0; j<ProductController.getProducts().get(i).getSpecificProducts().size(); j++){
-                    ProductController.getProducts().get(i).getSpecificProducts().get(j).setDiscount(this);
-                }
-            }
-        }
-    }
-     */
 
     //this function update discount on spec. products that are categorized on given category from any supplier
-    public void update_discount_bycategory(String cat){
+    public static void update_discount_bycategory(String cat, LocalDateTime start44, LocalDateTime end44, double discount4){
+        Discount dis4 = new Discount(start44, end44, discount4);
         for(int i=0; i<ProductController.getProducts().size();i++){ //check for every product in the store
             //if the product categorized in the given category
             if(ProductController.getProducts().get(i).getCategory().compareTo(cat)==0){
                 //update the discount for every spec. product in the main product's list
                 for(int j=0; j<ProductController.getProducts().get(i).getSpecificProducts().size(); j++){
-                    ProductController.getProducts().get(i).getSpecificProducts().get(j).setDiscount(this);
+                    ProductController.getProducts().get(i).getSpecificProducts().get(j).setDiscount(dis4);
                 }
             }
         }
     }
-
-    //this function update discount on spec. products by given product and are supplied by given supplier
-    /*public void update_discount_byproduct_from_supplier(String Pname, String supplier){
-        for(int i=0; i<ProductController.getProducts().size();i++){ //check for every product in the store
-            //if it is the given product and supplied by the given supplier
-            if(ProductController.getProducts().get(i).getPName().compareTo(Pname)==0 && ProductController.getProducts().get(i).getSupplier().compareTo(supplier)==0){
-                //update the discount for every spec. product in the main product's list
-                for(int j=0; j<ProductController.getProducts().get(i).getSpecificProducts().size(); j++){
-                    ProductController.getProducts().get(i).getSpecificProducts().get(j).setDiscount(this);
-                }
-            }
-        }
-    }
-     */
 
     //this function update discount on spec. products by given product
-    public void update_discount_byproduct(String Pname){
+    public static void update_discount_byproduct(String Pname, LocalDateTime start55,LocalDateTime end55,double discount5){
+        Discount dis5 = new Discount(start55, end55, discount5);
         for(int i=0; i<ProductController.getProducts().size();i++){//check for every product in the store
             //if it is the given product
             if(ProductController.getProducts().get(i).getPName().compareTo(Pname)==0){
                 //update the discount for every spec. product in the main product's list
                 for(int j=0; j<ProductController.getProducts().get(i).getSpecificProducts().size(); j++){
-                    ProductController.getProducts().get(i).getSpecificProducts().get(j).setDiscount(this);
+                    ProductController.getProducts().get(i).getSpecificProducts().get(j).setDiscount(dis5);
                 }
             }
         }
     }
 
-    //this function update discount on spec. product that is supplied by given supplier
-    //we use the name of the main product to find the specific one in its list
-    /*public void update_discount_byspecificproduct_from_supplier(String pname , int spid, String supplier){
-        for(int i=0; i<ProductController.getProducts().size();i++){ //check for every product in the store
-            //if it is the given product name and supplied by the given supplier
-            if(ProductController.getProducts().get(i).getPName().compareTo(pname)==0 && ProductController.getProducts().get(i).getSupplier().compareTo(supplier)==0){
-                //search in the product's list for the specific product by the given id
-                for(int j=0; j<ProductController.getProducts().get(i).getSpecificProducts().size(); j++){
-                  //update the discount if found
-                    if(ProductController.getProducts().get(i).getSpecificProducts().get(j).getSp_ID()==spid){
-                        ProductController.getProducts().get(i).getSpecificProducts().get(j).setDiscount(this);
-                    }
-                }
-            }
-        }
-    }
-    */
 
     //this function update discount on spec. product
     //we use the name of the main product to find the specific one in its list
-    public void update_discount_byspecificproduct(String pname , int spid){
+    public static void update_discount_byspecificproduct(String pname , int spid, LocalDateTime start66, LocalDateTime end66, double discount6){
+        Discount dis6 = new Discount(start66, end66, discount6);
         for(int i=0; i<ProductController.getProducts().size();i++){ //check for every product in the store
             //if it is the given product name
             if(ProductController.getProducts().get(i).getPName().compareTo(pname)==0){
@@ -97,7 +55,7 @@ public class Discount {
                 for(int j=0; j<ProductController.getProducts().get(i).getSpecificProducts().size(); j++){
                     //update the discount if found
                     if(ProductController.getProducts().get(i).getSpecificProducts().get(j).getSp_ID()==spid){
-                        ProductController.getProducts().get(i).getSpecificProducts().get(j).setDiscount(this);
+                        ProductController.getProducts().get(i).getSpecificProducts().get(j).setDiscount(dis6);
                     }
                 }
             }

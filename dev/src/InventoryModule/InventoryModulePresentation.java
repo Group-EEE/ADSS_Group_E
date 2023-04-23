@@ -1,11 +1,16 @@
 package InventoryModule;
 
+import InventoryModule.Presentation.CategoryPresentation;
+import InventoryModule.Presentation.ReportPresentation;
 import InventoryModule.Presentation.SpecificProductPresentation;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import static InventoryModule.Discount.*;
+
 //the main represents the "SuperLi" supply system. it is a UI that helps the employee gets information
 //of all the products, reports, discounts etc to help him control the supply in store
 public class InventoryModulePresentation {
@@ -17,12 +22,15 @@ public class InventoryModulePresentation {
     ReportController reportController; //create a report controller
 
     SpecificProductPresentation specificProductPresentation;
+    ReportPresentation reportPresentation;
+
+    CategoryPresentation categoryPresentation;
 
     public InventoryModulePresentation() {
         reader = new Scanner(System.in);
-        productController = new ProductController(); //create a product controller
-        categoryController = new CategoryController(); //create a category controller
-        reportController = new ReportController(); //create a report controller
+        productController = ProductController.getInstance(); //create a product controller
+        categoryController = CategoryController.getInstance(); //create a category controller
+        reportController = ReportController.getInstance(); //create a report controller
         specificProductPresentation = new SpecificProductPresentation();
     }
 
@@ -62,222 +70,19 @@ public class InventoryModulePresentation {
                     specificProductPresentation.ShowSpecificProductMenu();
                     break;
                 case 3: //Reports
-                    Scanner option3 = new Scanner(System.in);
-                    System.out.println("Please choose an option");
-                    System.out.println("1. Get all reports in system");
-                    System.out.println("2. Issue order products report");
-                    System.out.println("3. Issue current supply");
-                    System.out.println("4. Issue EXP/ defected products report");
-                    System.out.println("5. Issue report by category");
-                    int c3 = option3.nextInt();
-                    switch (c3) {
-                        case 1: //Get all reports in system
-                            reportController.GetAllIssuedReports();
-                            break;
-                        case 2: //Issue order products report
-                            Scanner reporter = new Scanner(System.in);
-                            System.out.println("Please enter Issue's reporter's name:");
-                            String r = reporter.nextLine();
-                            OrderReport orderReport = new OrderReport(r);
-                            break;
-                        case 3: //Issue current supply
-                            Scanner reporter3 = new Scanner(System.in);
-                            System.out.println("Please enter Issue's reporter's name:");
-                            String r3 = reporter3.nextLine();
-                            CurrSupplyReport currSupplyReport = new CurrSupplyReport(r3);
-                            break;
-                        case 4: //Issue EXP/ defected products report
-                            Scanner reporter4 = new Scanner(System.in);
-                            System.out.println("Please enter Issue's reporter's name:");
-                            String r4 = reporter4.nextLine();
-                            ExpOrDefectReport expOrDefectReport = new ExpOrDefectReport(r4);
-                            break;
-                        case 5: //Issue report by category
-                            Scanner reporter5 = new Scanner(System.in);
-                            System.out.println("Please enter Issue's reporter's name:");
-                            String r5 = reporter5.nextLine();
-                            Scanner num = new Scanner(System.in);
-                            System.out.println("Please enter the number of categories:");
-                            int number = num.nextInt();
-                            List<String> cate = new ArrayList<String>();
-                            for(int i=0; i<number; i++){
-                                Scanner cat = new Scanner(System.in);
-                                System.out.println("Please enter Issue's Category name:");
-                                String category = cat.nextLine();
-                                cate.add(category);
-                            }
-                            ByCategoryReport byCategoryReport = new ByCategoryReport(r5, cate);
-                            break;
-                    }
+                    reportPresentation.ShowReportMenu();
                     break;
                 case 4: //Categories
-                    Scanner option4 = new Scanner(System.in);
-                    System.out.println("Please choose an option");
-                    System.out.println("1. Get all category names");
-                    System.out.println("2. Add new category");
-                    System.out.println("3. Remove category");
-                    int c4 = option4.nextInt();
-                    switch (c4) {
-                        case 1: //Get all category names
-                            categoryController.PrintCategorysInSystem();
-                            break;
-                        case 2: //Add new category
-                            Scanner newcat = new Scanner(System.in);
-                            System.out.println("Please enter new Category name:");
-                            String cat = newcat.nextLine();
-                            CategoryController.addCategory(cat);
-                            break;
-                        case 3: //Remove category
-                            Scanner newcat3 = new Scanner(System.in);
-                            System.out.println("Please enter Category name to remove:");
-                            String cat3 = newcat3.nextLine();
-                            categoryController.removeCategory(cat3);
-                            break;
-                    }
+                    categoryPresentation.ShowCategoryMenu();
                     break;
                 case 5: //SubCategories
-                    Scanner option5 = new Scanner(System.in);
-                    System.out.println("Please choose an option");
-                    System.out.println("1. Add new subcategory");
-                    System.out.println("2. Remove subcategory");
-                    int c5 = option5.nextInt();
-                    switch (c5) {
-                        case 1: //Add new subcategory
-                            Scanner newcat = new Scanner(System.in);
-                            System.out.println("Please enter new Category name:");
-                            String cat = newcat.nextLine();
-                            Scanner newsubcat = new Scanner(System.in);
-                            System.out.println("Please enter new SubCategory name:");
-                            String subcat = newsubcat.nextLine();
-                            CategoryController.addSubCategory(cat,subcat);
-                            break;
-                        case 2: //Remove subcategory
-                            Scanner newcat2 = new Scanner(System.in);
-                            System.out.println("Please enter Category name:");
-                            String cat2 = newcat2.nextLine();
-                            Scanner newsubcat2 = new Scanner(System.in);
-                            System.out.println("Please enter SubCategory name to remove:");
-                            String subcat2 = newsubcat2.nextLine();
-                            categoryController.removeSubCategory(cat2,subcat2);
-                            break;
-                    }
+                    categoryPresentation.ShowSubCategory();
                     break;
                 case 6: //SubSubCategories
-                    Scanner option6 = new Scanner(System.in);
-                    System.out.println("Please choose an option");
-                    System.out.println("1. Add new subsubcategory");
-                    System.out.println("2. Remove subsubcategory");
-                    int c6 = option6.nextInt();
-                    switch (c6) {
-                        case 1: //Add new subsubcategory
-                            Scanner newsubcat1 = new Scanner(System.in);
-                            System.out.println("Please enter new SubCategory name:");
-                            String subcat1 = newsubcat1.nextLine();
-                            Scanner newsubsubcat1 = new Scanner(System.in);
-                            System.out.println("Please enter new SubCategory name:");
-                            String subsubcat1 = newsubsubcat1.nextLine();
-                            CategoryController.addSubSubCategory(subcat1, subsubcat1);
-                            break;
-                        case 2: //Remove subsubcategory
-                            Scanner newcat2 = new Scanner(System.in);
-                            System.out.println("Please enter Category name:");
-                            String cat2 = newcat2.nextLine();
-                            Scanner newsubcat2 = new Scanner(System.in);
-                            System.out.println("Please enter SubCategory name:");
-                            String subcat2 = newsubcat2.nextLine();
-                            Scanner newsubsubcat2 = new Scanner(System.in);
-                            System.out.println("Please enter SubCategory name to remove:");
-                            String subsubcat2 = newsubsubcat2.nextLine();
-                            categoryController.removeSubSubCategory(subsubcat2, subcat2, cat2);
-                            break;
-                    }
+                    categoryPresentation.ShowSubSubCategory();
                     break;
                 case 7: //Discounts
-                    Scanner option7 = new Scanner(System.in);
-                    System.out.println("Please choose an option");
-                    System.out.println("1. Update discount for category in store");
-                    System.out.println("2. Update discount for product in store");
-                    System.out.println("3. Update discount for specific product in store");
-                    System.out.println("4. Update supplier price");
-                    System.out.println("5. Update store price");
-                    int c7 = option7.nextInt();
-                    switch (c7) {
-                        case 1: //Update discount for category in store
-                            Scanner cat4 = new Scanner(System.in);
-                            System.out.println("Please enter Category:");
-                            String category4 = cat4.nextLine();
-                            Scanner d4 = new Scanner(System.in);
-                            System.out.println("Please enter discount amount:");
-                            double discount4 = d4.nextDouble();
-                            Scanner s4 = new Scanner(System.in);
-                            System.out.println("Please enter Exp Date yyyy-MM-dd:");
-                            String start4 = s4.nextLine();
-                            LocalDateTime start44 = LocalDateTime.parse(start4+"T00:00:00");
-                            Scanner e4 = new Scanner(System.in);
-                            System.out.println("Please enter Exp Date yyyy-MM-dd:");
-                            String end4 = e4.nextLine();
-                            LocalDateTime end44 = LocalDateTime.parse(end4+"T00:00:00");
-                            Discount dis4 = new Discount(start44, end44, discount4);
-                            dis4.update_discount_bycategory(category4);
-                            break;
-                        case 2: //Update discount for product in store
-                            Scanner name5 = new Scanner(System.in);
-                            System.out.println("Please enter Product's name:");
-                            String nam5 = name5.nextLine();
-                            Scanner d5 = new Scanner(System.in);
-                            System.out.println("Please enter discount amount:");
-                            double discount5 = d5.nextDouble();
-                            Scanner s5 = new Scanner(System.in);
-                            System.out.println("Please enter discount start Date yyyy-MM-dd:");
-                            String start5 = s5.nextLine();
-                            LocalDateTime start55 = LocalDateTime.parse(start5+"T00:00:00");
-                            Scanner e5 = new Scanner(System.in);
-                            System.out.println("Please enter discount end Date yyyy-MM-dd:");
-                            String end5 = e5.nextLine();
-                            LocalDateTime end55 = LocalDateTime.parse(end5+"T00:00:00");
-                            Discount dis5 = new Discount(start55, end55, discount5);
-                            dis5.update_discount_byproduct(nam5);
-                            break;
-                        case 3: //Update discount for specific product in store
-                            Scanner name6 = new Scanner(System.in);
-                            System.out.println("Please enter Product's name:");
-                            String nam6 = name6.nextLine();
-                            Scanner pid6 = new Scanner(System.in);
-                            System.out.println("Please enter Product's name:");
-                            int pid66 = pid6.nextInt();
-                            Scanner d6 = new Scanner(System.in);
-                            System.out.println("Please enter discount amount:");
-                            double discount6 = d6.nextDouble();
-                            Scanner s6 = new Scanner(System.in);
-                            System.out.println("Please enter discount start Date yyyy-MM-dd:");
-                            String start6 = s6.nextLine();
-                            LocalDateTime start66 = LocalDateTime.parse(start6+"T00:00:00");
-                            Scanner e6 = new Scanner(System.in);
-                            System.out.println("Please enter discount end Date yyyy-MM-dd:");
-                            String end6 = e6.nextLine();
-                            LocalDateTime end66 = LocalDateTime.parse(end6+"T00:00:00");
-                            Discount dis6 = new Discount(start66, end66, discount6);
-                            dis6.update_discount_byspecificproduct(nam6 , pid66);
-                            break;
-                        case 4: //Update supplier price
-                            Scanner barcode = new Scanner(System.in);
-                            System.out.println("Please enter Product's barcode:");
-                            int Barcode = barcode.nextInt();
-                            Scanner price = new Scanner(System.in);
-                            System.out.println("Please enter Product's new price:");
-                            double np = price.nextDouble();
-                            productController.getProductByBarcode(Barcode).setSupplier_Price(np);
-                            break;
-                        case 5: //Update store price
-                            Scanner barcode8 = new Scanner(System.in);
-                            System.out.println("Please enter Product's barcode:");
-                            int Barcode8 = barcode8.nextInt();
-                            Scanner price8 = new Scanner(System.in);
-                            System.out.println("Please enter Product's new price:");
-                            double np8 = price8.nextDouble();
-                            productController.getProductByBarcode(Barcode8).setCostumer_Price(np8);
-                            break;
-                    }
+                    this.ShowDiscountMenu();
                     break;
                 case 8: //Super-Li dataBase exist information
                     //addData();
@@ -287,6 +92,68 @@ public class InventoryModulePresentation {
         }
     }
 
+    /** -------------------------------Case 7------------------------------------------------------
+     */
+
+    public void ShowDiscountMenu(){
+        Scanner option7 = new Scanner(System.in);
+        System.out.println("Please choose an option");
+        System.out.println("1. Update discount for category in store");
+        System.out.println("2. Update discount for product in store");
+        System.out.println("3. Update discount for specific product in store");
+        System.out.println("4. Update store price");
+        int c7 = option7.nextInt();
+        switch (c7) {
+            case 1: //Update discount for category in store
+                System.out.println("Please enter Category:");
+                String category4 = reader.nextLine();
+                System.out.println("Please enter discount amount:");
+                double discount4 = reader.nextDouble();
+                System.out.println("Please enter Exp Date yyyy-MM-dd:");
+                String start4 = reader.nextLine();
+                LocalDateTime start44 = LocalDateTime.parse(start4+"T00:00:00");
+                System.out.println("Please enter Exp Date yyyy-MM-dd:");
+                String end4 = reader.nextLine();
+                LocalDateTime end44 = LocalDateTime.parse(end4+"T00:00:00");
+                update_discount_bycategory(category4, start44, end44, discount4);
+                break;
+            case 2: //Update discount for product in store
+                System.out.println("Please enter Product's name:");
+                String nam5 = reader.nextLine();
+                System.out.println("Please enter discount amount:");
+                double discount5 = reader.nextDouble();
+                System.out.println("Please enter discount start Date yyyy-MM-dd:");
+                String start5 = reader.nextLine();
+                LocalDateTime start55 = LocalDateTime.parse(start5+"T00:00:00");
+                System.out.println("Please enter discount end Date yyyy-MM-dd:");
+                String end5 = reader.nextLine();
+                LocalDateTime end55 = LocalDateTime.parse(end5+"T00:00:00");
+                update_discount_byproduct(nam5, start55, end55, discount5);
+                break;
+            case 3: //Update discount for specific product in store
+                System.out.println("Please enter Product's name:");
+                String nam6 = reader.nextLine();
+                System.out.println("Please enter Product's name:");
+                int pid66 = reader.nextInt();
+                System.out.println("Please enter discount amount:");
+                double discount6 = reader.nextDouble();
+                System.out.println("Please enter discount start Date yyyy-MM-dd:");
+                String start6 = reader.nextLine();
+                LocalDateTime start66 = LocalDateTime.parse(start6+"T00:00:00");
+                System.out.println("Please enter discount end Date yyyy-MM-dd:");
+                String end6 = reader.nextLine();
+                LocalDateTime end66 = LocalDateTime.parse(end6+"T00:00:00");
+                update_discount_byspecificproduct(nam6 , pid66, start66, end66, discount6);
+                break;
+            case 4: //Update store price
+                System.out.println("Please enter Product's barcode:");
+                int Barcode8 = reader.nextInt();
+                System.out.println("Please enter Product's new price:");
+                double np8 = reader.nextDouble();
+                productController.getProductByBarcode(Barcode8).setCostumer_Price(np8);
+                break;
+        }
+    }
     /*public static void addData(){
         productController.addProduct(123, "pasta", "barila", 5, 10,"cooking", "italian","gluten free",5,"barila", 100);
         productController.addProduct(456, "bamba", "osem", 4,5,"snack", "salty", "contain peanuts", 3, "osem", 150);
