@@ -1,8 +1,6 @@
-package SuppliersModule.DataAccess;
+package DataAccess;
 
 import SuppliersModule.Business.Agreement;
-import SuppliersModule.Business.OrderDiscount;
-import SuppliersModule.Business.Supplier;
 
 import java.sql.*;
 import java.util.*;

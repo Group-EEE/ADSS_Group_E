@@ -1,4 +1,6 @@
-package InventoryModule;
+package InventoryModule.Business.Controllers;
+
+import InventoryModule.Business.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +9,7 @@ public class ReportController {
     private static List<Report> AllReports; //list to save al the reports
     static ReportController reportController;
 
-    static int R_id=0; //counter that will give every report its id
+    public static int R_id=0; //counter that will give every report its id
 
     private ReportController(){ //constructor
         AllReports = new ArrayList<Report>();

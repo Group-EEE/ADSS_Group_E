@@ -1,6 +1,4 @@
-package InventoryModule;
-
-import SuppliersModule.Business.SupplierProduct;
+package InventoryModule.Business;
 
 import java.time.LocalDateTime;
 

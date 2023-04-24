@@ -1,6 +1,6 @@
 package SuppliersModule.Business.Generator;
 
-import InventoryModule.OrderReport;
+import InventoryModule.Business.OrderReport;
 import SuppliersModule.Business.*;
 import SuppliersModule.Business.Controllers.OrderController;
 import SuppliersModule.Business.Controllers.SupplierController;
@@ -31,7 +31,7 @@ public class OrderGenerator {
 
     public static String makeOrderFromOrderReport(OrderReport orderReport){
         reset();
-        ProductsInOrder = orderReport.getGenericProducts();
+        ProductsInOrder = orderReport.getGenericProducts(); //get barcode method
         ProductsQuantity = orderReport.getAmount();
         return makeOrder();
     }

@@ -1,4 +1,4 @@
-package InventoryModule;
+package InventoryModule.Business;
 
 import java.util.ArrayList;
 import java.util.List;

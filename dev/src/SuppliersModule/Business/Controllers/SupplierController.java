@@ -1,7 +1,7 @@
 package SuppliersModule.Business.Controllers;
 
 import SuppliersModule.Business.*;
-import SuppliersModule.DataAccess.*;
+import DataAccess.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

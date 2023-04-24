@@ -1,4 +1,7 @@
-package InventoryModule;
+package InventoryModule.Business;
+
+import InventoryModule.Business.Controllers.ProductController;
+import InventoryModule.Business.Controllers.ReportController;
 
 import java.util.List;
 //this class represents the report by its category.
@@ -14,7 +17,7 @@ public class ByCategoryReport extends Report{
         for(int j=0; j<Categories.size();j++){ //for every category in the store, so the report will be
             //by category
             System.out.println("Category Name: " + Categories.get(j)); //print category name
-            for(int i=0; i<ProductController.getProducts().size();i++){ //for every product in the store
+            for(int i = 0; i< ProductController.getProducts().size(); i++){ //for every product in the store
                 //if the product belongs to the current category
                 if(ProductController.getProducts().get(i).getCategory().compareTo(Categories.get(j))==0){
                   //print the details of this product

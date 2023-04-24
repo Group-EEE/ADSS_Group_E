@@ -1,6 +1,6 @@
 package InventoryModule.Presentation;
 
-import InventoryModule.ProductController;
+import InventoryModule.Business.Controllers.ProductController;
 
 import java.util.Scanner;
 

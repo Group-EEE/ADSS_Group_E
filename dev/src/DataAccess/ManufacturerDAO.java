@@ -1,9 +1,7 @@
-package SuppliersModule.DataAccess;
+package DataAccess;
 
 
-import SuppliersModule.Business.GenericProduct;
 import SuppliersModule.Business.Manufacturer;
-import SuppliersModule.Business.Supplier;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,6 +1,4 @@
-package InventoryModule;
-
-import SuppliersModule.Business.GenericProduct;
+package InventoryModule.Business;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
