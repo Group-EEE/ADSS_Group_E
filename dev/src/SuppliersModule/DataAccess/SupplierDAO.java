@@ -31,74 +31,47 @@ public class SupplierDAO {
         return supplierDAO;
     }
 
+    public void WriteSuppliersToCache()
+    {
+        try{
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                String supplierNum = rs.getString("SupplierNum");
+                Agreement currAgreement = agreementDAO.getAgreement(supplierNum);
+
+                Supplier supplier = new Supplier(rs.getString("Name"), supplierNum, rs.getString("BankAccount"), PaymentTerm.values()[rs.getInt("PaymentTerm")],
+                        contactDAO.getAll(supplierNum), null, currAgreement.isHasPermanentDays(), currAgreement.isSupplierBringProduct(),
+                        currAgreement.getDeliveryDays(), currAgreement.getNumberOfDaysToSupply());
+
+                supplier.setMyAgreement(currAgreement);
+                currAgreement.setMySupplier(supplier);
+
+                IdentifyMapSupplier.put(supplierNum, supplier);
+            }
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+    }
+
     public void saveInCacheSupplier(Supplier supplier)
     {
         IdentifyMapSupplier.put(supplier.getSupplierNum(), supplier);
         agreementDAO.saveInCacheSAgreement(supplier.getSupplierNum(), supplier.getMyAgreement());
     }
 
-    public boolean checkIfSupplierExist(String supplierNum){
+    public boolean checkIfSupplierExist(String supplierNum) {
 
-        if(IdentifyMapSupplier.containsKey(supplierNum))
+        if (IdentifyMapSupplier.containsKey(supplierNum))
             return true;
 
-        try{
+        try {
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Supplier WHERE SupplierNum = ?");
             stmt.setString(1, supplierNum);
             ResultSet rs = stmt.executeQuery();
             return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        catch (SQLException e) {throw new RuntimeException(e);}
-    }
-
-    public Supplier getSupplier(String supplierNum) {
-
-        Supplier supplier = IdentifyMapSupplier.get(supplierNum);
-        if(supplier != null)
-            return supplier;
-
-        //-----------------------------------------Create a query-----------------------------------------
-        try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Supplier WHERE SupplierNum = ?");
-            stmt.setString(1, supplierNum);
-            ResultSet rs = stmt.executeQuery();
-
-            //-------------------------------------Create Supplier---------------------------------
-            if (rs.next()) {
-                Agreement currAgreement = agreementDAO.getAgreement(supplierNum);
-                Map<String, Contact> currContactMap = contactDAO.getAll(supplierNum);
-
-                supplier = new Supplier(rs.getString("Name"), rs.getString("SupplierNum"), rs.getString("BankAccount"), PaymentTerm.values()[rs.getInt("PaymentTerm")],
-                        currContactMap, null, currAgreement.isHasPermanentDays(), currAgreement.isSupplierBringProduct(),
-                        currAgreement.getDeliveryDays(), currAgreement.getNumberOfDaysToSupply());
-
-                supplier.setMyAgreement(currAgreement);
-                currAgreement.setMySupplier(supplier);
-            }
-        }
-        catch (SQLException e) {throw new RuntimeException(e);}
-
-        return supplier;
-    }
-
-
-
-
-    public void saveSupplier(Supplier supplier) {
-        //-----------------------------------------Create a query-----------------------------------------
-        try {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Supplier VALUES (?,?,?,?)");
-            stmt.setString(1, supplier.getSupplierNum());
-            stmt.setString(2, supplier.getName());
-            stmt.setString(3, supplier.getBankAccount());
-            stmt.setInt(3, supplier.getPayment().ordinal());
-            stmt.executeUpdate();
-        }
-        catch (SQLException e) {e.printStackTrace();}
-
-        //-----------------------------------------Insert Agreement to database----------------------------------
-        agreementDAO.saveAgreement(supplier.getMyAgreement());
-        for (Map.Entry<String, Contact> entry : supplier.getMyContacts().entrySet())
-            contactDAO.saveContact(entry.getValue(), supplier.getSupplierNum());
     }
 }
