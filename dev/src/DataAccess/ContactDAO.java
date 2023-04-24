@@ -1,4 +1,4 @@
-package SuppliersModule.DataAccess;
+package DataAccess;
 
 import SuppliersModule.Business.Contact;
 

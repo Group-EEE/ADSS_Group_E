@@ -1,8 +1,9 @@
-package InventoryModule;
+package InventoryModule.Business.Controllers;
 
-import SuppliersModule.Business.Controllers.OrderController;
+import InventoryModule.Business.Discount;
+import InventoryModule.Business.SpecificProduct;
+import InventoryModule.Business.SuperLiProduct;
 import SuppliersModule.Business.Controllers.SupplierController;
-import SuppliersModule.Business.GenericProduct;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-import static InventoryModule.InventoryModulePresentation.reader;
+import static InventoryModule.Presentation.InventoryModulePresentation.reader;
 
 //this class saves all the information about the products in the store
 public class ProductController {

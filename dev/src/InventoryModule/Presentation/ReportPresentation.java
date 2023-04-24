@@ -1,6 +1,6 @@
 package InventoryModule.Presentation;
 
-import InventoryModule.*;
+import InventoryModule.Business.Controllers.ReportController;
 
 import java.util.ArrayList;
 import java.util.List;

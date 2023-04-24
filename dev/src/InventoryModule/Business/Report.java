@@ -1,7 +1,9 @@
-package InventoryModule;
+package InventoryModule.Business;
+
+import InventoryModule.Business.Controllers.ReportController;
 
 import java.time.LocalDateTime;
-import java.util.List;
+
 //abstract class that all kinds of reports inherit
 public abstract class Report {
     private int ID;

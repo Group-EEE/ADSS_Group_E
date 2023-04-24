@@ -1,4 +1,6 @@
-package InventoryModule;
+package InventoryModule.Business;
+
+import InventoryModule.Business.Controllers.ProductController;
 
 import java.time.LocalDateTime;
 //this class represent the discount that specific product can have
@@ -18,7 +20,7 @@ public class Discount {
     //this function update discount on spec. products that are categorized on given category from any supplier
     public static void update_discount_bycategory(String cat, LocalDateTime start44, LocalDateTime end44, double discount4){
         Discount dis4 = new Discount(start44, end44, discount4);
-        for(int i=0; i<ProductController.getProducts().size();i++){ //check for every product in the store
+        for(int i = 0; i< ProductController.getProducts().size(); i++){ //check for every product in the store
             //if the product categorized in the given category
             if(ProductController.getProducts().get(i).getCategory().compareTo(cat)==0){
                 //update the discount for every spec. product in the main product's list

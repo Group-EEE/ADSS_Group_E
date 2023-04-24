@@ -1,10 +1,10 @@
-package InventoryModule;
+package InventoryModule.Business;
 
-import java.time.Duration;
+import InventoryModule.Business.Controllers.ProductController;
+import InventoryModule.Business.Controllers.ReportController;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
-import java.time.chrono.ChronoLocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 //this class represents the report of all defected/ Exp product/ product that their Exp date

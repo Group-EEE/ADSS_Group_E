@@ -1,6 +1,7 @@
-package InventoryModule;
+package InventoryModule.Business;
 
-import SuppliersModule.Business.GenericProduct;
+import InventoryModule.Business.Controllers.ProductController;
+import InventoryModule.Business.Controllers.ReportController;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class OrderReport extends Report{
         System.out.println("Report Date: "+ this.getDate().toLocalDate());
         System.out.println("Reporter : "+ reporter);
         //for every product
-        for(int i=0; i<ProductController.getProducts().size();i++){
+        for(int i = 0; i< ProductController.getProducts().size(); i++){
             //check for all of its specific products if the amount of not defected products
             //(on shelf and in warehouse) is equal or less than the minimum amount
             if(ProductController.getProducts().get(i).getSpecificProducts().size() <= ProductController.getProducts().get(i).getMinimum_Amount()){

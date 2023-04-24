@@ -1,4 +1,8 @@
-package InventoryModule;
+package InventoryModule.Business.Controllers;
+
+import InventoryModule.Business.Category;
+import InventoryModule.Business.SubCategory;
+import InventoryModule.Business.SubSubCategory;
 
 import java.util.ArrayList;
 import java.util.List;
