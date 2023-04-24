@@ -60,4 +60,8 @@ public class GenericProduct {
      */
     public void deleteSupplierProduct(SupplierProduct supplierProduct) {
         MySuppliersProduct.remove(supplierProduct);}
+
+    public int getBarcode() {
+        return Barcode;
+    }
 }

@@ -10,7 +10,9 @@ import java.util.Map;
 
 public class SupplierController {
     Map<String, Supplier> AllSuppliers; // All the suppliers that we work with
-    Map<List<String>, GenericProduct> AllProducts; // All the products we sell
+    Map<List<String>, GenericProduct> AllProducts; // All the products we sell (the key is the list contains the product name and manufacturer name)
+
+    Map<Integer, GenericProduct> ProductsByBarcode; // All the products we sell (the key is the barcode)
     Map<String, Manufacturer> AllManufacturers; // All the manufacturers that we work with
 
     SupplierDAO supplierDAO;
@@ -63,6 +65,7 @@ public class SupplierController {
 
         Supplier supplier = AllSuppliers.get(supplierNum);
         GenericProduct genericProduct = AllProducts.get(keyPair);
+        ProductsByBarcode.put(genericProduct.getBarcode(), genericProduct);
 
         new SupplierProduct(price, supplierCatalog, amount, supplier, genericProduct, supplier.getMyAgreement());
     }
@@ -180,5 +183,9 @@ public class SupplierController {
     public void editAgreement(String supplierNum, boolean hasPermanentDays, boolean isSupplierBringProduct, boolean[] deliveryDays, int numberOdDaysToSupply)
     {
         AllSuppliers.get(supplierNum).getMyAgreement().setDetails(hasPermanentDays, isSupplierBringProduct, deliveryDays, numberOdDaysToSupply);
+    }
+
+    public GenericProduct findGenericProductByBarcode(int barcode){
+        return ProductsByBarcode.get(barcode);
     }
 }

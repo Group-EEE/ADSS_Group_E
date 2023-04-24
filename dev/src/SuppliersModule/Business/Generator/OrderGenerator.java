@@ -31,7 +31,9 @@ public class OrderGenerator {
 
     public static String makeOrderFromOrderReport(OrderReport orderReport){
         reset();
-        ProductsInOrder = orderReport.getGenericProducts(); //get barcode method
+        List <Integer> barcodes = orderReport.getBarcodes(); //get barcode method
+        for(Integer barcode : barcodes)
+            ProductsInOrder.add(supplierController.findGenericProductByBarcode(barcode));
         ProductsQuantity = orderReport.getAmount();
         return makeOrder();
     }
