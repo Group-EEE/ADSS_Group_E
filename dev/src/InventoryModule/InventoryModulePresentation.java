@@ -15,7 +15,7 @@ import static InventoryModule.Discount.*;
 //of all the products, reports, discounts etc to help him control the supply in store
 public class InventoryModulePresentation {
     static Scanner reader;
-    static String st;
+    static String choice;
 
     ProductController productController; //create a product controller
     CategoryController categoryController; //create a category controller
@@ -35,6 +35,8 @@ public class InventoryModulePresentation {
     }
 
     public void Start(){
+        if(productController.getBarcodesOfNewProductsSize() !=0)
+            System.out.println("There are new products that are waiting to be added to the system!");
         while(true){ //main menu of all possible choices of information the employee needs
             Scanner option = new Scanner(System.in);
             System.out.println("Please choose an option");

@@ -1,6 +1,8 @@
 package InventoryModule;
 
 import SuppliersModule.Business.Controllers.OrderController;
+import SuppliersModule.Business.Controllers.SupplierController;
+import SuppliersModule.Business.GenericProduct;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,10 +15,14 @@ import static InventoryModule.InventoryModulePresentation.reader;
 //this class saves all the information about the products in the store
 public class ProductController {
     private static List<SuperLiProduct> products; //list that saves akk the products in the store
+    static List<Integer>BarcodesOfNewProducts;
     static ProductController productController;
+    static SupplierController supplierController;
 
     private ProductController() { //constructor
         products = new ArrayList<SuperLiProduct>();
+        BarcodesOfNewProducts = new ArrayList<Integer>();
+        supplierController= SupplierController.getInstance();
     }
     public static ProductController getInstance(){
         if(productController == null)
@@ -26,11 +32,20 @@ public class ProductController {
 
     //function that add product to the store- to the controller
     public void addProduct(){
-        //get from the warehouse manager all the information needed to create new product
-//        System.out.println("Please enter Barcode:");
-//        int Barcode = reader.nextInt();
-//        System.out.println("Please enter Name:");
-//        String Name = reader.nextLine();
+       // get from the warehouse manager all the information needed to create new product
+        boolean isBarcodeExist = false;
+        int Barcode = 0;
+        while(!isBarcodeExist){
+            System.out.println("Please enter Barcode:");
+            Barcode = reader.nextInt();
+            if(!BarcodesOfNewProducts.contains(Barcode)){
+                System.out.println("Wrong barcode!");
+            }
+            else
+                isBarcodeExist = true;
+        }
+        System.out.println("Please enter Name:");
+        String Name = reader.nextLine();
         System.out.println("Please enter Costumer price:");
         Double Costumerprice = reader.nextDouble();
         System.out.println("Please enter Category:");
@@ -50,7 +65,7 @@ public class ProductController {
             CategoryController.addCategory(Category);
         }
         //create the new product - call to its constructor
-        SuperLiProduct P = new SuperLiProduct(gp, Costumerprice, Category,Subcategory, Subsubcategory,
+        SuperLiProduct P = new SuperLiProduct(Barcode, Name, Costumerprice, Category,Subcategory, Subsubcategory,
                 Supplydays,Manufacturer,Minimumamount);
         products.add(P); //add to the controller's list
     }
@@ -154,17 +169,39 @@ public class ProductController {
         }
         //create local date time for the discount object
         LocalDateTime enddate = LocalDateTime.parse(end+"T00:00:00");
-        SuperLiProduct p = this.getProductByBarcode(Barcode); //find the general product
-        if(p!=null) { //general product found
-            Discount dd = new Discount(startdate, enddate, aDiscount); //create the discount
-            //use function add spec. product of this general product thar found. call to
-            //specific product constructor inside
-            p.addSpecificProduct(Barcode,aExp_date, aDefective, aDefect_report_by,
-                    aInWarehouse,aStoreBranch,aLocationInStore,dd, defectype);
+
+        ///check if there is a supplierNum like this in the system
+        boolean isSupplierNumExist = false;
+        String supp = null;
+        while(!isSupplierNumExist){
+            System.out.println("Enter supplier Num");
+            supp = reader.nextLine();
+            if(!supplierController.checkIfSupplierExist(supp)){
+                System.out.println("Wrong supplier Num!");
+            }
+            else
+                isSupplierNumExist = true;
         }
-        else{ //general product wasnt found
-            System.out.println("Product doesn't exist in store!");
+
+        System.out.println("Enter supplier price");
+        double supPrice = reader.nextDouble();
+
+        //check if there is barcode like this in the system//
+        if(BarcodesOfNewProducts.contains(Barcode)){
+            SuperLiProduct p = this.getProductByBarcode(Barcode); //find the general product
+            if(p!=null) { //general product found
+                Discount dd = new Discount(startdate, enddate, aDiscount); //create the discount
+                //use function add spec. product of this general product thar found. call to
+                //specific product constructor inside
+                p.addSpecificProduct(supp,supPrice, Barcode,aExp_date, aDefective, aDefect_report_by,
+                        aInWarehouse,aStoreBranch,aLocationInStore,dd, defectype);
+            }
+            else{ //general product wasnt found
+                System.out.println("Product doesn't exist in store!");
+            }
         }
+        else
+            System.out.println("Wrong barcode entered!");
     }
 
     public void removespecificproduct(){
@@ -229,7 +266,9 @@ public class ProductController {
             System.out.println("Product wasn't found!");
         }
     }
-
+    public int getBarcodesOfNewProductsSize(){
+       return BarcodesOfNewProducts.size();
+    }
 
 
 
