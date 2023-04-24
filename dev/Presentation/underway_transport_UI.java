@@ -472,6 +472,7 @@ public class underway_transport_UI {
     }
 
     // unloading all the goods in a store, and update the weight of the truck accordingly.
+    // ============== need to check this!!! ===================
     public boolean unload_goods(Store store, Truck truck, Truck_Driver driver){
         boolean unloaded = false;
         for (int i = 0; i< driver.getSites_documents().size(); i++){

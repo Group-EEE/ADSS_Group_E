@@ -168,6 +168,7 @@ public class transport_manager_UI {
                     System.out.println("Invalid input. Please enter a valid 5 digit integer.");
                 }
                 // check if the license ID number is already exist in the system.
+                // maybe get list from controller
                 for (Truck_Driver truck_driver : controller.getLogistical_center().getDrivers()) {
                     if (truck_driver.getLicense().getL_ID() == License_ID) {
                         isValid = false;
@@ -313,6 +314,7 @@ public class transport_manager_UI {
             case "2" -> cool_level = cold_level.Cold;
             case "3" -> cool_level = cold_level.Dry;
         }
+        // maybe get things from controller
         for (Truck t : controller.getLogistical_center().getTrucks()) {
             if (t.getCold_level().getValue() == cool_level.getValue()) {
                 System.out.println(t.getRegistration_plate());
@@ -320,6 +322,7 @@ public class transport_manager_UI {
         }
     }
 
+    // add check if something exist in the controller and save local parameters if we need
     private void create_transport_document(){
         String input = null;
         // ======================== Transport ID ======================== //
