@@ -144,12 +144,10 @@ public class transport_manager_UI {
                     System.out.print("Invalid input. ");
                 }
                 // check if the ID number is already exist in the system.
-                for (Truck_Driver truck_driver : controller.getLogistical_center().getDrivers()) {
-                    if (truck_driver.getID() == ID) {
-                        isValid = false;
-                        System.out.println("The ID number - " + ID + " - is already belong to some driver in the transport system. Please enter a valid 9 digit integer: ");
-                    }
-                }
+                 if(controller.check_if_driver_Id_exist(ID)){
+                 isValid = false;
+                 System.out.println("The ID number - " + ID + " - is already belong to some driver in the transport system. Please enter a valid 9 digit integer: ");
+                 }
             }
         }
         System.out.println("Please enter the driver's license details: ");
@@ -181,12 +179,9 @@ public class transport_manager_UI {
                     System.out.println("Invalid input. Please enter a valid 5 digit integer.");
                 }
                 // check if the license ID number is already exist in the system.
-                // maybe get list from controller
-                for (Truck_Driver truck_driver : controller.getLogistical_center().getDrivers()) {
-                    if (truck_driver.getLicense().getL_ID() == License_ID) {
-                        isValid = false;
-                        System.out.println("The license ID number - " + License_ID + " - is already belong to some driver in the transport system. Please enter a valid 5 digit integer: ");
-                    }
+                 if(controller.check_if_license_id_exist(License_ID)){
+                 isValid = false;
+                 System.out.println("The license ID number - " + License_ID + " - is already belong to some driver in the transport system. Please enter a valid 5 digit integer: ");
                 }
             }
         }
@@ -307,7 +302,7 @@ public class transport_manager_UI {
      * display trucks by cold level that the user choose
      */
     private void display_trucks_by_cold_level(){
-        cold_level cool_level = null;
+        String cool_level = null;
         boolean isValid2 = false;
         String input = "";
         while (!isValid2) {
@@ -323,19 +318,16 @@ public class transport_manager_UI {
             }
         }
         switch (input) {
-            case "1" -> cool_level = cold_level.Freeze;
-            case "2" -> cool_level = cold_level.Cold;
-            case "3" -> cool_level = cold_level.Dry;
+            case "1" -> cool_level = "Freeze";
+            case "2" -> cool_level = "Cold";
+            case "3" -> cool_level = "Dry";
         }
-        // maybe get things from controller
-        for (Truck t : controller.getLogistical_center().getTrucks()) {
-            if (t.getCold_level().getValue() == cool_level.getValue()) {
-                System.out.println(t.getRegistration_plate());
-            }
-        }
+        controller.display_trucks_by_cold_level(cool_level);
     }
 
-    // add check if something exist in the controller and save local parameters if we need
+    /**
+     * creates transport document getting the details from the manager
+     */
     private void create_transport_document(){
         String input = null;
         // ======================== Transport ID ======================== //
@@ -360,15 +352,14 @@ public class transport_manager_UI {
                 } catch (NumberFormatException e) {
                     System.out.print("Invalid input. ");
                 }
-                Transport transport = controller.get_transport_by_id(transport_Id);
-                if (transport != null) {
-                    isValid = false;
-                    System.out.println("The transport ID number is already exist in the transports system. ");
+                 if(controller.check_if_transport_id_exist(transport_Id)){
+                 isValid = false;
+                 System.out.println("The transport ID number is already exist in the transport system. ");
                 }
             }
         }
         // ======================== Truck ======================== //
-        cold_level cool_level = null;
+        String cool_level = null;
         isValid = false;
         while(!isValid){
             System.out.println("Please enter the required cold level of the truck (press 1, 2 or 3 only): ");
@@ -384,25 +375,22 @@ public class transport_manager_UI {
             }
         }
         switch (input) {
-            case "1" -> cool_level = cold_level.Freeze;
-            case "2" -> cool_level = cold_level.Cold;
-            case "3" -> cool_level = cold_level.Dry;
+            case "1" -> cool_level = "Freeze";
+            case "2" -> cool_level = "Cold";
+            case "3" -> cool_level = "Dry";
         }
-        Truck truck = controller.getTruckByColdLevel(cool_level);
-        if (truck == null){
+        if (!controller.check_if_truck_exist_by_cold_level(cool_level)){
             System.out.println("there's no Truck fit to this transport.");
             return;
         }
-        String truck_number = truck.getRegistration_plate();
+        String truck_number = controller.get_truck_number_by_cold_level(cool_level);
         // ======================== Truck Driver ======================== //
         String driver_name = null;
         boolean assigned = false;
         for(Truck_Driver driver: controller.getDrivers()){
-            if(controller.truck_assigning(driver.getID(), truck.getRegistration_plate())){
+            if(controller.truck_assigning(truck_number)){
                 assigned = true;
                 driver_name = driver.getName();
-                driver.setCurrent_truck(truck);
-                truck.setCurrent_driver(driver);
                 break;
             }
         }
@@ -411,13 +399,11 @@ public class transport_manager_UI {
             return;
         }
         // ======================== Create Transport Document ======================== //
-        cold_level cold_level = truck.getCold_level();
-        controller.add_transport(transport_Id, truck_number, driver_name,  cold_level);
+        controller.add_transport(transport_Id, truck_number, driver_name,  cool_level);
         // ======================== Update Weight - Add Net Weight Of The Truck To Transport Weight List ======================== //
-        controller.insert_weight_to_transport(transport_Id, truck.getNet_weight());
+        controller.insert_weight_to_transport(transport_Id, truck_number);
         // ======================== Add Destinations ======================== //
         boolean stop_adding_destinations = false;
-        Site destination;
         boolean at_least_one_store = false;
         boolean at_least_one_supplier = false;
         boolean areaValid = false;
@@ -639,8 +625,7 @@ public class transport_manager_UI {
                         String key_input = scanner.nextLine();
                         key = Integer.parseInt(key_input);
                         if (controller.getTransport_Log().containsKey(key)) {
-                            Transport temp = controller.getTransport_Log().get(key);
-                            temp.setStarted(true);
+                            controller.set_started_transport(key);
                             transport_IDS.add(key);
                             System.out.println("Transport " + key + " will start soon. If you want to send another one please press 1, to get back to transports sending menu press anything else:");
                             String inp1 = scanner.nextLine();

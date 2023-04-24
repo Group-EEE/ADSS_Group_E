@@ -42,12 +42,13 @@ public class Logistical_center_controller {
         return logistical_center.get_transport_by_id(transport_id);
     }
 
-    public void add_transport(int transport_id, String truck_number, String driver_name, cold_level cold_level){
-        Transport transport = new Transport(transport_id, "TBD", "TBD", truck_number, driver_name, this.logistical_center.getSite_name(), cold_level);
+    public void add_transport(int transport_id, String truck_number, String driver_name, String cold_lvl){
+        cold_level cool_level = get_cold_level_by_string(cold_lvl);
+        Transport transport = new Transport(transport_id, "TBD", "TBD", truck_number, driver_name, this.logistical_center.getSite_name(), cool_level);
         logistical_center.add_transport(transport);
     }
 
-    public boolean truck_assigning(int driver_id, String truck_registration_plate){
+    public boolean truck_assigning(String truck_registration_plate){
         Truck_Driver driver = null;
         Truck truck = null;
         // checking if the given parameters are valid, and getting the diver and the truck if they exist.
@@ -61,27 +62,16 @@ public class Logistical_center_controller {
             return false;
         }
 
-        for (int i = 0; i < logistical_center.getDrivers().size(); i++) {
-            if (logistical_center.getDrivers().get(i).equals(driver_id)){
-                driver = logistical_center.getDrivers().get(i);
-                break;
+        for (Truck_Driver truck_driver  : logistical_center.getDrivers()) {
+            if (truck_driver.getLicense().getWeight() >= truck.getMax_weight() && truck_driver.getLicense().getCold_level().getValue() <= truck.getCold_level().getValue() && truck_driver.getCurrent_truck() == null){
+                driver = truck_driver;
+                truck.setCurrent_driver(driver);
+                truck.setOccupied(true);
+                driver.setCurrent_truck(truck);
+                return true;
             }
         }
-        if (driver == null){
-            return false;
-        }
-
-        if (driver.getLicense().getWeight() < truck.getMax_weight() || driver.getLicense().getCold_level().getValue() > truck.getCold_level().getValue()){
-            return false;
-        } else if (truck.Occupied()) {
-            return false;
-        } else if (driver.getCurrent_truck() != null) {
-            return false;
-        }
-        truck.setCurrent_driver(driver);
-        truck.setOccupied(true);
-        driver.setCurrent_truck(truck);
-        return true;
+        return false;
     }
 
     public Truck getTruckByColdLevel (cold_level level){
@@ -102,9 +92,31 @@ public class Logistical_center_controller {
         return truck;
     }
 
-    public void insert_weight_to_transport(int transport_id, double weight){
+    public String get_truck_number_by_cold_level(String cold_lvl){
+        cold_level cool_level = get_cold_level_by_string(cold_lvl);
+        Truck truck = getTruckByColdLevel(cool_level);
+        return truck.getRegistration_plate();
+    }
+
+    public boolean check_if_truck_exist_by_cold_level(String cold_lvl){
+        cold_level cool_level = get_cold_level_by_string(cold_lvl);
+        for(Truck t : logistical_center.getTrucks()){
+            if(!t.Occupied() && t.getCold_level().getValue() <= cool_level.getValue()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param transport_id int representing the transport id
+     * @param truck_ID string representing the truck number
+     *                 this function inserts the truck weight to the transport
+     */
+    public void insert_weight_to_transport(int transport_id, String truck_ID){
+        Truck truck = getTruckByNumber(truck_ID);
         Transport transport = logistical_center.get_transport_by_id(transport_id);
-        transport.insertToWeights(weight);
+        transport.insertToWeights(truck.getNet_weight());
     }
 
     public ArrayList<Truck_Driver> getDrivers(){
@@ -190,5 +202,58 @@ public class Logistical_center_controller {
                 siteSupply.sDisplay();
             }
         }
+    }
+
+    public boolean check_if_driver_Id_exist(int driver_ID){
+        for (Truck_Driver driver: logistical_center.getDrivers()){
+            if (driver.getID() == driver_ID){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean check_if_license_id_exist(int license_ID){
+        for (Truck_Driver driver: logistical_center.getDrivers()){
+            if (driver.getLicense().getL_ID() == license_ID){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean check_if_transport_id_exist(int transport_ID){
+        for (Transport transport: logistical_center.getTransport_Log().values()){
+            if (transport.getTransport_ID() == transport_ID){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void display_trucks_by_cold_level(String cold_lvl){
+        cold_level cool_level = get_cold_level_by_string(cold_lvl);
+        for (Truck t : logistical_center.getTrucks()) {
+            if (t.getCold_level().getValue() == cool_level.getValue()) {
+                System.out.println(t.getRegistration_plate());
+            }
+        }
+    }
+
+    private cold_level get_cold_level_by_string(String cold_lvl){
+        switch (cold_lvl){
+            case "Cold":
+                return cold_level.Cold;
+            case "Freeze":
+                return cold_level.Freeze;
+            case "Dry":
+                return cold_level.Dry;
+        }
+        return null;
+    }
+
+    public void set_started_transport(int transport_id){
+        Transport transport = logistical_center.get_transport_by_id(transport_id);
+        transport.setStarted(true);
     }
 }

@@ -7,6 +7,7 @@ public enum cold_level {
         private int value;
         cold_level(int value){
             this.value = value;
+
         }
         public int getValue(){
             return value;
