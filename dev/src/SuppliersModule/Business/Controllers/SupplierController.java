@@ -39,11 +39,15 @@ public class SupplierController {
     }
 
     public boolean checkIfSupplierExist(String supplierNum) {
-        return supplierDAO.checkIfSupplierExist(supplierNum);
+        return AllSuppliers.containsKey(supplierNum);
+    }
+
+    public Supplier getSupplier(String supplierNum) {
+        return AllSuppliers.get(supplierNum);
     }
 
     public void addNewSupplier(Supplier supplier) {
-        supplierDAO.saveInCacheSupplier(supplier);
+        AllSuppliers.put(supplier.getSupplierNum(),supplier);
     }
 
     public void addSupplierProduct(String productName, String manufacturerName, int barcode, String supplierNum, float price, String supplierCatalog, int amount) {
@@ -51,18 +55,16 @@ public class SupplierController {
         keyPair.add(productName);
         keyPair.add(manufacturerName);
 
-        if (!manufacturerDAO.checkIfManufacturerExist(manufacturerName))
-            manufacturerDAO.saveInCacheManufacturer(new Manufacturer(manufacturerName));
+        if (!AllManufacturers.containsKey(manufacturerName))
+            AllManufacturers.put(manufacturerName,new Manufacturer(manufacturerName));
 
-        if (!genericProductDAO.checkIfGenericProductExist(manufacturerName, productName))
-            genericProductDAO.saveInCacheGenericProduct(new GenericProduct(productName, manufacturerDAO.getManufacturer(manufacturerName), barcode));
+        if (!AllProducts.containsKey(keyPair))
+            AllProducts.put(keyPair,new GenericProduct(productName, manufacturerDAO.getManufacturer(manufacturerName), barcode));
 
-        Supplier supplier = supplierDAO.getSupplier(supplierNum);
-        GenericProduct genericProduct = genericProductDAO.getGenericProduct(manufacturerName, productName);
+        Supplier supplier = AllSuppliers.get(supplierNum);
+        GenericProduct genericProduct = AllProducts.get(keyPair);
 
-        SupplierProduct supplierProduct = new SupplierProduct(price, supplierCatalog, amount, supplier, genericProduct, supplier.getMyAgreement());
-
-        supplierProductDAO.saveInCacheSupplierProduct(supplierProduct);
+        new SupplierProduct(price, supplierCatalog, amount, supplier, genericProduct, supplier.getMyAgreement());
     }
 
     public boolean checkIfSupplierSupplyProduct(String supplierCatalog, String supplierNum)

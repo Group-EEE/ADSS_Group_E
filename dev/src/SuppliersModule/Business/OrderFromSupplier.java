@@ -16,6 +16,8 @@ public class OrderFromSupplier {
 
     private float priceBeforeTotalDiscount; // price after calculate the product discount, but before calculate the total SuppliersModule.Business.Order Discount
 
+    int dayForPeriodicOrder; // The day in the week that the supplier gets the order from the store
+
     //------------------------------------------ References ---------------------------------------
 
     private Supplier MySupplier; // The SuppliersModule.Business.Supplier that supply the product for the order
@@ -31,6 +33,7 @@ public class OrderFromSupplier {
         unique++;
         ProductsInOrder = new ArrayList<OrderedProduct>();
         priceBeforeTotalDiscount = (float) 0;
+        dayForPeriodicOrder = 0;
     }
 
     /**
@@ -104,5 +107,21 @@ public class OrderFromSupplier {
      * Return list of all the product in the order, including quantity and price
      */
     public List<OrderedProduct> getProductsInOrder() {return ProductsInOrder;}
+
+    public void setDayForPeriodicOrder(int dayForPeriodicOrder) {
+        this.dayForPeriodicOrder = dayForPeriodicOrder;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public int getDayForPeriodicOrder() {
+        return dayForPeriodicOrder;
+    }
+
+    public Supplier getMySupplier() {
+        return MySupplier;
+    }
 }
 
