@@ -131,4 +131,29 @@ public class underway_transport_controller {
         }
         return false;
     }
+
+    // unloading all the goods in a store, and update the weight of the truck accordingly.
+    public boolean unload_goods(Store store, Truck truck, Truck_Driver driver){
+        boolean unloaded = false;
+        for (int i = 0; i< driver.getSites_documents().size(); i++){
+            if (driver.getSites_documents().get(i).getStore().getAddress().equals(store.getAddress())){
+                unloaded = true;
+                if (logistical_center_controller.getLogistical_center().getDelivered_supplies_documents().containsKey(store)) {
+                    ArrayList<Site_Supply> site_supplies = logistical_center_controller.getLogistical_center().getDelivered_supplies_documents().get(store);
+                    site_supplies.add(driver.getSites_documents().get(i));
+                }
+                else {
+                    ArrayList<Site_Supply> siteSupplies = new ArrayList<>();
+                    siteSupplies.add(driver.getSites_documents().get(i));
+                    logistical_center_controller.getLogistical_center().getDelivered_supplies_documents().put(store, siteSupplies);
+                }
+                // subtracts the weight of the goods that was unloaded
+                truck.addWeight(-1 * driver.getSites_documents().get(i).getProducts_total_weight());
+                // change to delete only one site.
+                driver.delete_site_document_by_ID(driver.getSites_documents().get(i).getId());
+                i--;
+            }
+        }
+        return unloaded;
+    }
 }

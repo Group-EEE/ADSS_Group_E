@@ -12,12 +12,6 @@ public class Transport_System {
     }
 
     // assigning a truck for a truck_driver by a given driver ID and a truck's registration plate.
-    public void hire_driver(){
-        Scanner scanner = new Scanner(System.in);
-
-        Truck_Driver driver = new Truck_Driver(ID, Driver_name, License_ID, level, weight);
-        logistical_center.getDrivers().add(driver);
-    }
     public void add_driver(Truck_Driver driver){
         logistical_center.getDrivers().add(driver);
     }
@@ -50,110 +44,110 @@ public class Transport_System {
 
 
     // =============================== MAIN FUNCTION =============================== //
-    public void start_transport(){
-        int choice = 0;
-        boolean isValid = false;
-        Scanner scanner = new Scanner(System.in);
-        String input = null;
-        while (true) {
-            System.out.println("Hey Boss! what would you like to do?");
-            System.out.println("0 - Hire a new driver");
-            System.out.println("1 - See all the trucks with a cold level of your choice: \n\t 1- Freeze \n\t 2- Cold \n \t 3- Dry");
-            System.out.println("2 - create a new transport");
-            System.out.println("3 - send transports");
-            System.out.println("4 - Add new truck to the system");
-            System.out.println("5 - Display all drivers in the system");
-            System.out.println("6 - Display all trucks in the system");
-            System.out.println("7 - Display all transport documents in the system");
-            System.out.println("8 - Display all site supplies documents in the system");
-            System.out.println("9 - quit");
-            while(!isValid){
-                try {
-                    input = scanner.nextLine();
-                    choice = Integer.parseInt(input);
-
-                    // Check if the input is a 5 digit integer
-                    if (input.length() == 1 && choice >= 0 && choice < 10) {
-                        isValid = true;
-                    } else {
-                        System.out.println("Input must be an int between 0-9. ");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. Please enter a valid int between 0-9. ");
-                }
-            }
-            isValid = false;
-            switch (choice){
-                // hire a new driver
-                case 0:
-                    hire_driver();
-                    break;
-                // have all the trucks by a cold level
-                case 1:
-                    cold_level cool_level = null;
-                    boolean isValid2 = false;
-                    while(!isValid2){
-                        System.out.println("Please enter the required cold level of the truck (press 1, 2 or 3 only): ");
-                        System.out.println("1 - Freeze");
-                        System.out.println("2 - Cold");
-                        System.out.println("3 -  Dry");
-                        input = scanner.nextLine();
-                        if(input.equals("1") || input.equals("2") || input.equals("3")){
-                            isValid2 = true;
-                        }
-                        else{
-                            System.out.print("Invalid input. ");
-                        }
-                    }
-                    switch (input) {
-                        case "1" -> cool_level = cold_level.Freeze;
-                        case "2" -> cool_level = cold_level.Cold;
-                        case "3" -> cool_level = cold_level.Dry;
-                    }
-                    for(Truck t : logistical_center.getTrucks()){
-                        if(t.getCold_level().getValue() == cool_level.getValue()) {
-                            System.out.println(t.getRegistration_plate());
-                        }
-                    }
-                    break;
-
-                // make a new transport
-                case 2:
-                    System.out.println("Hey Boss!");
-                    create_transport_document();
-                    break;
-
-                // quit the menu
-                case 3:
-                    // starting the transports the manager chose.
-                    System.out.println("Starting the transports.");
-
-
-
-
-
-
-                case 4:
-                    addNewTruck();
-                    break;
-                case 5:
-                    display_drivers();
-                    break;
-                case 6:
-                    display_trucks();
-                    break;
-                case 7:
-                    display_transport_doc();
-                    break;
-                case 8:
-                    display_site_supply();
-                    break;
-                case 9:
-                    logistical_center = null;
-                    return;
-            }
-        }
-    }
+//    public void start_transport(){
+//        int choice = 0;
+//        boolean isValid = false;
+//        Scanner scanner = new Scanner(System.in);
+//        String input = null;
+//        while (true) {
+//            System.out.println("Hey Boss! what would you like to do?");
+//            System.out.println("0 - Hire a new driver");
+//            System.out.println("1 - See all the trucks with a cold level of your choice: \n\t 1- Freeze \n\t 2- Cold \n \t 3- Dry");
+//            System.out.println("2 - create a new transport");
+//            System.out.println("3 - send transports");
+//            System.out.println("4 - Add new truck to the system");
+//            System.out.println("5 - Display all drivers in the system");
+//            System.out.println("6 - Display all trucks in the system");
+//            System.out.println("7 - Display all transport documents in the system");
+//            System.out.println("8 - Display all site supplies documents in the system");
+//            System.out.println("9 - quit");
+//            while(!isValid){
+//                try {
+//                    input = scanner.nextLine();
+//                    choice = Integer.parseInt(input);
+//
+//                    // Check if the input is a 5 digit integer
+//                    if (input.length() == 1 && choice >= 0 && choice < 10) {
+//                        isValid = true;
+//                    } else {
+//                        System.out.println("Input must be an int between 0-9. ");
+//                    }
+//                } catch (NumberFormatException e) {
+//                    System.out.println("Invalid input. Please enter a valid int between 0-9. ");
+//                }
+//            }
+//            isValid = false;
+//            switch (choice){
+//                // hire a new driver
+//                case 0:
+//                    hire_driver();
+//                    break;
+//                // have all the trucks by a cold level
+//                case 1:
+//                    cold_level cool_level = null;
+//                    boolean isValid2 = false;
+//                    while(!isValid2){
+//                        System.out.println("Please enter the required cold level of the truck (press 1, 2 or 3 only): ");
+//                        System.out.println("1 - Freeze");
+//                        System.out.println("2 - Cold");
+//                        System.out.println("3 -  Dry");
+//                        input = scanner.nextLine();
+//                        if(input.equals("1") || input.equals("2") || input.equals("3")){
+//                            isValid2 = true;
+//                        }
+//                        else{
+//                            System.out.print("Invalid input. ");
+//                        }
+//                    }
+//                    switch (input) {
+//                        case "1" -> cool_level = cold_level.Freeze;
+//                        case "2" -> cool_level = cold_level.Cold;
+//                        case "3" -> cool_level = cold_level.Dry;
+//                    }
+//                    for(Truck t : logistical_center.getTrucks()){
+//                        if(t.getCold_level().getValue() == cool_level.getValue()) {
+//                            System.out.println(t.getRegistration_plate());
+//                        }
+//                    }
+//                    break;
+//
+//                // make a new transport
+//                case 2:
+//                    System.out.println("Hey Boss!");
+//                    create_transport_document();
+//                    break;
+//
+//                // quit the menu
+//                case 3:
+//                    // starting the transports the manager chose.
+//                    System.out.println("Starting the transports.");
+//
+//
+//
+//
+//
+//
+//                case 4:
+//                    addNewTruck();
+//                    break;
+//                case 5:
+//                    display_drivers();
+//                    break;
+//                case 6:
+//                    display_trucks();
+//                    break;
+//                case 7:
+//                    display_transport_doc();
+//                    break;
+//                case 8:
+//                    display_site_supply();
+//                    break;
+//                case 9:
+//                    logistical_center = null;
+//                    return;
+//            }
+//        }
+//    }
 
     // check if string contain only numbers.
     public boolean containsOnlyNumbers(String str) {
@@ -218,13 +212,6 @@ public class Transport_System {
     }
 
     // create a transport document in the system.
-    public Transport create_transport_document(){
-        Scanner scanner = new Scanner(System.in);
-
-        // ======================== Add Transport Document ======================== //
-        logistical_center.getTransport_Log().put(transport_Id, transport_doc);
-        return transport_doc;
-    }
 
 
 

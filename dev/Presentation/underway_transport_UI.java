@@ -74,19 +74,15 @@ public class underway_transport_UI {
                     if (abort_transport) {
                         // aborting the transport and resets the details of the driver and the truck.
                         System.out.println("Transport was aborted. you can try to send it later");
-                        aborted = true;
-                        // need to implent, set the transport to no started, the driver should have 0 documents and the weight of the truck should be her net weight.
                         controller.reset_transport(chosen_transport);
-                        break;
+                        return;
                     }
-
-                    } else {
-                        truck = logistical_center_controller.getTruckByNumber(chosen_transport.getTruck_number());
+                    truck = controller.get_truck_by_registration_plate(chosen_transport.getTruck_number());
                     }
                 }
                 // unloading the goods in the store
                 else if (current.is_store()) {
-                    if (unload_goods((Store) current, truck, truck.getCurrent_driver())) {
+                    if (controller.unload_goods((Store) current, truck, truck.getCurrent_driver())) {
                         System.out.println("goods unloaded in " + current.getSite_name());
                     } else {
                         System.out.println("We currently don't have any goods for " + current.getSite_name() + " ,skip this store for now.");
@@ -277,7 +273,6 @@ public class underway_transport_UI {
             }
             switch (choice) {
                 // deleting a store  from the transport
-                // TO DO : also delete the destination from the route.
                 case 1 -> {
                     int stores = 0;
                     for (Site site : truck.get_route()) {
@@ -457,30 +452,6 @@ public class underway_transport_UI {
         return truck;
     }
 
-    // unloading all the goods in a store, and update the weight of the truck accordingly.
-    // ============== need to check this!!! ===================
-    public boolean unload_goods(Store store, Truck truck, Truck_Driver driver){
-        boolean unloaded = false;
-        for (int i = 0; i< driver.getSites_documents().size(); i++){
-            if (driver.getSites_documents().get(i).getStore().getAddress().equals(store.getAddress())){
-                unloaded = true;
-                if (logistical_center.getDelivered_supplies_documents().containsKey(store)) {
-                    ArrayList<Site_Supply> site_supplies= logistical_center.getDelivered_supplies_documents().get(store);
-                    site_supplies.add(driver.getSites_documents().get(i));
-                }
-                else {
-                    ArrayList<Site_Supply> siteSupplies = new ArrayList<>();
-                    siteSupplies.add(driver.getSites_documents().get(i));
-                    logistical_center.getDelivered_supplies_documents().put(store, siteSupplies);
-                }
-                // subtracts the weight of the goods that was unloaded
-                truck.addWeight(-1 * driver.getSites_documents().get(i).getProducts_total_weight());
-                // change to delete only one site.
-                driver.delete_site_document_by_ID(driver.getSites_documents().get(i).getId());
-                i--;
-            }
-        }
-        return unloaded;
-    }
+
 
 }
