@@ -5,11 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8ab6a62-5a9f-4ada-b7de-51cb98261c12" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/InventoryModulePresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/InventoryModulePresentation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/OrderReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/OrderReport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/ReportPresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/ReportPresentation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/ReportController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Generator/OrderGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Generator/OrderGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/SpecificProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/SpecificProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/SuperLiProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/SuperLiProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/test.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,6 +130,8 @@
       <workItem from="1682268505395" duration="80000" />
       <workItem from="1682331875738" duration="861000" />
       <workItem from="1682334765594" duration="3583000" />
+      <workItem from="1682342906262" duration="243000" />
+      <workItem from="1682343179555" duration="11917000" />
     </task>
     <servers />
   </component>

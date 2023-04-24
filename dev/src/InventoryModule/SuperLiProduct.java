@@ -9,7 +9,6 @@ import java.util.List;
 //this class represent a general product
 //for example pasta that supplied by Barilla, its barcode is 12345 etc.
 public class SuperLiProduct {
-    GenericProduct genericproduct; // the generic product from the suppplier
     private int sp_counter = 0; //count how many specific products we have of this product
     private int Barcode; //the id of the product
     private String PName; //the name of the product
@@ -28,10 +27,9 @@ public class SuperLiProduct {
     private List<SpecificProduct> defectedProducts; //list to save all the defected specific products of this product
 
    //constructor
-    public SuperLiProduct(GenericProduct gp, double c_price, String cat, String scat, String sscat, int sd, String man, int min){
-        this.genericproduct = gp;
-        //this.Barcode = gp.getBarcode();
-        this.PName = gp.getName();
+    public SuperLiProduct(int barcode, String name, double c_price, String cat, String scat, String sscat, int sd, String man, int min){
+        this.Barcode = barcode;
+        this.PName = name;
         this.Costumer_Price = c_price;
         this.Shelf_amount = 0;
         this.Warehouse_amount = 0;
@@ -104,12 +102,12 @@ public class SuperLiProduct {
     }
 
     //function that create specific product of this general product
-    public void addSpecificProduct(int pID, LocalDateTime aExp_date, boolean aDefective, String aDefect_report_by, boolean aInWarehouse, String aStoreBranch, int aLocationInStore, Discount aDiscount, String adefectedtype)
+    public void addSpecificProduct(String supplier,double supplierPrice, int pID, LocalDateTime aExp_date, boolean aDefective, String aDefect_report_by, boolean aInWarehouse, String aStoreBranch, int aLocationInStore, Discount aDiscount, String adefectedtype)
     {
         if(this.Barcode == pID){ //check if the specific product is from this product
             this.sp_counter++; //gives the specific product its id
             //call the constructor of the specific product
-            SpecificProduct SP = new SpecificProduct(this.sp_counter, pID, aExp_date, aDefective, aDefect_report_by, aInWarehouse, aStoreBranch, aLocationInStore, aDiscount, adefectedtype);
+            SpecificProduct SP = new SpecificProduct(supplierPrice,supplier, this.sp_counter,pID, aExp_date, aDefective, aDefect_report_by, aInWarehouse, aStoreBranch, aLocationInStore, aDiscount, adefectedtype);
             if(SP.isDefective()==false){
                 specificProducts.add(SP); //add the specific product to the list
             }
@@ -197,5 +195,4 @@ public class SuperLiProduct {
     public String getManufacturer() {
         return Manufacturer;
     }
-    public GenericProduct getGenericproduct(){ return genericproduct;}
 }

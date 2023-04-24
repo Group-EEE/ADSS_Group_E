@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 //this class represent a specific product - a pack of pasta that you can hold in your hand.
 //each "pack" is a specific product with id
 public class SpecificProduct {
-    SupplierProduct supplierproduct;
     private int Sp_ID; //specific product id
     private int P_ID; //the main product's id
     private LocalDateTime ExpDate; //the expiration date of the spec. product
@@ -22,7 +21,7 @@ public class SpecificProduct {
     private double Supplier_Price; //the price that supplier declares from us
 
     //constructor
-    public SpecificProduct(SupplierProduct supplierProduct, int aID, int pID, LocalDateTime aExp_date, boolean aDefective, String aDefect_report_by, boolean aInWarehouse, String aStoreBranch, int aLocationInStore, Discount aDiscount, String defectType) {
+    public SpecificProduct(double supplier_Price,String supplier, int aID, int pID, LocalDateTime aExp_date, boolean aDefective, String aDefect_report_by, boolean aInWarehouse, String aStoreBranch, int aLocationInStore, Discount aDiscount, String defectType) {
         this.Sp_ID = aID;
         this.P_ID = pID;
         this.ExpDate = aExp_date;
@@ -33,9 +32,8 @@ public class SpecificProduct {
         this.Discount = aDiscount;
         this.DefectType = defectType;
         this.Store_Branch = aStoreBranch;
-        this.supplierproduct = supplierProduct;
-        this.Supplier_Price = supplierProduct.getPrice();
-        this.Supplier = supplierproduct.getMySupplier().getName();
+        this.Supplier_Price =supplier_Price;
+        this.Supplier =supplier;
     }
 
     //function return true if defective
