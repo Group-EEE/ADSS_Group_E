@@ -72,6 +72,10 @@ public class Logistical_Center extends Site{
         drivers.add(driver);
     }
 
+    public void add_truck(Truck truck){
+        trucks.add(truck);
+    }
+
     @Override
     public boolean is_supplier() {
         return false;

@@ -3,8 +3,6 @@ package Presentation;
 import Business.controllers.Logistical_center_controller;
 import Business.objects.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
@@ -74,15 +72,30 @@ public class transport_manager_UI {
                     System.out.println("Hey Boss!");
                     create_transport_document();
                     break;
-
                 case 3:
                     ArrayList<Integer> chosen_transports = choose_transport_to_send();
                     for (int key: chosen_transports){
                         underway_transport_ui.start_transport(key);
                     }
-
-
-            }
+                // add a new truck to the system.
+                case 4:
+                    create_truck();
+                    break;
+                case 5:
+                    controller.display_drivers();
+                    break;
+                case 6:
+                    controller.display_trucks();
+                    break;
+                case 7:
+                    controller.display_transport_doc();
+                    break;
+                case 8:
+                    controller.display_site_supply();
+                    break;
+                case 9:
+                    return;
+                                }
 
         }
     }
@@ -654,5 +667,103 @@ public class transport_manager_UI {
         }
         return transport_IDS;
     }
+
+
+
+    /**
+     * a function that asks from the user all the details for a new truck and then add it to the database.
+     */
+    public void create_truck(){
+        Scanner scanner = new Scanner(System.in);
+        String input = null;
+        boolean isValid = false;
+        // ======================== Registration Number ======================== //
+        String registration_number = null;
+        while(!isValid){
+            System.out.println("Please enter the registration number of the truck (8 digits, only with the digits 0-9): ");
+            input = scanner.nextLine();
+            if(!containsOnlyNumbers(input)){
+                System.out.println("Invalid input. ");
+                continue;
+            }
+            else if (input.length() != 8) {
+                System.out.println("Input must be a 8 digit integer. ");
+                continue;
+            }
+            // checking if the truck already exist in the system
+            if(controller.is_truck_exist(input)){
+                registration_number = input;
+                isValid = true;
+            }
+            else{
+                System.out.println("The Truck is already exist in the system! ");
+                break;
+            }
+        }
+        // ======================== Truck Moodle ======================== //
+        System.out.println("Please enter the truck moodle: ");
+        String truck_moodle = scanner.nextLine();
+        // ======================== Truck Net Weight ======================== //
+        double truck_net_weight = 0.0;
+        boolean valid_net_weight = false;
+        while (!valid_net_weight) {
+            System.out.println("Please enter the net weight of the truck: ");
+            input = scanner.nextLine();
+            try {
+                truck_net_weight = Double.parseDouble(input);
+                if (truck_net_weight > 0){
+                    valid_net_weight = true;
+                }
+                else {
+                    System.out.println("The weight should be positive...");
+                }
+            } catch (NumberFormatException e) {
+                System.out.print("Invalid input. ");
+            }
+        }
+        // ======================== Truck max Weight ======================== //
+        double truck_max_weight = 0.0;
+        boolean valid_max_weight = false;
+        while (!valid_max_weight) {
+            System.out.println("Please enter the maximum weight of the truck: ");
+            input = scanner.nextLine();
+            try {
+                truck_max_weight = Double.parseDouble(input);
+                if (truck_max_weight <= truck_net_weight){
+                    System.out.println("Max weight must be above the net weight.");
+                }
+                else {
+                    valid_max_weight = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.print("Invalid input. ");
+            }
+        }
+        // ======================== Truck Cold Level ======================== //
+        cold_level cool_level = null;
+        isValid = false;
+        while(!isValid){
+            System.out.println("Please enter the cold level of the truck (press 1, 2 or 3 only): ");
+            System.out.println("\t 1 - Freeze");
+            System.out.println("\t 2 - Cold");
+            System.out.println("\t 3 -  Dry");
+            input = scanner.nextLine();
+            if(input.equals("1") || input.equals("2") || input.equals("3")){
+                isValid = true;
+            }
+            else{
+                System.out.print("Invalid input. ");
+            }
+        }
+        switch (input) {
+            case "1" -> cool_level = cold_level.Freeze;
+            case "2" -> cool_level = cold_level.Cold;
+            case "3" -> cool_level = cold_level.Dry;
+        }
+        // ======================== Create And Adding The New Truck  ======================== //
+        controller.add_truck(registration_number, truck_moodle, truck_net_weight, truck_max_weight, cool_level ,truck_net_weight);
+    }
+
+
 
 }

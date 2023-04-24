@@ -9,16 +9,16 @@ import java.util.Map;
 public class Logistical_center_controller {
     // singleton
     private static Logistical_center_controller instance;
+    private Transport_System transport_system;
+    private Logistical_Center logistical_center;
     public static Logistical_center_controller getInstance(){
         if (instance == null){
             instance = new Logistical_center_controller();
         }
         return instance;
     }
-
     // singleton
-    private Transport_System transport_system;
-    private Logistical_Center logistical_center;
+
     private Logistical_center_controller(){
         transport_system = new Transport_System();
     }
@@ -145,5 +145,50 @@ public class Logistical_center_controller {
             }
         }
         return truck;
+    }
+
+    public void add_truck(String registration, String truck_moodle, double truck_net_weight, double truck_max_weight, cold_level level, double current_weight){
+        Truck truck = new Truck(registration, truck_moodle, truck_net_weight, truck_max_weight, level, current_weight);
+        logistical_center.add_truck(truck);
+    }
+
+    public boolean is_truck_exist(String truck_ID){
+        for(Truck truck : logistical_center.getTrucks()){
+            if(truck.getRegistration_plate().equals(truck_ID)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void display_transport_doc(){
+        for (Map.Entry<Integer, Transport> entry : logistical_center.getTransport_Log().entrySet()) {
+            int id = entry.getKey();
+            Transport transport = entry.getValue();
+            System.out.println("=========== Transport - " + id + " - information ===========");
+            transport.transportDisplay();
+        }
+    }
+
+    public void display_trucks(){
+        System.out.println("======================================= Trucks in the system =======================================");
+        for(Truck t : logistical_center.getTrucks()){
+            t.truckDisplay();
+        }
+    }
+
+    public void display_drivers(){
+        System.out.println("======================================= Drivers in the system =======================================");
+        for(Truck_Driver driver : logistical_center.getDrivers()){
+            driver.driverDisplay();
+        }
+    }
+
+    public void display_site_supply(){
+        for (Map.Entry<Store, ArrayList<Site_Supply>> entry : logistical_center.getDelivered_supplies_documents().entrySet()) {
+            for(Site_Supply siteSupply : entry.getValue()){
+                siteSupply.sDisplay();
+            }
+        }
     }
 }
