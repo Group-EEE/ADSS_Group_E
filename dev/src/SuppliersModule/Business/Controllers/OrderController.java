@@ -49,12 +49,16 @@ public class OrderController {
     }
 
     public boolean addProductToTheList(String catalogNum){
-        curSupplierProduct = curOrder.getMySupplier().getSupplierProduct(catalogNum);
+        curSupplierProduct = curSupplier.getSupplierProduct(catalogNum);
         return curSupplierProduct != null;
     }
 
 
     public void addQuantityOfTheLastEnteredProduct(int quantity){
         curOrder.addProductToOrder(quantity,curSupplierProduct);
+    }
+
+    public void savePeriodicOrder(){
+
     }
 }

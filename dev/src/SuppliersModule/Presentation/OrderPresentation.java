@@ -13,7 +13,9 @@ public class OrderPresentation {
             String supplierNum = SupplierModulePresentation.reader.nextLine();
             if(orderController.enterSupplier(supplierNum))
                 break;
+            System.out.println("Wrong supplier num");
         }
+        orderController.createPeriodicOrder();
         enterThePermanentSupplyDay();
         buildProductsList();
     }
@@ -37,7 +39,6 @@ public class OrderPresentation {
      * Building the products list of the order. (Initializes the static variables "ProductsInOrder", "ProductsQuantity")
      */
     private void buildProductsList(){
-        orderController.createPeriodicOrder();
         SupplierModulePresentation.yourChoice = "y";
         String catalogNum;
         int productQuantity;
@@ -46,7 +47,7 @@ public class OrderPresentation {
             System.out.println("Please enter the supplier's product catalog number: ");
             catalogNum = SupplierModulePresentation.reader.nextLine();
 
-            if(orderController.addProductToTheList(catalogNum))
+            if(!orderController.addProductToTheList(catalogNum))
                 continue;
 
             productQuantity = SupplierModulePresentation.CheckIntInputAndReturn("Enter the quantity of products you want to order:");
@@ -54,5 +55,6 @@ public class OrderPresentation {
 
             SupplierModulePresentation.checkValidWithMessage("Do you want to insert another product? (y/n)");
         }
+        orderController.savePeriodicOrder();
     }
 }

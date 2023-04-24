@@ -31,7 +31,7 @@ public class OrderFromSupplier {
         MySupplier = supplier;
         Id = unique;
         unique++;
-        ProductsInOrder = new ArrayList<OrderedProduct>();
+        ProductsInOrder = new ArrayList<>();
         priceBeforeTotalDiscount = (float) 0;
         dayForPeriodicOrder = 0;
     }
