@@ -1,5 +1,6 @@
 package SuppliersModule.Business.Generator;
 
+import InventoryModule.OrderReport;
 import SuppliersModule.Business.*;
 import SuppliersModule.Business.Controllers.OrderController;
 import SuppliersModule.Business.Controllers.SupplierController;
@@ -28,10 +29,10 @@ public class OrderGenerator {
     static List<SupplierProduct>[] productsSuppliersArray; // Array contains a lists of all the suppliers that can supply a certain product with the desired quantity. productsSuppliersArray[n] = ProductsInOrder[n] -> list of the supplier that can supply this product (SuppliersModule.Business.SupplierProduct object)
 
 
-    public static String makeOrderFromProductAndQuantityLists(List<GenericProduct> productsInOrder, List<Integer> productsQuantity){
+    public static String makeOrderFromOrderReport(OrderReport orderReport){
         reset();
-        ProductsInOrder = productsInOrder;
-        ProductsQuantity = productsQuantity;
+        ProductsInOrder = orderReport.getGenericProducts();
+        ProductsQuantity = orderReport.getAmount();
         return makeOrder();
     }
 

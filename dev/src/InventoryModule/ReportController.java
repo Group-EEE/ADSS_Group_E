@@ -25,8 +25,9 @@ public class ReportController {
         }
 
     }
-    public void createOrderReport(String reporter){
+    public OrderReport createOrderReport(String reporter){
         OrderReport orderReport = new OrderReport(reporter);
+        return orderReport;
     }
     public void createCurrSupplyReport(String reporter){
         CurrSupplyReport currSupplyReport = new CurrSupplyReport(reporter);
@@ -47,7 +48,10 @@ public class ReportController {
         AllReports.add(r);
     }
 
-
+    public void makeOrderForLastReport(){
+        OrderReport r = (OrderReport) AllReports.get(AllReports.size()-1);
+        r.SendOrderDetails();
+    }
 
 
 

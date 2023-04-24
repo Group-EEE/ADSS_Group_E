@@ -4,7 +4,7 @@ import SuppliersModule.Business.GenericProduct;
 
 import java.util.List;
 
-import static SuppliersModule.Business.Generator.OrderGenerator.makeOrderFromProductAndQuantityLists;
+import static SuppliersModule.Business.Generator.OrderGenerator.makeOrderFromOrderReport;
 
 //this class represents the report of all products that needs to be ordered in the store
 public class OrderReport extends Report{
@@ -40,7 +40,15 @@ public class OrderReport extends Report{
         return "Order Report";
     }
 
+    public List<GenericProduct> getGenericProducts() {
+        return genericProducts;
+    }
+
+    public List<Integer> getAmount() {
+        return amount;
+    }
+
     public void SendOrderDetails(){
-        makeOrderFromProductAndQuantityLists(this.genericProducts,this.amount);
+        makeOrderFromOrderReport(this);
     }
 }
