@@ -41,15 +41,14 @@ public class underway_transport_UI {
         Truck truck = logistical_center_controller.getTruckByNumber(chosen_transport.getTruck_number());
         controller.set_navigator_for_transport(transport_ID);
         System.out.println("Transport - " + transport_ID + " started.");
-        Site current = truck.get_next_site();
-        while (current != null) {
-            if (current.is_supplier()) {
+        while (controller.is_current_location_not_null(transport_ID)) {
+            if (!controller.is_current_location_is_store(transport_ID)) {
                 boolean isValidChoice = false;
                 String ch = null;
-                System.out.println("Hey " + current.getSite_name() + " manager!");
+                System.out.println("Hey " + controller.get_current_location_name(transport_ID) + " manager!");
                 while (!isValidChoice) {
                     // creating a document
-                    create_site_supply(chosen_transport, current.getAddress());
+                    create_site_supply(chosen_transport, controller.get_current_location_address(transport_ID));
                     // asking if he needs to make another one
                     System.out.println("Do you have items to ship to another store? (Write 1 or 2): ");
                     System.out.println("1 - YES");
@@ -69,34 +68,31 @@ public class underway_transport_UI {
                 //insert the weight
                 chosen_transport.insertToWeights(truck.getCurrent_weight());
                 //checking the weight
-                if (!check_weight(truck)) {
-                    boolean abort_transport = !change_transport(chosen_transport, truck, truck.getCurrent_driver());
+                if (!controller.check_weight(transport_ID)) {
+                    System.out.println("Alert! the truck is in overweight!");
+                    boolean abort_transport = !change_transport(transport_ID);
                     if (abort_transport) {
                         // aborting the transport and resets the details of the driver and the truck.
                         System.out.println("Transport was aborted. you can try to send it later");
-                        controller.reset_transport(chosen_transport);
+                        controller.reset_transport(transport_ID, false);
                         return;
                     }
-                    truck = controller.get_truck_by_registration_plate(chosen_transport.getTruck_number());
                     }
                 }
                 // unloading the goods in the store
-                else if (current.is_store()) {
+                else if (controller.is_current_location_is_store(transport_ID)) {
                     if (controller.unload_goods((Store) current, truck, truck.getCurrent_driver())) {
-                        System.out.println("goods unloaded in " + current.getSite_name());
+                        System.out.println("goods unloaded in " + controller.get_current_location_name(transport_ID));
                     } else {
-                        System.out.println("We currently don't have any goods for " + current.getSite_name() + " ,skip this store for now.");
+                        System.out.println("We currently don't have any goods for " + controller.get_current_location_name(transport_ID) + " ,skip this store for now.");
                     }
                 }
                 // driving to the next site.
-                current = truck.get_next_site();
+                controller.drive_to_next_location(transport_ID);
             }
         // if the transport wasn't aborted, we update the truck and the driver so they can now go to another shipment.
             if (!aborted) {
-                Truck_Driver driver = truck.getCurrent_driver();
-                driver.setCurrent_truck(null);
-                truck.setCurrent_driver(null);
-                truck.setOccupied(false);
+                controller.reset_transport(transport_ID, true);
                 System.out.println("Transport " + chosen_transport.getTransport_ID() + " now finished.");
             }
 
@@ -229,24 +225,11 @@ public class underway_transport_UI {
         controller.get_truck_by_registration_plate(transport.getTruck_number()).addWeight(items_weight);;
     }
 
-    /**
-     * @param truck the truck object we're checking
-     * @return true if the truck is not in overweight, false otherwise
-     */
-    public boolean check_weight(Truck truck){
 
-        if (truck.getCurrent_weight() > truck.getMax_weight()){
-            System.out.println("Alert! the truck is in overweight!");
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
 
-    private boolean change_transport(Transport transport_doc, Truck truck, Truck_Driver driver){
+    private boolean change_transport(int transport_ID){
         int choice = 0;
-        System.out.println("The truck max weight is: " + truck.getMax_weight() + " but her current weight is " + truck.getCurrent_weight() + "!!!");
+        System.out.println("The truck max weight is: " + controller.get_truck_weight(transport_ID, "m") + " but her current weight is " + controller.get_truck_weight(transport_ID, "c") + "!!!");
         while (choice != 5) {
             System.out.println("Hey boss, You need to update the current Transport. please choose one of this following options:");
             System.out.println("1: I want to cancel shipping to a certain store.");
@@ -272,15 +255,9 @@ public class underway_transport_UI {
                 }
             }
             switch (choice) {
-                // deleting a store  from the transport
+                // deleting a store from the transport
                 case 1 -> {
-                    int stores = 0;
-                    for (Site site : truck.get_route()) {
-                        if (!site.is_supplier()) {
-                            stores++;
-                        }
-                    }
-                    if (stores <= 1) {
+                    if (!controller.is_there_more_than_one(transport_ID, "store")) {
                         System.out.println("Sorry Boss, this is the only store left for today...");
                         break;
                     }
@@ -290,22 +267,14 @@ public class underway_transport_UI {
                     boolean exist = false;
                     while (!exist) {
                         String store = scanner.nextLine();
-                        for (Site site : truck.get_route()) {
-                            if (site.getSite_name().equals(store)) {
-                                if (site.is_supplier()) {
-                                    System.out.println("You've entered a supplier Boss... you need to put a store!");
-                                } else {
-                                    site_to_remove = store;
-                                    exist = true;
-                                }
-                                break;
-                            }
-                        }
+                        exist = controller.is_site_exist(transport_ID, "store", store);
                         if (!exist) {
                             System.out.println("This store is not on the list boss...");
                         }
                     }
+                    // transfer to controller called cancel_shipping_to_store(transport_doc, )
                     // deleting the documents with the relevant documents according to the deleted destination.
+                    boolean is_weight_good = controller.delte_site(transport_ID, site_to_remove);
                     for (Site_Supply site_supply : driver.getSites_documents()) {
                         if (site_supply.getStore().getSite_name().equals(site_to_remove)) {
                             for (String product : site_supply.getItems().keySet()) {
@@ -326,7 +295,7 @@ public class underway_transport_UI {
 
                 // changing the truck to a suitable one.
                 case 2 -> {
-                    Truck new_truck = getTruckByColdAndWeight(truck.getCold_level(), truck.getCurrent_weight());
+                    Truck new_truck = controller.getTruckByColdAndWeight(truck.getCold_level(), truck.getCurrent_weight());
                     if (new_truck == null) {
                         System.out.println("Sorry Boss, we don't have a suitable truck...");
                     } else {
@@ -434,23 +403,6 @@ public class underway_transport_UI {
 
     }
 
-    private Truck getTruckByColdAndWeight(cold_level level, double weight){
-        Truck truck = null;
-        for(Truck t : logistical_center.getTrucks()){
-            if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight) {
-                if(t.getCold_level().getValue() == level.getValue()){
-                    truck = t;
-                    break;
-                }
-                else if (truck == null) {
-                    truck = t;
-                } else if (level.getValue() - t.getCold_level().getValue() < level.getValue() - truck.getCold_level().getValue()) {
-                    truck = t;
-                }
-            }
-        }
-        return truck;
-    }
 
 
 

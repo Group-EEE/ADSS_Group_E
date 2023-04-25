@@ -47,12 +47,17 @@ public class underway_transport_controller {
         site_supply.setProducts_total_weight(weight);
     }
 
+
     /**
-     * @param chosen_transport the transport that need to be reset because she was aborted
-     *                         the function reset the transport to not started, the driver documents to 0 documents, and the  truck weight to her net weight.
+     * @param transport_id transport ID
+     * @param finished_transport boolean value that indicates if the transport is finished
+     *                           the function reset the transport details that need to be reset.
      */
-    public void reset_transport(Transport chosen_transport){
-        chosen_transport.setStarted(false);
+    public void reset_transport(int transport_id, boolean finished_transport){
+        Transport chosen_transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        if (!finished_transport) {
+            chosen_transport.setStarted(false);
+        }
         Truck_Driver  driver = getDriverByTruckNumber(chosen_transport.getTruck_number());
         ArrayList<Site_Supply> empty_array = new ArrayList<>();
         driver.setSites_documents(empty_array);
@@ -155,5 +160,185 @@ public class underway_transport_controller {
             }
         }
         return unloaded;
+    }
+
+    /**
+     * @param transport_id transport ID
+     * @return boolean value that indicates if the current location is a store
+     */
+    public boolean is_current_location_is_store(int transport_id){
+        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
+        return truck.get_current_location().is_store();
+    }
+
+    /**
+     * @param transport_id transport ID
+     * @return boolean value that indicates if the current location is not null
+     */
+    public boolean is_current_location_not_null(int transport_id){
+        Transport  transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
+        return truck.get_current_location() != null;
+    }
+
+    /**
+     * @param transport_id transport ID
+     * @return the current location name
+     */
+    public String get_current_location_name(int transport_id){
+        Transport  transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
+        return truck.get_current_location().getSite_name();
+    }
+
+    /**
+     * @param transport_id transport ID
+     * @return the current location address
+     */
+    public String get_current_location_address(int transport_id){
+        Transport  transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
+        return truck.get_current_location().getAddress();
+    }
+
+    public void drive_to_next_location(int transport_id){
+        Transport  transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
+        truck.get_next_site();
+    }
+
+    private Truck getTruckByColdAndWeight(cold_level level, double weight){
+        Truck truck = null;
+        for(Truck t : logistical_center_controller.getLogistical_center().getTrucks()){
+            if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight) {
+                if(t.getCold_level().getValue() == level.getValue()){
+                    truck = t;
+                    break;
+                }
+                else if (truck == null) {
+                    truck = t;
+                } else if (level.getValue() - t.getCold_level().getValue() < level.getValue() - truck.getCold_level().getValue()) {
+                    truck = t;
+                }
+            }
+        }
+        return truck;
+    }
+
+    /**
+     * @param transport_id transport ID
+     * @return true if the truck is not in overweight, false otherwise
+     */
+    public boolean check_weight(int transport_id){
+        Transport  transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
+        if (truck.getCurrent_weight() > truck.getMax_weight()){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    /**
+     * @param transport_id transport ID
+     * @param choice c for current weight, m for max weight, n for net weight
+     * @return the weight of the truck according to the choice given as a parameter, 0 otherwise.
+     */
+    public double get_truck_weight(int transport_id, String choice){
+        Transport  transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
+        if (choice.equals("c")){
+            return truck.getCurrent_weight();
+        }
+        if (choice.equals("m")){
+            return truck.getMax_weight();
+        }
+        if (choice.equals("n")){
+            return truck.getNet_weight();
+        }
+        return 0;
+    }
+
+    // ========= functions mainly for change transport =========
+
+    /**
+     * @param transport_id transport ID
+     * @param type supplier or store
+     * @return true if there is more than one supplier or store in the route, false otherwise
+     */
+    public boolean is_there_more_than_one(int transport_id, String type) {
+        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
+        if (type.equals("supplier")) {
+            int supplier_count = 0;
+            for (Site site : truck.getNavigator().getRoute()) {
+                if (site.is_supplier()) {
+                    supplier_count++;
+                }
+            }
+            if (supplier_count == 1) {
+                return false;
+            }
+        }
+
+        if(type.equals("store")){
+            int store_count = 0;
+            for (Site site : truck.getNavigator().getRoute()) {
+                if (site.is_store()) {
+                    store_count++;
+                }
+            }
+            if (store_count == 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @param transport_ID transport ID
+     * @param site_type supplier or store
+     * @param site_name site name
+     * @return true if the site exists in the route, false otherwise
+     */
+    public boolean is_site_exist(int transport_ID, String site_type, String site_name ){
+
+        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_ID);
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
+        for (Site site : truck.getNavigator().getRoute()) {
+            if (site_type.equals("supplier") && site.is_supplier()) {
+                if (site_name.equals(site.getSite_name())){
+                    return true;
+                }
+            }
+            if (site_type.equals("store") && site.is_store()) {
+                if (site_name.equals(site.getSite_name())){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean delte_site(int transport_ID, String site_type, String site_name){
+        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_ID);
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
+        for (Site site : truck.getNavigator().getRoute()) {
+            if (site_type.equals("supplier") && site.is_supplier()) {
+                if (site_name.equals(site.getSite_name())){
+                    driver.delete_site_document_by_ID(site.getId());
+                    return true;
+                }
+            }
+            if (site_type.equals("store") && site.is_store()) {
+                if (site_name.equals(site.getSite_name())){
+                    driver.delete_site_document_by_ID(site.getId());
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
