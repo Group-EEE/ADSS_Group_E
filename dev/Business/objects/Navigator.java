@@ -7,7 +7,7 @@ public class Navigator {
     private ArrayList<Site> route;
     private Iterator<Site> iterator;
     private Site current_location = null;
-    Navigator(ArrayList<Site> destinations){
+    public Navigator(ArrayList<Site> destinations){
         route = destinations;
         iterator = destinations.iterator();
     }
