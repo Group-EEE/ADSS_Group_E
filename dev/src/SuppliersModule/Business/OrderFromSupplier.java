@@ -1,7 +1,9 @@
 package SuppliersModule.Business;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * SuppliersModule.Business.Order class describe an order for one supplier
@@ -16,12 +18,10 @@ public class OrderFromSupplier {
 
     private float priceBeforeTotalDiscount; // price after calculate the product discount, but before calculate the total SuppliersModule.Business.Order Discount
 
-    int dayForPeriodicOrder; // The day in the week that the supplier gets the order from the store
-
     //------------------------------------------ References ---------------------------------------
 
     private Supplier MySupplier; // The SuppliersModule.Business.Supplier that supply the product for the order
-    private List<OrderedProduct> ProductsInOrder; // All the product in the order with their quantity.
+    private Map<String,OrderedProduct> ProductsInOrder; // All the product in the order with their quantity.
 
     //-----------------------------------Methods related to This -------------------------------------------
 
@@ -31,9 +31,8 @@ public class OrderFromSupplier {
         MySupplier = supplier;
         Id = unique;
         unique++;
-        ProductsInOrder = new ArrayList<>();
+        ProductsInOrder = new HashMap<>();
         priceBeforeTotalDiscount = (float) 0;
-        dayForPeriodicOrder = 0;
     }
 
     /**
@@ -75,8 +74,8 @@ public class OrderFromSupplier {
     {
         String details = "\n";
         details += "SuppliersModule.Business.Order number " + Id + " from supplier " + MySupplier.getName() + ", supplier number: " + MySupplier.getSupplierNum() + "\n";
-        for (OrderedProduct orderedProduct : ProductsInOrder)
-            details += orderedProduct;
+        for ( Map.Entry<String, OrderedProduct> pair : ProductsInOrder.entrySet())
+            details += pair.getValue();
         details += "\nTotal order price after discount: " + getTotalPriceAfterDiscount() + "\n";
         details += "\nContacts:\n";
         details += MySupplier.stringContacts();
@@ -88,8 +87,8 @@ public class OrderFromSupplier {
      */
     public OrderFromSupplier clone() {
         OrderFromSupplier orderFromSupplierCopy = new OrderFromSupplier(MySupplier);
-        for(OrderedProduct orderedProduct : ProductsInOrder)
-            orderFromSupplierCopy.addProductToOrder(orderedProduct.getQuantity(),orderedProduct.getMyProduct());
+        for ( Map.Entry<String, OrderedProduct> pair : ProductsInOrder.entrySet())
+            orderFromSupplierCopy.addProductToOrder(pair.getValue().getQuantity(),pair.getValue().getMyProduct());
         return orderFromSupplierCopy;
     }
 
@@ -98,26 +97,21 @@ public class OrderFromSupplier {
     public void addProductToOrder(int quantity, SupplierProduct supplierProduct)
     {
         OrderedProduct orderedProduct = new OrderedProduct(quantity, supplierProduct);
-        ProductsInOrder.add(orderedProduct);
+        ProductsInOrder.put(supplierProduct.getSupplierCatalog(),orderedProduct);
         Quantity += quantity;
         priceBeforeTotalDiscount += orderedProduct.getFinalPrice();     //Calculate price before total discount
     }
 
-    /**
-     * Return list of all the product in the order, including quantity and price
-     */
-    public List<OrderedProduct> getProductsInOrder() {return ProductsInOrder;}
+    public OrderedProduct getOrderedProduct(String catalogNum){
+        return ProductsInOrder.get(catalogNum);
+    }
 
-    public void setDayForPeriodicOrder(int dayForPeriodicOrder) {
-        this.dayForPeriodicOrder = dayForPeriodicOrder;
+    public void removeOrderedProduct(String catalogNum){
+        ProductsInOrder.remove(catalogNum);
     }
 
     public int getId() {
         return Id;
-    }
-
-    public int getDayForPeriodicOrder() {
-        return dayForPeriodicOrder;
     }
 
     public Supplier getMySupplier() {

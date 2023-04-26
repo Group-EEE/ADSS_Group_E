@@ -8,7 +8,7 @@ public class OrderedProduct {
     private static int unique = 1;
 
     //------------------------------------------ Attributes ---------------------------------------
-    private final int Quantity;
+    private int Quantity;
     private final float FinalPrice;
     private float Discount;
     private final int Id; // unique orderProduct ID
@@ -30,6 +30,10 @@ public class OrderedProduct {
 
     public float getFinalPrice() {return FinalPrice;}
     public int getQuantity() {return Quantity;}
+
+    public void setQuantity(int quantity) {
+        Quantity = quantity;
+    }
 
     public String toString() {return  MyProduct + ", quantity: " + Quantity + ", price: " + FinalPrice + "\n";}
 
