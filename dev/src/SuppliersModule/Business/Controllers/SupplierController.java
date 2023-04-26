@@ -1,5 +1,6 @@
 package SuppliersModule.Business.Controllers;
 
+import InventoryModule.Business.Controllers.ProductController;
 import SuppliersModule.Business.*;
 import DataAccess.*;
 
@@ -64,7 +65,9 @@ public class SupplierController {
 
         Supplier supplier = AllSuppliers.get(supplierNum);
         GenericProduct genericProduct = AllProducts.get(keyPair);
+
         ProductsByBarcode.put(genericProduct.getBarcode(), genericProduct);
+        ProductController.BarcodesOfNewProducts.add(genericProduct.getBarcode());
 
         new SupplierProduct(price, supplierCatalog, amount, supplier, genericProduct, supplier.getMyAgreement());
     }

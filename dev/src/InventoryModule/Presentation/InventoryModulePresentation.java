@@ -12,7 +12,7 @@ import static InventoryModule.Business.Discount.*;
 //the main represents the "SuperLi" supply system. it is a UI that helps the employee gets information
 //of all the products, reports, discounts etc to help him control the supply in store
 public class InventoryModulePresentation {
-    static Scanner reader;
+    public static Scanner reader;
     static String choice;
 
     ProductController productController; //create a product controller
