@@ -1,5 +1,7 @@
 package DataAccess;
 
+import SuppliersModule.Business.Manufacturer;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -10,12 +12,14 @@ public class SuperLeeDBConnection {
     private Connection conn;
 
     private SupplierDAO supplierDAO;
+    private ManufacturerDAO manufacturerDAO;
 
     private SuperLeeDBConnection() {
         try {conn = DriverManager.getConnection("jdbc:sqlite:dev/res/SuperLeeDB");}
         catch (SQLException e) {e.printStackTrace();}
 
         supplierDAO = SupplierDAO.getInstance(conn);
+        manufacturerDAO = ManufacturerDAO.getInstance(conn);
     }
 
     public static SuperLeeDBConnection getInstance() {
@@ -31,6 +35,7 @@ public class SuperLeeDBConnection {
 
     public void WriteAllToCache()
     {
+        manufacturerDAO.WriteManufacturersToCache();
         supplierDAO.WriteSuppliersToCache();
     }
 }

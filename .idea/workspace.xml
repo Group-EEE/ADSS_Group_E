@@ -5,9 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8ab6a62-5a9f-4ada-b7de-51cb98261c12" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/res/SuperLeeDB" beforeDir="false" afterPath="$PROJECT_DIR$/dev/res/SuperLeeDB" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/AgreementDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/AgreementDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/ManufacturerDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/ManufacturerDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/OrderDiscountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/OrderDiscountDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDBConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SupplierDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SupplierDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Supplier.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,6 +139,8 @@
       <workItem from="1682356439743" duration="210000" />
       <workItem from="1682356671778" duration="3647000" />
       <workItem from="1682421546331" duration="5207000" />
+      <workItem from="1682426874296" duration="8000" />
+      <workItem from="1682542822464" duration="2561000" />
     </task>
     <servers />
   </component>

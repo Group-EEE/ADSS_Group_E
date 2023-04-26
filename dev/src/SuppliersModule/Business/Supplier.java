@@ -227,6 +227,7 @@ public class Supplier {
 
     public void setMyAgreement(Agreement myAgreement) {
         MyAgreement = myAgreement;
+        myAgreement.setMySupplier(this);
     }
 
     public void addPeriodicOrder(PeriodicOrder periodicOrder){
