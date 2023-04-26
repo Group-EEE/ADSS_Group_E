@@ -11,7 +11,6 @@ import java.util.Map;
 public class SupplierController {
     Map<String, Supplier> AllSuppliers; // All the suppliers that we work with
     Map<List<String>, GenericProduct> AllProducts; // All the products we sell (the key is the list contains the product name and manufacturer name)
-
     Map<Integer, GenericProduct> ProductsByBarcode; // All the products we sell (the key is the barcode)
     Map<String, Manufacturer> AllManufacturers; // All the manufacturers that we work with
 

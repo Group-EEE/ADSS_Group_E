@@ -51,7 +51,7 @@ public class SupplierProduct {
     public void delete()
     {
         myGenericProduct.deleteSupplierProduct(this);          //The supplier no longer supplies the product
-        MySupplier.deleteSupplierProduct(this);         //The product is no longer supplied by this supplier
+        MySupplier.deleteSupplierProduct(SupplierCatalog);         //The product is no longer supplied by this supplier
     }
 
     // --------------------------------- Methods related to SuppliersModule.Business.Supplier ------------------------------

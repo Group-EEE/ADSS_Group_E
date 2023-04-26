@@ -3,26 +3,32 @@ package SuppliersModule.Business.Controllers;
 import SuppliersModule.Business.*;
 import SuppliersModule.Business.Generator.OrderGenerator;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class OrderController {
 
     static OrderController orderController;
+    private final Map<Integer,PeriodicOrder> periodicOrders;
 
-    OrderFromSupplier curOrder;
+    private OrderFromSupplier curOrder;
 
-    Supplier curSupplier;
+    private PeriodicOrder curPeriodicOrder;
 
-    SupplierProduct curSupplierProduct;
+    private Supplier curSupplier;
 
-    SupplierController supplierController;
+    private OrderedProduct curOrderedProduct;
 
-    Map<Integer, Order> OrderHistory;
+    private SupplierProduct curSupplierProduct;
+
+    private final SupplierController supplierController;
+
+    private final Map<Integer, Order> OrderHistory;
 
     private OrderController(){
         OrderHistory = new HashMap<>();
         supplierController = SupplierController.getInstance();
+        periodicOrders = new HashMap<>();
+        taskTimer();
     }
 
     public static OrderController getInstance(){
@@ -31,8 +37,39 @@ public class OrderController {
         return orderController;
     }
 
+    /**
+     * This function scheduale a task to execute every day in 11 AM
+     */
+    public void taskTimer() {
+        Timer timer = new Timer();
+        TimerTask dailyTask = new TimerTask() {
+            @Override
+            public void run() {
+                Calendar.getInstance();
+                int curDay = Calendar.DAY_OF_WEEK;
+                invitePeriodicOrders(curDay);
+            }
+        };
+
+        // Set the time to start executing the task
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 11);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+
+        // Schedule the task to run every day at 11 AM
+        timer.schedule(dailyTask, today.getTime(), 24 * 60 * 60 * 1000); // 24 * 60 * 60 * 1000 is the number of milliseconds a day
+    }
+
     public void addOrder(Order order){
         OrderHistory.put(order.getId(),order);
+    }
+
+    public void invitePeriodicOrders(int curDay){
+        for(Map.Entry<Integer, PeriodicOrder> pair : periodicOrders.entrySet()){
+            if(pair.getValue().getDayForInvite() == curDay)
+                pair.getValue().invite();
+        }
     }
 
     public boolean enterSupplier(String supplerNum){
@@ -45,7 +82,7 @@ public class OrderController {
     }
 
     public void enterPermanentDay(int day){
-        curOrder.setDayForPeriodicOrder(day);
+        curPeriodicOrder = new PeriodicOrder(curOrder, day);
     }
 
     public boolean addProductToTheList(String catalogNum){
@@ -59,6 +96,37 @@ public class OrderController {
     }
 
     public void savePeriodicOrder(){
+        periodicOrders.put(curPeriodicOrder.getDayForInvite(),curPeriodicOrder);
+    }
 
+    public boolean findPeriodicOrder(int id){
+        curPeriodicOrder = periodicOrders.get(id);
+        return curPeriodicOrder != null;
+    }
+
+    public void deleteCurPeriodicOrder(){
+        periodicOrders.remove(curPeriodicOrder.getId());
+        curPeriodicOrder.delete();
+    }
+
+    public void changeDayForInviteForCurPeriodicOrder(int day){
+        curPeriodicOrder.setDayForInvite(day);
+    }
+
+    public boolean findOrderedProduct(String catalogNum){
+        curOrderedProduct = curPeriodicOrder.getOrderFromSupplier().getOrderedProduct(catalogNum);
+        return curOrderedProduct != null;
+    }
+
+    public void deleteOrderedProduct(String catalogNum){
+        curOrder.removeOrderedProduct(catalogNum);
+    }
+
+    public void setCurOrder(){
+        curOrder = curPeriodicOrder.getOrderFromSupplier();
+    }
+
+    public void changeCurOrderedProductQuantity(int quantity){
+        curOrderedProduct.setQuantity(quantity);
     }
 }

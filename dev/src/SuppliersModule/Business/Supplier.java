@@ -25,6 +25,8 @@ public class Supplier {
     private List<OrderFromSupplier> myOrderFromSuppliers; // All the orders that we ordered from this supplier
     private Agreement MyAgreement; // The agreement that we signed with this supplier
 
+    private Map<Integer,PeriodicOrder> MyPeriodicOrders;
+
     //-----------------------------------Methods related to This -------------------------------------------
 
     //Constructor
@@ -35,8 +37,9 @@ public class Supplier {
             //throw new RuntimeException("Must at least " + minimumContacts() + " contacts");
 
         MyProducts = new HashMap<>();
-        MyManufacturers = new HashMap<String, Manufacturer>();
-        myOrderFromSuppliers = new ArrayList<OrderFromSupplier>();
+        MyManufacturers = new HashMap<>();
+        myOrderFromSuppliers = new ArrayList<>();
+        MyPeriodicOrders = new HashMap<>();
         Name = name;
         SupplierNum = supplierNum;
         BankAccount = bankAccount;
@@ -99,9 +102,11 @@ public class Supplier {
         addManufacturer(newProduct.getMyProduct().getMyManufacturer());     //A supplier works with a manufacturer
     }
 
-    public void deleteSupplierProduct(SupplierProduct supplierProduct)
+    public void deleteSupplierProduct(String catalogNum )
     {
-        MyProducts.remove(supplierProduct);
+        MyProducts.remove(catalogNum);
+        for(Map.Entry<Integer,PeriodicOrder> pair : MyPeriodicOrders.entrySet())
+            pair.getValue().getOrderFromSupplier().removeOrderedProduct(catalogNum); // Delete the product from each Periodic order that it found
     }
 
     /**
@@ -177,6 +182,9 @@ public class Supplier {
         Payment = payment;
     }
 
+    public Map<Integer, PeriodicOrder> getMyPeriodicOrders() {
+        return MyPeriodicOrders;
+    }
 
     // -------------------------------- Methods related to SuppliersModule.Business.Manufacturer ------------------------------
     public void addManufacturer(Manufacturer manufacturer) {
@@ -219,5 +227,13 @@ public class Supplier {
 
     public void setMyAgreement(Agreement myAgreement) {
         MyAgreement = myAgreement;
+    }
+
+    public void addPeriodicOrder(PeriodicOrder periodicOrder){
+        MyPeriodicOrders.put(periodicOrder.getId(),periodicOrder);
+    }
+
+    public void deletePeriodicOrder(int periodicOrderId){
+        MyPeriodicOrders.remove(periodicOrderId);
     }
 }
