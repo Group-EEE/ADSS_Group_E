@@ -6,37 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e8ab6a62-5a9f-4ada-b7de-51cb98261c12" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/ByCategoryReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Business/ByCategoryReport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Business/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Business/Controllers/CategoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/CurrSupplyReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Business/CurrSupplyReport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/Discount.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Business/Discount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/ExpOrDefectReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Business/ExpOrDefectReport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/InventoryModulePresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/InventoryModulePresentation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/OrderReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Business/OrderReport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/CategoryPresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/CategoryPresentation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/ReportPresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/ReportPresentation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/SpecificProductPresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Presentation/SpecificProductPresentation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Business/Controllers/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Business/Report.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Business/Controllers/ReportController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/SpecificProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Business/SpecificProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/SubCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Business/SubCategory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/SubSubCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Business/SubSubCategory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/SuperLiProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Business/SuperLiProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Controllers/SupplierController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Controllers/SupplierController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Generator/OrderGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Generator/OrderGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/AgreementDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/AgreementDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/ContactDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/ContactDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/GenericProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/GenericProductDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/ManufacturerDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/ManufacturerDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/OrderDiscountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/OrderDiscountDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/SuperLeeDBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDBConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/SupplierDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SupplierDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/DataAccess/SupplierProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SupplierProductDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/InventoryModule/InventoryModulePresentation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/InventoryModule/InventoryModulePresentation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/res/SuperLeeDB" beforeDir="false" afterPath="$PROJECT_DIR$/dev/res/SuperLeeDB" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +65,7 @@
       <recent name="C:\Users\user\Documents\GitHub\ADSS_Group_E\dev\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.test">
+  <component name="RunManager" selected="Database Script.OrderFromSupplier.sql">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ADSS_Group_E" />
@@ -115,8 +86,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="OrderFromSupplier.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="0dd3b186-c219-4674-be2d-a26f79272443/schema/main/table/OrderFromSupplier.sql" />
+      <script-mode>FILE</script-mode>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Database Script.OrderFromSupplier.sql" />
         <item itemvalue="Application.test" />
         <item itemvalue="Application.Main" />
       </list>
@@ -157,6 +134,7 @@
       <workItem from="1682343770071" duration="10530000" />
       <workItem from="1682356439743" duration="210000" />
       <workItem from="1682356671778" duration="3647000" />
+      <workItem from="1682421546331" duration="5207000" />
     </task>
     <servers />
   </component>
