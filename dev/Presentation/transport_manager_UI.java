@@ -21,6 +21,9 @@ public class transport_manager_UI {
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * The main function that runs the menu for the transport manager.
+     */
     // ===== Main menu =====
     public void start() {
         if (controller.getLogistical_center() == null) {
@@ -125,7 +128,7 @@ public class transport_manager_UI {
 
     /**
      * @param str some string
-     * @return is the string conttains numbers only
+     * @return is the string contains numbers only
      */
     public boolean containsOnlyNumbers (String str){
         try {
@@ -639,8 +642,8 @@ public class transport_manager_UI {
                 int key = 0;
                 boolean end_choosing = false;
                 while (!end_choosing) {
-                    if (controller.getTransport_Log().size() == 0) {
-                        System.out.println("We don't have any registered transport...");
+                    if (!controller.at_least_one_unsent_transport()) {
+                        System.out.println("We don't have any registered transport that haven't started yet....");
                         break;
                     }
                     System.out.println("Please enter the transport ID you want to start:");

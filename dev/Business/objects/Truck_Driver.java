@@ -65,7 +65,7 @@ public class Truck_Driver {
 
     public void delete_site_document_by_origin(String origin){
         for (int i = 0; i < sites_documents.size(); i++) {
-            if (sites_documents.get(i).getOrigin() == origin){
+            if (sites_documents.get(i).getOrigin().equals(origin)){
                 sites_documents.remove(i);
             }
         }

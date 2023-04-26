@@ -79,14 +79,23 @@ public class underway_transport_controller {
      */
     public void reset_transport(int transport_id, boolean finished_transport){
         Transport chosen_transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Truck_Driver driver = getDriverByTruckNumber(chosen_transport.getTruck_number());
+        ArrayList<Site_Supply> empty_array = new ArrayList<>();
+        Truck truck = driver.getCurrent_truck();
+
+        driver.setSites_documents(empty_array);
+        truck.setCurrent_weight(truck.getNet_weight());
+
         if (!finished_transport) {
             chosen_transport.setStarted(false);
+            return;
         }
-        Truck_Driver  driver = getDriverByTruckNumber(chosen_transport.getTruck_number());
-        ArrayList<Site_Supply> empty_array = new ArrayList<>();
-        driver.setSites_documents(empty_array);
-        Truck truck = driver.getCurrent_truck();
-        truck.setCurrent_weight(truck.getNet_weight());
+
+        truck.setCurrent_driver(null);
+        truck.setOccupied(false);
+
+        driver.setCurrent_truck(null);
+
     }
 
     /**
@@ -290,6 +299,7 @@ public class underway_transport_controller {
             // updating the current driver's truck and the opposite.
             Truck_Driver old_driver = truck.getCurrent_driver();
             truck.setCurrent_driver(null);
+            truck.setOccupied(false);
             // updating the details in the transport document
             transport.setTruck_number(new_truck.getRegistration_plate());
             new_truck.setCurrent_weight(truck.getCurrent_weight());
@@ -389,8 +399,7 @@ public class underway_transport_controller {
     public boolean is_site_exist(int transport_ID, String site_type, String site_name ){
 
         Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_ID);
-        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
-        for (Site site : truck.getNavigator().getRoute()) {
+        for (Site site : transport.getDestinations()) {
             if (site_type.equals("supplier") && site.is_supplier()) {
                 if (site_name.equals(site.getSite_name())){
                     return true;
@@ -434,18 +443,24 @@ public class underway_transport_controller {
         truck.getNavigator().delete_site(truck.get_current_location().getSite_name());
 
         // getting the products back to the supplier and delete the documents that not relevant for now.
-        for (Site_Supply site_supply : truck.getCurrent_driver().getSites_documents()) {
-            if (site_supply.getOrigin().equals(truck.get_current_location().getSite_name())) {
-                for (String product : site_supply.getItems().keySet()) {
-                    transport.deleteProducts(product, site_supply.getItems().get(product));
-                }
-                truck.getCurrent_driver().delete_site_document_by_origin(site_supply.getOrigin());
-            }
-        }
+        truck.getCurrent_driver().delete_site_document_by_origin(truck.get_current_location().getSite_name());
 
         // now we are getting back to the previous weight:
         transport.delete_last_Weight();
         truck.setCurrent_weight(transport.get_last_weight());
+    }
+
+    public boolean is_store_exist_in_route(int transport_id, String store_name){
+        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
+        boolean is_store_exist_in_route = false;
+        for (Site site : truck.getNavigator().getRoute()) {
+            if (site.is_store() && site.getSite_name().equals(store_name)) {
+                is_store_exist_in_route = true;
+                break;
+            }
+        }
+        return is_store_exist_in_route;
     }
 
     /**
@@ -456,5 +471,16 @@ public class underway_transport_controller {
         Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_ID);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         truck.getNavigator().add_site(truck.get_current_location());
+    }
+
+    public void add_store_to_route(int transport_ID, String store_name){
+        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_ID);
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
+        for (Site site : transport.getDestinations()) {
+            if (site.is_store() && site.getSite_name().equals(store_name)) {
+                truck.getNavigator().add_site(site);
+                return;
+            }
+        }
     }
 }

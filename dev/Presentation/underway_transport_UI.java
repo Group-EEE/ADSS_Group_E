@@ -208,6 +208,11 @@ public class underway_transport_UI {
         }
         // ======================== Insert Weight To Site Supply Document, transport document and to the Truck ======================== //
         controller.insert_weight_to_siteSupply(site_supplier_ID, transport_id, items_weight);
+        // ======================== Add the store to the route if it don't exist ======================== //
+        boolean add_site_to_route = !controller.is_store_exist_in_route(transport_id, store_name);
+        if(add_site_to_route){
+            controller.add_store_to_route(transport_id, store_name);
+        }
     }
 
 

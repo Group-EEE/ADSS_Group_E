@@ -250,6 +250,15 @@ public class Logistical_center_controller {
         transport.setStarted(true);
     }
 
+    public boolean at_least_one_unsent_transport(){
+        for (Transport transport: logistical_center.getTransport_Log().values()){
+            if (!transport.Started()){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void load_database(){
         ready_database = new ready_database();
         ready_database.load_database();
