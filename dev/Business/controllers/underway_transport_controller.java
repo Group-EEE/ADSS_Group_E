@@ -261,7 +261,7 @@ public class underway_transport_controller {
     }
 
     public boolean change_truck(int transport_id){
-        // finding the most suitble truck
+        // finding the most suitable truck
         Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         cold_level level = transport.getRequired_level();
@@ -285,25 +285,26 @@ public class underway_transport_controller {
                 }
             }
         }
-        // searching for a driver that can drive the truck
-        for (Truck_Driver truck_driver : logistical_center_controller.getDrivers()) {
-            if (logistical_center_controller.truck_assigning(truck.getRegistration_plate())) {
-                // updating the current driver's truck and the opposite.
-                Truck_Driver old_driver = truck.getCurrent_driver();
+        // searching for a driver that can drive the new truck
+        if (logistical_center_controller.truck_assigning(new_truck.getRegistration_plate())) {
+            // updating the current driver's truck and the opposite.
+            Truck_Driver old_driver = truck.getCurrent_driver();
+            truck.setCurrent_driver(null);
+            // updating the details in the transport document
+            transport.setTruck_number(new_truck.getRegistration_plate());
+            new_truck.setCurrent_weight(truck.getCurrent_weight());
+            // reset the weight of the old truck
+            truck.setCurrent_weight(truck.getNet_weight());
+            // transferring the goods and the documents
+            Truck_Driver new_truck_driver = new_truck.getCurrent_driver();
+            if (!new_truck_driver.equals(old_driver)) {
+                transport.setDriver_name(new_truck_driver.getName());
+                new_truck_driver.setSites_documents(old_driver.getSites_documents());
+                old_driver.setSites_documents(null);
                 old_driver.setCurrent_truck(null);
-                truck.setCurrent_driver(null);
-                // updating the details in the transport document
-                transport.setDriver_name(truck_driver.getName());
-                transport.setTruck_number(new_truck.getRegistration_plate());
-                new_truck.setCurrent_weight(truck.getCurrent_weight());
-                // transferring the goods and the documents
-                if (!truck_driver.equals(old_driver)) {
-                    truck_driver.setSites_documents(old_driver.getSites_documents());
-                    new_truck.setNavigator(truck.getNavigator().getRoute());
-                    old_driver.setSites_documents(null);
-                }
-                return true;
             }
+            new_truck.setNavigator(truck.getNavigator().getRoute());
+            return true;
         }
         return false;
     }

@@ -1,6 +1,7 @@
 package Business.controllers;
 
 import Business.objects.*;
+import Database.ready_database;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -11,6 +12,7 @@ public class Logistical_center_controller {
     private static Logistical_center_controller instance;
     private Transport_System transport_system;
     private Logistical_Center logistical_center;
+    private ready_database ready_database;
     public static Logistical_center_controller getInstance(){
         if (instance == null){
             instance = new Logistical_center_controller();
@@ -48,24 +50,15 @@ public class Logistical_center_controller {
         logistical_center.add_transport(transport);
     }
 
-    public boolean truck_assigning(String truck_registration_plate){
-        Truck_Driver driver = null;
-        Truck truck = null;
+    public boolean truck_assigning(String new_truck_registration_plate){
+        Truck_Driver driver;
+        Truck truck = getTruckByNumber(new_truck_registration_plate);
         // checking if the given parameters are valid, and getting the diver and the truck if they exist.
-        for (int i = 0; i < logistical_center.getTrucks().size(); i++) {
-            if (logistical_center.getTrucks().get(i).equals(truck_registration_plate)){
-                truck = logistical_center.getTrucks().get(i);
-                break;
-            }
-        }
-        if (truck == null){
-            return false;
-        }
 
         for (Truck_Driver truck_driver  : logistical_center.getDrivers()) {
             if (truck_driver.getLicense().getWeight() >= truck.getMax_weight() && truck_driver.getLicense().getCold_level().getValue() <= truck.getCold_level().getValue() && truck_driver.getCurrent_truck() == null){
                 driver = truck_driver;
-                truck.setCurrent_driver(driver);
+                truck.setCurrent_driver(truck_driver);
                 truck.setOccupied(true);
                 driver.setCurrent_truck(truck);
                 return true;
@@ -255,5 +248,10 @@ public class Logistical_center_controller {
     public void set_started_transport(int transport_id){
         Transport transport = logistical_center.get_transport_by_id(transport_id);
         transport.setStarted(true);
+    }
+
+    public void load_database(){
+        ready_database = new ready_database();
+        ready_database.load_database();
     }
 }

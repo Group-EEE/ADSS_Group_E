@@ -29,7 +29,6 @@ public class underway_transport_UI {
     // ===== Starting the transport =====
     public void start_transport(int transport_ID){
         boolean aborted = false;
-        Transport chosen_transport = logistical_center.getTransport_Log().get(transport_ID);
         // ======================== Date And Time ======================== //
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -38,9 +37,9 @@ public class underway_transport_UI {
         String Time = now.toLocalTime().format(timeFormatter);
         controller.set_time_and_date_for_transport(transport_ID, Date, Time);
         // ========================= starting the transport ======================= //
-//        Truck truck = logistical_center_controller.getTruckByNumber(chosen_transport.getTruck_number());
         controller.set_navigator_for_transport(transport_ID);
         System.out.println("Transport - " + transport_ID + " started.");
+        controller.drive_to_next_location(transport_ID);
         while (controller.is_current_location_not_null(transport_ID)) {
             if (!controller.is_current_location_is_store(transport_ID)) {
                 boolean isValidChoice = false;

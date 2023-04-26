@@ -29,7 +29,29 @@ public class transport_manager_UI {
         int choice = 0;
         boolean isValid = false;
         Scanner scanner = new Scanner(System.in);
-        String input = null;
+        String input;
+        int inp = 0;
+        while (!isValid) {
+            System.out.println("Please choose - 1 for ready database and 2 for empty.");
+            input = scanner.nextLine();
+            if(input.equals("1")){
+                inp = 1;
+                isValid = true;
+            } else if (input.equals("2")) {
+                inp = 2;
+                isValid =true;
+            }
+            else {
+                System.out.println("Please enter 1 or 2");
+            }
+
+        }
+        if (inp == 1) {
+            controller.load_database();
+        }
+
+        isValid = false;
+        input = null;
         while (true) {
             System.out.println("Hey Boss! what would you like to do?");
             System.out.println("0 - Hire a new driver");
@@ -77,6 +99,7 @@ public class transport_manager_UI {
                     for (int key: chosen_transports){
                         underway_transport_ui.start_transport(key);
                     }
+                    break;
                 // add a new truck to the system.
                 case 4:
                     create_truck();

@@ -15,21 +15,15 @@ public class Main {
 //        String input = "";
 //        boolean isValid = false;
 //        Scanner scanner = new Scanner(System.in);
-//        while (!isValid) {
-//            System.out.println("Please choose - 1 for ready database and 2 for empty.");
-//            input = scanner.nextLine();
-//            if(input.equals("1")){
-//                inp = 1;
-//                isValid = true;
-//            } else if (input.equals("2")) {
-//                inp = 2;
-//                isValid =true;
-//            }
-//            else {
-//                System.out.println("Please enter 1 or 2");
-//            }
+//
+//
+//        if (inp == 1){
 //
 //        }
+//
+
+//
+//
 //        if (inp == 1) {
 //            Truck truck1 = new Truck("57219843", "Volvo VNL", 15000.0, 25000.0, cold_level.Freeze, 15000.0);
 //            Truck truck2 = new Truck("69471352", "Freightliner Cascadia", 18000.0, 30000.0, cold_level.Cold, 18000.0);
