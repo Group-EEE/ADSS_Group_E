@@ -25,11 +25,6 @@ public class AgreementDAO {
         return agreementDAO;
     }
 
-    public void saveInCacheSAgreement(String SupplierNum, Agreement agreement)
-    {
-        IdentifyMapAgreement.put(SupplierNum, agreement);
-    }
-
 
     public Agreement getAgreement(String supplierNum) {
         Agreement agreement = IdentifyMapAgreement.get(supplierNum);
@@ -54,6 +49,7 @@ public class AgreementDAO {
             }
         }
         catch (SQLException e) {e.printStackTrace();}
+        IdentifyMapAgreement.put(supplierNum, agreement);
         return agreement;
 
     }

@@ -6,7 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SupplierDAO {
@@ -15,6 +17,7 @@ public class SupplierDAO {
     private AgreementDAO agreementDAO;
     private ContactDAO contactDAO;
     static SupplierDAO supplierDAO;
+    private ManufacturerDAO manufacturerDAO;
 
     private Map<String, Supplier> IdentifyMapSupplier;
 
@@ -22,6 +25,7 @@ public class SupplierDAO {
         this.conn = conn;
         agreementDAO = AgreementDAO.getInstance(this.conn);
         contactDAO = ContactDAO.getInstance(this.conn);
+        manufacturerDAO = ManufacturerDAO.getInstance(this.conn);
         IdentifyMapSupplier = new HashMap<>();
     }
 
@@ -34,7 +38,7 @@ public class SupplierDAO {
     public void WriteSuppliersToCache()
     {
         try{
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Supplier");
             ResultSet rs = stmt.executeQuery();
             while (rs.next())
             {
@@ -42,36 +46,35 @@ public class SupplierDAO {
                 Agreement currAgreement = agreementDAO.getAgreement(supplierNum);
 
                 Supplier supplier = new Supplier(rs.getString("Name"), supplierNum, rs.getString("BankAccount"), PaymentTerm.values()[rs.getInt("PaymentTerm")],
-                        contactDAO.getAll(supplierNum), null, currAgreement.isHasPermanentDays(), currAgreement.isSupplierBringProduct(),
+                        contactDAO.getAll(supplierNum), getCategories(supplierNum), currAgreement.isHasPermanentDays(), currAgreement.isSupplierBringProduct(),
                         currAgreement.getDeliveryDays(), currAgreement.getNumberOfDaysToSupply());
 
                 supplier.setMyAgreement(currAgreement);
-                currAgreement.setMySupplier(supplier);
-
                 IdentifyMapSupplier.put(supplierNum, supplier);
+
+                for(Manufacturer manufacturer : manufacturerDAO.getAll(supplierNum))
+                    supplier.addManufacturer(manufacturer);
             }
         }
         catch (SQLException e) {throw new RuntimeException(e);}
     }
 
-    public void saveInCacheSupplier(Supplier supplier)
+    public List<String> getCategories(String supplierNum)
     {
-        IdentifyMapSupplier.put(supplier.getSupplierNum(), supplier);
-        agreementDAO.saveInCacheSAgreement(supplier.getSupplierNum(), supplier.getMyAgreement());
-    }
-
-    public boolean checkIfSupplierExist(String supplierNum) {
-
-        if (IdentifyMapSupplier.containsKey(supplierNum))
-            return true;
-
-        try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Supplier WHERE SupplierNum = ?");
+        List<String> categories = new ArrayList<>();
+        try{
+            PreparedStatement stmt = conn.prepareStatement("SELECT Category FROM Supplier_Categories WHERE SupplierNum = ?");
             stmt.setString(1, supplierNum);
             ResultSet rs = stmt.executeQuery();
-            return rs.next();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            while (rs.next()){
+                categories.add(rs.getString("Category"));
+            }
         }
+        catch (SQLException e) {throw new RuntimeException(e);}
+        return categories;
     }
+
+
+    //**********************************************************************************
+
 }

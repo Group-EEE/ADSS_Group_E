@@ -1,13 +1,15 @@
 package DataAccess;
 
 
-import SuppliersModule.Business.Manufacturer;
+import SuppliersModule.Business.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ManufacturerDAO {
@@ -27,62 +29,33 @@ public class ManufacturerDAO {
         return manufacturerDAO;
     }
 
-    public void saveInCacheManufacturer(Manufacturer manufacturer) {
-        IdentifyMapManufacturer.put(manufacturer.getName(), manufacturer);
-    }
-
-    public boolean checkIfManufacturerExist(String manufacturerName){
-        if(IdentifyMapManufacturer.containsKey(manufacturerName))
-            return true;
-
-        try{
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Manufacturer WHERE Name = ?");
-            stmt.setString(1, manufacturerName);
-            ResultSet rs = stmt.executeQuery();
-            return rs.next();
-        }
-        catch (SQLException e) {throw new RuntimeException(e);}
-    }
-
-
-
-
-
-
-
-    public void saveManufacturer(String manufacturerName, String SupplierNum) {
-        //-----------------------------------------Create a query-----------------------------------------
+    public void WriteManufacturersToCache() {
         try {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Supplier VALUES (?)");
-            stmt.setString(1, manufacturerName);
-            stmt.executeUpdate();
-
-            PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO Supplier_Manufacturer VALUES (?,?)");
-            stmt2.setString(1, SupplierNum);
-            stmt2.setString(2, manufacturerName);
-            stmt2.executeUpdate();
-        }
-        catch (SQLException e) {e.printStackTrace();}
-    }
-
-
-    public Manufacturer getManufacturer(String manufacturerName){
-
-        Manufacturer manufacturer = null;
-        try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Manufacturer WHERE Name = ?");
-            stmt.setString(1, manufacturerName);
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Manufacturer");
             ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                manufacturer = new Manufacturer(manufacturerName);
+            while (rs.next()) {
+                String manufacturerName = rs.getString("Name");
+                IdentifyMapManufacturer.put(manufacturerName, new Manufacturer(manufacturerName));
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        return manufacturer;
     }
 
+    public List<Manufacturer> getAll(String supplierNum) {
+        List<Manufacturer> manufacturerList = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Supplier_Manufacturer WHERE SupplierNum = ?");
+            stmt.setString(1, supplierNum);
+            ResultSet rs = stmt.executeQuery();
+
+            //-----------------------------------------Create array-----------------------------------------
+            while (rs.next())
+                manufacturerList.add(new Manufacturer(rs.getString("ManufacturerName")));
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
+        return manufacturerList;
+    }
 }
