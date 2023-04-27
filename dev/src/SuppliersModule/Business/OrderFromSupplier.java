@@ -13,7 +13,7 @@ public class OrderFromSupplier {
     private static int unique = 1; // Every new order that open gets a unique id. For every new open the unique variable is incremented by one.
 
     //------------------------------------------ Attributes ---------------------------------------
-    private final int Id; // unique order ID
+    private int Id; // unique order ID
     private int Quantity; // The quantity of products in the order
 
     private float priceBeforeTotalDiscount; // price after calculate the product discount, but before calculate the total SuppliersModule.Business.Order Discount
@@ -116,6 +116,22 @@ public class OrderFromSupplier {
 
     public Supplier getMySupplier() {
         return MySupplier;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    public void setQuantity(int quantity) {
+        Quantity = quantity;
+    }
+
+    public void setPriceBeforeTotalDiscount(float priceBeforeTotalDiscount) {
+        this.priceBeforeTotalDiscount = priceBeforeTotalDiscount;
+    }
+
+    public void setProductsInOrder(Map<String, OrderedProduct> productsInOrder) {
+        ProductsInOrder = productsInOrder;
     }
 }
 

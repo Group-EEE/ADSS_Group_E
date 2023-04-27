@@ -14,6 +14,9 @@ public class SupplierDAO {
     static SupplierDAO supplierDAO;
     private ManufacturerDAO manufacturerDAO;
     private SupplierProductDAO supplierProductDAO;
+    private OrderFromSupplierDAO orderFromSupplierDAO;
+
+    private PeriodicOrderDAO periodicOrderDAO;
     private Map<String, Supplier> IdentifyMapSupplier;
 
     private SupplierDAO(Connection conn) {
@@ -22,6 +25,8 @@ public class SupplierDAO {
         contactDAO = ContactDAO.getInstance(this.conn);
         manufacturerDAO = ManufacturerDAO.getInstance(this.conn);
         supplierProductDAO = SupplierProductDAO.getInstance(this.conn);
+        orderFromSupplierDAO = OrderFromSupplierDAO.getInstance(this.conn);
+        periodicOrderDAO = PeriodicOrderDAO.getInstance(this.conn);
         IdentifyMapSupplier = new HashMap<>();
     }
 
@@ -51,6 +56,11 @@ public class SupplierDAO {
                     supplier.addManufacturer(manufacturer);
 
                 supplierProductDAO.creatAllSupplierProductsBySupplier(supplier);
+
+                for(OrderFromSupplier orderFromSupplier : orderFromSupplierDAO.getAll(supplier))
+                    orderFromSupplier.invite();
+
+                periodicOrderDAO.createAllPeriodicOrder(supplier.getSupplierNum());
 
                 IdentifyMapSupplier.put(supplierNum, supplier);
             }

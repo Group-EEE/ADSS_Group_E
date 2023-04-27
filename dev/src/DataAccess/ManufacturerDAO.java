@@ -31,9 +31,8 @@ public class ManufacturerDAO {
                 String manufacturerName = rs.getString("Name");
                 IdentifyMapManufacturer.put(manufacturerName, new Manufacturer(manufacturerName));
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
+        catch (SQLException e) {throw new RuntimeException(e);}
     }
 
     public List<Manufacturer> getAll(String supplierNum) {

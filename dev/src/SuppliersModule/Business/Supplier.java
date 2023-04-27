@@ -95,7 +95,7 @@ public class Supplier {
             System.out.println("Can't delete, must have at least one contact");
     }
 
-    // -------------------------------- Methods related to SuppliersModule.Business.SupplierProduct ------------------------------
+    // -------------------------------- Methods related to SupplierProduct ------------------------------
     public void addNewProduct(SupplierProduct newProduct){
         MyProducts.put(newProduct.getSupplierCatalog(), newProduct);
         addManufacturer(newProduct.getMyProduct().getMyManufacturer());     //A supplier works with a manufacturer
@@ -125,7 +125,7 @@ public class Supplier {
 
     public Map<String, SupplierProduct> getMyProducts() {return MyProducts;}
 
-    // -------------------------------- Methods related to SuppliersModule.Business.Order ------------------------------
+    // -------------------------------- Methods related to Order ------------------------------
     public void addNewOrder(OrderFromSupplier newOrderFromSupplier) {
         myOrderFromSuppliers.add(newOrderFromSupplier);}
 

@@ -3,8 +3,7 @@ package SuppliersModule.Business;
 public class PeriodicOrder {
     private final OrderFromSupplier orderFromSupplier;
     private int dayForInvite; // The day in the week that the supplier gets the order from the store
-
-    private final int id;
+    private int id;
 
     public PeriodicOrder(OrderFromSupplier orderFromSupplier, int dayForInvite) {
         this.orderFromSupplier = orderFromSupplier;
@@ -36,5 +35,9 @@ public class PeriodicOrder {
 
     public void delete(){
         orderFromSupplier.getMySupplier().deletePeriodicOrder(id);
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

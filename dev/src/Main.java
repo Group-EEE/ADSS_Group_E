@@ -1,5 +1,4 @@
 import DataAccess.SuperLeeDBConnection;
-import SuppliersModule.Presentation.SupplierModulePresentation;
 
 public class Main {
     public static void main(String[] args)
@@ -30,6 +29,6 @@ public class Main {
         //supplierModulePresentation.PowerOn();
 
         SuperLeeDBConnection superLeeDBConnection = SuperLeeDBConnection.getInstance();
-        superLeeDBConnection.WriteAllToCache();
+        superLeeDBConnection.ReadAllToCache();
     }
 }

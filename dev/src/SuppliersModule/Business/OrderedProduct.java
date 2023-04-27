@@ -11,7 +11,7 @@ public class OrderedProduct {
     private int Quantity;
     private final float FinalPrice;
     private float Discount;
-    private final int Id; // unique orderProduct ID
+    private int Id; // unique orderProduct ID
 
     //------------------------------------------ References ---------------------------------------
     private SupplierProduct MyProduct;
@@ -41,5 +41,9 @@ public class OrderedProduct {
 
     public SupplierProduct getMyProduct() {
         return MyProduct;
+    }
+
+    public void setId(int id) {
+        Id = id;
     }
 }

@@ -1,6 +1,5 @@
 package DataAccess;
 
-import SuppliersModule.Business.Supplier;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -33,11 +32,15 @@ public class SuperLeeDBConnection {
         return conn;
     }
 
-    public void WriteAllToCache()
+    public void ReadAllToCache()
     {
         manufacturerDAO.WriteManufacturersToCache();
         genericProductDAO.WriteGenericProductsToCache();
         supplierDAO.WriteSuppliersToCache();
+    }
 
+    public void WriteAllToDB()
+    {
+        
     }
 }

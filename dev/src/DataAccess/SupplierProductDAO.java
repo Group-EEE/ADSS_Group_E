@@ -65,5 +65,9 @@ public class SupplierProductDAO {
         return keyPair;
     }
 
+    public SupplierProduct getSupplierProduct(String supplierNum, String supplierCatalog)
+    {
+        return IdentifyMapSupplierProduct.get(createKey(supplierNum, supplierCatalog));
+    }
 
 }
