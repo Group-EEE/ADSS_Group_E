@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8ab6a62-5a9f-4ada-b7de-51cb98261c12" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
+    <list default="true" id="e8ab6a62-5a9f-4ada-b7de-51cb98261c12" name="Changes" comment="tables 27/4">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/res/SuperLeeDB" beforeDir="false" afterPath="$PROJECT_DIR$/dev/res/SuperLeeDB" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,8 +139,16 @@
       <workItem from="1682542822464" duration="2561000" />
       <workItem from="1682578650547" duration="11321000" />
       <workItem from="1682614925582" duration="4792000" />
-      <workItem from="1682621833880" duration="2670000" />
+      <workItem from="1682621833880" duration="3222000" />
     </task>
+    <task id="LOCAL-00001" summary="tables 27/4">
+      <created>1682624568520</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1682624568520</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -158,6 +167,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="tables 27/4" />
+    <option name="LAST_COMMIT_MESSAGE" value="tables 27/4" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
