@@ -59,4 +59,49 @@ public class ManufacturerDAO {
     {
         return IdentifyMapManufacturer.get(manufacturerName);
     }
+
+    public void WriteFromCacheToDB()
+    {
+        PreparedStatement stmt;
+
+        try{
+            stmt = conn.prepareStatement("DELETE FROM Manufacturer");
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
+        for (Map.Entry<String, Manufacturer> pair : IdentifyMapManufacturer.entrySet()) {
+            try{
+                stmt = conn.prepareStatement("Insert into Manufacturer VALUES (?)");
+                stmt.setString(1, pair.getKey());
+                stmt.executeQuery();
+            }
+            catch (SQLException e) {throw new RuntimeException(e);}
+        }
+
+        writeAllToSupplierManufacturer();
+    }
+
+    public void writeAllToSupplierManufacturer()
+    {
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("DELETE FROM Supplier_Manufacturer");
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
+        for (Map.Entry<String, Manufacturer> pair : IdentifyMapManufacturer.entrySet()) {
+            for (Map.Entry<String, Supplier> pair2 : pair.getValue().getMySuppliers().entrySet()) {
+                try {
+                    stmt = conn.prepareStatement("Insert into Supplier_Categories VALUES (?,?)");
+                    stmt.setString(1, pair2.getKey());
+                    stmt.setString(2, pair.getKey());
+                    stmt.executeQuery();
+                }
+                catch (SQLException e) {throw new RuntimeException(e);}
+            }
+        }
+    }
+
 }

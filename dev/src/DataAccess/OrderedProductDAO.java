@@ -57,4 +57,33 @@ public class OrderedProductDAO {
 
         return orderedProductList;
     }
+
+    public void WriteFromCacheToDB(int Id) {
+        PreparedStatement stmt;
+
+        for (Map.Entry<Integer, OrderedProduct> pair : IdentifyMapOrderedProduct.entrySet()) {
+            try {
+                stmt = conn.prepareStatement("Insert into SupplierProduct VALUES (?,?,?,?,?,?,?)");
+                stmt.setInt(1,  pair.getKey());
+                stmt.setInt(2,  Id);
+                stmt.setInt(3, pair.getValue().getQuantity());
+                stmt.setFloat(4, pair.getValue().getDiscount());
+                stmt.setFloat(5, pair.getValue().getFinalPrice());
+                stmt.setString(6, pair.getValue().getMyProduct().getMySupplier().getSupplierNum());
+                stmt.setString(7, pair.getValue().getMyProduct().getSupplierCatalog());
+                stmt.executeQuery();
+            }
+            catch (SQLException e) {throw new RuntimeException(e);}
+        }
+    }
+
+    public void deleteAllTable()
+    {
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("DELETE FROM OrderedProduct");
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+    }
 }

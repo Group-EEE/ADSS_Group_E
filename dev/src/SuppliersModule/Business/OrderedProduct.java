@@ -46,4 +46,8 @@ public class OrderedProduct {
     public void setId(int id) {
         Id = id;
     }
+
+    public float getDiscount() {
+        return Discount;
+    }
 }

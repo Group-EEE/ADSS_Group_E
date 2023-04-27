@@ -70,4 +70,31 @@ public class SupplierProductDAO {
         return IdentifyMapSupplierProduct.get(createKey(supplierNum, supplierCatalog));
     }
 
+    public void WriteFromCacheToDB() {
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("DELETE FROM SupplierProduct");
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (Map.Entry<List<String>, SupplierProduct> pair : IdentifyMapSupplierProduct.entrySet()) {
+            try {
+                stmt = conn.prepareStatement("Insert into SupplierProduct VALUES (?,?,?,?,?,?)");
+                stmt.setString(1, pair.getValue().getMyProduct().getName());
+                stmt.setString(2, pair.getValue().getMyProduct().getMyManufacturer().getName());
+                stmt.setString(3, pair.getKey().get(0));
+                stmt.setFloat(4, pair.getValue().getPrice());
+                stmt.setString(5, pair.getKey().get(1));
+                stmt.setInt(6, pair.getValue().getAmount());
+                stmt.executeQuery();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        supplierProductDiscountDAO.WriteFromCacheToDB();
+    }
+
 }

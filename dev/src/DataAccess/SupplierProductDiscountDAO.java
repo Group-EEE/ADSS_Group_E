@@ -2,6 +2,7 @@ package DataAccess;
 
 import SuppliersModule.Business.Agreement;
 import SuppliersModule.Business.OrderDiscount;
+import SuppliersModule.Business.SupplierProduct;
 import SuppliersModule.Business.SupplierProductDiscount;
 
 import java.sql.Connection;
@@ -53,5 +54,27 @@ public class SupplierProductDiscountDAO {
         keyPair.add(supplierCatalog);
         keyPair.add(String.valueOf(minimumAmount));
         return keyPair;
+    }
+
+    public void WriteFromCacheToDB() {
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("DELETE FROM SupplierProductDiscount");
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
+        for (Map.Entry<List<String>, SupplierProductDiscount> pair : IdentifyMapSupplierProductDiscount.entrySet()) {
+            try {
+                stmt = conn.prepareStatement("Insert into SupplierProduct VALUES (?,?,?,?)");
+                stmt.setString(1, pair.getKey().get(0));
+                stmt.setString(2,pair.getKey().get(1));
+                stmt.setFloat(3, pair.getValue().getPercentages());
+                stmt.setInt(4, Integer.parseInt(pair.getKey().get(3)));
+                stmt.executeQuery();
+            }
+            catch (SQLException e) {throw new RuntimeException(e);}
+        }
     }
 }

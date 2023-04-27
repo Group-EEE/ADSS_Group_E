@@ -41,6 +41,8 @@ public class SuperLeeDBConnection {
 
     public void WriteAllToDB()
     {
-        
+        manufacturerDAO.WriteFromCacheToDB();
+        genericProductDAO.WriteFromCacheToDB();
+        supplierDAO.WriteFromCacheToDB();
     }
 }

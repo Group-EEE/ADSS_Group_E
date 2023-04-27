@@ -52,5 +52,7 @@ public class Manufacturer {
      */
     public void addProduct(GenericProduct genericProduct) {MyProducts.put(genericProduct.getName(), genericProduct);}
 
-
+    public Map<String, Supplier> getMySuppliers() {
+        return MySuppliers;
+    }
 }

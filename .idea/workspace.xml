@@ -8,6 +8,22 @@
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/res/SuperLeeDB" beforeDir="false" afterPath="$PROJECT_DIR$/dev/res/SuperLeeDB" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/AgreementDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/AgreementDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/ContactDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/ContactDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/GenericProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/GenericProductDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/ManufacturerDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/ManufacturerDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/OrderDiscountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/OrderDiscountDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/OrderFromSupplierDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/OrderFromSupplierDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/OrderedProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/OrderedProductDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/PeriodicOrderDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/PeriodicOrderDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDBConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SupplierDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SupplierDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SupplierProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SupplierProductDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SupplierProductDiscountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SupplierProductDiscountDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Manufacturer.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Manufacturer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderedProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderedProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/PeriodicOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/PeriodicOrder.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,6 +156,8 @@
       <workItem from="1682578650547" duration="11321000" />
       <workItem from="1682614925582" duration="4792000" />
       <workItem from="1682621833880" duration="3222000" />
+      <workItem from="1682625265772" duration="1300000" />
+      <workItem from="1682626575591" duration="3086000" />
     </task>
     <task id="LOCAL-00001" summary="tables 27/4">
       <created>1682624568520</created>
@@ -174,12 +192,38 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/dev/src/Main.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="7" />
+          <url>file://$PROJECT_DIR$/dev/src/DataAccess/SupplierDAO.java</url>
+          <line>89</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDBConnection.java</url>
+          <line>44</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDBConnection.java</url>
+          <line>45</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/src/DataAccess/SupplierProductDAO.java</url>
+          <line>76</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/src/DataAccess/SupplierDAO.java</url>
+          <line>107</line>
+          <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="superLeeDBConnection.conn" />
+        <watch expression="e" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -30,5 +30,6 @@ public class Main {
 
         SuperLeeDBConnection superLeeDBConnection = SuperLeeDBConnection.getInstance();
         superLeeDBConnection.ReadAllToCache();
+        superLeeDBConnection.WriteAllToDB();
     }
 }

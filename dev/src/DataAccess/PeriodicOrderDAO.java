@@ -50,4 +50,26 @@ public class PeriodicOrderDAO {
         }
         catch (SQLException e) {throw new RuntimeException(e);}
     }
+
+    public void WriteFromCacheToDB() {
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("DELETE FROM PeriodicOrder");
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
+        for (Map.Entry<Integer, PeriodicOrder> pair : IdentifyMapPeriodicOrder.entrySet()) {
+            try {
+                stmt = conn.prepareStatement("Insert into PeriodicOrder VALUES (?,?,?,?)");
+                stmt.setInt(1,  pair.getKey());
+                stmt.setInt(2, pair.getValue().getDayForInvite());
+                stmt.setInt(3, pair.getValue().getOrderFromSupplier().getId());
+                stmt.setString(4, pair.getValue().getOrderFromSupplier().getMySupplier().getSupplierNum());
+                stmt.executeQuery();
+            }
+            catch (SQLException e) {throw new RuntimeException(e);}
+        }
+    }
 }

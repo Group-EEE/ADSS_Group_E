@@ -38,10 +38,35 @@ public class ContactDAO {
                 Contact currContact = new Contact(rs.getString("Name"), rs.getString("PhoneNumber"));
 
                 contactMap.put(rs.getString("PhoneNumber"), currContact);
+                IdentifyMapContact.put(rs.getString("PhoneNumber"), currContact);
             }
         }
         catch (SQLException e) {throw new RuntimeException(e);}
 
         return contactMap;
+    }
+
+    public void WriteFromCacheToDB(String supplierNum) {
+        PreparedStatement stmt;
+        for (Map.Entry<String, Contact> pair : IdentifyMapContact.entrySet()) {
+            try {
+                stmt = conn.prepareStatement("Insert into Contact VALUES (?,?,?)");
+                stmt.setString(1, supplierNum);
+                stmt.setString(2, pair.getValue().getName());
+                stmt.setString(3, pair.getValue().getPhoneNumber());
+                stmt.executeQuery();
+            }
+            catch (SQLException e) {throw new RuntimeException(e);}
+        }
+    }
+
+    public void deleteAllTable()
+    {
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("DELETE FROM Contact");
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
     }
 }

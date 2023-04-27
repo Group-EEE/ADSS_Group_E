@@ -1,9 +1,6 @@
 package DataAccess;
 
-import SuppliersModule.Business.Manufacturer;
-import SuppliersModule.Business.OrderFromSupplier;
-import SuppliersModule.Business.OrderedProduct;
-import SuppliersModule.Business.Supplier;
+import SuppliersModule.Business.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -60,5 +57,30 @@ public class OrderFromSupplierDAO {
     public OrderFromSupplier getOrderFromSupplier(String Id)
     {
         return IdentifyMapOrderFromSupplier.get(Id);
+    }
+
+    public void WriteFromCacheToDB() {
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("DELETE FROM OrderFromSupplier");
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
+        for (Map.Entry<Integer, OrderFromSupplier> pair : IdentifyMapOrderFromSupplier.entrySet()) {
+            try {
+                stmt = conn.prepareStatement("Insert into SupplierProduct VALUES (?,?,?,?)");
+                stmt.setInt(1,  pair.getKey());
+                stmt.setInt(2, pair.getValue().getQuantity());
+                stmt.setFloat(3, pair.getValue().getPriceBeforeTotalDiscount());
+                stmt.setString(4, pair.getValue().getMySupplier().getSupplierNum());
+                stmt.executeQuery();
+            }
+            catch (SQLException e) {throw new RuntimeException(e);}
+
+            orderedProductDAO.deleteAllTable();
+            orderedProductDAO.WriteFromCacheToDB(pair.getValue().getId());
+        }
     }
 }
