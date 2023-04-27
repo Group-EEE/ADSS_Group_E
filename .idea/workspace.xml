@@ -4,23 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8ab6a62-5a9f-4ada-b7de-51cb98261c12" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/dev/src/DataAccess/SupplierProductDiscountDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/res/SuperLeeDB" beforeDir="false" afterPath="$PROJECT_DIR$/dev/res/SuperLeeDB" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/AgreementDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/AgreementDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/ContactDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/ContactDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/GenericProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/GenericProductDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/ManufacturerDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/ManufacturerDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDBConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SupplierDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SupplierDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SupplierProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SupplierProductDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/GenericProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/GenericProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Supplier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/SupplierProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/SupplierProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Presentation/SupplierModulePresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Presentation/SupplierModulePresentation.java" afterDir="false" />
-    </list>
+    <list default="true" id="e8ab6a62-5a9f-4ada-b7de-51cb98261c12" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -149,7 +133,7 @@
       <workItem from="1682421546331" duration="5207000" />
       <workItem from="1682426874296" duration="8000" />
       <workItem from="1682542822464" duration="2561000" />
-      <workItem from="1682578650547" duration="11122000" />
+      <workItem from="1682578650547" duration="11321000" />
     </task>
     <servers />
   </component>
@@ -173,11 +157,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDBConnection.java</url>
-          <line>38</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/src/Main.java</url>
           <line>32</line>
