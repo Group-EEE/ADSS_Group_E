@@ -10,13 +10,13 @@ public class OrderDiscountDAO {
 
     private Connection conn;
     private List<String> key;
-    private Map<List<String>, OrderDiscount> IdentifyMapAgreement;
+    private Map<List<String>, OrderDiscount> IdentifyMapOrderDiscount;
     static OrderDiscountDAO orderDiscountDAO;
 
     private OrderDiscountDAO(Connection conn) {
         this.conn = conn;
         key = new ArrayList<>();
-        IdentifyMapAgreement = new HashMap<>();
+        IdentifyMapOrderDiscount = new HashMap<>();
     }
 
     public static OrderDiscountDAO getInstance(Connection conn) {
@@ -38,7 +38,7 @@ public class OrderDiscountDAO {
             while (rs.next()) {
                 OrderDiscount orderDiscount = new OrderDiscount(rs.getString("ByPriceOrQuantity"), rs.getInt("Amount"), rs.getFloat("Discount"), agreement);
                 createKey(supplierNum, orderDiscount.getByPriceOrQuantity(), orderDiscount.getAmount());
-                IdentifyMapAgreement.put(key, orderDiscount);
+                IdentifyMapOrderDiscount.put(key, orderDiscount);
                 orderDiscountList.add(orderDiscount);
 
             }
@@ -54,5 +54,27 @@ public class OrderDiscountDAO {
         key.add(supplierNum);
         key.add(priceOrQuantity);
         key.add(String.valueOf(minimumAmount));
+    }
+
+    public void WriteFromCacheToDB() {
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("DELETE FROM OrderDiscount");
+            stmt.executeQuery();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
+        for (Map.Entry<List<String>, OrderDiscount> pair : IdentifyMapOrderDiscount.entrySet()) {
+            try {
+                stmt = conn.prepareStatement("Insert into OrderDiscount VALUES (?,?,?,?)");
+                stmt.setString(1, pair.getKey().get(0));
+                stmt.setString(2, pair.getKey().get(1));
+                stmt.setInt(3, Integer.parseInt(pair.getKey().get(2)));
+                stmt.setFloat(4,pair.getValue().getDiscount());
+                stmt.executeQuery();
+            }
+            catch (SQLException e) {throw new RuntimeException(e);}
+        }
     }
 }

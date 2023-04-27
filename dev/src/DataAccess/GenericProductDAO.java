@@ -64,4 +64,25 @@ public class GenericProductDAO {
         return IdentifyMapGenericProductByName.get(createKey(ProductName, ManufacturerName));
     }
 
+    public void WriteFromCacheToDB()
+    {
+        PreparedStatement stmt;
+
+        try{
+            stmt = conn.prepareStatement("DELETE FROM GenericProduct");
+            stmt.executeQuery();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
+        for (Map.Entry<Integer, GenericProduct> pair : IdentifyMapGenericProductByBarcode.entrySet()) {
+            try{
+                stmt = conn.prepareStatement("Insert into GenericProduct VALUES (?,?,?)");
+                stmt.setString(1, pair.getValue().getName());
+                stmt.setString(2, pair.getValue().getMyManufacturer().getName());
+                stmt.setInt(3, pair.getKey());
+                stmt.executeQuery();
+            }
+            catch (SQLException e) {throw new RuntimeException(e);}
+        }
+    }
 }

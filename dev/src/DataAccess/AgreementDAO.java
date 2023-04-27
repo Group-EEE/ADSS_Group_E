@@ -1,6 +1,7 @@
 package DataAccess;
 
 import SuppliersModule.Business.Agreement;
+import SuppliersModule.Business.Supplier;
 
 import java.sql.*;
 import java.util.*;
@@ -51,5 +52,37 @@ public class AgreementDAO {
         IdentifyMapAgreement.put(supplierNum, agreement);
         return agreement;
 
+    }
+
+    public void WriteFromCacheToDB() {
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("DELETE FROM Agreement");
+            stmt.executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (Map.Entry<String, Agreement> pair : IdentifyMapAgreement.entrySet()) {
+            try {
+                stmt = conn.prepareStatement("Insert into Agreement VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+                stmt.setString(1, pair.getKey());
+                stmt.setBoolean(2, pair.getValue().isHasPermanentDays());
+                stmt.setBoolean(3, pair.getValue().isSupplierBringProduct());
+                stmt.setBoolean(4, pair.getValue().getDeliveryDays()[0]);
+                stmt.setBoolean(5, pair.getValue().getDeliveryDays()[1]);
+                stmt.setBoolean(6, pair.getValue().getDeliveryDays()[2]);
+                stmt.setBoolean(7, pair.getValue().getDeliveryDays()[3]);
+                stmt.setBoolean(8, pair.getValue().getDeliveryDays()[4]);
+                stmt.setBoolean(9, pair.getValue().getDeliveryDays()[5]);
+                stmt.setBoolean(10, pair.getValue().getDeliveryDays()[6]);
+                stmt.setInt(11, pair.getValue().getNumberOfDaysToSupply());
+                stmt.executeQuery();
+            }
+            catch (SQLException e) {throw new RuntimeException(e);}
+        }
+
+        orderDiscountDAO.WriteFromCacheToDB();
     }
 }
