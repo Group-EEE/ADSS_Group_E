@@ -6,18 +6,26 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SupplierProductDAO {
 
     private Connection conn;
     static SupplierProductDAO supplierProductDAO;
-    private Map<String, SupplierProduct> IdentifyMapSupplierProductDAO;
+    private Map<List<String>, SupplierProduct> IdentifyMapSupplierProduct;
+
+    private SupplierProductDiscountDAO supplierProductDiscountDAO;
+
+    private GenericProductDAO genericProductDAO;
 
     private SupplierProductDAO(Connection conn) {
         this.conn = conn;
-        IdentifyMapSupplierProductDAO = new HashMap<>();
+        IdentifyMapSupplierProduct = new HashMap<>();
+        genericProductDAO = GenericProductDAO.getInstance(this.conn);
+        supplierProductDiscountDAO = SupplierProductDiscountDAO.getInstance(this.conn);
     }
 
     public static SupplierProductDAO getInstance(Connection conn) {
@@ -26,68 +34,36 @@ public class SupplierProductDAO {
         return supplierProductDAO;
     }
 
-    public void saveInCacheSupplierProduct(SupplierProduct supplierProduct)
+    public void creatAllSupplierProductsBySupplier(Supplier supplier)
     {
-        IdentifyMapSupplierProductDAO.put(supplierProduct.getSupplierCatalog(), supplierProduct);
-    }
-
-    public Map<String, SupplierProduct> getALL(String supplierNum)
-    {
-        Map<String, SupplierProduct> supplierProductMap = new HashMap<>();
-
-        return null;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void saveSupplierProduct(float price, String supplierCatalog, int amount, Supplier supplier, GenericProduct genericProduct, Agreement agreement) {
-
-        new SupplierProduct(price, supplierCatalog, amount, supplier, genericProduct, supplier.getMyAgreement());
-
-        try {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO SupplierProduct VALUES (?,?,?,?,?,?)");
-            stmt.setString(1, genericProduct.getName());
-            stmt.setString(2, genericProduct.getMyManufacturer().getName());
-            stmt.setString(3, supplier.getSupplierNum());
-            stmt.setFloat(4, price);
-            stmt.setString(5, supplierCatalog);
-            stmt.setInt(6, amount);
-            stmt.executeUpdate();
-        }
-        catch (SQLException e) {e.printStackTrace();}
-    }
-
-    public Map<String, SupplierProduct> getAll(Supplier supplier)
-    {
-        Map<String, SupplierProduct> contactSupplierProduct = new HashMap<>();
-        //-----------------------------------------Create a query-----------------------------------------
-        ResultSet rs;
         try{
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SupplierProduct WHERE SupplierNum = ?");
             stmt.setString(1, supplier.getSupplierNum());
-            rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                String productName = rs.getString("Name");
+                String ManufacturerName =rs.getString("ManufacturerName");
+                GenericProduct genericProduct = genericProductDAO.getGenericProductByName(productName, ManufacturerName);
 
-            //-----------------------------------------Create array-----------------------------------------
-            SupplierProduct supplierProduct;
-            while (rs.next()) {
-                supplierProduct = new SupplierProduct(rs.getFloat("Price"), rs.getString("SupplierCatalog"), rs.getInt("Amount"), supplier, null, supplier.getMyAgreement());
-                contactSupplierProduct.put(rs.getString("SupplierCatalog"), supplierProduct);
+                SupplierProduct currSupplierProduct = new SupplierProduct(rs.getFloat("Price"), rs.getString("SupplierCatalog"),
+                        rs.getInt("Amount"), supplier, genericProduct, supplier.getMyAgreement());
+
+                currSupplierProduct.setDiscountProducts(supplierProductDiscountDAO.getAll(supplier.getSupplierNum(),rs.getString("SupplierCatalog")));
+
+                IdentifyMapSupplierProduct.put(createKey(supplier.getSupplierNum(), rs.getString("SupplierCatalog")), currSupplierProduct);
             }
         }
         catch (SQLException e) {throw new RuntimeException(e);}
-
-        return null;
     }
+
+    public List<String> createKey(String supplierNum, String supplierCatalog)
+    {
+        List<String> keyPair = new ArrayList<>();
+        keyPair.add(supplierNum);
+        keyPair.add(supplierCatalog);
+        return keyPair;
+    }
+
+
 }

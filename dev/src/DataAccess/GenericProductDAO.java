@@ -1,6 +1,7 @@
 package DataAccess;
 
 import SuppliersModule.Business.GenericProduct;
+import SuppliersModule.Business.Manufacturer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,12 +18,14 @@ public class GenericProductDAO {
     static GenericProductDAO genericProductDAO;
     private ManufacturerDAO manufacturerDAO;
 
-    Map<List<String>, GenericProduct> IdentifyMapGenericProduct;
+    Map<List<String>, GenericProduct> IdentifyMapGenericProductByName;
+    Map<Integer, GenericProduct> IdentifyMapGenericProductByBarcode;
 
     private GenericProductDAO(Connection conn) {
         this.conn = conn;
         manufacturerDAO = ManufacturerDAO.getInstance(this.conn);
-        IdentifyMapGenericProduct = new HashMap<>();
+        IdentifyMapGenericProductByName = new HashMap<>();
+        IdentifyMapGenericProductByBarcode = new HashMap<>();
     }
 
     public static GenericProductDAO getInstance(Connection conn) {
@@ -31,71 +34,34 @@ public class GenericProductDAO {
         return genericProductDAO;
     }
 
-    public void saveInCacheGenericProduct(GenericProduct genericProduct) {
-        List<String> keyPair = new ArrayList<>();
-        keyPair.add(genericProduct.getName());
-        keyPair.add(genericProduct.getMyManufacturer().getName());
-        IdentifyMapGenericProduct.put(keyPair, genericProduct);
-    }
-
-    public boolean checkIfGenericProductExist(String manufacturerName, String ProductName){
-
-        List<String> keyPair = new ArrayList<>();
-        keyPair.add(ProductName); keyPair.add(manufacturerName);
-        if(IdentifyMapGenericProduct.containsKey(keyPair))
-            return true;
-
-        try{
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM GenericProduct WHERE Name = ? And ManufcturerName = ?");
-            stmt.setString(1, ProductName);
-            stmt.setString(2, manufacturerName);
-            ResultSet rs = stmt.executeQuery();
-            return rs.next();
-        }
-        catch (SQLException e) {throw new RuntimeException(e);}
-    }
-
-
-
-
-
-
-
-
-    public void saveGenericProduct(String manufacturerName, String ProductName, int Barcode) {
+    public void WriteGenericProductsToCache() {
         try {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO GenericProduct VALUES (?,?,?)");
-            stmt.setString(1, ProductName);
-            stmt.setString(2, manufacturerName);
-            stmt.setInt(3, Barcode);
-            stmt.executeUpdate();
-        }
-        catch (SQLException e) {e.printStackTrace();}
-    }
-
-
-    public GenericProduct getGenericProduct(String manufacturerName, String ProductName) {
-
-        List<String> keyPair = new ArrayList<>();
-        keyPair.add(ProductName);
-        keyPair.add(manufacturerName);
-
-        GenericProduct genericProduct = IdentifyMapGenericProduct.get(keyPair);
-        if(genericProduct != null)
-            return genericProduct;
-
-        try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM GenericProduct WHERE Name = ? And ManufcturerName = ?");
-            stmt.setString(1, ProductName);
-            stmt.setString(2, manufacturerName);
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM GenericProduct");
             ResultSet rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                String productName = rs.getString("Name");
+                String ManufacturerName =rs.getString("ManufacturerName");
+                GenericProduct currGenericProduct = new GenericProduct(productName,  manufacturerDAO.getManufacturer(ManufacturerName), rs.getInt("Barcode"));
 
-            if (rs.next()) {
-                genericProduct = new GenericProduct(ProductName, manufacturerDAO.getManufacturer(manufacturerName), rs.getInt("Barcode"));
+                IdentifyMapGenericProductByName.put(createKey(productName, ManufacturerName),currGenericProduct);
+                IdentifyMapGenericProductByBarcode.put(rs.getInt("Barcode"), currGenericProduct);
             }
         }
         catch (SQLException e) {throw new RuntimeException(e);}
-
-        return genericProduct;
     }
+
+    public List<String> createKey(String productName, String manufacturerName)
+    {
+        List<String> keyPair = new ArrayList<>();
+        keyPair.add(productName);
+        keyPair.add(manufacturerName);
+        return keyPair;
+    }
+
+    public GenericProduct getGenericProductByName(String ProductName, String ManufacturerName)
+    {
+        return IdentifyMapGenericProductByName.get(createKey(ProductName, ManufacturerName));
+    }
+
 }

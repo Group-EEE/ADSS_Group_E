@@ -3,14 +3,8 @@ package DataAccess;
 
 import SuppliersModule.Business.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
+import java.util.*;
 
 public class ManufacturerDAO {
 
@@ -51,11 +45,19 @@ public class ManufacturerDAO {
             ResultSet rs = stmt.executeQuery();
 
             //-----------------------------------------Create array-----------------------------------------
-            while (rs.next())
-                manufacturerList.add(new Manufacturer(rs.getString("ManufacturerName")));
+            Manufacturer currManufacturer;
+            while (rs.next()) {
+                currManufacturer = IdentifyMapManufacturer.get(rs.getString("ManufacturerName"));
+                manufacturerList.add(currManufacturer);
+            }
         }
         catch (SQLException e) {throw new RuntimeException(e);}
 
         return manufacturerList;
+    }
+
+    public Manufacturer getManufacturer(String manufacturerName)
+    {
+        return IdentifyMapManufacturer.get(manufacturerName);
     }
 }

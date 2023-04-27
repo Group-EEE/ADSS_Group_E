@@ -1,10 +1,11 @@
+import DataAccess.SuperLeeDBConnection;
 import SuppliersModule.Presentation.SupplierModulePresentation;
 
 public class Main {
     public static void main(String[] args)
     {
 
-        SupplierModulePresentation supplierModulePresentation = new SupplierModulePresentation();
+        //SupplierModulePresentation supplierModulePresentation = new SupplierModulePresentation();
         /*
         InventoryModulePresentation inventoryModulePresentation = new InventoryModulePresentation();
         String yourChoice = "";
@@ -26,6 +27,9 @@ public class Main {
         }
 
          */
-        supplierModulePresentation.PowerOn();
+        //supplierModulePresentation.PowerOn();
+
+        SuperLeeDBConnection superLeeDBConnection = SuperLeeDBConnection.getInstance();
+        superLeeDBConnection.WriteAllToCache();
     }
 }

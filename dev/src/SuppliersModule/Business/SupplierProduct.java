@@ -96,4 +96,8 @@ public class SupplierProduct {
         else
             System.out.println("The discount has been deleted\n");
     }
+
+    public void setDiscountProducts(TreeMap<Integer,SupplierProductDiscount> discountProducts) {
+        DiscountProducts = discountProducts;
+    }
 }

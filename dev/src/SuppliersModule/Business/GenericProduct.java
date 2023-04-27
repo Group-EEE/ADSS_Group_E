@@ -31,7 +31,7 @@ public class GenericProduct {
 
         Name = name;
         MyManufacturer = myManufacturer;
-        myManufacturer.addProduct(this);                        // Add the product to the manufacturer's products.
+        myManufacturer.addProduct(this);                  // Add the product to the manufacturer's products.
         MySuppliersProduct = new ArrayList<SupplierProduct>();
 
         if(barcode == -1){

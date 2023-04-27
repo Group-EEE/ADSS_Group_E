@@ -2,14 +2,9 @@ package DataAccess;
 
 import SuppliersModule.Business.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
+import java.util.*;
+
 
 public class SupplierDAO {
 
@@ -18,7 +13,7 @@ public class SupplierDAO {
     private ContactDAO contactDAO;
     static SupplierDAO supplierDAO;
     private ManufacturerDAO manufacturerDAO;
-
+    private SupplierProductDAO supplierProductDAO;
     private Map<String, Supplier> IdentifyMapSupplier;
 
     private SupplierDAO(Connection conn) {
@@ -26,6 +21,7 @@ public class SupplierDAO {
         agreementDAO = AgreementDAO.getInstance(this.conn);
         contactDAO = ContactDAO.getInstance(this.conn);
         manufacturerDAO = ManufacturerDAO.getInstance(this.conn);
+        supplierProductDAO = SupplierProductDAO.getInstance(this.conn);
         IdentifyMapSupplier = new HashMap<>();
     }
 
@@ -50,10 +46,13 @@ public class SupplierDAO {
                         currAgreement.getDeliveryDays(), currAgreement.getNumberOfDaysToSupply());
 
                 supplier.setMyAgreement(currAgreement);
-                IdentifyMapSupplier.put(supplierNum, supplier);
 
                 for(Manufacturer manufacturer : manufacturerDAO.getAll(supplierNum))
                     supplier.addManufacturer(manufacturer);
+
+                supplierProductDAO.creatAllSupplierProductsBySupplier(supplier);
+
+                IdentifyMapSupplier.put(supplierNum, supplier);
             }
         }
         catch (SQLException e) {throw new RuntimeException(e);}
@@ -73,8 +72,4 @@ public class SupplierDAO {
         catch (SQLException e) {throw new RuntimeException(e);}
         return categories;
     }
-
-
-    //**********************************************************************************
-
 }

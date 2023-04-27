@@ -24,7 +24,6 @@ public class Supplier {
     private Map<String, SupplierProduct> MyProducts; // All the products supply by this supplier in the agreement.
     private List<OrderFromSupplier> myOrderFromSuppliers; // All the orders that we ordered from this supplier
     private Agreement MyAgreement; // The agreement that we signed with this supplier
-
     private Map<Integer,PeriodicOrder> MyPeriodicOrders;
 
     //-----------------------------------Methods related to This -------------------------------------------

@@ -25,7 +25,6 @@ public class AgreementDAO {
         return agreementDAO;
     }
 
-
     public Agreement getAgreement(String supplierNum) {
         Agreement agreement = IdentifyMapAgreement.get(supplierNum);
         if(agreement != null)
@@ -52,59 +51,5 @@ public class AgreementDAO {
         IdentifyMapAgreement.put(supplierNum, agreement);
         return agreement;
 
-    }
-
-
-
-
-
-
-    public void saveAgreement(Agreement agreement) {
-        //-----------------------------------------Create a query-----------------------------------------
-        try {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Agreement VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-            stmt.setString(1, agreement.getMySupplier().getSupplierNum());
-            stmt.setBoolean(2, agreement.isHasPermanentDays());
-            stmt.setBoolean(3, agreement.isSupplierBringProduct());
-            for(int i = 4 ; i < agreement.getDeliveryDays().length + 4 ; i++)
-                stmt.setBoolean(i, agreement.getDeliveryDays()[i-4]);
-            stmt.setInt(11, agreement.getNumberOfDaysToSupply());
-            stmt.executeUpdate();
-        }
-        catch (SQLException e) {e.printStackTrace();}
-
-    }
-
-
-
-
-
-
-
-
-
-    public void updateAgreement(String supplierNum, boolean hasPermanentDays, boolean isSupplierBringProduct, boolean[] deliveryDays, int numberOdDaysToSupply) {
-        //-----------------------------------------Create a query-----------------------------------------
-        try {
-            PreparedStatement stmt = conn.prepareStatement("UPDATE Agreement SET HasPermanentDays = ? , IsSupplierBringProduct = ? , Sunday = ? , Monday = ? , Tuesday = ? , Wednesday = ? , Thursday = ? , Friday = ? , Saturday = ? , NumberOfDaysToSupply = ? WHERE supplierNum = ?");
-            stmt.setBoolean(1, hasPermanentDays);
-            stmt.setBoolean(2, isSupplierBringProduct);
-            for(int i = 3 ; i < deliveryDays.length + 3 ; i++)
-                stmt.setBoolean(i, deliveryDays[i-3]);
-            stmt.setInt(10, numberOdDaysToSupply);
-            stmt.setString(11, supplierNum);
-            stmt.executeUpdate();
-        }
-        catch (SQLException e) {e.printStackTrace();}
-    }
-
-    public void deleteAgreement(String supplierNum) {
-        //-----------------------------------------Create a query-----------------------------------------
-        try {
-            PreparedStatement stmt = conn.prepareStatement("DELETE FROM Agreement WHERE SupplierNum = ?");
-            stmt.setString(1, supplierNum);
-            stmt.executeUpdate();
-        }
-        catch (SQLException e) {e.printStackTrace();}
     }
 }

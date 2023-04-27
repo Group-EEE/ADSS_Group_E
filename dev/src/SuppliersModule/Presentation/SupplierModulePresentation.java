@@ -50,7 +50,7 @@ public class SupplierModulePresentation {
             System.out.println("2. Create a new periodic order.");
             System.out.println("3. Show orders history.");
             System.out.println("4. Delete supplier from the system.");
-            System.out.println("5. Update SuppliersModule.Business.Supplier SuppliersModule.Business.Agreement.");
+            System.out.println("5. Update Supplier Agreement.");
             System.out.println("6. Change supplier details.");
             System.out.println("7. Print supplier details.");
             System.out.println("0. Exit.");
