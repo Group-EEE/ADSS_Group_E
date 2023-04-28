@@ -1,4 +1,4 @@
-package DataAccess;
+package DataAccess.SuppliersModule;
 
 
 import SuppliersModule.Business.*;
@@ -55,11 +55,6 @@ public class ManufacturerDAO {
         return manufacturerList;
     }
 
-    public Manufacturer getManufacturer(String manufacturerName)
-    {
-        return IdentifyMapManufacturer.get(manufacturerName);
-    }
-
     public void WriteFromCacheToDB()
     {
         PreparedStatement stmt;
@@ -94,7 +89,7 @@ public class ManufacturerDAO {
         for (Map.Entry<String, Manufacturer> pair : IdentifyMapManufacturer.entrySet()) {
             for (Map.Entry<String, Supplier> pair2 : pair.getValue().getMySuppliers().entrySet()) {
                 try {
-                    stmt = conn.prepareStatement("Insert into Supplier_Categories VALUES (?,?)");
+                    stmt = conn.prepareStatement("Insert into Supplier_Manufacturer VALUES (?,?)");
                     stmt.setString(1, pair2.getKey());
                     stmt.setString(2, pair.getKey());
                     stmt.executeQuery();
@@ -104,4 +99,40 @@ public class ManufacturerDAO {
         }
     }
 
+    public boolean CheckIfManufacturerExist(String manufacturerName)
+    {
+        return IdentifyMapManufacturer.containsKey(manufacturerName);
+    }
+
+    public Manufacturer getManufacturer(String manufacturerName)
+    {
+        return IdentifyMapManufacturer.get(manufacturerName);
+    }
+
+    public void insert(Manufacturer manufacturer)
+    {
+        IdentifyMapManufacturer.put(manufacturer.getName(), manufacturer);
+    }
+
+
+    public void deleteBySupplier(String supplierNum)
+    {
+        try {
+            PreparedStatement stmt = conn.prepareStatement("Delete FROM Supplier_Manufacturer WHERE SupplierNum = ?");
+            stmt.setString(1, supplierNum);
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+    }
+
+    public void deleteWorkingWithManufacturer(String supplierNum, String manufacturerNum)
+    {
+        try {
+            PreparedStatement stmt = conn.prepareStatement("Delete FROM Supplier_Manufacturer WHERE SupplierNum = ? AND manufacturerNum = ?");
+            stmt.setString(1, supplierNum);
+            stmt.setString(2, manufacturerNum);
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+    }
 }

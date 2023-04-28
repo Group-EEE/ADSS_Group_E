@@ -376,7 +376,7 @@ public class SupplierModulePresentation {
         System.out.println("Enter contact phone number:");
         String OldPhone =  reader.nextLine();
 
-        if(supplierController.checkIfContactExist(supplierNum, OldPhone)) {
+        if(supplierController.checkIfContactExist(OldPhone)) {
             System.out.println("Enter contact NEW phone number:");
             supplierController.setNewContactPhone(supplierNum, reader.nextLine(), OldPhone);
         }

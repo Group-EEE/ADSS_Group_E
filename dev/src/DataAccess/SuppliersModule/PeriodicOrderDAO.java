@@ -1,16 +1,13 @@
-package DataAccess;
+package DataAccess.SuppliersModule;
 
 import SuppliersModule.Business.OrderFromSupplier;
 import SuppliersModule.Business.PeriodicOrder;
-import SuppliersModule.Business.Supplier;
-import SuppliersModule.Business.SupplierProduct;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PeriodicOrderDAO {
@@ -71,5 +68,18 @@ public class PeriodicOrderDAO {
             }
             catch (SQLException e) {throw new RuntimeException(e);}
         }
+    }
+
+    public void deleteBySupplier(String supplierNum)
+    {
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT Id FROM PeriodicOrder WHERE SupplierNum = ?");
+            stmt.setString(1, supplierNum);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next())
+                IdentifyMapPeriodicOrder.remove(rs.getInt("Id"));
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
     }
 }

@@ -1,6 +1,7 @@
-package DataAccess;
+package DataAccess.SuppliersModule;
 
 import SuppliersModule.Business.Contact;
+import SuppliersModule.Business.OrderDiscount;
 import SuppliersModule.Business.Supplier;
 
 import java.sql.*;
@@ -68,5 +69,39 @@ public class ContactDAO {
             stmt.executeUpdate();
         }
         catch (SQLException e) {throw new RuntimeException(e);}
+    }
+
+    public void deleteBySupplier(String supplierNum)
+    {
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Contact WHERE SupplierNum = ?");
+            stmt.setString(1, supplierNum);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next())
+                IdentifyMapContact.remove(rs.getString("SupplierNum"));
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+    }
+
+    public void insert(Contact contact)
+    {
+        IdentifyMapContact.put(contact.getPhoneNumber(), contact);
+    }
+
+    public boolean CheckIfContactExist(String phoneNumber)
+    {
+        return IdentifyMapContact.containsKey(phoneNumber);
+    }
+
+    public void update(String oldPhone, Contact contact)
+    {
+        IdentifyMapContact.remove(oldPhone);
+        insert(contact);
+    }
+
+    public void delete(String phoneNumber)
+    {
+        IdentifyMapContact.remove(phoneNumber);
     }
 }

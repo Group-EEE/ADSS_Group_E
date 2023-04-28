@@ -1,4 +1,4 @@
-package DataAccess;
+package DataAccess.SuppliersModule;
 
 import SuppliersModule.Business.*;
 
@@ -15,7 +15,6 @@ public class SupplierDAO {
     private ManufacturerDAO manufacturerDAO;
     private SupplierProductDAO supplierProductDAO;
     private OrderFromSupplierDAO orderFromSupplierDAO;
-
     private PeriodicOrderDAO periodicOrderDAO;
     private Map<String, Supplier> IdentifyMapSupplier;
 
@@ -91,6 +90,8 @@ public class SupplierDAO {
         }
         catch (SQLException e) {throw new RuntimeException(e);}
 
+        contactDAO.deleteAllTable();
+
         for (Map.Entry<String, Supplier> pair : IdentifyMapSupplier.entrySet()) {
             try {
                 stmt = conn.prepareStatement("Insert into Supplier VALUES (?,?,?,?)");
@@ -102,7 +103,7 @@ public class SupplierDAO {
             }
             catch (SQLException e) {throw new RuntimeException(e);}
 
-            contactDAO.deleteAllTable();
+
             contactDAO.WriteFromCacheToDB(pair.getValue().getSupplierNum());
         }
         agreementDAO.WriteFromCacheToDB();
@@ -135,5 +136,43 @@ public class SupplierDAO {
                 catch (SQLException e) {throw new RuntimeException(e);}
             }
         }
+    }
+
+    public boolean CheckIfSupplierExist(String supplierNum)
+    {
+        return IdentifyMapSupplier.containsKey(supplierNum);
+    }
+
+    public Supplier getSupplierBySupplierNumber(String supplierNum)
+    {
+        return IdentifyMapSupplier.get(supplierNum);
+    }
+
+    public void insert(Supplier supplier)
+    {
+        IdentifyMapSupplier.put(supplier.getSupplierNum(), supplier);
+    }
+
+    public Map<String, Supplier> getIdentifyMapSupplier()
+    {
+        return IdentifyMapSupplier;
+    }
+
+    public void delete(String supplierNum)
+    {
+
+        agreementDAO.deleteBySupplier(supplierNum);
+        contactDAO.deleteBySupplier(supplierNum);
+        supplierProductDAO.deleteBySupplier(supplierNum);
+        orderFromSupplierDAO.deleteBySupplier(supplierNum);
+        periodicOrderDAO.deleteBySupplier(supplierNum);
+        manufacturerDAO.deleteBySupplier(supplierNum);
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement("Delete FROM Supplier_Categories WHERE SupplierNum = ?");
+            stmt.setString(1, supplierNum);
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
     }
 }

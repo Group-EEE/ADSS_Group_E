@@ -1,7 +1,5 @@
-package DataAccess;
+package DataAccess.SuppliersModule;
 
-import SuppliersModule.Business.Agreement;
-import SuppliersModule.Business.OrderDiscount;
 import SuppliersModule.Business.SupplierProduct;
 import SuppliersModule.Business.SupplierProductDiscount;
 
@@ -76,5 +74,26 @@ public class SupplierProductDiscountDAO {
             }
             catch (SQLException e) {throw new RuntimeException(e);}
         }
+    }
+
+    public void insert(SupplierProduct supplierProduct, SupplierProductDiscount supplierProductDiscount)
+    {
+        List<String> key = createKey(supplierProduct.getMySupplier().getSupplierNum(), supplierProduct.getSupplierCatalog(), supplierProductDiscount.getMinimumAmount());
+        IdentifyMapSupplierProductDiscount.put(key, supplierProductDiscount);
+    }
+
+    public void deleteBySupplier(String supplierNum)
+    {
+        Map<List<String>, SupplierProductDiscount> copyMap = new HashMap<>(IdentifyMapSupplierProductDiscount);
+        for (Map.Entry<List<String>, SupplierProductDiscount> pair : copyMap.entrySet()) {
+            if (pair.getKey().get(0).equals(supplierNum))
+                IdentifyMapSupplierProductDiscount.remove(pair.getKey());
+        }
+    }
+
+    public void delete(String supplierNum, String supplierCatalog, int amount)
+    {
+        List<String> key = createKey(supplierNum, supplierCatalog, amount);
+        IdentifyMapSupplierProductDiscount.remove(key);
     }
 }

@@ -1,4 +1,4 @@
-package DataAccess;
+package DataAccess.SuppliersModule;
 
 import SuppliersModule.Business.*;
 
@@ -82,5 +82,20 @@ public class OrderFromSupplierDAO {
             orderedProductDAO.deleteAllTable();
             orderedProductDAO.WriteFromCacheToDB(pair.getValue().getId());
         }
+    }
+
+    public void deleteBySupplier(String supplierNum)
+    {
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT Id FROM OrderFromSupplier WHERE SupplierNum = ?");
+            stmt.setString(1, supplierNum);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next())
+                IdentifyMapOrderFromSupplier.remove(rs.getInt("Id"));
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
+        orderedProductDAO.deleteBySupplier(supplierNum);
     }
 }

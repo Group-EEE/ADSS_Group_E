@@ -1,4 +1,4 @@
-package DataAccess;
+package DataAccess.SuppliersModule;
 
 import SuppliersModule.Business.Agreement;
 import SuppliersModule.Business.Supplier;
@@ -84,5 +84,11 @@ public class AgreementDAO {
         }
 
         orderDiscountDAO.WriteFromCacheToDB();
+    }
+
+    public void deleteBySupplier(String supplierNum)
+    {
+        Agreement deletedAgreement = IdentifyMapAgreement.remove(supplierNum);
+        orderDiscountDAO.deleteByAgreement(supplierNum);
     }
 }

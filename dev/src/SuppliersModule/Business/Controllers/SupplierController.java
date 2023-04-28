@@ -4,7 +4,6 @@ import InventoryModule.Business.Controllers.ProductController;
 import SuppliersModule.Business.*;
 import DataAccess.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,24 +13,15 @@ public class SupplierController {
     Map<List<String>, GenericProduct> AllProducts; // All the products we sell (the key is the list contains the product name and manufacturer name)
     Map<Integer, GenericProduct> ProductsByBarcode; // All the products we sell (the key is the barcode)
     Map<String, Manufacturer> AllManufacturers; // All the manufacturers that we work with
-
-    SupplierDAO supplierDAO;
-    ManufacturerDAO manufacturerDAO;
-    GenericProductDAO genericProductDAO;
-    SupplierProductDAO supplierProductDAO;
-    SuperLeeDBConnection superLeeDBConnection;
     static SupplierController supplierController;
+
+    private SuperLeeDB superLeeDB;
 
     private SupplierController() {
         AllSuppliers = new HashMap<>();
         AllProducts = new HashMap<>();
         AllManufacturers = new HashMap<>();
-
-        superLeeDBConnection = SuperLeeDBConnection.getInstance();
-        supplierDAO = SupplierDAO.getInstance(superLeeDBConnection.getConnection());
-        manufacturerDAO = ManufacturerDAO.getInstance(superLeeDBConnection.getConnection());
-        genericProductDAO = GenericProductDAO.getInstance(superLeeDBConnection.getConnection());
-        supplierProductDAO = SupplierProductDAO.getInstance(superLeeDBConnection.getConnection());
+        superLeeDB = SuperLeeDB.getInstance();
     }
 
     public static SupplierController getInstance() {
@@ -41,153 +31,159 @@ public class SupplierController {
     }
 
     public boolean checkIfSupplierExist(String supplierNum) {
-        return AllSuppliers.containsKey(supplierNum);
+        return superLeeDB.CheckIfSupplierExist(supplierNum);
     }
 
     public Supplier getSupplier(String supplierNum) {
-        return AllSuppliers.get(supplierNum);
+        return superLeeDB.getSupplierBySupplierNumber(supplierNum);
     }
 
     public void addNewSupplier(Supplier supplier) {
-        AllSuppliers.put(supplier.getSupplierNum(),supplier);
+        superLeeDB.insertSupplier(supplier);
     }
 
+
     public void addSupplierProduct(String productName, String manufacturerName, int barcode, String supplierNum, float price, String supplierCatalog, int amount) {
-        List<String> keyPair = new ArrayList<>();
-        keyPair.add(productName);
-        keyPair.add(manufacturerName);
 
-        if (!AllManufacturers.containsKey(manufacturerName))
-            AllManufacturers.put(manufacturerName,new Manufacturer(manufacturerName));
+        if (!superLeeDB.CheckIfManufacturerExist(manufacturerName))
+            superLeeDB.insertManufacturer(new Manufacturer(manufacturerName));
 
-        if (!AllProducts.containsKey(keyPair))
-            AllProducts.put(keyPair,new GenericProduct(productName, manufacturerDAO.getManufacturer(manufacturerName), barcode));
+        if (!superLeeDB.CheckIfGenericProductExist(productName, manufacturerName)){
+            GenericProduct genericProduct = new GenericProduct(productName, superLeeDB.getManufacturer(manufacturerName), barcode);
+            superLeeDB.insertGenericProduct(genericProduct);
+        }
 
-        Supplier supplier = AllSuppliers.get(supplierNum);
-        GenericProduct genericProduct = AllProducts.get(keyPair);
+        Supplier supplier = getSupplier(supplierNum);
+        GenericProduct genericProduct = superLeeDB.getGenericProductByName(productName, manufacturerName);
 
-        ProductsByBarcode.put(genericProduct.getBarcode(), genericProduct);
         ProductController.BarcodesOfNewProducts.add(genericProduct.getBarcode());
 
-        new SupplierProduct(price, supplierCatalog, amount, supplier, genericProduct, supplier.getMyAgreement());
+        SupplierProduct supplierProduct = new SupplierProduct(price, supplierCatalog, amount,
+                supplier, genericProduct, supplier.getMyAgreement());
+
+        superLeeDB.insertSupplierProduct(supplierProduct);
+
     }
 
     public boolean checkIfSupplierSupplyProduct(String supplierCatalog, String supplierNum)
     {
-        Supplier supplier = AllSuppliers.get(supplierNum);
+        Supplier supplier = getSupplier(supplierNum);
         return supplier.getSupplierProduct(supplierCatalog) != null;
     }
 
     public void deleteProductFromSupplier(String supplierCatalog, String supplierNum){
-        Supplier supplier = AllSuppliers.get(supplierNum);
+        Supplier supplier = getSupplier(supplierNum);
         SupplierProduct currSupplierProduct = supplier.getSupplierProduct(supplierCatalog);
         currSupplierProduct.delete();
+        superLeeDB.deleteSupplierProduct(currSupplierProduct);
     }
 
     public void addProductDiscount(String supplierCatalog, float discountPercentage, int minimumQuantity, String supplierNum){
-        Supplier supplier = AllSuppliers.get(supplierNum);
+        Supplier supplier = getSupplier(supplierNum);
         SupplierProduct supplierProduct = supplier.getSupplierProduct(supplierCatalog);
         supplierProduct.addProductDiscount(discountPercentage, minimumQuantity);
+        superLeeDB.insertSupplierProductDiscount(supplierProduct, supplierProduct.getSupplierProductDiscount(minimumQuantity));
     }
 
-    public boolean CheckIfExistOrderDiscount(String supplierNum, String priceOrQuantity, int minimumAmount, float discountPercentage)
+    public boolean CheckIfExistOrderDiscount(String supplierNum, String priceOrQuantity, int minimumAmount)
     {
-        Supplier supplier = AllSuppliers.get(supplierNum);
-        Agreement agreement = supplier.getMyAgreement();
-        return agreement.CheckIfExistOrderDiscount(priceOrQuantity, discountPercentage, minimumAmount);
+        return superLeeDB.CheckIfOrderDiscountExist(supplierNum, priceOrQuantity, minimumAmount);
     }
 
     public void addOrderDiscount(String supplierNum, String priceOrQuantity, int minimumAmount, float discountPercentage)
     {
-        Supplier supplier = AllSuppliers.get(supplierNum);
+        Supplier supplier = getSupplier(supplierNum);
         Agreement agreement = supplier.getMyAgreement();
         agreement.addOrderDiscount(priceOrQuantity, minimumAmount, discountPercentage);
+        superLeeDB.insertOrderDiscount(supplierNum, agreement.getOrderDiscount(priceOrQuantity, minimumAmount));
     }
 
-    public Map<String, Supplier> returnAllSuppliers(){return AllSuppliers;}
+    public Map<String, Supplier> returnAllSuppliers(){return superLeeDB.gatAllSuppliers();}
 
     public void fireSupplier(String supplierNum){
-        Supplier supplier = AllSuppliers.get(supplierNum);
+        Supplier supplier = getSupplier(supplierNum);
         supplier.fireSupplier();
-        AllSuppliers.remove(supplierNum);
+        superLeeDB.deleteSupplier(supplierNum);
     }
 
     public void deleteDiscountProduct(String supplierNum, String supplierCatalog, int amount)
     {
-        Supplier supplier = AllSuppliers.get(supplierNum);
+        Supplier supplier = getSupplier(supplierNum);
         SupplierProduct supplierProduct = supplier.getSupplierProduct(supplierCatalog);
         supplierProduct.deleteDiscountProduct(amount);
+        superLeeDB.deleteSupplierProductDiscount(supplierNum, supplierCatalog, amount);
     }
 
     public void deleteOrderDiscount(String supplierNum, String priceOrQuantity, int minimumAmount)
     {
-        Supplier supplier = AllSuppliers.get(supplierNum);
+        Supplier supplier = getSupplier(supplierNum);
         Agreement agreement = supplier.getMyAgreement();
         agreement.deleteOrderDiscount(priceOrQuantity, minimumAmount);
+        superLeeDB.deleteOrderDiscount(supplierNum, priceOrQuantity, minimumAmount);
     }
 
     public void setBankAccount(String supplierNum, String account){
-        Supplier supplier = AllSuppliers.get(supplierNum);
+        Supplier supplier = getSupplier(supplierNum);
         supplier.setBankAccount(account);
     }
 
     public Map<List<String>, GenericProduct> getAllProducts() {
-        return AllProducts;
+        return superLeeDB.getAllGenericProduct();
     }
 
-    public Map<String, Manufacturer> getAllManufacturers() {
-        return AllManufacturers;
-    }
 
     public void addContactToSupplier(String supplierNum, String name, String phoneNumber)
     {
-        Supplier supplier = AllSuppliers.get(supplierNum);
+        Supplier supplier = getSupplier(supplierNum);
         supplier.addContact(name, phoneNumber);
+        superLeeDB.insertContact(supplier.getContact(phoneNumber));
     }
 
-    public boolean checkIfContactExist(String supplierNum, String phoneNumber)
+    public boolean checkIfContactExist(String phoneNumber)
     {
-        Supplier supplier = AllSuppliers.get(supplierNum);
-        return supplier.getContact(phoneNumber) != null;
+        return superLeeDB.CheckIfContactExist(phoneNumber);
     }
 
     public void setNewContactPhone(String supplierNum, String NewPhone, String OldPhone)
     {
-        Supplier supplier = AllSuppliers.get(supplierNum);
+        Supplier supplier = getSupplier(supplierNum);
         Contact contact = supplier.getContact(OldPhone);
         contact.setPhoneNumber(NewPhone);
+        superLeeDB.updateContact(OldPhone, contact);
     }
 
     public void deleteContactFromSupplier(String supplierNum, String phoneNumber)
     {
-        Supplier supplier = AllSuppliers.get(supplierNum);
+        Supplier supplier = getSupplier(supplierNum);
         supplier.deleteContact(phoneNumber);
+        superLeeDB.deleteContact(phoneNumber);
     }
 
     public void updateSupplierPaymentTerm(String supplierNum, int yourPayment)
     {
         PaymentTerm payment = PaymentTerm.values()[yourPayment];
-        Supplier supplier = AllSuppliers.get(supplierNum);
+        Supplier supplier = getSupplier(supplierNum);
         supplier.setPayment(payment);
     }
 
     public void stopWorkingWithManufacturer(String supplierNum, String manufacturerName)
     {
-        Supplier supplier = AllSuppliers.get(supplierNum);
+        Supplier supplier = getSupplier(supplierNum);
         supplier.stopWorkingWithManufacturer(manufacturerName);
+        superLeeDB.deleteWorkingWithManufacturer(supplierNum, manufacturerName);
     }
 
     public String StringSupplierDetails(String supplierNum)
     {
-        return AllSuppliers.get(supplierNum).toString();
+        return getSupplier(supplierNum).toString();
     }
 
     public void editAgreement(String supplierNum, boolean hasPermanentDays, boolean isSupplierBringProduct, boolean[] deliveryDays, int numberOdDaysToSupply)
     {
-        AllSuppliers.get(supplierNum).getMyAgreement().setDetails(hasPermanentDays, isSupplierBringProduct, deliveryDays, numberOdDaysToSupply);
+        getSupplier(supplierNum).getMyAgreement().setDetails(hasPermanentDays, isSupplierBringProduct, deliveryDays, numberOdDaysToSupply);
     }
 
     public GenericProduct findGenericProductByBarcode(int barcode){
-        return ProductsByBarcode.get(barcode);
+        return superLeeDB.getGenericProductByBarcode(barcode);
     }
 }

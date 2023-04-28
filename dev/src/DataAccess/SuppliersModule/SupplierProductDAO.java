@@ -1,4 +1,4 @@
-package DataAccess;
+package DataAccess.SuppliersModule;
 
 import SuppliersModule.Business.*;
 
@@ -97,4 +97,26 @@ public class SupplierProductDAO {
         supplierProductDiscountDAO.WriteFromCacheToDB();
     }
 
+    public void insert(SupplierProduct supplierProduct)
+    {
+        List<String> key = createKey(supplierProduct.getMySupplier().getSupplierNum(),supplierProduct.getSupplierCatalog());
+        IdentifyMapSupplierProduct.put(key, supplierProduct);
+    }
+
+    public void delete(SupplierProduct supplierProduct)
+    {
+        List<String> key = createKey(supplierProduct.getMySupplier().getSupplierNum(),supplierProduct.getSupplierCatalog());
+        IdentifyMapSupplierProduct.remove(key);
+    }
+
+    public void deleteBySupplier(String supplierNum)
+    {
+        Map<List<String>, SupplierProduct> copyMap = new HashMap<>(IdentifyMapSupplierProduct);
+        for (Map.Entry<List<String>, SupplierProduct> pair : copyMap.entrySet()) {
+            if (pair.getKey().get(0).equals(supplierNum))
+                IdentifyMapSupplierProduct.remove(pair.getKey());
+        }
+
+        supplierProductDiscountDAO.deleteBySupplier(supplierNum);
+    }
 }

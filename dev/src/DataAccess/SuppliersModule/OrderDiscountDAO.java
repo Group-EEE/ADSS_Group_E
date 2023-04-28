@@ -1,7 +1,9 @@
-package DataAccess;
+package DataAccess.SuppliersModule;
 
 import SuppliersModule.Business.Agreement;
 import SuppliersModule.Business.OrderDiscount;
+import SuppliersModule.Business.Supplier;
+import SuppliersModule.Business.SupplierProduct;
 
 import java.sql.*;
 import java.util.*;
@@ -9,13 +11,11 @@ import java.util.*;
 public class OrderDiscountDAO {
 
     private Connection conn;
-    private List<String> key;
     private Map<List<String>, OrderDiscount> IdentifyMapOrderDiscount;
     static OrderDiscountDAO orderDiscountDAO;
 
     private OrderDiscountDAO(Connection conn) {
         this.conn = conn;
-        key = new ArrayList<>();
         IdentifyMapOrderDiscount = new HashMap<>();
     }
 
@@ -35,9 +35,10 @@ public class OrderDiscountDAO {
             ResultSet rs = stmt.executeQuery();
 
             //-----------------------------------------Create array-----------------------------------------
+            List<String> key;
             while (rs.next()) {
                 OrderDiscount orderDiscount = new OrderDiscount(rs.getString("ByPriceOrQuantity"), rs.getInt("Amount"), rs.getFloat("Discount"), agreement);
-                createKey(supplierNum, orderDiscount.getByPriceOrQuantity(), orderDiscount.getAmount());
+                key = createKey(supplierNum, orderDiscount.getByPriceOrQuantity(), orderDiscount.getAmount());
                 IdentifyMapOrderDiscount.put(key, orderDiscount);
                 orderDiscountList.add(orderDiscount);
 
@@ -48,12 +49,13 @@ public class OrderDiscountDAO {
         return orderDiscountList;
     }
 
-    public void createKey(String supplierNum, String priceOrQuantity, int minimumAmount)
+    public List<String> createKey(String supplierNum, String priceOrQuantity, int minimumAmount)
     {
-        key.clear();
-        key.add(supplierNum);
-        key.add(priceOrQuantity);
-        key.add(String.valueOf(minimumAmount));
+        List<String> keyPair = new ArrayList<>();
+        keyPair.add(supplierNum);
+        keyPair.add(priceOrQuantity);
+        keyPair.add(String.valueOf(minimumAmount));
+        return keyPair;
     }
 
     public void WriteFromCacheToDB() {
@@ -76,5 +78,32 @@ public class OrderDiscountDAO {
             }
             catch (SQLException e) {throw new RuntimeException(e);}
         }
+    }
+
+    public boolean CheckIfOrderDiscountExist(String supplierNum, String priceOrQuantity, int amount)
+    {
+        List<String> key = createKey(supplierNum, priceOrQuantity, amount);
+        return IdentifyMapOrderDiscount.containsKey(key);
+    }
+
+    public void insert(String supplierNum, OrderDiscount orderDiscount)
+    {
+        List<String> key = createKey(supplierNum, orderDiscount.getByPriceOrQuantity(), orderDiscount.getAmount());
+        IdentifyMapOrderDiscount.put(key, orderDiscount);
+    }
+
+    public void deleteByAgreement(String supplierNum)
+    {
+        Map<List<String>, OrderDiscount> copyMap = new HashMap<>(IdentifyMapOrderDiscount);
+        for (Map.Entry<List<String>, OrderDiscount> pair : copyMap.entrySet()) {
+            if(pair.getKey().get(0).equals(supplierNum))
+                IdentifyMapOrderDiscount.remove(pair.getKey());
+        }
+    }
+
+    public void delete(String supplierNum, String priceOrQuantity, int minimumAmount)
+    {
+        List<String> key = createKey(supplierNum, priceOrQuantity, minimumAmount);
+        IdentifyMapOrderDiscount.remove(key);
     }
 }
