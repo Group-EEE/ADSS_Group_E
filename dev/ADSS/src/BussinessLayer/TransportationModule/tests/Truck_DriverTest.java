@@ -1,8 +1,6 @@
 package BussinessLayer.TransportationModule.tests;
 
-import BussinessLayer.HRModule.Objects.TransportationModule.objects.*;
 import BussinessLayer.TransportationModule.objects.*;
-import TransportationModule.objects.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

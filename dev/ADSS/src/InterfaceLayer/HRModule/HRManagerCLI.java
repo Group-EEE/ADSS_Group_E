@@ -2,7 +2,7 @@ package InterfaceLayer.HRModule;
 
 import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Shift;
-import ServiceLayer.HRModule.IntegratedService;
+import ServiceLayer.IntegratedService;
 import ServiceLayer.IntegratedService;
 
 import java.util.InputMismatchException;

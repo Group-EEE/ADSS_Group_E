@@ -1,8 +1,6 @@
 package InterfaceLayer.HRModule;
 
-import ServiceLayer.HRModule.IntegratedService;
 import ServiceLayer.IntegratedService;
-
 
 import java.util.Scanner;
 
