@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="changed project packaging">
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/Facade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/TransportationModule/controllers/Logistical_center_controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/TransportationModule/controllers/Logistical_center_controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/TransportationModule/controllers/underway_transport_controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/TransportationModule/controllers/underway_transport_controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/TransportationModule/tests/NavigatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/TransportationModule/tests/NavigatorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/TransportationModule/tests/TransportTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/TransportationModule/tests/TransportTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/TransportationModule/tests/TruckTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/TransportationModule/tests/TruckTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/TransportationModule/tests/Truck_DriverTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/TransportationModule/tests/Truck_DriverTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/EmployeesCLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/EmployeesCLI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/HRManagerCLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/HRManagerCLI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/HRModuleCLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/HRModuleCLI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/IDs" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/IDs" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="2P39F0rfYltq07Xag8uBc7Tbapj" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="InterfaceLayer.Main" />
+      <module name="ADSS" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="InterfaceLayer.HRModule.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="" />
+      <created>1682674793979</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1682674793979</updated>
+      <workItem from="1682674795022" duration="5000" />
+      <workItem from="1682674809978" duration="72000" />
+      <workItem from="1682674894163" duration="269000" />
+      <workItem from="1682675176596" duration="1107000" />
+    </task>
+    <task id="LOCAL-00001" summary="created .idea folder">
+      <created>1682675006264</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1682675006264</updated>
+    </task>
+    <task id="LOCAL-00002" summary="created .idea folder">
+      <created>1682675208698</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1682675208699</updated>
+    </task>
+    <task id="LOCAL-00003" summary="changed project packaging">
+      <created>1682676087077</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1682676087077</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="created .idea folder" />
+    <MESSAGE value="changed project packaging" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed project packaging" />
+  </component>
+</project>

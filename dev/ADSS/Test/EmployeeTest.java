@@ -1,9 +1,8 @@
 
-import BussinessLayer.Controllers.EmployeeController;
-import BussinessLayer.Controllers.Facade;
-import BussinessLayer.Objects.Employee;
-import BussinessLayer.Objects.RoleType;
-import BussinessLayer.Objects.Store;
+import BussinessLayer.HRModule.Controllers.EmployeeController;
+import BussinessLayer.HRModule.Controllers.Facade;
+import BussinessLayer.HRModule.Objects.Employee;
+import BussinessLayer.HRModule.Objects.RoleType;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

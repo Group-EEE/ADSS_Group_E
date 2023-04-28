@@ -1,7 +1,7 @@
-import BussinessLayer.Objects.Employee;
-import BussinessLayer.Objects.RoleType;
-import BussinessLayer.Objects.Shift;
-import BussinessLayer.Objects.ShiftType;
+import BussinessLayer.HRModule.Objects.Employee;
+import BussinessLayer.HRModule.Objects.RoleType;
+import BussinessLayer.HRModule.Objects.Shift;
+import BussinessLayer.HRModule.Objects.ShiftType;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
