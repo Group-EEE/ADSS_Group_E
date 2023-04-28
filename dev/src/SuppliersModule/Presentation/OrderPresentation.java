@@ -82,6 +82,8 @@ public class OrderPresentation {
                 break;
             System.out.println("Wrong Periodic Order id");
         }
+        if(orderController.checkInvalidDayForChange())
+            System.out.println("Periodic order cannot change in the day of ordering");
 
         while (!Choose.equals("0")) {
 

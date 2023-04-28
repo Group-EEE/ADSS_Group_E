@@ -35,7 +35,7 @@ public class OrderedProduct {
         Quantity = quantity;
     }
 
-    public String toString() {return  MyProduct + ", quantity: " + Quantity + ", price: " + FinalPrice + "\n";}
+    public String toString() {return  MyProduct + ", quantity: " + Quantity + ", price: " + FinalPrice + ", price for unit: " + FinalPrice/Quantity + "\n";}
 
     // -------------------------------- Methods related to SuppliersModule.Business.SupplierProduct ------------------------------
 

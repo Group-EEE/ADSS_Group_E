@@ -68,9 +68,17 @@ public class OrderGenerator {
             System.out.println(e.getMessage());
         }
         invite();
-        Order order = new Order(cheapestCombination,bestSuppliersCombination,ProductsInOrder,ProductsQuantity);
-        orderController.addOrder(order);
-        return order.toString();
+        return stringOrder();
+    }
+
+    public static String stringOrder() {
+        String s = "";
+        s += "\nThe order has been committed\n";
+        for (Map.Entry<Supplier, OrderFromSupplier> pair : bestSuppliersCombination.entrySet())
+            s += pair.getValue().toString();
+
+        s += "Final price: " + cheapestCombination;
+        return s;
     }
 
     /**
@@ -80,7 +88,6 @@ public class OrderGenerator {
     private static void createProductsSuppliersArray() {
         productsSuppliersArray = new List[ProductsInOrder.size()];
         int[] numberOfSuppliersThatCanSupplyEachProduct = new int[ProductsInOrder.size()]; // numberOfSuppliersThatCanSupplyEachProduct[n] = ProductsInOrder[n] -> number of suppliers that can supply the product
-
 
         for (int i = 0; i < productsSuppliersArray.length; i++) { // for each product we build a list of all the suppliers that can supply it (SuppliersModule.Business.SupplierProduct object)
             productsSuppliersArray[i] = findSuppliersThatCanSupplyTheProduct(ProductsInOrder.get(i).getMySuppliersProduct(),

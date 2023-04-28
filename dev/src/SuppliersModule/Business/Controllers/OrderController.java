@@ -22,10 +22,7 @@ public class OrderController {
 
     private final SupplierController supplierController;
 
-    private final Map<Integer, Order> OrderHistory;
-
     private OrderController(){
-        OrderHistory = new HashMap<>();
         supplierController = SupplierController.getInstance();
         periodicOrders = new HashMap<>();
         taskTimer();
@@ -61,15 +58,17 @@ public class OrderController {
         timer.schedule(dailyTask, today.getTime(), 24 * 60 * 60 * 1000); // 24 * 60 * 60 * 1000 is the number of milliseconds a day
     }
 
-    public void addOrder(Order order){
-        OrderHistory.put(order.getId(),order);
-    }
-
     public void invitePeriodicOrders(int curDay){
         for(Map.Entry<Integer, PeriodicOrder> pair : periodicOrders.entrySet()){
             if(pair.getValue().getDayForInvite() == curDay)
-                pair.getValue().invite();
+                System.out.println(pair.getValue().invite());
         }
+    }
+
+    public boolean checkInvalidDayForChange(){
+        Calendar.getInstance();
+        int curDay = Calendar.DAY_OF_WEEK;
+        return curDay == curPeriodicOrder.getDayForInvite();
     }
 
     public boolean enterSupplier(String supplerNum){

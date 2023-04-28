@@ -73,7 +73,7 @@ public class OrderFromSupplier {
     public String toString()
     {
         String details = "\n";
-        details += "SuppliersModule.Business.Order number " + Id + " from supplier " + MySupplier.getName() + ", supplier number: " + MySupplier.getSupplierNum() + "\n";
+        details += "Order number " + Id + " from supplier " + MySupplier.getName() + ", supplier number: " + MySupplier.getSupplierNum() + "\n";
         for ( Map.Entry<String, OrderedProduct> pair : ProductsInOrder.entrySet())
             details += pair.getValue();
         details += "\nTotal order price after discount: " + getTotalPriceAfterDiscount() + "\n";
@@ -126,12 +126,5 @@ public class OrderFromSupplier {
         Quantity = quantity;
     }
 
-    public void setPriceBeforeTotalDiscount(float priceBeforeTotalDiscount) {
-        this.priceBeforeTotalDiscount = priceBeforeTotalDiscount;
-    }
-
-    public void setProductsInOrder(Map<String, OrderedProduct> productsInOrder) {
-        ProductsInOrder = productsInOrder;
-    }
 }
 

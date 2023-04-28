@@ -29,16 +29,6 @@ public class Order {
         unique++;
     }
 
-    @Override
-    public String toString() {
-        String s = "";
-        s += "\nThe order has been committed\n";
-        for (Map.Entry<Supplier, OrderFromSupplier> pair : OrdersFromSuppliers.entrySet())
-            s += pair.getValue().toString();
-
-        s += "Final price: " + TotalPrice;
-        return s;
-    }
 
     public float getTotalPrice() {
         return TotalPrice;
