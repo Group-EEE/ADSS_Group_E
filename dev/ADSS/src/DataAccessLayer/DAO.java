@@ -3,8 +3,6 @@ package DataAccessLayer;
 import java.sql.*;
 import java.text.MessageFormat;
 import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +14,8 @@ public abstract class DAO {
     //public final String _connectionString;
     public final String _tableName;
     //  public static Connection connection;
-    public static final String url = "jdbc:sqlite:SuperLee.db";
-    DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    DateTimeFormatter formatter_2  = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    public static final String url = "jdbc:sqlite:SuperLi.db";
+
     //constructor
     public DAO(String tableName) {
         this._tableName = tableName;
@@ -26,13 +23,11 @@ public abstract class DAO {
 
     public boolean Delete() {
         boolean res = true;
-        String sql = MessageFormat.format("DELETE FROM {0}"
-                , _tableName);
+        String sql = MessageFormat.format("DELETE FROM {0}", _tableName);
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.executeUpdate();
-
+             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
@@ -330,33 +325,6 @@ public abstract class DAO {
             System.out.println(sql);
         }
         return list;
-    }
-
-    protected LocalDateTime parseLocalDateTime(String data) {
-//        System.out.println("parse local date time");
-//        LocalDateTime localDateTime = null;
-//        try {
-//            localDateTime = LocalDateTime.parse(data, formatter_2);
-//            System.out.println(localDateTime);
-//        } catch (Exception e) {
-//        }
-//        return localDateTime;
-        LocalDateTime  dateTime = null;
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            dateTime = LocalDateTime.parse(data, formatter);
-        }
-        catch (Exception e){}
-        return dateTime;
-    }
-
-    protected LocalDate parseLocalDate(String data) {
-        LocalDate d=null;
-        try {
-            DateTimeFormatter formatter_1  = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            d= LocalDate.parse(data, formatter_1);
-        } catch (Exception e) { }
-        return d;
     }
 
 /*
