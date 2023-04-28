@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ADSS_Group_E.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HelloWorld.java" beforeDir="false" />
+    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="created .idea folder">
       <change beforePath="$PROJECT_DIR$/../../docs/IDs" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/IDs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/instructions.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/instructions.pdf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +19,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
@@ -65,11 +63,23 @@
       <updated>1682674793979</updated>
       <workItem from="1682674795022" duration="5000" />
       <workItem from="1682674809978" duration="72000" />
-      <workItem from="1682674894163" duration="26000" />
+      <workItem from="1682674894163" duration="269000" />
     </task>
+    <task id="LOCAL-00001" summary="created .idea folder">
+      <created>1682675006264</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1682675006264</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="created .idea folder" />
+    <option name="LAST_COMMIT_MESSAGE" value="created .idea folder" />
   </component>
 </project>
