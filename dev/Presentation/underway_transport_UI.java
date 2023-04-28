@@ -6,12 +6,11 @@ import Business.objects.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class underway_transport_UI {
     // ===== attributes =====
-    private underway_transport_controller controller;
+    private final underway_transport_controller controller;
     Logistical_center_controller  logistical_center_controller;
     Scanner scanner;
     Logistical_Center logistical_center;
@@ -43,7 +42,7 @@ public class underway_transport_UI {
         while (controller.is_current_location_not_null(transport_ID)) {
             if (!controller.is_current_location_is_store(transport_ID)) {
                 boolean isValidChoice = false;
-                String ch = null;
+                String ch;
                 System.out.println("Hey " + controller.get_current_location_name(transport_ID) + " manager!");
                 while (!isValidChoice) {
                     // creating a document
@@ -87,7 +86,7 @@ public class underway_transport_UI {
                 // driving to the next site.
                 controller.drive_to_next_location(transport_ID);
             }
-        // if the transport wasn't aborted, we update the truck and the driver so they can now go to another shipment.
+        // if the transport wasn't aborted, we update the truck and the driver, so they can now go to another shipment.
             if (!aborted) {
                 controller.reset_transport(transport_ID, true);
                 System.out.println("Transport " + transport_ID + " now finished.");
@@ -103,7 +102,7 @@ public class underway_transport_UI {
     private void create_site_supply(int transport_id) {
         // ======================== Supplier ID ======================== //
         boolean isValid = false;
-        String input = null;
+        String input;
         int site_supplier_ID = 0;
         while(!isValid){
             System.out.println("Please enter the site supply ID number (5 digits, only with the digits 0-9): ");
@@ -282,7 +281,6 @@ public class underway_transport_UI {
                         return true;
                     }
                     System.out.println("Sorry Boss, we have the right truck for the job, but we don't have a driver with a license for that truck right now...");
-                    break;
                 }
 
                 // postpone the supplier to the end of the shipment.
