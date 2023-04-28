@@ -78,7 +78,7 @@ public class AgreementDAO {
                 stmt.setBoolean(9, pair.getValue().getDeliveryDays()[5]);
                 stmt.setBoolean(10, pair.getValue().getDeliveryDays()[6]);
                 stmt.setInt(11, pair.getValue().getNumberOfDaysToSupply());
-                stmt.executeQuery();
+                stmt.executeUpdate();
             }
             catch (SQLException e) {throw new RuntimeException(e);}
         }

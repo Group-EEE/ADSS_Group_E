@@ -70,7 +70,7 @@ public class SupplierProductDiscountDAO {
                 stmt.setString(2,pair.getKey().get(1));
                 stmt.setFloat(3, pair.getValue().getPercentages());
                 stmt.setInt(4, Integer.parseInt(pair.getKey().get(3)));
-                stmt.executeQuery();
+                stmt.executeUpdate();
             }
             catch (SQLException e) {throw new RuntimeException(e);}
         }

@@ -47,15 +47,15 @@ public class ContactDAO {
         return contactMap;
     }
 
-    public void WriteFromCacheToDB(String supplierNum) {
+    public void WriteFromCacheToDB(String supplierNum, Map<String,Contact> contactMap) {
         PreparedStatement stmt;
-        for (Map.Entry<String, Contact> pair : IdentifyMapContact.entrySet()) {
+        for (Map.Entry<String, Contact> pair : contactMap.entrySet()) {
             try {
                 stmt = conn.prepareStatement("Insert into Contact VALUES (?,?,?)");
                 stmt.setString(1, supplierNum);
                 stmt.setString(2, pair.getValue().getName());
                 stmt.setString(3, pair.getValue().getPhoneNumber());
-                stmt.executeQuery();
+                stmt.executeUpdate();
             }
             catch (SQLException e) {throw new RuntimeException(e);}
         }

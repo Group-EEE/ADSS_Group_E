@@ -69,7 +69,7 @@ public class ManufacturerDAO {
             try{
                 stmt = conn.prepareStatement("Insert into Manufacturer VALUES (?)");
                 stmt.setString(1, pair.getKey());
-                stmt.executeQuery();
+                stmt.executeUpdate();
             }
             catch (SQLException e) {throw new RuntimeException(e);}
         }
@@ -92,7 +92,7 @@ public class ManufacturerDAO {
                     stmt = conn.prepareStatement("Insert into Supplier_Manufacturer VALUES (?,?)");
                     stmt.setString(1, pair2.getKey());
                     stmt.setString(2, pair.getKey());
-                    stmt.executeQuery();
+                    stmt.executeUpdate();
                 }
                 catch (SQLException e) {throw new RuntimeException(e);}
             }

@@ -54,7 +54,7 @@ public class SuperLeeDB {
     {
         manufacturerDAO.WriteManufacturersToCache();
         genericProductDAO.WriteGenericProductsToCache();
-        supplierDAO.WriteSuppliersToCache();
+        supplierDAO.ReadSuppliersToCache();
     }
 
     public void WriteAllToDB()

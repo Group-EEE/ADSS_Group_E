@@ -76,7 +76,7 @@ public class GenericProductDAO {
                 stmt.setString(1, pair.getValue().getName());
                 stmt.setString(2, pair.getValue().getMyManufacturer().getName());
                 stmt.setInt(3, pair.getKey());
-                stmt.executeQuery();
+                stmt.executeUpdate();
             }
             catch (SQLException e) {throw new RuntimeException(e);}
         }

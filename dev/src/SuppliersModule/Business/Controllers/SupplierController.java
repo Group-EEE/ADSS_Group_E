@@ -9,19 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 public class SupplierController {
-    Map<String, Supplier> AllSuppliers; // All the suppliers that we work with
-    Map<List<String>, GenericProduct> AllProducts; // All the products we sell (the key is the list contains the product name and manufacturer name)
-    Map<Integer, GenericProduct> ProductsByBarcode; // All the products we sell (the key is the barcode)
-    Map<String, Manufacturer> AllManufacturers; // All the manufacturers that we work with
     static SupplierController supplierController;
-
+    ProductController productController;
     private SuperLeeDB superLeeDB;
 
     private SupplierController() {
-        AllSuppliers = new HashMap<>();
-        AllProducts = new HashMap<>();
-        AllManufacturers = new HashMap<>();
+
         superLeeDB = SuperLeeDB.getInstance();
+        //productController = ProductController.getInstance();
     }
 
     public static SupplierController getInstance() {
@@ -56,13 +51,12 @@ public class SupplierController {
         Supplier supplier = getSupplier(supplierNum);
         GenericProduct genericProduct = superLeeDB.getGenericProductByName(productName, manufacturerName);
 
-        ProductController.BarcodesOfNewProducts.add(genericProduct.getBarcode());
+        //ProductController.BarcodesOfNewProducts.add(genericProduct.getBarcode());
 
         SupplierProduct supplierProduct = new SupplierProduct(price, supplierCatalog, amount,
                 supplier, genericProduct, supplier.getMyAgreement());
 
         superLeeDB.insertSupplierProduct(supplierProduct);
-
     }
 
     public boolean checkIfSupplierSupplyProduct(String supplierCatalog, String supplierNum)

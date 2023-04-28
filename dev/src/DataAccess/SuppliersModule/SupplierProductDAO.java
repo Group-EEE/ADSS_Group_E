@@ -89,7 +89,7 @@ public class SupplierProductDAO {
                 stmt.setFloat(4, pair.getValue().getPrice());
                 stmt.setString(5, pair.getKey().get(1));
                 stmt.setInt(6, pair.getValue().getAmount());
-                stmt.executeQuery();
+                stmt.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

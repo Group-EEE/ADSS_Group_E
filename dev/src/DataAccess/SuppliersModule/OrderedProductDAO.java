@@ -67,7 +67,7 @@ public class OrderedProductDAO {
                 stmt.setFloat(5, pair.getValue().getFinalPrice());
                 stmt.setString(6, pair.getValue().getMyProduct().getMySupplier().getSupplierNum());
                 stmt.setString(7, pair.getValue().getMyProduct().getSupplierCatalog());
-                stmt.executeQuery();
+                stmt.executeUpdate();
             }
             catch (SQLException e) {throw new RuntimeException(e);}
         }

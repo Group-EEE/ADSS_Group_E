@@ -75,7 +75,7 @@ public class OrderFromSupplierDAO {
                 stmt.setInt(2, pair.getValue().getQuantity());
                 stmt.setFloat(3, pair.getValue().getPriceBeforeTotalDiscount());
                 stmt.setString(4, pair.getValue().getMySupplier().getSupplierNum());
-                stmt.executeQuery();
+                stmt.executeUpdate();
             }
             catch (SQLException e) {throw new RuntimeException(e);}
 

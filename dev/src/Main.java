@@ -1,10 +1,12 @@
 import DataAccess.SuperLeeDB;
+import SuppliersModule.Business.Controllers.OrderController;
+import SuppliersModule.Presentation.SupplierModulePresentation;
 
 public class Main {
     public static void main(String[] args)
     {
 
-        //SupplierModulePresentation supplierModulePresentation = new SupplierModulePresentation();
+        SupplierModulePresentation supplierModulePresentation = new SupplierModulePresentation();
         /*
         InventoryModulePresentation inventoryModulePresentation = new InventoryModulePresentation();
         String yourChoice = "";
@@ -26,10 +28,15 @@ public class Main {
         }
 
          */
-        //supplierModulePresentation.PowerOn();
 
         SuperLeeDB superLeeDB = SuperLeeDB.getInstance();
-        superLeeDB.ReadAllToCache();
         superLeeDB.WriteAllToDB();
+        superLeeDB.ReadAllToCache();
+
+        OrderController orderController = OrderController.getInstance();
+        supplierModulePresentation.PowerOn();
+
+        superLeeDB.WriteAllToDB();
+        orderController.cancelTimer();
     }
 }

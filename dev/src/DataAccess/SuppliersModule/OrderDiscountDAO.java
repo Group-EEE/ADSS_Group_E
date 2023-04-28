@@ -74,7 +74,7 @@ public class OrderDiscountDAO {
                 stmt.setString(2, pair.getKey().get(1));
                 stmt.setInt(3, Integer.parseInt(pair.getKey().get(2)));
                 stmt.setFloat(4,pair.getValue().getDiscount());
-                stmt.executeQuery();
+                stmt.executeUpdate();
             }
             catch (SQLException e) {throw new RuntimeException(e);}
         }
