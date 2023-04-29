@@ -1,7 +1,8 @@
-package DataAccess;
+package DataAccess.SuppliersModule;
 
 import SuppliersModule.Business.GenericProduct;
 import SuppliersModule.Business.Manufacturer;
+import SuppliersModule.Business.Supplier;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -59,11 +60,6 @@ public class GenericProductDAO {
         return keyPair;
     }
 
-    public GenericProduct getGenericProductByName(String ProductName, String ManufacturerName)
-    {
-        return IdentifyMapGenericProductByName.get(createKey(ProductName, ManufacturerName));
-    }
-
     public void WriteFromCacheToDB()
     {
         PreparedStatement stmt;
@@ -80,9 +76,38 @@ public class GenericProductDAO {
                 stmt.setString(1, pair.getValue().getName());
                 stmt.setString(2, pair.getValue().getMyManufacturer().getName());
                 stmt.setInt(3, pair.getKey());
-                stmt.executeQuery();
+                stmt.executeUpdate();
             }
             catch (SQLException e) {throw new RuntimeException(e);}
         }
     }
+
+    public boolean CheckIfGenericProductExist(String name , String manufacturerName)
+    {
+        return IdentifyMapGenericProductByName.containsKey(createKey(name, manufacturerName));
+    }
+
+    public void insert(GenericProduct genericProduct)
+    {
+        List<String> key = createKey(genericProduct.getName(), genericProduct.getMyManufacturer().getName());
+        IdentifyMapGenericProductByName.put(key, genericProduct);
+        IdentifyMapGenericProductByBarcode.put(genericProduct.getBarcode(), genericProduct);
+    }
+
+    public GenericProduct getGenericProductByName(String name , String manufacturerName)
+    {
+        return IdentifyMapGenericProductByName.get(createKey(name, manufacturerName));
+    }
+
+    public Map<List<String>, GenericProduct> getIdentifyMapGenericProductByName()
+    {
+        return IdentifyMapGenericProductByName;
+    }
+
+    public GenericProduct getGenericProductByBarcode(int barcode)
+    {
+        return IdentifyMapGenericProductByBarcode.get(barcode);
+    }
+
+
 }

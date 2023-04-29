@@ -77,12 +77,11 @@ public class Agreement {
      * @param minimumAmount the minimum quantity or price needed to get the discount
      * @return
      */
-    public boolean CheckIfExistOrderDiscount(String priceOrQuantity, float discountPercentages, int minimumAmount)
+    public boolean CheckIfExistOrderDiscount(String priceOrQuantity, int minimumAmount)
     {
         for(OrderDiscount orderDiscount : DiscountOnOrder)
         {
-            if(orderDiscount.getDiscount() == discountPercentages && orderDiscount.getAmount() == minimumAmount
-            && orderDiscount.getByPriceOrQuantity().equals(priceOrQuantity)) {
+            if(orderDiscount.getAmount() == minimumAmount && orderDiscount.getByPriceOrQuantity().equals(priceOrQuantity)) {
                 System.out.println("The discount is exist\n");
                 return true;
             }
@@ -134,6 +133,15 @@ public class Agreement {
 
     public void setDiscountOnOrder(List<OrderDiscount> discountOnOrder) {
         DiscountOnOrder = discountOnOrder;
+    }
+
+    public OrderDiscount getOrderDiscount(String byPriceOrQuantity, int amount)
+    {
+        for(OrderDiscount orderDiscount : DiscountOnOrder){
+            if(orderDiscount.getByPriceOrQuantity().equals(byPriceOrQuantity) && orderDiscount.getAmount() == amount)
+                return orderDiscount;
+        }
+        return null;
     }
 }
 

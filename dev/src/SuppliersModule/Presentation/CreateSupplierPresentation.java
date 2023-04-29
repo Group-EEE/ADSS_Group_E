@@ -229,7 +229,7 @@ public class CreateSupplierPresentation {
 
             float discountPercentage = SupplierModulePresentation.CheckFloatInputAndReturn("How many percent off? ");
 
-            if(supplierController.CheckIfExistOrderDiscount(supplierNum, priceOrQuantity, minimumAmount, discountPercentage)) {
+            if(supplierController.CheckIfExistOrderDiscount(supplierNum, priceOrQuantity, minimumAmount)) {
                 System.out.println("The discount already exist");
                 return;
             }

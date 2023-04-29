@@ -1,17 +1,13 @@
-package DataAccess;
+package DataAccess.SuppliersModule;
 
-import SuppliersModule.Business.OrderFromSupplier;
 import SuppliersModule.Business.OrderedProduct;
-import SuppliersModule.Business.Supplier;
 import SuppliersModule.Business.SupplierProduct;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class OrderedProductDAO {
@@ -71,7 +67,7 @@ public class OrderedProductDAO {
                 stmt.setFloat(5, pair.getValue().getFinalPrice());
                 stmt.setString(6, pair.getValue().getMyProduct().getMySupplier().getSupplierNum());
                 stmt.setString(7, pair.getValue().getMyProduct().getSupplierCatalog());
-                stmt.executeQuery();
+                stmt.executeUpdate();
             }
             catch (SQLException e) {throw new RuntimeException(e);}
         }
@@ -83,6 +79,19 @@ public class OrderedProductDAO {
         try {
             stmt = conn.prepareStatement("DELETE FROM OrderedProduct");
             stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+    }
+
+    public void deleteBySupplier(String supplierNum)
+    {
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT Id FROM OrderedProduct WHERE SupplierNum = ?");
+            stmt.setString(1, supplierNum);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next())
+                IdentifyMapOrderedProduct.remove(rs.getInt("Id"));
         }
         catch (SQLException e) {throw new RuntimeException(e);}
     }

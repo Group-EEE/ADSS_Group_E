@@ -126,5 +126,13 @@ public class OrderFromSupplier {
         Quantity = quantity;
     }
 
+
+    public void setPriceBeforeTotalDiscount(float priceBeforeTotalDiscount) {
+        this.priceBeforeTotalDiscount = priceBeforeTotalDiscount;
+    }
+
+    public void setProductsInOrder(Map<String, OrderedProduct> productsInOrder) {
+        ProductsInOrder = productsInOrder;
+    }
 }
 

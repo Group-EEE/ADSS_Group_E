@@ -37,11 +37,6 @@ public class SupplierModulePresentation {
 
         System.out.println("Hello, welcome to the suppliers system.");
 
-        checkValidWithMessage("Do you want to run the system with existing data? (y/n)");
-
-        if (yourChoice.equals("y"))
-            InsertData();
-
         String Choose = "";
         while (!Choose.equals("0")) {
 
@@ -80,21 +75,6 @@ public class SupplierModulePresentation {
                     break;
             }
         }
-    }
-
-    /**------------------------------------------ Create data base ---------------------------------------*/
-    public void InsertData() {
-        System.out.println("Please enter file path: ");
-        String path = reader.nextLine();
-
-        try {reader = new Scanner(new File(path));}     //Try open the file.
-        catch (FileNotFoundException ex) {
-            System.out.println("\nThe file is not found, the system will operate without existing data\n");
-            return;
-        }
-        while (reader.hasNextLine())
-            createSupplierPresentation.createNewSupplier();
-        reader = new Scanner(System.in);
     }
 
     /**------------------------------------------ Case 3 -----------------------------------------
@@ -376,7 +356,7 @@ public class SupplierModulePresentation {
         System.out.println("Enter contact phone number:");
         String OldPhone =  reader.nextLine();
 
-        if(supplierController.checkIfContactExist(supplierNum, OldPhone)) {
+        if(supplierController.checkIfContactExist(OldPhone)) {
             System.out.println("Enter contact NEW phone number:");
             supplierController.setNewContactPhone(supplierNum, reader.nextLine(), OldPhone);
         }

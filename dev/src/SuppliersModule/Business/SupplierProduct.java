@@ -1,5 +1,7 @@
 package SuppliersModule.Business;
 
+import DataAccess.SuppliersModule.OrderDiscountDAO;
+
 import java.util.*;
 
 /**
@@ -72,8 +74,8 @@ public class SupplierProduct {
 
         if(DiscountProducts.containsKey(minimumAmount))
             System.out.println("The minimum Amount is exist");
-
-        DiscountProducts.put(minimumAmount, discountProduct);
+        else
+            DiscountProducts.put(minimumAmount, discountProduct);
     }
 
     /**
@@ -126,5 +128,8 @@ public class SupplierProduct {
             return MyAgreement.getNumberOfDaysToSupply();
         return (int) Float.POSITIVE_INFINITY;
 
+    public SupplierProductDiscount getSupplierProductDiscount(int amount)
+    {
+        return DiscountProducts.get(amount);
     }
 }

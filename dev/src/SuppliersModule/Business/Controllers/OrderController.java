@@ -21,6 +21,7 @@ public class OrderController {
     private SupplierProduct curSupplierProduct;
 
     private final SupplierController supplierController;
+    Timer timer;
 
     private OrderController(){
         supplierController = SupplierController.getInstance();
@@ -38,7 +39,7 @@ public class OrderController {
      * This function scheduale a task to execute every day in 11 AM
      */
     public void taskTimer() {
-        Timer timer = new Timer();
+        timer = new Timer();
         TimerTask dailyTask = new TimerTask() {
             @Override
             public void run() {
@@ -128,4 +129,6 @@ public class OrderController {
     public void changeCurOrderedProductQuantity(int quantity){
         curOrderedProduct.setQuantity(quantity);
     }
+
+    public void cancelTimer() {timer.cancel();}
 }

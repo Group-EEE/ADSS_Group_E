@@ -32,8 +32,8 @@ public class Supplier {
     public Supplier(String name, String supplierNum, String bankAccount, PaymentTerm payment, Map<String,Contact> myContacts, List<String> categories,
                     boolean hasPermanentDays, boolean isSupplierBringProduct, boolean[] deliveryDays, int numberOfDaysToSupply) {
 
-        //if (myContacts.size() < minimumContacts())
-            //throw new RuntimeException("Must at least " + minimumContacts() + " contacts");
+        if (myContacts.size() < minimumContacts())
+            throw new RuntimeException("Must at least " + minimumContacts() + " contacts");
 
         MyProducts = new HashMap<>();
         MyManufacturers = new HashMap<>();
