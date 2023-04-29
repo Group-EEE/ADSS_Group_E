@@ -287,8 +287,8 @@ public class underway_transport_UI {
                 // postpone the supplier to the end of the shipment.
                 case 3 -> {
                     // checking how many suppliers are left for today.
-                    boolean end_case = controller.is_there_more_than_one(transport_ID, "supplier");
-                    if (end_case){
+                    boolean moreThanOne = controller.is_there_more_than_one(transport_ID, "supplier");
+                    if (!moreThanOne){
                         System.out.println("Sorry Boss, this is the only supplier left for today...");
                         break;
                     }
