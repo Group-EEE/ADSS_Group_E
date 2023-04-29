@@ -64,4 +64,12 @@ public class GenericProduct {
     public int getBarcode() {
         return Barcode;
     }
+
+    public boolean checkIfSupplierSupplyTheProduct(String supplierNum){
+        for (SupplierProduct supplierProduct : MySuppliersProduct){
+            if(supplierProduct.getMySupplier().getSupplierNum().equals(supplierNum))
+                return true;
+        }
+        return false;
+    }
 }

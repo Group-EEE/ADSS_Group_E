@@ -113,7 +113,7 @@ public class Agreement {
         return MySupplier;
     }
 
-    public boolean isHasPermanentDays() {
+    public boolean supplierHasPermanentDays() {
         return HasPermanentDays;
     }
 

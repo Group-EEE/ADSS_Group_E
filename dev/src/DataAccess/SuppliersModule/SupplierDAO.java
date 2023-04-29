@@ -56,7 +56,7 @@ public class SupplierDAO {
                 Agreement currAgreement = agreementDAO.getAgreement(supplierNum);
 
                 Supplier supplier = new Supplier(rs.getString("Name"), supplierNum, rs.getString("BankAccount"), PaymentTerm.values()[rs.getInt("PaymentTerm")],
-                        contactDAO.getAll(supplierNum), getCategories(supplierNum), currAgreement.isHasPermanentDays(), currAgreement.isSupplierBringProduct(),
+                        contactDAO.getAll(supplierNum), getCategories(supplierNum), currAgreement.supplierHasPermanentDays(), currAgreement.isSupplierBringProduct(),
                         currAgreement.getDeliveryDays(), currAgreement.getNumberOfDaysToSupply());
 
                 supplier.setMyAgreement(currAgreement);

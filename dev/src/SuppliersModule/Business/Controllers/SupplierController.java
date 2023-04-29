@@ -16,7 +16,7 @@ public class SupplierController {
     private SupplierController() {
 
         superLeeDB = SuperLeeDB.getInstance();
-        //productController = ProductController.getInstance();
+        productController = ProductController.getInstance();
     }
 
     public static SupplierController getInstance() {
@@ -27,6 +27,13 @@ public class SupplierController {
 
     public boolean checkIfSupplierExist(String supplierNum) {
         return superLeeDB.CheckIfSupplierExist(supplierNum);
+    }
+
+    public boolean checkIfSupplierSupplyProduct(String supplierNum, int barcode){
+        GenericProduct genericProduct = superLeeDB.getGenericProductByBarcode(barcode);
+        if(genericProduct == null)
+            return false;
+        return genericProduct.checkIfSupplierSupplyTheProduct(supplierNum);
     }
 
     public Supplier getSupplier(String supplierNum) {
@@ -51,7 +58,7 @@ public class SupplierController {
         Supplier supplier = getSupplier(supplierNum);
         GenericProduct genericProduct = superLeeDB.getGenericProductByName(productName, manufacturerName);
 
-        //ProductController.BarcodesOfNewProducts.add(genericProduct.getBarcode());
+        ProductController.BarcodesOfNewProducts.add(genericProduct.getBarcode());
 
         SupplierProduct supplierProduct = new SupplierProduct(price, supplierCatalog, amount,
                 supplier, genericProduct, supplier.getMyAgreement());

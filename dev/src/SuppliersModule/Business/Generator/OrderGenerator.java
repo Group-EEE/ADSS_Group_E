@@ -5,13 +5,10 @@ import SuppliersModule.Business.*;
 import SuppliersModule.Business.Controllers.OrderController;
 import SuppliersModule.Business.Controllers.SupplierController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
- * The class SuppliersModule.Business.Controllers.OrderController ask the user for products that he want to invite.
+ * The class OrderController ask the user for products that he want to invite.
  * The class creates the cheapest order that he can build, and invite the products from the supplier.
  */
 public class OrderGenerator {
@@ -26,7 +23,7 @@ public class OrderGenerator {
 
     static List<Integer> ProductsQuantity ; // contain the quantity of the products found in the ProductsInOrder list. ProductsQuantity[n] = ProductsInOrder[n] -> quantity
 
-    static List<SupplierProduct>[] productsSuppliersArray; // Array contains a lists of all the suppliers that can supply a certain product with the desired quantity. productsSuppliersArray[n] = ProductsInOrder[n] -> list of the supplier that can supply this product (SuppliersModule.Business.SupplierProduct object)
+    static List<SupplierProduct>[] productsSuppliersArray; // Array contains a lists of all the suppliers that can supply a certain product with the desired quantity. productsSuppliersArray[n] = ProductsInOrder[n] -> list of the supplier that can supply this product (SupplierProduct object)
 
 
     public static String makeOrderFromOrderReport(OrderReport orderReport){
@@ -40,26 +37,14 @@ public class OrderGenerator {
 
     public static void reset() {
 
-        ProductsInOrder = new ArrayList<GenericProduct>(); // contain all the products in the order
-        ProductsQuantity = new ArrayList<Integer>(); // contain the quantity of the products found in the ProductsInOrder list. ProductsQuantity[n] = ProductsInOrder[n] -> quantity
-        MustBuyOrders = new HashMap<Supplier, OrderFromSupplier>();
-        bestSuppliersCombination = new HashMap<Supplier, OrderFromSupplier>();
+        ProductsInOrder = new ArrayList<>(); // contain all the products in the order
+        ProductsQuantity = new ArrayList<>(); // contain the quantity of the products found in the ProductsInOrder list. ProductsQuantity[n] = ProductsInOrder[n] -> quantity
+        MustBuyOrders = new HashMap<>();
+        bestSuppliersCombination = new HashMap<>();
         cheapestCombination = Float.POSITIVE_INFINITY;
 
         orderController = OrderController.getInstance();
         supplierController = SupplierController.getInstance();
-    }
-
-    public static boolean addProductToTheList(String productName, String manufacturerName){
-        GenericProduct genericProduct = checkIfProductExistAndReturn(productName, manufacturerName);
-        if(genericProduct == null)
-            return false;
-        ProductsInOrder.add(genericProduct);
-        return true;
-    }
-
-    public static void addQuantityOfTheLestEnteredProduct(int productQuantity){
-        ProductsQuantity.add(productQuantity);
     }
 
     public static String makeOrder(){
@@ -83,16 +68,14 @@ public class OrderGenerator {
 
     /**
      * create the "ProductsSuppliersArray". This array will use us to find the best combination of orders from suppliers.
-     * Each cell in the array will contain a list of all the suppliers that can supply this product (SuppliersModule.Business.SupplierProduct object)
+     * Each cell in the array will contain a list of all the suppliers that can supply this product (SupplierProduct object)
      */
     private static void createProductsSuppliersArray() {
         productsSuppliersArray = new List[ProductsInOrder.size()];
         int[] numberOfSuppliersThatCanSupplyEachProduct = new int[ProductsInOrder.size()]; // numberOfSuppliersThatCanSupplyEachProduct[n] = ProductsInOrder[n] -> number of suppliers that can supply the product
 
-        for (int i = 0; i < productsSuppliersArray.length; i++) { // for each product we build a list of all the suppliers that can supply it (SuppliersModule.Business.SupplierProduct object)
-            productsSuppliersArray[i] = findSuppliersThatCanSupplyTheProduct(ProductsInOrder.get(i).getMySuppliersProduct(),
-                    ProductsQuantity.get(i), i, 0, ProductsInOrder.get(i));
-
+        for (int i = 0; i < productsSuppliersArray.length; i++) { // for each product we build a list of all the suppliers that can supply it (SupplierProduct object)
+            productsSuppliersArray[i] = peakSuppliersByPriority(ProductsInOrder.get(i).getMySuppliersProduct(),ProductsQuantity.get(i), i);
             numberOfSuppliersThatCanSupplyEachProduct[i] = productsSuppliersArray[i].size();
         }
 
@@ -101,21 +84,81 @@ public class OrderGenerator {
 
     }
 
+    private static List<SupplierProduct> peakSuppliersByPriority(List<SupplierProduct> supplierProducts, int desiredQuantity, int index){
+        List<List<SupplierProduct>> suppliersByDay = createSuppliersByDayList(supplierProducts);
+
+        int amountPerDay;
+        int curAmount;
+        List<SupplierProduct> returnList = new ArrayList<>();
+        int quantity = desiredQuantity;
+        for(List<SupplierProduct> supplierProductList : suppliersByDay){
+            amountPerDay = 0;
+            for (SupplierProduct supplierProduct : supplierProductList){
+                curAmount = supplierProduct.getAmount();
+                if(curAmount >= quantity)
+                    returnList.add(supplierProduct);
+                amountPerDay += curAmount;
+            }
+            if(returnList.size() != 0)
+                return returnList;
+            if(amountPerDay >= quantity)
+                return findSuppliersThatCanSupplyTheProduct(supplierProductList,quantity,index);
+            addToMustBuyList(supplierProductList);
+            quantity -= amountPerDay;
+        }
+        throw new RuntimeException("Can not supply the desired quantity for the product: " + supplierProducts.get(0).getMyProduct() +
+                "\nIt is possible to supply maximum " + (desiredQuantity - quantity) + " units");
+    }
+
+    private static void addToMustBuyList(List<SupplierProduct> supplierProducts){
+        Supplier supplier;
+        for (SupplierProduct supplierProduct : supplierProducts){
+            supplier = supplierProduct.getMySupplier();
+            if (!MustBuyOrders.containsKey(supplier)) // If we haven't opened an order to this supplier in the blackList yet
+                MustBuyOrders.put(supplier, new OrderFromSupplier(supplier)); // Open an order to this supplier in the blackList
+
+            MustBuyOrders.get(supplier).addProductToOrder(supplierProduct.getAmount(), supplierProduct); // Add the product to the order, that opened to the supplier
+        }
+    }
+
+    private static List<List<SupplierProduct>> createSuppliersByDayList(List<SupplierProduct> supplierProducts){
+        List<List<SupplierProduct>> suppliersByDay = new ArrayList<>();
+
+        Queue<SupplierProduct> queue = new PriorityQueue<>(new MyCompare());
+        queue.addAll(supplierProducts);
+        if(queue.isEmpty())
+            return suppliersByDay;
+
+        SupplierProduct curSupplierProduct = queue.poll();
+        List <SupplierProduct> curList = new ArrayList<>();
+        curList.add(curSupplierProduct);
+        suppliersByDay.add(curList);
+
+        int curNumberOfDaysToSupply;
+        int prevNumberOfDaysToSupply = curSupplierProduct.getDaysToSupplyFromToday();
+
+        while (!queue.isEmpty()){
+            curSupplierProduct = queue.poll();
+            curNumberOfDaysToSupply = curSupplierProduct.getDaysToSupplyFromToday();
+            if(curNumberOfDaysToSupply > prevNumberOfDaysToSupply){
+                curList = new ArrayList<>();
+                suppliersByDay.add(curList);
+                prevNumberOfDaysToSupply = curNumberOfDaysToSupply;
+            }
+            curList.add(curSupplierProduct);
+        }
+        return suppliersByDay;
+    }
+
     /**
-     * return a list of all the suppliers that can supply the given product (SuppliersModule.Business.SupplierProduct object), with the desired quantity.
+     * return a list of all the suppliers that can supply the given product (SupplierProduct object), with the desired quantity.
      * @param suppliersProduct  All the suppliers that the given product found in their agreement
      * @param quantity  The desired quantity
      * @param index The index of the product in the "ProductsInOrder" list
-     * @param quantityForExc    In case of exception this quantity will be the max quantity that can be supplied
-     * @param genericProduct   The desired product
      */
-    private static List<SupplierProduct> findSuppliersThatCanSupplyTheProduct(List<SupplierProduct> suppliersProduct, int quantity,
-                                                                              int index, int quantityForExc, GenericProduct genericProduct) {
-        if(suppliersProduct.size() == 0)
-            throw new RuntimeException("Can not supply the desired quantity for the product: " + genericProduct +
-                    "\nIt is possible to supply maximum " + quantityForExc + " units");
+    private static List<SupplierProduct> findSuppliersThatCanSupplyTheProduct(List<SupplierProduct> suppliersProduct, int quantity, int index) {
 
-        List<SupplierProduct> suppliersThatCanSupplyTheProduct = new ArrayList<SupplierProduct>();
+        List<SupplierProduct> suppliersThatCanSupplyTheProduct = new ArrayList<>();
         SupplierProduct maxSupplierProduct = null; // The supplier that can supply the maximum quantity
         int maxProducts = 0; // The maximum amount that the maxSupplierProduct can supply
         int curAmount;
@@ -143,7 +186,7 @@ public class OrderGenerator {
             ProductsQuantity.set(index,quantity - maxProducts); // Update the desired quantity of the product
 
             return findSuppliersThatCanSupplyTheProduct(newSuppliersProduct, quantity - maxProducts,
-                    index, quantityForExc + maxProducts, genericProduct); // Call the function again. We want to find the list of suppliers that can supply the desired quantity **after** we order from the max supplier.
+                    index); // Call the function again. We want to find the list of suppliers that can supply the desired quantity **after** we order from the max supplier.
         }
 
         return suppliersThatCanSupplyTheProduct;
@@ -202,29 +245,23 @@ public class OrderGenerator {
             pair.getValue().invite();
     }
 
-    /**
-     * return the product with the compatible attribute (productName, manufacturerName). return null if not exist
-     */
-    public static GenericProduct checkIfProductExistAndReturn(String productName, String manufacturerName)
-    {
-        List<String> keyPair = new ArrayList<>();
-        keyPair.add(productName);
-        keyPair.add(manufacturerName);
-
-        if (!supplierController.getAllProducts().containsKey(keyPair)) {
-            System.out.println("The product does not exist in the system! ");
-            return null;
-        }
-        return supplierController.getAllProducts().get(keyPair);
-    }
 
     /**
      * deep copy to the given map
      */
     private static Map<Supplier, OrderFromSupplier> cloneMap(Map<Supplier, OrderFromSupplier> originalMap){
-        Map<Supplier, OrderFromSupplier> deepCopyMap = new HashMap<Supplier, OrderFromSupplier>();
+        Map<Supplier, OrderFromSupplier> deepCopyMap = new HashMap<>();
         for (Map.Entry<Supplier, OrderFromSupplier> pair : originalMap.entrySet())
             deepCopyMap.put(pair.getKey(),pair.getValue().clone());
         return deepCopyMap;
     }
+}
+
+class MyCompare implements Comparator<SupplierProduct> {
+
+    @Override
+    public int compare(SupplierProduct first, SupplierProduct other) {
+        return first.getDaysToSupplyFromToday() - other.getDaysToSupplyFromToday();
+    }
+
 }
