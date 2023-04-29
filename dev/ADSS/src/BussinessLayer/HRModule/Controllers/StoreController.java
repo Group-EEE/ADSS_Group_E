@@ -2,6 +2,8 @@ package BussinessLayer.HRModule.Controllers;
 
 import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.Store;
+import DataAccessLayer.HRMoudle.EmployeesToStoreDAO;
+import DataAccessLayer.HRMoudle.StoresDAO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,15 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 public class StoreController {
-    private final HashMap<Integer, Store> _storesByID;
-    private final HashMap<String,Store> _storesByName;
-    private final HashMap<Store,List<Employee>> _storeEmployeeMap;
+
+    private final EmployeesToStoreDAO _employeesToStoreDAO;
+    private final StoresDAO _storesDAO;
     private static StoreController _storeController = null;
 
     public StoreController(){
-        _storesByID = new HashMap<Integer, Store>();
-        _storesByName = new HashMap<String, Store>();
-        _storeEmployeeMap = new HashMap<Store, List<Employee>>();
+        _employeesToStoreDAO = EmployeesToStoreDAO.getInstance();
+        _storesDAO = StoresDAO.getInstance();
     }
 
     public static StoreController getInstance(){

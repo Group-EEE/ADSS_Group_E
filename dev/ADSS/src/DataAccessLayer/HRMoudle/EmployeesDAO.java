@@ -7,7 +7,7 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 
-public class EmployeeDAO extends DAO {
+public class EmployeesDAO extends DAO {
 
     //int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
     private static final String TableName = "Employee";
@@ -21,23 +21,22 @@ public class EmployeeDAO extends DAO {
     public static final String StartOfEmploymentColumnName = "StartOfEmployment";
     public static final String FinishWorkingColumnName = "FinishWorking";
 
-    private static EmployeeDAO _employeeDAO = null;
+    private static EmployeesDAO _employeesDAO = null;
     private HashMap<Integer, Employee> employeesCache;
     private HashMap<Integer, Driver> driverCache;
 
-    private EmployeeDAO() {
+    private EmployeesDAO() {
         super(TableName);
         employeesCache = new HashMap<>();
     }
-    public static EmployeeDAO getInstance(){
-        if (_employeeDAO == null)
-            _employeeDAO = new EmployeeDAO();
-        return _employeeDAO;
+    public static EmployeesDAO getInstance(){
+        if (_employeesDAO == null)
+            _employeesDAO = new EmployeesDAO();
+        return _employeesDAO;
     }
 
     //table column names
 
-    @Override
     public boolean Insert(Object employeeObj) {
         Employee employee = (Employee) employeeObj;
         boolean res = true;

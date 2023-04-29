@@ -1423,11 +1423,11 @@
     <argument id="503" parent="172">
       <Position>1</Position>
     </argument>
-    <table id="504" parent="173" name="Employee"/>
+    <table id="504" parent="173" name="Employees"/>
     <table id="505" parent="173" name="EmployeesToRoles"/>
     <table id="506" parent="173" name="EmployeesToStores"/>
     <table id="507" parent="173" name="Passwords"/>
-    <table id="508" parent="173" name="Store"/>
+    <table id="508" parent="173" name="Stores"/>
     <table id="509" parent="173" name="sqlite_master">
       <System>1</System>
     </table>
@@ -1451,7 +1451,7 @@
       <DasType>VARCHAR(255)|0s</DasType>
       <Position>5</Position>
     </column>
-    <index id="515" parent="504" name="sqlite_autoindex_Employee_1">
+    <index id="515" parent="504" name="sqlite_autoindex_Employees_1">
       <ColNames>employeeID</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
@@ -1459,7 +1459,7 @@
     <key id="516" parent="504">
       <ColNames>employeeID</ColNames>
       <Primary>1</Primary>
-      <UnderlyingIndexName>sqlite_autoindex_Employee_1</UnderlyingIndexName>
+      <UnderlyingIndexName>sqlite_autoindex_Employees_1</UnderlyingIndexName>
     </key>
     <column id="517" parent="505" name="employeeID">
       <DasType>INT|0s</DasType>
@@ -1472,7 +1472,7 @@
     <foreign-key id="519" parent="505">
       <ColNames>employeeID</ColNames>
       <RefColNames>employeeID</RefColNames>
-      <RefTableName>Employee</RefTableName>
+      <RefTableName>Employees</RefTableName>
     </foreign-key>
     <index id="520" parent="505" name="sqlite_autoindex_EmployeesToRoles_1">
       <ColNames>employeeID
@@ -1497,12 +1497,12 @@ roleType</ColNames>
     <foreign-key id="524" parent="506">
       <ColNames>employeeID</ColNames>
       <RefColNames>employeeID</RefColNames>
-      <RefTableName>Employee</RefTableName>
+      <RefTableName>Employees</RefTableName>
     </foreign-key>
     <foreign-key id="525" parent="506">
       <ColNames>storeID</ColNames>
       <RefColNames>storeID</RefColNames>
-      <RefTableName>Store</RefTableName>
+      <RefTableName>Stores</RefTableName>
     </foreign-key>
     <index id="526" parent="506" name="sqlite_autoindex_EmployeesToStores_1">
       <ColNames>employeeID
@@ -1548,12 +1548,12 @@ storeID</ColNames>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <index id="535" parent="508" name="sqlite_autoindex_Store_1">
+    <index id="535" parent="508" name="sqlite_autoindex_Stores_1">
       <ColNames>storeID</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <index id="536" parent="508" name="sqlite_autoindex_Store_2">
+    <index id="536" parent="508" name="sqlite_autoindex_Stores_2">
       <ColNames>name</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
@@ -1561,11 +1561,11 @@ storeID</ColNames>
     <key id="537" parent="508">
       <ColNames>storeID</ColNames>
       <Primary>1</Primary>
-      <UnderlyingIndexName>sqlite_autoindex_Store_1</UnderlyingIndexName>
+      <UnderlyingIndexName>sqlite_autoindex_Stores_1</UnderlyingIndexName>
     </key>
     <key id="538" parent="508">
       <ColNames>name</ColNames>
-      <UnderlyingIndexName>sqlite_autoindex_Store_2</UnderlyingIndexName>
+      <UnderlyingIndexName>sqlite_autoindex_Stores_2</UnderlyingIndexName>
     </key>
     <column id="539" parent="509" name="type">
       <DasType>TEXT|0s</DasType>

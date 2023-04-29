@@ -5,6 +5,7 @@ import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Shift;
 import BussinessLayer.HRModule.Objects.Store;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class Facade {
@@ -27,43 +28,43 @@ public class Facade {
         return _facade;
     }
 
-    //initiate
-    public boolean loadData(){
-        createEmployee("Chen","Frydman", 22, 1,"BankA","123",true);
-        createEmployee("Gali","Frydman", 17, 2,"BankA","234",false);
-        createEmployee("Amit","Oren",23, 3, "BankA", "345", false);
-        createEmployee("Daniel","Sphira", 26, 4, "BankC", "456", false);
-        createEmployee("Ido","Paz", 26, 5, "BankC", "567", false);
-        createEmployee("Gal","Chen", 26, 6, "BankC", "678", false);
-
-        addRoleToEmployee(1, RoleType.ShiftManager);
-        addRoleToEmployee(2, RoleType.ShiftManager);
-        addRoleToEmployee(3, RoleType.General);
-
-        createStore(1,"a","a");
-        createStore(2,"b","b");
-        createStore(3,"c","c");
-
-        addEmployeeToStore(1,"a");
-        addEmployeeToStore(2,"a");
-        addEmployeeToStore(3,"a");
-        addEmployeeToStore(4,"b");
-        addEmployeeToStore(5,"b");
-        addEmployeeToStore(6,"b");
-
-        createNewSchedule("a", 1, 1, 2020);
-        login(1,"123");
-        addEmployeeToShift("a", 1);
-        logout();
-        login(2,"234");
-        addEmployeeToShift("a", 1);
-        logout();
-        login(3,"345");
-        addEmployeeToShift("a", 1);
-        logout();
-
-        return true;
-    }
+//    //initiate
+//    public boolean loadData(){
+//        createEmployee("Chen","Frydman", 22, 1,"BankA","123",true);
+//        createEmployee("Gali","Frydman", 17, 2,"BankA","234",false);
+//        createEmployee("Amit","Oren",23, 3, "BankA", "345", false);
+//        createEmployee("Daniel","Sphira", 26, 4, "BankC", "456", false);
+//        createEmployee("Ido","Paz", 26, 5, "BankC", "567", false);
+//        createEmployee("Gal","Chen", 26, 6, "BankC", "678", false);
+//
+//        addRoleToEmployee(1, RoleType.ShiftManager);
+//        addRoleToEmployee(2, RoleType.ShiftManager);
+//        addRoleToEmployee(3, RoleType.General);
+//
+//        createStore(1,"a","a");
+//        createStore(2,"b","b");
+//        createStore(3,"c","c");
+//
+//        addEmployeeToStore(1,"a");
+//        addEmployeeToStore(2,"a");
+//        addEmployeeToStore(3,"a");
+//        addEmployeeToStore(4,"b");
+//        addEmployeeToStore(5,"b");
+//        addEmployeeToStore(6,"b");
+//
+//        createNewSchedule("a", 1, 1, 2020);
+//        login(1,"123");
+//        addEmployeeToShift("a", 1);
+//        logout();
+//        login(2,"234");
+//        addEmployeeToShift("a", 1);
+//        logout();
+//        login(3,"345");
+//        addEmployeeToShift("a", 1);
+//        logout();
+//
+//        return true;
+//    }
 
     //_employeeController
     public boolean login(int id, String password){
@@ -117,10 +118,12 @@ public class Facade {
         return _loggedUser.setNewBankAccount(bankAccount);
     }
 
-    public boolean createEmployee(String firstName, String lastName, int age, int id, String bankAccount, String password, boolean isHRManager) {
+    public boolean createEmployee(int id, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployemen, String password, boolean isHRManager) {
         if (firstName == null || lastName == null || age < 0 || id < 0 || bankAccount == null)
             throw new IllegalArgumentException("Invalid arguments");
-        _employeeController.createEmployee(firstName, lastName, age, id, bankAccount, password);
+        boolean res = _employeeController.createEmployee(id, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployemen, password);
+        if (!res)
+            return false;
         if (isHRManager) {
             _HRManager = _employeeController.getEmployeeByID(id);
             _HRManager.addRole(RoleType.HRManager);
