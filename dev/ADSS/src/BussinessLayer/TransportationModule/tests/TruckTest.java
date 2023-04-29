@@ -1,7 +1,6 @@
 package BussinessLayer.TransportationModule.tests;
 
 import BussinessLayer.TransportationModule.objects.*;
-import BussinessLayer.TransportationModule.objects.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -97,7 +96,7 @@ class TruckTest {
 
     @Test
     void getMoodle() {
-        assertEquals("Volvo FRS", truck.getMoodle());
+        assertEquals("Volvo FRS", truck.getModel());
     }
 
     @Test
@@ -114,9 +113,9 @@ class TruckTest {
 
     @Test
     void setMoodle() {
-        assertEquals("Volvo FRS", truck.getMoodle());
-        truck.setMoodle("MAN");
-        assertEquals("MAN", truck.getMoodle());
+        assertEquals("Volvo FRS", truck.getModel());
+        truck.setModel("MAN");
+        assertEquals("MAN", truck.getModel());
     }
 
     @Test

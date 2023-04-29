@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Truck {
     private String registration_plate;
-    private String moodle;
+    private String model;
     private double net_weight;
     private double max_weight;
     private cold_level cold_level;
@@ -17,7 +17,7 @@ public class Truck {
 
     public Truck(String registration, String truck_moodle, double truck_net_weight, double truck_max_weight, cold_level level, double current_weight){
         this.registration_plate = registration;
-        this.moodle = truck_moodle;
+        this.model = truck_moodle;
         this.net_weight = truck_net_weight;
         this.max_weight = truck_max_weight;
         this.cold_level = level;
@@ -95,8 +95,8 @@ public class Truck {
         return net_weight;
     }
 
-    public String getMoodle() {
-        return moodle;
+    public String getModel() {
+        return model;
     }
 
     public String getRegistration_plate() {
@@ -107,8 +107,8 @@ public class Truck {
         this.max_weight = max_weight;
     }
 
-    public void setMoodle(String moodle) {
-        this.moodle = moodle;
+    public void setModel(String model) {
+        this.model = model;
     }
 
     public void setNet_weight(double net_weight) {
@@ -134,7 +134,7 @@ public class Truck {
 
     public void truckDisplay(){
         System.out.println("Truck Registration plate number - " + registration_plate);
-        System.out.println("\t Moodle: " + moodle);
+        System.out.println("\t Moodle: " + model);
         System.out.println("\t Net Weight: " + net_weight);
         System.out.println("\t Max Weight: " + max_weight);
         System.out.println("\t Cold Level: " + cold_level.name());
