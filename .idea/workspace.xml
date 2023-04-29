@@ -7,7 +7,15 @@
     <list default="true" id="e8ab6a62-5a9f-4ada-b7de-51cb98261c12" name="Changes" comment="tables 27/4">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/InventoryModule/Business/Controllers/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/InventoryModule/Business/Controllers/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/res/SuperLeeDB" beforeDir="false" afterPath="$PROJECT_DIR$/dev/res/SuperLeeDB" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/DataAccess/SuppliersModule/AgreementDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/DataAccess/SuppliersModule/AgreementDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/DataAccess/SuppliersModule/SupplierDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/DataAccess/SuppliersModule/SupplierDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/InventoryModule/Business/Controllers/ProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/InventoryModule/Business/Controllers/ProductController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Agreement.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Agreement.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Controllers/SupplierController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Controllers/SupplierController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Generator/OrderGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Generator/OrderGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/GenericProduct.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/GenericProduct.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/SupplierProduct.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/SupplierProduct.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,6 +153,7 @@
       <workItem from="1682665999640" duration="16229000" />
       <workItem from="1682683840670" duration="6822000" />
       <workItem from="1682761329036" duration="1398000" />
+      <workItem from="1682777802422" duration="922000" />
     </task>
     <task id="LOCAL-00001" summary="tables 27/4">
       <created>1682624568520</created>
@@ -176,6 +185,15 @@
     <option name="LAST_COMMIT_MESSAGE" value="tables 27/4" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDB.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="superLeeDBConnection.conn" />
