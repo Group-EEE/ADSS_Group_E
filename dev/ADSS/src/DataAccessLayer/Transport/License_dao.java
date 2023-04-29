@@ -1,6 +1,8 @@
 package DataAccessLayer.Transport;
 
 import BussinessLayer.TransportationModule.objects.License;
+import BussinessLayer.TransportationModule.objects.Truck;
+import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
 
 import java.sql.*;
@@ -20,19 +22,19 @@ public class License_dao extends DAO {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url);
-            String query = "INSERT INTO License (registration_plate, model, net_weight, max_weight, cold_level) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Licenses (ID, cold_level, weight) VALUES (?, ?, ?)";
 
             // Prepare SQL statement with parameters
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, license.getRegistration_plate());
-            pstmt.setString(2, license.getModel());
-            pstmt.setDouble(3, license.getNet_weight());
+            pstmt.setInt(1, license.getL_ID());
+            pstmt.setString(2, license.getCold_level().toString());
+            pstmt.setDouble(3, license.getWeight());
             // Execute SQL statement and print result
             pstmt.executeUpdate();
-            Trucks.put(truck.getRegistration_plate(), truck);
+            Licenses.put(license.getL_ID(), license);
             return true;
         } catch (SQLException e) {
-            System.out.println("Truck already exist");
+            System.out.println("License already exist");
             System.out.println(e.getMessage());
         } finally {
             try {
@@ -48,12 +50,30 @@ public class License_dao extends DAO {
     }
 
     @Override
-    public boolean Delete(Object obj) {
+    public boolean Delete(Object Licenseobj) {
+        License license = (License) Licenseobj;
+        String query = "DELETE FROM Licenses WHERE ID = ?";
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(query);) {
+            pstmt.setInt(1, license.getL_ID());
+            pstmt.executeUpdate();
+            if (Licenses.containsKey(license.getL_ID())) {
+                Licenses.remove(license.getL_ID());
+            }
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Exception thrown");
+        }
         return false;
     }
 
     @Override
     public Object convertReaderToObject(ResultSet res) throws SQLException, ParseException {
-        return null;
+        if (Licenses.containsKey(res.getInt(1))) {
+            return Licenses.get(res.getInt(1));
+        }
+        License license = new License(res.getInt(1), cold_level.fromString(res.getString(2)), res.getDouble(3));
+        Licenses.put(license.getL_ID(), license);
+        return license;
     }
 }
