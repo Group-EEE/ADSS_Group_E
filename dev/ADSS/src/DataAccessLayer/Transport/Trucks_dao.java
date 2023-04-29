@@ -3,7 +3,6 @@ package DataAccessLayer.Transport;
 import BussinessLayer.TransportationModule.objects.Truck;
 import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
-
 import java.sql.*;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -21,7 +20,7 @@ public class Trucks_dao extends DAO {
         Truck truck = (Truck) obj;
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
+            connection = DriverManager.getConnection("jdbc:sqlite:C:/Users/galev/OneDrive/Documents/GitHub/ADSS_Group_E/dev/ADSS/SuperLi.db");
             String query = "INSERT INTO Trucks (registration_plate, model, net_weight, max_weight, cold_level) VALUES (?, ?, ?, ?, ?)";
 
             // Prepare SQL statement with parameters
@@ -36,7 +35,7 @@ public class Trucks_dao extends DAO {
             Trucks.put(truck.getRegistration_plate(), truck);
             return true;
         } catch (SQLException e) {
-            System.out.println("Truck already exist");
+            System.out.println("Exception");
             System.out.println(e.getMessage());
         } finally {
             try {
