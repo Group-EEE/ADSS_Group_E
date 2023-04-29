@@ -1,23 +1,30 @@
 package BussinessLayer.HRModule.Objects;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Employee{
-    //private final List<Store> _stores = new ArrayList<Store>();
     private final List<RoleType> _roles = new ArrayList<RoleType>();
     private final int _id;
     private String _firstName;
     private String _lastName;
     private int _age;
     private String _bankAccount;
-
-    public Employee(String firstName, String lastName, int age, int id, String bankAccount) {
+    private int _salary;
+    private String _hiringCondition;
+    private LocalDate _startDateOfEmployement;
+    private boolean _finishWorking;
+    public Employee(String firstName, String lastName, int age, int id, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
         this._firstName = firstName;
         this._lastName = lastName;
         this._age = age;
         this._id = id;
         this._bankAccount = bankAccount;
+        this._salary = salary;
+        this._startDateOfEmployement = startDateOfEmployment;
+        this._finishWorking = false;
     }
 
     /**
@@ -53,19 +60,10 @@ public class Employee{
         return true;
     }
 
-//    /**
-//     * @param store - the store to add to the employee
-//     * @return true if the store was added successfully, false otherwise
-//     */
-//    public boolean addStore(Store store){
-//        this._stores.add(store);
-//        return store.addEmployee(this);
-//    }
-
     /**
      * @return the first name of the employee
      */
-    public String getName(){
+    public String getFullNameName(){
         return this._firstName+" "+this._lastName;
     }
 
@@ -98,29 +96,6 @@ public class Employee{
         return this._roles;
     }
 
-//    /**
-//     * @return the list of all stores of the employee
-//     */
-//    public List<Store> getStores(){
-//        return this._stores;
-//    }
-
-    /**
-     * @param store - the store to remove from the employee
-     * @return true if the store was removed successfully, false otherwise
-     */
-//    public boolean removeStore(Store store){
-//        if (store == null)
-//            throw new IllegalArgumentException("Illegal store");
-//        this._stores.remove(store);
-//        return store.removeEmployee(this);
-//    }
-//
-//    public boolean checkIfEmployeeWorkInStore(Store store){
-//        if (store == null)
-//            return false;
-//        return this._stores.contains(store);
-//    }
 
     public String toString(){
         String employeeToString = "Employee: " + this._firstName + " " + this._lastName + ", ID: " + this._id+", age: "+this._age;
@@ -134,4 +109,38 @@ public class Employee{
     public int getID(){
         return this._id;
     }
+
+    public String getFirstName(){
+        return this._firstName;
+    }
+
+    public String getLastName(){
+        return this._lastName;
+    }
+
+    public int getAge(){
+        return this._age;
+    }
+
+    public String getBankAccount(){
+        return this._bankAccount;
+    }
+
+    public int getSalary(){
+        return this._salary;
+    }
+
+    public String getHiringCondition(){
+        return this._hiringCondition;
+    }
+
+    public LocalDate getStartDateOfEmployement(){
+        return this._startDateOfEmployement;
+    }
+
+    public boolean getFinishWorking(){
+        return this._finishWorking;
+    }
+
+
 }
