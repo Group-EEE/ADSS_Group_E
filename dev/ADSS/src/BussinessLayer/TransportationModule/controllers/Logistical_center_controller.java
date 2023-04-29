@@ -226,9 +226,10 @@ public class Logistical_center_controller {
 
     public void display_trucks_by_cold_level(String cold_lvl){
         cold_level cool_level = get_cold_level_by_string(cold_lvl);
+        System.out.println("======================================= Trucks with cold level '" + cool_level + "' in the system =======================================");
         for (Truck t : logistical_center.getTrucks()) {
             if (t.getCold_level().getValue() == cool_level.getValue()) {
-                System.out.println(t.getRegistration_plate());
+                t.truckDisplay();
             }
         }
     }

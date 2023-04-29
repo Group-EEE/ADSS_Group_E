@@ -49,6 +49,10 @@ public class Transport {
         return transport_ID;
     }
 
+    public void setWeighing(ArrayList<Double> weighing) {
+        this.weighing = weighing;
+    }
+
     public void setTransport_ID(int transport_ID) {
         this.transport_ID = transport_ID;
     }

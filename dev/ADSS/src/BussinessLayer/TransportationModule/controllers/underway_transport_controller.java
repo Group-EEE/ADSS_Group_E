@@ -89,6 +89,8 @@ public class underway_transport_controller {
 
         if (!finished_transport) {
             chosen_transport.setStarted(false);
+            ArrayList<Double> empty_weights = new ArrayList<>();
+            chosen_transport.setWeighing(empty_weights);
             return;
         }
 
