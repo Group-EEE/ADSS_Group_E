@@ -16,6 +16,7 @@ public class transport_manager_UI {
     // ===== attributes =====
     Logistical_center_controller controller;
     underway_transport_UI underway_transport_ui;
+
     Scanner scanner;
     public transport_manager_UI() {
         this.controller = Logistical_center_controller.getInstance();
@@ -87,43 +88,32 @@ public class transport_manager_UI {
             isValid = false;
             switch (choice) {
                 // hire a new driver
-                case 0:
-                    create_driver();
-                    break;
+                case 0 -> create_driver();
+
                 // have all the trucks by a cold level
-                case 1:
-                    display_trucks_by_cold_level();
-                    break;
+                case 1 -> display_trucks_by_cold_level();
+
                 // creating a new transport
-                case 2:
+                case 2 -> {
                     System.out.println("Hey Boss!");
                     create_transport_document();
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     ArrayList<Integer> chosen_transports = choose_transport_to_send();
-                    for (int key: chosen_transports){
+                    for (int key : chosen_transports) {
                         underway_transport_ui.start_transport(key);
                     }
-                    break;
+                }
                 // add a new truck to the system.
-                case 4:
-                    create_truck();
-                    break;
-                case 5:
-                    controller.display_drivers();
-                    break;
-                case 6:
-                    controller.display_trucks();
-                    break;
-                case 7:
-                    controller.display_transport_doc();
-                    break;
-                case 8:
-                    controller.display_site_supply();
-                    break;
-                case 9:
+                case 4 -> create_truck();
+                case 5 -> controller.display_drivers();
+                case 6 -> controller.display_trucks();
+                case 7 -> controller.display_transport_doc();
+                case 8 -> controller.display_site_supply();
+                case 9 -> {
                     return;
-                                }
+                }
+            }
 
         }
     }

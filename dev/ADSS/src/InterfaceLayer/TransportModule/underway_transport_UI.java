@@ -48,7 +48,7 @@ public class underway_transport_UI {
                     // creating a document
                     create_site_supply(transport_ID);
                     // asking if he needs to make another one
-                    System.out.println("Do you have items to ship to another store? (Write 1 or 2): ");
+                    System.out.println("Do you have items to ship to another store? (press 1 or 2 only): ");
                     System.out.println("1 - YES");
                     System.out.println("2 - NO");
                     while (true) {
@@ -86,7 +86,7 @@ public class underway_transport_UI {
                 // driving to the next site.
                 controller.drive_to_next_location(transport_ID);
             }
-        // if the transport wasn't aborted, we update the truck and the driver so they can now go to another shipment.
+        // if the transport wasn't aborted, we update the truck and the driver, so they can now go to another shipment.
             if (!aborted) {
                 controller.reset_transport(transport_ID, true);
                 System.out.println("Transport " + transport_ID + " now finished.");
@@ -333,6 +333,5 @@ public class underway_transport_UI {
         return true;
 
     }
-
 
 }
