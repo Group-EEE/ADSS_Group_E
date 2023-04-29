@@ -3,23 +3,33 @@ package BussinessLayer.HRModule.Controllers;
 import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Store;
+import DataAccessLayer.HRMoudle.EmployeeDAO;
+import DataAccessLayer.HRMoudle.PasswordDAO;
+import DataAccessLayer.HRMoudle.EmployeesToStoreDAO;
+import DataAccessLayer.HRMoudle.EmployeesToRolesDAO;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
 public class EmployeeController {
-    private final HashMap<Integer,String> _passwords;
-    private final HashMap<Integer, Employee> _employees;
-    private final HashMap<Employee,List<Store>> _employeeStoreMap;
+
+
+    private final EmployeeDAO _employeeDAO;
+    private final PasswordDAO _passwordsDAO;
+    private final EmployeesToStoreDAO _employeesToStoreDAO;
+    private final EmployeesToRolesDAO _employeesToRolesDAO;
+
     private static EmployeeController _employeeController;
 
 
     private EmployeeController() {
-        _passwords = new HashMap<Integer,String>();
-        _employees = new HashMap<Integer,Employee>();
-        _employeeStoreMap = new HashMap<Employee,List<Store>>();
+        _passwordsDAO = PasswordDAO.getInstance();
+        _employeeDAO = EmployeeDAO.getInstance();
+        _employeesToRolesDAO = EmployeesToRolesDAO.getInstance();
+        _employeesToStoreDAO = EmployeesToStoreDAO.getInstance();
     }
 
     public static EmployeeController getInstance() {
@@ -35,25 +45,23 @@ public class EmployeeController {
      * @param lastName - the last name of the employee
      * @param age - the age of the employee
      * @param employeeID - the id of the employee
-     * @param bank_account - the bank account of the employee
+     * @param bankAccount - the bank account of the employee
      * @param password - the password of the employee
      * @return - true if the employee was created successfully, false otherwise
      */
-    public boolean createEmployee(String firstName, String lastName, int age, int employeeID, String bank_account, String password) {
-        if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bank_account == null)
+    public boolean createEmployee(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployement, String password) {
+        if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null)
             throw new IllegalArgumentException("Invalid arguments");
-        Employee employee = new Employee(firstName, lastName, age, employeeID, bank_account);
-        _employees.put(employeeID, employee);
-        _passwords.put(employeeID, password);
-        _employeeStoreMap.put(employee, new ArrayList<Store>());
-        //_storeEmployeeMap.put(newStore, new ArrayList<Employee>());
+        Employee employee = new Employee(employeeID, firstName,lastName, age , bankAccount, salary, hiringCondition, startDateOfEmployement);
+        _employeeDAO.Insert(employee);
+        _passwordsDAO.Insert(employeeID, password);
         return true;
     }
 
     public Employee login(int id, String password){
         if (id < 0 || password == null)
             return null;
-        if (_employees.containsKey(Integer.valueOf(id)) && _passwords.containsKey(Integer.valueOf(id)) && _passwords.get(Integer.valueOf(id)).equals(password))
+        if (_employeeDAO.ExistEmployee(Integer.valueOf(id)) && PasswordDAO.(Integer.valueOf(id)) && _passwords.get(Integer.valueOf(id)).equals(password))
             return _employees.get(Integer.valueOf(id));
         return null;
     }

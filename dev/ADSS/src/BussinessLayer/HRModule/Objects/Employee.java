@@ -16,13 +16,14 @@ public class Employee{
     private String _hiringCondition;
     private LocalDate _startDateOfEmployement;
     private boolean _finishWorking;
-    public Employee(String firstName, String lastName, int age, int id, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
+    public Employee(int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
+        this._id = id;
         this._firstName = firstName;
         this._lastName = lastName;
         this._age = age;
-        this._id = id;
         this._bankAccount = bankAccount;
         this._salary = salary;
+        this._hiringCondition = hiringCondition;
         this._startDateOfEmployement = startDateOfEmployment;
         this._finishWorking = false;
     }

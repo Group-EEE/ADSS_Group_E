@@ -9,23 +9,30 @@ import java.util.List;
 
 public class EmployeeDAO extends DAO {
 
-    private static String TableName = "Employee";
+    //int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
+    private static final String TableName = "Employee";
     public static final String IDColumnName = "ID";
     public static final String FirstNameColumnName = "FirstName";
     public static final String LastNameColumnName = "lastName";
+    public static final String AgeColumnName = "Age";
     public static final String BankAccountColumnName = "BankAccount";
     public static final String SalaryColumnName = "Salary";
     public static final String HiringConditionsColumnName = "HiringConditions";
     public static final String StartOfEmploymentColumnName = "StartOfEmployment";
     public static final String FinishWorkingColumnName = "FinishWorking";
-    //do employees to roles
 
+    private static EmployeeDAO _employeeDAO = null;
     private HashMap<Integer, Employee> employeesCache;
     private HashMap<Integer, Driver> driverCache;
 
-    public EmployeeDAO() {
+    private EmployeeDAO() {
         super(TableName);
         employeesCache = new HashMap<>();
+    }
+    public static EmployeeDAO getInstance(){
+        if (_employeeDAO == null)
+            _employeeDAO = new EmployeeDAO();
+        return _employeeDAO;
     }
 
     //table column names
@@ -34,23 +41,21 @@ public class EmployeeDAO extends DAO {
     public boolean Insert(Object employeeObj) {
         Employee employee = (Employee) employeeObj;
         boolean res = true;
+        //int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}, {4}, {5}, {6} ,{7},{8}) VALUES(?, ?, ?, ?, ?, ?,?,?) "
-                , _tableName, IDColumnName, FirstNameColumnName, LastNameColumnName, BankAccountColumnName, SalaryColumnName, HiringConditionsColumnName, StartOfEmploymentColumnName, FinishWorkingColumnName);
+                , _tableName, IDColumnName, FirstNameColumnName, LastNameColumnName, AgeColumnName, BankAccountColumnName, SalaryColumnName, HiringConditionsColumnName, StartOfEmploymentColumnName);
         try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, employee.getID());
             pstmt.setString(2, employee.getFirstName());
             pstmt.setString(3, employee.getLastName());
-            pstmt.setString(4, employee.getBankAccount());
-            pstmt.setInt(5, employee.getSalary());
-            pstmt.setString(6, employee.getHiringCondition());
-            pstmt.setString(7, employee.getStartDateOfEmployement().format(formatters));
-            pstmt.setBoolean(7, employee.getFinishWorking());
-            pstmt.setString(8, employee.getJobType().toString());
+            pstmt.setInt(4, employee.getAge());
+            pstmt.setString(5, employee.getBankAccount());
+            pstmt.setInt(6, employee.getSalary());
+            pstmt.setString(7, employee.getHiringCondition());
+            pstmt.setString(8, employee.getStartDateOfEmployement().format(formatters));
+            //pstmt.setBoolean(8, employee.getFinishWorking());
             pstmt.executeUpdate();
-            //   EmployeeConstraintsDAO.Insert
-
-
         } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
@@ -60,8 +65,8 @@ public class EmployeeDAO extends DAO {
         return res;
     }
 
-    public boolean Insert(Driver driver) {
-        Employee employee = new Employee(driver.getId(), driver.getName(), driver.getBankAccount(), driver.getSalary(), driver.getHiringCondition(), driver.getJobType().toString());
+    /*public boolean Insert(Driver driver) {
+        Employee employee = new Employee(driver.getID(), driver.getName(), driver.getBankAccount(), driver.getSalary(), driver.getHiringCondition(), driver.getJobType().toString());
         boolean res = true;
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}, {4}, {5}, {6} ,{7},{8}) VALUES(?, ?, ?, ?, ?, ?,?,?) "
                 , _tableName, IDColumnName, NameColumnName, BankAccountColumnName, SalaryColumnName, HiringConditionsColumnName, StartOfEmploymentColumnName, FinishWorkingColumnName, JobTypeColumnName
@@ -90,23 +95,18 @@ public class EmployeeDAO extends DAO {
         }
         return res;
     }
-
+*/
 
     @Override
     public boolean Delete(Object employeeObj) {
         Employee employee = (Employee) employeeObj;
         boolean res = true;
-        String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ? "
-                , _tableName, IDColumnName);
+        String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ? ", _tableName, IDColumnName);
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-//            Connection connection=open
-//            pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1, employee.getId());
-            pstmt.executeUpdate();
-
-
+             pstmt.setInt(1, employee.getID());
+             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
@@ -121,21 +121,20 @@ public class EmployeeDAO extends DAO {
     }
 
     public List<Employee> SelectAllEmployees() {
-        List<Employee> list = (List<Employee>) (List<?>) Select();
-        return list;
+        return (List<Employee>) (List<?>) Select();
     }
 
     public List<Employee> SelectAllEmployeesID() {
-        List<Employee> list = (List<Employee>) (List<?>) Select();
-        return list;
+        return (List<Employee>) (List<?>) Select();
     }
 
     @Override
     public Employee convertReaderToObject(ResultSet rs) throws SQLException {
         if(employeesCache.containsKey(rs.getInt(1)))
             return employeesCache.get(rs.getInt(1));
-        Employee employee = new Employee(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), parseLocalDate(rs.getString(6)), rs.getBoolean(7), rs.getString(8));
-        employeesCache.put(employee.getId(), employee);
+        //int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
+        Employee employee = new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6), rs.getString(7), parseLocalDate(rs.getString(8)));
+        employeesCache.put(employee.getID(), employee);
         return employee;
     }
 
@@ -159,10 +158,6 @@ public class EmployeeDAO extends DAO {
         Update(FinishWorkingColumnName, finishWorking, makeList(IDColumnName), makeList(String.valueOf(id)));
     }
 
-    public void setJobType(int id, String jobType) {
-        Update(JobTypeColumnName, jobType, makeList(IDColumnName), makeList(String.valueOf(id)));
-    }
-
 
     public Employee getEmployee(int id) {
         if (employeesCache.containsKey(id)) //Employee in cache
@@ -180,7 +175,7 @@ public class EmployeeDAO extends DAO {
 
     public boolean ExistEmployee(int id){
         boolean exist =false;
-        /// keys is for tables that have more that one key
+        /// keys is for tables that have more than one key
         String sql = MessageFormat.format("SELECT {0} From {1} WHERE {2} = ?",
                 IDColumnName,  _tableName, IDColumnName);
         try (Connection connection = DriverManager.getConnection(url);
@@ -204,26 +199,6 @@ public class EmployeeDAO extends DAO {
         employeesCache.clear();
     }
 
-    public static int getmaxID(){
-        int MaxId = 0;
-        try {
-            Connection c = DBHandler.getInstance().open();
-            Statement stmt;
-            stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM " + DBHandler.Employee + ";");
-            while (rs.next()) {
-                int cId = rs.getInt(IDColumnName);
-                if (cId > MaxId) {
-                    MaxId = cId;
-                }
-            }
-            rs.close();
-            stmt.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return MaxId;
-    }
 
 }
 
