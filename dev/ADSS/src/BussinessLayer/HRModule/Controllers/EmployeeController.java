@@ -56,33 +56,43 @@ public class EmployeeController {
         return true;
     }
 
-    public Employee login(int id, String password){
-        if (id < 0 || password == null)
+    /**
+     * @param employeeID - the id of the employee
+     * @param password - the password of the employee
+     * @return - the employee if the login was successful, null otherwise
+     */
+    public Employee login(int employeeID, String password){
+        if (employeeID < 0 || password == null)
             return null;
-        if (_employeesDAO.ExistEmployee(Integer.valueOf(id)) && PasswordsDAO.(Integer.valueOf(id)) && _passwords.get(Integer.valueOf(id)).equals(password))
-            return _employees.get(Integer.valueOf(id));
-        return null;
+        boolean employeeExists = _employeesDAO.existEmployee(employeeID);
+        if (!employeeExists)
+            return null;
+        boolean passwordMatching =_passwordsDAO.checkPassword(employeeID,password);
+        if (!passwordMatching)
+            return null;
+        return _employeesDAO.getEmployee(employeeID);
     }
 
 
+    /**
+     * @param employeeID - the id of the employee
+     * @param newPassword - the new password of the employee
+     * @return - true if the password was changed successfully, false otherwise
+     */
     public boolean changePassword(int employeeID, String newPassword){
         if (employeeID < 0 || newPassword == null)
             return false;
-        if (_passwords.containsKey(Integer.valueOf(employeeID))){
-            _passwords.replace(employeeID, newPassword);
-            return true;
-        }
-        return false;
+        return _passwordsDAO.updatePassword(employeeID, newPassword);
     }
 
+    /**
+     * @param employeeID - the id of the employee
+     * @return - the employee with the given id, null if the id is invalid
+     */
     public Employee getEmployeeByID(int employeeID){
         if (employeeID < 0)
             throw new IllegalArgumentException("Illegal employee ID");
-        for (Map.Entry<Integer, Employee> entry : _employees.entrySet()){
-            if (entry.getKey().equals(Integer.valueOf(employeeID)))
-                return entry.getValue();
-        }
-        return null;
+        return _employeesDAO.getEmployee(employeeID);
     }
 
     /**
@@ -92,7 +102,7 @@ public class EmployeeController {
     public String getEmployeeNameById(int employeeID){
         if (employeeID < 0)
             return null;
-        return getEmployeeByID(employeeID).getName();
+        return _employeesDAO.getEmployee(employeeID).getFullNameName();
     }
 
     /**
@@ -122,20 +132,13 @@ public class EmployeeController {
         if (employee == null) {
             throw new IllegalArgumentException("Employee not found");
         }
-        this._employees.remove(Integer.valueOf(employeeID));
-        this._passwords.remove(Integer.valueOf(employeeID));
-        this._employeeStoreMap.remove(employee);
+        _employeesDAO.Delete(employeeID);
+        _passwordsDAO.Delete(employeeID);
+        //_employeesToStoreDAO.Delete(employee); //TODO
 
         return true;
     }
 
-//    public boolean checkIfEmployeeWorkInStore(Store store,Employee employee){
-//        if (store == null)
-//            throw new IllegalArgumentException("store not found");
-//        if (employee == null)
-//            throw new IllegalArgumentException("employee not found");
-//        return employee.checkIfEmployeeWorkInStore(store);
-//    }
 
     /**
      * @param employeeID - the id of the employee
@@ -179,7 +182,7 @@ public class EmployeeController {
         Employee employee = getEmployeeByID(employeeID);
         if (employee == null)
             throw new IllegalArgumentException("employee not found");
-        _employeeStoreMap.get(employee).add(store);
+        //_employeesToStoreDAO.(employee).add(store); //TODO: fix
         return true;
     }
 
@@ -191,14 +194,14 @@ public class EmployeeController {
         Employee employee = getEmployeeByID(employeeID);
         if (employee == null)
             throw new IllegalArgumentException("employee not found");
-        _employeeStoreMap.get(employee).remove(store);
+        //_employeeStoreMap.get(employee).remove(store); //TODO
         return true;
     }
 
     public boolean printEmployees() {
-        for (Map.Entry<Integer, Employee> entry : _employees.entrySet()){
-            System.out.println(entry.getValue().toString());
-        }
+//        for (Map.Entry<Integer, Employee> entry : _employees.entrySet()){
+//            System.out.println(entry.getValue().toString());
+//        } //TODO
         return true;
     }
 

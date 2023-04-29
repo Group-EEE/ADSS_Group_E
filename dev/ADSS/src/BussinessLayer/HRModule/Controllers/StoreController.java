@@ -15,6 +15,9 @@ public class StoreController {
     private final EmployeesToStoreDAO _employeesToStoreDAO;
     private final StoresDAO _storesDAO;
     private static StoreController _storeController = null;
+    private Map<String, Store> _storesByName = new HashMap<>();
+    private Map<Integer, Store> _storesByID = new HashMap<>();
+    private Map<Store, List<Employee>> _storeEmployeeMap = new HashMap<>();
 
     public StoreController(){
         _employeesToStoreDAO = EmployeesToStoreDAO.getInstance();

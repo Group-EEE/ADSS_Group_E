@@ -3,6 +3,8 @@ package ServiceLayer.HRModule.objectsServices;
 import BussinessLayer.HRModule.Controllers.Facade;
 import BussinessLayer.HRModule.Objects.RoleType;
 
+import java.time.LocalDate;
+
 
 public class EmployeeService {
     private static EmployeeService _employeeService;
@@ -18,9 +20,9 @@ public class EmployeeService {
         return _employeeService;
     }
 
-    public boolean loadData(){
-        return _facade.loadData();
-    }
+//    public boolean loadData(){
+//        return _facade.loadData();
+//    }
     public boolean login(int id, String password){
         return _facade.login(id, password);
     }
@@ -60,8 +62,8 @@ public class EmployeeService {
         return _facade.setNewBankAccount(bankAccount);
     }
 
-    public boolean createEmployee(String firstName, String lastName, int age, int id, String bankAccount, String password, boolean isHRManager) {
-        return _facade.createEmployee(firstName, lastName, age, id, bankAccount, password, isHRManager);
+    public boolean createEmployee(int id, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment, String password, boolean isHRManager) {
+        return _facade.createEmployee(id, firstName, lastName, age, bankAccount, salary, hiringCondition,startDateOfEmployment, password, isHRManager);
     }
 
     public boolean addRoleToEmployee(int employeeID, RoleType role){;

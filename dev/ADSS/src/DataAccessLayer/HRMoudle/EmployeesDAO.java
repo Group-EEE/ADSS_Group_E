@@ -97,14 +97,14 @@ public class EmployeesDAO extends DAO {
 */
 
     @Override
-    public boolean Delete(Object employeeObj) {
-        Employee employee = (Employee) employeeObj;
+    public boolean Delete(Object objectEmployeeID) {
+        int employeeID = (int)objectEmployeeID;
         boolean res = true;
         String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ? ", _tableName, IDColumnName);
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-             pstmt.setInt(1, employee.getID());
+             pstmt.setInt(1, employeeID);
              pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Got Exception:");
@@ -172,7 +172,7 @@ public class EmployeesDAO extends DAO {
     }
 
 
-    public boolean ExistEmployee(int id){
+    public boolean existEmployee(int id){
         boolean exist =false;
         /// keys is for tables that have more than one key
         String sql = MessageFormat.format("SELECT {0} From {1} WHERE {2} = ?",

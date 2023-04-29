@@ -86,7 +86,7 @@ public class Shift{
     public String toString(){
         String output =  "Date: " + _date + ", Shift type: " + _shiftType + ", Date: "+_date+", Start time: " + _startHour + ", End time: " + _endHour+" ";
         for (Map.Entry<RoleType,Employee> entry : _assignedEmployees.entrySet()){
-            output += entry.getKey() + ": " + entry.getValue().getName()+", ";
+            output += entry.getKey() + ": " + entry.getValue().getFullNameName()+", ";
         }
         return output;
     }

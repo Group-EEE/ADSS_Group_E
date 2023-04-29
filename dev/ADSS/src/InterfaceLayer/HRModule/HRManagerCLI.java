@@ -5,8 +5,10 @@ import BussinessLayer.HRModule.Objects.Shift;
 import ServiceLayer.IntegratedService;
 import ServiceLayer.IntegratedService;
 
+import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class HRManagerCLI{
@@ -123,29 +125,19 @@ public class HRManagerCLI{
     public boolean HRMenuCreateEmployee(boolean isHRManager){
         boolean valid = false;
         int age = 0;
-        String first_name = "";
-        String last_name = "";
+        String firstName = "";
+        String lastName = "";
         int id = 0;
-        String bank_account = "0";
+        String bankAccount = "0";
         String password = "";
+        int salary = 0;
+        String hiringCondition = "";
+        LocalDate startDateOfEmployment;
         System.out.println("Welcome to the HR system!");
 
         while(valid == false){
             valid = true;
             System.out.println("Please enter the following details:");
-            System.out.println("First name:");
-            first_name = scanner.nextLine();
-            System.out.println("Last name:");
-            last_name = scanner.nextLine();
-            System.out.println("Age:");
-            try{
-                age = Integer.valueOf(scanner.nextLine());
-            }
-            catch (InputMismatchException e){
-                System.out.println("Invalid age");
-                valid = false;
-                continue;
-            }
             System.out.println("ID:");
             try{
                 id = Integer.valueOf(scanner.nextLine());
@@ -155,11 +147,51 @@ public class HRManagerCLI{
                 valid = false;
                 continue;
             }
+            System.out.println("First name:");
+            firstName = scanner.nextLine();
+            System.out.println("Last name:");
+            lastName = scanner.nextLine();
+            System.out.println("Age:");
+            try{
+                age = Integer.valueOf(scanner.nextLine());
+            }
+            catch (InputMismatchException e){
+                System.out.println("Invalid age");
+                valid = false;
+                continue;
+            }
+
+            System.out.println("Bank account:");
+            bankAccount = scanner.nextLine();
+
+
+
+            System.out.println("salary:");
+            try{
+                salary = Integer.valueOf(scanner.nextLine());
+            }
+            catch (InputMismatchException e){
+                System.out.println("Invalid salary");
+                valid = false;
+                continue;
+            }
+
+            System.out.println("hiring condition:");
+            hiringCondition = scanner.nextLine();
+
+            int day = validInput("Please enter the start day of the employement","Please enter a valid integer for the day.",1,31);
+            int month = validInput("Please enter the start day of the employement","Please enter a valid integer for the month.",1,12);
+            int year = validInput("Please enter the start day of the employement","The year must start from 2020 to 2025",2020,2025);
+            try {
+                startDateOfEmployment = LocalDate.of(year, month, day);
+            } catch (Exception e){
+                System.out.println("Invalid date");
+                valid = false;
+                continue;
+            }
             System.out.println("password:");
             password = scanner.nextLine();
-            System.out.println("Bank account:");
-            bank_account = scanner.nextLine();
-            _integratedService.createEmployee(first_name, last_name, age, id, bank_account,password,isHRManager);
+            _integratedService.createEmployee(id, firstName, lastName, age, bankAccount, salary, hiringCondition,startDateOfEmployment, password, isHRManager);
         }
         return true;
     }

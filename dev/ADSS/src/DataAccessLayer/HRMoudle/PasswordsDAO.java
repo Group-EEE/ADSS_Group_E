@@ -4,6 +4,7 @@ import DataAccessLayer.DAO;
 
 import java.sql.*;
 import java.text.MessageFormat;
+import java.util.List;
 
 public class PasswordsDAO extends DAO {
     private static PasswordsDAO _passwordsDAO = null;
@@ -67,5 +68,23 @@ public class PasswordsDAO extends DAO {
         Integer employeeID = rs.getInt(1);
         String password = rs.getString(2);
         return new Pair<>(employeeID,password);
+    }
+
+    public boolean checkPassword(int employeeID, String password){
+        List<ResultSet> listRS = Select(IDColumnName);
+        for (ResultSet rs : listRS) {
+            try {
+                Pair<Integer,String> pair = convertReaderToObject(rs);
+                if (pair.getKey() == employeeID && pair.getValue().equals(password))
+                    return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public boolean updatePassword(int employeeID, String password){
+        return Update(IDColumnName,password,Integer.toString(employeeID));
     }
 }

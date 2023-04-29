@@ -7,6 +7,7 @@ import ServiceLayer.HRModule.objectsServices.EmployeeService;
 import ServiceLayer.HRModule.objectsServices.ScheduleService;
 import ServiceLayer.HRModule.objectsServices.StoreService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 // write for the service layer that connects to the facade in the bussiness Layer
@@ -23,9 +24,9 @@ public class HRModuleService {
         _scheduleService = ScheduleService.getInstance();
     }
 
-    public boolean loadData(){
-        return _employeeService.loadData();
-    }
+//    public boolean loadData(){
+//        return _employeeService.loadData();
+//    }
 
     public static HRModuleService getInstance(){
         if(_hrModuleService == null)
@@ -71,8 +72,8 @@ public class HRModuleService {
         return _employeeService.setNewBankAccount(bankAccount);
     }
 
-    public boolean createEmployee(String firstName, String lastName, int age, int id, String bankAccount, String password, boolean isHRManager) {
-        return _employeeService.createEmployee(firstName, lastName, age, id, bankAccount, password, isHRManager);
+    public boolean createEmployee(int id, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment, String password, boolean isHRManager) {
+        return _employeeService.createEmployee(id, firstName, lastName, age, bankAccount, salary, hiringCondition,startDateOfEmployment, password, isHRManager);
     }
 
     public boolean addRoleToEmployee(int employeeID, RoleType role){;

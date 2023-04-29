@@ -42,17 +42,6 @@ public class Main {
     }
 
     public static void mainHR(){
-        System.out.println("load data ? y/n");
-        String yesOrNo = scanner.nextLine();
-        if(yesOrNo.equals("y")){
-            try{
-                IntegratedService.getInstance().loadData();
-            }
-            catch (Exception e){
-                System.out.println("Didn't load data");
-                System.out.println("Error: " + e.getMessage());
-            }
-        }
         HRModuleCLI _HRModule = new HRModuleCLI();
         _HRModule.start();
     }

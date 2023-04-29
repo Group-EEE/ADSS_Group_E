@@ -4,6 +4,7 @@ import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Shift;
 import ServiceLayer.HRModule.ModulesServices.HRModuleService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class IntegratedService {
@@ -20,9 +21,9 @@ public class IntegratedService {
         return _integratedService;
     }
 
-    public boolean loadData(){
-        return _hrModuleService.loadData();
-    }
+//    public boolean loadData(){
+//        return _hrModuleService.loadData();
+//    }
 
     public boolean login(int id, String password){
         return _hrModuleService.login(id, password);
@@ -63,8 +64,9 @@ public class IntegratedService {
         return _hrModuleService.setNewBankAccount(bankAccount);
     }
 
-    public boolean createEmployee(String firstName, String lastName, int age, int id, String bankAccount, String password, boolean isHRManager) {
-        return _hrModuleService.createEmployee(firstName, lastName, age, id, bankAccount, password, isHRManager);
+    public boolean createEmployee(int id, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment, String password, boolean isHRManager) {
+
+        return _hrModuleService.createEmployee(id, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployment, password, isHRManager);
     }
 
     public boolean addRoleToEmployee(int employeeID, RoleType role){;
