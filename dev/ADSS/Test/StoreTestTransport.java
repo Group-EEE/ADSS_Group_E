@@ -1,11 +1,9 @@
-package BussinessLayer.TransportationModule.tests;
-
 import BussinessLayer.TransportationModule.objects.Store;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StoreTest {
+class StoreTestTransport {
 
     @Test
     void is_store() {

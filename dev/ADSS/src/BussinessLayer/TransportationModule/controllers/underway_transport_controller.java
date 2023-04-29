@@ -191,6 +191,7 @@ public class underway_transport_controller {
                     ArrayList<Site_Supply> siteSupplies = new ArrayList<>();
                     siteSupplies.add(driver.getSites_documents().get(i));
                     logistical_center_controller.getLogistical_center().getDelivered_supplies_documents().put(store, siteSupplies);
+                    // add document that have sent to the Database.
                 }
                 // subtracts the weight of the goods that was unloaded
                 driver.getCurrent_truck().addWeight(-1 * driver.getSites_documents().get(i).getProducts_total_weight());

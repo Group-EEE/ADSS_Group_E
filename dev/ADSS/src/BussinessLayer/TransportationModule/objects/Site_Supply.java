@@ -81,4 +81,6 @@ public class Site_Supply {
     public double getProducts_total_weight() {
         return products_total_weight;
     }
+
+
 }

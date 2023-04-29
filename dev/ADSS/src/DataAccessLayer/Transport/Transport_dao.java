@@ -1,0 +1,107 @@
+package DataAccessLayer.Transport;
+
+import BussinessLayer.TransportationModule.objects.Transport;
+import BussinessLayer.TransportationModule.objects.cold_level;
+import DataAccessLayer.DAO;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.HashMap;
+
+public class Transport_dao extends DAO {
+
+    HashMap<Integer, Transport> transports;
+
+    public Transport_dao(String tableName) {
+        super(tableName);
+        transports = new HashMap<>();
+    }
+
+    @Override
+    public boolean Insert(Object obj) {
+        Transport transport = (Transport) obj;
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url);
+            String query = "INSERT INTO " + _tableName + " (Transport_ID, Date, Departure_Time, Origin ) VALUES (?,?,?,?)";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, transport.getTransport_ID());
+            statement.setString(2, transport.getDate());
+            statement.setString(3, transport.getDeparture_time());
+            statement.setString(4, transport.getOrigin());
+            statement.executeUpdate();
+
+            transports.put(transport.getTransport_ID(), transport);
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Exception thrown");
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Exception thrown");
+                System.out.println(ex.getMessage());
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean Delete(Object obj) {
+        Transport transport = (Transport) obj;
+        String query = "DELETE FROM " + this._tableName + " WHERE Transport_ID = ?";
+        try {
+            Connection connection = DriverManager.getConnection(url);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, transport.getTransport_ID());
+            statement.executeUpdate();
+
+            transports.remove(transport.getTransport_ID());
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Exception thrown");
+        }
+        return false;
+    }
+
+    @Override
+    public Object convertReaderToObject(ResultSet res) throws SQLException, ParseException {
+        if(transports.containsKey(res.getInt(1))){
+            return transports.get(res.getInt(1));
+        }
+        Transport transport = new Transport(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), cold_level.fromString(res.getString(7)));
+        transports.put(transport.getTransport_ID(), transport);
+        return transport;
+    }
+
+    public Transport getTransport(int transport_id){
+        if(transports.containsKey(transport_id)){
+            return transports.get(transport_id);
+        }
+        String query = "SELECT * FROM " + this._tableName + " WHERE Transport_ID = ?";
+        try {
+            Connection connection = DriverManager.getConnection(url);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, transport_id);
+            ResultSet res = statement.executeQuery();
+            Transport transport = (Transport) convertReaderToObject(res);
+            return transport;
+        }
+        catch (SQLException e) {
+            System.out.println("This transport is not exist in the Database.");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+}
