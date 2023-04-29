@@ -36,7 +36,7 @@ public class Trucks_dao extends DAO {
             Trucks.put(truck.getRegistration_plate(), truck);
             return true;
         } catch (SQLException e) {
-            System.out.println("Exception thrown");
+            System.out.println("Truck already exist");
             System.out.println(e.getMessage());
         } finally {
             try {
@@ -71,8 +71,8 @@ public class Trucks_dao extends DAO {
 
     @Override
     public Truck convertReaderToObject(ResultSet res) throws SQLException, ParseException {
-        if (Trucks.containsKey(res.getInt(1))) {
-            return Trucks.get(res.getInt(1));
+        if (Trucks.containsKey(res.getString(1))) {
+            return Trucks.get(res.getString(1));
         }
         Truck truck = new Truck(res.getString(1), res.getString(2), res.getDouble(3), res.getDouble(4), cold_level.fromString(res.getString(5)), res.getDouble(3));
         Trucks.put(truck.getRegistration_plate(), truck);
