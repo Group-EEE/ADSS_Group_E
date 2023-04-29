@@ -5,10 +5,7 @@ import SuppliersModule.Business.*;
 import SuppliersModule.Business.Controllers.OrderController;
 import SuppliersModule.Business.Controllers.SupplierController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The class SuppliersModule.Business.Controllers.OrderController ask the user for products that he want to invite.
@@ -98,6 +95,21 @@ public class OrderGenerator {
 
         generateCombinations(new int[ProductsInOrder.size()], numberOfSuppliersThatCanSupplyEachProduct,
                 new int[ProductsInOrder.size()], 0); // find the cheapest option for order of the given product
+
+    }
+
+    private static List<SupplierProduct> peakSuppliersByPriority(List<SupplierProduct> supplierProducts){
+        List<List<SupplierProduct>> suppliersByDay = new ArrayList<>();
+        Queue<SupplierProduct> queue = new PriorityQueue<>(new MyCompare());
+        queue.addAll(supplierProducts);
+        if (queue.peek() == null){
+            throw new RuntimeException("Can not supply the desired quantity for the product: " + genericProduct +
+                    "\nIt is possible to supply maximum " + quantityForExc + " units");
+        }
+        int curDaysToSupply = queue.peek().getDaysToSupplyFromToday();
+        for (SupplierProduct supplierProduct : queue){
+
+        }
 
     }
 
@@ -227,4 +239,13 @@ public class OrderGenerator {
             deepCopyMap.put(pair.getKey(),pair.getValue().clone());
         return deepCopyMap;
     }
+}
+
+class MyCompare implements Comparator<SupplierProduct> {
+
+    @Override
+    public int compare(SupplierProduct first, SupplierProduct other) {
+        return first.getDaysToSupplyFromToday() - other.getDaysToSupplyFromToday();
+    }
+
 }

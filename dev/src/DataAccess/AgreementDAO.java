@@ -1,7 +1,6 @@
 package DataAccess;
 
 import SuppliersModule.Business.Agreement;
-import SuppliersModule.Business.Supplier;
 
 import java.sql.*;
 import java.util.*;
@@ -68,7 +67,7 @@ public class AgreementDAO {
             try {
                 stmt = conn.prepareStatement("Insert into Agreement VALUES (?,?,?,?,?,?,?,?,?,?,?)");
                 stmt.setString(1, pair.getKey());
-                stmt.setBoolean(2, pair.getValue().isHasPermanentDays());
+                stmt.setBoolean(2, pair.getValue().supplierHasPermanentDays());
                 stmt.setBoolean(3, pair.getValue().isSupplierBringProduct());
                 stmt.setBoolean(4, pair.getValue().getDeliveryDays()[0]);
                 stmt.setBoolean(5, pair.getValue().getDeliveryDays()[1]);

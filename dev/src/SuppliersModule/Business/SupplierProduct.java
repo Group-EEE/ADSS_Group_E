@@ -100,4 +100,31 @@ public class SupplierProduct {
     public void setDiscountProducts(TreeMap<Integer,SupplierProductDiscount> discountProducts) {
         DiscountProducts = discountProducts;
     }
+
+    public int getDaysToSupplyFromToday(){
+        if(MyAgreement.supplierHasPermanentDays()) {
+            boolean[] daysToSupply = MyAgreement.getDeliveryDays();
+            int today = Calendar.DAY_OF_WEEK;
+            int numberOfDayToSupply = 0;
+            for (int i = today; i < daysToSupply.length; i++) {
+                if (daysToSupply[i]) {
+                    numberOfDayToSupply = i - today - 1;
+                    break;
+                }
+            }
+            if (numberOfDayToSupply == 0) {
+                for (int i = 0; i < today; i++) {
+                    if (daysToSupply[i]) {
+                        numberOfDayToSupply = (i + 7) - (today - 1);
+                        break;
+                    }
+                }
+            }
+            return numberOfDayToSupply;
+        }
+        if(MyAgreement.isSupplierBringProduct())
+            return MyAgreement.getNumberOfDaysToSupply();
+        return (int) Float.POSITIVE_INFINITY;
+
+    }
 }

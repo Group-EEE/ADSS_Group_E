@@ -44,6 +44,13 @@ public class SupplierController {
         return AllSuppliers.containsKey(supplierNum);
     }
 
+    public boolean checkIfSupplierSupplyProduct(String supplierNum, int barcode){
+        GenericProduct genericProduct = ProductsByBarcode.get(barcode);
+        if(genericProduct == null)
+            return false;
+        return genericProduct.checkIfSupplierSupplyTheProduct(supplierNum);
+    }
+
     public Supplier getSupplier(String supplierNum) {
         return AllSuppliers.get(supplierNum);
     }
