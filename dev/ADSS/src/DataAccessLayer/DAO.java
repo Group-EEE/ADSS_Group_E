@@ -3,6 +3,7 @@ package DataAccessLayer;
 import java.sql.*;
 import java.text.MessageFormat;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public abstract class DAO {
     public final String _tableName;
     //  public static Connection connection;
     public static final String url = "jdbc:sqlite:SuperLi.db";
-    DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    protected DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     //constructor
     public DAO(String tableName) {
@@ -365,6 +366,12 @@ public abstract class DAO {
 
     public abstract Object convertReaderToObject(ResultSet res) throws SQLException, ParseException;
 
-
-
+    protected LocalDate parseLocalDate(String data) {
+        LocalDate d=null;
+        try {
+            DateTimeFormatter formatter_1  = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            d= LocalDate.parse(data, formatter_1);
+        } catch (Exception e) { }
+        return d;
+    }
 }
