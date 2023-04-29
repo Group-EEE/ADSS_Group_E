@@ -1,6 +1,7 @@
 package BussinessLayer.TransportationModule.controllers;
 
 import BussinessLayer.TransportationModule.objects.*;
+import DataAccessLayer.Transport.Trucks_dao;
 import DataAccessLayer.Transport.ready_database;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.Map;
 // singleton
 public class Logistical_center_controller {
     // singleton
+    private Trucks_dao trucks_dao;
     private static Logistical_center_controller instance;
     private Transport_System transport_system;
     private Logistical_Center logistical_center;
@@ -23,6 +25,7 @@ public class Logistical_center_controller {
 
     private Logistical_center_controller(){
         transport_system = new Transport_System();
+        trucks_dao = new Trucks_dao("Trucks");
     }
 
     public void create_Logistical_Center(String address, String phone, String name, String site_contact_name){

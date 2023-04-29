@@ -36,7 +36,7 @@ public class Trucks_dao extends DAO {
             Trucks.put(truck.getRegistration_plate(), truck);
             return true;
         } catch (SQLException e) {
-            System.out.println("Exception thrown");
+            System.out.println("Truck already exist");
             System.out.println(e.getMessage());
         } finally {
             try {
