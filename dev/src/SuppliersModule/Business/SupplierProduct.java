@@ -103,8 +103,8 @@ public class SupplierProduct {
         DiscountProducts = discountProducts;
     }
 
-    public int getDaysToSupplyFromToday(){
-        if(MyAgreement.supplierHasPermanentDays()) {
+    public int getDaysToSupplyFromToday() {
+        if (MyAgreement.supplierHasPermanentDays()) {
             boolean[] daysToSupply = MyAgreement.getDeliveryDays();
             int today = Calendar.DAY_OF_WEEK;
             int numberOfDayToSupply = 0;
@@ -124,9 +124,10 @@ public class SupplierProduct {
             }
             return numberOfDayToSupply;
         }
-        if(MyAgreement.isSupplierBringProduct())
+        if (MyAgreement.isSupplierBringProduct())
             return MyAgreement.getNumberOfDaysToSupply();
         return (int) Float.POSITIVE_INFINITY;
+    }
 
     public SupplierProductDiscount getSupplierProductDiscount(int amount)
     {
