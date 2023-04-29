@@ -18,12 +18,11 @@ public class ProductController {
     private static List<SuperLiProduct> products; //list that saves akk the products in the store
     public static List<Integer>BarcodesOfNewProducts;
     static ProductController productController;
-    static SupplierController supplierController;
+    //static SupplierController supplierController;
 
     private ProductController() { //constructor
         products = new ArrayList<SuperLiProduct>();
         BarcodesOfNewProducts = new ArrayList<Integer>();
-        supplierController= SupplierController.getInstance();
     }
     public static ProductController getInstance(){
         if(productController == null)
@@ -69,6 +68,8 @@ public class ProductController {
         SuperLiProduct P = new SuperLiProduct(Barcode, Name, Costumerprice, Category,Subcategory, Subsubcategory,
                 Supplydays,Manufacturer,Minimumamount);
         products.add(P); //add to the controller's list
+        ///*****************the change**********************////
+        BarcodesOfNewProducts.remove(Barcode);
     }
 
 
@@ -135,6 +136,8 @@ public class ProductController {
     }
 
     public void addspecificproduct(){
+        ///*****************the change**********************////
+        SupplierController supplierController= SupplierController.getInstance();
         //get from the warehouse manager all the information needed to create new spec. product
         System.out.println("Please enter Barcode:");
         int Barcode = reader.nextInt();
@@ -187,8 +190,9 @@ public class ProductController {
         System.out.println("Enter supplier price");
         double supPrice = reader.nextDouble();
 
+        ///*****************the change**********************////
         //check if there is barcode like this in the system//
-        if(BarcodesOfNewProducts.contains(Barcode)){
+        if(supplierController.checkIfSupplierSupplyProduct(supp,Barcode)){
             SuperLiProduct p = this.getProductByBarcode(Barcode); //find the general product
             if(p!=null) { //general product found
                 Discount dd = new Discount(startdate, enddate, aDiscount); //create the discount
