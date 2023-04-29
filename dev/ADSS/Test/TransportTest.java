@@ -1,5 +1,3 @@
-package BussinessLayer.TransportationModule.tests;
-
 import BussinessLayer.TransportationModule.objects.*;
 import org.junit.jupiter.api.Test;
 
