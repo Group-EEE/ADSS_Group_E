@@ -1424,56 +1424,166 @@
       <Position>1</Position>
     </argument>
     <table id="504" parent="173" name="Employee"/>
-    <table id="505" parent="173" name="sqlite_master">
+    <table id="505" parent="173" name="EmployeesToRoles"/>
+    <table id="506" parent="173" name="EmployeesToStores"/>
+    <table id="507" parent="173" name="Passwords"/>
+    <table id="508" parent="173" name="Store"/>
+    <table id="509" parent="173" name="sqlite_master">
       <System>1</System>
     </table>
-    <column id="506" parent="504" name="id">
+    <column id="510" parent="504" name="employeeID">
       <DasType>INT|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="507" parent="504" name="firstName">
+    <column id="511" parent="504" name="firstName">
       <DasType>VARCHAR(255)|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="508" parent="504" name="lastName">
+    <column id="512" parent="504" name="lastName">
       <DasType>VARCHAR(255)|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="509" parent="504" name="age">
+    <column id="513" parent="504" name="age">
       <DasType>INT|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="510" parent="504" name="bankAccount">
+    <column id="514" parent="504" name="bankAccount">
       <DasType>VARCHAR(255)|0s</DasType>
       <Position>5</Position>
     </column>
-    <index id="511" parent="504" name="sqlite_autoindex_Employee_1">
-      <ColNames>id</ColNames>
+    <index id="515" parent="504" name="sqlite_autoindex_Employee_1">
+      <ColNames>employeeID</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="512" parent="504">
-      <ColNames>id</ColNames>
+    <key id="516" parent="504">
+      <ColNames>employeeID</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>sqlite_autoindex_Employee_1</UnderlyingIndexName>
     </key>
-    <column id="513" parent="505" name="type">
+    <column id="517" parent="505" name="employeeID">
+      <DasType>INT|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="518" parent="505" name="roleType">
+      <DasType>VARCHAR(20)|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <foreign-key id="519" parent="505">
+      <ColNames>employeeID</ColNames>
+      <RefColNames>employeeID</RefColNames>
+      <RefTableName>Employee</RefTableName>
+    </foreign-key>
+    <index id="520" parent="505" name="sqlite_autoindex_EmployeesToRoles_1">
+      <ColNames>employeeID
+roleType</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="521" parent="505">
+      <ColNames>employeeID
+roleType</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_EmployeesToRoles_1</UnderlyingIndexName>
+    </key>
+    <column id="522" parent="506" name="employeeID">
+      <DasType>INT|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="523" parent="506" name="storeID">
+      <DasType>INT|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <foreign-key id="524" parent="506">
+      <ColNames>employeeID</ColNames>
+      <RefColNames>employeeID</RefColNames>
+      <RefTableName>Employee</RefTableName>
+    </foreign-key>
+    <foreign-key id="525" parent="506">
+      <ColNames>storeID</ColNames>
+      <RefColNames>storeID</RefColNames>
+      <RefTableName>Store</RefTableName>
+    </foreign-key>
+    <index id="526" parent="506" name="sqlite_autoindex_EmployeesToStores_1">
+      <ColNames>employeeID
+storeID</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="527" parent="506">
+      <ColNames>employeeID
+storeID</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_EmployeesToStores_1</UnderlyingIndexName>
+    </key>
+    <column id="528" parent="507" name="employeeID">
+      <DasType>INT|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="529" parent="507" name="password">
+      <DasType>VARCHAR(255)|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <index id="530" parent="507" name="sqlite_autoindex_Passwords_1">
+      <ColNames>employeeID</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="531" parent="507">
+      <ColNames>employeeID</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_Passwords_1</UnderlyingIndexName>
+    </key>
+    <column id="532" parent="508" name="storeID">
+      <DasType>INT|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="533" parent="508" name="name">
+      <DasType>VARCHAR(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="534" parent="508" name="address">
+      <DasType>VARCHAR(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <index id="535" parent="508" name="sqlite_autoindex_Store_1">
+      <ColNames>storeID</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <index id="536" parent="508" name="sqlite_autoindex_Store_2">
+      <ColNames>name</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="537" parent="508">
+      <ColNames>storeID</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_Store_1</UnderlyingIndexName>
+    </key>
+    <key id="538" parent="508">
+      <ColNames>name</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_Store_2</UnderlyingIndexName>
+    </key>
+    <column id="539" parent="509" name="type">
       <DasType>TEXT|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="514" parent="505" name="name">
+    <column id="540" parent="509" name="name">
       <DasType>TEXT|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="515" parent="505" name="tbl_name">
+    <column id="541" parent="509" name="tbl_name">
       <DasType>TEXT|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="516" parent="505" name="rootpage">
+    <column id="542" parent="509" name="rootpage">
       <DasType>INT|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="517" parent="505" name="sql">
+    <column id="543" parent="509" name="sql">
       <DasType>TEXT|0s</DasType>
       <Position>5</Position>
     </column>
