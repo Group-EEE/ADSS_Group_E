@@ -37,15 +37,6 @@ public class Trucks_dao extends DAO {
         } catch (SQLException e) {
             System.out.println("Exception");
             System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println("Exception thrown");
-                System.out.println(ex.getMessage());
-            }
         }
         return false;
     }
@@ -82,8 +73,7 @@ public class Trucks_dao extends DAO {
             return Trucks.get(registration_plate);
         }
         String query = "SELECT * FROM Trucks WHERE registration_plate = ?";
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(query);) {
+        try (PreparedStatement pstmt = connection.prepareStatement(query);) {
             pstmt.setString(1, registration_plate);
             ResultSet rs = pstmt.executeQuery();
             Truck truck = convertReaderToObject(rs);
@@ -101,8 +91,7 @@ public class Trucks_dao extends DAO {
             return true;
         }
         String query = "SELECT * FROM Trucks WHERE registration_plate = ?";
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(query);) {
+        try (PreparedStatement pstmt = connection.prepareStatement(query);) {
             pstmt.setString(1, registration_plate);
             ResultSet rs = pstmt.executeQuery();
             Truck truck = convertReaderToObject(rs);

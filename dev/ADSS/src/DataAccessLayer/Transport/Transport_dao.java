@@ -28,7 +28,6 @@ public class Transport_dao extends DAO {
         Transport transport = (Transport) obj;
         try {
             String query = "INSERT INTO " + _tableName + " (ID, Date, Departure_Time, Origin, Finished ) VALUES (?,?,?,?,?)";
-
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, transport.getTransport_ID());
             statement.setString(2, transport.getDate());
@@ -48,15 +47,6 @@ public class Transport_dao extends DAO {
         } catch (SQLException e) {
             System.out.println("Exception thrown");
             System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println("Exception thrown");
-                System.out.println(ex.getMessage());
-            }
         }
         return false;
     }
@@ -93,7 +83,7 @@ public class Transport_dao extends DAO {
         if(transports.containsKey(transport_id)){
             return transports.get(transport_id);
         }
-        String query = "SELECT * FROM " + this._tableName + " WHERE Transport_ID = ?";
+        String query = "SELECT * FROM " + this._tableName + " WHERE ID = ?";
         try {
             Connection connection = DriverManager.getConnection(url);
             PreparedStatement statement = connection.prepareStatement(query);
@@ -111,7 +101,7 @@ public class Transport_dao extends DAO {
     }
 
     public boolean check_if_Transport_exist(int transport_id){
-        String query = "SELECT * FROM " + this._tableName + " WHERE Transport_ID = ?";
+        String query = "SELECT * FROM " + this._tableName + " WHERE ID = ?";
         try {
             Connection connection = DriverManager.getConnection(url);
             PreparedStatement statement = connection.prepareStatement(query);

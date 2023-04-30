@@ -40,15 +40,6 @@ public class Drivers_dao extends DAO {
         } catch (SQLException e) {
             System.out.println("Exception");
             System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println("Exception thrown");
-                System.out.println(ex.getMessage());
-            }
         }
 
         return false;
@@ -57,11 +48,8 @@ public class Drivers_dao extends DAO {
     @Override
     public boolean Delete(Object obj) {
         Truck_Driver driver = (Truck_Driver) obj;
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "DELETE FROM Drivers WHERE ID = ?";
-
             // Prepare SQL statement with parameters
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, driver.getID());
@@ -91,9 +79,7 @@ public class Drivers_dao extends DAO {
 
     @Override
     public Truck_Driver convertReaderToObject(ResultSet res) throws SQLException, ParseException {
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "SELECT * FROM Drivers WHERE ID = ?";
 
             // Prepare SQL statement with parameters
@@ -117,9 +103,7 @@ public class Drivers_dao extends DAO {
             return Drivers.get(id);
         }
         String query = "SELECT * FROM Drivers WHERE ID = ?";
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             // Prepare SQL statement with parameters
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, id);
@@ -140,9 +124,7 @@ public class Drivers_dao extends DAO {
             return true;
         }
         String query = "SELECT * FROM Drivers WHERE ID = ?";
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             // Prepare SQL statement with parameters
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, id);
