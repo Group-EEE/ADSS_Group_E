@@ -1,7 +1,6 @@
 package DataAccessLayer.Transport;
 
 import BussinessLayer.TransportationModule.objects.License;
-import BussinessLayer.TransportationModule.objects.Truck;
 import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
 
