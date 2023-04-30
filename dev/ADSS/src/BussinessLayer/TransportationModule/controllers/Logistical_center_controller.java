@@ -180,18 +180,28 @@ public class Logistical_center_controller {
     }
 
     public void display_transport_doc(){
-        for (Map.Entry<Integer, Transport> entry : transport_dao.get_transports_map().entrySet()) {
-            int id = entry.getKey();
-            Transport transport = entry.getValue();
-            System.out.println("=========== Transport - " + id + " - information ===========");
-            transport.transportDisplay();
+        if(transport_dao.get_transports().size() == 0){
+            System.out.println("\nThere are no transports documents in the system\n");
+        }
+        else {
+            for (Map.Entry<Integer, Transport> entry : transport_dao.get_transports_map().entrySet()) {
+                int id = entry.getKey();
+                Transport transport = entry.getValue();
+                System.out.println("=========== Transport - " + id + " - information ===========");
+                transport.transportDisplay();
+            }
         }
     }
 
     public void display_trucks(){
-        System.out.println("======================================= Trucks in the system =======================================");
-        for(Truck t : trucks_dao.getTrucks()){
-            t.truckDisplay();
+        if(trucks_dao.getTrucks().size() == 0){
+            System.out.println("\nThere are no trucks in the system\n");
+        }
+        else {
+            System.out.println("======================================= Trucks in the system =======================================");
+            for (Truck t : trucks_dao.getTrucks()) {
+                t.truckDisplay();
+            }
         }
     }
 
@@ -200,15 +210,25 @@ public class Logistical_center_controller {
     }
 
     public void display_drivers(){
-        System.out.println("======================================= Drivers in the system =======================================");
-        for(Truck_Driver driver : drivers_dao.getDrivers()){
-            driver.driverDisplay();
+        if(drivers_dao.getDrivers().size() == 0){
+            System.out.println("\nThere are no drivers in the system\n");
+        }
+        else {
+            System.out.println("======================================= Drivers in the system =======================================");
+            for (Truck_Driver driver : drivers_dao.getDrivers()) {
+                driver.driverDisplay();
+            }
         }
     }
 
     public void display_site_supply(){
-        for (Site_Supply siteSupply : site_supply_dao.get_site_supply_documents()) {
+        if(site_supply_dao.get_site_supply_documents().size() == 0){
+            System.out.println("\nThere are no site supplies documents in the system\n");
+        }
+        else {
+            for (Site_Supply siteSupply : site_supply_dao.get_site_supply_documents()) {
                 siteSupply.sDisplay();
+            }
         }
     }
 
