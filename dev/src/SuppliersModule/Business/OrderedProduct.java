@@ -5,7 +5,7 @@ package SuppliersModule.Business;
  */
 public class OrderedProduct {
 
-    private static int unique = 1;
+    static int unique;
 
     //------------------------------------------ Attributes ---------------------------------------
     private int Quantity;
@@ -49,5 +49,15 @@ public class OrderedProduct {
 
     public float getDiscount() {
         return Discount;
+    }
+
+    public static void setUnique(int Unique)
+    {
+        unique = Unique;
+    }
+
+    public static int getUnique()
+    {
+        return unique;
     }
 }

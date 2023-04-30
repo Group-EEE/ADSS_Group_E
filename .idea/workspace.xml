@@ -5,23 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8ab6a62-5a9f-4ada-b7de-51cb98261c12" name="Changes" comment="tables 27/4">
-      <change afterPath="$PROJECT_DIR$/dev/src/SupplierInventoryPresentation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/res/SuperLeeDB" beforeDir="false" afterPath="$PROJECT_DIR$/dev/res/SuperLeeDB" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/AgreementDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/AgreementDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/GenericProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/GenericProductDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/PeriodicOrderDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/PeriodicOrderDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/SupplierDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/SupplierDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/SupplierProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/SupplierProductDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/SupplierProductDiscountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/SupplierProductDiscountDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Controllers/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Controllers/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/OrderFromSupplierDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/OrderFromSupplierDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/OrderedProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/OrderedProductDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/GenericProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/GenericProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/DataAccess/SuperLeeDB.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/DataAccess/SuperLeeDB.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/DataAccess/SuppliersModule/PeriodicOrderDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/DataAccess/SuppliersModule/PeriodicOrderDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Controllers/OrderController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Controllers/OrderController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Controllers/OrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Controllers/OrderController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Order.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderFromSupplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderFromSupplier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderedProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderedProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/GenericProduct.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/GenericProduct.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Order.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,6 +157,7 @@
       <workItem from="1682777802422" duration="922000" />
       <workItem from="1682813478195" duration="424000" />
       <workItem from="1682826079251" duration="7721000" />
+      <workItem from="1682858323527" duration="3543000" />
     </task>
     <task id="LOCAL-00001" summary="tables 27/4">
       <created>1682624568520</created>

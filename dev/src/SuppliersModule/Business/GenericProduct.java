@@ -8,7 +8,7 @@ A product class that describes a product produced by a manufacturer
 */
 public class GenericProduct {
 
-    private static int uniqueBarcode = 990000;
+    private static int uniqueBarcode;
 
     //------------------------------------------ Attribute ---------------------------------------
     private String Name;
@@ -68,5 +68,15 @@ public class GenericProduct {
                 return true;
         }
         return false;
+    }
+
+    public static void setUniqueBarcode(int staticBarcode)
+    {
+        uniqueBarcode = staticBarcode;
+    }
+
+    public static int getUniqueBarcode()
+    {
+        return uniqueBarcode;
     }
 }

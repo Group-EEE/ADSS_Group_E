@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class OrderFromSupplier {
 
-    private static int unique = 1; // Every new order that open gets a unique id. For every new open the unique variable is incremented by one.
+    static int unique; // Every new order that open gets a unique id. For every new open the unique variable is incremented by one.
 
     //------------------------------------------ Attributes ---------------------------------------
     private int Id; // unique order ID
@@ -134,5 +134,16 @@ public class OrderFromSupplier {
     public void setProductsInOrder(Map<String, OrderedProduct> productsInOrder) {
         ProductsInOrder = productsInOrder;
     }
+
+    public static void setUnique(int Unique)
+    {
+        unique = Unique;
+    }
+
+    public static int getUnique()
+    {
+        return unique;
+    }
+
 }
 

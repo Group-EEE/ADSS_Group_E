@@ -1,5 +1,6 @@
 package DataAccess.SuppliersModule;
 
+import SuppliersModule.Business.GenericProduct;
 import SuppliersModule.Business.OrderedProduct;
 import SuppliersModule.Business.SupplierProduct;
 
@@ -32,10 +33,18 @@ public class OrderedProductDAO {
 
     public Map<String, OrderedProduct> getAll(int OrderFromSupplierId) {
 
+        PreparedStatement stmt;
+        try{
+            stmt = conn.prepareStatement("SELECT OrderedProductId FROM staticValue");
+            ResultSet rs = stmt.executeQuery();
+            OrderedProduct.setUnique(rs.getInt("OrderedProductId"));
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
         Map<String, OrderedProduct> orderedProductList = new HashMap<>();
 
         try{
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM OrderedProduct WHERE OrderFromSupplierId = ?");
+            stmt = conn.prepareStatement("SELECT * FROM OrderedProduct WHERE OrderFromSupplierId = ?");
             stmt.setInt(1, OrderFromSupplierId);
             ResultSet rs = stmt.executeQuery();
 
@@ -56,6 +65,15 @@ public class OrderedProductDAO {
 
     public void WriteFromCacheToDB(int Id) {
         PreparedStatement stmt;
+
+        try
+        {
+            stmt = conn.prepareStatement("UPDATE staticValue SET OrderedProductId = ?");
+            stmt.setInt(1, OrderedProduct.getUnique());
+            stmt.executeUpdate();
+
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
 
         for (Map.Entry<Integer, OrderedProduct> pair : IdentifyMapOrderedProduct.entrySet()) {
             try {

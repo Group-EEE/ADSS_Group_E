@@ -34,8 +34,16 @@ public class GenericProductDAO {
     }
 
     public void ReadGenericProductsToCache() {
+        PreparedStatement stmt;
+        try{
+            stmt = conn.prepareStatement("SELECT Barcode FROM staticValue");
+            ResultSet rs = stmt.executeQuery();
+            GenericProduct.setUniqueBarcode(rs.getInt("Barcode"));
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM GenericProduct");
+            stmt = conn.prepareStatement("SELECT * FROM GenericProduct");
             ResultSet rs = stmt.executeQuery();
             while (rs.next())
             {
@@ -61,6 +69,15 @@ public class GenericProductDAO {
     public void WriteFromCacheToDB()
     {
         PreparedStatement stmt;
+
+        try
+        {
+            stmt = conn.prepareStatement("UPDATE staticValue SET Barcode = ?");
+            stmt.setInt(1, GenericProduct.getUniqueBarcode());
+            stmt.executeUpdate();
+
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
 
         try{
             stmt = conn.prepareStatement("DELETE FROM GenericProduct");

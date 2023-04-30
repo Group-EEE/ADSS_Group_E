@@ -33,8 +33,16 @@ public class OrderFromSupplierDAO {
     public List<OrderFromSupplier> getAll(Supplier supplier) {
         List<OrderFromSupplier> orderFromSupplierList = new ArrayList<>();
 
+        PreparedStatement stmt;
+        try{
+            stmt = conn.prepareStatement("SELECT OrderFromSupplierId FROM staticValue");
+            ResultSet rs = stmt.executeQuery();
+            OrderFromSupplier.setUnique(rs.getInt("OrderFromSupplierId"));
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM OrderFromSupplier WHERE SupplierNum = ?");
+            stmt = conn.prepareStatement("SELECT * FROM OrderFromSupplier WHERE SupplierNum = ?");
             stmt.setString(1, supplier.getSupplierNum());
             ResultSet rs = stmt.executeQuery();
 
@@ -61,6 +69,15 @@ public class OrderFromSupplierDAO {
 
     public void WriteFromCacheToDB() {
         PreparedStatement stmt;
+
+        try
+        {
+            stmt = conn.prepareStatement("UPDATE staticValue SET OrderFromSupplierId = ?");
+            stmt.setInt(1, OrderFromSupplier.getUnique());
+            stmt.executeUpdate();
+
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
 
         try {
             stmt = conn.prepareStatement("DELETE FROM OrderFromSupplier");
