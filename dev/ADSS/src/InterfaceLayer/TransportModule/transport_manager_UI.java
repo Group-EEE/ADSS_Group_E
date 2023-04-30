@@ -681,7 +681,7 @@ public class transport_manager_UI {
                 continue;
             }
             // checking if the truck already exist in the system
-            if(controller.is_truck_exist(input)){
+            if(!controller.is_truck_exist(input)){
                 registration_number = input;
                 isValid = true;
             }
@@ -689,70 +689,71 @@ public class transport_manager_UI {
                 System.out.println("The Truck is already exist in the system! ");
                 break;
             }
-        }
-        // ======================== Truck model ======================== //
-        System.out.println("Please enter the truck model: ");
-        String truck_model = scanner.nextLine();
-        // ======================== Truck Net Weight ======================== //
-        double truck_net_weight = 0.0;
-        boolean valid_net_weight = false;
-        while (!valid_net_weight) {
-            System.out.println("Please enter the net weight of the truck: ");
-            input = scanner.nextLine();
-            try {
-                truck_net_weight = Double.parseDouble(input);
-                if (truck_net_weight > 0){
-                    valid_net_weight = true;
+            // ======================== Truck model ======================== //
+            System.out.println("Please enter the truck model: ");
+            String truck_model = scanner.nextLine();
+            // ======================== Truck Net Weight ======================== //
+            double truck_net_weight = 0.0;
+            boolean valid_net_weight = false;
+            while (!valid_net_weight) {
+                System.out.println("Please enter the net weight of the truck: ");
+                input = scanner.nextLine();
+                try {
+                    truck_net_weight = Double.parseDouble(input);
+                    if (truck_net_weight > 0){
+                        valid_net_weight = true;
+                    }
+                    else {
+                        System.out.println("The weight should be positive...");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.print("Invalid input. ");
                 }
-                else {
-                    System.out.println("The weight should be positive...");
+            }
+            // ======================== Truck max Weight ======================== //
+            double truck_max_weight = 0.0;
+            boolean valid_max_weight = false;
+            while (!valid_max_weight) {
+                System.out.println("Please enter the maximum weight of the truck: ");
+                input = scanner.nextLine();
+                try {
+                    truck_max_weight = Double.parseDouble(input);
+                    if (truck_max_weight <= truck_net_weight){
+                        System.out.println("Max weight must be above the net weight.");
+                    }
+                    else {
+                        valid_max_weight = true;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.print("Invalid input. ");
                 }
-            } catch (NumberFormatException e) {
-                System.out.print("Invalid input. ");
             }
-        }
-        // ======================== Truck max Weight ======================== //
-        double truck_max_weight = 0.0;
-        boolean valid_max_weight = false;
-        while (!valid_max_weight) {
-            System.out.println("Please enter the maximum weight of the truck: ");
-            input = scanner.nextLine();
-            try {
-                truck_max_weight = Double.parseDouble(input);
-                if (truck_max_weight <= truck_net_weight){
-                    System.out.println("Max weight must be above the net weight.");
+            // ======================== Truck Cold Level ======================== //
+            cold_level cool_level = null;
+            isValid = false;
+            while(!isValid){
+                System.out.println("Please enter the cold level of the truck (press 1, 2 or 3 only): ");
+                System.out.println("\t 1 - Freeze");
+                System.out.println("\t 2 - Cold");
+                System.out.println("\t 3 -  Dry");
+                input = scanner.nextLine();
+                if(input.equals("1") || input.equals("2") || input.equals("3")){
+                    isValid = true;
                 }
-                else {
-                    valid_max_weight = true;
+                else{
+                    System.out.print("Invalid input. ");
                 }
-            } catch (NumberFormatException e) {
-                System.out.print("Invalid input. ");
             }
-        }
-        // ======================== Truck Cold Level ======================== //
-        cold_level cool_level = null;
-        isValid = false;
-        while(!isValid){
-            System.out.println("Please enter the cold level of the truck (press 1, 2 or 3 only): ");
-            System.out.println("\t 1 - Freeze");
-            System.out.println("\t 2 - Cold");
-            System.out.println("\t 3 -  Dry");
-            input = scanner.nextLine();
-            if(input.equals("1") || input.equals("2") || input.equals("3")){
-                isValid = true;
+            switch (input) {
+                case "1" -> cool_level = cold_level.Freeze;
+                case "2" -> cool_level = cold_level.Cold;
+                case "3" -> cool_level = cold_level.Dry;
             }
-            else{
-                System.out.print("Invalid input. ");
-            }
+            // ======================== Create And Adding The New Truck  ======================== //
+            controller.add_truck(registration_number, truck_model, truck_net_weight, truck_max_weight, cool_level ,truck_net_weight);
         }
-        switch (input) {
-            case "1" -> cool_level = cold_level.Freeze;
-            case "2" -> cool_level = cold_level.Cold;
-            case "3" -> cool_level = cold_level.Dry;
-        }
-        // ======================== Create And Adding The New Truck  ======================== //
-        controller.add_truck(registration_number, truck_model, truck_net_weight, truck_max_weight, cool_level ,truck_net_weight);
     }
+
 
 
 
