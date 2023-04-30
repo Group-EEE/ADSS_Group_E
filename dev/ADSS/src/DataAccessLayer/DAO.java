@@ -14,13 +14,21 @@ public abstract class DAO {
 
     //public final String _connectionString;
     public final String _tableName;
-    //  public static Connection connection;
+    public static Connection connection;
     public static final String url = "jdbc:sqlite:dev/ADSS/SuperLi.db";
     protected DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     //constructor
     public DAO(String tableName) {
         this._tableName = tableName;
+        if (connection == null) {
+            try {
+                connection = DriverManager.getConnection(url);
+            } catch (SQLException e) {
+                System.out.println("Got Exception:");
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     public boolean Delete() {

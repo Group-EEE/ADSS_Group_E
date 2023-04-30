@@ -20,15 +20,14 @@ public class Transport_dao extends DAO {
     public Transport_dao(String tableName) {
         super(tableName);
         transports = new HashMap<>();
+        get_transports_map_from_database();
     }
 
     @Override
     public boolean Insert(Object obj) {
         Transport transport = (Transport) obj;
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
-            String query = "INSERT INTO " + _tableName + " (Transport_ID, Date, Departure_Time, Origin ) VALUES (?,?,?,?,?)";
+            String query = "INSERT INTO " + _tableName + " (ID, Date, Departure_Time, Origin, Finished ) VALUES (?,?,?,?,?)";
 
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, transport.getTransport_ID());
@@ -67,7 +66,6 @@ public class Transport_dao extends DAO {
         Transport transport = (Transport) obj;
         String query = "DELETE FROM " + this._tableName + " WHERE Transport_ID = ?";
         try {
-            Connection connection = DriverManager.getConnection(url);
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, transport.getTransport_ID());
             statement.executeUpdate();
@@ -135,5 +133,22 @@ public class Transport_dao extends DAO {
 
     public HashMap<Integer, Transport> get_transports_map() {
         return transports;
+    }
+
+    public void get_transports_map_from_database(){
+        String query = "SELECT * FROM " + this._tableName;
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet res = statement.executeQuery();
+            while (res.next()){
+                Transport transport = (Transport) convertReaderToObject(res);
+                transports.put(transport.getTransport_ID(), transport);
+            }
+        }
+        catch (SQLException e) {
+            System.out.println("This transport is not exist in the Database.");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

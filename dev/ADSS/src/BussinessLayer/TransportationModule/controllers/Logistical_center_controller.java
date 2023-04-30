@@ -284,8 +284,4 @@ public class Logistical_center_controller {
         return trucks_dao.getTrucks();
     }
 
-    public void load_database(){
-        ready_database = new ready_database();
-        ready_database.load_database();
-    }
 }

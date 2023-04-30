@@ -17,14 +17,13 @@ public class Site_Supply_dao extends DAO {
     public Site_Supply_dao(String tableName) {
         super(tableName);
         site_supply_documents = new HashMap<>();
+        get_site_supply_documents_from_db();
     }
 
     @Override
     public boolean Insert(Object obj) {
         Site_Supply site_supply = (Site_Supply) obj;
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "INSERT INTO " + _tableName + " (ID, Store_Name, Origin, Total_Weight) VALUES (?,?,?,?)";
 
             PreparedStatement statement = connection.prepareStatement(query);
@@ -113,5 +112,22 @@ public class Site_Supply_dao extends DAO {
 
     public ArrayList<Site_Supply> get_site_supply_documents(){
         return new ArrayList<Site_Supply>(site_supply_documents.values());
+    }
+
+    private void get_site_supply_documents_from_db(){
+        try {
+            String query = "SELECT * FROM " + _tableName;
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet res = statement.executeQuery();
+            while (res.next()) {
+                Site_Supply site_supply = (Site_Supply) convertReaderToObject(res);
+                if(site_supply != null){
+                    site_supply_documents.put(site_supply.getId(), site_supply);
+                }
+            }
+        } catch (SQLException | ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
