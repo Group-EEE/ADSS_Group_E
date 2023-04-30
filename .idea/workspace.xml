@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="ADSS_Group_E:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8ab6a62-5a9f-4ada-b7de-51cb98261c12" name="Changes" comment="tables 27/4">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/ADSS_Group_E_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ADSS_Group_E.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/res/SuperLeeDB" beforeDir="false" afterPath="$PROJECT_DIR$/dev/res/SuperLeeDB" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/GenericProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/GenericProductDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/OrderFromSupplierDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/OrderFromSupplierDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/OrderedProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/OrderedProductDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/SupplierProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/SupplierProductDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/SupplierProductDiscountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/SupplierProductDiscountDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/GenericProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/GenericProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Order.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderFromSupplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderFromSupplier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderedProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderedProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/SupplierProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/SupplierProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/DataAccess/SuppliersModule/SupplierProductDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/DataAccess/SuppliersModule/SupplierProductDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/DataAccess/SuppliersModule/SupplierProductDiscountDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/DataAccess/SuppliersModule/SupplierProductDiscountDAO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/GenericProduct.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/GenericProduct.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/Order.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/SupplierProduct.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_E/SuppliersModule/Business/SupplierProduct.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,28 +51,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/Downloads/sqlite-jdbc-3.41.2.1.jar&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/user/Downloads/sqlite-jdbc-3.41.2.1.jar",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\sapir\OneDrive\Documents\GitHub\ADSS_Group_E\dev\src\InventoryModule\Presentation" />
@@ -158,6 +165,9 @@
       <workItem from="1682813478195" duration="424000" />
       <workItem from="1682826079251" duration="7721000" />
       <workItem from="1682858323527" duration="3543000" />
+      <workItem from="1682866009737" duration="80000" />
+      <workItem from="1682866109597" duration="582000" />
+      <workItem from="1682868416203" duration="2121000" />
     </task>
     <task id="LOCAL-00001" summary="tables 27/4">
       <created>1682624568520</created>
@@ -189,6 +199,35 @@
     <option name="LAST_COMMIT_MESSAGE" value="tables 27/4" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDB.java</url>
+          <line>61</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/SupplierDAO.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/SupplierProductDAO.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/SupplierProductDiscountDAO.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/GenericProductDAO.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="superLeeDBConnection.conn" />

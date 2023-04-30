@@ -42,7 +42,7 @@ public class GenericProduct {
 
     public String getName() {return Name;}
 
-    public String toString() {return  "Product name: " + Name + ", manufacturer: " + MyManufacturer.getName();}
+    public String toString() {return  "Product name: " + Name + ", manufacturer: " + MyManufacturer.getName() + ", barcode: " + Barcode;}
 
     // -------------------------------- Methods related to SuppliersModule.Business.Manufacturer ------------------------------
 

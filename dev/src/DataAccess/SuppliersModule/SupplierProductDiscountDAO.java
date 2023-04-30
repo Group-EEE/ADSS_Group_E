@@ -36,8 +36,8 @@ public class SupplierProductDiscountDAO {
             stmt.setString(2, supplierCatalog);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                SupplierProductDiscount supplierProductDiscount = new SupplierProductDiscount(rs.getFloat("Percentages"), rs.getInt("Amount"));
-                IdentifyMapSupplierProductDiscount.put(createKey(supplierNum, supplierCatalog, rs.getInt("Amount")), supplierProductDiscount);
+                SupplierProductDiscount supplierProductDiscount = new SupplierProductDiscount(rs.getFloat("Percentages"), rs.getInt("MinimumAmount"));
+                IdentifyMapSupplierProductDiscount.put(createKey(supplierNum, supplierCatalog, rs.getInt("MinimumAmount")), supplierProductDiscount);
             }
         }
         catch (SQLException e) {throw new RuntimeException(e);}

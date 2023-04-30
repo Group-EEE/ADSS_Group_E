@@ -42,7 +42,7 @@ public class SupplierProductDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next())
             {
-                String productName = rs.getString("Name");
+                String productName = rs.getString("GenericProductName");
                 String ManufacturerName =rs.getString("ManufacturerName");
                 GenericProduct genericProduct = genericProductDAO.getGenericProductByName(productName, ManufacturerName);
 
