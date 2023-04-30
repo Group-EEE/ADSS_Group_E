@@ -10,7 +10,7 @@ import java.util.List;
 public class ScheduleController {
 
     private static ScheduleController _scheduleController = null;
-    private HashMap<Store, Schedule> _schedules = new HashMap<Store, Schedule>();
+    private final HashMap<Store, Schedule> _schedules = new HashMap<Store, Schedule>();
 
     private ScheduleController(){}
     public static ScheduleController getInstance(){
@@ -29,10 +29,10 @@ public class ScheduleController {
         return true;
     }
 
-    public boolean printSchedule(Store store){
-        if (store == null)
+    public boolean printSchedule(int storeID){
+        if (storeID< 0)
             throw new IllegalArgumentException("Invalid store");
-        Schedule schedule = _schedules.get(store);
+        Schedule schedule = _schedules.get(storeID);
         if (schedule == null)
             throw new IllegalArgumentException("Invalid store");
         for(int i=0; i<schedule.getShifts().length; i++){
