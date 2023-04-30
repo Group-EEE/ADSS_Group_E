@@ -100,6 +100,19 @@ public class License_dao extends DAO {
         if (Licenses.containsKey(license_id)){
             return true;
         }
-        Connection connection = null;
+        Connection  connection = null;
+        try {
+            connection = DriverManager.getConnection(url);
+            String query = "SELECT * FROM Licenses WHERE ID = ?";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, license_id);
+            ResultSet res = pstmt.executeQuery();
+            if (res.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            return false;
+        }
+        return false;
     }
 }

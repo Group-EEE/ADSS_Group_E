@@ -213,12 +213,7 @@ public class Logistical_center_controller {
     }
 
     public boolean check_if_transport_id_exist(int transport_ID){
-        for (Transport transport: logistical_center.getTransport_Log().values()){
-            if (transport.getTransport_ID() == transport_ID){
-                return true;
-            }
-        }
-        return false;
+        return transport_dao.check_if_Transport_exist(transport_ID);
     }
 
     public void display_trucks_by_cold_level(String cold_lvl){
