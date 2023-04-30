@@ -124,8 +124,9 @@ public class Trucks_dao extends DAO {
         return new ArrayList<>(Trucks.values());
     }
 
-    public HashMap<Integer, Truck> get_all_trucks_from_database(){
-        String query = "SELECT ";
-    }
+//    public HashMap<Integer, Truck> get_all_trucks_from_database(){
+//        String query = "SELECT ";
+//        return
+//    }
 }
 
