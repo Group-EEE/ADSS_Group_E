@@ -5,6 +5,7 @@ import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
 import java.sql.*;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Trucks_dao extends DAO {
@@ -116,8 +117,8 @@ public class Trucks_dao extends DAO {
         return false;
     }
 
-    public HashMap<String, Truck> getTrucks() {
-        return Trucks;
+    public ArrayList<Truck> getTrucks() {
+        return new ArrayList<>(Trucks.values());
     }
 }
 

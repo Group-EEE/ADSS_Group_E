@@ -96,4 +96,10 @@ public class License_dao extends DAO {
         return null;
     }
 
+    public boolean check_if_license_exist(int license_id){
+        if (Licenses.containsKey(license_id)){
+            return true;
+        }
+        Connection connection = null;
+    }
 }

@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Transport_dao extends DAO {
@@ -120,5 +121,13 @@ public class Transport_dao extends DAO {
             System.out.println("This transport is not exist in the Database.");
         }
         return false;
+    }
+
+    public ArrayList<Transport> get_transports(){
+        return new ArrayList<Transport>(transports.values());
+    }
+
+    public HashMap<Integer, Transport> get_transports_map() {
+        return transports;
     }
 }

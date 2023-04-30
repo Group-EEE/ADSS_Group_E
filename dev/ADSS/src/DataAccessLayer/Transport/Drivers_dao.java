@@ -5,6 +5,8 @@ import DataAccessLayer.DAO;
 
 import java.sql.*;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 public class Drivers_dao extends DAO {
@@ -157,7 +159,8 @@ public class Drivers_dao extends DAO {
         return false;
     }
 
-    public HashMap<Integer, Truck_Driver> getDrivers() {
-        return Drivers;
+    public ArrayList<Truck_Driver> getDrivers() {
+        Collection<Truck_Driver> drivers = Drivers.values();
+        return new ArrayList<>(drivers);
     }
 }

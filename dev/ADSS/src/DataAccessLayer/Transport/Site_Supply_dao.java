@@ -8,6 +8,7 @@ import DataAccessLayer.DAO;
 
 import java.sql.*;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Site_Supply_dao extends DAO {
@@ -24,7 +25,7 @@ public class Site_Supply_dao extends DAO {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url);
-            String query = "INSERT INTO " + _tableName + " (Site_Supply_ID, Store_Name, Origin, Products_total_weight) VALUES (?,?,?,?)";
+            String query = "INSERT INTO " + _tableName + " (ID, Store_Name, Origin, Total_Weight) VALUES (?,?,?,?)";
 
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, site_supply.getId());
@@ -104,5 +105,13 @@ public class Site_Supply_dao extends DAO {
             throw new RuntimeException(e);
         }
         return false;
+    }
+
+    public HashMap<Integer, Site_Supply> getSite_supply_documents_map() {
+        return site_supply_documents;
+    }
+
+    public ArrayList<Site_Supply> get_site_supply_documents(){
+        return new ArrayList<Site_Supply>(site_supply_documents.values());
     }
 }
