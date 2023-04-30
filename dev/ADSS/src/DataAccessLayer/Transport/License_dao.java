@@ -75,4 +75,25 @@ public class License_dao extends DAO {
         Licenses.put(license.getL_ID(), license);
         return license;
     }
+
+    public License getLicense(int id){
+        if (Licenses.containsKey(id)) {
+            return Licenses.get(id);
+        }
+        String query = "SELECT * FROM Licenses WHERE ID = ?";
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(query);) {
+            pstmt.setInt(1, id);
+            ResultSet res = pstmt.executeQuery();
+            if (res.next()) {
+                return (License) convertReaderToObject(res);
+            }
+        } catch (SQLException e) {
+            System.out.println("Exception thrown");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
 }

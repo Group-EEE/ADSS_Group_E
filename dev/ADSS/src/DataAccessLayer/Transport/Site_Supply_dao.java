@@ -84,4 +84,25 @@ public class Site_Supply_dao extends DAO {
         }
         return null;
     }
+
+    public boolean check_if_site_supply_exists(int id){
+        if(site_supply_documents.containsKey(id)){
+            return true;
+        }
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url);
+            String query = "SELECT * FROM " + _tableName + " WHERE Site_Supply_ID = ?";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet res = statement.executeQuery();
+            if(res.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
 }

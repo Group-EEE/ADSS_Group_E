@@ -1,8 +1,7 @@
 package BussinessLayer.TransportationModule.controllers;
 
 import BussinessLayer.TransportationModule.objects.*;
-import DataAccessLayer.Transport.Trucks_dao;
-import DataAccessLayer.Transport.ready_database;
+import DataAccessLayer.Transport.*;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -11,6 +10,11 @@ import java.util.Map;
 public class Logistical_center_controller {
     // singleton
     private Trucks_dao trucks_dao;
+    private Transport_dao transport_dao;
+    private Site_Supply_dao site_supply_dao;
+    private Drivers_dao drivers_dao;
+
+    private License_dao license_dao;
     private static Logistical_center_controller instance;
     private Transport_System transport_system;
     private Logistical_Center logistical_center;
@@ -40,16 +44,18 @@ public class Logistical_center_controller {
 
     public void add_driver (int driver_ID, String driver_name, int license_id, cold_level level, double truck_weight){
         Truck_Driver new_driver = new Truck_Driver(driver_ID, driver_name, license_id, level, truck_weight);
+        drivers_dao.Insert(new_driver);
         logistical_center.add_driver(new_driver);
     }
 
     public Transport get_transport_by_id(int transport_id){
-        return logistical_center.get_transport_by_id(transport_id);
+        return transport_dao.getTransport(transport_id);
     }
 
     public void add_transport(int transport_id, String truck_number, String driver_name, String cold_lvl){
         cold_level cool_level = get_cold_level_by_string(cold_lvl);
         Transport transport = new Transport(transport_id, "TBD", "TBD", truck_number, driver_name, this.logistical_center.getSite_name(), cool_level);
+        transport_dao.Insert(transport);
         logistical_center.add_transport(transport);
     }
 

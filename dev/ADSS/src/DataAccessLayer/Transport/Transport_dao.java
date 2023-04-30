@@ -104,4 +104,21 @@ public class Transport_dao extends DAO {
         }
         return null;
     }
+
+    public boolean check_if_Transport_exist(int transport_id){
+        String query = "SELECT * FROM " + this._tableName + " WHERE Transport_ID = ?";
+        try {
+            Connection connection = DriverManager.getConnection(url);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, transport_id);
+            ResultSet res = statement.executeQuery();
+            if(res.next()){
+                return true;
+            }
+        }
+        catch (SQLException e) {
+            System.out.println("This transport is not exist in the Database.");
+        }
+        return false;
+    }
 }
