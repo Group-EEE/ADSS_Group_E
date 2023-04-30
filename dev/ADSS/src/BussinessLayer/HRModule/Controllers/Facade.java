@@ -164,49 +164,49 @@ public class Facade {
         return _storeController.removeEmployeeFromStore(employeeID, storeName);
     }
 
-    //_ScheduleController
-    public boolean createNewSchedule(String StoreName, int day, int month, int year){
-        Store store = _storeController.getStoreByName(StoreName);
-        return _scheduleController.createNewSchedule(store, day, month, year);
-    }
-
-    public boolean addEmployeeToShift(String storeName, int shiftID){
-        //if employee not working in this store
-
-        Store store = _storeController.(storeName);
-        if (!_storeController.checkIfEmployeeWorkInStore(store, _loggedUser))
-            throw new IllegalArgumentException("Employee not working in this store");
-        return _scheduleController.addEmployeeToShift(_loggedUser, store, shiftID);
-    }
-
-    public boolean printSchedule(String storeName){
-        Store store = _storeController.getStoreByName(storeName);
-        return _scheduleController.printSchedule(store);
-    }
-
-    public boolean printEmployeeSchedule(){
-        return _scheduleController.printEmployeeSchedule(_loggedUser);
-    }
-
-    public List<Shift> approveSchedule(String storeName){
-        Store store = _storeController.getStoreByName(storeName);
-        return _scheduleController.approveSchedule(store);
-    }
-
-    public boolean changeHoursShift(String storeName, int newStartHour, int newEndHour, int shiftID){
-        Store store = _storeController.getStoreByName(storeName);
-        return _scheduleController.changeShiftHours(store, newStartHour, newEndHour, shiftID);
-    }
-
-    public boolean addRequiredRoleToShift(String storeName, int shiftID, RoleType role){
-        Store store = _storeController.getStoreByName(storeName);
-        return _scheduleController.addRequiredRoleToShift(store, shiftID, role);
-    }
-
-    public boolean removeRequiredRoleFromShift(String storeName, int shiftID, RoleType role){
-        Store store = _storeController.getStoreByName(storeName);
-        return _scheduleController.removeRequiredRoleFromShift(store, shiftID, role);
-    }
+//    //_ScheduleController
+//    public boolean createNewSchedule(String StoreName, int day, int month, int year){
+//        int storeID = _storeController.getStoreIDbyName(StoreName);
+//        return _scheduleController.createNewSchedule(storeID, day, month, year);
+//    }
+//
+//    public boolean addEmployeeToShift(String storeName, int shiftID){
+//        //if employee not working in this store
+//
+//        Store store = _storeController.(storeName);
+//        if (!_storeController.checkIfEmployeeWorkInStore(store, _loggedUser))
+//            throw new IllegalArgumentException("Employee not working in this store");
+//        return _scheduleController.addEmployeeToShift(_loggedUser, store, shiftID);
+//    }
+//
+//    public boolean printSchedule(String storeName){
+//        Store store = _storeController.getStoreByName(storeName);
+//        return _scheduleController.printSchedule(store);
+//    }
+//
+//    public boolean printEmployeeSchedule(){
+//        return _scheduleController.printEmployeeSchedule(_loggedUser);
+//    }
+//
+//    public List<Shift> approveSchedule(String storeName){
+//        Store store = _storeController.getStoreByName(storeName);
+//        return _scheduleController.approveSchedule(store);
+//    }
+//
+//    public boolean changeHoursShift(String storeName, int newStartHour, int newEndHour, int shiftID){
+//        Store store = _storeController.getStoreByName(storeName);
+//        return _scheduleController.changeShiftHours(store, newStartHour, newEndHour, shiftID);
+//    }
+//
+//    public boolean addRequiredRoleToShift(String storeName, int shiftID, RoleType role){
+//        Store store = _storeController.getStoreByName(storeName);
+//        return _scheduleController.addRequiredRoleToShift(store, shiftID, role);
+//    }
+//
+//    public boolean removeRequiredRoleFromShift(String storeName, int shiftID, RoleType role){
+//        Store store = _storeController.getStoreByName(storeName);
+//        return _scheduleController.removeRequiredRoleFromShift(store, shiftID, role);
+//    }
 
     public boolean printStores(){
         return _storeController.printStores();

@@ -23,7 +23,7 @@ public class ScheduleController {
         if (store == null)
             throw new IllegalArgumentException("Invalid store");
         if (day < 1 || day > 31 || month < 1 || month > 12 || year < 0)
-            throw new IllegalArgumentException("Invalud date parameters");
+            throw new IllegalArgumentException("Invalid date parameters");
         LocalDate localDate = LocalDate.of(year, month, day);
         _schedules.put(store, new Schedule(localDate));
         return true;
@@ -144,4 +144,5 @@ public class ScheduleController {
             throw new IllegalArgumentException("schedule not yet made");
         return schedule.addEmployeeToShift(employee,choice);
     }
+
 }

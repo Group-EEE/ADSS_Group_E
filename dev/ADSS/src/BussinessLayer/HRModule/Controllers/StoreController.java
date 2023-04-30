@@ -105,14 +105,18 @@ public class StoreController {
         return _employeesToStoreDAO.checkIfEmployeeInStore(employee.getID(),store.getStoreID());
     }
 
-    public boolean printStores(){
-        for (Store store : _storeEmployeeMap.keySet()){
-            System.out.println(store);
-            for (Employee employee : _storeEmployeeMap.get(store)){
-                System.out.println(employee);
-            }
-            System.out.println();
-        }
-        return true;
-    }
+//    public boolean printStores(){
+//        for (Store store : _storeEmployeeMap.keySet()){
+//            System.out.println(store);
+//            for (Employee employee : _storeEmployeeMap.get(store)){
+//                System.out.println(employee);
+//            }
+//            System.out.println();
+//        }
+//        return true;
+//    }
+//
+//    public int getStoreIDbyName(String storeName){
+//        return _storesDAO.getStoreIDByName(storeName);
+//    }
 }
