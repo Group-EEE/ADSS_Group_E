@@ -14,6 +14,7 @@ public class Trucks_dao extends DAO {
     public Trucks_dao(String tableName) {
         super(tableName);
         Trucks = new HashMap<>();
+        get_all_trucks_from_database();
     }
 
     @Override
@@ -74,12 +75,9 @@ public class Trucks_dao extends DAO {
         if (Trucks.containsKey(res.getString(1))) {
             return Trucks.get(res.getString(1));
         }
-        while (res.next()) {
-            Truck truck = new Truck(res.getString(1), res.getString(2), res.getDouble(3), res.getDouble(4), cold_level.valueOf(res.getString(5)), res.getDouble(3));
-            Trucks.put(res.getString(1), truck);
-            return truck;
-        }
-        return null;
+        Truck truck = new Truck(res.getString(1), res.getString(2), res.getDouble(3), res.getDouble(4), cold_level.valueOf(res.getString(5)), res.getDouble(3));
+        Trucks.put(res.getString(1), truck);
+        return truck;
     }
 
     public Truck get_truck_by_registration_plate(String registration_plate) {
@@ -107,7 +105,7 @@ public class Trucks_dao extends DAO {
         }
         String query = "SELECT * FROM Trucks WHERE registration_plate = ?";
         try (Connection connection = DriverManager.getConnection(url);
-            PreparedStatement pstmt = connection.prepareStatement(query);) {
+             PreparedStatement pstmt = connection.prepareStatement(query);) {
             pstmt.setString(1, registration_plate);
             ResultSet rs = pstmt.executeQuery();
             Truck truck = convertReaderToObject(rs);
@@ -124,8 +122,19 @@ public class Trucks_dao extends DAO {
         return new ArrayList<>(Trucks.values());
     }
 
-    public HashMap<Integer, Truck> get_all_trucks_from_database(){
-        String query = "SELECT ";
+    private void get_all_trucks_from_database() {
+        String query = "SELECT * FROM Trucks";
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(query);) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Truck truck = convertReaderToObject(rs);
+                Trucks.put(truck.getRegistration_plate(), truck);
+            }
+
+        } catch (SQLException | ParseException e) {
+            System.out.println("Exception thrown");
+        }
     }
 }
 

@@ -15,8 +15,9 @@ public class Drivers_dao extends DAO {
 
     public Drivers_dao(String table_name){
         super(table_name);
-        Drivers = new HashMap<>();
         L_dao = new License_dao("Licenses");
+        Drivers = new HashMap<>();
+        get_all_drivers_from_db();
     }
     @Override
     public boolean Insert(Object Driverobj) {
@@ -25,7 +26,7 @@ public class Drivers_dao extends DAO {
         try {
             connection = DriverManager.getConnection(url);
             String query = "INSERT INTO Drivers (ID, Name, License_ID) VALUES (?, ?, ?)";
-
+            L_dao.Insert(driver.getLicense());
             // Prepare SQL statement with parameters
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, driver.getID());
@@ -162,5 +163,27 @@ public class Drivers_dao extends DAO {
     public ArrayList<Truck_Driver> getDrivers() {
         Collection<Truck_Driver> drivers = Drivers.values();
         return new ArrayList<>(drivers);
+    }
+
+    private void get_all_drivers_from_db(){
+        String query = "SELECT * FROM Drivers";
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url);
+            // Prepare SQL statement with parameters
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            // Execute SQL statement and print result
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()){
+                Truck_Driver driver = convertReaderToObject(rs);
+                if (!Drivers.containsKey(driver.getID())){
+                    Drivers.put(driver.getID(), driver);
+                }
+            }
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
