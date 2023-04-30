@@ -59,9 +59,8 @@ public class AgreementDAO {
         try {
             stmt = conn.prepareStatement("DELETE FROM Agreement");
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
+        catch (SQLException e) {throw new RuntimeException(e);}
 
         for (Map.Entry<String, Agreement> pair : IdentifyMapAgreement.entrySet()) {
             try {
@@ -87,7 +86,12 @@ public class AgreementDAO {
 
     public void deleteBySupplier(String supplierNum)
     {
-        Agreement deletedAgreement = IdentifyMapAgreement.remove(supplierNum);
+        IdentifyMapAgreement.remove(supplierNum);
         orderDiscountDAO.deleteByAgreement(supplierNum);
+    }
+
+    public void insert(Agreement agreement)
+    {
+        IdentifyMapAgreement.put(agreement.getMySupplier().getSupplierNum(), agreement);
     }
 }

@@ -19,6 +19,7 @@ public class SuperLeeDB {
     private SupplierProductDiscountDAO supplierProductDiscountDAO;
     private OrderDiscountDAO orderDiscountDAO;
     private ContactDAO contactDAO;
+    private PeriodicOrderDAO periodicOrderDAO;
 
 
 
@@ -36,12 +37,17 @@ public class SuperLeeDB {
         supplierProductDiscountDAO = SupplierProductDiscountDAO.getInstance(conn);
         orderDiscountDAO = OrderDiscountDAO.getInstance(conn);
         contactDAO = ContactDAO.getInstance(conn);
+        periodicOrderDAO = PeriodicOrderDAO.getInstance(conn);
+
 
     }
 
     public static SuperLeeDB getInstance() {
-        if (superLeeDB == null)
+        if (superLeeDB == null) {
             superLeeDB = new SuperLeeDB();
+            //superLeeDB.WriteAllToDB();
+            superLeeDB.ReadAllToCache();
+        }
         return superLeeDB;
     }
 
@@ -53,15 +59,17 @@ public class SuperLeeDB {
     public void ReadAllToCache()
     {
         manufacturerDAO.WriteManufacturersToCache();
-        genericProductDAO.WriteGenericProductsToCache();
+        genericProductDAO.ReadGenericProductsToCache();
         supplierDAO.ReadSuppliersToCache();
     }
 
-    public void WriteAllToDB()
-    {
+    public void WriteAllToDB(){
         manufacturerDAO.WriteFromCacheToDB();
         genericProductDAO.WriteFromCacheToDB();
         supplierDAO.WriteFromCacheToDB();
+
+        try{conn.close();}
+        catch (SQLException e) {throw new RuntimeException(e);}
     }
 
     public boolean CheckIfSupplierExist(String supplierNum)
@@ -187,5 +195,25 @@ public class SuperLeeDB {
     public void deleteWorkingWithManufacturer(String supplierNum, String manufacturerNum)
     {
         manufacturerDAO.deleteWorkingWithManufacturer(supplierNum, manufacturerNum);
+    }
+
+    public Map<Integer, PeriodicOrder> getAllPeriodicOrder()
+    {
+        return periodicOrderDAO.getIdentifyMapPeriodicOrderByDay();
+    }
+
+    public void insertPeriodicOrder(PeriodicOrder periodicOrder)
+    {
+        periodicOrderDAO.insert(periodicOrder);
+    }
+
+    public PeriodicOrder getPeriodicOrder(int id)
+    {
+        return periodicOrderDAO.getById(id);
+    }
+
+    public void deletePeriodicOrder(int id)
+    {
+        periodicOrderDAO.delete(id);
     }
 }

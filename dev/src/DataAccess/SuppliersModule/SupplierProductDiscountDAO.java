@@ -65,11 +65,11 @@ public class SupplierProductDiscountDAO {
 
         for (Map.Entry<List<String>, SupplierProductDiscount> pair : IdentifyMapSupplierProductDiscount.entrySet()) {
             try {
-                stmt = conn.prepareStatement("Insert into SupplierProduct VALUES (?,?,?,?)");
+                stmt = conn.prepareStatement("Insert into SupplierProductDiscount VALUES (?,?,?,?)");
                 stmt.setString(1, pair.getKey().get(0));
                 stmt.setString(2,pair.getKey().get(1));
                 stmt.setFloat(3, pair.getValue().getPercentages());
-                stmt.setInt(4, Integer.parseInt(pair.getKey().get(3)));
+                stmt.setInt(4, Integer.parseInt(pair.getKey().get(2)));
                 stmt.executeUpdate();
             }
             catch (SQLException e) {throw new RuntimeException(e);}

@@ -76,12 +76,13 @@ public class SupplierProductDAO {
         try {
             stmt = conn.prepareStatement("DELETE FROM SupplierProduct");
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
+        catch (SQLException e) {throw new RuntimeException(e);}
 
-        for (Map.Entry<List<String>, SupplierProduct> pair : IdentifyMapSupplierProduct.entrySet()) {
-            try {
+        for (Map.Entry<List<String>, SupplierProduct> pair : IdentifyMapSupplierProduct.entrySet())
+        {
+            try
+            {
                 stmt = conn.prepareStatement("Insert into SupplierProduct VALUES (?,?,?,?,?,?)");
                 stmt.setString(1, pair.getValue().getMyProduct().getName());
                 stmt.setString(2, pair.getValue().getMyProduct().getMyManufacturer().getName());
@@ -90,9 +91,8 @@ public class SupplierProductDAO {
                 stmt.setString(5, pair.getKey().get(1));
                 stmt.setInt(6, pair.getValue().getAmount());
                 stmt.executeUpdate();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
             }
+            catch (SQLException e) {throw new RuntimeException(e);}
         }
         supplierProductDiscountDAO.WriteFromCacheToDB();
     }

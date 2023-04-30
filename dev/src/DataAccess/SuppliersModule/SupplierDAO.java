@@ -82,6 +82,7 @@ public class SupplierDAO {
         catch (SQLException e) {throw new RuntimeException(e);}
     }
 
+
     public List<String> getCategories(String supplierNum) {
         List<String> categories = new ArrayList<>();
 
@@ -177,6 +178,7 @@ public class SupplierDAO {
     public void insert(Supplier supplier)
     {
         IdentifyMapSupplier.put(supplier.getSupplierNum(), supplier);
+        agreementDAO.insert(supplier.getMyAgreement());
     }
 
     public Map<String, Supplier> getIdentifyMapSupplier()

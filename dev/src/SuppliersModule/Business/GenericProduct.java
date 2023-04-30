@@ -1,8 +1,5 @@
 package SuppliersModule.Business;
 
-import SuppliersModule.Business.Manufacturer;
-import SuppliersModule.Business.SupplierProduct;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +31,7 @@ public class GenericProduct {
         myManufacturer.addProduct(this);                  // Add the product to the manufacturer's products.
         MySuppliersProduct = new ArrayList<SupplierProduct>();
 
-        if(barcode == -1){
+        if(barcode == 99){
             uniqueBarcode++;
             barcode = uniqueBarcode;
         }

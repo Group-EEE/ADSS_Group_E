@@ -16,11 +16,13 @@ public class PeriodicOrderDAO {
     static PeriodicOrderDAO periodicOrderDAO;
     private Map<Integer, PeriodicOrder> IdentifyMapPeriodicOrder;
 
+    private Map<Integer, PeriodicOrder> IdentifyMapPeriodicOrderByDay;
     private OrderFromSupplierDAO orderFromSupplierDAO;
 
     private PeriodicOrderDAO(Connection conn) {
         this.conn = conn;
         IdentifyMapPeriodicOrder = new HashMap<>();
+        IdentifyMapPeriodicOrderByDay = new HashMap<>();
         orderFromSupplierDAO = OrderFromSupplierDAO.getInstance(this.conn);
     }
 
@@ -43,6 +45,7 @@ public class PeriodicOrderDAO {
                 PeriodicOrder currPeriodicOrder = new PeriodicOrder(currOrderFromSupplier, rs.getInt("DayForInvite"));
 
                 IdentifyMapPeriodicOrder.put(rs.getInt("Id"), currPeriodicOrder);
+                IdentifyMapPeriodicOrderByDay.put(rs.getInt("DayForInvite"), currPeriodicOrder);
             }
         }
         catch (SQLException e) {throw new RuntimeException(e);}
@@ -77,9 +80,33 @@ public class PeriodicOrderDAO {
             stmt.setString(1, supplierNum);
             ResultSet rs = stmt.executeQuery();
 
-            while (rs.next())
+            while (rs.next()) {
                 IdentifyMapPeriodicOrder.remove(rs.getInt("Id"));
+                IdentifyMapPeriodicOrderByDay.remove(rs.getInt("DayForInvite"));
+            }
         }
         catch (SQLException e) {throw new RuntimeException(e);}
+    }
+
+    public Map<Integer, PeriodicOrder> getIdentifyMapPeriodicOrderByDay()
+    {
+        return IdentifyMapPeriodicOrderByDay;
+    }
+
+    public void insert(PeriodicOrder periodicOrder)
+    {
+        IdentifyMapPeriodicOrder.put(periodicOrder.getId(), periodicOrder);
+        IdentifyMapPeriodicOrderByDay.put(periodicOrder.getDayForInvite(), periodicOrder);
+    }
+
+    public PeriodicOrder getById(int id)
+    {
+        return IdentifyMapPeriodicOrder.get(id);
+    }
+
+    public void delete(int id)
+    {
+        PeriodicOrder periodicOrder = IdentifyMapPeriodicOrder.remove(id);
+        IdentifyMapPeriodicOrderByDay.remove(periodicOrder.getDayForInvite());
     }
 }

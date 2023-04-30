@@ -1,8 +1,6 @@
 package DataAccess.SuppliersModule;
 
 import SuppliersModule.Business.GenericProduct;
-import SuppliersModule.Business.Manufacturer;
-import SuppliersModule.Business.Supplier;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,7 +33,7 @@ public class GenericProductDAO {
         return genericProductDAO;
     }
 
-    public void WriteGenericProductsToCache() {
+    public void ReadGenericProductsToCache() {
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM GenericProduct");
             ResultSet rs = stmt.executeQuery();

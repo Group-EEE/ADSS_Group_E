@@ -1,31 +1,25 @@
 package SuppliersModule.Business.Controllers;
 
+import DataAccess.SuperLeeDB;
 import SuppliersModule.Business.*;
-import SuppliersModule.Business.Generator.OrderGenerator;
 
 import java.util.*;
 
 public class OrderController {
 
     static OrderController orderController;
-    private final Map<Integer,PeriodicOrder> periodicOrders;
-
     private OrderFromSupplier curOrder;
-
     private PeriodicOrder curPeriodicOrder;
-
     private Supplier curSupplier;
-
     private OrderedProduct curOrderedProduct;
-
     private SupplierProduct curSupplierProduct;
-
     private final SupplierController supplierController;
+    private SuperLeeDB superLeeDB;
     Timer timer;
 
     private OrderController(){
+        superLeeDB = SuperLeeDB.getInstance();
         supplierController = SupplierController.getInstance();
-        periodicOrders = new HashMap<>();
         taskTimer();
     }
 
@@ -60,7 +54,7 @@ public class OrderController {
     }
 
     public void invitePeriodicOrders(int curDay){
-        for(Map.Entry<Integer, PeriodicOrder> pair : periodicOrders.entrySet()){
+        for(Map.Entry<Integer, PeriodicOrder> pair : superLeeDB.getAllPeriodicOrder().entrySet()){
             if(pair.getValue().getDayForInvite() == curDay)
                 System.out.println(pair.getValue().invite());
         }
@@ -96,16 +90,16 @@ public class OrderController {
     }
 
     public void savePeriodicOrder(){
-        periodicOrders.put(curPeriodicOrder.getDayForInvite(),curPeriodicOrder);
+        superLeeDB.insertPeriodicOrder(curPeriodicOrder);
     }
 
     public boolean findPeriodicOrder(int id){
-        curPeriodicOrder = periodicOrders.get(id);
+        curPeriodicOrder = superLeeDB.getPeriodicOrder(id);
         return curPeriodicOrder != null;
     }
 
     public void deleteCurPeriodicOrder(){
-        periodicOrders.remove(curPeriodicOrder.getId());
+        superLeeDB.deletePeriodicOrder(curPeriodicOrder.getId());
         curPeriodicOrder.delete();
     }
 
@@ -130,5 +124,9 @@ public class OrderController {
         curOrderedProduct.setQuantity(quantity);
     }
 
-    public void cancelTimer() {timer.cancel();}
+    public void cancelTimer()
+    {
+        timer.cancel();
+        superLeeDB.WriteAllToDB();
+    }
 }
