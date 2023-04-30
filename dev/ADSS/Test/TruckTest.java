@@ -93,7 +93,7 @@ class TruckTest {
     }
 
     @Test
-    void getMoodle() {
+    void getmodel() {
         assertEquals("Volvo FRS", truck.getModel());
     }
 
@@ -110,7 +110,7 @@ class TruckTest {
     }
 
     @Test
-    void setMoodle() {
+    void setmodel() {
         assertEquals("Volvo FRS", truck.getModel());
         truck.setModel("MAN");
         assertEquals("MAN", truck.getModel());

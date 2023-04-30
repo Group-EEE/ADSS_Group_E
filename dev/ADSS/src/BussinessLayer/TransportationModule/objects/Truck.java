@@ -15,9 +15,9 @@ public class Truck {
     private Navigator navigator = null;
     private boolean occupied = false;
 
-    public Truck(String registration, String truck_moodle, double truck_net_weight, double truck_max_weight, cold_level level, double current_weight){
+    public Truck(String registration, String truck_model, double truck_net_weight, double truck_max_weight, cold_level level, double current_weight){
         this.registration_plate = registration;
-        this.model = truck_moodle;
+        this.model = truck_model;
         this.net_weight = truck_net_weight;
         this.max_weight = truck_max_weight;
         this.cold_level = level;
@@ -134,7 +134,7 @@ public class Truck {
 
     public void truckDisplay(){
         System.out.println("Truck Registration plate number - " + registration_plate);
-        System.out.println("\t Moodle: " + model);
+        System.out.println("\t model: " + model);
         System.out.println("\t Net Weight: " + net_weight);
         System.out.println("\t Max Weight: " + max_weight);
         System.out.println("\t Cold Level: " + cold_level.name());

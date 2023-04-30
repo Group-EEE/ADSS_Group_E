@@ -36,28 +36,7 @@ public class transport_manager_UI {
         boolean isValid = false;
         Scanner scanner = new Scanner(System.in);
         String input;
-        int inp = 0;
-        while (!isValid) {
-            System.out.println("Please choose - 1 for ready database and 2 for empty.");
-            input = scanner.nextLine();
-            if(input.equals("1")){
-                inp = 1;
-                isValid = true;
-            } else if (input.equals("2")) {
-                inp = 2;
-                isValid =true;
-            }
-            else {
-                System.out.println("Please enter 1 or 2");
-            }
-
-        }
-        if (inp == 1) {
-            controller.load_database();
-        }
-
         isValid = false;
-        input = null;
         while (true) {
             System.out.println("Hey Boss! what would you like to do?");
             System.out.println("0 - Hire a new driver");
@@ -703,9 +682,9 @@ public class transport_manager_UI {
                 break;
             }
         }
-        // ======================== Truck Moodle ======================== //
-        System.out.println("Please enter the truck moodle: ");
-        String truck_moodle = scanner.nextLine();
+        // ======================== Truck model ======================== //
+        System.out.println("Please enter the truck model: ");
+        String truck_model = scanner.nextLine();
         // ======================== Truck Net Weight ======================== //
         double truck_net_weight = 0.0;
         boolean valid_net_weight = false;
@@ -764,7 +743,7 @@ public class transport_manager_UI {
             case "3" -> cool_level = cold_level.Dry;
         }
         // ======================== Create And Adding The New Truck  ======================== //
-        controller.add_truck(registration_number, truck_moodle, truck_net_weight, truck_max_weight, cool_level ,truck_net_weight);
+        controller.add_truck(registration_number, truck_model, truck_net_weight, truck_max_weight, cool_level ,truck_net_weight);
     }
 
 
