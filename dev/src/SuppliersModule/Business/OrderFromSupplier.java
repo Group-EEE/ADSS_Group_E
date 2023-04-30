@@ -83,7 +83,7 @@ public class OrderFromSupplier {
     }
 
     /**
-     * Return new SuppliersModule.Business.Order object with the same products. The product are being shallow copied
+     * Return new Order object with the same products. The product are being shallow copied
      */
     public OrderFromSupplier clone() {
         OrderFromSupplier orderFromSupplierCopy = new OrderFromSupplier(MySupplier);
@@ -145,5 +145,8 @@ public class OrderFromSupplier {
         return unique;
     }
 
+    public Map<String, OrderedProduct> getProductsInOrder() {
+        return ProductsInOrder;
+    }
 }
 

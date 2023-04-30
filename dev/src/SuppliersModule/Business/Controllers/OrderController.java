@@ -54,9 +54,13 @@ public class OrderController {
     }
 
     public void invitePeriodicOrders(int curDay){
+        OrderFromSupplier orderFromSupplier;
         for(Map.Entry<Integer, PeriodicOrder> pair : superLeeDB.getAllPeriodicOrder().entrySet()){
-            if(pair.getValue().getDayForInvite() == curDay)
-                System.out.println(pair.getValue().invite());
+            if(pair.getValue().getDayForInvite() == curDay) {
+                orderFromSupplier = pair.getValue().invite();
+                superLeeDB.insertOrderFromSupplier(orderFromSupplier);
+                System.out.println(orderFromSupplier);
+            }
         }
     }
 
@@ -91,6 +95,7 @@ public class OrderController {
 
     public void savePeriodicOrder(){
         superLeeDB.insertPeriodicOrder(curPeriodicOrder);
+        superLeeDB.insertOrderFromSupplier(curPeriodicOrder.getOrderFromSupplier());
     }
 
     public boolean findPeriodicOrder(int id){

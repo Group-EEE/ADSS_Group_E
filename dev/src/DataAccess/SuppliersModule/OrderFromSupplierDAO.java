@@ -38,6 +38,10 @@ public class OrderFromSupplierDAO {
             stmt = conn.prepareStatement("SELECT OrderFromSupplierId FROM staticValue");
             ResultSet rs = stmt.executeQuery();
             OrderFromSupplier.setUnique(rs.getInt("OrderFromSupplierId"));
+
+            stmt = conn.prepareStatement("SELECT OrderedProductId FROM staticValue");
+            rs = stmt.executeQuery();
+            OrderedProduct.setUnique(rs.getInt("OrderedProductId"));
         }
         catch (SQLException e) {throw new RuntimeException(e);}
 
@@ -51,8 +55,13 @@ public class OrderFromSupplierDAO {
                 orderFromSupplier.setId(rs.getInt("Id"));
                 orderFromSupplier.setQuantity(rs.getInt("Quantity"));
                 orderFromSupplier.setPriceBeforeTotalDiscount(rs.getFloat("PriceBeforeTotalDiscount"));
-
                 orderFromSupplier.setProductsInOrder(orderedProductDAO.getAll(rs.getInt("Id")));
+
+                PreparedStatement stmt2 = conn.prepareStatement("SELECT Id FROM PeriodicOrder WHERE Id = ?");
+                stmt2.setInt(1, rs.getInt("Id"));
+                ResultSet rs2 = stmt2.executeQuery();
+                if(!rs2.next())
+                    orderFromSupplierList.add(orderFromSupplier);
 
                 IdentifyMapOrderFromSupplier.put(rs.getInt("Id"), orderFromSupplier);
             }
@@ -62,7 +71,7 @@ public class OrderFromSupplierDAO {
         return orderFromSupplierList;
     }
 
-    public OrderFromSupplier getOrderFromSupplier(String Id)
+    public OrderFromSupplier getOrderFromSupplier(int Id)
     {
         return IdentifyMapOrderFromSupplier.get(Id);
     }
@@ -87,7 +96,7 @@ public class OrderFromSupplierDAO {
 
         for (Map.Entry<Integer, OrderFromSupplier> pair : IdentifyMapOrderFromSupplier.entrySet()) {
             try {
-                stmt = conn.prepareStatement("Insert into SupplierProduct VALUES (?,?,?,?)");
+                stmt = conn.prepareStatement("Insert into OrderFromSupplier VALUES (?,?,?,?)");
                 stmt.setInt(1,  pair.getKey());
                 stmt.setInt(2, pair.getValue().getQuantity());
                 stmt.setFloat(3, pair.getValue().getPriceBeforeTotalDiscount());
@@ -114,5 +123,13 @@ public class OrderFromSupplierDAO {
         catch (SQLException e) {throw new RuntimeException(e);}
 
         orderedProductDAO.deleteBySupplier(supplierNum);
+    }
+
+    public void insert(OrderFromSupplier orderFromSupplier)
+    {
+        IdentifyMapOrderFromSupplier.put(orderFromSupplier.getId(), orderFromSupplier);
+        for (Map.Entry<String, OrderedProduct> pair : orderFromSupplier.getProductsInOrder().entrySet()) {
+            orderedProductDAO.insert(pair.getValue());
+        }
     }
 }

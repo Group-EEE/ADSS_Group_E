@@ -12,10 +12,10 @@ public class PeriodicOrder {
         orderFromSupplier.getMySupplier().addPeriodicOrder(this);
     }
 
-    public String invite(){
+    public OrderFromSupplier invite(){
         OrderFromSupplier orderFromSupplierCopy = orderFromSupplier.clone();
         orderFromSupplierCopy.invite();
-        return orderFromSupplierCopy.toString();
+        return orderFromSupplierCopy;
     }
 
     public OrderFromSupplier getOrderFromSupplier() {

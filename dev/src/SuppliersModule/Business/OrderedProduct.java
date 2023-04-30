@@ -60,4 +60,8 @@ public class OrderedProduct {
     {
         return unique;
     }
+
+    public int getId() {
+        return Id;
+    }
 }

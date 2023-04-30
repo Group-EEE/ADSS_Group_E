@@ -20,6 +20,7 @@ public class SuperLeeDB {
     private OrderDiscountDAO orderDiscountDAO;
     private ContactDAO contactDAO;
     private PeriodicOrderDAO periodicOrderDAO;
+    private  OrderFromSupplierDAO orderFromSupplierDAO;
 
 
 
@@ -38,6 +39,7 @@ public class SuperLeeDB {
         orderDiscountDAO = OrderDiscountDAO.getInstance(conn);
         contactDAO = ContactDAO.getInstance(conn);
         periodicOrderDAO = PeriodicOrderDAO.getInstance(conn);
+        orderFromSupplierDAO = OrderFromSupplierDAO.getInstance(conn);
 
 
     }
@@ -215,5 +217,10 @@ public class SuperLeeDB {
     public void deletePeriodicOrder(int id)
     {
         periodicOrderDAO.delete(id);
+    }
+
+    public void insertOrderFromSupplier(OrderFromSupplier orderFromSupplier)
+    {
+        orderFromSupplierDAO.insert(orderFromSupplier);
     }
 }

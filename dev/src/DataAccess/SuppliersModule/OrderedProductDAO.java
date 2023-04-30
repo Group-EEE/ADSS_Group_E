@@ -34,12 +34,6 @@ public class OrderedProductDAO {
     public Map<String, OrderedProduct> getAll(int OrderFromSupplierId) {
 
         PreparedStatement stmt;
-        try{
-            stmt = conn.prepareStatement("SELECT OrderedProductId FROM staticValue");
-            ResultSet rs = stmt.executeQuery();
-            OrderedProduct.setUnique(rs.getInt("OrderedProductId"));
-        }
-        catch (SQLException e) {throw new RuntimeException(e);}
 
         Map<String, OrderedProduct> orderedProductList = new HashMap<>();
 
@@ -49,7 +43,7 @@ public class OrderedProductDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                SupplierProduct currSupplierProduct = supplierProductDAO.getSupplierProduct(rs.getString("SupplierNum"), rs.getString("SupplierNum"));
+                SupplierProduct currSupplierProduct = supplierProductDAO.getSupplierProduct(rs.getString("SupplierNum"), rs.getString("supplierCatalog"));
                 OrderedProduct orderedProduct = new OrderedProduct(rs.getInt("Quantity"), currSupplierProduct);
                 orderedProduct.setId(rs.getInt("Id"));
 
@@ -77,7 +71,7 @@ public class OrderedProductDAO {
 
         for (Map.Entry<Integer, OrderedProduct> pair : IdentifyMapOrderedProduct.entrySet()) {
             try {
-                stmt = conn.prepareStatement("Insert into SupplierProduct VALUES (?,?,?,?,?,?,?)");
+                stmt = conn.prepareStatement("Insert into OrderedProduct VALUES (?,?,?,?,?,?,?)");
                 stmt.setInt(1,  pair.getKey());
                 stmt.setInt(2,  Id);
                 stmt.setInt(3, pair.getValue().getQuantity());
@@ -112,5 +106,10 @@ public class OrderedProductDAO {
                 IdentifyMapOrderedProduct.remove(rs.getInt("Id"));
         }
         catch (SQLException e) {throw new RuntimeException(e);}
+    }
+
+    public void insert(OrderedProduct orderedProduct)
+    {
+        IdentifyMapOrderedProduct.put(orderedProduct.getId(), orderedProduct);
     }
 }

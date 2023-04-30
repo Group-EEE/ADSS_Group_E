@@ -41,7 +41,7 @@ public class PeriodicOrderDAO {
             OrderFromSupplier currOrderFromSupplier;
             while(rs.next())
             {
-                currOrderFromSupplier = orderFromSupplierDAO.getOrderFromSupplier(rs.getString("OrderFromSupplierId"));
+                currOrderFromSupplier = orderFromSupplierDAO.getOrderFromSupplier(rs.getInt("OrderFromSupplierId"));
                 PeriodicOrder currPeriodicOrder = new PeriodicOrder(currOrderFromSupplier, rs.getInt("DayForInvite"));
 
                 IdentifyMapPeriodicOrder.put(rs.getInt("Id"), currPeriodicOrder);
