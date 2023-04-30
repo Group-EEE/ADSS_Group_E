@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="SuperLi.db" uuid="67036271-4849-439a-98b9-b991dafb462b">
+    <data-source source="LOCAL" name="SuperLi.db" uuid="dd92d2a3-9636-48d7-85e9-86cf27687eb2">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>

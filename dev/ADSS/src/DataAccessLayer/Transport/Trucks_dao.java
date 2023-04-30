@@ -5,6 +5,7 @@ import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
 import java.sql.*;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Trucks_dao extends DAO {
@@ -20,7 +21,7 @@ public class Trucks_dao extends DAO {
         Truck truck = (Truck) obj;
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:C:/Users/galev/OneDrive/Documents/GitHub/ADSS_Group_E/dev/ADSS/SuperLi.db");
+            connection = DriverManager.getConnection(url);
             String query = "INSERT INTO Trucks (registration_plate, model, net_weight, max_weight, cold_level) VALUES (?, ?, ?, ?, ?)";
 
             // Prepare SQL statement with parameters
@@ -73,9 +74,12 @@ public class Trucks_dao extends DAO {
         if (Trucks.containsKey(res.getString(1))) {
             return Trucks.get(res.getString(1));
         }
-        Truck truck = new Truck(res.getString(1), res.getString(2), res.getDouble(3), res.getDouble(4), cold_level.fromString(res.getString(5)), res.getDouble(3));
-        Trucks.put(truck.getRegistration_plate(), truck);
-        return truck;
+        while (res.next()) {
+            Truck truck = new Truck(res.getString(1), res.getString(2), res.getDouble(3), res.getDouble(4), cold_level.valueOf(res.getString(5)), res.getDouble(3));
+            Trucks.put(res.getString(1), truck);
+            return truck;
+        }
+        return null;
     }
 
     public Truck get_truck_by_registration_plate(String registration_plate) {
@@ -97,6 +101,31 @@ public class Trucks_dao extends DAO {
         return null;
     }
 
+    public boolean check_if_truck_exists(String registration_plate) {
+        if (Trucks.containsKey(registration_plate)) {
+            return true;
+        }
+        String query = "SELECT * FROM Trucks WHERE registration_plate = ?";
+        try (Connection connection = DriverManager.getConnection(url);
+            PreparedStatement pstmt = connection.prepareStatement(query);) {
+            pstmt.setString(1, registration_plate);
+            ResultSet rs = pstmt.executeQuery();
+            Truck truck = convertReaderToObject(rs);
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("We don't have these truck in the Database.");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
 
+    public ArrayList<Truck> getTrucks() {
+        return new ArrayList<>(Trucks.values());
+    }
+
+    public HashMap<Integer, Truck> get_all_trucks_from_database(){
+        String query = "SELECT ";
+    }
 }
 

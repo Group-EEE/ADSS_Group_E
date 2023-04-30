@@ -1,7 +1,6 @@
 package DataAccessLayer.Transport;
 
 import BussinessLayer.TransportationModule.objects.License;
-import BussinessLayer.TransportationModule.objects.Truck;
 import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
 
@@ -75,5 +74,45 @@ public class License_dao extends DAO {
         License license = new License(res.getInt(1), cold_level.fromString(res.getString(2)), res.getDouble(3));
         Licenses.put(license.getL_ID(), license);
         return license;
+    }
+
+    public License getLicense(int id){
+        if (Licenses.containsKey(id)) {
+            return Licenses.get(id);
+        }
+        String query = "SELECT * FROM Licenses WHERE ID = ?";
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(query);) {
+            pstmt.setInt(1, id);
+            ResultSet res = pstmt.executeQuery();
+            if (res.next()) {
+                return (License) convertReaderToObject(res);
+            }
+        } catch (SQLException e) {
+            System.out.println("Exception thrown");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public boolean check_if_license_exist(int license_id){
+        if (Licenses.containsKey(license_id)){
+            return true;
+        }
+        Connection  connection = null;
+        try {
+            connection = DriverManager.getConnection(url);
+            String query = "SELECT * FROM Licenses WHERE ID = ?";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, license_id);
+            ResultSet res = pstmt.executeQuery();
+            if (res.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            return false;
+        }
+        return false;
     }
 }

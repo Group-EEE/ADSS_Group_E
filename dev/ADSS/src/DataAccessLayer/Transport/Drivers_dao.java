@@ -1,32 +1,166 @@
 package DataAccessLayer.Transport;
 
-import BussinessLayer.TransportationModule.objects.Truck_Driver;
+import BussinessLayer.TransportationModule.objects.*;
 import DataAccessLayer.DAO;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 public class Drivers_dao extends DAO {
     HashMap<Integer, Truck_Driver> Drivers;
+    License_dao L_dao;
 
     public Drivers_dao(String table_name){
         super(table_name);
         Drivers = new HashMap<>();
+        L_dao = new License_dao("Licenses");
     }
     @Override
-    public boolean Insert(Object obj) {
+    public boolean Insert(Object Driverobj) {
+        Truck_Driver driver = (Truck_Driver) Driverobj;
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url);
+            String query = "INSERT INTO Drivers (ID, Name, License_ID) VALUES (?, ?, ?)";
+
+            // Prepare SQL statement with parameters
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, driver.getID());
+            pstmt.setString(2, driver.getName());
+            pstmt.setInt(3, driver.getLicense().getL_ID());
+            // Execute SQL statement and print result
+            pstmt.executeUpdate();
+            if (!Drivers.containsKey(driver.getID())){
+                Drivers.put(driver.getID(), driver);
+        }
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Exception");
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Exception thrown");
+                System.out.println(ex.getMessage());
+            }
+        }
+
         return false;
     }
 
     @Override
     public boolean Delete(Object obj) {
+        Truck_Driver driver = (Truck_Driver) obj;
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url);
+            String query = "DELETE FROM Drivers WHERE ID = ?";
+
+            // Prepare SQL statement with parameters
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, driver.getID());
+            // Execute SQL statement and print result
+            pstmt.executeUpdate();
+            if (Drivers.containsKey(driver.getID())){
+                Drivers.remove(driver.getID());
+            }
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Exception");
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Exception thrown");
+                System.out.println(ex.getMessage());
+            }
+        }
+
         return false;
     }
 
     @Override
-    public Object convertReaderToObject(ResultSet res) throws SQLException, ParseException {
-        return null;
+    public Truck_Driver convertReaderToObject(ResultSet res) throws SQLException, ParseException {
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url);
+            String query = "SELECT * FROM Drivers WHERE ID = ?";
+
+            // Prepare SQL statement with parameters
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, res.getInt("ID"));
+            // Execute SQL statement and print result
+            ResultSet rs = pstmt.executeQuery();
+            Truck_Driver driver = new Truck_Driver(rs.getInt("ID"), rs.getString("Name"), L_dao.getLicense(rs.getInt("License_ID")));
+            return driver;
+
+        }
+        catch (SQLException e) {
+            System.out.println("Exception");
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public Truck_Driver getDriver(int id){
+        if (Drivers.containsKey(id)){
+            return Drivers.get(id);
+        }
+        String query = "SELECT * FROM Drivers WHERE ID = ?";
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url);
+            // Prepare SQL statement with parameters
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, id);
+            // Execute SQL statement and print result
+            ResultSet rs = pstmt.executeQuery();
+            Truck_Driver driver = convertReaderToObject(rs);
+            return driver;
+
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean check_if_driver_exists(int id){
+        if (Drivers.containsKey(id)){
+            return true;
+        }
+        String query = "SELECT * FROM Drivers WHERE ID = ?";
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url);
+            // Prepare SQL statement with parameters
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, id);
+            // Execute SQL statement and print result
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next() == false)
+                return false;
+            if (rs.next() == true)
+                return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
+    public ArrayList<Truck_Driver> getDrivers() {
+        Collection<Truck_Driver> drivers = Drivers.values();
+        return new ArrayList<>(drivers);
     }
 }

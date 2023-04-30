@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Transport_dao extends DAO {
@@ -27,13 +28,19 @@ public class Transport_dao extends DAO {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url);
-            String query = "INSERT INTO " + _tableName + " (Transport_ID, Date, Departure_Time, Origin ) VALUES (?,?,?,?)";
+            String query = "INSERT INTO " + _tableName + " (Transport_ID, Date, Departure_Time, Origin ) VALUES (?,?,?,?,?)";
 
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, transport.getTransport_ID());
             statement.setString(2, transport.getDate());
             statement.setString(3, transport.getDeparture_time());
             statement.setString(4, transport.getOrigin());
+            if (transport.Started()){
+                statement.setInt(5, 1);
+            }
+            else {
+                statement.setInt(5, 0);
+            }
             statement.executeUpdate();
 
             transports.put(transport.getTransport_ID(), transport);
@@ -103,5 +110,30 @@ public class Transport_dao extends DAO {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    public boolean check_if_Transport_exist(int transport_id){
+        String query = "SELECT * FROM " + this._tableName + " WHERE Transport_ID = ?";
+        try {
+            Connection connection = DriverManager.getConnection(url);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, transport_id);
+            ResultSet res = statement.executeQuery();
+            if(res.next()){
+                return true;
+            }
+        }
+        catch (SQLException e) {
+            System.out.println("This transport is not exist in the Database.");
+        }
+        return false;
+    }
+
+    public ArrayList<Transport> get_transports(){
+        return new ArrayList<Transport>(transports.values());
+    }
+
+    public HashMap<Integer, Transport> get_transports_map() {
+        return transports;
     }
 }
