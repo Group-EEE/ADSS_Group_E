@@ -20,9 +20,7 @@ public class Trucks_dao extends DAO {
     @Override
     public boolean Insert(Object obj) {
         Truck truck = (Truck) obj;
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "INSERT INTO Trucks (registration_plate, model, net_weight, max_weight, cold_level) VALUES (?, ?, ?, ?, ?)";
 
             // Prepare SQL statement with parameters
@@ -56,8 +54,7 @@ public class Trucks_dao extends DAO {
     public boolean Delete(Object Truckobj) {
         Truck truck = (Truck) Truckobj;
         String query = "DELETE FROM Trucks WHERE registration_plate = ?";
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(query);) {
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, truck.getRegistration_plate());
             pstmt.executeUpdate();
             if (Trucks.containsKey(truck.getRegistration_plate())) {
@@ -124,8 +121,7 @@ public class Trucks_dao extends DAO {
 
     private void get_all_trucks_from_database() {
         String query = "SELECT * FROM Trucks";
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(query);) {
+        try (PreparedStatement pstmt = connection.prepareStatement(query);) {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Truck truck = convertReaderToObject(rs);

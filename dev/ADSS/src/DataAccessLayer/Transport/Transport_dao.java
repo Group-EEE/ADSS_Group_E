@@ -26,9 +26,7 @@ public class Transport_dao extends DAO {
     @Override
     public boolean Insert(Object obj) {
         Transport transport = (Transport) obj;
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "INSERT INTO " + _tableName + " (ID, Date, Departure_Time, Origin, Finished ) VALUES (?,?,?,?,?)";
 
             PreparedStatement statement = connection.prepareStatement(query);
@@ -68,7 +66,6 @@ public class Transport_dao extends DAO {
         Transport transport = (Transport) obj;
         String query = "DELETE FROM " + this._tableName + " WHERE Transport_ID = ?";
         try {
-            Connection connection = DriverManager.getConnection(url);
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, transport.getTransport_ID());
             statement.executeUpdate();
@@ -141,7 +138,6 @@ public class Transport_dao extends DAO {
     public void get_transports_map_from_database(){
         String query = "SELECT * FROM " + this._tableName;
         try {
-            Connection connection = DriverManager.getConnection(url);
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet res = statement.executeQuery();
             while (res.next()){

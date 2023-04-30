@@ -22,9 +22,7 @@ public class Drivers_dao extends DAO {
     @Override
     public boolean Insert(Object Driverobj) {
         Truck_Driver driver = (Truck_Driver) Driverobj;
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "INSERT INTO Drivers (ID, Name, License_ID) VALUES (?, ?, ?)";
             L_dao.Insert(driver.getLicense());
             // Prepare SQL statement with parameters
@@ -167,9 +165,7 @@ public class Drivers_dao extends DAO {
 
     private void get_all_drivers_from_db(){
         String query = "SELECT * FROM Drivers";
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             // Prepare SQL statement with parameters
             PreparedStatement pstmt = connection.prepareStatement(query);
             // Execute SQL statement and print result

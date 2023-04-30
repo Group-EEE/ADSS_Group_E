@@ -19,9 +19,7 @@ public class License_dao extends DAO {
     @Override
     public boolean Insert(Object licenseObj) {
         License license = (License) licenseObj;
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "INSERT INTO Licenses (ID, cold_level, weight) VALUES (?, ?, ?)";
 
             // Prepare SQL statement with parameters
@@ -118,9 +116,7 @@ public class License_dao extends DAO {
     }
 
     private void get_all_licenses_from_db(){
-        Connection  connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "SELECT * FROM Licenses";
             PreparedStatement pstmt = connection.prepareStatement(query);
             ResultSet res = pstmt.executeQuery();
