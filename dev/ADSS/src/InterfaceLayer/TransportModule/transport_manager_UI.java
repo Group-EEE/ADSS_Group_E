@@ -391,11 +391,13 @@ public class transport_manager_UI {
         String truck_number = controller.get_truck_number_by_cold_level(cool_level);
         // ======================== Truck Driver ======================== //
         String driver_name = null;
+        int driver_id;
         boolean assigned = false;
         for(Truck_Driver driver: controller.getDrivers()){
             if(controller.truck_assigning(truck_number)){
                 assigned = true;
                 driver_name = driver.getName();
+                driver_id = driver.getID();
                 break;
             }
         }
@@ -403,8 +405,10 @@ public class transport_manager_UI {
             System.out.println("there's no driver fit to this transport.");
             return;
         }
+        ////////////////////////////// TO Do: ceck everywhere and update everywhere Transport. starting here, getting planned date!
+
         // ======================== Create Transport Document ======================== //
-        controller.add_transport(transport_Id, truck_number, driver_name,  cool_level);
+        controller.add_transport(transport_Id, truck_number, driver_name,  cool_level, /*planned date*/ , driver_id );
         // ======================== Update Weight - Add Net Weight Of The Truck To Transport Weight List ======================== //
         controller.insert_weight_to_transport(transport_Id, truck_number);
         // ======================== Add Destinations ======================== //

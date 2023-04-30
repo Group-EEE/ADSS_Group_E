@@ -80,9 +80,9 @@ public class underway_transport_controller {
      */
     public void reset_transport(int transport_id, boolean finished_transport){
         Transport chosen_transport = logistical_center_controller.get_transport_by_id(transport_id);
-        Truck_Driver driver = getDriverByTruckNumber(chosen_transport.getTruck_number());
+        Truck_Driver driver = get_driver_by_transport_id(transport_id);
         ArrayList<Site_Supply> empty_array = new ArrayList<>();
-        Truck truck = driver.getCurrent_truck();
+        Truck truck = get_truck_by_registration_plate(chosen_transport.getTruck_number());
 
         driver.setSites_documents(empty_array);
         truck.setCurrent_weight(truck.getNet_weight());

@@ -27,17 +27,20 @@ public class Transport_dao extends DAO {
     public boolean Insert(Object obj) {
         Transport transport = (Transport) obj;
         try {
-            String query = "INSERT INTO " + _tableName + " (ID, Date, Departure_Time, Origin, Finished ) VALUES (?,?,?,?,?)";
+            String query = "INSERT INTO " + _tableName + " (ID, Date, Departure_Time, Truck_Number, Driver_Name, Origin, Cold_Level, Finished ) VALUES (?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, transport.getTransport_ID());
             statement.setString(2, transport.getDate());
             statement.setString(3, transport.getDeparture_time());
-            statement.setString(4, transport.getOrigin());
+            statement.setString(4, transport.getTruck_number());
+            statement.setString(5, transport.getDriver_name());
+            statement.setString(6, transport.getOrigin());
+            statement.setString(7, transport.getRequired_level().toString());
             if (transport.Started()){
-                statement.setInt(5, 1);
+                statement.setInt(8, 1);
             }
             else {
-                statement.setInt(5, 0);
+                statement.setInt(8, 0);
             }
             statement.executeUpdate();
 
