@@ -33,7 +33,13 @@ public class OrderGenerator {
         for(Integer barcode : barcodes)
             ProductsInOrder.add(supplierController.findGenericProductByBarcode(barcode));
         ProductsQuantity = orderReport.getAmount();
-        return makeOrder();
+
+        try{createProductsSuppliersArray();}
+        catch (RuntimeException e){ // Can not supply the quantity that we want for one of the products product
+            System.out.println(e.getMessage());
+        }
+        invite();
+        return stringOrder();
     }
 
     public static void reset() {
@@ -49,14 +55,6 @@ public class OrderGenerator {
         superLeeDB = SuperLeeDB.getInstance();
     }
 
-    public static String makeOrder(){
-        try{createProductsSuppliersArray();}
-        catch (RuntimeException e){ // Can not supply the quantity that we want for one of the products product
-            System.out.println(e.getMessage());
-        }
-        invite();
-        return stringOrder();
-    }
 
     public static String stringOrder() {
         String s = "";
