@@ -3,7 +3,6 @@ package InventoryModule.Business;
 import InventoryModule.Business.Controllers.ProductController;
 import InventoryModule.Business.Controllers.ReportController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static SuppliersModule.Business.Generator.OrderGenerator.makeOrderFromOrderReport;
@@ -16,8 +15,6 @@ public class OrderReport extends Report{
     //the constructor will print the report
     public OrderReport(String reporter){
         super(reporter); //inherit from abstract report class
-        barcodes = new ArrayList<>();
-        amount = new ArrayList<>();
         System.out.println("***** Products Order Report *****");
         System.out.println("Report Date: "+ this.getDate().toLocalDate());
         System.out.println("Reporter : "+ reporter);
@@ -52,4 +49,7 @@ public class OrderReport extends Report{
         return amount;
     }
 
+    public void SendOrderDetails(){
+        makeOrderFromOrderReport(this);
+    }
 }
