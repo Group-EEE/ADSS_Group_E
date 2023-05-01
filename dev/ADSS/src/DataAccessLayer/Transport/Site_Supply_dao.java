@@ -45,7 +45,7 @@ public class Site_Supply_dao extends DAO {
     @Override
     public boolean Delete(Object obj) {
         Site_Supply site_supply = (Site_Supply) obj;
-        String query = "DELETE FROM " + _tableName + " WHERE Site_Supply_ID = ?";
+        String query = "DELETE FROM " + _tableName + " WHERE ID = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, site_supply.getId());
@@ -80,7 +80,7 @@ public class Site_Supply_dao extends DAO {
             return true;
         }
         try {
-            String query = "SELECT * FROM " + _tableName + " WHERE Site_Supply_ID = ?";
+            String query = "SELECT * FROM " + _tableName + " WHERE ID = ?";
 
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);

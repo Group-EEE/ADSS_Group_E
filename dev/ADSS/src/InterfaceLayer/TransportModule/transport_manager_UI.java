@@ -7,6 +7,8 @@ import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
@@ -391,11 +393,13 @@ public class transport_manager_UI {
         String truck_number = controller.get_truck_number_by_cold_level(cool_level);
         // ======================== Truck Driver ======================== //
         String driver_name = null;
+        int driver_id = 0;
         boolean assigned = false;
         for(Truck_Driver driver: controller.getDrivers()){
             if(controller.truck_assigning(truck_number)){
                 assigned = true;
                 driver_name = driver.getName();
+                driver_id = driver.getID();
                 break;
             }
         }
@@ -403,8 +407,38 @@ public class transport_manager_UI {
             System.out.println("there's no driver fit to this transport.");
             return;
         }
+
+        int currentYear = LocalDate.now().getYear();
+        LocalDate currentDate = LocalDate.now();
+
+        // Prompt the user to enter a date in the format "dd/mm"
+        String inputDate = "";
+        boolean validInput = false;
+        String planned_date = "";
+        while (!validInput) {
+            System.out.print("Please enter the date you want to send the transport in the format dd/mm (please note that you can make transports for the current year only) : ");
+            inputDate = scanner.nextLine();
+            // Check if the input matches the expected format
+            if (inputDate.matches("\\d{2}/\\d{2}")) {
+                planned_date = inputDate + "/" + currentYear;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate date = LocalDate.parse(planned_date, formatter);
+                // Check if the parsed date is not before the current date
+                if (!date.isBefore(currentDate)) {
+                    validInput = true;
+                } else {
+                    System.out.println("Invalid input. The date must not be before the current date.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a date in the format dd/mm.");
+            }
+        }
+
+
+        ////////////////////////////// TO Do: check everywhere and update everywhere Transport. starting here, getting planned date!
+
         // ======================== Create Transport Document ======================== //
-        controller.add_transport(transport_Id, truck_number, driver_name,  cool_level);
+        controller.add_transport(transport_Id, truck_number, driver_name,  cool_level, planned_date , driver_id);
         // ======================== Update Weight - Add Net Weight Of The Truck To Transport Weight List ======================== //
         controller.insert_weight_to_transport(transport_Id, truck_number);
         // ======================== Add Destinations ======================== //

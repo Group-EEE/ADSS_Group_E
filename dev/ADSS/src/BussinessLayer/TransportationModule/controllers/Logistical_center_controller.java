@@ -64,9 +64,9 @@ public class Logistical_center_controller {
         site_supply_dao.Insert(site_supply);
     }
 
-    public void add_transport(int transport_id, String truck_number, String driver_name, String cold_lvl){
+    public void add_transport(int transport_id, String truck_number, String driver_name, String cold_lvl, String planned_date, int driver_id){
         cold_level cool_level = get_cold_level_by_string(cold_lvl);
-        Transport transport = new Transport(transport_id, "TBD", "TBD", truck_number, driver_name, this.logistical_center.getSite_name(), cool_level);
+        Transport transport = new Transport(transport_id, "TBD", "TBD", truck_number, driver_name, this.logistical_center.getSite_name(), cool_level, planned_date, driver_id );
         transport_dao.Insert(transport);
     }
 

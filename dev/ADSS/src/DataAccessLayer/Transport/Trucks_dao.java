@@ -94,12 +94,12 @@ public class Trucks_dao extends DAO {
         try (PreparedStatement pstmt = connection.prepareStatement(query);) {
             pstmt.setString(1, registration_plate);
             ResultSet rs = pstmt.executeQuery();
-            Truck truck = convertReaderToObject(rs);
-            return true;
+            if (rs.next()){
+                return true;
+            }
+            return false;
         } catch (SQLException ex) {
             System.out.println("We don't have these truck in the Database.");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
         }
         return false;
     }

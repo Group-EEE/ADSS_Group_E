@@ -1,5 +1,6 @@
 package DataAccessLayer.Transport;
 
+import BussinessLayer.TransportationModule.objects.Site;
 import BussinessLayer.TransportationModule.objects.Transport;
 import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
@@ -27,17 +28,20 @@ public class Transport_dao extends DAO {
     public boolean Insert(Object obj) {
         Transport transport = (Transport) obj;
         try {
-            String query = "INSERT INTO " + _tableName + " (ID, Date, Departure_Time, Origin, Finished ) VALUES (?,?,?,?,?)";
+            String query = "INSERT INTO " + _tableName + " (ID, Date, Departure_Time, Truck_Number, Driver_Name, Origin, Cold_Level, Suppliers, Stores, Finished, Planned_Date, Driver_ID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, transport.getTransport_ID());
             statement.setString(2, transport.getDate());
             statement.setString(3, transport.getDeparture_time());
-            statement.setString(4, transport.getOrigin());
+            statement.setString(4, transport.getTruck_number());
+            statement.setString(5, transport.getDriver_name());
+            statement.setString(6, transport.getOrigin());
+            statement.setString(7, transport.getRequired_level().toString());
             if (transport.Started()){
-                statement.setInt(5, 1);
+                statement.setInt(8, 1);
             }
             else {
-                statement.setInt(5, 0);
+                statement.setInt(8, 0);
             }
             statement.executeUpdate();
 
@@ -74,7 +78,8 @@ public class Transport_dao extends DAO {
         if(transports.containsKey(res.getInt(1))){
             return transports.get(res.getInt(1));
         }
-        Transport transport = new Transport(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), cold_level.fromString(res.getString(7)));
+        Transport transport = new Transport(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), cold_level.fromString(res.getString(7)), res.getString(11), res.getInt(12));
+        transport.setStarted(res.getInt(10) == 1);
         transports.put(transport.getTransport_ID(), transport);
         return transport;
     }
@@ -141,4 +146,35 @@ public class Transport_dao extends DAO {
             throw new RuntimeException(e);
         }
     }
+
+    private String get_suppliers_as_text(Transport transport){
+        String suppliers = "";
+        for (Site site: transport.getDestinations()){
+            if (site.is_supplier()){
+                if (suppliers.equals("")){
+                    suppliers += site.getSite_name();
+                }
+                else {
+                    suppliers += ", " + site.getSite_name();
+                }
+            }
+        }
+        return suppliers;
+    }
+
+    private String get_stores_as_text(Transport transport){
+        String stores = "";
+        for (Site site: transport.getDestinations()){
+            if (site.is_store()){
+                if (stores.equals("")){
+                    stores += site.getSite_name();
+                }
+                else {
+                    stores += ", " + site.getSite_name();
+                }
+            }
+        }
+        return stores;
+    }
+
 }
