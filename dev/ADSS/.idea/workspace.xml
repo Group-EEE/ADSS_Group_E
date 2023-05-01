@@ -4,22 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="passwordDAO">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/72f49aaa-f33e-4039-9636-e5f759e35d36.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/72f49aaa-f33e-4039-9636-e5f759e35d36.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/EmployeeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/EmployeeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/ShiftTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/ShiftTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/StoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/StoreTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/EmployeeController.java" afterDir="false" />
+    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="more DAOS">
+      <change beforePath="$PROJECT_DIR$/../../SuperLi.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/StoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/StoreController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Shift.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Shift.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/PasswordsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/PasswordsDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/HRManagerCLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/HRManagerCLI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InterfaceLayer/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceLayer/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ServiceLayer/HRModule/ModulesServices/HRModuleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServiceLayer/HRModule/ModulesServices/HRModuleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ServiceLayer/HRModule/objectsServices/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServiceLayer/HRModule/objectsServices/EmployeeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ServiceLayer/IntegratedService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServiceLayer/IntegratedService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ActiveSchedulesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ActiveSchedulesDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,33 +31,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Chen/Documents/GitHub/Supermarket_chain_system-Super_Lee&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/Chen/Documents/GitHub/Supermarket_chain_system-Super_Lee",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.new.ui",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="InterfaceLayer.Main" />
@@ -170,7 +161,28 @@
       <option name="project" value="LOCAL" />
       <updated>1682772812747</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="for some reason they got deleted">
+      <created>1682925073579</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1682925073579</updated>
+    </task>
+    <task id="LOCAL-00011" summary="schedule DAO">
+      <created>1682929423634</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1682929423634</updated>
+    </task>
+    <task id="LOCAL-00012" summary="more DAOS">
+      <created>1682930805092</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1682930805092</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -181,7 +193,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/319068789_207219742_206795429_209131952" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -196,6 +220,9 @@
     <MESSAGE value="created table and created DAO" />
     <MESSAGE value="DAOs" />
     <MESSAGE value="passwordDAO" />
-    <option name="LAST_COMMIT_MESSAGE" value="passwordDAO" />
+    <MESSAGE value="for some reason they got deleted" />
+    <MESSAGE value="schedule DAO" />
+    <MESSAGE value="more DAOS" />
+    <option name="LAST_COMMIT_MESSAGE" value="more DAOS" />
   </component>
 </project>

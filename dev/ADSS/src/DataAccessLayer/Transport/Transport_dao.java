@@ -1,5 +1,6 @@
 package DataAccessLayer.Transport;
 
+import BussinessLayer.TransportationModule.objects.Site;
 import BussinessLayer.TransportationModule.objects.Transport;
 import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
@@ -27,7 +28,7 @@ public class Transport_dao extends DAO {
     public boolean Insert(Object obj) {
         Transport transport = (Transport) obj;
         try {
-            String query = "INSERT INTO " + _tableName + " (ID, Date, Departure_Time, Truck_Number, Driver_Name, Origin, Cold_Level, Finished ) VALUES (?,?,?,?,?,?,?,?)";
+            String query = "INSERT INTO " + _tableName + " (ID, Date, Departure_Time, Truck_Number, Driver_Name, Origin, Cold_Level, Suppliers, Stores, Finished, Planned_Date, Driver_ID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, transport.getTransport_ID());
             statement.setString(2, transport.getDate());
@@ -144,6 +145,21 @@ public class Transport_dao extends DAO {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public String get_suppliers_as_text(Transport transport){
+        String suppliers = "";
+        for (Site site: transport.getDestinations()){
+            if (site.is_supplier()){
+                if (suppliers.equals("")){
+                    suppliers += site.getSite_name();
+                }
+                else {
+                    suppliers += ", " + site.getSite_name();
+                }
+            }
+        }
+        return suppliers;
     }
 
 

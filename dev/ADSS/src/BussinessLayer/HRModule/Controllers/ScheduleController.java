@@ -1,6 +1,8 @@
 package BussinessLayer.HRModule.Controllers;
 
 import BussinessLayer.HRModule.Objects.*;
+import DataAccessLayer.HRMoudle.ActiveSchedulesDAO;
+import DataAccessLayer.HRMoudle.SchedulesDAO;
 
 
 import java.time.LocalDate;
@@ -9,30 +11,34 @@ import java.util.List;
 
 public class ScheduleController {
 
-    private static ScheduleController _scheduleController = null;
-    private HashMap<Store, Schedule> _schedules = new HashMap<Store, Schedule>();
 
-    private ScheduleController(){}
+    private static ScheduleController _scheduleController = null;
+    private final SchedulesDAO _schedulesDAO;
+    private final ActiveSchedulesDAO _activeSchedulesDAO;
+
+    private ScheduleController(){
+        _schedulesDAO = SchedulesDAO.getInstance();
+        _activeSchedulesDAO = ActiveSchedulesDAO.getInstance();
+    }
     public static ScheduleController getInstance(){
         if (_scheduleController == null)
             _scheduleController = new ScheduleController();
         return _scheduleController;
     }
 
-    public boolean createNewSchedule(Store store, int day, int month, int year){
-        if (store == null)
-            throw new IllegalArgumentException("Invalid store");
+    public boolean createNewSchedule(int storeID, int day, int month, int year){
+        if (storeID < 0)
+            throw new IllegalArgumentException("Invalid store ID");
         if (day < 1 || day > 31 || month < 1 || month > 12 || year < 0)
-            throw new IllegalArgumentException("Invalud date parameters");
+            throw new IllegalArgumentException("Invalid date parameters");
         LocalDate localDate = LocalDate.of(year, month, day);
-        _schedules.put(store, new Schedule(localDate));
-        return true;
+        return _schedulesDAO.Insert(new Schedule(localDate,storeID));
     }
 
-    public boolean printSchedule(Store store){
-        if (store == null)
-            throw new IllegalArgumentException("Invalid store");
-        Schedule schedule = _schedules.get(store);
+    public boolean printSchedule(int storeID){
+        if (storeID < 0 )
+            throw new IllegalArgumentException("Invalid store ID");
+        Schedule schedule = _activeSchedulesDAO.getSchedule(storeID);
         if (schedule == null)
             throw new IllegalArgumentException("Invalid store");
         for(int i=0; i<schedule.getShifts().length; i++){
@@ -136,7 +142,7 @@ public class ScheduleController {
         return shift.removeRequiredRole(role);
     }
 
-    public boolean addEmployeeToShift(Employee employee, Store store, int choice){
+    public boolean addEmployeeToShift(Employee employee, String storeName, int choice){
         if (store == null)
             throw new IllegalArgumentException("Invalid store");
         Schedule schedule = _schedules.get(store);
@@ -144,4 +150,5 @@ public class ScheduleController {
             throw new IllegalArgumentException("schedule not yet made");
         return schedule.addEmployeeToShift(employee,choice);
     }
+
 }
