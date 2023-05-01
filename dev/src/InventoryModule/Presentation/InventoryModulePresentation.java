@@ -30,8 +30,6 @@ public class InventoryModulePresentation {
         categoryController = CategoryController.getInstance(); //create a category controller
         reportController = ReportController.getInstance(); //create a report controller
         specificProductPresentation = new SpecificProductPresentation();
-        reportPresentation = new ReportPresentation();
-        categoryPresentation = new CategoryPresentation();
     }
 
     public void Start(){
