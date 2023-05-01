@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Transport_dao extends DAO {
 
@@ -40,12 +41,17 @@ public class Transport_dao extends DAO {
             statement.setString(9, get_stores_as_text(transport));
             if (transport.Started()){
                 statement.setInt(10, 1);
+                insert_products_to_table(transport);
             }
             else {
                 statement.setInt(10, 0);
             }
             statement.setString(11, transport.getPlanned_date());
             statement.setInt(12, transport.getDriver_ID());
+            if (!transport.getProducts().isEmpty()){
+                for ()
+            }
+
             statement.executeUpdate();
 
             transports.put(transport.getTransport_ID(), transport);
@@ -85,6 +91,7 @@ public class Transport_dao extends DAO {
         transport.setStarted(res.getInt(10) == 1);
         insert_suppliers_to_transport(transport, res.getString(8));
         insert_stores_to_transport(transport, res.getString(9));
+        insert_products_to_transport(transport);
         transports.put(transport.getTransport_ID(), transport);
         return transport;
     }
@@ -191,7 +198,6 @@ public class Transport_dao extends DAO {
             }
             String query = "SELECT * FROM Suppliers WHERE Name = ?";
             try {
-                Connection connection = DriverManager.getConnection(url);
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setString(1, supplier);
                 ResultSet res = statement.executeQuery();
@@ -213,7 +219,6 @@ public class Transport_dao extends DAO {
             }
             String query = "SELECT * FROM Stores WHERE Name = ?";
             try {
-                Connection connection = DriverManager.getConnection(url);
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setString(1, store);
                 ResultSet res = statement.executeQuery();
@@ -226,4 +231,30 @@ public class Transport_dao extends DAO {
         }
     }
 
+
+    private void insert_products_to_transport(Transport transport){
+        String query = "SELECT * FROM Products WHERE Transport_ID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, transport.getTransport_ID());
+            ResultSet res = statement.executeQuery();
+            while (res.next()){
+                transport.insertToProducts(res.getString(2), res.getInt(3));
+            }
+        } catch (SQLException e) {
+        }
+    }
+
+    public void insert_products_to_table(Transport transport){
+        try {
+            for (Map.Entry<String, Integer> entry : transport.getProducts().entrySet()) {
+                String query = "INSERT INTO Products (Transport_ID, Product, Amount) VALUES (?,?,?)";
+                PreparedStatement statement = connection.prepareStatement();
+                statement.setInt(1, transport.getTransport_ID());
+                statement.setString(2, entry.getKey());
+                statement.setInt(3, entry.getValue());
+                statement.executeUpdate();
+            }
+        }
+    }
 }

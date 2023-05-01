@@ -248,4 +248,8 @@ public class Transport {
         }
         System.out.println();
     }
+
+    public Map<String, Integer> getProducts(){
+        return this.products;
+    }
 }
