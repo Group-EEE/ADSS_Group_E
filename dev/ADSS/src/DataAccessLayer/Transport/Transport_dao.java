@@ -49,9 +49,8 @@ public class Transport_dao extends DAO {
             statement.setString(11, transport.getPlanned_date());
             statement.setInt(12, transport.getDriver_ID());
             if (!transport.getProducts().isEmpty()){
-                for ()
+                insert_products_to_table(transport);
             }
-
             statement.executeUpdate();
 
             transports.put(transport.getTransport_ID(), transport);
@@ -233,7 +232,7 @@ public class Transport_dao extends DAO {
 
 
     private void insert_products_to_transport(Transport transport){
-        String query = "SELECT * FROM Products WHERE Transport_ID = ?";
+        String query = "SELECT * FROM Products_by_transport WHERE Transport_ID = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, transport.getTransport_ID());
@@ -246,15 +245,19 @@ public class Transport_dao extends DAO {
     }
 
     public void insert_products_to_table(Transport transport){
-        try {
             for (Map.Entry<String, Integer> entry : transport.getProducts().entrySet()) {
-                String query = "INSERT INTO Products (Transport_ID, Product, Amount) VALUES (?,?,?)";
-                PreparedStatement statement = connection.prepareStatement();
-                statement.setInt(1, transport.getTransport_ID());
-                statement.setString(2, entry.getKey());
-                statement.setInt(3, entry.getValue());
-                statement.executeUpdate();
+                String query = "INSERT INTO Products_by_transport (Transport_ID, Name, Amount) VALUES (?,?,?)";
+                try {
+                    PreparedStatement statement = connection.prepareStatement(query);
+                    statement.setInt(1, transport.getTransport_ID());
+                    statement.setString(2, entry.getKey());
+                    statement.setInt(3, entry.getValue());
+                    statement.executeUpdate();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        }
     }
+
+    public boolean
 }

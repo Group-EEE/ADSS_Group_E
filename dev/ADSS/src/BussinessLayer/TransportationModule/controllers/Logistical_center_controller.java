@@ -115,13 +115,14 @@ public class Logistical_center_controller {
      * @param cold_lvl cold level as string
      * @return true if we have a truck that not occupied and suitable with the cold level constraint, otherwise false
      */
-    public boolean check_if_truck_exist_by_cold_level(String cold_lvl){
+    public boolean check_if_truck_exist_by_cold_level(String cold_lvl, String planned_date){
         cold_level cool_level = cold_level.fromString(cold_lvl);
         for(Truck t : trucks_dao.getTrucks()){
-            if(!t.Occupied() && t.getCold_level().getValue() <= cool_level.getValue()){
+            if(!t.Occupied() && t.getCold_level().getValue() <= cool_level.getValue() && transport_dao.check_if_truck_taken_that_date(planned_date)){
                 return true;
             }
         }
+
         return false;
     }
 

@@ -365,53 +365,10 @@ public class transport_manager_UI {
                 }
             }
         }
-        // ======================== Truck ======================== //
-        String cool_level = null;
-        isValid = false;
-        while(!isValid){
-            System.out.println("Please enter the required cold level of the truck (press 1, 2 or 3 only): ");
-            System.out.println("\t 1 - Freeze");
-            System.out.println("\t 2 - Cold");
-            System.out.println("\t 3 -  Dry");
-            input = scanner.nextLine();
-            if(input.equals("1") || input.equals("2") || input.equals("3")){
-                isValid = true;
-            }
-            else{
-                System.out.print("Invalid input. ");
-            }
-        }
-        switch (input) {
-            case "1" -> cool_level = "Freeze";
-            case "2" -> cool_level = "Cold";
-            case "3" -> cool_level = "Dry";
-        }
-        if (!controller.check_if_truck_exist_by_cold_level(cool_level)){
-            System.out.println("there's no Truck fit to this transport.");
-            return;
-        }
-        String truck_number = controller.get_truck_number_by_cold_level(cool_level);
-        // ======================== Truck Driver ======================== //
-        String driver_name = null;
-        int driver_id = 0;
-        boolean assigned = false;
-        for(Truck_Driver driver: controller.getDrivers()){
-            if(controller.truck_assigning(truck_number)){
-                assigned = true;
-                driver_name = driver.getName();
-                driver_id = driver.getID();
-                break;
-            }
-        }
-        if (!assigned){
-            System.out.println("there's no driver fit to this transport.");
-            return;
-        }
 
+        // ==================== getting the planned date for the transport ================
         int currentYear = LocalDate.now().getYear();
         LocalDate currentDate = LocalDate.now();
-
-        // Prompt the user to enter a date in the format "dd/mm"
         String inputDate = "";
         boolean validInput = false;
         String planned_date = "";
@@ -433,6 +390,51 @@ public class transport_manager_UI {
                 System.out.println("Invalid input. Please enter a date in the format dd/mm.");
             }
         }
+
+        // ======================== Truck ======================== //
+        String cool_level = null;
+        isValid = false;
+        while(!isValid){
+            System.out.println("Please enter the required cold level of the truck (press 1, 2 or 3 only): ");
+            System.out.println("\t 1 - Freeze");
+            System.out.println("\t 2 - Cold");
+            System.out.println("\t 3 -  Dry");
+            input = scanner.nextLine();
+            if(input.equals("1") || input.equals("2") || input.equals("3")){
+                isValid = true;
+            }
+            else{
+                System.out.print("Invalid input. ");
+            }
+        }
+        switch (input) {
+            case "1" -> cool_level = "Freeze";
+            case "2" -> cool_level = "Cold";
+            case "3" -> cool_level = "Dry";
+        }
+        if (!controller.check_if_truck_exist_by_cold_level(cool_level, planned_date)){
+            System.out.println("there's no Truck fit to this transport.");
+            return;
+        }
+        String truck_number = controller.get_truck_number_by_cold_level(cool_level);
+        // ======================== Truck Driver ======================== //
+        String driver_name = null;
+        int driver_id = 0;
+        boolean assigned = false;
+        for(Truck_Driver driver: controller.getDrivers()){
+            if(controller.truck_assigning(truck_number)){
+                assigned = true;
+                driver_name = driver.getName();
+                driver_id = driver.getID();
+                break;
+            }
+        }
+        if (!assigned){
+            System.out.println("there's no driver fit to this transport.");
+            return;
+        }
+
+        // Prompt the user to enter a date in the format "dd/mm"
 
 
         ////////////////////////////// TO Do: check everywhere and update everywhere Transport. starting here, getting planned date!
