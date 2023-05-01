@@ -259,5 +259,7 @@ public class Transport_dao extends DAO {
             }
     }
 
-    public boolean
+    public boolean check_if_truck_taken_that_date(String planned_date){
+
+    }
 }
