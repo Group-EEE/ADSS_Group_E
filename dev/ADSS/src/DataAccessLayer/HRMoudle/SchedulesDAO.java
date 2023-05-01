@@ -8,6 +8,7 @@ import DataAccessLayer.DAO;
 import java.sql.*;
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.List;
 
 public class SchedulesDAO extends DAO {
     private static SchedulesDAO _schedulesDAO = null;
@@ -15,11 +16,10 @@ public class SchedulesDAO extends DAO {
     public static final String StartDateOfWeekColumnName = "startDateOfWeek";
     public static final String StoreId = "StoreID";
 
-    private final HashMap<Integer, Schedule> storeIDtoActiveSchedule;
+
 
     private SchedulesDAO(){
         super("Schedules");
-        storeIDtoActiveSchedule = new HashMap<>();
     }
 
     public static SchedulesDAO getInstance(){
@@ -78,14 +78,22 @@ public class SchedulesDAO extends DAO {
 
     @Override
     public Schedule convertReaderToObject(ResultSet rs) throws SQLException {
-        Shift[] shifts = new Shift[14];
         ShiftsDAO shiftsDAO = ShiftsDAO.getInstance();
-        for (int i = 0; i < 14; i++) {
-            shifts = shiftsDAO.get
-        }
+        List<Shift> shifts = shiftsDAO.getShiftsByScheduleID(rs.getInt(1));
+        Schedule schedule = new Schedule(rs.getInt(1), rs.getDate(2).toLocalDate(), rs.getInt(3), shifts);
+        return schedule;
+    }
 
-        Employee employee = new Schedule();
-        employeesCache.put(employee.getID(), employee);
+    public Schedule getSchedule(int storeID) {
+        if (storeIDtoActiveSchedule.containsKey(rs.getInt(1))){
+            return storeIDtoActiveSchedule.get(rs.getInt(1));
+        }
+        List<Employee> result = Select(makeList(IDColumnName), makeList(String.valueOf(id)));
+        if (result.size() == 0)
+            throw new IllegalArgumentException("Employee " + id + " does not exist");
+        Employee employee = result.get(0);
+        employeesCache.put(id, employee);
         return employee;
+
     }
 }

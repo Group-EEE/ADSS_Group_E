@@ -24,7 +24,14 @@ public class Schedule {
         }
     }
 
-    public Schedule(LocalDate startWeek, )
+    public Schedule(int scheduleID, LocalDate startDateOfWeek, int storeID, List<Shift> shifts){
+        this._scheduleID = scheduleID;
+        this._startDateOfWeek = startDateOfWeek;
+        this._storeID = storeID;
+        for (int i=0; i<14; i++){
+            _shifts[i] = shifts.get(i);
+        }
+    }
 
     /**
      * @param newStartHour - the new start hour of the shift

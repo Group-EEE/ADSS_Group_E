@@ -65,11 +65,7 @@ public class ShiftsDAO extends DAO {
     }
 
     public List<Shift> getShiftsByScheduleID(int scheduleID){
-        List<Employee> result = Select(makeList(ScheduleIDColumnName), makeList(String.valueOf(scheduleID)));
-        if (result.size() == 0)
-            throw new IllegalArgumentException("Employee " + id + " does not exist");
-        Employee employee = result.get(0);
-        employeesCache.put(id, employee);
-        return employee;
+        List<Shift> shifts = Select(makeList(ScheduleIDColumnName),makeList(String.valueOf(scheduleID)));
+        return shifts;
     }
 }
