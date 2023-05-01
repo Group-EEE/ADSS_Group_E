@@ -5,6 +5,7 @@ import BussinessLayer.HRModule.Objects.Pair;
 import BussinessLayer.HRModule.Objects.Store;
 import DataAccessLayer.HRMoudle.EmployeesToStoreDAO;
 import DataAccessLayer.HRMoudle.StoresDAO;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -104,17 +105,10 @@ public class StoreController {
         return _employeesToStoreDAO.checkIfEmployeeInStore(employee.getID(),storeID);
     }
 
-//    public boolean printStores(){
-//        for (Store store : _storeEmployeeMap.keySet()){
-//            System.out.println(store);
-//            for (Employee employee : _storeEmployeeMap.get(store)){
-//                System.out.println(employee);
-//            }
-//            System.out.println();
-//        }
-//        return true;
-//    }
-//
+    public String printStores(){
+        return new Gson().toJson(_storesDAO.SelectAllStores());
+    }
+
     public int getStoreIDbyName(String storeName){
         return _storesDAO.getStoreIDByName(storeName);
     }

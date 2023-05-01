@@ -177,40 +177,35 @@ public class Facade {
         return _scheduleController.addEmployeeToShift(_loggedUser, storeName, shiftID);
     }
 
-    public boolean printSchedule(String storeName){
-        Store store = _storeController.getStoreByName(storeName);
-        return _scheduleController.printSchedule(store);
+    public String printSchedule(String storeName){
+        return _scheduleController.printSchedule(storeName);
     }
 
-    public boolean printEmployeeSchedule(){
+    public String printEmployeeSchedule(){
         return _scheduleController.printEmployeeSchedule(_loggedUser);
     }
 
     public List<Shift> approveSchedule(String storeName){
-        Store store = _storeController.getStoreByName(storeName);
-        return _scheduleController.approveSchedule(store);
+        return _scheduleController.approveSchedule(storeName);
     }
 
     public boolean changeHoursShift(String storeName, int newStartHour, int newEndHour, int shiftID){
-        Store store = _storeController.getStoreByName(storeName);
-        return _scheduleController.changeShiftHours(store, newStartHour, newEndHour, shiftID);
+        return _scheduleController.changeShiftHours(storeName, newStartHour, newEndHour, shiftID);
     }
 
     public boolean addRequiredRoleToShift(String storeName, int shiftID, RoleType role){
-        Store store = _storeController.getStoreByName(storeName);
-        return _scheduleController.addRequiredRoleToShift(store, shiftID, role);
+        return _scheduleController.addRequiredRoleToShift(storeName, shiftID, role);
     }
 
     public boolean removeRequiredRoleFromShift(String storeName, int shiftID, RoleType role){
-        Store store = _storeController.getStoreByName(storeName);
-        return _scheduleController.removeRequiredRoleFromShift(store, shiftID, role);
+        return _scheduleController.removeRequiredRoleFromShift(storeName, shiftID, role);
     }
 
-    public boolean printStores(){
+    public String printStores(){
         return _storeController.printStores();
     }
 
-    public boolean printEmployees(){
+    public String printEmployees(){
         return _employeeController.printEmployees();
     }
 }

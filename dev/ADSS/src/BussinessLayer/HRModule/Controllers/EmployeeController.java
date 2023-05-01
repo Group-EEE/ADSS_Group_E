@@ -8,6 +8,7 @@ import DataAccessLayer.HRMoudle.EmployeesDAO;
 import DataAccessLayer.HRMoudle.PasswordsDAO;
 import DataAccessLayer.HRMoudle.EmployeesToStoreDAO;
 import DataAccessLayer.HRMoudle.EmployeesToRolesDAO;
+import com.google.gson.Gson;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -198,11 +199,8 @@ public class EmployeeController {
         return true;
     }
 
-    public boolean printEmployees() {
-//        for (Map.Entry<Integer, Employee> entry : _employees.entrySet()){
-//            System.out.println(entry.getValue().toString());
-//        } //TODO
-        return true;
+    public String printEmployees() {
+        return new Gson().toJson(_employeesDAO.SelectAllEmployees());
     }
 
 }
