@@ -98,8 +98,6 @@ public class StoreController {
     }
 
     public boolean checkIfEmployeeWorkInStore(String storeName,Employee employee){
-        if (store == null)
-            throw new IllegalArgumentException("store not found");
         if (employee == null)
             throw new IllegalArgumentException("employee not found");
         int storeID = _storesDAO.getStoreIDByName(storeName);

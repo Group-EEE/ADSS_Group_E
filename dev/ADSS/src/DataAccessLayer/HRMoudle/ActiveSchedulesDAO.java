@@ -105,4 +105,13 @@ public class ActiveSchedulesDAO extends DAO {
         }
         return res;
     }
+
+    public Schedule getSchedule(int storeID){
+        if (storeIDtoActiveSchedule.containsKey(storeID)) {
+            int activeScheduleID = storeIDtoActiveSchedule.get(storeID);
+            return SchedulesDAO.getInstance().getSchedule(activeScheduleID);
+        }
+        //TODO: retrived from db
+        return null;
+    }
 }

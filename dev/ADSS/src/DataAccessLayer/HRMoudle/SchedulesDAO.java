@@ -37,17 +37,13 @@ public class SchedulesDAO extends DAO {
         boolean res = true;
 
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}) VALUES(?, ?, ?) "
-                , _tableName, ScheduleIDColumnName, StartDateOfWeekColumnName, StoreId);
+                , _tableName, ScheduleIDColumnName, StartDateOfWeekColumnName, StoreIDColumnName);
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, schedule.getScheduleID());
             pstmt.setDate(2, schedule.getStartDateOfWeek());
             pstmt.setInt(3, schedule.getStoreID());
             pstmt.executeUpdate();
-            if (storeIDtoActiveSchedule.containsKey(schedule.getStoreID()))
-                storeIDtoActiveSchedule.replace(schedule.getStoreID(), schedule);
-            else
-                storeIDtoActiveSchedule.put(schedule.getStoreID(), schedule);
         } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
@@ -89,6 +85,14 @@ public class SchedulesDAO extends DAO {
         List<Schedule> result = Select(makeList(StartDateOfWeekColumnName, StoreIDColumnName), makeList(date.toString(), String.valueOf(storeID)));
         if (result.size() == 0)
             throw new IllegalArgumentException("Could not find schedule for date " + date.toString() + " and store " + storeID);
+        return result.get(0);
+
+    }
+
+    public Schedule getSchedule(int scheduleID) {
+        List<Schedule> result = Select(makeList(ScheduleIDColumnName), makeList(String.valueOf(scheduleID)));
+        if (result.size() == 0)
+            throw new IllegalArgumentException("Could not find schedule with id " + scheduleID);
         return result.get(0);
 
     }

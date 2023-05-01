@@ -1,6 +1,7 @@
 package BussinessLayer.HRModule.Controllers;
 
 import BussinessLayer.HRModule.Objects.*;
+import DataAccessLayer.HRMoudle.ActiveSchedulesDAO;
 import DataAccessLayer.HRMoudle.SchedulesDAO;
 
 
@@ -13,9 +14,11 @@ public class ScheduleController {
 
     private static ScheduleController _scheduleController = null;
     private final SchedulesDAO _schedulesDAO;
+    private final ActiveSchedulesDAO _activeSchedulesDAO;
 
     private ScheduleController(){
         _schedulesDAO = SchedulesDAO.getInstance();
+        _activeSchedulesDAO = ActiveSchedulesDAO.getInstance();
     }
     public static ScheduleController getInstance(){
         if (_scheduleController == null)
@@ -35,7 +38,7 @@ public class ScheduleController {
     public boolean printSchedule(int storeID){
         if (storeID < 0 )
             throw new IllegalArgumentException("Invalid store ID");
-        Schedule schedule = _schedulesDAO.getSchedule(storeID);
+        Schedule schedule = _activeSchedulesDAO.getSchedule(storeID);
         if (schedule == null)
             throw new IllegalArgumentException("Invalid store");
         for(int i=0; i<schedule.getShifts().length; i++){
