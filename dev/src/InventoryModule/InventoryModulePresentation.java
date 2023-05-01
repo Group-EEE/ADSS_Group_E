@@ -1,18 +1,20 @@
-package InventoryModule.Presentation;
+package InventoryModule;
 
-import InventoryModule.Business.Controllers.CategoryController;
-import InventoryModule.Business.Controllers.ProductController;
-import InventoryModule.Business.Controllers.ReportController;
+import InventoryModule.Presentation.CategoryPresentation;
+import InventoryModule.Presentation.ReportPresentation;
+import InventoryModule.Presentation.SpecificProductPresentation;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-import static InventoryModule.Business.Discount.*;
+import static InventoryModule.Discount.*;
 
 //the main represents the "SuperLi" supply system. it is a UI that helps the employee gets information
 //of all the products, reports, discounts etc to help him control the supply in store
 public class InventoryModulePresentation {
-    public static Scanner reader;
+    static Scanner reader;
     static String choice;
 
     ProductController productController; //create a product controller
@@ -30,8 +32,6 @@ public class InventoryModulePresentation {
         categoryController = CategoryController.getInstance(); //create a category controller
         reportController = ReportController.getInstance(); //create a report controller
         specificProductPresentation = new SpecificProductPresentation();
-        reportPresentation = new ReportPresentation();
-        categoryPresentation = new CategoryPresentation();
     }
 
     public void Start(){

@@ -1,21 +1,13 @@
-package InventoryModule.Business.Controllers;
-
-import InventoryModule.Business.*;
-import SuppliersModule.Business.Generator.OrderGenerator;
+package InventoryModule;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static SuppliersModule.Business.Generator.OrderGenerator.makeOrderFromOrderReport;
-
 //class that saves all the details about the reports that was issued
 public class ReportController {
     private static List<Report> AllReports; //list to save al the reports
     static ReportController reportController;
 
-    private static Report lastReport;
-
-    public static int R_id=0; //counter that will give every report its id
+    static int R_id=0; //counter that will give every report its id
 
     private ReportController(){ //constructor
         AllReports = new ArrayList<Report>();
@@ -54,12 +46,11 @@ public class ReportController {
     //add report to the list of reports
     public static void addReport(Report r){
         AllReports.add(r);
-        lastReport = r;
     }
 
-    public String makeOrderForLastReport(){
-        OrderReport r = (OrderReport) lastReport;
-        return OrderGenerator.makeOrderFromOrderReport(r);
+    public void makeOrderForLastReport(){
+        OrderReport r = (OrderReport) AllReports.get(AllReports.size()-1);
+        r.SendOrderDetails();
     }
 
 

@@ -1,9 +1,7 @@
-package InventoryModule.Business;
+package InventoryModule;
 
-import InventoryModule.Business.Controllers.ProductController;
-import InventoryModule.Business.Controllers.ReportController;
+import SuppliersModule.Business.GenericProduct;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static SuppliersModule.Business.Generator.OrderGenerator.makeOrderFromOrderReport;
@@ -16,13 +14,11 @@ public class OrderReport extends Report{
     //the constructor will print the report
     public OrderReport(String reporter){
         super(reporter); //inherit from abstract report class
-        barcodes = new ArrayList<>();
-        amount = new ArrayList<>();
         System.out.println("***** Products Order Report *****");
         System.out.println("Report Date: "+ this.getDate().toLocalDate());
         System.out.println("Reporter : "+ reporter);
         //for every product
-        for(int i = 0; i< ProductController.getProducts().size(); i++){
+        for(int i=0; i<ProductController.getProducts().size();i++){
             //check for all of its specific products if the amount of not defected products
             //(on shelf and in warehouse) is equal or less than the minimum amount
             if(ProductController.getProducts().get(i).getSpecificProducts().size() <= ProductController.getProducts().get(i).getMinimum_Amount()){
@@ -52,4 +48,7 @@ public class OrderReport extends Report{
         return amount;
     }
 
+    public void SendOrderDetails(){
+        makeOrderFromOrderReport(this);
+    }
 }
