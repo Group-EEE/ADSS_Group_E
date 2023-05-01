@@ -1,8 +1,7 @@
 package DataAccessLayer.Transport;
 
-import BussinessLayer.TransportationModule.objects.Site;
-import BussinessLayer.TransportationModule.objects.Transport;
-import BussinessLayer.TransportationModule.objects.cold_level;
+import BussinessLayer.TransportationModule.objects.*;
+import BussinessLayer.HRModule.Objects.Store;
 import DataAccessLayer.DAO;
 
 import java.sql.Connection;
@@ -37,12 +36,16 @@ public class Transport_dao extends DAO {
             statement.setString(5, transport.getDriver_name());
             statement.setString(6, transport.getOrigin());
             statement.setString(7, transport.getRequired_level().toString());
+            statement.setString(8, get_suppliers_as_text(transport));
+            statement.setString(9, get_stores_as_text(transport));
             if (transport.Started()){
-                statement.setInt(8, 1);
+                statement.setInt(10, 1);
             }
             else {
-                statement.setInt(8, 0);
+                statement.setInt(10, 0);
             }
+            statement.setString(11, transport.getPlanned_date());
+            statement.setInt(12, transport.getDriver_ID());
             statement.executeUpdate();
 
             transports.put(transport.getTransport_ID(), transport);
@@ -80,6 +83,8 @@ public class Transport_dao extends DAO {
         }
         Transport transport = new Transport(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), cold_level.fromString(res.getString(7)), res.getString(11), res.getInt(12));
         transport.setStarted(res.getInt(10) == 1);
+        insert_suppliers_to_transport(transport, res.getString(8));
+        insert_stores_to_transport(transport, res.getString(9));
         transports.put(transport.getTransport_ID(), transport);
         return transport;
     }
@@ -175,6 +180,50 @@ public class Transport_dao extends DAO {
             }
         }
         return stores;
+    }
+
+    private void insert_suppliers_to_transport(Transport transport, String suppliers){
+        String[] suppliers_array = suppliers.split(",");
+        for (String supplier: suppliers_array){
+
+            if (supplier.equals("")){
+                continue;
+            }
+            String query = "SELECT * FROM Suppliers WHERE Name = ?";
+            try {
+                Connection connection = DriverManager.getConnection(url);
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1, supplier);
+                ResultSet res = statement.executeQuery();
+                if (res.next()){
+                    Supplier new_supplier = new Supplier(res.getString(1), res.getString(2), res.getString(3), res.getString(4));
+                    transport.insertToDestinations(new_supplier);
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+
+    private void insert_stores_to_transport(Transport transport, String stores){
+        String[] stores_array = stores.split(",");
+        for (String store: stores_array){
+
+            if (store.equals("")){
+                continue;
+            }
+            String query = "SELECT * FROM Stores WHERE Name = ?";
+            try {
+                Connection connection = DriverManager.getConnection(url);
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1, store);
+                ResultSet res = statement.executeQuery();
+                if (res.next()){
+                    Store new_store = new Store(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5));
+                    transport.insertToDestinations(new_store);
+                }
+            } catch (SQLException e) {
+            }
+        }
     }
 
 }
