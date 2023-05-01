@@ -172,11 +172,9 @@ public class Facade {
 
     public boolean addEmployeeToShift(String storeName, int shiftID){
         //if employee not working in this store
-
-        Store store = _storeController.(storeName);
-        if (!_storeController.checkIfEmployeeWorkInStore(store, _loggedUser))
+        if (!_storeController.checkIfEmployeeWorkInStore(storeName, _loggedUser))
             throw new IllegalArgumentException("Employee not working in this store");
-        return _scheduleController.addEmployeeToShift(_loggedUser, store, shiftID);
+        return _scheduleController.addEmployeeToShift(_loggedUser, storeName, shiftID);
     }
 
     public boolean printSchedule(String storeName){

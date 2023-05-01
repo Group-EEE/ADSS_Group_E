@@ -97,12 +97,13 @@ public class StoreController {
         return _storesDAO.Delete(store);
     }
 
-    public boolean checkIfEmployeeWorkInStore(Store store,Employee employee){
+    public boolean checkIfEmployeeWorkInStore(String storeName,Employee employee){
         if (store == null)
             throw new IllegalArgumentException("store not found");
         if (employee == null)
             throw new IllegalArgumentException("employee not found");
-        return _employeesToStoreDAO.checkIfEmployeeInStore(employee.getID(),store.getStoreID());
+        int storeID = _storesDAO.getStoreIDByName(storeName);
+        return _employeesToStoreDAO.checkIfEmployeeInStore(employee.getID(),storeID);
     }
 
 //    public boolean printStores(){

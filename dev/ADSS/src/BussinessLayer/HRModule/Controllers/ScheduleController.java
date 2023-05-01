@@ -139,7 +139,7 @@ public class ScheduleController {
         return shift.removeRequiredRole(role);
     }
 
-    public boolean addEmployeeToShift(Employee employee, Store store, int choice){
+    public boolean addEmployeeToShift(Employee employee, String storeName, int choice){
         if (store == null)
             throw new IllegalArgumentException("Invalid store");
         Schedule schedule = _schedules.get(store);

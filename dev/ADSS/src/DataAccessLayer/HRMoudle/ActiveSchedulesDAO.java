@@ -85,4 +85,24 @@ public class ActiveSchedulesDAO extends DAO {
         Integer scheduleID = rs.getInt(2);
         return new Pair<>(storeID, scheduleID);
     }
+
+    @Override
+    public boolean Delete(Object pairObj) {
+        int storeID = (int)(((Pair)pairObj).getKey());
+        int ScheduleID = (int)(((Pair)pairObj).getValue());
+        boolean res = true;
+        String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ? ", _tableName, StoreIdColumnName);
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, storeID);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+            res = false;
+        }
+        return res;
+    }
 }

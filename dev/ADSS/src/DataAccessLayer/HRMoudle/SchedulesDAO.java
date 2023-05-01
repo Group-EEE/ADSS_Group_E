@@ -7,6 +7,7 @@ import DataAccessLayer.DAO;
 
 import java.sql.*;
 import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class SchedulesDAO extends DAO {
     private static SchedulesDAO _schedulesDAO = null;
     public static final String ScheduleIDColumnName = "scheduleID";
     public static final String StartDateOfWeekColumnName = "startDateOfWeek";
-    public static final String StoreId = "StoreID";
+    public static final String StoreIDColumnName = "StoreID";
 
 
 
@@ -84,16 +85,11 @@ public class SchedulesDAO extends DAO {
         return schedule;
     }
 
-    public Schedule getSchedule(int storeID) {
-        if (storeIDtoActiveSchedule.containsKey(rs.getInt(1))){
-            return storeIDtoActiveSchedule.get(rs.getInt(1));
-        }
-        List<Employee> result = Select(makeList(IDColumnName), makeList(String.valueOf(id)));
+    public Schedule getSchedule(LocalDate date, int storeID) {
+        List<Schedule> result = Select(makeList(StartDateOfWeekColumnName, StoreIDColumnName), makeList(date.toString(), String.valueOf(storeID)));
         if (result.size() == 0)
-            throw new IllegalArgumentException("Employee " + id + " does not exist");
-        Employee employee = result.get(0);
-        employeesCache.put(id, employee);
-        return employee;
+            throw new IllegalArgumentException("Could not find schedule for date " + date.toString() + " and store " + storeID);
+        return result.get(0);
 
     }
 }
