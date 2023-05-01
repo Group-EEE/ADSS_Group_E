@@ -4,8 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="added necessary libs and fix all the errors">
+    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="added jdbc jar">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/72f49aaa-f33e-4039-9636-e5f759e35d36.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/72f49aaa-f33e-4039-9636-e5f759e35d36.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperLi.db" beforeDir="false" afterPath="$PROJECT_DIR$/SuperLi.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/Facade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesToRolesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesToRolesDAO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +100,7 @@
       <workItem from="1682763366325" duration="10464000" />
       <workItem from="1682779568113" duration="2511000" />
       <workItem from="1682931377124" duration="80000" />
-      <workItem from="1682941690752" duration="4199000" />
+      <workItem from="1682941690752" duration="9791000" />
     </task>
     <task id="LOCAL-00001" summary="created .idea folder">
       <created>1682675006264</created>
@@ -194,7 +200,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682945285664</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="added jdbc jar">
+      <created>1682946053128</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1682946053128</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,6 +250,37 @@
     <MESSAGE value="more DAOS" />
     <MESSAGE value="fixed errors" />
     <MESSAGE value="added necessary libs and fix all the errors" />
-    <option name="LAST_COMMIT_MESSAGE" value="added necessary libs and fix all the errors" />
+    <MESSAGE value="added jdbc jar" />
+    <option name="LAST_COMMIT_MESSAGE" value="added jdbc jar" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesDAO.java</url>
+          <line>38</line>
+          <properties class="DataAccessLayer.HRMoudle.EmployeesDAO" method="Insert">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesDAO.java</url>
+          <line>44</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/Facade.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/PasswordsDAO.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
