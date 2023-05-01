@@ -10,8 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8ab6a62-5a9f-4ada-b7de-51cb98261c12" name="Changes" comment="tables 27/4">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
+=======
 <<<<<<< HEAD
 =======
       <change beforePath="$PROJECT_DIR$/dev/res/SuperLeeDB" beforeDir="false" afterPath="$PROJECT_DIR$/dev/res/SuperLeeDB" afterDir="false" />
@@ -22,6 +23,7 @@
       <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Generator/OrderGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Generator/OrderGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Presentation/SupplierModulePresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Presentation/SupplierModulePresentation.java" afterDir="false" />
 >>>>>>> 8c3272f9198c2cf8b114ef7004b1ee40341e29d0
+>>>>>>> 5754b87deea908230becf27cc47961779d233437
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,11 +171,15 @@
       <workItem from="1682868416203" duration="2121000" />
       <workItem from="1682890198433" duration="7380000" />
 <<<<<<< HEAD
+      <workItem from="1682924855906" duration="18190000" />
+=======
+<<<<<<< HEAD
       <workItem from="1682924719160" duration="1210000" />
       <workItem from="1682941986622" duration="730000" />
 =======
       <workItem from="1682924855906" duration="17238000" />
 >>>>>>> 8c3272f9198c2cf8b114ef7004b1ee40341e29d0
+>>>>>>> 5754b87deea908230becf27cc47961779d233437
     </task>
     <task id="LOCAL-00001" summary="tables 27/4">
       <created>1682624568520</created>
