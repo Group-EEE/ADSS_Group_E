@@ -13,13 +13,17 @@ public class ActiveSchedulesDAO extends DAO {
 
     private static ActiveSchedulesDAO _activeSchedulesDAO = null;
 
+    private final SchedulesDAO _schedulesDAO;
     public static final String StoreIdColumnName = "storeID";
     public static final String ScheduleIDColumnName = "scheduleID";
-    private final HashMap<Integer, Integer> storeIDtoActiveSchedule;
+    private final HashMap<Integer, Schedule> storeIDtoActiveSchedule;
+    private final HashMap<String, Schedule> storeNametoActiveSchedule;
 
     private ActiveSchedulesDAO(){
         super("ActiveSchedules");
+        _schedulesDAO = SchedulesDAO.getInstance();
         storeIDtoActiveSchedule = new HashMap<>();
+        storeNametoActiveSchedule = new HashMap<>();
     }
 
     public static ActiveSchedulesDAO getInstance(){
@@ -43,7 +47,7 @@ public class ActiveSchedulesDAO extends DAO {
             pstmt.setInt(1, storeID);
             pstmt.setInt(2, ScheduleID);
             pstmt.executeUpdate();
-            storeIDtoActiveSchedule.put(storeID, ScheduleID);
+            storeIDtoActiveSchedule.put(storeID, _schedulesDAO.getSchedule(ScheduleID));
         } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
@@ -76,7 +80,9 @@ public class ActiveSchedulesDAO extends DAO {
         if (stores.size() == 0)
             return Insert(new Pair<>(storeID, scheduleID));
         //storeID is already a key
-        storeIDtoActiveSchedule.put(storeID, scheduleID);
+
+
+        storeIDtoActiveSchedule.put(storeID, _schedulesDAO.getSchedule(scheduleID));
         return Update(StoreIdColumnName,ScheduleIDColumnName,String.valueOf(storeID), String.valueOf(scheduleID));
     }
 
@@ -108,8 +114,15 @@ public class ActiveSchedulesDAO extends DAO {
 
     public Schedule getSchedule(int storeID){
         if (storeIDtoActiveSchedule.containsKey(storeID)) {
-            int activeScheduleID = storeIDtoActiveSchedule.get(storeID);
-            return SchedulesDAO.getInstance().getSchedule(activeScheduleID);
+            return storeIDtoActiveSchedule.get(storeID);
+        }
+        //TODO: retrived from db
+        return null;
+    }
+
+    public Schedule getSchedule(String storeName){
+        if (storeNametoActiveSchedule.containsKey(storeName)) {
+            return storeNametoActiveSchedule.get(storeName);
         }
         //TODO: retrived from db
         return null;

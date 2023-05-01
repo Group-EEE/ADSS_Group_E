@@ -1,24 +1,22 @@
 package InterfaceLayer.HRModule;
 
+import BussinessLayer.HRModule.Controllers.Facade;
 import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Shift;
-import ServiceLayer.IntegratedService;
-import ServiceLayer.IntegratedService;
 
 import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class HRManagerCLI{
 
     private static HRManagerCLI _HRManagerCLI;
-    private final IntegratedService _integratedService;
+    private final Facade _facade;
     private final Scanner scanner;
 
     private HRManagerCLI(){
-        _integratedService = IntegratedService.getInstance();
+        _facade = Facade.getInstance();
         scanner = new Scanner(System.in);
     }
 
@@ -108,7 +106,7 @@ public class HRManagerCLI{
                     HRMenuPrintSchedule();
                     break;
                 case "0":
-                    _integratedService.logout();
+                    _facade.logout();
                     return;
                 default:
                     System.out.println("Invalid choice");
@@ -191,7 +189,7 @@ public class HRManagerCLI{
             }
             System.out.println("password:");
             password = scanner.nextLine();
-            _integratedService.createEmployee(id, firstName, lastName, age, bankAccount, salary, hiringCondition,startDateOfEmployment, password, isHRManager);
+            _facade.createEmployee(id, firstName, lastName, age, bankAccount, salary, hiringCondition,startDateOfEmployment, password, isHRManager);
         }
         return true;
     }
@@ -210,15 +208,15 @@ public class HRManagerCLI{
         switch (option) {
             case "1": //first name
                 System.out.println("What is your new first name? ");
-                _integratedService.setNewFirstName(scanner.nextLine());
+                _facade.setNewFirstName(scanner.nextLine());
                 break;
             case "2": //last name
                 System.out.println("What is your new last name? ");
-                _integratedService.setNewLastName(scanner.nextLine());
+                _facade.setNewLastName(scanner.nextLine());
                 break;
             case "3": //bank account
                 System.out.println("What is your new bank account? ");
-                _integratedService.setNewBankAccount(scanner.nextLine());
+                _facade.setNewBankAccount(scanner.nextLine());
                 break;
             case "0": //back to main menu
                 return false;
@@ -251,7 +249,7 @@ public class HRManagerCLI{
             System.out.println("Store address:");
             String storeAddress = scanner.nextLine();
             try {
-                _integratedService.createStore(storeId, storeName, storeAddress);
+                _facade.createStore(storeId, storeName, storeAddress);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 continue;
@@ -276,7 +274,7 @@ public class HRManagerCLI{
             if (employeeID == 0)
                 return false;
             try{
-                _integratedService.addEmployeeToStore(employeeID, storeName);
+                _facade.addEmployeeToStore(employeeID, storeName);
                 System.out.println("Employee was added successfully");
                 valid = true;
             } catch (IllegalArgumentException e) {
@@ -302,13 +300,13 @@ public class HRManagerCLI{
             return false;
         }
         try{
-            _integratedService.addRoleToEmployee(employeeID, newRole);
+            _facade.addRoleToEmployee(employeeID, newRole);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Role was not added to the employee");
             return false;
         }
-        System.out.println("The role "+newRole+" was added to the employee "+_integratedService.getEmployeeFirstNameById(employeeID)+" successfully");
+        System.out.println("The role "+newRole+" was added to the employee "+_facade.getEmployeeNameById(employeeID)+" successfully");
         return true;
     }
 
@@ -364,7 +362,7 @@ public class HRManagerCLI{
        int month = validInput("Please enter the start day of the schedule","Please enter a valid integer for the month.",1,12);
        int year = validInput("Please enter the start day of the schedule","The year must start from 2020 to 2025",2020,2025);
        try{
-           _integratedService.createNewSchedule(storeName, day, month, year);
+           _facade.createNewSchedule(storeName, day, month, year);
            System.out.println("The schedule was created successfully for the store "+storeName);
        } catch (Exception e) {
            System.out.println(e.getMessage());
@@ -383,7 +381,7 @@ public class HRManagerCLI{
             return false;
         List<Shift> rejectShifts;
         try {
-            rejectShifts = _integratedService.approveSchedule(storeName);
+            rejectShifts = _facade.approveSchedule(storeName);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
@@ -415,7 +413,7 @@ public class HRManagerCLI{
         if (storeName == null)
             return false;
         try{
-            _integratedService.printSchedule(storeName);
+            _facade.printSchedule(storeName);
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -429,7 +427,7 @@ public class HRManagerCLI{
             int startHour = validInput("Please select the new start hour","Please enter a valid integer",0,23);
             int endHour = validInput("Please select the new end hour","Please enter a valid integer",0,23);
             try{
-                _integratedService.changeHoursShift(storeName,shiftNum,startHour,endHour);
+                _facade.changeHoursShift(storeName,shiftNum,startHour,endHour);
             }
             catch (Exception e){
                 System.out.println(e.getMessage());
@@ -517,7 +515,7 @@ public class HRManagerCLI{
             return false;
         String firstName;
         try {
-            firstName = _integratedService.getEmployeeFirstNameById(employeeID);
+            firstName = _facade.getEmployeeNameById(employeeID);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
@@ -525,7 +523,7 @@ public class HRManagerCLI{
         System.out.println("Please select what role to remove from " + firstName);
         System.out.println("Please enter the role ID:");
         try {
-            _integratedService.printEmployeeRoles(employeeID);
+            _facade.printEmployeeRoles(employeeID);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
@@ -534,7 +532,7 @@ public class HRManagerCLI{
         if (roleChoice == 0)
             return false;
         try {
-            _integratedService.removeRoleFromEmployee(employeeID, roleChoice);
+            _facade.removeRoleFromEmployee(employeeID, roleChoice);
             System.out.println("The role was removed successfully from " + firstName);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -554,7 +552,7 @@ public class HRManagerCLI{
         if (storeName == null)
             return false;
         try{
-            _integratedService.removeEmployeeFromStore(employeeID, storeName);
+            _facade.removeEmployeeFromStore(employeeID, storeName);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
@@ -571,7 +569,7 @@ public class HRManagerCLI{
         if (employeeID == 0)
             return false;
         try{
-            _integratedService.removeEmployee(employeeID);
+            _facade.removeEmployee(employeeID);
             System.out.println("Employee was removed successfully");
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -590,7 +588,7 @@ public class HRManagerCLI{
         if (storeName == null)
             return false;
         try{
-            _integratedService.removeStore(storeName);
+            _facade.removeStore(storeName);
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -611,7 +609,7 @@ public class HRManagerCLI{
         boolean exit = false;
         while(!exit) {
             try{
-                _integratedService.printSchedule(storeName);
+                _facade.printSchedule(storeName);
             }
             catch (Exception e){
                 System.out.println(e.getMessage());
@@ -624,7 +622,7 @@ public class HRManagerCLI{
             if (newRole == null)
                 exit = true;
             try {
-                _integratedService.addRequiredRoleToShift(storeName, shiftNum-1, newRole);
+                _facade.addRequiredRoleToShift(storeName, shiftNum-1, newRole);
             }catch (Exception e){
                 System.out.println(e.getMessage());
                 return false;
@@ -640,7 +638,7 @@ public class HRManagerCLI{
         boolean exit = false;
         while(!exit) {
             try{
-                _integratedService.printSchedule(storeName);
+                _facade.printSchedule(storeName);
             }
             catch (Exception e){
                 System.out.println(e.getMessage());
@@ -653,7 +651,7 @@ public class HRManagerCLI{
             if (newRole == null)
                 exit = true;
             try {
-                _integratedService.removeRequiredRoleFromShift(storeName, shiftNum-1, newRole);
+                _facade.removeRequiredRoleFromShift(storeName, shiftNum-1, newRole);
             }catch (Exception e){
                 System.out.println(e.getMessage());
                 return false;
@@ -664,7 +662,7 @@ public class HRManagerCLI{
 
     public boolean HRMenuPrintEmployees(){
         try{
-            _integratedService.printEmployees();
+            _facade.printEmployees();
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -675,7 +673,7 @@ public class HRManagerCLI{
 
     public boolean HRMenuPrintStores(){
         try{
-            _integratedService.printStores();
+            _facade.printStores();
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -689,7 +687,7 @@ public class HRManagerCLI{
         if (storeName == null)
             return false;
         try{
-            _integratedService.printSchedule(storeName);
+            _facade.printSchedule(storeName);
         }
         catch (Exception e){
             System.out.println(e.getMessage());

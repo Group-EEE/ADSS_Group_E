@@ -2,8 +2,6 @@ package InterfaceLayer;
 
 import InterfaceLayer.HRModule.HRModuleCLI;
 import InterfaceLayer.TransportModule.transport_manager_UI;
-import ServiceLayer.IntegratedService;
-import ServiceLayer.IntegratedService;
 
 import java.util.Scanner;
 

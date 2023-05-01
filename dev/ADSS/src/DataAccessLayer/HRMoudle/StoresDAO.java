@@ -1,5 +1,6 @@
 package DataAccessLayer.HRMoudle;
 
+import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.Store;
 import DataAccessLayer.DAO;
 
@@ -162,6 +163,10 @@ public class StoresDAO extends DAO {
             storesCacheByName.put(storeName,store);
             return store;
         }
+    }
+
+    public List<Store> SelectAllStores() {
+        return (List<Store>) (List<?>) Select();
     }
 
 

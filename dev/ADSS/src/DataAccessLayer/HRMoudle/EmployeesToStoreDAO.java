@@ -164,6 +164,30 @@ public class EmployeesToStoreDAO extends DAO {
         return list;
     }
 
+    public List<Integer> getStoreIDbyEmployeeID(int employeeID){
+        if (employeeCache.containsKey(employeeID))
+            return employeeCache.get(employeeID);
+
+        List<Integer> list = new ArrayList<>();
+        String sql = MessageFormat.format("SELECT * FROM {0} WHERE {1} = ?"
+                , _tableName, EmployeeIDColumnName);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, employeeID);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Pair<Integer,Integer> pair = convertReaderToObject(rs);
+                list.add(pair.getKey());
+            }
+            storeCache.put(employeeID, list);
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+        }
+        return list;
+    }
+
     public boolean checkIfEmployeeInStore(int employeeID, int storeID){
         if (employeeCache.get(employeeID).contains(storeID) && storeCache.get(storeID).contains(employeeID)){
             return true;
