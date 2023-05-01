@@ -77,7 +77,8 @@ public class Transport_dao extends DAO {
         if(transports.containsKey(res.getInt(1))){
             return transports.get(res.getInt(1));
         }
-        Transport transport = new Transport(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), cold_level.fromString(res.getString(7)));
+        Transport transport = new Transport(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), cold_level.fromString(res.getString(7)), res.getString(11), res.getInt(12));
+        transport.setStarted(res.getInt(10) == 1);
         transports.put(transport.getTransport_ID(), transport);
         return transport;
     }
@@ -144,4 +145,6 @@ public class Transport_dao extends DAO {
             throw new RuntimeException(e);
         }
     }
+
+
 }
