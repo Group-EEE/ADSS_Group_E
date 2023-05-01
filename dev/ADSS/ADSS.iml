@@ -43,5 +43,6 @@
     </orderEntry>
     <orderEntry type="library" name="junit" level="project" />
     <orderEntry type="library" name="github.testng.team.junit5" level="project" />
+    <orderEntry type="library" name="sqlite-jdbc-3.41.2.1" level="project" />
   </component>
 </module>

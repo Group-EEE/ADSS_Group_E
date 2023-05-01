@@ -15,7 +15,7 @@ public abstract class DAO {
     //public final String _connectionString;
     public final String _tableName;
     public static Connection connection = null;
-    public static final String url = "jdbc:sqlite:dev/ADSS/SuperLi.db";
+    public static final String url = "jdbc:sqlite:SuperLi.db";
     protected DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     //constructor
