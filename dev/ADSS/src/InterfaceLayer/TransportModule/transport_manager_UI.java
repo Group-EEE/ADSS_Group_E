@@ -5,6 +5,7 @@ import BussinessLayer.TransportationModule.objects.Transport;
 import BussinessLayer.TransportationModule.objects.Truck_Driver;
 import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
+import DataAccessLayer.HRMoudle.StoresDAO;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -336,6 +337,9 @@ public class transport_manager_UI {
      * creates transport document getting the details from the manager
      */
     private void create_transport_document(){
+        if (!StoresDAO.getInstance().is_any_store_exist()){
+            System.out.println("There's no stores in the Database!");
+        }
         String input = null;
         // ======================== Transport ID ======================== //
         int transport_Id = 0;
@@ -416,13 +420,13 @@ public class transport_manager_UI {
             System.out.println("there's no Truck fit to this transport.");
             return;
         }
-        String truck_number = controller.get_truck_number_by_cold_level(cool_level);
+        String truck_number = controller.get_truck_number_by_cold_level(cool_level, planned_date);
         // ======================== Truck Driver ======================== //
         String driver_name = null;
         int driver_id = 0;
         boolean assigned = false;
         for(Truck_Driver driver: controller.getDrivers()){
-            if(controller.truck_assigning(truck_number)){
+            if(controller.truck_assigning(truck_number, planned_date)){
                 assigned = true;
                 driver_name = driver.getName();
                 driver_id = driver.getID();
@@ -433,11 +437,6 @@ public class transport_manager_UI {
             System.out.println("there's no driver fit to this transport.");
             return;
         }
-
-        // Prompt the user to enter a date in the format "dd/mm"
-
-
-        ////////////////////////////// TO Do: check everywhere and update everywhere Transport. starting here, getting planned date!
 
         // ======================== Create Transport Document ======================== //
         controller.add_transport(transport_Id, truck_number, driver_name,  cool_level, planned_date , driver_id);
@@ -484,6 +483,27 @@ public class transport_manager_UI {
                         }
                     }
                 }
+
+                int store_ID = 0;
+                isValid = false;
+                while (!isValid){
+                    try {
+                        System.out.println("Please enter the Store's ID (5 digit number using only 0-9 that not starts with 0): ");
+                        input = scanner.nextLine();
+                        store_ID = Integer.parseInt(input);
+                        if (input.length() != 5){
+                            System.out.println("Please enter a valid number that not starts with 0 , and with 5 digits.");
+                        }
+                        else if (!StoresDAO.getInstance().existsStore(store_ID)) {
+                            System.out.println("This store is not in known to the System.");
+                        }else {
+                            isValid = true;
+                        }
+                    } catch (NumberFormatException e){
+                        System.out.println("Invalid input");
+                    }
+                }
+
                 isValid = false;
                 String store_address = null;
                 while(!isValid) {
@@ -548,7 +568,7 @@ public class transport_manager_UI {
                         System.out.print("Invalid input. ");
                     }
                 }
-                controller.insert_store_to_transport(transport_Id, store_address, phone_number, store_name, manager_name, area, store_contact_name);
+                controller.insert_store_to_transport(transport_Id, store_ID, store_name, store_address ,phone_number, store_contact_name);
                 at_least_one_store = true;
             }
             if(site_type.equals("2")){

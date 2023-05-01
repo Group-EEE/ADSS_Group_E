@@ -1,11 +1,11 @@
 package BussinessLayer.TransportationModule.objects;
 
-public class Store extends Site{
+public class Store_to_delete extends Site{
     private String manager_name;
     private int site_area;
 
 
-    public Store(String address, String phone, String site_name, String manager_name, int site_area, String contact_name){
+    public Store_to_delete(String address, String phone, String site_name, String manager_name, int site_area, String contact_name){
         super(address, phone, site_name, contact_name);
         this.manager_name = manager_name;
         this.site_area = site_area;

@@ -1,10 +1,11 @@
 package DataAccessLayer.Transport;
 
+import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.TransportationModule.objects.Site_Supply;
-import BussinessLayer.TransportationModule.objects.Store;
 import BussinessLayer.TransportationModule.objects.Transport;
 import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
+import DataAccessLayer.HRMoudle.StoresDAO;
 
 import java.sql.*;
 import java.text.ParseException;
@@ -68,7 +69,7 @@ public class Site_Supply_dao extends DAO {
             return site_supply_documents.get(res.getInt(1));
         }
         String store_name = res.getString(2);
-        Store store = null;
+        Store store = StoresDAO.getInstance().getStore(store_name);
         if (store != null) {
             Site_Supply site_supply = new Site_Supply(res.getInt(1), store , res.getString(3));
             insert_products_to_site_supply(site_supply);

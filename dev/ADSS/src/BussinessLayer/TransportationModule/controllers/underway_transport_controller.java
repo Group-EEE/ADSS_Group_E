@@ -1,7 +1,6 @@
 package BussinessLayer.TransportationModule.controllers;
 
 import BussinessLayer.TransportationModule.objects.*;
-import BussinessLayer.TransportationModule.objects.*;
 
 import java.util.ArrayList;
 
@@ -23,7 +22,7 @@ public class underway_transport_controller {
 
     public void add_site_document_to_driver(int transport_id, int site_supplier_ID, String store_name) {
         Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
-        Store store = transport.getStoreByName(store_name);
+        Store_to_delete store = transport.getStoreByName(store_name);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         String address = truck.get_current_location().getAddress();
         // creating and adding the document to the driver
@@ -159,7 +158,7 @@ public class underway_transport_controller {
     public boolean unload_goods(int transport_ID){
         Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
         Truck_Driver driver = get_truck_by_registration_plate(transport.getTruck_number()).getCurrent_driver();
-        Store store = (Store) driver.getCurrent_truck().get_current_location();
+        Store_to_delete store = (Store_to_delete) driver.getCurrent_truck().get_current_location();
         boolean unloaded = false;
         for (int i = 0; i< driver.getSites_documents().size(); i++){
             if (driver.getSites_documents().get(i).getStore().getAddress().equals(store.getAddress())){
@@ -271,7 +270,7 @@ public class underway_transport_controller {
             }
         }
         // searching for a driver that can drive the new truck
-        if (logistical_center_controller.truck_assigning(new_truck.getRegistration_plate())) {
+        if (logistical_center_controller.truck_assigning(new_truck.getRegistration_plate(), transport.getPlanned_date())) {
             // updating the current driver's truck and the opposite.
             Truck_Driver old_driver = truck.getCurrent_driver();
             truck.setCurrent_driver(null);

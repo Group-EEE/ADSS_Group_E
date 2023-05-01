@@ -192,11 +192,11 @@ public class Transport {
         }
     }
 
-    public Store getStoreByName(String name){
-        Store store = null;
+    public Store_to_delete getStoreByName(String name){
+        Store_to_delete store = null;
         for(Site site :  destinations){
             if(site.getSite_name().equals(name) && site.is_store()){
-                store = (Store)site;
+                store = (Store_to_delete)site;
             }
         }
         return store;

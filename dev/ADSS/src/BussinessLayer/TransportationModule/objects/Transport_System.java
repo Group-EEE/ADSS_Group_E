@@ -337,7 +337,7 @@ public class Transport_System {
     }
 
     public void display_site_supply(){
-        for (Map.Entry<Store, ArrayList<Site_Supply>> entry : logistical_center.getDelivered_supplies_documents().entrySet()) {
+        for (Map.Entry<Store_to_delete, ArrayList<Site_Supply>> entry : logistical_center.getDelivered_supplies_documents().entrySet()) {
             for(Site_Supply siteSupply : entry.getValue()){
                 siteSupply.sDisplay();
             }

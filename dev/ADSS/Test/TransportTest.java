@@ -97,8 +97,8 @@ class TransportTest {
     @Test
     void getDestinations() {
         Supplier supplier = new Supplier("Ben Gurion", "054876542", "Osem", "David Shafir");
-        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
-        Store store1 = new Store("Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7, "Shir Atia");
+        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store_to_delete store1 = new Store_to_delete("Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7, "Shir Atia");
         ArrayList<Site> destinations = new ArrayList<>();
         destinations.add(store);
         destinations.add(supplier);
@@ -113,8 +113,8 @@ class TransportTest {
     @Test
     void number_of_suppliers() {
         Supplier supplier = new Supplier("Ben Gurion", "054876542", "Osem", "David Shafir");
-        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
-        Store store1 = new Store("Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7, "Shir Atia");
+        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store_to_delete store1 = new Store_to_delete("Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7, "Shir Atia");
         ArrayList<Site> destinations = new ArrayList<>();
         destinations.add(store);
         destinations.add(supplier);
@@ -126,8 +126,8 @@ class TransportTest {
     @Test
     void number_of_stores() {
         Supplier supplier = new Supplier("Ben Gurion", "054876542", "Osem", "David Shafir");
-        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
-        Store store1 = new Store("Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7, "Shir Atia");
+        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store_to_delete store1 = new Store_to_delete("Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7, "Shir Atia");
         ArrayList<Site> destinations = new ArrayList<>();
         destinations.add(store);
         destinations.add(supplier);
@@ -139,8 +139,8 @@ class TransportTest {
     @Test
     void insertToDestinations() {
         Supplier supplier = new Supplier("Ben Gurion", "054876542", "Osem", "David Shafir");
-        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
-        Store store1 = new Store("Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7, "Shir Atia");
+        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store_to_delete store1 = new Store_to_delete("Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7, "Shir Atia");
         transport.insertToDestinations(store1);
         transport.insertToDestinations(supplier);
         transport.insertToDestinations(store);
@@ -175,8 +175,8 @@ class TransportTest {
     @Test
     void deleteDestination() {
         Supplier supplier = new Supplier("Ben Gurion", "054876542", "Osem", "David Shafir");
-        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
-        Store store1 = new Store("Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7, "Shir Atia");
+        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store_to_delete store1 = new Store_to_delete("Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7, "Shir Atia");
         transport.insertToDestinations(store1);
         transport.insertToDestinations(supplier);
         transport.insertToDestinations(store);
@@ -204,8 +204,8 @@ class TransportTest {
 
     @Test
     void getStoreByName() {
-        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
-        Store store1 = new Store("Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7, "Shir Atia");
+        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store_to_delete store1 = new Store_to_delete("Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7, "Shir Atia");
         transport.insertToDestinations(store);
         transport.insertToDestinations(store1);
         assertEquals(store, transport.getStoreByName("Candy Factory"));

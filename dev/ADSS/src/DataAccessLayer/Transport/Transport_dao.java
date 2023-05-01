@@ -259,7 +259,39 @@ public class Transport_dao extends DAO {
             }
     }
 
-    public boolean check_if_truck_taken_that_date(String planned_date){
+    public boolean check_if_truck_taken_that_date(String planned_date, String registration_plate){
+        String query = "SELECT * FROM " + this._tableName + " WHERE Planned_Date = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, planned_date);
+            ResultSet res = statement.executeQuery();
+            while (res.next()){
+                if (res.getString(4).equals(registration_plate)){
+                    return true;
+                }
+            }
+        }
+        catch (SQLException e) {
 
+        }
+        return false;
+    }
+
+    public boolean check_if_driver_taken_that_date(String planned_date, int driver_ID){
+        String query = "SELECT * FROM " + this._tableName + " WHERE Planned_Date = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, planned_date);
+            ResultSet res = statement.executeQuery();
+            while (res.next()){
+                if (res.getInt(12) == driver_ID ){
+                    return true;
+                }
+            }
+        }
+        catch (SQLException e) {
+
+        }
+        return false;
     }
 }

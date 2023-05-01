@@ -83,7 +83,7 @@ public class StoresDAO extends DAO {
     public Store convertReaderToObject(ResultSet rs) throws SQLException {
         if(storesCache.containsKey(rs.getInt(1)))
             return storesCache.get(rs.getInt(1));
-        Store store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3));
+        Store store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
         storesCache.put(store.getStoreID(),store);
         storesCacheByName.put(store.getName(),store);
         return store;
@@ -167,6 +167,24 @@ public class StoresDAO extends DAO {
 
     public List<Store> SelectAllStores() {
         return (List<Store>) (List<?>) Select();
+    }
+
+    public boolean is_any_store_exist(){
+        if (storesCache.size() > 0){
+            return true;
+        }
+        else {
+            String query = "SELECT * FROM " + this._tableName;
+            try (PreparedStatement pstmt = connection.prepareStatement(query);) {
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()){
+                    return true;
+                }
+                return false;
+            } catch (SQLException ex) {
+            }
+            return false;
+        }
     }
 
 

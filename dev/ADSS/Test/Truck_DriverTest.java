@@ -18,8 +18,8 @@ class Truck_DriverTest {
 
     @Test
     void add_site_document() {
-        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
-        Store store1 = new Store("Golomb 67", "05468132384", "Candy World", "Hila Naim", 2, "Ido Moshe");
+        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store_to_delete store1 = new Store_to_delete("Golomb 67", "05468132384", "Candy World", "Hila Naim", 2, "Ido Moshe");
         Site_Supply site_supply = new Site_Supply(846635, store, "Osem");
         Site_Supply site_supply1 = new Site_Supply(416535, store1, "Tnuva");
         ArrayList<Site_Supply> siteSupplies = new ArrayList<>();
@@ -41,8 +41,8 @@ class Truck_DriverTest {
 
     @Test
     void get_document() {
-        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
-        Store store1 = new Store("Golomb 67", "05468132384", "Candy World", "Hila Naim", 2, "Ido Moshe");
+        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store_to_delete store1 = new Store_to_delete("Golomb 67", "05468132384", "Candy World", "Hila Naim", 2, "Ido Moshe");
         Site_Supply site_supply = new Site_Supply(846635, store, "Osem");
         Site_Supply site_supply1 = new Site_Supply(416535, store1, "Tnuva");
         ArrayList<Site_Supply> siteSupplies = new ArrayList<>();
@@ -55,8 +55,8 @@ class Truck_DriverTest {
 
     @Test
     void delete_site_document_by_origin() {
-        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
-        Store store1 = new Store("Golomb 67", "05468132384", "Candy World", "Hila Naim", 2, "Ido Moshe");
+        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store_to_delete store1 = new Store_to_delete("Golomb 67", "05468132384", "Candy World", "Hila Naim", 2, "Ido Moshe");
         Site_Supply site_supply = new Site_Supply(846635, store, "Osem");
         Site_Supply site_supply1 = new Site_Supply(416535, store1, "Tnuva");
         ArrayList<Site_Supply> siteSupplies = new ArrayList<>();
@@ -69,8 +69,8 @@ class Truck_DriverTest {
 
     @Test
     void delete_site_document_by_destination() {
-        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
-        Store store1 = new Store("Golomb 67", "05468132384", "Candy World", "Hila Naim", 2, "Ido Moshe");
+        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store_to_delete store1 = new Store_to_delete("Golomb 67", "05468132384", "Candy World", "Hila Naim", 2, "Ido Moshe");
         Site_Supply site_supply = new Site_Supply(846635, store, "Osem");
         Site_Supply site_supply1 = new Site_Supply(416535, store1, "Tnuva");
         ArrayList<Site_Supply> siteSupplies = new ArrayList<>();
@@ -83,8 +83,8 @@ class Truck_DriverTest {
 
     @Test
     void delete_site_document_by_ID() {
-        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
-        Store store1 = new Store("Golomb 67", "05468132384", "Candy World", "Hila Naim", 2, "Ido Moshe");
+        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store_to_delete store1 = new Store_to_delete("Golomb 67", "05468132384", "Candy World", "Hila Naim", 2, "Ido Moshe");
         Site_Supply site_supply = new Site_Supply(846635, store, "Osem");
         Site_Supply site_supply1 = new Site_Supply(416535, store1, "Tnuva");
         ArrayList<Site_Supply> siteSupplies = new ArrayList<>();
@@ -128,7 +128,7 @@ class Truck_DriverTest {
 
     @Test
     void is_site_exist() {
-        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
         Site_Supply site_supply = new Site_Supply(846635, store, "Osem");
         ArrayList<Site_Supply> siteSupplies = new ArrayList<>();
         siteSupplies.add(site_supply);
