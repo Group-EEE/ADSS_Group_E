@@ -296,7 +296,6 @@ public abstract class DAO {
         return list;
     }
 
-
     public List<String> makeList(String... strings) {
         List<String> list = new ArrayList<String>();
         for (String s : strings)

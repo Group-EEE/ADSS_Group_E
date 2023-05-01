@@ -1,10 +1,15 @@
 package InterfaceLayer.HRModule;
 
 import BussinessLayer.HRModule.Controllers.Facade;
+import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Shift;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -662,7 +667,8 @@ public class HRManagerCLI{
 
     public boolean HRMenuPrintEmployees(){
         try{
-            _facade.printEmployees();
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").create();
+            String o = gson.fromJson(_facade.printEmployees(),new TypeToken<List<Employee>>(){}.getType());
         }
         catch (Exception e){
             System.out.println(e.getMessage());

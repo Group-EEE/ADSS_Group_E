@@ -71,15 +71,10 @@ public class PasswordsDAO extends DAO {
     }
 
     public boolean checkPassword(int employeeID, String password){
-        List<ResultSet> listRS = Select(IDColumnName);
-        for (ResultSet rs : listRS) {
-            try {
-                Pair<Integer,String> pair = convertReaderToObject(rs);
-                if (pair.getKey() == employeeID && pair.getValue().equals(password))
+        List<String> listPasswords = SelectString(PasswordColumnName, makeList(IDColumnName), makeList(Integer.toString(employeeID)));
+        for (String passwordsFromDB : listPasswords){
+                if (passwordsFromDB.equals(password))
                     return true;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return false;
     }
