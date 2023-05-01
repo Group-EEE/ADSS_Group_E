@@ -2,6 +2,7 @@ package InventoryModule.Business;
 
 import InventoryModule.Business.Controllers.ProductController;
 import InventoryModule.Business.Controllers.ReportController;
+import SuppliersModule.Business.Generator.OrderGenerator;
 
 import java.util.List;
 
@@ -49,7 +50,4 @@ public class OrderReport extends Report{
         return amount;
     }
 
-    public void SendOrderDetails(){
-        makeOrderFromOrderReport(this);
-    }
 }
