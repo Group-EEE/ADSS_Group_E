@@ -147,7 +147,7 @@ public class Transport_dao extends DAO {
         }
     }
 
-    public String get_suppliers_as_text(Transport transport){
+    private String get_suppliers_as_text(Transport transport){
         String suppliers = "";
         for (Site site: transport.getDestinations()){
             if (site.is_supplier()){
@@ -162,5 +162,19 @@ public class Transport_dao extends DAO {
         return suppliers;
     }
 
+    private String get_stores_as_text(Transport transport){
+        String stores = "";
+        for (Site site: transport.getDestinations()){
+            if (site.is_store()){
+                if (stores.equals("")){
+                    stores += site.getSite_name();
+                }
+                else {
+                    stores += ", " + site.getSite_name();
+                }
+            }
+        }
+        return stores;
+    }
 
 }
