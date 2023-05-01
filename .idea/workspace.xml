@@ -12,16 +12,6 @@
     <list default="true" id="e8ab6a62-5a9f-4ada-b7de-51cb98261c12" name="Changes" comment="tables 27/4">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0dd3b186-c219-4674-be2d-a26f79272443.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/res/SuperLeeDB" beforeDir="false" afterPath="$PROJECT_DIR$/dev/res/SuperLeeDB" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuperLeeDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/OrderFromSupplierDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/OrderFromSupplierDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/OrderedProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/OrderedProductDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/PeriodicOrderDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/DataAccess/SuppliersModule/PeriodicOrderDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Controllers/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Controllers/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Generator/OrderGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/Generator/OrderGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderFromSupplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderFromSupplier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderedProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/OrderedProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/PeriodicOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/SuppliersModule/Business/PeriodicOrder.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,6 +158,8 @@
       <workItem from="1682866109597" duration="582000" />
       <workItem from="1682868416203" duration="2121000" />
       <workItem from="1682890198433" duration="7380000" />
+      <workItem from="1682924719160" duration="1210000" />
+      <workItem from="1682941986622" duration="730000" />
     </task>
     <task id="LOCAL-00001" summary="tables 27/4">
       <created>1682624568520</created>
