@@ -2,7 +2,9 @@ package DataAccessLayer.Transport;
 
 import BussinessLayer.TransportationModule.objects.Site_Supply;
 import BussinessLayer.TransportationModule.objects.Supplier;
+import BussinessLayer.TransportationModule.objects.Truck;
 import DataAccessLayer.DAO;
+import DataAccessLayer.HRMoudle.StoresDAO;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +14,14 @@ import java.util.HashMap;
 
 public class Suppliers_dao extends DAO {
     private HashMap<String, Supplier> Suppliers_map;
-    public Suppliers_dao(){
+
+    private static Suppliers_dao suppliersDao = null;
+    public static Suppliers_dao getInstance() {
+        if (suppliersDao == null)
+            suppliersDao = new Suppliers_dao();
+        return suppliersDao;
+    }
+    private Suppliers_dao(){
         super("Suppliers");
         Suppliers_map = new HashMap<>();
     }
@@ -80,5 +89,40 @@ public class Suppliers_dao extends DAO {
             }
             return false;
         }
+    }
+
+    public boolean is_supplier_exist(String supplier_name){
+        String query = "SELECT FROM " + _tableName + " WHERE Name = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, supplier_name);
+            ResultSet rs = statement.executeQuery();
+            if (rs.getString(3).equals(supplier_name)) {
+                return true;
+            }
+            return false;
+
+        } catch (SQLException e) {
+            System.out.println("Exception thrown");
+        }
+        return false;
+    }
+
+    public Supplier get_supplier_by_name(String supplier_name){
+        if (Suppliers_map.containsKey(supplier_name)) {
+            return Suppliers_map.get(supplier_name);
+        }
+        String query = "SELECT * FROM " + this._tableName + " WHERE Name = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query);) {
+            pstmt.setString(1, supplier_name);
+            ResultSet rs = pstmt.executeQuery();
+            Supplier supplier = (Supplier) convertReaderToObject(rs);
+            return supplier;
+        } catch (SQLException ex) {
+            System.out.println("We don't have these truck in the Database.");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }

@@ -1,5 +1,7 @@
 package BussinessLayer.TransportationModule.objects;
 
+import BussinessLayer.HRModule.Objects.Store;
+
 import java.util.*;
 
 public class Transport {
@@ -192,11 +194,11 @@ public class Transport {
         }
     }
 
-    public Store_to_delete getStoreByName(String name){
-        Store_to_delete store = null;
+    public Store getStoreByName(String name){
+        Store store = null;
         for(Site site :  destinations){
             if(site.getSite_name().equals(name) && site.is_store()){
-                store = (Store_to_delete)site;
+                store = (Store) site;
             }
         }
         return store;

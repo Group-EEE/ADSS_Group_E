@@ -1,5 +1,6 @@
 package BussinessLayer.TransportationModule.controllers;
 
+import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.TransportationModule.objects.*;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class underway_transport_controller {
 
     public void add_site_document_to_driver(int transport_id, int site_supplier_ID, String store_name) {
         Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
-        Store_to_delete store = transport.getStoreByName(store_name);
+        Store store = transport.getStoreByName(store_name);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         String address = truck.get_current_location().getAddress();
         // creating and adding the document to the driver
@@ -137,6 +138,10 @@ public class underway_transport_controller {
         Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
         transport.setDate(Date);
         transport.setDeparture_time(Time);
+        //I'm here in the check start transport
+        // need to create :
+        // Transport_dao.getInstance.update_transport_date_and_time(transport_ID, Date, Time)
+
     }
 
     public boolean is_siteSupply_id_exist_in_current_transport(int transport_id, int siteSupply_ID){

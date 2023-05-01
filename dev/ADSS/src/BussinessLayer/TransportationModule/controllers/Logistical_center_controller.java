@@ -168,17 +168,14 @@ public class Logistical_center_controller {
         return false;
     }
 
-    public void insert_store_to_transport(int transport_id, int storeID, String name, String address, String phone, String site_contact_name){
+    public void insert_store_to_transport(int transport_id, String name){
         Transport transport = transport_dao.getTransport(transport_id);
-        //Store store = new Store(store_address, phone_number, store_name, manager_name, area, store_contact_name);
-        Store store = new Store(storeID, name, address, phone, site_contact_name);
-        transport.insertToDestinations(store);
+        transport.insertToDestinations(StoresDAO.getInstance().getStore(name));
     }
 
-    public void insert_supplier_to_transport(int transport_id, String supplier_name, String supplier_address, String phone_number, String contact_name){
+    public void insert_supplier_to_transport(int transport_id, String supplier_name){
         Transport transport = transport_dao.getTransport(transport_id);
-        Supplier supplier = new Supplier(supplier_name, supplier_address, phone_number, contact_name);
-        transport.insertToDestinations(supplier);
+        transport.insertToDestinations(Suppliers_dao.getInstance().get_supplier_by_name(supplier_name));
     }
 
     public Map<Integer, Transport> getTransport_Log(){
@@ -301,6 +298,25 @@ public class Logistical_center_controller {
 
     public ArrayList<Truck> get_trucks(){
         return trucks_dao.getTrucks();
+    }
+
+    public boolean can_send_the_transport(int transport_ID, String current_date){
+        if (!check_if_transport_id_exist(transport_ID)){
+            System.out.println("We don't have the transport" + transport_ID + " in the system.");
+            return false;
+        }
+
+        Transport transport = get_transport_by_id(transport_ID);
+
+        if (!transport.getPlanned_date().equals(current_date)){
+            System.out.println("It's not the date of the transport.");
+            return false;
+        }
+        if (transport.Started()){
+            System.out.println("this transport is alredy finished.");
+            return false;
+        }
+        return true;
     }
 
 }
