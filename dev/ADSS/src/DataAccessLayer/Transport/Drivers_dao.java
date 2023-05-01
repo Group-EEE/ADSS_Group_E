@@ -15,17 +15,16 @@ public class Drivers_dao extends DAO {
 
     public Drivers_dao(String table_name){
         super(table_name);
-        Drivers = new HashMap<>();
         L_dao = new License_dao("Licenses");
+        Drivers = new HashMap<>();
+        get_all_drivers_from_db();
     }
     @Override
     public boolean Insert(Object Driverobj) {
         Truck_Driver driver = (Truck_Driver) Driverobj;
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "INSERT INTO Drivers (ID, Name, License_ID) VALUES (?, ?, ?)";
-
+            L_dao.Insert(driver.getLicense());
             // Prepare SQL statement with parameters
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, driver.getID());
@@ -41,15 +40,6 @@ public class Drivers_dao extends DAO {
         } catch (SQLException e) {
             System.out.println("Exception");
             System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println("Exception thrown");
-                System.out.println(ex.getMessage());
-            }
         }
 
         return false;
@@ -58,11 +48,8 @@ public class Drivers_dao extends DAO {
     @Override
     public boolean Delete(Object obj) {
         Truck_Driver driver = (Truck_Driver) obj;
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "DELETE FROM Drivers WHERE ID = ?";
-
             // Prepare SQL statement with parameters
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, driver.getID());
@@ -92,9 +79,7 @@ public class Drivers_dao extends DAO {
 
     @Override
     public Truck_Driver convertReaderToObject(ResultSet res) throws SQLException, ParseException {
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "SELECT * FROM Drivers WHERE ID = ?";
 
             // Prepare SQL statement with parameters
@@ -118,9 +103,7 @@ public class Drivers_dao extends DAO {
             return Drivers.get(id);
         }
         String query = "SELECT * FROM Drivers WHERE ID = ?";
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             // Prepare SQL statement with parameters
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, id);
@@ -141,9 +124,7 @@ public class Drivers_dao extends DAO {
             return true;
         }
         String query = "SELECT * FROM Drivers WHERE ID = ?";
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             // Prepare SQL statement with parameters
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, id);
@@ -162,5 +143,25 @@ public class Drivers_dao extends DAO {
     public ArrayList<Truck_Driver> getDrivers() {
         Collection<Truck_Driver> drivers = Drivers.values();
         return new ArrayList<>(drivers);
+    }
+
+    private void get_all_drivers_from_db(){
+        String query = "SELECT * FROM Drivers";
+        try {
+            // Prepare SQL statement with parameters
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            // Execute SQL statement and print result
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()){
+                Truck_Driver driver = convertReaderToObject(rs);
+                if (!Drivers.containsKey(driver.getID())){
+                    Drivers.put(driver.getID(), driver);
+                }
+            }
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

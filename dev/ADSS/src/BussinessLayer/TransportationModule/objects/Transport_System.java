@@ -245,9 +245,9 @@ public class Transport_System {
                 isValid = true;
             }
         }
-        // ======================== Truck Moodle ======================== //
-        System.out.println("Please enter the truck moodle: ");
-        String truck_moodle = scanner.nextLine();
+        // ======================== Truck model ======================== //
+        System.out.println("Please enter the truck model: ");
+        String truck_model = scanner.nextLine();
         // ======================== Truck Net Weight ======================== //
         double truck_net_weight = 0.0;
         boolean valid_net_weight = false;
@@ -306,7 +306,7 @@ public class Transport_System {
             case "3" -> cool_level = cold_level.Dry;
         }
         // ======================== Create And Adding The New Truck  ======================== //
-        Truck truck = new Truck(registration_number, truck_moodle, truck_net_weight, truck_max_weight, cool_level ,truck_net_weight);
+        Truck truck = new Truck(registration_number, truck_model, truck_net_weight, truck_max_weight, cool_level ,truck_net_weight);
         logistical_center.getTrucks().add(truck);
     }
 

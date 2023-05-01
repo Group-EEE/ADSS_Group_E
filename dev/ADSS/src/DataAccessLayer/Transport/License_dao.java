@@ -14,13 +14,12 @@ public class License_dao extends DAO {
     public License_dao(String table_name){
         super(table_name);
         Licenses = new HashMap<>();
+        get_all_licenses_from_db();
     }
     @Override
     public boolean Insert(Object licenseObj) {
         License license = (License) licenseObj;
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "INSERT INTO Licenses (ID, cold_level, weight) VALUES (?, ?, ?)";
 
             // Prepare SQL statement with parameters
@@ -35,15 +34,6 @@ public class License_dao extends DAO {
         } catch (SQLException e) {
             System.out.println("License already exist");
             System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println("Exception thrown");
-                System.out.println(ex.getMessage());
-            }
         }
         return false;
     }
@@ -52,8 +42,7 @@ public class License_dao extends DAO {
     public boolean Delete(Object Licenseobj) {
         License license = (License) Licenseobj;
         String query = "DELETE FROM Licenses WHERE ID = ?";
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(query);) {
+        try (PreparedStatement pstmt = connection.prepareStatement(query);) {
             pstmt.setInt(1, license.getL_ID());
             pstmt.executeUpdate();
             if (Licenses.containsKey(license.getL_ID())) {
@@ -81,8 +70,7 @@ public class License_dao extends DAO {
             return Licenses.get(id);
         }
         String query = "SELECT * FROM Licenses WHERE ID = ?";
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(query);) {
+        try (PreparedStatement pstmt = connection.prepareStatement(query);) {
             pstmt.setInt(1, id);
             ResultSet res = pstmt.executeQuery();
             if (res.next()) {
@@ -100,9 +88,7 @@ public class License_dao extends DAO {
         if (Licenses.containsKey(license_id)){
             return true;
         }
-        Connection  connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "SELECT * FROM Licenses WHERE ID = ?";
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, license_id);
@@ -114,5 +100,21 @@ public class License_dao extends DAO {
             return false;
         }
         return false;
+    }
+
+    private void get_all_licenses_from_db(){
+        try {
+            String query = "SELECT * FROM Licenses";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            ResultSet res = pstmt.executeQuery();
+            while (res.next()) {
+                License license = (License)convertReaderToObject(res);
+                Licenses.put(license.getL_ID(), license);
+            }
+        } catch (SQLException e) {
+            System.out.println("Exception thrown");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

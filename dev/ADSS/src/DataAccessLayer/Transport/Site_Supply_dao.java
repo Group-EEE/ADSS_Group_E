@@ -17,14 +17,13 @@ public class Site_Supply_dao extends DAO {
     public Site_Supply_dao(String tableName) {
         super(tableName);
         site_supply_documents = new HashMap<>();
+        get_site_supply_documents_from_db();
     }
 
     @Override
     public boolean Insert(Object obj) {
         Site_Supply site_supply = (Site_Supply) obj;
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "INSERT INTO " + _tableName + " (ID, Store_Name, Origin, Total_Weight) VALUES (?,?,?,?)";
 
             PreparedStatement statement = connection.prepareStatement(query);
@@ -39,15 +38,6 @@ public class Site_Supply_dao extends DAO {
         } catch (SQLException e) {
             System.out.println("Exception thrown");
             System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println("Exception thrown");
-                System.out.println(ex.getMessage());
-            }
         }
         return false;
     }
@@ -57,7 +47,6 @@ public class Site_Supply_dao extends DAO {
         Site_Supply site_supply = (Site_Supply) obj;
         String query = "DELETE FROM " + _tableName + " WHERE Site_Supply_ID = ?";
         try {
-            Connection connection = DriverManager.getConnection(url);
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, site_supply.getId());
             statement.executeUpdate();
@@ -90,9 +79,7 @@ public class Site_Supply_dao extends DAO {
         if(site_supply_documents.containsKey(id)){
             return true;
         }
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "SELECT * FROM " + _tableName + " WHERE Site_Supply_ID = ?";
 
             PreparedStatement statement = connection.prepareStatement(query);
@@ -113,5 +100,22 @@ public class Site_Supply_dao extends DAO {
 
     public ArrayList<Site_Supply> get_site_supply_documents(){
         return new ArrayList<Site_Supply>(site_supply_documents.values());
+    }
+
+    private void get_site_supply_documents_from_db(){
+        try {
+            String query = "SELECT * FROM " + _tableName;
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet res = statement.executeQuery();
+            while (res.next()) {
+                Site_Supply site_supply = (Site_Supply) convertReaderToObject(res);
+                if(site_supply != null){
+                    site_supply_documents.put(site_supply.getId(), site_supply);
+                }
+            }
+        } catch (SQLException | ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

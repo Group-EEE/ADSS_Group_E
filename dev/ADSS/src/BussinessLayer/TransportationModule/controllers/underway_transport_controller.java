@@ -22,7 +22,7 @@ public class underway_transport_controller {
     }
 
     public void add_site_document_to_driver(int transport_id, int site_supplier_ID, String store_name) {
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
         Store store = transport.getStoreByName(store_name);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         String address = truck.get_current_location().getAddress();
@@ -32,7 +32,7 @@ public class underway_transport_controller {
     }
 
     public void insert_item_to_siteSupply(int site_supplier_ID, int transport_id, String item_name, int item_amount){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck_Driver driver = getDriverByTruckNumber(transport.getTruck_number());
         Site_Supply site_supply = null;
         for(Site_Supply s : driver.getSites_documents()){
@@ -45,7 +45,7 @@ public class underway_transport_controller {
     }
 
     private Truck_Driver get_driver_by_transport_id(int transport_id){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
         return getDriverByTruckNumber(transport.getTruck_number());
     }
 
@@ -56,7 +56,7 @@ public class underway_transport_controller {
      *               the function adding the weight we got from the user to the truck, transport document and the site supply document.
      */
     public void insert_weight_to_siteSupply(int site_supplier_ID, int transport_id, double  weight){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck_Driver driver = get_driver_by_transport_id(transport_id);
         Truck truck = driver.getCurrent_truck();
         Site_Supply site_supply = null;
@@ -79,7 +79,7 @@ public class underway_transport_controller {
      *                           the function reset the transport details that need to be reset.
      */
     public void reset_transport(int transport_id, boolean finished_transport){
-        Transport chosen_transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport chosen_transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck_Driver driver = getDriverByTruckNumber(chosen_transport.getTruck_number());
         ArrayList<Site_Supply> empty_array = new ArrayList<>();
         Truck truck = driver.getCurrent_truck();
@@ -106,14 +106,7 @@ public class underway_transport_controller {
      * @return the truck that has the registration plate
      */
     public Truck get_truck_by_registration_plate(String registration_plate){
-        Truck truck = null;
-        for(Truck t : logistical_center_controller.getLogistical_center().getTrucks()){
-            if(t.getRegistration_plate().equals(registration_plate)){
-                truck = t;
-                break;
-            }
-        }
-        return truck;
+       return logistical_center_controller.getTruckByNumber(registration_plate);
     }
 
     /**
@@ -121,7 +114,7 @@ public class underway_transport_controller {
      *                     the function set the navigator for the transport
      */
     public void set_navigator_for_transport(int transport_ID){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_ID);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         truck.setNavigator(transport.getDestinations());
     }
@@ -131,12 +124,7 @@ public class underway_transport_controller {
      * @return the driver of the truck
      */
     public Truck_Driver getDriverByTruckNumber(String truck_number){
-        Truck truck = null;
-        for(Truck t : logistical_center_controller.getLogistical_center().getTrucks()){
-            if(t.getRegistration_plate().equals(truck_number)){
-                truck = t;
-            }
-        }
+        Truck truck = get_truck_by_registration_plate(truck_number);
         return truck.getCurrent_driver();
     }
 
@@ -147,13 +135,13 @@ public class underway_transport_controller {
      *             the function set the date and time for the transport when it starts.
      */
     public void set_time_and_date_for_transport(int transport_ID,String Date,String Time){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_ID);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
         transport.setDate(Date);
         transport.setDeparture_time(Time);
     }
 
     public boolean is_siteSupply_id_exist_in_current_transport(int transport_id, int siteSupply_ID){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck_Driver driver = get_truck_by_registration_plate(transport.getTruck_number()).getCurrent_driver();
         for(Site_Supply s : driver.getSites_documents()){
             if(s.getId() == siteSupply_ID){
@@ -164,35 +152,19 @@ public class underway_transport_controller {
     }
 
     public boolean is_siteSupply_id_exist_in_system(int siteSupply_ID){
-        for(ArrayList<Site_Supply> s : logistical_center_controller.getLogistical_center().getDelivered_supplies_documents().values()){
-            for(Site_Supply ss : s){
-                if(ss.getId() == siteSupply_ID){
-                    return true;
-                }
-            }
-        }
-        return false;
+        return logistical_center_controller.check_if_site_supply_exist(siteSupply_ID);
     }
 
     // unloading all the goods in a store, and update the weight of the truck accordingly.
     public boolean unload_goods(int transport_ID){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_ID);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
         Truck_Driver driver = get_truck_by_registration_plate(transport.getTruck_number()).getCurrent_driver();
         Store store = (Store) driver.getCurrent_truck().get_current_location();
         boolean unloaded = false;
         for (int i = 0; i< driver.getSites_documents().size(); i++){
             if (driver.getSites_documents().get(i).getStore().getAddress().equals(store.getAddress())){
                 unloaded = true;
-                if (logistical_center_controller.getLogistical_center().getDelivered_supplies_documents().containsKey(store)) {
-                    ArrayList<Site_Supply> site_supplies = logistical_center_controller.getLogistical_center().getDelivered_supplies_documents().get(store);
-                    site_supplies.add(driver.getSites_documents().get(i));
-                }
-                else {
-                    ArrayList<Site_Supply> siteSupplies = new ArrayList<>();
-                    siteSupplies.add(driver.getSites_documents().get(i));
-                    logistical_center_controller.getLogistical_center().getDelivered_supplies_documents().put(store, siteSupplies);
-                    // add document that have sent to the Database.
-                }
+                logistical_center_controller.insert_site_supply_to_database(driver.getSites_documents().get(i));
                 // subtracts the weight of the goods that was unloaded
                 driver.getCurrent_truck().addWeight(-1 * driver.getSites_documents().get(i).getProducts_total_weight());
                 // change to delete only one site.
@@ -208,7 +180,7 @@ public class underway_transport_controller {
      * @return boolean value that indicates if the current location is a store
      */
     public boolean is_current_location_is_store(int transport_id){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         return truck.get_current_location().is_store();
     }
@@ -218,7 +190,7 @@ public class underway_transport_controller {
      * @return boolean value that indicates if the current location is not null
      */
     public boolean is_current_location_not_null(int transport_id){
-        Transport  transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport  transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         return truck.get_current_location() != null;
     }
@@ -228,7 +200,7 @@ public class underway_transport_controller {
      * @return the current location name
      */
     public String get_current_location_name(int transport_id){
-        Transport  transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport  transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         return truck.get_current_location().getSite_name();
     }
@@ -238,24 +210,24 @@ public class underway_transport_controller {
      * @return the current location address
      */
     public String get_current_location_address(int transport_id){
-        Transport  transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport  transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         return truck.get_current_location().getAddress();
     }
 
     public void drive_to_next_location(int transport_id){
-        Transport  transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport  transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         truck.get_next_site();
     }
 
     public boolean is_suitable_truck_exist(int transport_id){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         cold_level level = transport.getRequired_level();
         double weight = truck.getCurrent_weight();
         truck = null;
-        for(Truck t : logistical_center_controller.getLogistical_center().getTrucks()){
+        for(Truck t : logistical_center_controller.get_trucks()){
             if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight) {
                 return true;
             }
@@ -264,24 +236,24 @@ public class underway_transport_controller {
     }
 
     public String get_driver_name(int transport_id){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
         return transport.getDriver_name();
     }
 
     public String get_truck_number(int transport_id){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
         return transport.getTruck_number();
     }
 
     public boolean change_truck(int transport_id){
         // finding the most suitable truck
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         cold_level level = transport.getRequired_level();
         double weight = truck.getCurrent_weight();
         Truck new_truck = null;
         // getting the truck that have the minimum weight that suits the current transport weight, and the most close cold level.
-        for(Truck t : logistical_center_controller.getLogistical_center().getTrucks()){
+        for(Truck t : logistical_center_controller.get_trucks()){
             if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight) {
                 if(t.getCold_level().getValue() == level.getValue()){
                     if (new_truck == null) {
@@ -328,7 +300,7 @@ public class underway_transport_controller {
      * @return true if the truck is not in overweight, false otherwise
      */
     public boolean check_weight(int transport_id){
-        Transport  transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport  transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         if (truck.getCurrent_weight() > truck.getMax_weight()){
             return false;
@@ -344,7 +316,7 @@ public class underway_transport_controller {
      * @return the weight of the truck according to the choice given as a parameter, 0 otherwise.
      */
     public double get_truck_weight(int transport_id, String choice){
-        Transport  transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport  transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         if (choice.equals("c")){
             return truck.getCurrent_weight();
@@ -366,7 +338,7 @@ public class underway_transport_controller {
      * @return true if there is more than one supplier or store in the route, false otherwise
      */
     public boolean is_there_more_than_one(int transport_id, String type) {
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         if (type.equals("supplier")) {
             int supplier_count = 0;
@@ -402,7 +374,7 @@ public class underway_transport_controller {
      */
     public boolean is_site_exist(int transport_ID, String site_type, String site_name ){
 
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_ID);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
         for (Site site : transport.getDestinations()) {
             if (site_type.equals("supplier") && site.is_supplier()) {
                 if (site_name.equals(site.getSite_name())){
@@ -419,7 +391,7 @@ public class underway_transport_controller {
     }
 
     public boolean delete_store_from_route(int transport_ID, String site_name){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_ID);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         Truck_Driver driver = truck.getCurrent_driver();
         for (Site_Supply site_supply : driver.getSites_documents()) {
@@ -442,7 +414,7 @@ public class underway_transport_controller {
      *                     the function deletes the site from the route and returns the products to the supplier
      */
     public void delete_supplier_from_route(int transport_ID){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_ID);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         truck.getNavigator().delete_site(truck.get_current_location().getSite_name());
 
@@ -455,7 +427,7 @@ public class underway_transport_controller {
     }
 
     public boolean is_store_exist_in_route(int transport_id, String store_name){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_id);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         boolean is_store_exist_in_route = false;
         for (Site site : truck.getNavigator().getRoute()) {
@@ -472,13 +444,13 @@ public class underway_transport_controller {
      *                     the function adds the site to the route and all the stores that he
      */
     public void add_supplier_to_route(int transport_ID){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_ID);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         truck.getNavigator().add_site(truck.get_current_location());
     }
 
     public void add_store_to_route(int transport_ID, String store_name){
-        Transport transport = logistical_center_controller.getLogistical_center().get_transport_by_id(transport_ID);
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         for (Site site : transport.getDestinations()) {
             if (site.is_store() && site.getSite_name().equals(store_name)) {

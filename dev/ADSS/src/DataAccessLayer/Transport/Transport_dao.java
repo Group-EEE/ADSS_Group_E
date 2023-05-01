@@ -20,21 +20,25 @@ public class Transport_dao extends DAO {
     public Transport_dao(String tableName) {
         super(tableName);
         transports = new HashMap<>();
+        get_transports_map_from_database();
     }
 
     @Override
     public boolean Insert(Object obj) {
         Transport transport = (Transport) obj;
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
-            String query = "INSERT INTO " + _tableName + " (Transport_ID, Date, Departure_Time, Origin ) VALUES (?,?,?,?)";
-
+            String query = "INSERT INTO " + _tableName + " (ID, Date, Departure_Time, Origin, Finished ) VALUES (?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, transport.getTransport_ID());
             statement.setString(2, transport.getDate());
             statement.setString(3, transport.getDeparture_time());
             statement.setString(4, transport.getOrigin());
+            if (transport.Started()){
+                statement.setInt(5, 1);
+            }
+            else {
+                statement.setInt(5, 0);
+            }
             statement.executeUpdate();
 
             transports.put(transport.getTransport_ID(), transport);
@@ -43,15 +47,6 @@ public class Transport_dao extends DAO {
         } catch (SQLException e) {
             System.out.println("Exception thrown");
             System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println("Exception thrown");
-                System.out.println(ex.getMessage());
-            }
         }
         return false;
     }
@@ -61,7 +56,6 @@ public class Transport_dao extends DAO {
         Transport transport = (Transport) obj;
         String query = "DELETE FROM " + this._tableName + " WHERE Transport_ID = ?";
         try {
-            Connection connection = DriverManager.getConnection(url);
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, transport.getTransport_ID());
             statement.executeUpdate();
@@ -89,7 +83,7 @@ public class Transport_dao extends DAO {
         if(transports.containsKey(transport_id)){
             return transports.get(transport_id);
         }
-        String query = "SELECT * FROM " + this._tableName + " WHERE Transport_ID = ?";
+        String query = "SELECT * FROM " + this._tableName + " WHERE ID = ?";
         try {
             Connection connection = DriverManager.getConnection(url);
             PreparedStatement statement = connection.prepareStatement(query);
@@ -107,7 +101,7 @@ public class Transport_dao extends DAO {
     }
 
     public boolean check_if_Transport_exist(int transport_id){
-        String query = "SELECT * FROM " + this._tableName + " WHERE Transport_ID = ?";
+        String query = "SELECT * FROM " + this._tableName + " WHERE ID = ?";
         try {
             Connection connection = DriverManager.getConnection(url);
             PreparedStatement statement = connection.prepareStatement(query);
@@ -129,5 +123,22 @@ public class Transport_dao extends DAO {
 
     public HashMap<Integer, Transport> get_transports_map() {
         return transports;
+    }
+
+    public void get_transports_map_from_database(){
+        String query = "SELECT * FROM " + this._tableName;
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet res = statement.executeQuery();
+            while (res.next()){
+                Transport transport = (Transport) convertReaderToObject(res);
+                transports.put(transport.getTransport_ID(), transport);
+            }
+        }
+        catch (SQLException e) {
+            System.out.println("This transport is not exist in the Database.");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

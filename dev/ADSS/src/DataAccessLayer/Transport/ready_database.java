@@ -23,8 +23,6 @@ public class ready_database {
         logistical_center.add_driver(new Truck_Driver(912345678, "Gal", 12345, cold_level.Freeze, 1000));
         logistical_center.add_driver(new Truck_Driver(912345679, "Oded", 12346, cold_level.Cold, 2000));
         Truck truck1 = new Truck("12345678", "Volvo VNL", 100, 1000, cold_level.Freeze, 100);
-        trucks_dao.Insert(truck1);
-        logistical_center.add_truck(trucks_dao.get_truck_by_registration_plate(truck1.getRegistration_plate()));
         logistical_center.add_truck(new Truck("87654321", "Toyota", 100, 2000, cold_level.Cold, 100));
     }
 }

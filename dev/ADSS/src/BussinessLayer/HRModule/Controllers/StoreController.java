@@ -1,7 +1,6 @@
 package BussinessLayer.HRModule.Controllers;
 
 import BussinessLayer.HRModule.Objects.Employee;
-import BussinessLayer.HRModule.Objects.Pair;
 import BussinessLayer.HRModule.Objects.Store;
 import DataAccessLayer.HRMoudle.EmployeesToStoreDAO;
 import DataAccessLayer.HRMoudle.StoresDAO;
@@ -16,6 +15,9 @@ public class StoreController {
     private final EmployeesToStoreDAO _employeesToStoreDAO;
     private final StoresDAO _storesDAO;
     private static StoreController _storeController = null;
+    private Map<String, Store> _storesByName = new HashMap<>();
+    private Map<Integer, Store> _storesByID = new HashMap<>();
+    private Map<Store, List<Employee>> _storeEmployeeMap = new HashMap<>();
 
     public StoreController(){
         _employeesToStoreDAO = EmployeesToStoreDAO.getInstance();
@@ -34,27 +36,61 @@ public class StoreController {
      * @return - true if the store was created successfully, false otherwise
      */
     public boolean createStore(int storeID, String storeName, String storeAddress) {
-        if (storeName == null)
-            throw new IllegalArgumentException("Invalid store name");
-        if (storeAddress == null)
-            throw new IllegalArgumentException("Invalid store address");
-        if (_storesDAO.existsStore(storeID))
-            throw new IllegalArgumentException("Store already has this ID");
-        if (_storesDAO.existsStore(storeName))
+        if (storeName == null || storeAddress == null)
+            throw new IllegalArgumentException("Invalid store name or address");
+        if (_storesByName.containsKey(storeName))
             throw new IllegalArgumentException("Store already has this name");
+        if (_storesByID.containsKey(Integer.valueOf(storeID)))
+            throw new IllegalArgumentException("Store already has this id");
         Store newStore = new Store(storeID,storeName, storeAddress);
-        return _storesDAO.Insert(newStore);
+        _storesByID.put(storeID, newStore);
+        _storesByName.put(storeName, newStore);
+        _storeEmployeeMap.put(newStore, new ArrayList<Employee>());
+        return true;
     }
 
     /**
-     * @param employeeID - the employee to add
-     * @param storeName - the name of the store
+     * @param storeID - the name of the store
+     * @return - the store with the given name, null if the name is invalid
      */
-    public boolean addEmployeeToStore(int employeeID, String storeName) {
-        if (employeeID < 0 || storeName == null)
+    public Store getStoreByID(int storeID){
+        if (storeID <0)
+            return null;
+        for (Map.Entry<Integer, Store> entry : _storesByID.entrySet()){
+            if (entry.getKey().equals(Integer.valueOf(storeID)))
+                return entry.getValue();
+        }
+        return null;
+    }
+
+    /**
+     * @param storeName - the name of the store
+     * @return - the store with the given name, null if didn't find the Store
+     */
+    public Store getStoreByName(String storeName){
+        if (storeName == null)
+            throw new IllegalArgumentException("Invalid store name");
+        for (Map.Entry<String, Store> entry : _storesByName.entrySet()){
+            if (entry.getKey().equals(storeName))
+                return entry.getValue();
+        }
+        throw new IllegalArgumentException("Store not found");
+    }
+
+    /**
+     * @param employee - the employee to add
+     * @param storeName - the name of the store
+     * @return
+     */
+    public boolean addEmployeeToStore(Employee employee, String storeName) {
+        if (employee == null || storeName == null)
             throw new IllegalArgumentException("Invalid employee id or store name");
-        int storeID = _storesDAO.getStoreIDByName(storeName);
-        return _employeesToStoreDAO.Insert(new Pair<Integer,Integer>(employeeID,storeID));
+        _storeEmployeeMap.get(getStoreByName(storeName)).add(employee);
+        /*Store store = getStoreByName(storeName);
+        if (store == null)
+            throw new IllegalArgumentException("Invalid store name");
+        return store.addEmployee(employee);*/
+        return true;
     }
 
     /**
@@ -64,25 +100,36 @@ public class StoreController {
     public Store findStoreByName(String storeName) {
         if (storeName == null)
             throw new IllegalArgumentException("Invalid store name");
-        return _storesDAO.getStore(storeName);
+        for (Map.Entry<String,Store> entry : _storesByName.entrySet()) {
+            if (entry.getKey().equals(storeName)) {
+                return entry.getValue();
+            }
+        }
+        throw new IllegalArgumentException("Store not found");
     }
 
     /**
-     * @param employeeID - the ID of the employee
+     * @param employee - the of the employee
      * @param storeName - the name of the store
      * @return
      */
-    public boolean removeEmployeeFromStore(int employeeID, String storeName) {
-        if (storeName == null)
+    public boolean removeEmployeeFromStore(Employee employee, String storeName) {
+        if (employee == null || storeName == null)
             throw new IllegalArgumentException("Invalid employee or store name");
-        int storeID = _storesDAO.getStoreIDByName(storeName);
-        return _employeesToStoreDAO.Delete(new Pair<Integer,Integer>(employeeID,storeID));
+        _storeEmployeeMap.get(getStoreByName(storeName)).remove(employee);
+        return true;
     }
 
-    public boolean removeEmployee(int employeeID){
-        if (employeeID < 0)
+    public boolean removeEmployee(Employee employee){
+        if (employee == null)
             throw new IllegalArgumentException("Invalid employee");
-        return _employeesToStoreDAO.Delete(employeeID,true);
+        for (Store store : _storeEmployeeMap.keySet()){
+            if (_storeEmployeeMap.get(store).contains(employee)){
+                _storeEmployeeMap.get(store).remove(employee);
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -92,17 +139,28 @@ public class StoreController {
     public boolean removeStore(String storeName) {
         if (storeName == null)
             throw new IllegalArgumentException("Invalid store name");
-        Store store = _storesDAO.getStore(storeName);
-        _employeesToStoreDAO.Delete(store.getStoreID(),false);
-        return _storesDAO.Delete(store);
+        Store store = findStoreByName(storeName);
+        if (store == null) {
+            throw new IllegalArgumentException("Store not found");
+        }
+        this._storesByName.remove(storeName);
+        this._storesByID.remove((Integer)store.getStoreID());
+        this._storeEmployeeMap.remove(store);
+        return true;
     }
 
-    public boolean checkIfEmployeeWorkInStore(Store store,Employee employee){
+    public List<Employee> getEmployeesByStore(String storeName){
+        if (storeName == null)
+            throw new IllegalArgumentException("Invalid store name");
+        return _storeEmployeeMap.get(getStoreByName(storeName));
+    }
+
+        public boolean checkIfEmployeeWorkInStore(Store store,Employee employee){
         if (store == null)
             throw new IllegalArgumentException("store not found");
         if (employee == null)
             throw new IllegalArgumentException("employee not found");
-        return _employeesToStoreDAO.checkIfEmployeeInStore(employee.getID(),store.getStoreID());
+        return _storeEmployeeMap.get(store).contains(employee);
     }
 
 //    public boolean printStores(){

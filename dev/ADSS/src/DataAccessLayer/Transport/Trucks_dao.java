@@ -14,14 +14,13 @@ public class Trucks_dao extends DAO {
     public Trucks_dao(String tableName) {
         super(tableName);
         Trucks = new HashMap<>();
+        get_all_trucks_from_database();
     }
 
     @Override
     public boolean Insert(Object obj) {
         Truck truck = (Truck) obj;
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url);
             String query = "INSERT INTO Trucks (registration_plate, model, net_weight, max_weight, cold_level) VALUES (?, ?, ?, ?, ?)";
 
             // Prepare SQL statement with parameters
@@ -38,15 +37,6 @@ public class Trucks_dao extends DAO {
         } catch (SQLException e) {
             System.out.println("Exception");
             System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println("Exception thrown");
-                System.out.println(ex.getMessage());
-            }
         }
         return false;
     }
@@ -55,8 +45,7 @@ public class Trucks_dao extends DAO {
     public boolean Delete(Object Truckobj) {
         Truck truck = (Truck) Truckobj;
         String query = "DELETE FROM Trucks WHERE registration_plate = ?";
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(query);) {
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, truck.getRegistration_plate());
             pstmt.executeUpdate();
             if (Trucks.containsKey(truck.getRegistration_plate())) {
@@ -74,8 +63,8 @@ public class Trucks_dao extends DAO {
         if (Trucks.containsKey(res.getString(1))) {
             return Trucks.get(res.getString(1));
         }
-        Truck truck = new Truck(res.getString(1), res.getString(2), res.getDouble(3), res.getDouble(4), cold_level.fromString(res.getString(5)), res.getDouble(3));
-        Trucks.put(truck.getRegistration_plate(), truck);
+        Truck truck = new Truck(res.getString(1), res.getString(2), res.getDouble(3), res.getDouble(4), cold_level.valueOf(res.getString(5)), res.getDouble(3));
+        Trucks.put(res.getString(1), truck);
         return truck;
     }
 
@@ -84,8 +73,7 @@ public class Trucks_dao extends DAO {
             return Trucks.get(registration_plate);
         }
         String query = "SELECT * FROM Trucks WHERE registration_plate = ?";
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(query);) {
+        try (PreparedStatement pstmt = connection.prepareStatement(query);) {
             pstmt.setString(1, registration_plate);
             ResultSet rs = pstmt.executeQuery();
             Truck truck = convertReaderToObject(rs);
@@ -103,8 +91,7 @@ public class Trucks_dao extends DAO {
             return true;
         }
         String query = "SELECT * FROM Trucks WHERE registration_plate = ?";
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(query);) {
+        try (PreparedStatement pstmt = connection.prepareStatement(query);) {
             pstmt.setString(1, registration_plate);
             ResultSet rs = pstmt.executeQuery();
             Truck truck = convertReaderToObject(rs);
@@ -119,6 +106,20 @@ public class Trucks_dao extends DAO {
 
     public ArrayList<Truck> getTrucks() {
         return new ArrayList<>(Trucks.values());
+    }
+
+    private void get_all_trucks_from_database() {
+        String query = "SELECT * FROM Trucks";
+        try (PreparedStatement pstmt = connection.prepareStatement(query);) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Truck truck = convertReaderToObject(rs);
+                Trucks.put(truck.getRegistration_plate(), truck);
+            }
+
+        } catch (SQLException | ParseException e) {
+            System.out.println("Exception thrown");
+        }
     }
 }
 

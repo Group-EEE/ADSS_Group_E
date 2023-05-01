@@ -56,6 +56,14 @@ public class Logistical_center_controller {
         return transport_dao.getTransport(transport_id);
     }
 
+    public boolean check_if_site_supply_exist(int id){
+        return site_supply_dao.check_if_site_supply_exists(id);
+    }
+
+    public void insert_site_supply_to_database(Site_Supply site_supply){
+        site_supply_dao.Insert(site_supply);
+    }
+
     public void add_transport(int transport_id, String truck_number, String driver_name, String cold_lvl){
         cold_level cool_level = get_cold_level_by_string(cold_lvl);
         Transport transport = new Transport(transport_id, "TBD", "TBD", truck_number, driver_name, this.logistical_center.getSite_name(), cool_level);
@@ -162,8 +170,8 @@ public class Logistical_center_controller {
         return trucks_dao.get_truck_by_registration_plate(truck_number);
     }
 
-    public void add_truck(String registration, String truck_moodle, double truck_net_weight, double truck_max_weight, cold_level level, double current_weight){
-        Truck truck = new Truck(registration, truck_moodle, truck_net_weight, truck_max_weight, level, current_weight);
+    public void add_truck(String registration, String truck_model, double truck_net_weight, double truck_max_weight, cold_level level, double current_weight){
+        Truck truck = new Truck(registration, truck_model, truck_net_weight, truck_max_weight, level, current_weight);
         trucks_dao.Insert(truck);
     }
 
@@ -172,18 +180,28 @@ public class Logistical_center_controller {
     }
 
     public void display_transport_doc(){
-        for (Map.Entry<Integer, Transport> entry : transport_dao.get_transports_map().entrySet()) {
-            int id = entry.getKey();
-            Transport transport = entry.getValue();
-            System.out.println("=========== Transport - " + id + " - information ===========");
-            transport.transportDisplay();
+        if(transport_dao.get_transports().size() == 0){
+            System.out.println("\nThere are no transports documents in the system\n");
+        }
+        else {
+            for (Map.Entry<Integer, Transport> entry : transport_dao.get_transports_map().entrySet()) {
+                int id = entry.getKey();
+                Transport transport = entry.getValue();
+                System.out.println("=========== Transport - " + id + " - information ===========");
+                transport.transportDisplay();
+            }
         }
     }
 
     public void display_trucks(){
-        System.out.println("======================================= Trucks in the system =======================================");
-        for(Truck t : trucks_dao.getTrucks()){
-            t.truckDisplay();
+        if(trucks_dao.getTrucks().size() == 0){
+            System.out.println("\nThere are no trucks in the system\n");
+        }
+        else {
+            System.out.println("======================================= Trucks in the system =======================================");
+            for (Truck t : trucks_dao.getTrucks()) {
+                t.truckDisplay();
+            }
         }
     }
 
@@ -192,15 +210,25 @@ public class Logistical_center_controller {
     }
 
     public void display_drivers(){
-        System.out.println("======================================= Drivers in the system =======================================");
-        for(Truck_Driver driver : drivers_dao.getDrivers()){
-            driver.driverDisplay();
+        if(drivers_dao.getDrivers().size() == 0){
+            System.out.println("\nThere are no drivers in the system\n");
+        }
+        else {
+            System.out.println("======================================= Drivers in the system =======================================");
+            for (Truck_Driver driver : drivers_dao.getDrivers()) {
+                driver.driverDisplay();
+            }
         }
     }
 
     public void display_site_supply(){
-        for (Site_Supply siteSupply : site_supply_dao.get_site_supply_documents()) {
+        if(site_supply_dao.get_site_supply_documents().size() == 0){
+            System.out.println("\nThere are no site supplies documents in the system\n");
+        }
+        else {
+            for (Site_Supply siteSupply : site_supply_dao.get_site_supply_documents()) {
                 siteSupply.sDisplay();
+            }
         }
     }
 
@@ -219,7 +247,7 @@ public class Logistical_center_controller {
     public void display_trucks_by_cold_level(String cold_lvl){
         cold_level cool_level = get_cold_level_by_string(cold_lvl);
         System.out.println("======================================= Trucks with cold level '" + cool_level + "' in the system =======================================");
-        for (Truck t : logistical_center.getTrucks()) {
+        for (Truck t : trucks_dao.getTrucks()) {
             if (t.getCold_level().getValue() == cool_level.getValue()) {
                 t.truckDisplay();
             }
@@ -239,12 +267,12 @@ public class Logistical_center_controller {
     }
 
     public void set_started_transport(int transport_id){
-        Transport transport = logistical_center.get_transport_by_id(transport_id);
+        Transport transport = transport_dao.getTransport(transport_id);
         transport.setStarted(true);
     }
 
     public boolean at_least_one_unsent_transport(){
-        for (Transport transport: logistical_center.getTransport_Log().values()){
+        for (Transport transport: transport_dao.get_transports()){
             if (!transport.Started()){
                 return true;
             }
@@ -252,8 +280,8 @@ public class Logistical_center_controller {
         return false;
     }
 
-    public void load_database(){
-        ready_database = new ready_database();
-        ready_database.load_database();
+    public ArrayList<Truck> get_trucks(){
+        return trucks_dao.getTrucks();
     }
+
 }
