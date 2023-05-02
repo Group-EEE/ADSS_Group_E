@@ -14,8 +14,8 @@ import java.util.List;
 public class SchedulesDAO extends DAO {
     private static SchedulesDAO _schedulesDAO = null;
     public static final String ScheduleIDColumnName = "scheduleID";
-    public static final String StartDateOfWeekColumnName = "startDateOfWeek";
     public static final String StoreIDColumnName = "StoreID";
+    public static final String StartDateOfWeekColumnName = "startDateOfWeek";
 
 
 

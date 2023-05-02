@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Shift{
-
+    private int _scheduleID;
+    private int _shiftID;
     private ShiftType _shiftType;
     private int _startHour;
     private int _endHour;
@@ -20,7 +21,9 @@ public class Shift{
     private List<RoleType> _requiredRoles;
     private List<RoleType> _filledRoles;
 
-    public Shift(ShiftType shiftType, int startTime, int endTime, LocalDate date){
+    public Shift(int scheduleID, int shiftID, ShiftType shiftType, int startTime, int endTime, LocalDate date){
+        this._scheduleID = scheduleID;
+        this._shiftID = shiftID;
         this._assignedEmployees = new HashMap<RoleType,Employee>();
         this._inquiredEmployees = new ArrayList<Employee>();
         this._requiredRoles = new ArrayList<RoleType>();

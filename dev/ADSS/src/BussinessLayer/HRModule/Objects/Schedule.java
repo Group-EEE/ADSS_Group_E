@@ -18,9 +18,9 @@ public class Schedule {
         _scheduleID = scheduleCounter++;
         for (int i=0; i<14; i++){
             if (i % 2 == 0)
-                _shifts[i] = new Shift(ShiftType.MORNING, 8 , 16,startWeek.plusDays(i));
+                _shifts[i] = new Shift(_scheduleID,i, ShiftType.MORNING, 8 , 16,startWeek.plusDays(i));
             else
-                _shifts[i] = new Shift(ShiftType.NIGHT, 16 , 24,startWeek.plusDays(i));
+                _shifts[i] = new Shift(_scheduleID,i, ShiftType.NIGHT, 16 , 24,startWeek.plusDays(i));
         }
     }
 

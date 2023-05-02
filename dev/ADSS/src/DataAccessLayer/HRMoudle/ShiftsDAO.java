@@ -9,14 +9,15 @@ import java.util.List;
 
 public class ShiftsDAO extends DAO {
     private static ShiftsDAO _shiftsDAO = null;
+
     public static final String ScheduleIDColumnName = "scheduleID";
     public static final String ShiftIDColumnName = "shiftID";
-    public static final String ShiftNameColumnName = "shiftName";
-    public static final String ShiftStartTimeColumnName = "shiftStartTime";
-    public static final String ShiftEndTimeColumnName = "shiftEndTime";
-    public static final String ShiftDurationColumnName = "shiftDuration";
     public static final String ShiftTypeColumnName = "shiftType";
-    public static final String ShiftStoreIDColumnName = "shiftStoreID";
+    public static final String StartTimeColumnName = "startHour";
+    public static final String EndTimeColumnName = "endHour";
+    public static final String StoreIDColumnName = "storeID";
+    public static final String approvedColumnName = "approved";
+    public static final String rejectedColumnName = "rejected";
 
     private ShiftsDAO(){
         super("Shifts");
@@ -40,17 +41,17 @@ public class ShiftsDAO extends DAO {
 
     @Override
     public Shift convertReaderToObject(ResultSet resultSet) {
-        Shift shift = null;
-        try {
-            shift = new Shift(stringToEnum(resultSet.getString(3)), // VARCHAR(255)
-                    resultSet.getInt(4), //startHour
-                    resultSet.getInt(5), //endHour
-                    resultSet.getDate(9).toLocalDate());//date )
-        } catch (Exception e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-        }
-        return shift;
+//        Shift shift = null;
+//        try {
+//            shift = new Shift(stringToEnum(resultSet.getString(3)), // VARCHAR(255)
+//                    resultSet.getInt(4), //startHour
+//                    resultSet.getInt(5), //endHour
+//                    resultSet.getDate(9).toLocalDate());//date )
+//        } catch (Exception e) {
+//            System.out.println("Got Exception:");
+//            System.out.println(e.getMessage());
+//        }
+        return null;
     }
 
     public ShiftType stringToEnum(String str){
@@ -65,7 +66,6 @@ public class ShiftsDAO extends DAO {
     }
 
     public List<Shift> getShiftsByScheduleID(int scheduleID){
-        List<Shift> shifts = Select(makeList(ScheduleIDColumnName),makeList(String.valueOf(scheduleID)));
-        return shifts;
+        return Select(makeList(ScheduleIDColumnName),makeList(String.valueOf(scheduleID)));
     }
 }
