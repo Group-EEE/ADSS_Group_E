@@ -37,15 +37,12 @@ public class EmployeesToStoreDAO extends DAO {
         int storeID = (int)pair.getValue();
         if (employeeID < 0)
             throw new IllegalArgumentException("Invalid employee id");
-        if (employeeCache.containsKey(employeeID) && employeeCache.get(employeeID).contains(storeID)) {
-            System.out.println("Employee already exists in this store");
-            return false;
-        }
+        if (employeeCache.containsKey(employeeID) && employeeCache.get(employeeID).contains(storeID))
+            throw new IllegalArgumentException("Employee already belongs to this store");
         if (storeID < 0)
             throw new IllegalArgumentException("Invalid store id");
         if (storeCache.containsKey(storeID) && storeCache.get(storeID).contains(employeeID)) {
-            System.out.println("Store already has this employee");
-            return false;
+            throw new IllegalArgumentException("store already contains this employee");
         }
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}) VALUES(?, ?) "
                 , _tableName, EmployeeIDColumnName, StoreIDColumnName);
@@ -56,12 +53,10 @@ public class EmployeesToStoreDAO extends DAO {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             if (e.getMessage().contains("A PRIMARY KEY constraint failed"))
-                System.out.println("Employee already exists in this store");
-            else {
-                System.out.println("Got Exception:");
-                System.out.println(e.getMessage());
-                System.out.println(sql);
-            }
+                throw new IllegalArgumentException("Employee already belongs to this store");
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
             return false;
         }
         if (storeCache.containsKey(storeID)) {

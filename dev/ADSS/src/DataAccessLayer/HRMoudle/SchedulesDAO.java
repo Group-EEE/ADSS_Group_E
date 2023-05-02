@@ -16,7 +16,7 @@ public class SchedulesDAO extends DAO {
     public static final String ScheduleIDColumnName = "scheduleID";
     public static final String StartDateOfWeekColumnName = "startDateOfWeek";
     public static final String StoreIDColumnName = "StoreID";
-
+    private int _scheduleIDcache = 0;
 
 
     private SchedulesDAO(){
@@ -30,10 +30,13 @@ public class SchedulesDAO extends DAO {
     }
 
     public boolean Insert(Object scheduleObj){
+
         if (scheduleObj == null)
             throw new IllegalArgumentException("Invalid object schedule");
 
         Schedule schedule = (Schedule)scheduleObj;
+        if (schedule.getScheduleID() > _scheduleIDcache)
+            throw new IllegalArgumentException("Invalid schedule ID");
 
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}) VALUES(?, ?, ?) "
                 , _tableName, ScheduleIDColumnName, StoreIDColumnName, StartDateOfWeekColumnName );
@@ -43,7 +46,10 @@ public class SchedulesDAO extends DAO {
             pstmt.setInt(2, schedule.getStoreID());
             pstmt.setString(3, schedule.getStartDateOfWeek().format(formatters));
             pstmt.executeUpdate();
+            _scheduleIDcache++;
         } catch (SQLException e) {
+            if (e.getMessage().contains("A PRIMARY KEY constraint failed"))
+                throw new IllegalArgumentException("A schedule with this ID already exists");
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
             System.out.println(sql);
@@ -92,5 +98,22 @@ public class SchedulesDAO extends DAO {
             throw new IllegalArgumentException("Could not find schedule with id " + scheduleID);
         return result.get(0);
 
+    }
+
+    public int getmaxID(){
+        if (_scheduleIDcache != 0)
+            return _scheduleIDcache;
+        List<ResultSet> rsList = Select();
+        int max = 0;
+        for (ResultSet rs : rsList) {
+            try {
+                if (rs.getInt(1) > max)
+                    max = rs.getInt(1);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        _scheduleIDcache = max;
+        return _scheduleIDcache;
     }
 }

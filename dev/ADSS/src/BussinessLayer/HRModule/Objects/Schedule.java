@@ -1,5 +1,7 @@
 package BussinessLayer.HRModule.Objects;
 
+import DataAccessLayer.HRMoudle.SchedulesDAO;
+
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -7,16 +9,15 @@ import java.util.List;
 import java.util.Locale;
 
 public class Schedule {
-    public static int scheduleCounter = 0;
     private int _scheduleID;
     private int _storeID;
     private LocalDate _startDateOfWeek;
     private Shift[] _shifts = new Shift[14];
 
-    public Schedule(LocalDate startWeek, int storeID){
+    public Schedule(int scheduleID, LocalDate startWeek, int storeID){
+        this._scheduleID = scheduleID;
         this._startDateOfWeek = startWeek;
         this._storeID = storeID;
-        _scheduleID = scheduleCounter++;
         for (int i=0; i<14; i++){
             if (i % 2 == 0)
                 _shifts[i] = new Shift(_scheduleID,i, ShiftType.MORNING, 8 , 16,startWeek.plusDays(i));

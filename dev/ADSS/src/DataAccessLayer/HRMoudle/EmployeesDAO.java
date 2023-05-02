@@ -39,7 +39,10 @@ public class EmployeesDAO extends DAO {
     //table column names
 
     public boolean Insert(Object employeeObj) {
+
         Employee employee = (Employee) employeeObj;
+        if (employeesCache.containsKey(employee.getID()))
+            throw new IllegalArgumentException("Employee already exists with this ID");
         //int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}, {4}, {5}, {6} ,{7},{8}) VALUES(?, ?, ?, ?, ?, ?,?,?) "
                 , _tableName, IDColumnName, FirstNameColumnName, LastNameColumnName, AgeColumnName, BankAccountColumnName, SalaryColumnName, HiringConditionsColumnName, StartOfEmploymentColumnName);
@@ -56,6 +59,8 @@ public class EmployeesDAO extends DAO {
             pstmt.setBoolean(8, employee.getFinishWorking());
             pstmt.executeUpdate();
         } catch (SQLException e) {
+            if (e.getMessage().contains("A PRIMARY KEY constraint failed"))
+                throw new IllegalArgumentException("An employee with this ID already exists");
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
             System.out.println(sql);

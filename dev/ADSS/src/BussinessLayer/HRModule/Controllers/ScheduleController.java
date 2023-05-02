@@ -36,28 +36,28 @@ public class ScheduleController {
         if (day < 1 || day > 31 || month < 1 || month > 12 || year < 0)
             throw new IllegalArgumentException("Invalid date parameters");
         LocalDate localDate = LocalDate.of(year, month, day);
-        return _schedulesDAO.Insert(new Schedule(localDate,storeID));
+        return _schedulesDAO.Insert(new Schedule(_schedulesDAO.getmaxID(), localDate, storeID));
     }
 
-    public String printSchedule(int storeID){
+    public Schedule getSchedule(int storeID){
         if (storeID < 0 )
             throw new IllegalArgumentException("Invalid store ID");
         Schedule schedule = _activeSchedulesDAO.getSchedule(storeID);
         if (schedule == null)
             throw new IllegalArgumentException("Invalid store");
-        return new Gson().toJson(schedule); //return json and interpret in UI
+        return schedule;
     }
 
-    public String printSchedule(String storeName){
+    public Schedule getSchedule(String storeName){
         if (storeName == null )
             throw new IllegalArgumentException("Invalid store name");
         Schedule schedule = _activeSchedulesDAO.getSchedule(storeName);
         if (schedule == null)
             throw new IllegalArgumentException("Invalid store");
-        return new Gson().toJson(schedule); //return json and interpret in UI
+        return schedule;
     }
 
-    public  String printEmployeeSchedule(Employee employee){
+    public List<Shift> getEmployeeSchedule(Employee employee){
         List<Shift> shiftList = new ArrayList<>();
         if (employee == null)
             throw new IllegalArgumentException("Invalid employee");
@@ -78,7 +78,7 @@ public class ScheduleController {
                 }
             }
         }
-        return new Gson().toJson(shiftList);
+        return shiftList;
     }
 
     public boolean changeShiftHours(String storeName, int newStartHour, int newEndHour, int shiftID){

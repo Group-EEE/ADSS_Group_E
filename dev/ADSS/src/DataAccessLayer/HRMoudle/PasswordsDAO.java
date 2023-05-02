@@ -37,6 +37,8 @@ public class PasswordsDAO extends DAO {
             pstmt.executeUpdate();
         }
         catch ( SQLException e){
+            if (e.getMessage().contains("A PRIMARY KEY constraint failed"))
+                throw new IllegalArgumentException("Employee already has a password in the database");
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
             System.out.println(sql);
