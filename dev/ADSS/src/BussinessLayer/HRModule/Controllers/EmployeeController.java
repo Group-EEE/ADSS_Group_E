@@ -8,7 +8,6 @@ import DataAccessLayer.HRMoudle.EmployeesDAO;
 import DataAccessLayer.HRMoudle.PasswordsDAO;
 import DataAccessLayer.HRMoudle.EmployeesToStoreDAO;
 import DataAccessLayer.HRMoudle.EmployeesToRolesDAO;
-import com.google.gson.Gson;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -111,14 +110,14 @@ public class EmployeeController {
      * @param employeeID - the id of the employee
      * for HRMenuRemoveRoleFromEmployee
      */
-    public String printEmployeeRoles(int employeeID) {
-        if (employeeID <0)
-            throw new IllegalArgumentException("Illegal employee ID");
-        Employee employee = getEmployeeByID(employeeID);
-        if (employee == null)
-            throw new IllegalArgumentException("Employee not found");
-        return new Gson().toJson(employee.getRoles());
-    }
+//    public String printEmployeeRoles(int employeeID) {
+//        if (employeeID <0)
+//            throw new IllegalArgumentException("Illegal employee ID");
+//        Employee employee = getEmployeeByID(employeeID);
+//        if (employee == null)
+//            throw new IllegalArgumentException("Employee not found");
+//        return new Gson().toJson(employee.getRoles());
+//    }
 
     /**
      * @param employeeID - the id of the employee

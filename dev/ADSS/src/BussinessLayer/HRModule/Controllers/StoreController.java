@@ -5,7 +5,6 @@ import BussinessLayer.HRModule.Objects.Pair;
 import BussinessLayer.HRModule.Objects.Store;
 import DataAccessLayer.HRMoudle.EmployeesToStoreDAO;
 import DataAccessLayer.HRMoudle.StoresDAO;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +33,7 @@ public class StoreController {
      * @param storeAddress - the address of the store
      * @return - true if the store was created successfully, false otherwise
      */
-    public boolean createStore(int storeID, String storeName, String storeAddress, String phone, String siteContactName) {
+    public boolean createStore(int storeID, String storeName, String storeAddress, String phone, String siteContactName, int area) {
         if (storeName == null)
             throw new IllegalArgumentException("Invalid store name");
         if (storeAddress == null)
@@ -43,7 +42,7 @@ public class StoreController {
             throw new IllegalArgumentException("Store already has this ID");
         if (_storesDAO.existsStore(storeName))
             throw new IllegalArgumentException("Store already has this name");
-        Store newStore = new Store(storeID,storeName, storeAddress,phone,siteContactName);
+        Store newStore = new Store(storeID,storeName, storeAddress,phone,siteContactName, area);
         return _storesDAO.Insert(newStore);
     }
 

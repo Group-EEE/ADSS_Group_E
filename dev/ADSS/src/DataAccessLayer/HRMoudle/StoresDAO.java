@@ -19,6 +19,7 @@ public class StoresDAO extends DAO {
     public static final String AddressColumnName = "address";
     public static final String PhoneColumnName = "phone";
     public static final String ContactColumnName= "contactName";
+    public static final String Area = "area";
 
     private StoresDAO() {
         super("Stores");
@@ -35,8 +36,8 @@ public class StoresDAO extends DAO {
     @Override
     public boolean Insert(Object storeObj) {
         Store store = (Store) storeObj;
-        String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}, {4}, {5}) VALUES(?, ?, ?, ? ,?) "
-                , _tableName, StoreIDColumnName, NameColumnName, AddressColumnName, PhoneColumnName, ContactColumnName
+        String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}, {4}, {5}, {6}) VALUES(?, ?, ?, ? ,?, ?) "
+                , _tableName, StoreIDColumnName, NameColumnName, AddressColumnName, PhoneColumnName, ContactColumnName, Area
         );
 
         try (Connection connection = DriverManager.getConnection(url);
@@ -46,6 +47,7 @@ public class StoresDAO extends DAO {
             pstmt.setString(3, store.getAddress());
             pstmt.setString(4, store.getPhone());
             pstmt.setString(5, store.getSite_contact_name());
+            pstmt.setInt(6, store.get_area());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Got Exception:");
@@ -84,7 +86,7 @@ public class StoresDAO extends DAO {
     public Store convertReaderToObject(ResultSet rs) throws SQLException {
         if(storesCache.containsKey(rs.getInt(1)))
             return storesCache.get(rs.getInt(1));
-        Store store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+        Store store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6));
         storesCache.put(store.getStoreID(),store);
         storesCacheByName.put(store.getName(),store);
         return store;
@@ -175,5 +177,21 @@ public class StoresDAO extends DAO {
     }
 
 
+    public boolean is_store_in_the_area(String store_name, int area){
+        String query = "SELECT * FROM " + this._tableName + " WHERE area = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, planned_date);
+            ResultSet res = statement.executeQuery();
+            while (res.next()){
+                if (res.getInt(12) == driver_ID ){
+                    return true;
+                }
+            }
+        }
+        catch (SQLException e) {
+
+        }
+    }
 
 }
