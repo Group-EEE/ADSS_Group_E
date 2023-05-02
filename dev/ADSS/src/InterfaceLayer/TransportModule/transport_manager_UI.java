@@ -36,7 +36,7 @@ public class transport_manager_UI {
     // ===== Main menu =====
     public void start() {
         if (controller.getLogistical_center() == null) {
-            get_logistical_center();
+            create_logistical_center();
         }
         int choice = 0;
         boolean isValid = false;
@@ -265,7 +265,7 @@ public class transport_manager_UI {
     /**
      * asking from the user details about the logistical center and create it in the controller.
      */
-    private void get_logistical_center() {
+    private void create_logistical_center() {
         System.out.println("Hey Boss, currently the system does not have the details about the logistics center.");
         String origin_address = null;
         boolean isValid = false;

@@ -229,7 +229,7 @@ public class Transport_dao extends DAO {
                 statement.setString(1, store);
                 ResultSet res = statement.executeQuery();
                 if (res.next()){
-                    Store new_store = new Store(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5));
+                    Store new_store = new Store(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getInt(6));
                     transport.insertToDestinations(new_store);
                 }
             } catch (SQLException e) {

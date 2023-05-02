@@ -10,9 +10,9 @@ import java.util.Scanner;
 
 public class underway_transport_UI {
     // ===== attributes =====
-    private underway_transport_controller controller;
+    private final underway_transport_controller controller;
     Logistical_center_controller  logistical_center_controller;
-    Scanner scanner;
+    private final Scanner scanner;
     Logistical_Center logistical_center;
     public underway_transport_UI(){
         this.controller = underway_transport_controller.getInstance();

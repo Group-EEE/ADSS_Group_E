@@ -11,7 +11,15 @@ import java.util.HashMap;
 public class Trucks_dao extends DAO {
     HashMap<String, Truck> Trucks;
 
-    public Trucks_dao(String tableName) {
+    private static Trucks_dao trucks_dao = null;
+
+    public static Trucks_dao get_instance(){
+        if (trucks_dao == null)
+            trucks_dao = new Trucks_dao("Trucks");
+        return trucks_dao;
+    }
+
+    private Trucks_dao(String tableName) {
         super(tableName);
         Trucks = new HashMap<>();
         get_all_trucks_from_database();

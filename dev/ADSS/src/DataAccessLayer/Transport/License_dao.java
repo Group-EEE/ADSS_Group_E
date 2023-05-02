@@ -10,8 +10,13 @@ import java.util.HashMap;
 
 public class License_dao extends DAO {
     private HashMap<Integer, License> Licenses;
-
-    public License_dao(String table_name){
+    private static License_dao license_dao = null;
+    public static License_dao getInstance(){
+        if (license_dao == null)
+            license_dao = new License_dao("Licenses");
+        return license_dao;
+    }
+    private License_dao(String table_name){
         super(table_name);
         Licenses = new HashMap<>();
         get_all_licenses_from_db();

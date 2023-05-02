@@ -17,12 +17,9 @@ public class Logistical_center_controller {
     private Site_Supply_dao site_supply_dao;
     private Drivers_dao drivers_dao;
 
-    private License_dao license_dao;
+
     private static Logistical_center_controller instance;
-    private Transport_System transport_system;
     private Logistical_Center logistical_center;
-    private ready_database ready_database;
-    private StoresDAO storesDAO;
     public static Logistical_center_controller getInstance(){
         if (instance == null){
             instance = new Logistical_center_controller();
@@ -32,11 +29,6 @@ public class Logistical_center_controller {
     // singleton
 
     private Logistical_center_controller(){
-        transport_system = new Transport_System();
-        trucks_dao = new Trucks_dao("Trucks");
-        license_dao = new License_dao("Licenses");
-        site_supply_dao = new Site_Supply_dao("Sites_Documents");
-        storesDAO = StoresDAO.getInstance();
     }
 
     public void create_Logistical_Center(String address, String phone, String name, String site_contact_name){
@@ -258,7 +250,7 @@ public class Logistical_center_controller {
     }
 
     public boolean check_if_license_id_exist(int license_ID){
-        return license_dao.check_if_license_exist(license_ID);
+        return License_dao.getInstance().check_if_license_exist(license_ID);
     }
 
     public boolean check_if_transport_id_exist(int transport_ID){

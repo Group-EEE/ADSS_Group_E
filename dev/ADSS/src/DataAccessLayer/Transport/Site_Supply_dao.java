@@ -16,7 +16,14 @@ import java.util.Map;
 public class Site_Supply_dao extends DAO {
 
     HashMap<Integer, Site_Supply> site_supply_documents;
-    public Site_Supply_dao(String tableName) {
+    private static Site_Supply_dao site_supply_dao = null;
+    public static Site_Supply_dao getInstance(){
+        if (site_supply_dao == null)
+            site_supply_dao = new Site_Supply_dao("Sites_Documents");
+        return site_supply_dao;
+    }
+
+    private Site_Supply_dao(String tableName) {
         super(tableName);
         site_supply_documents = new HashMap<>();
         get_site_supply_documents_from_db();
