@@ -136,7 +136,6 @@ public class Transport_dao extends DAO {
             }
         }
         catch (SQLException e) {
-            System.out.println("This transport is not exist in the Database.");
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

@@ -73,26 +73,24 @@ public class underway_transport_UI {
                         controller.reset_transport(transport_ID, false);
                         return;
                     }
-                    }
                 }
-                // unloading the goods in the store
-                else if (controller.is_current_location_is_store(transport_ID)) {
-                    if (controller.unload_goods(transport_ID)) {
-                        System.out.println("goods unloaded in " + controller.get_current_location_name(transport_ID));
-                    } else {
-                        System.out.println("We currently don't have any goods for " + controller.get_current_location_name(transport_ID) + " ,skip this store for now.");
-                    }
-                }
-                // driving to the next site.
-                controller.drive_to_next_location(transport_ID);
             }
+            // unloading the goods in the store
+            else if (controller.is_current_location_is_store(transport_ID)) {
+                if (controller.unload_goods(transport_ID)) {
+                    System.out.println("goods unloaded in " + controller.get_current_location_name(transport_ID));
+                } else {
+                    System.out.println("We currently don't have any goods for " + controller.get_current_location_name(transport_ID) + " ,skip this store for now.");
+                }
+            }
+            // driving to the next site.
+            controller.drive_to_next_location(transport_ID);
+        }
         // if the transport wasn't aborted, we update the truck and the driver, so they can now go to another shipment.
-            if (!aborted) {
-                controller.reset_transport(transport_ID, true);
-                System.out.println("Transport " + transport_ID + " now finished.");
-            }
-
-
+        if (!aborted) {
+            controller.reset_transport(transport_ID, true);
+            System.out.println("Transport " + transport_ID + " now finished.");
+        }
     }
 
     /**
