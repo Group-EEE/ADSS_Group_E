@@ -3,7 +3,8 @@ package BussinessLayer.HRModule.Controllers;
 import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Shift;
-import BussinessLayer.HRModule.Objects.Store;
+import DataAccessLayer.HRMoudle.EmployeesDAO;
+import DataAccessLayer.HRMoudle.EmployeesToRolesDAO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 public class Facade {
     private Employee _loggedUser;
     private Employee _HRManager;
+    private boolean _hasHRManager;
     private static Facade _facade = null;
     private final StoreController _storeController;
     private final EmployeeController _employeeController;
@@ -20,6 +22,9 @@ public class Facade {
         _storeController = StoreController.getInstance();
         _employeeController = EmployeeController.getInstance();
         _scheduleController = ScheduleController.getInstance();
+        _hasHRManager = EmployeesToRolesDAO.getInstance().existHRmanager();
+        if (_hasHRManager)
+            _HRManager = EmployeesDAO.getInstance().getEmployee(EmployeesToRolesDAO.getInstance().getHRmangerID());
     }
 
     public static Facade getInstance(){
@@ -28,53 +33,15 @@ public class Facade {
         return _facade;
     }
 
-//    //initiate
-//    public boolean loadData(){
-//        createEmployee("Chen","Frydman", 22, 1,"BankA","123",true);
-//        createEmployee("Gali","Frydman", 17, 2,"BankA","234",false);
-//        createEmployee("Amit","Oren",23, 3, "BankA", "345", false);
-//        createEmployee("Daniel","Sphira", 26, 4, "BankC", "456", false);
-//        createEmployee("Ido","Paz", 26, 5, "BankC", "567", false);
-//        createEmployee("Gal","Chen", 26, 6, "BankC", "678", false);
-//
-//        addRoleToEmployee(1, RoleType.ShiftManager);
-//        addRoleToEmployee(2, RoleType.ShiftManager);
-//        addRoleToEmployee(3, RoleType.General);
-//
-//        createStore(1,"a","a");
-//        createStore(2,"b","b");
-//        createStore(3,"c","c");
-//
-//        addEmployeeToStore(1,"a");
-//        addEmployeeToStore(2,"a");
-//        addEmployeeToStore(3,"a");
-//        addEmployeeToStore(4,"b");
-//        addEmployeeToStore(5,"b");
-//        addEmployeeToStore(6,"b");
-//
-//        createNewSchedule("a", 1, 1, 2020);
-//        login(1,"123");
-//        addEmployeeToShift("a", 1);
-//        logout();
-//        login(2,"234");
-//        addEmployeeToShift("a", 1);
-//        logout();
-//        login(3,"345");
-//        addEmployeeToShift("a", 1);
-//        logout();
-//
-//        return true;
-//    }
-
     //_employeeController
-    public boolean login(int id, String password){
-        _loggedUser =  _employeeController.login(id, password);
+    public boolean login(int employeeID, String password){
+        _loggedUser =  _employeeController.login(employeeID, password);
         if (_loggedUser == null)
             throw new IllegalArgumentException("Invalid id or password");
         return true;
     }
     public boolean hasHRManager(){
-        return _HRManager != null;
+        return _hasHRManager;
     }
 
     public boolean hasLoggedUser(){
@@ -92,7 +59,7 @@ public class Facade {
         return true;
     }
 
-    public boolean printEmployeeRoles(int employeeID){
+    public String printEmployeeRoles(int employeeID){
         return _employeeController.printEmployeeRoles(employeeID);
     }
 
@@ -118,15 +85,14 @@ public class Facade {
         return _loggedUser.setNewBankAccount(bankAccount);
     }
 
-    public boolean createEmployee(int id, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployemen, String password, boolean isHRManager) {
-        if (firstName == null || lastName == null || age < 0 || id < 0 || bankAccount == null)
+    public boolean createEmployee(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployemen, String password, boolean isHRManager) {
+        if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null)
             throw new IllegalArgumentException("Invalid arguments");
-        boolean res = _employeeController.createEmployee(id, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployemen, password);
+        boolean res = _employeeController.createEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployemen, password);
         if (!res)
             return false;
         if (isHRManager) {
-            _HRManager = _employeeController.getEmployeeByID(id);
-            _HRManager.addRole(RoleType.HRManager);
+            return _employeeController.addRoleToEmployee(employeeID, RoleType.HRManager);
         }
         return true;
     }

@@ -10,23 +10,22 @@ import java.util.List;
 public class EmployeesDAO extends DAO {
 
     //int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
-    private static final String TableName = "Employee";
-    public static final String IDColumnName = "ID";
-    public static final String FirstNameColumnName = "FirstName";
+    public static final String IDColumnName = "employeeID";
+    public static final String FirstNameColumnName = "firstName";
     public static final String LastNameColumnName = "lastName";
-    public static final String AgeColumnName = "Age";
-    public static final String BankAccountColumnName = "BankAccount";
-    public static final String SalaryColumnName = "Salary";
-    public static final String HiringConditionsColumnName = "HiringConditions";
-    public static final String StartOfEmploymentColumnName = "StartOfEmployment";
-    public static final String FinishWorkingColumnName = "FinishWorking";
+    public static final String AgeColumnName = "age";
+    public static final String BankAccountColumnName = "bankAccount";
+    public static final String SalaryColumnName = "salary";
+    public static final String HiringConditionsColumnName = "hiringConditions";
+    public static final String StartOfEmploymentColumnName = "startDateOfEmployment";
+    public static final String FinishWorkingColumnName = "finishedWorking";
 
     private static EmployeesDAO _employeesDAO = null;
     private HashMap<Integer, Employee> employeesCache;
     private HashMap<Integer, Driver> driverCache;
 
     private EmployeesDAO() {
-        super(TableName);
+        super("Employees");
         employeesCache = new HashMap<>();
     }
     public static EmployeesDAO getInstance(){
@@ -53,7 +52,7 @@ public class EmployeesDAO extends DAO {
             pstmt.setInt(6, employee.getSalary());
             pstmt.setString(7, employee.getHiringCondition());
             pstmt.setString(8, employee.getStartDateOfEmployement().format(formatters));
-            //pstmt.setBoolean(8, employee.getFinishWorking());
+            pstmt.setBoolean(8, employee.getFinishWorking());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Got Exception:");
