@@ -195,7 +195,11 @@ public class HRManagerCLI{
             }
             System.out.println("password:");
             password = scanner.nextLine();
-            _facade.createEmployee(id, firstName, lastName, age, bankAccount, salary, hiringCondition,startDateOfEmployment, password, isHRManager);
+            try {
+                _facade.createEmployee(id, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployment, password, isHRManager);
+            } catch (Exception e){
+                System.out.println(e.getMessage());
+            }
         }
         return true;
     }
@@ -423,7 +427,7 @@ public class HRManagerCLI{
         if (storeName == null)
             return false;
         try{
-            _facade.printSchedule(storeName);
+            System.out.println(_facade.getSchedule(storeName));
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -619,7 +623,7 @@ public class HRManagerCLI{
         boolean exit = false;
         while(!exit) {
             try{
-                _facade.printSchedule(storeName);
+                System.out.println(_facade.getSchedule(storeName));
             }
             catch (Exception e){
                 System.out.println(e.getMessage());
@@ -648,7 +652,7 @@ public class HRManagerCLI{
         boolean exit = false;
         while(!exit) {
             try{
-                _facade.printSchedule(storeName);
+                System.out.println(_facade.getSchedule(storeName));
             }
             catch (Exception e){
                 System.out.println(e.getMessage());
@@ -689,7 +693,7 @@ public class HRManagerCLI{
         if (storeName == null)
             return false;
         try{
-            _facade.printSchedule(storeName);
+            System.out.println(_facade.getSchedule(storeName));
         }
         catch (Exception e){
             System.out.println(e.getMessage());

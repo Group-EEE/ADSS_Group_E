@@ -62,7 +62,7 @@ public class EmployeesCLI {
     public boolean employeeMenuSelectShifts() {
         String storeName = getStoreName();
         try{
-            _facade.printSchedule(storeName);
+            System.out.println(_facade.getSchedule(storeName));
         }
         catch (Exception e){
             System.out.println(e.getMessage());

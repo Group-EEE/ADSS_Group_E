@@ -1,9 +1,6 @@
 package BussinessLayer.HRModule.Controllers;
 
-import BussinessLayer.HRModule.Objects.Employee;
-import BussinessLayer.HRModule.Objects.RoleType;
-import BussinessLayer.HRModule.Objects.Shift;
-import BussinessLayer.HRModule.Objects.Store;
+import BussinessLayer.HRModule.Objects.*;
 import DataAccessLayer.HRMoudle.EmployeesDAO;
 import DataAccessLayer.HRMoudle.EmployeesToRolesDAO;
 
@@ -141,8 +138,8 @@ public class Facade {
         return _scheduleController.addEmployeeToShift(_loggedUser, storeName, shiftID);
     }
 
-    public String printSchedule(String storeName){
-        return _scheduleController.printSchedule(storeName);
+    public Schedule getSchedule(String storeName){
+        return _scheduleController.getSchedule(storeName);
     }
 
     public String printEmployeeSchedule(){

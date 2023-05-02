@@ -103,14 +103,10 @@ public class StoresDAO extends DAO {
     public boolean existsStore(int storeID){
         if (storesCache.containsKey(storeID))
             return true;
-        List<ResultSet> rsList = Select(StoreIDColumnName);
-        for (ResultSet rs : rsList) {
-            try {
-                if (rs.getInt(1) == storeID) {
-                    return true;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        List<Store> listStores = Select(StoreIDColumnName);
+        for (Store store : listStores) {
+            if (store.getStoreID() == storeID) {
+                return true;
             }
         }
         return false;
@@ -119,14 +115,10 @@ public class StoresDAO extends DAO {
     public boolean existsStore(String storeName){
         if (storesCacheByName.containsKey(storeName))
             return true;
-        List<ResultSet> rsList = Select(StoreIDColumnName);
-        for (ResultSet rs : rsList) {
-            try {
-                if (rs.getString(2).equals(storeName)) {
-                    return true;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        List<Store> listStores = Select(StoreIDColumnName);
+        for (Store store : listStores) {
+            if (store.getName().equals(storeName)) {
+                return true;
             }
         }
         return false;
