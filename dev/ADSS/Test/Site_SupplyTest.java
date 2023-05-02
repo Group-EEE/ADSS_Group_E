@@ -1,6 +1,5 @@
 import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.TransportationModule.objects.Site_Supply;
-import BussinessLayer.TransportationModule.objects.Store;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -9,7 +8,7 @@ import static org.junit.Assert.*;
 
 
 class Site_SupplyTest {
-    Store store = new Store(11111, "Nahal avner 52, Afula", "086452317", "Afula market", "Yaniv Bitton");
+    Store store = new Store(11111, "Nahal avner 52, Afula", "086452317", "Afula market", "Yaniv Bitton", 1);
     Site_Supply siteSupply = new Site_Supply(123456789, store, "Lamdan 15, Nof Hagalil");
 
     @Test
@@ -30,7 +29,7 @@ class Site_SupplyTest {
     @Test
     void setStore() {
         assertEquals("Afula market", siteSupply.getStore().getSite_name());
-        Store store1 = new Store(11, "Ben Yahuda 322, Yeruham", "086589593", "Sombrero", "Noam Kishon");
+        Store store1 = new Store(1, "Ben Yahuda 322, Yeruham", "086589593", "Sombrero", "Noam Kishon", 1);
         siteSupply.setStore(store1);
         assertEquals(store1, siteSupply.getStore());
         assertEquals("Sombrero", siteSupply.getStore().getSite_name());
