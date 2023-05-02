@@ -18,6 +18,8 @@ public class SpecificProduct {
     private String Supplier; //the supplier
     private double Supplier_Price; //the price that supplier declares from us
 
+    private LocalDateTime arrivaldate; //products arrival date to the store
+
     //constructor
     public SpecificProduct(double supplier_Price,String supplier, int aID, int pID, LocalDateTime aExp_date, boolean aDefective, String aDefect_report_by, boolean aInWarehouse, String aStoreBranch, int aLocationInStore, Discount aDiscount, String defectType) {
         this.Sp_ID = aID;
@@ -32,6 +34,7 @@ public class SpecificProduct {
         this.Store_Branch = aStoreBranch;
         this.Supplier_Price =supplier_Price;
         this.Supplier =supplier;
+        this.arrivaldate = LocalDateTime.now();
     }
 
     //function return true if defective
@@ -105,5 +108,10 @@ public class SpecificProduct {
     //change the defect type-mostly from null
     public void setDefectType(String defectType) {
         DefectType = defectType;
+    }
+
+    //returns the arrival date of the specific product
+    public LocalDateTime getArrivaldate() {
+        return arrivaldate;
     }
 }

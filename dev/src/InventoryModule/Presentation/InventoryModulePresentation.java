@@ -31,9 +31,11 @@ public class InventoryModulePresentation {
     }
 
     public void Start(){
+
+        String c = "";
         if(productController.getBarcodesOfNewProductsSize() !=0)
             System.out.println("There are new products that are waiting to be added to the system!");
-        while(true){ //main menu of all possible choices of information the employee needs
+        while (!c.equals("0")){ //main menu of all possible choices of information the employee needs
             Scanner option = new Scanner(System.in);
             System.out.println("Please choose an option");
             System.out.println("1. Products");
@@ -43,48 +45,49 @@ public class InventoryModulePresentation {
             System.out.println("5. SubCategories");
             System.out.println("6. SubSubCategories");
             System.out.println("7. Discounts");
-            System.out.println("8. Super-Li dataBase exist information");//option to charge information like
-            //data base
-            int c = option.nextInt();
+            System.out.println("0. Exit");
+
+            c = option.nextLine();
             switch (c) {
-                case 1: //sub menu - everything about products
-                    Scanner option1 = new Scanner(System.in);
-                    System.out.println("Please choose an option");
-                    System.out.println("1. Add new product to the store");
-                    System.out.println("2. Get all products' barcode");
-                    int c1 = option1.nextInt();
-                    switch (c1) {
-                        case 1:
-                            //add the new product to the controller, inside there is a call to the constructor
-                            productController.addProduct();
-                            break;
-                        case 2:
-                            //call the function that print all products barcodes
-                            productController.GetAllProductBarcode();
-                            break;
+                case "1": //sub menu - everything about products
+                    String c1 = "";
+                    while (!c1.equals("0")){
+                        Scanner option1 = new Scanner(System.in);
+                        System.out.println("Please choose an option");
+                        System.out.println("1. Add new product to the store");
+                        System.out.println("2. Get all products' barcode");
+                        System.out.println("0. Exit");
+                        c1 = option1.nextLine();
+                        switch (c1) {
+                            case "1":
+                                //add the new product to the controller, inside there is a call to the constructor
+                                productController.addProduct();
+                                break;
+                            case "2":
+                                //call the function that print all products barcodes
+                                productController.GetAllProductBarcode();
+                                break;
+                        }
                     }
                     break;
-                case 2: //sub menu - everything about Specific Products
+                case "2": //sub menu - everything about Specific Products
                     specificProductPresentation.ShowSpecificProductMenu();
                     break;
-                case 3: //Reports
+                case "3": //Reports
                     reportPresentation.ShowReportMenu();
                     break;
-                case 4: //Categories
+                case "4": //Categories
                     categoryPresentation.ShowCategoryMenu();
                     break;
-                case 5: //SubCategories
+                case "5": //SubCategories
                     categoryPresentation.ShowSubCategory();
                     break;
-                case 6: //SubSubCategories
+                case "6": //SubSubCategories
                     categoryPresentation.ShowSubSubCategory();
                     break;
-                case 7: //Discounts
+                case "7": //Discounts
                     this.ShowDiscountMenu();
                     break;
-                case 8: //Super-Li dataBase exist information
-                    //addData();
-
             }
 
         }
@@ -94,62 +97,66 @@ public class InventoryModulePresentation {
      */
 
     public void ShowDiscountMenu(){
-        Scanner option7 = new Scanner(System.in);
-        System.out.println("Please choose an option");
-        System.out.println("1. Update discount for category in store");
-        System.out.println("2. Update discount for product in store");
-        System.out.println("3. Update discount for specific product in store");
-        System.out.println("4. Update store price");
-        int c7 = option7.nextInt();
-        switch (c7) {
-            case 1: //Update discount for category in store
-                System.out.println("Please enter Category:");
-                String category4 = reader.nextLine();
-                System.out.println("Please enter discount amount:");
-                double discount4 = reader.nextDouble();
-                System.out.println("Please enter Exp Date yyyy-MM-dd:");
-                String start4 = reader.nextLine();
-                LocalDateTime start44 = LocalDateTime.parse(start4+"T00:00:00");
-                System.out.println("Please enter Exp Date yyyy-MM-dd:");
-                String end4 = reader.nextLine();
-                LocalDateTime end44 = LocalDateTime.parse(end4+"T00:00:00");
-                update_discount_bycategory(category4, start44, end44, discount4);
-                break;
-            case 2: //Update discount for product in store
-                System.out.println("Please enter Product's name:");
-                String nam5 = reader.nextLine();
-                System.out.println("Please enter discount amount:");
-                double discount5 = reader.nextDouble();
-                System.out.println("Please enter discount start Date yyyy-MM-dd:");
-                String start5 = reader.nextLine();
-                LocalDateTime start55 = LocalDateTime.parse(start5+"T00:00:00");
-                System.out.println("Please enter discount end Date yyyy-MM-dd:");
-                String end5 = reader.nextLine();
-                LocalDateTime end55 = LocalDateTime.parse(end5+"T00:00:00");
-                update_discount_byproduct(nam5, start55, end55, discount5);
-                break;
-            case 3: //Update discount for specific product in store
-                System.out.println("Please enter Product's name:");
-                String nam6 = reader.nextLine();
-                System.out.println("Please enter Product's name:");
-                int pid66 = reader.nextInt();
-                System.out.println("Please enter discount amount:");
-                double discount6 = reader.nextDouble();
-                System.out.println("Please enter discount start Date yyyy-MM-dd:");
-                String start6 = reader.nextLine();
-                LocalDateTime start66 = LocalDateTime.parse(start6+"T00:00:00");
-                System.out.println("Please enter discount end Date yyyy-MM-dd:");
-                String end6 = reader.nextLine();
-                LocalDateTime end66 = LocalDateTime.parse(end6+"T00:00:00");
-                update_discount_byspecificproduct(nam6 , pid66, start66, end66, discount6);
-                break;
-            case 4: //Update store price
-                System.out.println("Please enter Product's barcode:");
-                int Barcode8 = reader.nextInt();
-                System.out.println("Please enter Product's new price:");
-                double np8 = reader.nextDouble();
-                productController.getProductByBarcode(Barcode8).setCostumer_Price(np8);
-                break;
+        String c7 ="";
+        while (!c7.equals("0")) {
+            Scanner option7 = new Scanner(System.in);
+            System.out.println("Please choose an option");
+            System.out.println("1. Update discount for category in store");
+            System.out.println("2. Update discount for product in store");
+            System.out.println("3. Update discount for specific product in store");
+            System.out.println("4. Update store price");
+            System.out.println("0. Exit");
+            c7 = option7.nextLine();
+            switch (c7) {
+                case "1": //Update discount for category in store
+                    System.out.println("Please enter Category:");
+                    String category4 = reader.nextLine();
+                    System.out.println("Please enter discount amount:");
+                    double discount4 = reader.nextDouble();
+                    System.out.println("Please enter Exp Date yyyy-MM-dd:");
+                    String start4 = reader.nextLine();
+                    LocalDateTime start44 = LocalDateTime.parse(start4+"T00:00:00");
+                    System.out.println("Please enter Exp Date yyyy-MM-dd:");
+                    String end4 = reader.nextLine();
+                    LocalDateTime end44 = LocalDateTime.parse(end4+"T00:00:00");
+                    update_discount_bycategory(category4, start44, end44, discount4);
+                    break;
+                case "2": //Update discount for product in store
+                    System.out.println("Please enter Product's name:");
+                    String nam5 = reader.nextLine();
+                    System.out.println("Please enter discount amount:");
+                    double discount5 = reader.nextDouble();
+                    System.out.println("Please enter discount start Date yyyy-MM-dd:");
+                    String start5 = reader.nextLine();
+                    LocalDateTime start55 = LocalDateTime.parse(start5+"T00:00:00");
+                    System.out.println("Please enter discount end Date yyyy-MM-dd:");
+                    String end5 = reader.nextLine();
+                    LocalDateTime end55 = LocalDateTime.parse(end5+"T00:00:00");
+                    update_discount_byproduct(nam5, start55, end55, discount5);
+                    break;
+                case "3": //Update discount for specific product in store
+                    System.out.println("Please enter Product's name:");
+                    String nam6 = reader.nextLine();
+                    System.out.println("Please enter Product's name:");
+                    int pid66 = reader.nextInt();
+                    System.out.println("Please enter discount amount:");
+                    double discount6 = reader.nextDouble();
+                    System.out.println("Please enter discount start Date yyyy-MM-dd:");
+                    String start6 = reader.nextLine();
+                    LocalDateTime start66 = LocalDateTime.parse(start6+"T00:00:00");
+                    System.out.println("Please enter discount end Date yyyy-MM-dd:");
+                    String end6 = reader.nextLine();
+                    LocalDateTime end66 = LocalDateTime.parse(end6+"T00:00:00");
+                    update_discount_byspecificproduct(nam6 , pid66, start66, end66, discount6);
+                    break;
+                case "4": //Update store price
+                    System.out.println("Please enter Product's barcode:");
+                    int Barcode8 = reader.nextInt();
+                    System.out.println("Please enter Product's new price:");
+                    double np8 = reader.nextDouble();
+                    productController.getProductByBarcode(Barcode8).setCostumer_Price(np8);
+                    break;
+            }
         }
     }
     /*public static void addData(){

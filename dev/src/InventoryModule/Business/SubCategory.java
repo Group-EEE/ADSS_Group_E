@@ -26,4 +26,8 @@ public class SubCategory {
     public void addSubSub(SubSubCategory ssc){
         subSubCategories.add(ssc);
     }
+
+    public void setSubSubCategories(List<SubSubCategory> subSubCategories) {
+        this.subSubCategories = subSubCategories;
+    }
 }

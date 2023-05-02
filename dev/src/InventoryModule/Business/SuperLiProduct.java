@@ -193,4 +193,8 @@ public class SuperLiProduct {
     public String getManufacturer() {
         return Manufacturer;
     }
+
+    public void setSpecificProducts(List<SpecificProduct> specificProducts) {
+        this.specificProducts = specificProducts;
+    }
 }

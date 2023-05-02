@@ -23,7 +23,7 @@ public class ManufacturerDAO {
         return manufacturerDAO;
     }
 
-    public void WriteManufacturersToCache() {
+    public void ReadManufacturersToCache() {
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Manufacturer");
             ResultSet rs = stmt.executeQuery();

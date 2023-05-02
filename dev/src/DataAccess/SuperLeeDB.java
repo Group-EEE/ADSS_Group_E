@@ -1,5 +1,6 @@
 package DataAccess;
 
+import DataAccess.InventoryModule.*;
 import DataAccess.SuppliersModule.*;
 import SuppliersModule.Business.*;
 
@@ -21,8 +22,12 @@ public class SuperLeeDB {
     private ContactDAO contactDAO;
     private PeriodicOrderDAO periodicOrderDAO;
     private  OrderFromSupplierDAO orderFromSupplierDAO;
-
-
+    private CategoryDAO categoryDAO;
+    private DiscountDAO discountDAO;
+    private SpecificProductDAO specificProductDAO;
+    private SubCategoryDAO subCategoryDAO;
+    private SubSubCategoryDAO subSubCategoryDAO;
+    private SuperLiProductDAO superLiProductDAO;
 
     private SuperLeeDB() {
 
@@ -41,6 +46,12 @@ public class SuperLeeDB {
         periodicOrderDAO = PeriodicOrderDAO.getInstance(conn);
         orderFromSupplierDAO = OrderFromSupplierDAO.getInstance(conn);
 
+        categoryDAO = CategoryDAO.getInstance(conn);
+        discountDAO = DiscountDAO.getInstance(conn);
+        specificProductDAO = SpecificProductDAO.getInstance(conn);
+        subCategoryDAO = SubCategoryDAO.getInstance(conn);
+        subSubCategoryDAO = SubSubCategoryDAO.getInstance(conn);
+        superLiProductDAO = SuperLiProductDAO.getInstance(conn);
 
     }
 
@@ -60,9 +71,12 @@ public class SuperLeeDB {
 
     public void ReadAllToCache()
     {
-        manufacturerDAO.WriteManufacturersToCache();
+        manufacturerDAO.ReadManufacturersToCache();
         genericProductDAO.ReadGenericProductsToCache();
         supplierDAO.ReadSuppliersToCache();
+        categoryDAO.ReadCategoryToCache();
+        discountDAO.ReadDiscountToCache();
+        superLiProductDAO.ReadSuperLiProductToCache();
     }
 
     public void WriteAllToDB(){

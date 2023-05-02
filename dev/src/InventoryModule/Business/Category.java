@@ -24,4 +24,8 @@ public class Category {
     public void addSub(SubCategory sc){
         subCategories.add(sc);
     }
+
+    public void setSubCategories(List<SubCategory> subCategories) {
+        this.subCategories = subCategories;
+    }
 }
