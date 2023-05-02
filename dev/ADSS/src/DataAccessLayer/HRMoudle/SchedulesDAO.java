@@ -34,29 +34,27 @@ public class SchedulesDAO extends DAO {
             throw new IllegalArgumentException("Invalid object schedule");
 
         Schedule schedule = (Schedule)scheduleObj;
-        boolean res = true;
 
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}) VALUES(?, ?, ?) "
-                , _tableName, ScheduleIDColumnName, StartDateOfWeekColumnName, StoreIDColumnName);
+                , _tableName, ScheduleIDColumnName, StoreIDColumnName, StartDateOfWeekColumnName );
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, schedule.getScheduleID());
-            pstmt.setDate(2, schedule.getStartDateOfWeek());
-            pstmt.setInt(3, schedule.getStoreID());
+            pstmt.setInt(2, schedule.getStoreID());
+            pstmt.setString(3, schedule.getStartDateOfWeek().format(formatters));
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
             System.out.println(sql);
-            res = false;
+            return false;
         }
-        return res;
+        return true;
     }
 
     @Override
     public boolean Delete(Object objectSchedule) {
         Schedule schedule = (Schedule)objectSchedule;
-        boolean res = true;
         String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ? ", _tableName, ScheduleIDColumnName);
 
         try (Connection connection = DriverManager.getConnection(url);
@@ -67,9 +65,9 @@ public class SchedulesDAO extends DAO {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
             System.out.println(sql);
-            res = false;
+            return false;
         }
-        return res;
+        return true;
     }
 
 
@@ -77,14 +75,13 @@ public class SchedulesDAO extends DAO {
     public Schedule convertReaderToObject(ResultSet rs) throws SQLException {
         ShiftsDAO shiftsDAO = ShiftsDAO.getInstance();
         List<Shift> shifts = shiftsDAO.getShiftsByScheduleID(rs.getInt(1));
-        Schedule schedule = new Schedule(rs.getInt(1), rs.getDate(2).toLocalDate(), rs.getInt(3), shifts);
-        return schedule;
+        return new Schedule(rs.getInt(1), parseLocalDate(rs.getString(3)), rs.getInt(2), shifts);
     }
 
     public Schedule getSchedule(LocalDate date, int storeID) {
-        List<Schedule> result = Select(makeList(StartDateOfWeekColumnName, StoreIDColumnName), makeList(date.toString(), String.valueOf(storeID)));
+        List<Schedule> result = Select(makeList(StartDateOfWeekColumnName, StoreIDColumnName), makeList(date.format(formatters), String.valueOf(storeID)));
         if (result.size() == 0)
-            throw new IllegalArgumentException("Could not find schedule for date " + date.toString() + " and store " + storeID);
+            throw new IllegalArgumentException("Could not find schedule for date " + date.format(formatters) + " and store " + storeID);
         return result.get(0);
 
     }

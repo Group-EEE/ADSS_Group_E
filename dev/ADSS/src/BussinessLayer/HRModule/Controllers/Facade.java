@@ -109,9 +109,6 @@ public class Facade {
     public boolean removeEmployee(int employeeID){
         if (employeeID <0)
             throw new IllegalArgumentException("Invalid employee id");
-        boolean res = _storeController.removeEmployee(employeeID);
-        if (!res)
-            return false;
         return _employeeController.removeEmployee(employeeID);
     }
     //_storeController

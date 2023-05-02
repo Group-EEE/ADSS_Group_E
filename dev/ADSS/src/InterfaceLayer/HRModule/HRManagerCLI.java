@@ -159,7 +159,7 @@ public class HRManagerCLI{
             try{
                 age = Integer.valueOf(scanner.nextLine());
             }
-            catch (InputMismatchException e){
+            catch (NumberFormatException e){
                 System.out.println("Invalid age");
                 valid = false;
                 continue;
@@ -174,7 +174,7 @@ public class HRManagerCLI{
             try{
                 salary = Integer.valueOf(scanner.nextLine());
             }
-            catch (InputMismatchException e){
+            catch (NumberFormatException e){
                 System.out.println("Invalid salary");
                 valid = false;
                 continue;
@@ -184,8 +184,8 @@ public class HRManagerCLI{
             hiringCondition = scanner.nextLine();
 
             int day = validInput("Please enter the start day of the employement","Please enter a valid integer for the day.",1,31);
-            int month = validInput("Please enter the start day of the employement","Please enter a valid integer for the month.",1,12);
-            int year = validInput("Please enter the start day of the employement","The year must start from 2020 to 2025",2020,2025);
+            int month = validInput("Please enter the start month of the employement","Please enter a valid integer for the month.",1,12);
+            int year = validInput("Please enter the start year of the employement","The year must start from 2020 to 2025",2020,2025);
             try {
                 startDateOfEmployment = LocalDate.of(year, month, day);
             } catch (Exception e){
@@ -284,8 +284,8 @@ public class HRManagerCLI{
             if (employeeID == 0)
                 return false;
             try{
-                _facade.addEmployeeToStore(employeeID, storeName);
-                System.out.println("Employee was added successfully");
+                if (_facade.addEmployeeToStore(employeeID, storeName))
+                    System.out.println("Employee was added successfully");
                 valid = true;
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -369,8 +369,8 @@ public class HRManagerCLI{
            return false;
        System.out.println("Please enter the start date of the schedule (dd/mm/yyyy):");
        int day = validInput("Please enter the start day of the schedule","Please enter a valid integer for the day.",1,31);
-       int month = validInput("Please enter the start day of the schedule","Please enter a valid integer for the month.",1,12);
-       int year = validInput("Please enter the start day of the schedule","The year must start from 2020 to 2025",2020,2025);
+       int month = validInput("Please enter the month of the schedule","Please enter a valid integer for the month.",1,12);
+       int year = validInput("Please enter the year of the schedule","The year must start from 2020 to 2025",2020,2025);
        try{
            _facade.createNewSchedule(storeName, day, month, year);
            System.out.println("The schedule was created successfully for the store "+storeName);

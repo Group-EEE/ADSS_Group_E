@@ -32,10 +32,21 @@ public class EmployeesToStoreDAO extends DAO {
 
     @Override
     public boolean Insert(Object pairObj) {
-        boolean res = true;
         Pair pair = (Pair) pairObj;
         int employeeID = (int)pair.getKey();
         int storeID = (int)pair.getValue();
+        if (employeeID < 0)
+            throw new IllegalArgumentException("Invalid employee id");
+        if (employeeCache.containsKey(employeeID) && employeeCache.get(employeeID).contains(storeID)) {
+            System.out.println("Employee already exists in this store");
+            return false;
+        }
+        if (storeID < 0)
+            throw new IllegalArgumentException("Invalid store id");
+        if (storeCache.containsKey(storeID) && storeCache.get(storeID).contains(employeeID)) {
+            System.out.println("Store already has this employee");
+            return false;
+        }
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}) VALUES(?, ?) "
                 , _tableName, EmployeeIDColumnName, StoreIDColumnName);
         try (Connection connection = DriverManager.getConnection(url);
@@ -44,10 +55,14 @@ public class EmployeesToStoreDAO extends DAO {
             pstmt.setInt(2, storeID);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            res = false;
+            if (e.getMessage().contains("A PRIMARY KEY constraint failed"))
+                System.out.println("Employee already exists in this store");
+            else {
+                System.out.println("Got Exception:");
+                System.out.println(e.getMessage());
+                System.out.println(sql);
+            }
+            return false;
         }
         if (storeCache.containsKey(storeID)) {
             storeCache.get(storeID).add(employeeID);
@@ -62,14 +77,13 @@ public class EmployeesToStoreDAO extends DAO {
         } else { // If the key does not exist, create a new list and add the value to it
             List<Integer> list = new ArrayList<>();
             list.add(storeID);
-            storeCache.put(employeeID, list);
+            employeeCache.put(employeeID, list);
         }
-        return res;
+        return true;
     }
 
     @Override
     public boolean Delete(Object pairObj) {
-        boolean res = true;
         Pair pair = (Pair) pairObj;
         int employeeID = (int)pair.getKey();
         int storeID = (int)pair.getValue();
@@ -91,9 +105,9 @@ public class EmployeesToStoreDAO extends DAO {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
             System.out.println(sql);
-            res = false;
+            return false;
         }
-        return res;
+        return true;
     }
 
     /**
@@ -114,16 +128,20 @@ public class EmployeesToStoreDAO extends DAO {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
             if (isEmployee) {
-                for (int storeID : employeeCache.get(id)) {
-                    storeCache.get(storeID).remove(id);
+                if (employeeCache.containsKey(id)) {
+                    for (int storeID : employeeCache.get(id)) {
+                        storeCache.get(storeID).remove(id);
+                    }
+                    employeeCache.remove(id);
                 }
-                employeeCache.remove(id);
             }
             else {
-                for(int employeeID : storeCache.get(id)){
-                    employeeCache.get(employeeID).remove(id);
+                if (storeCache.containsKey(id)) {
+                    for (int employeeID : storeCache.get(id)) {
+                        employeeCache.get(employeeID).remove(id);
+                    }
+                    storeCache.remove(id);
                 }
-                storeCache.remove(id);
             }
 
         } catch (SQLException e) {
