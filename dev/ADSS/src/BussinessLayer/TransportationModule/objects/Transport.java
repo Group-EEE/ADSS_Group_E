@@ -1,5 +1,7 @@
 package BussinessLayer.TransportationModule.objects;
 
+import BussinessLayer.HRModule.Objects.Store;
+
 import java.util.*;
 
 public class Transport {
@@ -196,7 +198,7 @@ public class Transport {
         Store store = null;
         for(Site site :  destinations){
             if(site.getSite_name().equals(name) && site.is_store()){
-                store = (Store)site;
+                store = (Store) site;
             }
         }
         return store;
@@ -247,5 +249,9 @@ public class Transport {
             System.out.println("\t Weight: 0.0");
         }
         System.out.println();
+    }
+
+    public Map<String, Integer> getProducts(){
+        return this.products;
     }
 }

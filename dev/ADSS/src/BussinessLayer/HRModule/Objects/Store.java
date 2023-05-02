@@ -1,16 +1,19 @@
 package BussinessLayer.HRModule.Objects;
 
+import BussinessLayer.TransportationModule.objects.Site;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Store {
+public class Store extends Site {
     private final String _name;
     private final String _address;
     private final int _storeID;
     //private List<Employee> _employees;
     private List<Schedule> _pastSchedules;
 
-    public Store(int storeID, String name, String address){
+    public Store(int storeID, String name, String address, String phone, String site_contact_name){
+        super(address, phone, name, site_contact_name);
         this._storeID = storeID;
         this._name = name;
         this._address = address;
@@ -54,6 +57,21 @@ public class Store {
 //    public List<Employee> getEmployees(){
 //        return this._employees;
 //    }
+
+    @Override
+    public boolean is_supplier() {
+        return false;
+    }
+
+    @Override
+    public boolean is_logistical_center() {
+        return false;
+    }
+
+    @Override
+    public boolean is_store() {
+        return false;
+    }
 
     /**
      * @return the list of all cashier employees in the store

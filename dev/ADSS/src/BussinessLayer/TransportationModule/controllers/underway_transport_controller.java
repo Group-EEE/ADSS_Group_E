@@ -1,6 +1,6 @@
 package BussinessLayer.TransportationModule.controllers;
 
-import BussinessLayer.TransportationModule.objects.*;
+import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.TransportationModule.objects.*;
 
 import java.util.ArrayList;
@@ -138,6 +138,10 @@ public class underway_transport_controller {
         Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
         transport.setDate(Date);
         transport.setDeparture_time(Time);
+        //I'm here in the check start transport
+        // need to create :
+        // Transport_dao.getInstance.update_transport_date_and_time(transport_ID, Date, Time)
+
     }
 
     public boolean is_siteSupply_id_exist_in_current_transport(int transport_id, int siteSupply_ID){
@@ -159,7 +163,7 @@ public class underway_transport_controller {
     public boolean unload_goods(int transport_ID){
         Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
         Truck_Driver driver = get_truck_by_registration_plate(transport.getTruck_number()).getCurrent_driver();
-        Store store = (Store) driver.getCurrent_truck().get_current_location();
+        Store_to_delete store = (Store_to_delete) driver.getCurrent_truck().get_current_location();
         boolean unloaded = false;
         for (int i = 0; i< driver.getSites_documents().size(); i++){
             if (driver.getSites_documents().get(i).getStore().getAddress().equals(store.getAddress())){
@@ -271,7 +275,7 @@ public class underway_transport_controller {
             }
         }
         // searching for a driver that can drive the new truck
-        if (logistical_center_controller.truck_assigning(new_truck.getRegistration_plate())) {
+        if (logistical_center_controller.truck_assigning(new_truck.getRegistration_plate(), transport.getPlanned_date())) {
             // updating the current driver's truck and the opposite.
             Truck_Driver old_driver = truck.getCurrent_driver();
             truck.setCurrent_driver(null);

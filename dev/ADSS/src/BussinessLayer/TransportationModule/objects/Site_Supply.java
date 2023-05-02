@@ -1,17 +1,19 @@
 package BussinessLayer.TransportationModule.objects;
 
+import BussinessLayer.HRModule.Objects.Store;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Site_Supply {
     private int id;
     private Map<String, Integer> items;
-    private Store store;
+    private BussinessLayer.HRModule.Objects.Store store;
     private String origin;
 
     private double products_total_weight = 0.0;
 
-    public Site_Supply(int d_id, Store store_site, String supplier){
+    public Site_Supply(int d_id, BussinessLayer.HRModule.Objects.Store store_site, String supplier){
         origin = supplier;
         id = d_id;
         store = store_site;
