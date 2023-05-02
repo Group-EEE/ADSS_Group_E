@@ -3,6 +3,7 @@ package BussinessLayer.HRModule.Controllers;
 import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Shift;
+import BussinessLayer.HRModule.Objects.Store;
 import DataAccessLayer.HRMoudle.EmployeesDAO;
 import DataAccessLayer.HRMoudle.EmployeesToRolesDAO;
 
@@ -114,8 +115,8 @@ public class Facade {
         return _employeeController.removeEmployee(employeeID);
     }
     //_storeController
-    public boolean createStore(int storeId, String storeName, String storeAddress){
-        return _storeController.createStore(storeId, storeName, storeAddress);
+    public boolean createStore(int storeId, String storeName, String storeAddress, String phone, String siteContactName){
+        return _storeController.createStore(storeId, storeName, storeAddress,phone,siteContactName);
     }
 
     public boolean removeStore(String storeName){
@@ -167,11 +168,11 @@ public class Facade {
         return _scheduleController.removeRequiredRoleFromShift(storeName, shiftID, role);
     }
 
-    public String printStores(){
-        return _storeController.printStores();
+    public List<Store> getAllStores(){
+        return _storeController.getAllStores();
     }
 
-    public String printEmployees(){
-        return _employeeController.printEmployees();
+    public List<Employee> getAllEmployees(){
+        return _employeeController.getAllEmployees();
     }
 }

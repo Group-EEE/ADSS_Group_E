@@ -20,12 +20,14 @@ public class EmployeesDAO extends DAO {
     public static final String StartOfEmploymentColumnName = "startDateOfEmployment";
     public static final String FinishWorkingColumnName = "finishedWorking";
 
-    private static EmployeesDAO _employeesDAO = null;
+    private static EmployeesDAO _employeesDAO;
+    private static EmployeesToRolesDAO _employeesToRolesDAO;
     private HashMap<Integer, Employee> employeesCache;
     private HashMap<Integer, Driver> driverCache;
 
     private EmployeesDAO() {
         super("Employees");
+        _employeesToRolesDAO = EmployeesToRolesDAO.getInstance();
         employeesCache = new HashMap<>();
     }
     public static EmployeesDAO getInstance(){
@@ -38,7 +40,6 @@ public class EmployeesDAO extends DAO {
 
     public boolean Insert(Object employeeObj) {
         Employee employee = (Employee) employeeObj;
-        boolean res = true;
         //int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}, {4}, {5}, {6} ,{7},{8}) VALUES(?, ?, ?, ?, ?, ?,?,?) "
                 , _tableName, IDColumnName, FirstNameColumnName, LastNameColumnName, AgeColumnName, BankAccountColumnName, SalaryColumnName, HiringConditionsColumnName, StartOfEmploymentColumnName);
@@ -58,9 +59,9 @@ public class EmployeesDAO extends DAO {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
             System.out.println(sql);
-            res = false;
+            return false;
         }
-        return res;
+        return true;
     }
 
     /*public boolean Insert(Driver driver) {
@@ -132,6 +133,7 @@ public class EmployeesDAO extends DAO {
             return employeesCache.get(rs.getInt(1));
         //int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
         Employee employee = new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6), rs.getString(7), parseLocalDate(rs.getString(8)));
+        _employeesToRolesDAO.addRolesToEmployee(employee);
         employeesCache.put(employee.getID(), employee);
         return employee;
     }
@@ -160,14 +162,13 @@ public class EmployeesDAO extends DAO {
     public Employee getEmployee(int id) {
         if (employeesCache.containsKey(id)) //Employee in cache
             return employeesCache.get(id);
-        else {//Employee in db
-            List<Employee> result = Select(makeList(IDColumnName), makeList(String.valueOf(id)));
-            if (result.size() == 0)
-                throw new IllegalArgumentException("Employee " + id + " does not exist");
-            Employee employee = result.get(0);
-            employeesCache.put(id, employee);
-            return employee;
-        }
+        List<Employee> result = Select(makeList(IDColumnName), makeList(String.valueOf(id)));
+        if (result.size() == 0)
+            throw new IllegalArgumentException("Employee " + id + " does not exist");
+        Employee employee = result.get(0);
+        employeesCache.put(id, employee);
+        return employee;
+
     }
 
 

@@ -2,6 +2,7 @@ package DataAccessLayer.HRMoudle;
 
 import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.Pair;
+import BussinessLayer.HRModule.Objects.RoleType;
 import DataAccessLayer.DAO;
 
 import java.sql.*;
@@ -123,5 +124,13 @@ public class EmployeesToRolesDAO extends DAO {
         return -1;
     }
 
-
+    public boolean addRolesToEmployee(Employee employee){
+        if (employee == null)
+            return false;
+        List<String> strRoles = SelectString(RoleTypeColumnName,makeList(EmployeeIDColumnName),makeList(String.valueOf(employee.getID())));
+        for (String strRole : strRoles) {
+            employee.addRole(RoleType.toEnum(strRole));
+        }
+        return true;
+    }
 }

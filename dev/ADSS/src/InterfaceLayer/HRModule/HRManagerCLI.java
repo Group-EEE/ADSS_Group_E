@@ -4,6 +4,7 @@ import BussinessLayer.HRModule.Controllers.Facade;
 import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Shift;
+import BussinessLayer.HRModule.Objects.Store;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -253,8 +254,12 @@ public class HRManagerCLI{
                 return false;
             System.out.println("Store address:");
             String storeAddress = scanner.nextLine();
+            System.out.println("Store phone number:");
+            String storePhoneNumber = scanner.nextLine();
+            System.out.println("Store contact name:");
+            String storeContactName = scanner.nextLine();
             try {
-                _facade.createStore(storeId, storeName, storeAddress);
+                _facade.createStore(storeId, storeName, storeAddress,storePhoneNumber,storeContactName);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 continue;
@@ -666,24 +671,15 @@ public class HRManagerCLI{
     }
 
     public boolean HRMenuPrintEmployees(){
-        try{
-            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").create();
-            String o = gson.fromJson(_facade.printEmployees(),new TypeToken<List<Employee>>(){}.getType());
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-            return false;
+        for (Employee employee :_facade.getAllEmployees()){
+            System.out.println(employee);
         }
         return true;
     }
 
     public boolean HRMenuPrintStores(){
-        try{
-            _facade.printStores();
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-            return false;
+        for (Store store : _facade.getAllStores()){
+            System.out.println(store);
         }
         return true;
     }

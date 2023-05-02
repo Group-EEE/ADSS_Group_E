@@ -34,7 +34,7 @@ public class StoreController {
      * @param storeAddress - the address of the store
      * @return - true if the store was created successfully, false otherwise
      */
-    public boolean createStore(int storeID, String storeName, String storeAddress) {
+    public boolean createStore(int storeID, String storeName, String storeAddress, String phone, String siteContactName) {
         if (storeName == null)
             throw new IllegalArgumentException("Invalid store name");
         if (storeAddress == null)
@@ -43,7 +43,7 @@ public class StoreController {
             throw new IllegalArgumentException("Store already has this ID");
         if (_storesDAO.existsStore(storeName))
             throw new IllegalArgumentException("Store already has this name");
-        Store newStore = new Store(storeID,storeName, storeAddress);
+        Store newStore = new Store(storeID,storeName, storeAddress,phone,siteContactName);
         return _storesDAO.Insert(newStore);
     }
 
@@ -105,8 +105,8 @@ public class StoreController {
         return _employeesToStoreDAO.checkIfEmployeeInStore(employee.getID(),storeID);
     }
 
-    public String printStores(){
-        return new Gson().toJson(_storesDAO.SelectAllStores());
+    public List<Store> getAllStores(){
+        return _storesDAO.SelectAllStores();
     }
 
     public int getStoreIDbyName(String storeName){

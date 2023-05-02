@@ -11,6 +11,7 @@ import DataAccessLayer.HRMoudle.EmployeesToRolesDAO;
 import com.google.gson.Gson;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 public class EmployeeController {
@@ -193,8 +194,8 @@ public class EmployeeController {
         return _employeesToStoreDAO.Delete(new Pair<Integer,Integer>(employeeID, store.getStoreID()));
     }
 
-    public String printEmployees() {
-        return new Gson().toJson(_employeesDAO.SelectAllEmployees());
+    public List<Employee> getAllEmployees() {
+        return _employeesDAO.SelectAllEmployees();
     }
 
 }
