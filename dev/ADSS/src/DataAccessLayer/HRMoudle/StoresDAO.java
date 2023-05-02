@@ -93,15 +93,9 @@ public class StoresDAO extends DAO {
     public int getStoreIDByName(String storeName){
         if (storesCacheByName.containsKey(storeName))
             return storesCacheByName.get(storeName).getStoreID();
-        List<ResultSet> rsList = Select(StoreIDColumnName);
-        for (ResultSet rs : rsList) {
-            try {
-                if (rs.getString(2).equals(storeName)) {
-                    return rs.getInt(1);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        List<String> storesIDList = SelectString(StoreIDColumnName,makeList(NameColumnName),makeList(storeName));
+        for (String strStoreID : storesIDList) {
+            return Integer.parseInt(strStoreID);
         }
         return -1;
     }

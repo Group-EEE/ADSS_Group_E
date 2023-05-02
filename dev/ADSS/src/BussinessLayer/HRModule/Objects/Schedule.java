@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Schedule {
     public static int scheduleCounter = 0;
@@ -85,8 +86,8 @@ public class Schedule {
         return this._scheduleID;
     }
 
-    public Date getStartDateOfWeek(){
-        return Date.valueOf(_startDateOfWeek);
+    public LocalDate getStartDateOfWeek(){
+        return _startDateOfWeek;
     }
 
     public int getStoreID(){

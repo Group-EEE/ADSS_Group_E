@@ -284,8 +284,8 @@ public class HRManagerCLI{
             if (employeeID == 0)
                 return false;
             try{
-                _facade.addEmployeeToStore(employeeID, storeName);
-                System.out.println("Employee was added successfully");
+                if (_facade.addEmployeeToStore(employeeID, storeName))
+                    System.out.println("Employee was added successfully");
                 valid = true;
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());

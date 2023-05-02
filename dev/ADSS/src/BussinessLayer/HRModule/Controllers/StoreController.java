@@ -80,11 +80,6 @@ public class StoreController {
         return _employeesToStoreDAO.Delete(new Pair<Integer,Integer>(employeeID,storeID));
     }
 
-    public boolean removeEmployee(int employeeID){
-        if (employeeID < 0)
-            throw new IllegalArgumentException("Invalid employee");
-        return _employeesToStoreDAO.Delete(employeeID,true);
-    }
 
     /**
      * @param storeName - the name of the store
