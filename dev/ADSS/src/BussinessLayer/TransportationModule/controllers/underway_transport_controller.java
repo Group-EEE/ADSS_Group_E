@@ -1,7 +1,9 @@
 package BussinessLayer.TransportationModule.controllers;
 
+import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.TransportationModule.objects.*;
-import BussinessLayer.TransportationModule.objects.*;
+import DataAccessLayer.Transport.Drivers_dao;
+import DataAccessLayer.Transport.Transport_dao;
 
 import java.util.ArrayList;
 
@@ -80,9 +82,9 @@ public class underway_transport_controller {
      */
     public void reset_transport(int transport_id, boolean finished_transport){
         Transport chosen_transport = logistical_center_controller.get_transport_by_id(transport_id);
-        Truck_Driver driver = getDriverByTruckNumber(chosen_transport.getTruck_number());
+        Truck_Driver driver = get_driver_by_transport_id(transport_id);
         ArrayList<Site_Supply> empty_array = new ArrayList<>();
-        Truck truck = driver.getCurrent_truck();
+        Truck truck = get_truck_by_registration_plate(chosen_transport.getTruck_number());
 
         driver.setSites_documents(empty_array);
         truck.setCurrent_weight(truck.getNet_weight());
@@ -94,6 +96,7 @@ public class underway_transport_controller {
             return;
         }
 
+        Transport_dao.getInstance().mark_transport_as_finished(transport_id);
         truck.setCurrent_driver(null);
         truck.setOccupied(false);
 
@@ -138,11 +141,14 @@ public class underway_transport_controller {
         Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
         transport.setDate(Date);
         transport.setDeparture_time(Time);
+        //I'm here in the check start transport
+        // need to create :
+         Transport_dao.getInstance().update_transport_date_and_time(transport_ID, Date, Time);
     }
 
     public boolean is_siteSupply_id_exist_in_current_transport(int transport_id, int siteSupply_ID){
         Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
-        Truck_Driver driver = get_truck_by_registration_plate(transport.getTruck_number()).getCurrent_driver();
+        Truck_Driver driver = Drivers_dao.get_instance().getDriver(transport.getDriver_ID());
         for(Site_Supply s : driver.getSites_documents()){
             if(s.getId() == siteSupply_ID){
                 return true;
@@ -157,8 +163,7 @@ public class underway_transport_controller {
 
     // unloading all the goods in a store, and update the weight of the truck accordingly.
     public boolean unload_goods(int transport_ID){
-        Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
-        Truck_Driver driver = get_truck_by_registration_plate(transport.getTruck_number()).getCurrent_driver();
+        Truck_Driver driver = get_driver_by_transport_id(transport_ID);
         Store store = (Store) driver.getCurrent_truck().get_current_location();
         boolean unloaded = false;
         for (int i = 0; i< driver.getSites_documents().size(); i++){
@@ -228,7 +233,7 @@ public class underway_transport_controller {
         double weight = truck.getCurrent_weight();
         truck = null;
         for(Truck t : logistical_center_controller.get_trucks()){
-            if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight) {
+            if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight && Transport_dao.getInstance().check_if_truck_taken_that_date(transport.getPlanned_date(), t.getRegistration_plate())) {
                 return true;
             }
         }
@@ -271,7 +276,7 @@ public class underway_transport_controller {
             }
         }
         // searching for a driver that can drive the new truck
-        if (logistical_center_controller.truck_assigning(new_truck.getRegistration_plate())) {
+        if (logistical_center_controller.truck_assigning_drivers_in_shift(new_truck.getRegistration_plate(), transport.getPlanned_date())) {
             // updating the current driver's truck and the opposite.
             Truck_Driver old_driver = truck.getCurrent_driver();
             truck.setCurrent_driver(null);
@@ -381,7 +386,7 @@ public class underway_transport_controller {
                     return true;
                 }
             }
-            if (site_type.equals("store") && site.is_store()) {
+            else if (site_type.equals("store") && site.is_store()) {
                 if (site_name.equals(site.getSite_name())){
                     return true;
                 }
@@ -458,5 +463,12 @@ public class underway_transport_controller {
                 return;
             }
         }
+    }
+
+    public void match_driver_and_truck(int transport_ID){
+     Truck_Driver truck_driver = get_driver_by_transport_id(transport_ID);
+     Truck truck = get_truck_by_registration_plate(get_truck_number(transport_ID));
+     truck_driver.setCurrent_truck(truck);
+     truck.setCurrent_driver(truck_driver);
     }
 }

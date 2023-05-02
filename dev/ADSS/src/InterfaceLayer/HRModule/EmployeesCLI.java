@@ -1,7 +1,6 @@
 package InterfaceLayer.HRModule;
 
-import ServiceLayer.IntegratedService;
-import ServiceLayer.IntegratedService;
+import BussinessLayer.HRModule.Controllers.Facade;
 
 import java.util.Scanner;
 
@@ -9,11 +8,11 @@ import java.util.InputMismatchException;
 
 public class EmployeesCLI {
     private static EmployeesCLI _employeesCLI;
-    private final IntegratedService _integrationService;
+    private final Facade _facade;
     private final Scanner scanner;
 
     private EmployeesCLI() {
-        _integrationService = IntegratedService.getInstance();
+        _facade = Facade.getInstance();
         scanner = new Scanner(System.in);
     }
 
@@ -47,7 +46,7 @@ public class EmployeesCLI {
                     printEmployeeSchedule();
                     break;
                 case "0":
-                    _integrationService.logout();
+                    _facade.logout();
                     return;
                 default:
                     System.out.println("Invalid choice");
@@ -63,7 +62,7 @@ public class EmployeesCLI {
     public boolean employeeMenuSelectShifts() {
         String storeName = getStoreName();
         try{
-            _integrationService.printSchedule(storeName);
+            System.out.println(_facade.getSchedule(storeName));
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -78,7 +77,7 @@ public class EmployeesCLI {
                 if (choice == 0)
                     return true;
                 try {
-                    _integrationService.addEmployeeToShift(storeName, choice - 1);
+                    _facade.addEmployeeToShift(storeName, choice - 1);
                     System.out.println("You asked to work at the shift number " + choice+" successfully");
                 } catch (Exception e) {
                     System.out.println("Could not add employee to shift");
@@ -105,21 +104,21 @@ public class EmployeesCLI {
         switch (option) {
             case "1": //first name
                 System.out.println("What is your new first name? ");
-                if (_integrationService.setNewFirstName(scanner.nextLine()))
+                if (_facade.setNewFirstName(scanner.nextLine()))
                     System.out.println("First name updated successfully");
                 else
                     System.out.println("First name update failed");
                 break;
             case "2": //last name
                 System.out.println("What is your new last name? ");
-                if (_integrationService.setNewLastName(scanner.nextLine()))
+                if (_facade.setNewLastName(scanner.nextLine()))
                     System.out.println("Last name updated successfully");
                 else
                     System.out.println("Last name update failed");
                 break;
             case "3": //bank account
                 System.out.println("What is your new bank account? ");
-                if (_integrationService.setNewBankAccount(scanner.nextLine()))
+                if (_facade.setNewBankAccount(scanner.nextLine()))
                     System.out.println("Bank account updated successfully");
                 else
                     System.out.println("Bank account update failed");
@@ -135,7 +134,7 @@ public class EmployeesCLI {
 
     public boolean printEmployeeSchedule(){
         try{
-            _integrationService.printEmployeeSchedule();
+            _facade.printEmployeeSchedule();
         }
         catch (Exception e){
             System.out.println(e.getMessage());

@@ -1,7 +1,9 @@
 package BussinessLayer.TransportationModule.controllers;
 
 import BussinessLayer.TransportationModule.objects.*;
+import DataAccessLayer.HRMoudle.StoresDAO;
 import DataAccessLayer.Transport.*;
+import BussinessLayer.HRModule.Objects.Store;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,11 +17,9 @@ public class Logistical_center_controller {
     private Site_Supply_dao site_supply_dao;
     private Drivers_dao drivers_dao;
 
-    private License_dao license_dao;
+
     private static Logistical_center_controller instance;
-    private Transport_System transport_system;
     private Logistical_Center logistical_center;
-    private ready_database ready_database;
     public static Logistical_center_controller getInstance(){
         if (instance == null){
             instance = new Logistical_center_controller();
@@ -29,12 +29,6 @@ public class Logistical_center_controller {
     // singleton
 
     private Logistical_center_controller(){
-        transport_system = new Transport_System();
-        trucks_dao = new Trucks_dao("Trucks");
-        transport_dao = new Transport_dao("Transports");
-        license_dao = new License_dao("Licenses");
-        drivers_dao = new Drivers_dao("Drivers");
-        site_supply_dao = new Site_Supply_dao("Sites_Documents");
     }
 
     public void create_Logistical_Center(String address, String phone, String name, String site_contact_name){
@@ -64,19 +58,20 @@ public class Logistical_center_controller {
         site_supply_dao.Insert(site_supply);
     }
 
-    public void add_transport(int transport_id, String truck_number, String driver_name, String cold_lvl){
+    public void add_transport(int transport_id, String truck_number, String driver_name, String cold_lvl, String planned_date, int driver_id){
         cold_level cool_level = get_cold_level_by_string(cold_lvl);
-        Transport transport = new Transport(transport_id, "TBD", "TBD", truck_number, driver_name, this.logistical_center.getSite_name(), cool_level);
+        Transport transport = new Transport(transport_id, "TBD", "TBD", truck_number, driver_name, this.logistical_center.getSite_name(), cool_level, planned_date, driver_id );
         transport_dao.Insert(transport);
     }
 
-    public boolean truck_assigning(String new_truck_registration_plate){
+    ///// need to notify HR when the driver is needed to be in the weekly schedule
+    public boolean truck_assigning(String new_truck_registration_plate, String planned_date){
         Truck_Driver driver;
         Truck truck = getTruckByNumber(new_truck_registration_plate);
         // checking if the given parameters are valid, and getting the diver and the truck if they exist.
 
         for (Truck_Driver truck_driver  : drivers_dao.getDrivers()) {
-            if (truck_driver.getLicense().getWeight() >= truck.getMax_weight() && truck_driver.getLicense().getCold_level().getValue() <= truck.getCold_level().getValue() && truck_driver.getCurrent_truck() == null){
+            if (truck_driver.getLicense().getWeight() >= truck.getMax_weight() && truck_driver.getLicense().getCold_level().getValue() <= truck.getCold_level().getValue() && transport_dao.check_if_driver_taken_that_date(planned_date, truck_driver.getID())){
                 driver = truck_driver;
                 truck.setCurrent_driver(truck_driver);
                 truck.setOccupied(true);
@@ -87,27 +82,46 @@ public class Logistical_center_controller {
         return false;
     }
 
-    public Truck getTruckByColdLevel (cold_level level){
+    // need to implent, I need to pull out the drivers that work today and check if they can drive this truck.
+    public boolean truck_assigning_drivers_in_shift(String new_truck_registration_plate, String planned_date){
+        return false;
+    }
+
+
+//    public Truck getTruckByColdLevel (cold_level level){
+//        Truck truck = null;
+//        for(Truck t : trucks_dao.getTrucks()){
+//            if(t.getCold_level().getValue() <= level.getValue() && !t.Occupied()) {
+//                if(t.getCold_level().getValue() == level.getValue()){
+//                    truck = t;
+//                    break;
+//                }
+//                else if (truck == null) {
+//                    truck = t;
+//                } else if (level.getValue() - t.getCold_level().getValue() < level.getValue() - truck.getCold_level().getValue()) {
+//                    truck = t;
+//                }
+//            }
+//        }
+//        return truck;
+//    }
+
+    public String get_truck_number_by_cold_level(String cold_lvl, String planned_date){
+        cold_level cool_level = get_cold_level_by_string(cold_lvl);
         Truck truck = null;
         for(Truck t : trucks_dao.getTrucks()){
-            if(t.getCold_level().getValue() <= level.getValue() && !t.Occupied()) {
-                if(t.getCold_level().getValue() == level.getValue()){
+            if(t.getCold_level().getValue() <= cool_level.getValue() && transport_dao.check_if_truck_taken_that_date(planned_date, t.getRegistration_plate())) {
+                if(t.getCold_level().getValue() == cool_level.getValue()){
                     truck = t;
                     break;
                 }
                 else if (truck == null) {
                     truck = t;
-                } else if (level.getValue() - t.getCold_level().getValue() < level.getValue() - truck.getCold_level().getValue()) {
+                } else if (cool_level.getValue() - t.getCold_level().getValue() < cool_level.getValue() - truck.getCold_level().getValue()) {
                     truck = t;
                 }
             }
         }
-        return truck;
-    }
-
-    public String get_truck_number_by_cold_level(String cold_lvl){
-        cold_level cool_level = get_cold_level_by_string(cold_lvl);
-        Truck truck = getTruckByColdLevel(cool_level);
         return truck.getRegistration_plate();
     }
 
@@ -115,13 +129,14 @@ public class Logistical_center_controller {
      * @param cold_lvl cold level as string
      * @return true if we have a truck that not occupied and suitable with the cold level constraint, otherwise false
      */
-    public boolean check_if_truck_exist_by_cold_level(String cold_lvl){
+    public boolean check_if_truck_exist_by_cold_level(String cold_lvl, String planned_date){
         cold_level cool_level = cold_level.fromString(cold_lvl);
         for(Truck t : trucks_dao.getTrucks()){
-            if(!t.Occupied() && t.getCold_level().getValue() <= cool_level.getValue()){
+            if(!t.Occupied() && t.getCold_level().getValue() <= cool_level.getValue() && !transport_dao.check_if_truck_taken_that_date(planned_date, t.getRegistration_plate())){
                 return true;
             }
         }
+
         return false;
     }
 
@@ -150,16 +165,14 @@ public class Logistical_center_controller {
         return false;
     }
 
-    public void insert_store_to_transport(int transport_id, String store_address, String phone_number, String store_name, String manager_name, int area, String store_contact_name){
+    public void insert_store_to_transport(int transport_id, String name){
         Transport transport = transport_dao.getTransport(transport_id);
-        Store store = new Store(store_address, phone_number, store_name, manager_name, area, store_contact_name);
-        transport.insertToDestinations(store);
+        transport.insertToDestinations(StoresDAO.getInstance().getStore(name));
     }
 
-    public void insert_supplier_to_transport(int transport_id, String supplier_name, String supplier_address, String phone_number, String contact_name){
+    public void insert_supplier_to_transport(int transport_id, String supplier_name){
         Transport transport = transport_dao.getTransport(transport_id);
-        Supplier supplier = new Supplier(supplier_name, supplier_address, phone_number, contact_name);
-        transport.insertToDestinations(supplier);
+        transport.insertToDestinations(Suppliers_dao.getInstance().get_supplier_by_name(supplier_name));
     }
 
     public Map<Integer, Transport> getTransport_Log(){
@@ -237,7 +250,7 @@ public class Logistical_center_controller {
     }
 
     public boolean check_if_license_id_exist(int license_ID){
-        return license_dao.check_if_license_exist(license_ID);
+        return License_dao.getInstance().check_if_license_exist(license_ID);
     }
 
     public boolean check_if_transport_id_exist(int transport_ID){
@@ -282,6 +295,25 @@ public class Logistical_center_controller {
 
     public ArrayList<Truck> get_trucks(){
         return trucks_dao.getTrucks();
+    }
+
+    public boolean can_send_the_transport(int transport_ID, String current_date){
+        if (!check_if_transport_id_exist(transport_ID)){
+            System.out.println("We don't have the transport" + transport_ID + " in the system.");
+            return false;
+        }
+
+        Transport transport = get_transport_by_id(transport_ID);
+
+        if (!transport.getPlanned_date().equals(current_date)){
+            System.out.println("It's not the date of the transport.");
+            return false;
+        }
+        if (transport.Started()){
+            System.out.println("this transport is alredy finished.");
+            return false;
+        }
+        return true;
     }
 
 }

@@ -1,5 +1,7 @@
 package BussinessLayer.TransportationModule.objects;
 
+import BussinessLayer.HRModule.Objects.Store;
+
 import java.util.*;
 
 public class Transport {
@@ -14,8 +16,10 @@ public class Transport {
     private Map<String, Integer> products;
     private ArrayList<Double> weighing;
     private boolean started;
+    private String Planned_date;
+    private int driver_ID;
 
-    public Transport(int transport_ID, String date, String departure_time, String truck_number, String driver_name, String origin, cold_level cold_level){
+    public Transport(int transport_ID, String date, String departure_time, String truck_number, String driver_name, String origin, cold_level cold_level, String planned_date, int driver_ID){
         this.transport_ID = transport_ID;
         this.date = date;
         this.departure_time = departure_time;
@@ -27,6 +31,25 @@ public class Transport {
         this.products = new HashMap<>();
         this.weighing = new ArrayList<>();
         this.started = false;
+        this.Planned_date = planned_date;
+        this.driver_ID = driver_ID;
+    }
+
+
+    public String getPlanned_date() {
+        return Planned_date;
+    }
+
+    public void setPlanned_date(String planned_date) {
+        Planned_date = planned_date;
+    }
+
+    public int getDriver_ID() {
+        return driver_ID;
+    }
+
+    public void setDriver_ID(int driver_ID) {
+        this.driver_ID = driver_ID;
     }
 
     public void setStarted(boolean started) {
@@ -175,7 +198,7 @@ public class Transport {
         Store store = null;
         for(Site site :  destinations){
             if(site.getSite_name().equals(name) && site.is_store()){
-                store = (Store)site;
+                store = (Store) site;
             }
         }
         return store;
@@ -226,5 +249,9 @@ public class Transport {
             System.out.println("\t Weight: 0.0");
         }
         System.out.println();
+    }
+
+    public Map<String, Integer> getProducts(){
+        return this.products;
     }
 }

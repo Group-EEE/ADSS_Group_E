@@ -10,7 +10,7 @@ public class Logistical_Center extends Site{
 
     private ArrayList<Truck_Driver> drivers;
     private Map<Integer, Transport> Transport_Log;
-    private Map<Store, ArrayList<Site_Supply>> delivered_supplies_documents;
+    private Map<Store_to_delete, ArrayList<Site_Supply>> delivered_supplies_documents;
 
     public Logistical_Center(String address, String phone, String name, String site_contact_name) {
         super(address, phone, name, site_contact_name);
@@ -44,7 +44,7 @@ public class Logistical_Center extends Site{
         Transport_Log = transport_Log;
     }
 
-    public Map<Store, ArrayList<Site_Supply>> getDelivered_supplies_documents() {
+    public Map<Store_to_delete, ArrayList<Site_Supply>> getDelivered_supplies_documents() {
         return delivered_supplies_documents;
     }
 
@@ -64,7 +64,7 @@ public class Logistical_Center extends Site{
         return null;
     }
 
-    public void setDelivered_supplies_documents(Map<Store, ArrayList<Site_Supply>> delivered_supplies_documents) {
+    public void setDelivered_supplies_documents(Map<Store_to_delete, ArrayList<Site_Supply>> delivered_supplies_documents) {
         this.delivered_supplies_documents = delivered_supplies_documents;
     }
 

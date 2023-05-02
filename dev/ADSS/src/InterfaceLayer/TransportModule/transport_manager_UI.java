@@ -5,8 +5,12 @@ import BussinessLayer.TransportationModule.objects.Transport;
 import BussinessLayer.TransportationModule.objects.Truck_Driver;
 import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
+import DataAccessLayer.HRMoudle.StoresDAO;
+import DataAccessLayer.Transport.Suppliers_dao;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
@@ -32,7 +36,7 @@ public class transport_manager_UI {
     // ===== Main menu =====
     public void start() {
         if (controller.getLogistical_center() == null) {
-            get_logistical_center();
+            create_logistical_center();
         }
         int choice = 0;
         boolean isValid = false;
@@ -261,7 +265,7 @@ public class transport_manager_UI {
     /**
      * asking from the user details about the logistical center and create it in the controller.
      */
-    private void get_logistical_center() {
+    private void create_logistical_center() {
         System.out.println("Hey Boss, currently the system does not have the details about the logistics center.");
         String origin_address = null;
         boolean isValid = false;
@@ -334,6 +338,14 @@ public class transport_manager_UI {
      * creates transport document getting the details from the manager
      */
     private void create_transport_document(){
+        if (!StoresDAO.getInstance().is_any_store_exist()){
+            System.out.println("There's no stores in the Database!");
+            return;
+        }
+        if (!Suppliers_dao.getInstance().is_any_supplier_exist()){
+            System.out.println("There's no suppliers in the Database!");
+            return;
+        }
         String input = null;
         // ======================== Transport ID ======================== //
         int transport_Id = 0;
@@ -363,6 +375,32 @@ public class transport_manager_UI {
                 }
             }
         }
+
+        // ==================== getting the planned date for the transport ================
+        int currentYear = LocalDate.now().getYear();
+        LocalDate currentDate = LocalDate.now();
+        String inputDate = "";
+        boolean validInput = false;
+        String planned_date = "";
+        while (!validInput) {
+            System.out.print("Please enter the date you want to send the transport in the format dd/mm (please note that you can make transports for the current year only) : ");
+            inputDate = scanner.nextLine();
+            // Check if the input matches the expected format
+            if (inputDate.matches("\\d{2}/\\d{2}")) {
+                planned_date = inputDate + "/" + currentYear;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate date = LocalDate.parse(planned_date, formatter);
+                // Check if the parsed date is not before the current date
+                if (!date.isBefore(currentDate)) {
+                    validInput = true;
+                } else {
+                    System.out.println("Invalid input. The date must not be before the current date.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a date in the format dd/mm.");
+            }
+        }
+
         // ======================== Truck ======================== //
         String cool_level = null;
         isValid = false;
@@ -384,18 +422,20 @@ public class transport_manager_UI {
             case "2" -> cool_level = "Cold";
             case "3" -> cool_level = "Dry";
         }
-        if (!controller.check_if_truck_exist_by_cold_level(cool_level)){
+        if (!controller.check_if_truck_exist_by_cold_level(cool_level, planned_date)){
             System.out.println("there's no Truck fit to this transport.");
             return;
         }
-        String truck_number = controller.get_truck_number_by_cold_level(cool_level);
+        String truck_number = controller.get_truck_number_by_cold_level(cool_level, planned_date);
         // ======================== Truck Driver ======================== //
         String driver_name = null;
+        int driver_id = 0;
         boolean assigned = false;
         for(Truck_Driver driver: controller.getDrivers()){
-            if(controller.truck_assigning(truck_number)){
+            if(controller.truck_assigning(truck_number, planned_date)){
                 assigned = true;
                 driver_name = driver.getName();
+                driver_id = driver.getID();
                 break;
             }
         }
@@ -403,8 +443,9 @@ public class transport_manager_UI {
             System.out.println("there's no driver fit to this transport.");
             return;
         }
+
         // ======================== Create Transport Document ======================== //
-        controller.add_transport(transport_Id, truck_number, driver_name,  cool_level);
+        controller.add_transport(transport_Id, truck_number, driver_name,  cool_level, planned_date , driver_id);
         // ======================== Update Weight - Add Net Weight Of The Truck To Transport Weight List ======================== //
         controller.insert_weight_to_transport(transport_Id, truck_number);
         // ======================== Add Destinations ======================== //
@@ -448,127 +489,174 @@ public class transport_manager_UI {
                         }
                     }
                 }
-                isValid = false;
-                String store_address = null;
-                while(!isValid) {
-                    System.out.println("Please enter the store address: ");
-                    input = scanner.nextLine();
-                    if (input.strip().equals("")) {
-                        System.out.print("Invalid input. ");
-                    }
-                    else{
-                        store_address = input;
-                        isValid = true;
-                    }
-                }
-                String phone_number = null;
-                isValid = false;
-                while(!isValid) {
-                    System.out.println("Please enter the store phone number: ");
-                    phone_number = scanner.nextLine();
-                    if(!containsOnlyNumbers(phone_number) || phone_number.strip().equals("")){
-                        System.out.print("Invalid input. ");
-                    }
-                    else{
-                        isValid = true;
-                    }
-                }
+//
+//                int store_ID = 0;
+//                isValid = false;
+//                while (!isValid){
+//                    try {
+//                        System.out.println("Please enter the Store's ID (5 digit number using only 0-9 that not starts with 0): ");
+//                        input = scanner.nextLine();
+//                        store_ID = Integer.parseInt(input);
+//                        if (input.length() != 5){
+//                            System.out.println("Please enter a valid number that not starts with 0 , and with 5 digits.");
+//                        }
+//                        else if (!StoresDAO.getInstance().existsStore(store_ID)) {
+//                            System.out.println("This store is not known to the System.");
+//                        }else {
+//                            isValid = true;
+//                        }
+//                    } catch (NumberFormatException e){
+//                        System.out.println("Invalid input");
+//                    }
+//                }
+//
+//                isValid = false;
+//                String store_address = null;
+//                while(!isValid) {
+//                    System.out.println("Please enter the store address: ");
+//                    input = scanner.nextLine();
+//                    if (input.strip().equals("")) {
+//                        System.out.print("Invalid input. ");
+//                    }
+//                    else{
+//                        store_address = input;
+//                        isValid = true;
+//                    }
+//                }
+//                String phone_number = null;
+//                isValid = false;
+//                while(!isValid) {
+//                    System.out.println("Please enter the store phone number: ");
+//                    phone_number = scanner.nextLine();
+//                    if(!containsOnlyNumbers(phone_number) || phone_number.strip().equals("")){
+//                        System.out.print("Invalid input. ");
+//                    }
+//                    else{
+//                        isValid = true;
+//                    }
+//                }
+
+//                isValid = false;
+//                String store_contact_name = null;
+//                while (!isValid) {
+//                    System.out.println("Please enter the contact person name of the store: ");
+//                    store_contact_name = scanner.nextLine();
+//                    if(!store_contact_name.strip().equals("")){
+//                        isValid = true;
+//                    }
+//                    else {
+//                        System.out.print("Invalid input. ");
+//                    }
+//                }
+//                isValid = false;
+//                String manager_name = null;
+//                while (!isValid) {
+//                    System.out.println("Please enter the manager name of the store: ");
+//                    manager_name = scanner.nextLine();
+//                    if(!manager_name.strip().equals("")){
+//                        isValid = true;
+//                    }
+//                    else {
+//                        System.out.print("Invalid input. ");
+//                    }
+//                }
+
                 isValid = false;
                 String store_name = null;
+                boolean chose_to_add = true;
                 while (!isValid) {
-                    System.out.println("Please enter the name of the store: ");
+                    System.out.println("Please enter the name of the store (if you don't want to add more press 0) :");
                     store_name = scanner.nextLine();
+                    if (store_name.equals("0")){chose_to_add = false; break;}
                     if(!store_name.strip().equals("")){
-                        boolean name_exist = controller.check_if_site_exist_in_transport(store_name, transport_Id);
-                        if (!name_exist) {
-                            isValid = true;
+                        boolean store_exist = StoresDAO.getInstance().existsStore(store_name);
+                        if (!store_exist){
+                            System.out.println("The store is not known to the system...");
+                            continue;
                         }
-                    }
-                    else {
-                        System.out.print("Invalid input. ");
-                    }
-                }
-                isValid = false;
-                String store_contact_name = null;
-                while (!isValid) {
-                    System.out.println("Please enter the contact person name of the store: ");
-                    store_contact_name = scanner.nextLine();
-                    if(!store_contact_name.strip().equals("")){
+
+                        if (!StoresDAO.getInstance().is_store_in_the_area(store_name, area)){
+                            System.out.println("This store is not in the area of this transport...");
+                        }
+
+                        boolean name_exist = controller.check_if_site_exist_in_transport(store_name, transport_Id);
+                        if (name_exist) {
+                            System.out.println("You've already added that store...");
+                            continue;
+                        }
                         isValid = true;
                     }
                     else {
                         System.out.print("Invalid input. ");
                     }
                 }
-                isValid = false;
-                String manager_name = null;
-                while (!isValid) {
-                    System.out.println("Please enter the manager name of the store: ");
-                    manager_name = scanner.nextLine();
-                    if(!manager_name.strip().equals("")){
-                        isValid = true;
-                    }
-                    else {
-                        System.out.print("Invalid input. ");
-                    }
+                if (chose_to_add) {
+                    controller.insert_store_to_transport(transport_Id,  store_name);
+                    at_least_one_store = true;
                 }
-                controller.insert_store_to_transport(transport_Id, store_address, phone_number, store_name, manager_name, area, store_contact_name);
-                at_least_one_store = true;
             }
             if(site_type.equals("2")){
+//                isValid = false;
+//                String supplier_address = null;
+//                while(!isValid) {
+//                    System.out.println("Please enter the supplier address: ");
+//                    supplier_address = scanner.nextLine();
+//                    if(!supplier_address.strip().equals("")){
+//                        isValid = true;
+//                    }
+//                    else{
+//                        System.out.print("Invalid input. ");
+//                    }
+//                }
+//                String phone_number = null;
+//                isValid = false;
+//                while(!isValid) {
+//                    System.out.println("Please enter the supplier phone number: ");
+//                    phone_number = scanner.nextLine();
+//                    if(!containsOnlyNumbers(phone_number) || phone_number.strip().equals("")){
+//                        System.out.print("Invalid input. ");
+//                    }
+//                    else{
+//                        isValid = true;
+//                    }
+//                }
+//                isValid = false;
+//                String supplier_contact_name = null;
+//                while(!isValid) {
+//                    System.out.println("Please enter the contact person name of the supplier:");
+//                    supplier_contact_name = scanner.nextLine();
+//                    if(!supplier_contact_name.strip().equals("")){
+//                        isValid = true;
+//                    }
+//                    else {
+//                        System.out.print("Invalid input. ");
+//                    }
+//                }
                 isValid = false;
-                String supplier_address = null;
-                while(!isValid) {
-                    System.out.println("Please enter the supplier address: ");
-                    supplier_address = scanner.nextLine();
-                    if(!supplier_address.strip().equals("")){
-                        isValid = true;
-                    }
-                    else{
-                        System.out.print("Invalid input. ");
-                    }
-                }
-                String phone_number = null;
-                isValid = false;
-                while(!isValid) {
-                    System.out.println("Please enter the supplier phone number: ");
-                    phone_number = scanner.nextLine();
-                    if(!containsOnlyNumbers(phone_number) || phone_number.strip().equals("")){
-                        System.out.print("Invalid input. ");
-                    }
-                    else{
-                        isValid = true;
-                    }
-                }
-                isValid = false;
-                String supplier_contact_name = null;
-                while(!isValid) {
-                    System.out.println("Please enter the contact person name of the supplier:");
-                    supplier_contact_name = scanner.nextLine();
-                    if(!supplier_contact_name.strip().equals("")){
-                        isValid = true;
-                    }
-                    else {
-                        System.out.print("Invalid input. ");
-                    }
-                }
-                isValid = false;
+                boolean chose_to_add = true;
                 String supplier_name = null;
                 while(!isValid) {
-                    System.out.println("Please enter the name of the supplier: ");
+                    System.out.println("Please enter the name of the supplier (if you don't want to add more press 0) : ");
                     supplier_name = scanner.nextLine();
+                    if (supplier_name.equals("0")){chose_to_add = false; break;}
                     if(!supplier_name.strip().equals("")){
-                        boolean name_exist = controller.check_if_site_exist_in_transport(supplier_name, transport_Id);;
-                        if (!name_exist) {
-                            isValid = true;
+                        if (!Suppliers_dao.getInstance().is_supplier_exist(supplier_name)){
+                            System.out.println("This supplier is not known to the system...");
                         }
+                        boolean name_exist = controller.check_if_site_exist_in_transport(supplier_name, transport_Id);
+                        if (name_exist) {
+                            System.out.println("You've already entered this supplier...");
+                        }
+                        isValid = true;
                     }
                     else{
                         System.out.print("Invalid input. ");
                     }
                 }
-                controller.insert_supplier_to_transport(transport_Id, supplier_address, phone_number, supplier_name, supplier_contact_name);
-                at_least_one_supplier = true;
+                if (chose_to_add) {
+                    controller.insert_supplier_to_transport(transport_Id, supplier_name);
+                    at_least_one_supplier = true;
+                }
             }
             System.out.println("Do you want to add another destination (Store / Supplier)? (press 1 or 2 only) ");
             String choice = null;
@@ -598,6 +686,8 @@ public class transport_manager_UI {
     /**
      * @return an array with all the transports ID the manager (user) chose to send.
      */
+
+    ///////////////// need to make sure when the manager can send!!!
     public ArrayList<Integer> choose_transport_to_send(){
         String manager_choice;
         ArrayList<Integer> transport_IDS = new ArrayList<>();
@@ -607,10 +697,15 @@ public class transport_manager_UI {
             System.out.println("1 - display all the transports that haven't started:");
             System.out.println("2 - send transport by enter his ID:");
             System.out.println("3- that's all for now.");
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            // Get the current date
+            LocalDate currentDate = LocalDate.now();
+            String date_today = currentDate.format(formatter);
             manager_choice = scanner.nextLine();
             if (manager_choice.equals("1")) {
                 for (Map.Entry<Integer, Transport> entry : controller.getTransport_Log().entrySet()) {
-                    if (!entry.getValue().Started()) {
+                    if (!entry.getValue().Started() && entry.getValue().getPlanned_date().equals(date_today)) {
                         int t_id = entry.getKey();
                         Transport temp_transport = entry.getValue();
                         System.out.println("=========== Transport - " + t_id + " - information ===========");
@@ -629,7 +724,8 @@ public class transport_manager_UI {
                     try {
                         String key_input = scanner.nextLine();
                         key = Integer.parseInt(key_input);
-                        if (controller.getTransport_Log().containsKey(key)) {
+
+                        if (controller.can_send_the_transport(key, date_today)) {
                             controller.set_started_transport(key);
                             transport_IDS.add(key);
                             System.out.println("Transport " + key + " will start soon. If you want to send another one please press 1, to get back to transports sending menu press anything else:");
@@ -638,7 +734,7 @@ public class transport_manager_UI {
                                 end_choosing = true;
                             }
                         } else {
-                            System.out.println("Transport ID does not exist. If you don't want to continue press 1, otherwise press anything else:");
+                            System.out.println("If you don't want to continue press 1, otherwise press anything else:");
                             String inp2 = scanner.nextLine();
                             if (inp2.equals("1")) {
                                 end_choosing = true;

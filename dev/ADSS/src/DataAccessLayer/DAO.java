@@ -15,7 +15,7 @@ public abstract class DAO {
     //public final String _connectionString;
     public final String _tableName;
     public static Connection connection = null;
-    public static final String url = "jdbc:sqlite:dev/ADSS/SuperLi.db";
+    public static final String url = "jdbc:sqlite:SuperLi.db";
     protected DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     //constructor
@@ -51,6 +51,25 @@ public abstract class DAO {
         boolean res = true;
         String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE id = ? "
                 , _tableName, ColumnName);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, value);
+            pstmt.setString(2, key);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+            res = false;
+        }
+        return res;
+    }
+
+    public boolean Update(String ColumnKey, String ColumnValueName, String key, String value) {
+        boolean res = true;
+        String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE {2} = ? "
+                , _tableName, ColumnValueName, ColumnKey);
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, value);
@@ -276,7 +295,6 @@ public abstract class DAO {
         }
         return list;
     }
-
 
     public List<String> makeList(String... strings) {
         List<String> list = new ArrayList<String>();

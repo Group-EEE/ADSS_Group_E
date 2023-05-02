@@ -10,6 +10,7 @@ import DataAccessLayer.HRMoudle.EmployeesToStoreDAO;
 import DataAccessLayer.HRMoudle.EmployeesToRolesDAO;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 public class EmployeeController {
@@ -109,16 +110,13 @@ public class EmployeeController {
      * @param employeeID - the id of the employee
      * for HRMenuRemoveRoleFromEmployee
      */
-    public boolean printEmployeeRoles(int employeeID) {
+    public List<RoleType> printEmployeeRoles(int employeeID) {
         if (employeeID <0)
             throw new IllegalArgumentException("Illegal employee ID");
         Employee employee = getEmployeeByID(employeeID);
         if (employee == null)
             throw new IllegalArgumentException("Employee not found");
-        for (int i=1; i<=employee.getRoles().size(); i++) {
-            System.out.println(i + ". " + employee.getRoles().get(i-1));
-        }
-        return true;
+        return employee.getRoles();
     }
 
     /**
@@ -128,13 +126,10 @@ public class EmployeeController {
     public boolean removeEmployee(int employeeID) {
         if (employeeID <0)
             throw new IllegalArgumentException("Illegal employee ID");
-        Employee employee = getEmployeeByID(employeeID);
-        if (employee == null) {
-            throw new IllegalArgumentException("Employee not found");
-        }
         _employeesDAO.Delete(employeeID);
         _passwordsDAO.Delete(employeeID);
-        //_employeesToStoreDAO.Delete(employee); //TODO
+        _employeesToStoreDAO.Delete(employeeID,false);
+        _employeesToRolesDAO.Delete(employeeID);
 
         return true;
     }
@@ -166,6 +161,7 @@ public class EmployeeController {
         Employee employee = getEmployeeByID(employeeID);
         if (employee == null)
             throw new IllegalArgumentException("employee not found");
+        _employeesToRolesDAO.Insert(new Pair<Integer,String>(employeeID, role.toString()));
         return employee.addRole(role);
     }
 
@@ -182,7 +178,7 @@ public class EmployeeController {
         Employee employee = getEmployeeByID(employeeID);
         if (employee == null)
             throw new IllegalArgumentException("employee not found");
-        //_employeesToStoreDAO.(employee).add(store); //TODO: fix
+        _employeesToStoreDAO.Insert(new Pair<Integer,Integer>(employeeID, store.getStoreID()));
         return true;
     }
 
@@ -194,15 +190,11 @@ public class EmployeeController {
         Employee employee = getEmployeeByID(employeeID);
         if (employee == null)
             throw new IllegalArgumentException("employee not found");
-        //_employeeStoreMap.get(employee).remove(store); //TODO
-        return true;
+        return _employeesToStoreDAO.Delete(new Pair<Integer,Integer>(employeeID, store.getStoreID()));
     }
 
-    public boolean printEmployees() {
-//        for (Map.Entry<Integer, Employee> entry : _employees.entrySet()){
-//            System.out.println(entry.getValue().toString());
-//        } //TODO
-        return true;
+    public List<Employee> getAllEmployees() {
+        return _employeesDAO.SelectAllEmployees();
     }
 
 }

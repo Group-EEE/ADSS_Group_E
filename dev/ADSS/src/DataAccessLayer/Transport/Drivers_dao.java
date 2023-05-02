@@ -11,13 +11,20 @@ import java.util.HashMap;
 
 public class Drivers_dao extends DAO {
     HashMap<Integer, Truck_Driver> Drivers;
-    License_dao L_dao;
+    private License_dao L_dao;
+    private static Drivers_dao drivers_dao = null;
 
-    public Drivers_dao(String table_name){
+    private Drivers_dao(String table_name){
         super(table_name);
-        L_dao = new License_dao("Licenses");
+        L_dao = License_dao.getInstance();
         Drivers = new HashMap<>();
         get_all_drivers_from_db();
+    }
+
+    public static Drivers_dao get_instance(){
+        if (drivers_dao == null)
+            drivers_dao = new Drivers_dao("Drivers");
+        return drivers_dao;
     }
     @Override
     public boolean Insert(Object Driverobj) {

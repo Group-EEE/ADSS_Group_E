@@ -1,6 +1,7 @@
 package InterfaceLayer.HRModule;
 
-import ServiceLayer.IntegratedService;
+
+import BussinessLayer.HRModule.Controllers.Facade;
 
 import java.util.Scanner;
 
@@ -9,24 +10,24 @@ import static java.lang.System.exit;
 
 public class HRModuleCLI {
     private final Scanner scanner;
-    private final IntegratedService _integratedService;
+    private final Facade _facade;
     private final EmployeesCLI _employeesCLI;
     private final HRManagerCLI _hrManagerCLI;
 
     public HRModuleCLI(){
         _employeesCLI = EmployeesCLI.getInstance();
         _hrManagerCLI = HRManagerCLI.getInstance();
-        _integratedService = IntegratedService.getInstance();
+        _facade = Facade.getInstance();
         scanner = new Scanner(System.in);
     }
     public void start(){
-        if (_integratedService.hasHRManager() == false){
+        if (_facade.hasHRManager() == false){
             System.out.println("You must create an HR employee in order to use the system");
             _hrManagerCLI.HRMenuCreateEmployee(true); //create HR manager
         }
-        while (_integratedService.hasLoggedUser() == false) {
+        while (_facade.hasLoggedUser() == false) {
             LoginUser();
-            if (_integratedService.isLoggedUserIsHRManager()) {
+            if (_facade.isLoggedUserIsHRManager()) {
                 System.out.println("Welcome to the HR system!");
                 _hrManagerCLI.HRMenu();
             } else {
@@ -36,7 +37,7 @@ public class HRModuleCLI {
         }
     }
     public boolean LoginUser() {
-        while (!_integratedService.hasLoggedUser()) {
+        while (!_facade.hasLoggedUser()) {
             System.out.println("Please login to your user, 0 for exit");
             System.out.println("Please enter your ID:");
             int id;
@@ -53,12 +54,12 @@ public class HRModuleCLI {
             System.out.println("Please enter your password:");
             String password = scanner.nextLine();
             try {
-                _integratedService.login(id, password);
+                _facade.login(id, password);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
-        if (_integratedService.hasLoggedUser()){
+        if (_facade.hasLoggedUser()){
             System.out.println("Login successful");
             return true;
         }

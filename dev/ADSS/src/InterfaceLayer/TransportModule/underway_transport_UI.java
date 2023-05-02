@@ -10,9 +10,9 @@ import java.util.Scanner;
 
 public class underway_transport_UI {
     // ===== attributes =====
-    private underway_transport_controller controller;
+    private final underway_transport_controller controller;
     Logistical_center_controller  logistical_center_controller;
-    Scanner scanner;
+    private final Scanner scanner;
     Logistical_Center logistical_center;
     public underway_transport_UI(){
         this.controller = underway_transport_controller.getInstance();
@@ -34,6 +34,7 @@ public class underway_transport_UI {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String Date = now.toLocalDate().format(dateFormatter);
         String Time = now.toLocalTime().format(timeFormatter);
+        controller.match_driver_and_truck(transport_ID);
         controller.set_time_and_date_for_transport(transport_ID, Date, Time);
         // ========================= starting the transport ======================= //
         controller.set_navigator_for_transport(transport_ID);
@@ -329,7 +330,7 @@ public class underway_transport_UI {
 
         }
         return true;
-
     }
+
 
 }

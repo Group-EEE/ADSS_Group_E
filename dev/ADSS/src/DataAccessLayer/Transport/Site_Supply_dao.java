@@ -1,20 +1,29 @@
 package DataAccessLayer.Transport;
 
+import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.TransportationModule.objects.Site_Supply;
-import BussinessLayer.TransportationModule.objects.Store;
 import BussinessLayer.TransportationModule.objects.Transport;
 import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
+import DataAccessLayer.HRMoudle.StoresDAO;
 
 import java.sql.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Site_Supply_dao extends DAO {
 
     HashMap<Integer, Site_Supply> site_supply_documents;
-    public Site_Supply_dao(String tableName) {
+    private static Site_Supply_dao site_supply_dao = null;
+    public static Site_Supply_dao getInstance(){
+        if (site_supply_dao == null)
+            site_supply_dao = new Site_Supply_dao("Sites_Documents");
+        return site_supply_dao;
+    }
+
+    private Site_Supply_dao(String tableName) {
         super(tableName);
         site_supply_documents = new HashMap<>();
         get_site_supply_documents_from_db();
@@ -31,6 +40,7 @@ public class Site_Supply_dao extends DAO {
             statement.setString(2, site_supply.getStore().getSite_name());
             statement.setString(3, site_supply.getOrigin());
             statement.setDouble(4, site_supply.getProducts_total_weight());
+            insert_products_to_table(site_supply);
             statement.execute();
 
             site_supply_documents.put(site_supply.getId(), site_supply);
@@ -45,7 +55,7 @@ public class Site_Supply_dao extends DAO {
     @Override
     public boolean Delete(Object obj) {
         Site_Supply site_supply = (Site_Supply) obj;
-        String query = "DELETE FROM " + _tableName + " WHERE Site_Supply_ID = ?";
+        String query = "DELETE FROM " + _tableName + " WHERE ID = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, site_supply.getId());
@@ -66,9 +76,10 @@ public class Site_Supply_dao extends DAO {
             return site_supply_documents.get(res.getInt(1));
         }
         String store_name = res.getString(2);
-        Store store = null;
+        Store store = StoresDAO.getInstance().getStore(store_name);
         if (store != null) {
             Site_Supply site_supply = new Site_Supply(res.getInt(1), store , res.getString(3));
+            insert_products_to_site_supply(site_supply);
             site_supply_documents.put(site_supply.getId(), site_supply);
             return site_supply;
         }
@@ -80,7 +91,7 @@ public class Site_Supply_dao extends DAO {
             return true;
         }
         try {
-            String query = "SELECT * FROM " + _tableName + " WHERE Site_Supply_ID = ?";
+            String query = "SELECT * FROM " + _tableName + " WHERE ID = ?";
 
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
@@ -116,6 +127,34 @@ public class Site_Supply_dao extends DAO {
             }
         } catch (SQLException | ParseException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void insert_products_to_table(Site_Supply siteSupply){
+        for (Map.Entry<String, Integer> entry: siteSupply.getItems().entrySet()){
+            String query = "INSERT INTO Products_by_site_supply (Site_supply_ID, Name, Amount) VALUES (?,?,?)";
+            try {
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setInt(1, siteSupply.getId());
+                statement.setString(2, entry.getKey());
+                statement.setInt(3, entry.getValue());
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void insert_products_to_site_supply(Site_Supply siteSupply){
+        String query = "SELECT * FROM Products_by_site_supply WHERE Site_supply_ID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, siteSupply.getId());
+            ResultSet res = statement.executeQuery();
+            while (res.next()){
+                siteSupply.insert_item(res.getString(2), res.getInt(3));
+            }
+        } catch (SQLException e) {
         }
     }
 }
