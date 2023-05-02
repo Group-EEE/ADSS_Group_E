@@ -57,7 +57,7 @@ public class ScheduleController {
         return schedule;
     }
 
-    public  String printEmployeeSchedule(Employee employee){
+    public List<Shift> getEmployeeSchedule(Employee employee){
         List<Shift> shiftList = new ArrayList<>();
         if (employee == null)
             throw new IllegalArgumentException("Invalid employee");
@@ -78,7 +78,7 @@ public class ScheduleController {
                 }
             }
         }
-        return new Gson().toJson(shiftList);
+        return shiftList;
     }
 
     public boolean changeShiftHours(String storeName, int newStartHour, int newEndHour, int shiftID){

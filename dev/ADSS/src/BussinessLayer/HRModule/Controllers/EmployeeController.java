@@ -110,14 +110,14 @@ public class EmployeeController {
      * @param employeeID - the id of the employee
      * for HRMenuRemoveRoleFromEmployee
      */
-//    public String printEmployeeRoles(int employeeID) {
-//        if (employeeID <0)
-//            throw new IllegalArgumentException("Illegal employee ID");
-//        Employee employee = getEmployeeByID(employeeID);
-//        if (employee == null)
-//            throw new IllegalArgumentException("Employee not found");
-//        return new Gson().toJson(employee.getRoles());
-//    }
+    public List<RoleType> printEmployeeRoles(int employeeID) {
+        if (employeeID <0)
+            throw new IllegalArgumentException("Illegal employee ID");
+        Employee employee = getEmployeeByID(employeeID);
+        if (employee == null)
+            throw new IllegalArgumentException("Employee not found");
+        return employee.getRoles();
+    }
 
     /**
      * @param employeeID - the id of the employee

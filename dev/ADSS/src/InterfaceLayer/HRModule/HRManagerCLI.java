@@ -245,6 +245,7 @@ public class HRManagerCLI{
         System.out.println("Please enter the following details:");
         boolean valid = false;
         int storeId = 0;
+        int storeArea = 0;
         while(!valid) {
             try {
                 System.out.println("Store id:");
@@ -263,7 +264,14 @@ public class HRManagerCLI{
             System.out.println("Store contact name:");
             String storeContactName = scanner.nextLine();
             try {
-                _facade.createStore(storeId, storeName, storeAddress,storePhoneNumber,storeContactName);
+                System.out.println("Store area:");
+                storeArea = Integer.valueOf(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid store area");
+                continue;
+            }
+            try {
+                _facade.createStore(storeId, storeName, storeAddress,storePhoneNumber,storeContactName,storeArea);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 continue;
@@ -537,7 +545,8 @@ public class HRManagerCLI{
         System.out.println("Please select what role to remove from " + firstName);
         System.out.println("Please enter the role ID:");
         try {
-            _facade.printEmployeeRoles(employeeID);
+            for(RoleType role : _facade.printEmployeeRoles(employeeID))
+                System.out.println(role);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;

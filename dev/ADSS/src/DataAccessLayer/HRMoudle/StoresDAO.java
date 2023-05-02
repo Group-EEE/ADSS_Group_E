@@ -19,7 +19,7 @@ public class StoresDAO extends DAO {
     public static final String AddressColumnName = "address";
     public static final String PhoneColumnName = "phone";
     public static final String ContactColumnName= "contactName";
-    public static final String Area = "area";
+    public static final String AreaColumnName = "area";
 
     private StoresDAO() {
         super("Stores");
@@ -37,7 +37,7 @@ public class StoresDAO extends DAO {
     public boolean Insert(Object storeObj) {
         Store store = (Store) storeObj;
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}, {4}, {5}, {6}) VALUES(?, ?, ?, ? ,?, ?) "
-                , _tableName, StoreIDColumnName, NameColumnName, AddressColumnName, PhoneColumnName, ContactColumnName, Area
+                , _tableName, StoreIDColumnName, NameColumnName, AddressColumnName, PhoneColumnName, ContactColumnName, AreaColumnName
         );
 
         try (Connection connection = DriverManager.getConnection(url);
@@ -178,20 +178,13 @@ public class StoresDAO extends DAO {
 
 
     public boolean is_store_in_the_area(String store_name, int area){
-        String query = "SELECT * FROM " + this._tableName + " WHERE area = ?";
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, planned_date);
-            ResultSet res = statement.executeQuery();
-            while (res.next()){
-                if (res.getInt(12) == driver_ID ){
-                    return true;
-                }
+        List<String> res = SelectString(AreaColumnName,makeList(NameColumnName),makeList(String.valueOf(area)));
+        for (String str : res) {
+            if (str.equals(store_name)){
+                return true;
             }
         }
-        catch (SQLException e) {
-
-        }
+        return false;
     }
 
 }

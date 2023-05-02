@@ -57,7 +57,7 @@ public class Facade {
         return true;
     }
 
-    public String printEmployeeRoles(int employeeID){
+    public List<RoleType> printEmployeeRoles(int employeeID){
         return _employeeController.printEmployeeRoles(employeeID);
     }
 
@@ -109,8 +109,8 @@ public class Facade {
         return _employeeController.removeEmployee(employeeID);
     }
     //_storeController
-    public boolean createStore(int storeId, String storeName, String storeAddress, String phone, String siteContactName){
-        return _storeController.createStore(storeId, storeName, storeAddress,phone,siteContactName);
+    public boolean createStore(int storeId, String storeName, String storeAddress, String phone, String siteContactName, int area){
+        return _storeController.createStore(storeId, storeName, storeAddress,phone,siteContactName,area);
     }
 
     public boolean removeStore(String storeName){
@@ -142,8 +142,8 @@ public class Facade {
         return _scheduleController.getSchedule(storeName);
     }
 
-    public String printEmployeeSchedule(){
-        return _scheduleController.printEmployeeSchedule(_loggedUser);
+    public List<Shift> printEmployeeSchedule(){
+        return _scheduleController.getEmployeeSchedule(_loggedUser);
     }
 
     public List<Shift> approveSchedule(String storeName){
