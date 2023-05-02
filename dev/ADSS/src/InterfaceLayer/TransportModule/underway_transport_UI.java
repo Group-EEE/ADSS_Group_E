@@ -34,6 +34,7 @@ public class underway_transport_UI {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String Date = now.toLocalDate().format(dateFormatter);
         String Time = now.toLocalTime().format(timeFormatter);
+        controller.match_driver_and_truck(transport_ID);
         controller.set_time_and_date_for_transport(transport_ID, Date, Time);
         // ========================= starting the transport ======================= //
         controller.set_navigator_for_transport(transport_ID);
@@ -331,7 +332,7 @@ public class underway_transport_UI {
 
         }
         return true;
-
     }
+
 
 }
