@@ -470,25 +470,25 @@ public class transport_manager_UI {
                 }
             }
             if(site_type.equals("1")){
-//                if(!areaValid) {
-//                    isValid = false;
-//                    while (!isValid) {
-//                        try {
-//                            System.out.println("Please enter the area of the stores in this transport (one digit 0-9 number): ");
-//                            input = scanner.nextLine();
-//                            area = Integer.parseInt(input);
-//                            // Check if the input is one digit integer
-//                            if (input.length() == 1) {
-//                                isValid = true;
-//                                areaValid = true;
-//                            } else {
-//                                System.out.print("Input must be only one digit integer. ");
-//                            }
-//                        } catch (NumberFormatException e) {
-//                            System.out.print("Invalid input. ");
-//                        }
-//                    }
-//                }
+                if(!areaValid) {
+                    isValid = false;
+                    while (!isValid) {
+                        try {
+                            System.out.println("Please enter the area of the stores in this transport (one digit 0-9 number): ");
+                            input = scanner.nextLine();
+                            area = Integer.parseInt(input);
+                            // Check if the input is one digit integer
+                            if (input.length() == 1) {
+                                isValid = true;
+                                areaValid = true;
+                            } else {
+                                System.out.print("Input must be only one digit integer. ");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.print("Invalid input. ");
+                        }
+                    }
+                }
 //
 //                int store_ID = 0;
 //                isValid = false;
@@ -574,6 +574,11 @@ public class transport_manager_UI {
                             System.out.println("The store is not known to the system...");
                             continue;
                         }
+
+                        if (!StoresDAO.getInstance().is_store_in_the_area(store_name, area)){
+                            System.out.println("This store is not in the area of this transport...");
+                        }
+
                         boolean name_exist = controller.check_if_site_exist_in_transport(store_name, transport_Id);
                         if (name_exist) {
                             System.out.println("You've already added that store...");
