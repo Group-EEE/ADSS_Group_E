@@ -7,9 +7,9 @@ import java.util.Scanner;
 
 public class SupplierInventoryPresentation {
 
-    SupplierModulePresentation supplierModulePresentation;
-    InventoryModulePresentation inventoryModulePresentation;
-    OrderController orderController;
+    private SupplierModulePresentation supplierModulePresentation;
+    private InventoryModulePresentation inventoryModulePresentation;
+    private OrderController orderController;
 
     public SupplierInventoryPresentation()
     {

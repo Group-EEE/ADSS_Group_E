@@ -13,7 +13,6 @@ import static InventoryModule.Business.Discount.*;
 //of all the products, reports, discounts etc to help him control the supply in store
 public class InventoryModulePresentation {
     public static Scanner reader;
-    static String choice;
 
     ProductController productController; //create a product controller
     CategoryController categoryController; //create a category controller
@@ -21,7 +20,6 @@ public class InventoryModulePresentation {
 
     SpecificProductPresentation specificProductPresentation;
     ReportPresentation reportPresentation;
-
     CategoryPresentation categoryPresentation;
 
     public InventoryModulePresentation() {

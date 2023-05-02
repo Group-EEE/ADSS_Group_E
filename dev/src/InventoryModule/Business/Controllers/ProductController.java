@@ -16,9 +16,8 @@ import static InventoryModule.Presentation.InventoryModulePresentation.reader;
 //this class saves all the information about the products in the store
 public class ProductController {
     private static List<SuperLiProduct> products; //list that saves akk the products in the store
-    public static List<Integer>BarcodesOfNewProducts;
+    public static List<Integer> BarcodesOfNewProducts;
     static ProductController productController;
-    //static SupplierController supplierController;
 
     private ProductController() { //constructor
         products = new ArrayList<SuperLiProduct>();
