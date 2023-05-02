@@ -7,17 +7,13 @@ import java.util.List;
 
 public class Store extends Site {
     private final String _name;
-    private final String _address;
     private final int _storeID;
-    //private List<Employee> _employees;
     private List<Schedule> _pastSchedules;
 
     public Store(int storeID, String name, String address, String phone, String site_contact_name){
         super(address, phone, name, site_contact_name);
         this._storeID = storeID;
         this._name = name;
-        this._address = address;
-        //this._employees = new ArrayList<>();
         this._pastSchedules = new ArrayList<>();
     }
 
@@ -77,7 +73,7 @@ public class Store extends Site {
      * @return the list of all cashier employees in the store
      */
     public String getAddress() {
-        return _address;
+        return address;
     }
 
     /**
@@ -88,7 +84,7 @@ public class Store extends Site {
     }
 
     public String toString(){
-       return "Store ID: " + this._storeID + ", Store Name: " + this._name + ", Store Address: " + this._address;
+       return "Store ID: " + this._storeID + ", Store Name: " + this._name + ", Store Address: " + this.address+ ", Store Phone: " + this.phone + ", Store Contact Name: " + this.site_contact_name;
     }
 
     public int getStoreID() {

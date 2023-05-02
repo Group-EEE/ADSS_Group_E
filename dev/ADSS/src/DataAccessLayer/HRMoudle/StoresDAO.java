@@ -17,6 +17,8 @@ public class StoresDAO extends DAO {
     public static final String StoreIDColumnName = "storeID";
     public static final String NameColumnName = "name";
     public static final String AddressColumnName = "address";
+    public static final String PhoneColumnName = "phone";
+    public static final String ContactColumnName= "contactName";
 
     private StoresDAO() {
         super("Stores");
@@ -33,28 +35,27 @@ public class StoresDAO extends DAO {
     @Override
     public boolean Insert(Object storeObj) {
         Store store = (Store) storeObj;
-        boolean res = true;
-        String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}) VALUES(?, ?, ?) "
-                , _tableName, StoreIDColumnName, NameColumnName, AddressColumnName
+        String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}, {4}, {5}) VALUES(?, ?, ?, ? ,?) "
+                , _tableName, StoreIDColumnName, NameColumnName, AddressColumnName, PhoneColumnName, ContactColumnName
         );
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            //Connection connection=open
-            //pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, store.getStoreID());
             pstmt.setString(2, store.getName());
             pstmt.setString(3, store.getAddress());
+            pstmt.setString(4, store.getPhone());
+            pstmt.setString(5, store.getSite_contact_name());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
             System.out.println(sql);
-            res = false;
+            return false;
         }
         storesCache.put(store.getStoreID(), store);
         storesCacheByName.put(store.getName(), store);
-        return res;
+        return true;
     }
 
     @Override
