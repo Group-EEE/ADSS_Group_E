@@ -1,4 +1,4 @@
-import BussinessLayer.TransportationModule.objects.Store_to_delete;
+import BussinessLayer.TransportationModule.objects.Store;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,7 +7,7 @@ class StoreTestTransport {
 
     @Test
     void is_store() {
-        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
         assertTrue(store.is_store());
         assertFalse(store.is_supplier());
         assertFalse(store.is_logistical_center());
@@ -15,14 +15,14 @@ class StoreTestTransport {
 
     @Test
     void getManager_name() {
-        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
         assertEquals("Idan levinshtain", store.getManager_name());
 
     }
 
     @Test
     void setManager_name() {
-        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
         store.setManager_name("Yuval Rahamim");
         assertEquals("Yuval Rahamim", store.getManager_name());
         assertNotEquals("Idan levinshtain", store.getManager_name());
@@ -30,14 +30,14 @@ class StoreTestTransport {
 
     @Test
     void getSite_area() {
-        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
         assertEquals(3, store.getSite_area());
 
     }
 
     @Test
     void setSite_area() {
-        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
         store.setSite_area(8);
         assertEquals(8, store.getSite_area());
         assertNotEquals(3, store.getSite_area());

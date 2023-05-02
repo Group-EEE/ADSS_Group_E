@@ -15,13 +15,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Transport_dao extends DAO {
+    private static Transport_dao transport_dao = null;
 
     HashMap<Integer, Transport> transports;
 
-    public Transport_dao(String tableName) {
+    private Transport_dao(String tableName) {
         super(tableName);
         transports = new HashMap<>();
         get_transports_map_from_database();
+    }
+
+    public static Transport_dao getInstance(){
+        if (transport_dao == null)
+            transport_dao = new Transport_dao("Transports");
+        return transport_dao;
     }
 
     @Override
@@ -293,5 +300,30 @@ public class Transport_dao extends DAO {
 
         }
         return false;
+    }
+
+    public void update_transport_date_and_time(int transport_ID,String Date,String Time){
+        String query = "UPDATE " + this._tableName + " SET Date = ?, Departure_Time = ? WHERE ID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, Date);
+            statement.setString(2, Time);
+            statement.setInt(3, transport_ID);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void mark_transport_as_finished(int transport_ID){
+        String query = "UPDATE " + this._tableName + " Finished = ? WHERE ID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, 1);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

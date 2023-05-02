@@ -34,9 +34,7 @@ public class Logistical_center_controller {
     private Logistical_center_controller(){
         transport_system = new Transport_System();
         trucks_dao = new Trucks_dao("Trucks");
-        transport_dao = new Transport_dao("Transports");
         license_dao = new License_dao("Licenses");
-        drivers_dao = new Drivers_dao("Drivers");
         site_supply_dao = new Site_Supply_dao("Sites_Documents");
         storesDAO = StoresDAO.getInstance();
     }
@@ -74,6 +72,7 @@ public class Logistical_center_controller {
         transport_dao.Insert(transport);
     }
 
+    ///// need to notify HR when the driver is needed to be in the weekly schedule
     public boolean truck_assigning(String new_truck_registration_plate, String planned_date){
         Truck_Driver driver;
         Truck truck = getTruckByNumber(new_truck_registration_plate);
@@ -90,6 +89,12 @@ public class Logistical_center_controller {
         }
         return false;
     }
+
+    // need to implent, I need to pull out the drivers that work today and check if they can drive this truck.
+    public boolean truck_assigning_drivers_in_shift(String new_truck_registration_plate, String planned_date){
+        return false;
+    }
+
 
 //    public Truck getTruckByColdLevel (cold_level level){
 //        Truck truck = null;

@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 class NavigatorTest {
 
-    Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+    Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
     Supplier supplier = new Supplier("Ben Gurion", "054876542", "Osem", "David Shafir");
     Logistical_Center logistical_center = new Logistical_Center("Lamdan 15", "050684575", "Logistical Center", "Yaron Avraham");
 

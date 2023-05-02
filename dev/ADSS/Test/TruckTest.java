@@ -19,7 +19,7 @@ class TruckTest {
 
     @Test
     void setNavigator() {
-        Store_to_delete store = new Store_to_delete("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
+        Store store = new Store("Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3, "Maor Peretz");
         Supplier supplier = new Supplier("Ben Gurion", "054876542", "Osem", "David Shafir");
         ArrayList<Site> destinations = new ArrayList<>();
         destinations.add(store);
