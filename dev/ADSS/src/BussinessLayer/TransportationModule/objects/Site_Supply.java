@@ -8,7 +8,7 @@ import java.util.Map;
 public class Site_Supply {
     private int id;
     private Map<String, Integer> items;
-    private BussinessLayer.HRModule.Objects.Store store;
+    private Store store;
     private String origin;
 
     private double products_total_weight = 0.0;
