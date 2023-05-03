@@ -171,7 +171,7 @@ public class SchedulesDAO extends DAO {
         if (storeNametoActiveSchedule.containsKey(storeName)) {
             return storeNametoActiveSchedule.get(storeName);
         }
-        List<String> listSchedulesID = SelectString(ScheduleIDColumnName,makeList(StoreNameColumnName),makeList(storeName));
+        List<String> listSchedulesID = SelectString("ActiveSchedules",ScheduleIDColumnName,makeList(StoreNameColumnName),makeList(storeName));
         if (listSchedulesID.size() > 1)
             throw new IllegalArgumentException("There are more than one active schedule for storeName: " + storeName);
         if (listSchedulesID.size() == 1) {

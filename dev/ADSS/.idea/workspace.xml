@@ -4,29 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="fixed daos">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/72f49aaa-f33e-4039-9636-e5f759e35d36.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/72f49aaa-f33e-4039-9636-e5f759e35d36.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="removed storeID">
       <change beforePath="$PROJECT_DIR$/SuperLi.db" beforeDir="false" afterPath="$PROJECT_DIR$/SuperLi.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/NavigatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/NavigatorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/ScheduleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/ScheduleTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/Site_SupplyTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/Site_SupplyTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/TransportTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/TransportTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/TruckTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/TruckTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/Facade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/StoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/StoreController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Schedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Store.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Store.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/DAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ActiveSchedulesDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesToStoreDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesToStoreDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ShiftsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ShiftsDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/StoresDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/StoresDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/Transport/Transport_dao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/Transport/Transport_dao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/HRManagerCLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/HRManagerCLI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +101,7 @@
       <workItem from="1683029584171" duration="10793000" />
       <workItem from="1683044217388" duration="8680000" />
       <workItem from="1683105456017" duration="1110000" />
-      <workItem from="1683119363634" duration="8511000" />
+      <workItem from="1683119363634" duration="8892000" />
     </task>
     <task id="LOCAL-00001" summary="created .idea folder">
       <created>1682675006264</created>
@@ -277,7 +257,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683097392528</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="removed storeID">
+      <created>1683131547058</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1683131547058</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -331,7 +318,8 @@
     <MESSAGE value="added fixes" />
     <MESSAGE value="fixed store DAO" />
     <MESSAGE value="fixed daos" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed daos" />
+    <MESSAGE value="removed storeID" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed storeID" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -354,6 +342,15 @@
           </properties>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/StoresDAO.java</url>
+          <line>33</line>
+          <properties class="DataAccessLayer.HRMoudle.StoresDAO" method="Insert">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/PasswordsDAO.java</url>
           <line>29</line>
@@ -372,7 +369,12 @@
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/InterfaceLayer/HRModule/HRManagerCLI.java</url>
           <line>696</line>
-          <option name="timeStamp" value="19" />
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java</url>
+          <line>173</line>
+          <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

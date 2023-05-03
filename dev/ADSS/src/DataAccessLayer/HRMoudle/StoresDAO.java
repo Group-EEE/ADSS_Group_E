@@ -39,11 +39,11 @@ public class StoresDAO extends DAO {
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(2, store.getName());
-            pstmt.setString(3, store.getAddress());
-            pstmt.setString(4, store.getPhone());
-            pstmt.setString(5, store.getSite_contact_name());
-            pstmt.setInt(6, store.get_area());
+            pstmt.setString(1, store.getName());
+            pstmt.setString(2, store.getAddress());
+            pstmt.setString(3, store.getPhone());
+            pstmt.setString(4, store.getSite_contact_name());
+            pstmt.setInt(5, store.get_area());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Got Exception:");
