@@ -59,11 +59,15 @@ public class CategoryController {
     }
 
     //this function adds subsubcategory to the subsubcategories list
-    public static void addSubSubCategory(String subcatname, String subsubcatname){
+    public static void addSubSubCategory(String subcatname, String subsubcatname, String catname){
         SubSubCategory ssc = new SubSubCategory(subsubcatname);
-        for(int i=0; i<subcategories.size(); i++){ //looking for its subcategory
-            if(subcategories.get(i).getName().compareTo(subcatname)==0){
-                subcategories.get(i).addSubSub(ssc); //add the subcategory to the subcategory's list
+        for(int j=0; j<categories.size();j++){
+            if(categories.get(j).getName().compareTo(catname)==0){
+                for(int i=0; i<categories.get(j).getSubCategories().size(); i++){ //looking for its subcategory
+                    if(categories.get(j).getSubCategories().get(i).getName().compareTo(subcatname)==0){
+                        categories.get(j).getSubCategories().get(i).addSubSub(ssc); //add the subcategory to the subcategory's list
+                    }
+                }
             }
         }
         subSubCategories.add(ssc);

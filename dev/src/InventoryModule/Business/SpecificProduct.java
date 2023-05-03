@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 //each "pack" is a specific product with id
 public class SpecificProduct {
     private int Sp_ID; //specific product id
-    private int P_ID; //the main product's id
+    private int Barcode; //the main product's id
     private LocalDateTime ExpDate; //the expiration date of the spec. product
     private boolean Defective; //if the product is defective will be true
     private String Defect_Report_By; //if not defective will be null
@@ -15,15 +15,15 @@ public class SpecificProduct {
     private int Location_in_Store;//if in warehouse will be -1, else the number of shelf
     private Discount Discount; //the discount on this specific product
     private String DefectType;//if not defected will be null
-    private String Supplier; //the supplier
+    private String SupplierNum; //the supplier
     private double Supplier_Price; //the price that supplier declares from us
 
     private LocalDateTime arrivaldate; //products arrival date to the store
 
     //constructor
-    public SpecificProduct(double supplier_Price,String supplier, int aID, int pID, LocalDateTime aExp_date, boolean aDefective, String aDefect_report_by, boolean aInWarehouse, String aStoreBranch, int aLocationInStore, Discount aDiscount, String defectType) {
+    public SpecificProduct(double supplier_Price, String supplierNum, int aID, int pID, LocalDateTime aExp_date, boolean aDefective, String aDefect_report_by, boolean aInWarehouse, String aStoreBranch, int aLocationInStore, Discount aDiscount, String defectType) {
         this.Sp_ID = aID;
-        this.P_ID = pID;
+        this.Barcode = pID;
         this.ExpDate = aExp_date;
         this.Defective = aDefective;
         this.Defect_Report_By = aDefect_report_by;
@@ -33,7 +33,7 @@ public class SpecificProduct {
         this.DefectType = defectType;
         this.Store_Branch = aStoreBranch;
         this.Supplier_Price =supplier_Price;
-        this.Supplier =supplier;
+        this.SupplierNum = supplierNum;
         this.arrivaldate = LocalDateTime.now();
     }
 

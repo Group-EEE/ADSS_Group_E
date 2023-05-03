@@ -62,6 +62,8 @@ public class ProductController {
         //if the category of the new product doesnt exist yet, we will create it
         if(!CategoryController.check_if_exist_cat(Category)){
             CategoryController.addCategory(Category);
+            CategoryController.addSubCategory(Category,Subcategory);
+            CategoryController.addSubSubCategory(Subcategory, Subsubcategory,Category);
         }
         //create the new product - call to its constructor
         SuperLiProduct P = new SuperLiProduct(Barcode, Name, Costumerprice, Category,Subcategory, Subsubcategory,

@@ -78,11 +78,13 @@ public class CategoryPresentation {
             c6 = option6.nextLine();
             switch (c6) {
                 case "1": //Add new subsubcategory
+                    System.out.println("Please enter new Category name:");
+                    String cat1 = reader.nextLine();
                     System.out.println("Please enter new SubCategory name:");
                     String subcat1 = reader.nextLine();
                     System.out.println("Please enter new SubCategory name:");
                     String subsubcat1 = reader.nextLine();
-                    CategoryController.addSubSubCategory(subcat1, subsubcat1);
+                    CategoryController.addSubSubCategory(subcat1, subsubcat1, cat1);
                     break;
                 case "2": //Remove subsubcategory
                     System.out.println("Please enter Category name:");
