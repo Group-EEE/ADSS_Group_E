@@ -20,7 +20,6 @@ public class SuperLiProductDAO {
     private Map<Integer, SuperLiProduct> IdentifyMapSuperLiProduct;
     private SuperLiProductDAO(Connection conn) {
         this.conn = conn;
-        superLiProductDAO = SuperLiProductDAO.getInstance(this.conn);
         specificProductDAO = SpecificProductDAO.getInstance(this.conn);
         IdentifyMapSuperLiProduct = new HashMap<>();
     }

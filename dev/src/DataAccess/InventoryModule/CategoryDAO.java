@@ -24,7 +24,6 @@ public class CategoryDAO {
     private CategoryDAO(Connection conn) {
         this.conn = conn;
         subCategoryDAO = SubCategoryDAO.getInstance(conn);
-        categoryDAO = CategoryDAO.getInstance(this.conn);
         IdentifyMapCategory = new HashMap<>();
     }
 

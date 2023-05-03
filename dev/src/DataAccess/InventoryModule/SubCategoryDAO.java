@@ -2,7 +2,6 @@ package DataAccess.InventoryModule;
 
 import InventoryModule.Business.SubCategory;
 import InventoryModule.Business.SubSubCategory;
-import SuppliersModule.Business.OrderDiscount;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,13 +15,11 @@ import java.util.Map;
 public class SubCategoryDAO {
     private Connection conn;
     static SubCategoryDAO subCategoryDAO;
-
     private SubSubCategoryDAO subSubCategoryDAO;
     private Map<String, SubCategory> IdentifyMapSubCategory;
 
     private SubCategoryDAO(Connection conn) {
         this.conn = conn;
-        subCategoryDAO = SubCategoryDAO.getInstance(this.conn);
         subSubCategoryDAO = SubSubCategoryDAO.getInstance(this.conn);
         IdentifyMapSubCategory = new HashMap<>();
     }

@@ -19,7 +19,6 @@ public class DiscountDAO {
 
     private DiscountDAO(Connection conn) {
         this.conn = conn;
-        discountDAO = DiscountDAO.getInstance(this.conn);
         IdentifyMapDiscount = new HashMap<>();
     }
 

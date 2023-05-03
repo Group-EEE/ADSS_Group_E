@@ -19,7 +19,6 @@ public class SubSubCategoryDAO {
 
     private SubSubCategoryDAO(Connection conn) {
         this.conn = conn;
-        subSubCategoryDAO = SubSubCategoryDAO.getInstance(this.conn);
         IdentifyMapSubSubCategory = new HashMap<>();
     }
 

@@ -24,7 +24,6 @@ public class SpecificProductDAO {
 
     private SpecificProductDAO(Connection conn) {
         this.conn = conn;
-        specificProductDAO = SpecificProductDAO.getInstance(this.conn);
         discountDAO = DiscountDAO.getInstance(this.conn);
         IdentifyMapSpecificProduct = new HashMap<>();
     }
