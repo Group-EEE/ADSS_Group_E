@@ -5,6 +5,7 @@ import BussinessLayer.HRModule.Objects.ShiftType;
 import DataAccessLayer.DAO;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ShiftsDAO extends DAO {
@@ -40,18 +41,8 @@ public class ShiftsDAO extends DAO {
     }
 
     @Override
-    public Shift convertReaderToObject(ResultSet resultSet) {
-//        Shift shift = null;
-//        try {
-//            shift = new Shift(stringToEnum(resultSet.getString(3)), // VARCHAR(255)
-//                    resultSet.getInt(4), //startHour
-//                    resultSet.getInt(5), //endHour
-//                    resultSet.getDate(9).toLocalDate());//date )
-//        } catch (Exception e) {
-//            System.out.println("Got Exception:");
-//            System.out.println(e.getMessage());
-//        }
-        return null;
+    public Shift convertReaderToObject(ResultSet rs) throws SQLException {
+        return new Shift(rs.getInt(1),rs.getInt(2),ShiftType.toEnum(rs.getString(3)),rs.getInt(4),rs.getInt(5),parseLocalDate(rs.getString(6)));
     }
 
     public ShiftType stringToEnum(String str){

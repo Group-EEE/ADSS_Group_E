@@ -102,6 +102,20 @@ public class StoresDAO extends DAO {
         return -1;
     }
 
+    public String getStoreNameByID(int storeID){
+        if (storesCache.containsKey(storeID))
+            return storesCache.get(storeID).getName();
+        List<String> storesNameList = SelectString(NameColumnName,makeList(StoreIDColumnName),makeList(String.valueOf((storeID))));
+        if (storesNameList.size() == 0)
+            throw new IllegalArgumentException("store " +storeID + " does not exist");
+        if (storesNameList.size() > 1)
+            throw new IllegalArgumentException("store " +storeID + " is not unique");
+        for (String strStoreID : storesNameList) {
+            return strStoreID;
+        }
+        return null;
+    }
+
     public boolean existsStore(int storeID){
         if (storesCache.containsKey(storeID))
             return true;

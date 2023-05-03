@@ -13,6 +13,7 @@ import java.util.List;
 
 public class SchedulesDAO extends DAO {
     private static SchedulesDAO _schedulesDAO = null;
+    private ActiveSchedulesDAO _activeScheduleDAO;
     public static final String ScheduleIDColumnName = "scheduleID";
     public static final String StartDateOfWeekColumnName = "startDateOfWeek";
     public static final String StoreIDColumnName = "StoreID";
@@ -21,6 +22,7 @@ public class SchedulesDAO extends DAO {
 
     private SchedulesDAO(){
         super("Schedules");
+        _activeScheduleDAO = ActiveSchedulesDAO.getInstance();
     }
 
     public static SchedulesDAO getInstance(){
@@ -30,13 +32,13 @@ public class SchedulesDAO extends DAO {
     }
 
     public boolean Insert(Object scheduleObj){
-
         if (scheduleObj == null)
             throw new IllegalArgumentException("Invalid object schedule");
 
         Schedule schedule = (Schedule)scheduleObj;
         if (schedule.getScheduleID() > _scheduleIDcache)
             throw new IllegalArgumentException("Invalid schedule ID");
+
 
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}) VALUES(?, ?, ?) "
                 , _tableName, ScheduleIDColumnName, StoreIDColumnName, StartDateOfWeekColumnName );
@@ -47,6 +49,8 @@ public class SchedulesDAO extends DAO {
             pstmt.setString(3, schedule.getStartDateOfWeek().format(formatters));
             pstmt.executeUpdate();
             _scheduleIDcache++;
+            if (!_activeScheduleDAO.insertActiveSchedule(schedule.getStoreID(),schedule.getScheduleID()))
+                return false;
         } catch (SQLException e) {
             if (e.getMessage().contains("A PRIMARY KEY constraint failed"))
                 throw new IllegalArgumentException("A schedule with this ID already exists");

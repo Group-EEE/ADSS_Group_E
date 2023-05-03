@@ -4,14 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="added fixes">
+    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="fixed store DAO">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/72f49aaa-f33e-4039-9636-e5f759e35d36.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/72f49aaa-f33e-4039-9636-e5f759e35d36.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/Facade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperLi.db" beforeDir="false" afterPath="$PROJECT_DIR$/SuperLi.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Schedule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/ShiftType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/ShiftType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Store.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Store.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ActiveSchedulesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ActiveSchedulesDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ShiftsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ShiftsDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/StoresDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/StoresDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/Transport/Transport_dao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/Transport/Transport_dao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/HRManagerCLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/HRManagerCLI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +107,7 @@
       <workItem from="1683026868589" duration="2648000" />
       <workItem from="1683029528626" duration="42000" />
       <workItem from="1683029584171" duration="10793000" />
-      <workItem from="1683044217388" duration="1680000" />
+      <workItem from="1683044217388" duration="8657000" />
     </task>
     <task id="LOCAL-00001" summary="created .idea folder">
       <created>1682675006264</created>
@@ -246,7 +249,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683037356040</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="fixed store DAO">
+      <created>1683046851411</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1683046851412</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -298,7 +308,8 @@
     <MESSAGE value="fixed storeDAO" />
     <MESSAGE value="created tables" />
     <MESSAGE value="added fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="added fixes" />
+    <MESSAGE value="fixed store DAO" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed store DAO" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -320,6 +331,15 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ShiftsDAO.java</url>
+          <line>58</line>
+          <properties class="DataAccessLayer.HRMoudle.ShiftsDAO" method="getShiftsByScheduleID">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/PasswordsDAO.java</url>
@@ -350,6 +370,11 @@
           <url>file://$PROJECT_DIR$/src/InterfaceLayer/HRModule/HRManagerCLI.java</url>
           <line>704</line>
           <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ActiveSchedulesDAO.java</url>
+          <line>120</line>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

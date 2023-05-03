@@ -86,7 +86,7 @@ public class Store extends Site {
     }
 
     public String toString(){
-       return "Store ID: " + this._storeID + ", Store Name: " + this._name + ", Store Address: " + this.address+ ", Store Phone: " + this.phone + ", Store Contact Name: " + this.site_contact_name;
+       return "Store ID: " + this._storeID + ", Store Name: " + this._name + ", Store Address: " + this.address+ ", Store Phone: " + this.phone + ", Store Contact Name: " + this.site_contact_name+ ", Store Area: " + this._area;
     }
 
     public int getStoreID() {
