@@ -1894,165 +1894,169 @@ shiftID</ColNames>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <index id="617" parent="519" name="sqlite_autoindex_Stores_1">
+    <column id="617" parent="519" name="area">
+      <DasType>integer|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <index id="618" parent="519" name="sqlite_autoindex_Stores_1">
       <ColNames>storeID</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <index id="618" parent="519" name="sqlite_autoindex_Stores_2">
+    <index id="619" parent="519" name="sqlite_autoindex_Stores_2">
       <ColNames>name</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="619" parent="519">
+    <key id="620" parent="519">
       <ColNames>storeID</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>sqlite_autoindex_Stores_1</UnderlyingIndexName>
     </key>
-    <key id="620" parent="519">
+    <key id="621" parent="519">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_Stores_2</UnderlyingIndexName>
     </key>
-    <column id="621" parent="520" name="Address">
+    <column id="622" parent="520" name="Address">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="622" parent="520" name="Phone">
+    <column id="623" parent="520" name="Phone">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="623" parent="520" name="Name">
+    <column id="624" parent="520" name="Name">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="624" parent="520" name="Contact_name">
+    <column id="625" parent="520" name="Contact_name">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <index id="625" parent="520" name="sqlite_autoindex_Suppliers_1">
+    <index id="626" parent="520" name="sqlite_autoindex_Suppliers_1">
       <ColNames>Name</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="626" parent="520" name="Suppliers_pk">
+    <key id="627" parent="520" name="Suppliers_pk">
       <ColNames>Name</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>sqlite_autoindex_Suppliers_1</UnderlyingIndexName>
     </key>
-    <column id="627" parent="521" name="ID">
+    <column id="628" parent="521" name="ID">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="628" parent="521" name="Date">
+    <column id="629" parent="521" name="Date">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="629" parent="521" name="Departure_Time">
+    <column id="630" parent="521" name="Departure_Time">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="630" parent="521" name="Truck_Number">
+    <column id="631" parent="521" name="Truck_Number">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="631" parent="521" name="Driver_Name">
+    <column id="632" parent="521" name="Driver_Name">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="632" parent="521" name="Origin">
+    <column id="633" parent="521" name="Origin">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="633" parent="521" name="Cold_Level">
+    <column id="634" parent="521" name="Cold_Level">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <column id="634" parent="521" name="Suppliers">
+    <column id="635" parent="521" name="Suppliers">
       <DasType>TEXT|0s</DasType>
       <Position>8</Position>
     </column>
-    <column id="635" parent="521" name="Stores">
+    <column id="636" parent="521" name="Stores">
       <DasType>TEXT|0s</DasType>
       <Position>9</Position>
     </column>
-    <column id="636" parent="521" name="Finished">
+    <column id="637" parent="521" name="Finished">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>10</Position>
     </column>
-    <column id="637" parent="521" name="Planned_Date">
+    <column id="638" parent="521" name="Planned_Date">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>11</Position>
     </column>
-    <column id="638" parent="521" name="Driver_ID">
+    <column id="639" parent="521" name="Driver_ID">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>12</Position>
     </column>
-    <column id="639" parent="522" name="registration_plate">
+    <column id="640" parent="522" name="registration_plate">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="640" parent="522" name="model">
+    <column id="641" parent="522" name="model">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="641" parent="522" name="net_weight">
+    <column id="642" parent="522" name="net_weight">
       <DasType>REAL|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="642" parent="522" name="max_weight">
+    <column id="643" parent="522" name="max_weight">
       <DasType>REAL|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="643" parent="522" name="cold_level">
+    <column id="644" parent="522" name="cold_level">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <index id="644" parent="522" name="sqlite_autoindex_Trucks_1">
+    <index id="645" parent="522" name="sqlite_autoindex_Trucks_1">
       <ColNames>registration_plate</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="645" parent="522" name="Trucks_pk">
+    <key id="646" parent="522" name="Trucks_pk">
       <ColNames>registration_plate</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>sqlite_autoindex_Trucks_1</UnderlyingIndexName>
     </key>
-    <column id="646" parent="523" name="type">
+    <column id="647" parent="523" name="type">
       <DasType>TEXT|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="647" parent="523" name="name">
+    <column id="648" parent="523" name="name">
       <DasType>TEXT|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="648" parent="523" name="tbl_name">
+    <column id="649" parent="523" name="tbl_name">
       <DasType>TEXT|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="649" parent="523" name="rootpage">
+    <column id="650" parent="523" name="rootpage">
       <DasType>INT|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="650" parent="523" name="sql">
+    <column id="651" parent="523" name="sql">
       <DasType>TEXT|0s</DasType>
       <Position>5</Position>
     </column>

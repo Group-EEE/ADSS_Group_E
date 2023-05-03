@@ -1,6 +1,7 @@
 package BussinessLayer.HRModule.Objects;
 
 import DataAccessLayer.HRMoudle.SchedulesDAO;
+import DataAccessLayer.HRMoudle.ShiftsDAO;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ public class Schedule {
     private int _storeID;
     private LocalDate _startDateOfWeek;
     private Shift[] _shifts = new Shift[14];
+    private static final ShiftsDAO _shiftsDAO = ShiftsDAO.getInstance();
 
     public Schedule(int scheduleID, LocalDate startWeek, int storeID){
         this._scheduleID = scheduleID;
@@ -23,6 +25,7 @@ public class Schedule {
                 _shifts[i] = new Shift(_scheduleID,i, ShiftType.MORNING, 8 , 16,startWeek.plusDays(i));
             else
                 _shifts[i] = new Shift(_scheduleID,i, ShiftType.NIGHT, 16 , 24,startWeek.plusDays(i));
+            _shiftsDAO.Insert(_shifts[i]);
         }
     }
 
