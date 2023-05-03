@@ -244,16 +244,8 @@ public class HRManagerCLI{
     public boolean HRMenuCreateStore(){
         System.out.println("Please enter the following details:");
         boolean valid = false;
-        int storeId = 0;
         int storeArea = 0;
         while(!valid) {
-            try {
-                System.out.println("Store id:");
-                storeId = Integer.valueOf(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid store ID");
-                continue;
-            }
             String storeName = getStoreName();
             if (storeName == null)
                 return false;
@@ -271,7 +263,7 @@ public class HRManagerCLI{
                 continue;
             }
             try {
-                _facade.createStore(storeId, storeName, storeAddress,storePhoneNumber,storeContactName,storeArea);
+                _facade.createStore(storeName, storeAddress,storePhoneNumber,storeContactName,storeArea);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 continue;

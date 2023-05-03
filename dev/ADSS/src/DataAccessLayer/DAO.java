@@ -355,6 +355,32 @@ public abstract class DAO {
         return list;
     }
 
+    protected List SelectString(String table, String ColumnName, List<String> Columnkeys, List<String> keys) {
+        List list = new ArrayList<>();
+        /// keys is for tables that have more that one key
+        String sql = MessageFormat.format("SELECT {0} From {1} WHERE" + keysQuery(Columnkeys),
+                ColumnName, table);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            int i = 1;
+            for (String key : keys) {
+                pstmt.setString(i, key);
+                i++;
+            }
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                // Fetch each row from the result set
+                list.add(resultSet.getString(1));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+        }
+        return list;
+    }
+
 /*
     protected  List Select(String ColumnReturn, List<String> Columnkeys, List<String> keys){
         List list=new ArrayList<>();
@@ -383,8 +409,6 @@ public abstract class DAO {
     }
 
 */
-
-
     //abstract functions
     public abstract boolean Insert(Object obj);
 
