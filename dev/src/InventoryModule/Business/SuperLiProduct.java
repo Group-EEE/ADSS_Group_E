@@ -13,7 +13,7 @@ public class SuperLiProduct {
     private double Costumer_Price; //the price that we declare to the costumers
     private int Shelf_amount; //how many specific products there are on the shelves in the store
     private int Warehouse_amount; //how many specific products there are in the warehouse
-    private String Category; //the main category that the product is categorised by
+    private Category Category; //the main category that the product is categorised by
     private String SubCategory; //the main subcategory that the product is categorised by
     private String SubSubCategory; //the subsubcategory that the product is categorised by
     private int Supply_Days; //how much time it takes to the supplier to supply the product
@@ -31,7 +31,8 @@ public class SuperLiProduct {
         this.Costumer_Price = c_price;
         this.Shelf_amount = 0;
         this.Warehouse_amount = 0;
-        this.Category = cat;
+        Category c = new Category(cat);
+        this.Category = c;
         this.SubCategory = scat;
         this.SubSubCategory = sscat;
         this.Supply_Days = sd;
@@ -176,7 +177,7 @@ public class SuperLiProduct {
 
     //return the product's category
     public String getCategory() {
-        return Category;
+        return Category.getName();
     }
 
     //return the product's subcategory
