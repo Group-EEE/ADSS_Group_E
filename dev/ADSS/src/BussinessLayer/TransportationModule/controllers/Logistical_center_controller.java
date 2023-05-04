@@ -68,7 +68,7 @@ public class Logistical_center_controller {
         // checking if the given parameters are valid, and getting the diver and the truck if they exist.
 
         for (Truck_Driver truck_driver  : Drivers_dao.get_instance().getDrivers()) {
-            if (truck_driver.getLicense().getWeight() >= truck.getMax_weight() && truck_driver.getLicense().getCold_level().getValue() <= truck.getCold_level().getValue() && Transport_dao.getInstance().check_if_driver_taken_that_date(planned_date, truck_driver.getID())){
+            if (truck_driver.getLicense().getWeight() >= truck.getMax_weight() && truck_driver.getLicense().getCold_level().getValue() <= truck.getCold_level().getValue() && !Transport_dao.getInstance().check_if_driver_taken_that_date(planned_date, truck_driver.getID())){
                 driver = truck_driver;
                 truck.setCurrent_driver(truck_driver);
                 truck.setOccupied(true);
