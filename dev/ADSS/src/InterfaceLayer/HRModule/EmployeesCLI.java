@@ -68,20 +68,19 @@ public class EmployeesCLI {
             System.out.println(e.getMessage());
             return false;
         }
-        boolean valid=false;
-        while (!valid){
+        boolean valid=true;
+        while (valid){
             System.out.println("Please select the shifts you ARE AVAILABLE to work at: ");
             System.out.println("Enter 0 to exit");
             try {
-                int choice = Integer.valueOf(scanner.nextLine());
-                if (choice == 0)
-                    return true;
+                int shiftID = Integer.valueOf(scanner.nextLine());
                 try {
-                    _facade.addEmployeeToShift(storeName, choice - 1);
-                    System.out.println("You asked to work at the shift number " + choice+" successfully");
+                    _facade.addEmployeeToShift(storeName, shiftID);
+                    System.out.println("You asked to work at the shift " + shiftID+" successfully");
                 } catch (Exception e) {
                     System.out.println("Could not add employee to shift");
                     System.out.println(e.getMessage());
+                    valid = false;
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input");

@@ -75,6 +75,8 @@ public class StoresDAO extends DAO {
         return true;
     }
 
+
+
     @Override
     public Store convertReaderToObject(ResultSet rs) throws SQLException {
         if(storesCache.containsKey(rs.getInt(1)))

@@ -170,7 +170,7 @@ public class SchedulesDAO extends DAO {
         if (listSchedulesID.size() > 1)
             throw new IllegalArgumentException("There are more than one active schedule for storeName: " + storeName);
         if (listSchedulesID.size() == 1) {
-            Schedule schedule = SchedulesDAO.getInstance().getSchedule(Integer.valueOf(listSchedulesID.get(0)));
+            Schedule schedule = getSchedule(Integer.valueOf(listSchedulesID.get(0)));
             storeNametoActiveSchedule.put(storeName, schedule);
             return schedule;
         }

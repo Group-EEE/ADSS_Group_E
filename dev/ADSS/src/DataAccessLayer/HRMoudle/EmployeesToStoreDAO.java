@@ -197,8 +197,9 @@ public class EmployeesToStoreDAO extends DAO {
     }
 
     public boolean checkIfEmployeeInStore(int employeeID, String storeName){
-        if (employeeCache.get(employeeID).contains(storeName) && storeCache.get(storeName).contains(employeeID)){
-            return true;
+        if (employeeCache.containsKey(employeeID) && storeCache.containsKey(storeName)){
+            if (employeeCache.get(employeeID).contains(storeName) && storeCache.get(storeName).contains(employeeID))
+                return true;
         }
         String sql = MessageFormat.format("SELECT * FROM {0} WHERE {1} = ? AND {2} = ?"
                 , _tableName, EmployeeIDColumnName, StoreNameColumnName);
@@ -209,8 +210,12 @@ public class EmployeesToStoreDAO extends DAO {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Pair<Integer,String> pair = convertReaderToObject(rs);
-                if (pair.getKey() == employeeID && pair.getValue() == storeName){
+                if (pair.getKey() == employeeID && pair.getValue().equals(storeName)){
+                    if (!storeCache.containsKey(storeName))
+                        storeCache.put(storeName, new ArrayList<>());
                     storeCache.get(storeName).add(employeeID);
+                    if (!employeeCache.containsKey(employeeID))
+                        employeeCache.put(employeeID, new ArrayList<>());
                     employeeCache.get(employeeID).add(storeName);
                     return true;
                 }

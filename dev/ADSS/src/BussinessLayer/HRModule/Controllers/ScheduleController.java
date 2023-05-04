@@ -68,6 +68,7 @@ public class ScheduleController {
         Schedule schedule = _schedulesDAO.getSchedule(StoreName);
         if (schedule == null)
             throw new IllegalArgumentException("Could not find schedule for this store");
+        schedule.setShifts(_shiftsDAO.getShiftsByScheduleID(schedule.getScheduleID()));
         return schedule;
     }
 
@@ -104,8 +105,9 @@ public class ScheduleController {
         Schedule schedule = _schedulesDAO.getSchedule(storeName);
         if (schedule == null)
             throw new IllegalArgumentException("Invalid store");
-        schedule.getShift(shiftID).setStartHour(newStartHour);
-        schedule.getShift(shiftID).setEndHour(newEndHour);
+        schedule.changeHoursShift(shiftID, newStartHour, newEndHour);
+        _shiftsDAO.setStartTime(schedule.getScheduleID(),shiftID, newStartHour);
+        _shiftsDAO.setEndTime(schedule.getScheduleID(),shiftID, newEndHour);
         return true;
     }
     /**
@@ -193,6 +195,8 @@ public class ScheduleController {
         Schedule schedule = _schedulesDAO.getSchedule(storeName);
         if (schedule == null)
             throw new IllegalArgumentException("schedule not yet made");
+        if (!_shiftsDAO.InsertInquired(schedule.getScheduleID(),choice,employee.getID()))
+            return false;
         return schedule.addEmployeeToShift(employee,choice);
     }
 }

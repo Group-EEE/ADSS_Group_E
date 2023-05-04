@@ -17,7 +17,7 @@ public class Schedule {
         this._storeName = storeName;
     }
 
-    public boolean addShifts(List<Shift> shifts){
+    public boolean setShifts(List<Shift> shifts){
         if (shifts == null)
             return false;
         this._shifts = shifts;
@@ -67,12 +67,12 @@ public class Schedule {
         return _shifts;
     }
 
-    public boolean addEmployeeToShift(Employee employee, int choice){
+    public boolean addEmployeeToShift(Employee employee, int shiftID){
         if (employee == null)
             throw new IllegalArgumentException("Employee cannot be null");
-        if (choice < 0 || choice > 13)
-            throw new IllegalArgumentException("Invalid choice");
-        return _shifts.get(choice).addInquiredEmployee(employee);
+        if (shiftID < 0 || shiftID > 13)
+            throw new IllegalArgumentException("Invalid shiftID");
+        return _shifts.get(shiftID).addInquiredEmployee(employee);
     }
 
     public int getScheduleID(){
@@ -87,12 +87,13 @@ public class Schedule {
         return this._storeName;
     }
 
-    public String toString(){
-        String output="";
+    public String toString() {
+        String output = "";
         for (Shift shift : _shifts) {
-            output += shift.toString()+"\n";
+            output += shift.toString() + "\n";
         }
         return output;
     }
+
 }
 

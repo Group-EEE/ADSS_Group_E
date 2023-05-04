@@ -1,3 +1,4 @@
+package HR.Objects;
 
 import BussinessLayer.HRModule.Controllers.Facade;
 import BussinessLayer.HRModule.Objects.Store;
