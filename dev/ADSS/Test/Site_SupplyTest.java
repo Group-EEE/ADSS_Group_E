@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 
 class Site_SupplyTest {
-    Store store = new Store(11111, "Nahal avner 52, Afula", "086452317", "Afula market", "Yaniv Bitton", 1);
+    Store store = new Store("Afula market","Nahal avner 52, Afula", "086452317",  "Yaniv Bitton", 1);
     Site_Supply siteSupply = new Site_Supply(123456789, store, "Lamdan 15, Nof Hagalil");
 
     @Test
@@ -29,7 +29,7 @@ class Site_SupplyTest {
     @Test
     void setStore() {
         assertEquals("Afula market", siteSupply.getStore().getSite_name());
-        Store store1 = new Store(1, "Ben Yahuda 322, Yeruham", "086589593", "Sombrero", "Noam Kishon", 1);
+        Store store1 = new Store("Sombrero","Ben Yahuda 322, Yeruham", "086589593", "Noam Kishon", 1);
         siteSupply.setStore(store1);
         assertEquals(store1, siteSupply.getStore());
         assertEquals("Sombrero", siteSupply.getStore().getSite_name());

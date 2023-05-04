@@ -128,7 +128,7 @@ public class EmployeeController {
             throw new IllegalArgumentException("Illegal employee ID");
         _employeesDAO.Delete(employeeID);
         _passwordsDAO.Delete(employeeID);
-        _employeesToStoreDAO.Delete(employeeID,false);
+
         _employeesToRolesDAO.Delete(employeeID);
 
         return true;
@@ -163,34 +163,6 @@ public class EmployeeController {
             throw new IllegalArgumentException("employee not found");
         _employeesToRolesDAO.Insert(new Pair<Integer,String>(employeeID, role.toString()));
         return employee.addRole(role);
-    }
-
-    /**
-     * @param employeeID - the id of the employee
-     * @param store - the store to add
-     * @return - true if the store was added successfully, false otherwise
-     */
-    public boolean addStoreToEmployee(int employeeID, Store store){
-        if (employeeID < 0)
-            throw new IllegalArgumentException("Invalid employee ID");
-        if (store == null)
-            throw new IllegalArgumentException("Invalid store");
-        Employee employee = getEmployeeByID(employeeID);
-        if (employee == null)
-            throw new IllegalArgumentException("employee not found");
-        _employeesToStoreDAO.Insert(new Pair<Integer,Integer>(employeeID, store.getStoreID()));
-        return true;
-    }
-
-    public boolean removeStoreFromEmployee(int employeeID, Store store){
-        if (employeeID < 0)
-            throw new IllegalArgumentException("Invalid employee ID");
-        if (store == null)
-            throw new IllegalArgumentException("Invalid store");
-        Employee employee = getEmployeeByID(employeeID);
-        if (employee == null)
-            throw new IllegalArgumentException("employee not found");
-        return _employeesToStoreDAO.Delete(new Pair<Integer,Integer>(employeeID, store.getStoreID()));
     }
 
     public List<Employee> getAllEmployees() {

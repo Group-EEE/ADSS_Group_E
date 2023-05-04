@@ -21,7 +21,7 @@ class TruckTest {
     @Test
     void setNavigator() {
 
-        Store store = new Store(10000, "Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3);
+        Store store = new Store("Candy Factory", "Hertzel 36, Tel Aviv", "0506489571", "Idan levinshtain", 3);
         Supplier supplier = new Supplier("Ben Gurion", "054876542", "Osem", "David Shafir");
         ArrayList<Site> destinations = new ArrayList<>();
         destinations.add(store);

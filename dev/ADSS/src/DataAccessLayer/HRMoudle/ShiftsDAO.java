@@ -44,17 +44,7 @@ public class ShiftsDAO extends DAO {
     public Shift convertReaderToObject(ResultSet rs) throws SQLException {
         return new Shift(rs.getInt(1),rs.getInt(2),ShiftType.toEnum(rs.getString(3)),rs.getInt(4),rs.getInt(5),parseLocalDate(rs.getString(6)));
     }
-
-    public ShiftType stringToEnum(String str){
-        switch (str){
-            case "MORNING":
-                return ShiftType.MORNING;
-            case "NIGHT":
-                return ShiftType.NIGHT;
-            default:
-                throw new IllegalArgumentException("Invalid shift type");
-        }
-    }
+    
 
     public List<Shift> getShiftsByScheduleID(int scheduleID){
         return Select(makeList(ScheduleIDColumnName),makeList(String.valueOf(scheduleID)));
