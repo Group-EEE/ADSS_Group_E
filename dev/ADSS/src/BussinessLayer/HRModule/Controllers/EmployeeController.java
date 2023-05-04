@@ -100,7 +100,7 @@ public class EmployeeController {
      * @param employeeID - the id of the employee
      * @return - the employee with the given id, null if the id is invalid
      */
-    public String getEmployeeNameById(int employeeID){
+    public String getEmployeeFullNameById(int employeeID){
         if (employeeID < 0)
             return null;
         return _employeesDAO.getEmployee(employeeID).getFullNameName();
@@ -128,7 +128,6 @@ public class EmployeeController {
             throw new IllegalArgumentException("Illegal employee ID");
         _employeesDAO.Delete(employeeID);
         _passwordsDAO.Delete(employeeID);
-
         _employeesToRolesDAO.Delete(employeeID);
 
         return true;

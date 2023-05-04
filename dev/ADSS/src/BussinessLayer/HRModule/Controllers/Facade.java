@@ -99,8 +99,8 @@ public class Facade {
         return _employeeController.addRoleToEmployee(employeeID, role);
     }
 
-    public String getEmployeeNameById(int employeeID){
-        return _employeeController.getEmployeeNameById(employeeID);
+    public String getEmployeeFullNameById(int employeeID){
+        return _employeeController.getEmployeeFullNameById(employeeID);
     }
 
     public boolean removeEmployee(int employeeID){

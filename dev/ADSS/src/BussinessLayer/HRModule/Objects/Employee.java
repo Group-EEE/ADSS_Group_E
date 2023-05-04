@@ -139,9 +139,12 @@ public class Employee{
         return this._startDateOfEmployement;
     }
 
-    public boolean getFinishWorking(){
+    public boolean getFinishedWorking(){
         return this._finishWorking;
     }
 
-
+    public boolean setFinishedWorking(){
+        this._finishWorking = true;
+        return true;
+    }
 }
