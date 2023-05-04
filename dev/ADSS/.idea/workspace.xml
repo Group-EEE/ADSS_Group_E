@@ -4,24 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="fixed scheduleDAO">
-      <change afterPath="$PROJECT_DIR$/Test/HR/Facade/ScheduleDAOTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Test/HR/Objects/ScheduleTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/72f49aaa-f33e-4039-9636-e5f759e35d36.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/72f49aaa-f33e-4039-9636-e5f759e35d36.xml" afterDir="false" />
+    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="created methods for InquiredEmployees">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperLi.db" beforeDir="false" afterPath="$PROJECT_DIR$/SuperLi.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/EmployeeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/HR/Objects/EmployeeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/LoginTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/HR/Facade/LoginTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/ScheduleTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/ShiftTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/HR/Objects/ShiftTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/StoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/HR/Objects/StoreTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Schedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesToStoreDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesToStoreDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ShiftsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ShiftsDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/StoresDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/StoresDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/EmployeesCLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/EmployeesCLI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,7 +154,7 @@
       <workItem from="1683044217388" duration="8680000" />
       <workItem from="1683105456017" duration="1110000" />
       <workItem from="1683119363634" duration="28390000" />
-      <workItem from="1683214370140" duration="9545000" />
+      <workItem from="1683214370140" duration="12358000" />
     </task>
     <task id="LOCAL-00001" summary="created .idea folder">
       <created>1682675006264</created>
@@ -358,7 +345,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683215416261</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="created methods for InquiredEmployees">
+      <created>1683224684747</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1683224684747</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -415,7 +409,8 @@
     <MESSAGE value="removed storeID" />
     <MESSAGE value="more daos" />
     <MESSAGE value="fixed scheduleDAO" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed scheduleDAO" />
+    <MESSAGE value="created methods for InquiredEmployees" />
+    <option name="LAST_COMMIT_MESSAGE" value="created methods for InquiredEmployees" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -467,31 +462,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java</url>
-          <line>197</line>
+          <line>189</line>
           <option name="timeStamp" value="95" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ShiftsDAO.java</url>
-          <line>118</line>
+          <line>125</line>
           <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Schedule.java</url>
-          <line>32</line>
+          <line>48</line>
           <properties class="BussinessLayer.HRModule.Objects.Schedule" method="changeHoursShift">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="83" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java</url>
-          <line>191</line>
-          <properties class="BussinessLayer.HRModule.Controllers.ScheduleController" method="addEmployeeToShift">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="93" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

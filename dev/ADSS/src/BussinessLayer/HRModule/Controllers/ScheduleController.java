@@ -160,10 +160,8 @@ public class ScheduleController {
         Schedule schedule = _schedulesDAO.getSchedule(storeName);
         if (schedule == null)
             throw new IllegalArgumentException("schedule not yet made");
-        Shift shift = schedule.getShift(shiftID);
-        if (shift == null)
-            throw new IllegalArgumentException("Invalid shift");
-        return shift.addRequiredRole(role);
+        _shiftsDAO.InsertRequiredRole(schedule.getScheduleID(),shiftID, role.toString());
+        return schedule.addRequiredRoleToShift(shiftID, role);
     }
 
     public boolean removeRequiredRoleFromShift(String storeName, int shiftID, RoleType role){
@@ -177,17 +175,11 @@ public class ScheduleController {
         Shift shift = schedule.getShift(shiftID);
         if (shift == null)
             throw new IllegalArgumentException("Invalid shift");
-        return shift.removeRequiredRole(role);
+        if (!_shiftsDAO.removeRequiredRole(schedule.getScheduleID(),shiftID, role.toString()))
+            return false;
+        return schedule.removeRequiredRoleFromShift(shiftID, role);
     }
 
-    public boolean addEmployeeToShift(Employee employee, int storeID, int choice){
-        if (storeID < 0 )
-            throw new IllegalArgumentException("Invalid store ID");
-        Schedule schedule = _schedulesDAO.getSchedule(storeID);
-        if (schedule == null)
-            throw new IllegalArgumentException("schedule not yet made");
-        return schedule.addEmployeeToShift(employee,choice);
-    }
 
     public boolean addEmployeeToShift(Employee employee, String storeName, int choice){
         if (storeName == null )

@@ -1,6 +1,7 @@
 package DataAccessLayer.HRMoudle;
 
 import BussinessLayer.HRModule.Objects.Employee;
+import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Shift;
 import BussinessLayer.HRModule.Objects.ShiftType;
 import DataAccessLayer.DAO;
@@ -135,9 +136,8 @@ public class ShiftsDAO extends DAO {
             pstmt.setInt(2, shiftID);
             ResultSet rs = pstmt.executeQuery();
             List<Integer> list = new ArrayList<>();
-            if (rs.next()) {
+            while (rs.next())
                 list.add(rs.getInt(3));
-            }
             return list;
         } catch (SQLException e) {
             System.out.println("Got Exception:");
@@ -146,7 +146,6 @@ public class ShiftsDAO extends DAO {
         }
         return null;
     }
-
     public boolean InsertInquired(int scheduleID, int shiftID, int employeeID){
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}) VALUES(?, ?, ?) "
                 , "InquiredEmployees", "scheduleID", "shiftID", "employeeID"
@@ -169,4 +168,66 @@ public class ShiftsDAO extends DAO {
         }
         return true;
     }
+
+    public boolean InsertRequiredRole(int scheduleID, int shiftID, String roleStr){
+        String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}) VALUES(?, ?, ?) "
+                , "RequiredRolesToEmployees", "scheduleID", "shiftID", "employeeID"
+        );
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, scheduleID);
+            pstmt.setInt(2, shiftID);
+            pstmt.setString(3, roleStr);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            if (e.getMessage().contains("UNIQUE constraint failed: InquiredEmployees.scheduleID, InquiredEmployees.shiftID, InquiredEmployees.employeeID"))
+                throw new IllegalArgumentException("already have required role for this shift");
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+            return false;
+        }
+        return true;
+    }
+    public List<RoleType> getRequiredRoles(int scheduleID, int shiftID){
+        String sql = MessageFormat.format("SELECT * FROM {0} WHERE {1} = ? AND {2} = ?"
+                , "RequiredRolesToEmployees", "scheduleID", "shiftID"
+        );
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, scheduleID);
+            pstmt.setInt(2, shiftID);
+            ResultSet rs = pstmt.executeQuery();
+            List<RoleType> list = new ArrayList<>();
+            while (rs.next()) {
+                list.add(RoleType.toEnum(rs.getString(3)));
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+        }
+        return null;
+    }
+
+    public boolean removeRequiredRole(int scheduleID, int shiftID, String roleStr){
+        String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ? AND {2} = ? AND {3} = ?"
+                , "RequiredRolesToEmployees", "scheduleID", "shiftID"
+        );
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, scheduleID);
+            pstmt.setInt(2, shiftID);
+            pstmt.setString(3, roleStr);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+            return false;
+        }
+        return true;
+    }
+
 }

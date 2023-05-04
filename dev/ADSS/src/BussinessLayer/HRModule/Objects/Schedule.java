@@ -24,6 +24,22 @@ public class Schedule {
         return true;
     }
 
+    public boolean addRequiredRoleToShift(int shiftID, RoleType roleType){
+        if (_shifts == null)
+            throw new IllegalArgumentException("shifts haven't been initialized");
+        if (shiftID < 0 || shiftID > 13)
+            return false;
+        return _shifts.get(shiftID).addRequiredRole(roleType);
+    }
+
+    public boolean removeRequiredRoleFromShift(int shiftID, RoleType roleType){
+        if (_shifts == null)
+            throw new IllegalArgumentException("shifts haven't been initialized");
+        if (shiftID < 0 || shiftID > 13)
+            return false;
+        return _shifts.get(shiftID).removeRequiredRole(roleType);
+    }
+
     /**
      * @param newStartHour - the new start hour of the shift
      * @param newEndHour - the new end hour of the shift
