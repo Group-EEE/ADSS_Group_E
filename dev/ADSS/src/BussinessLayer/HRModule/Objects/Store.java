@@ -8,12 +8,10 @@ import java.util.List;
 public class Store extends Site {
     private final String _name;
     private final int _area;
-    private List<Schedule> _pastSchedules;
 
     public Store(String name, String address, String phone, String site_contact_name, int area){
         super(address, phone, name, site_contact_name);
         this._name = name;
-        this._pastSchedules = new ArrayList<>();
         this._area = area;
     }
 

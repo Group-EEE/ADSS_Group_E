@@ -8,6 +8,7 @@ import DataAccessLayer.HRMoudle.ShiftsDAO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ScheduleController {
@@ -17,11 +18,13 @@ public class ScheduleController {
     private final SchedulesDAO _schedulesDAO;
     private final EmployeesToStoreDAO _employeesToStoreDAO;
     private static ShiftsDAO _shiftsDAO;
+    private final HashMap<Integer,List<Shift>> _scheduleIDToShifts;
 
     private ScheduleController(){
         _schedulesDAO = SchedulesDAO.getInstance();
         _employeesToStoreDAO = EmployeesToStoreDAO.getInstance();
         _shiftsDAO = ShiftsDAO.getInstance();
+        _scheduleIDToShifts = new HashMap<>();
     }
     public static ScheduleController getInstance(){
         if (_scheduleController == null)
@@ -44,6 +47,7 @@ public class ScheduleController {
             else
                 shift = new Shift(scheduleID,i, ShiftType.NIGHT, 16 , 24,localDate.plusDays(i/2));
             shifts.add(shift);
+            _scheduleIDToShifts.put(scheduleID,shifts);
             _shiftsDAO.Insert(shift);
         }
         Schedule schedule = new Schedule(scheduleID, localDate, storeName);

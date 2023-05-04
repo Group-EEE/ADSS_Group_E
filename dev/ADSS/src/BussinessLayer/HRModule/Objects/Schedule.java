@@ -1,20 +1,15 @@
 package BussinessLayer.HRModule.Objects;
 
-import DataAccessLayer.HRMoudle.SchedulesDAO;
-import DataAccessLayer.HRMoudle.ShiftsDAO;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class Schedule {
     private int _scheduleID;
     private String _storeName;
     private LocalDate _startDateOfWeek;
-    private Shift[] _shifts;
-
+    private List<Shift> _shifts;
 
     public Schedule(int scheduleID, LocalDate startDateOfWeek, String storeName){
         this._scheduleID = scheduleID;
@@ -23,10 +18,10 @@ public class Schedule {
     }
 
     public boolean addShifts(List<Shift> shifts){
-        for (int i=0; i<14; i++){
-            _shifts[i] = shifts.get(i);
-        }
-        return true; //TODO
+        if (shifts == null)
+            return false;
+        this._shifts = shifts;
+        return true;
     }
 
     /**
@@ -41,9 +36,9 @@ public class Schedule {
 
         if (shiftID < 0 || shiftID > 13 || newEndHour > 24 || newStartHour <0)
             return false;
-        if (!_shifts[shiftID].setStartHour(newStartHour))
+        if (!_shifts.get(shiftID).setStartHour(newStartHour))
             return false;
-        if (!_shifts[shiftID].setEndHour(newEndHour))
+        if (!_shifts.get(shiftID).setEndHour(newEndHour))
             return false;
         return true;
     }
@@ -55,20 +50,20 @@ public class Schedule {
     public Shift getShift(int shiftID){
         if (shiftID < 0 || shiftID > 13)
             return null;
-        return _shifts[shiftID];
+        return _shifts.get(shiftID);
     }
 
     public List<Shift> approveSchedule(){
         List<Shift> rejectedShifts = new ArrayList<Shift>();
         for (int i = 0; i < 14; i++) {
-            Shift shift = _shifts[i];
+            Shift shift = _shifts.get(i);
             if (!shift.approveShift())
                 rejectedShifts.add(shift);
         }
         return rejectedShifts;
     }
 
-    public Shift[] getShifts(){
+    public List<Shift> getShifts(){
         return _shifts;
     }
 
@@ -77,7 +72,7 @@ public class Schedule {
             throw new IllegalArgumentException("Employee cannot be null");
         if (choice < 0 || choice > 13)
             throw new IllegalArgumentException("Invalid choice");
-        return _shifts[choice].addInquiredEmployee(employee);
+        return _shifts.get(choice).addInquiredEmployee(employee);
     }
 
     public int getScheduleID(){
