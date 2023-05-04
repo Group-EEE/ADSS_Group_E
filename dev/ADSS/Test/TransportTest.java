@@ -98,8 +98,8 @@ class TransportTest {
     @Test
     void getDestinations() {
         Supplier supplier = new Supplier("Ben Gurion", "054876542", "Osem", "David Shafir");
-        Store store = new Store(10000, "Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3);
-        Store store1 = new Store(100021, "Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7);
+        Store store = new Store("Candy Factory", "Hertzel 36, Tel Aviv", "0506489571",  "Idan levinshtain", 3);
+        Store store1 = new Store("Candy World", "Derech hashalom", "0523147859",  "Tamar Yahalom", 7);
         ArrayList<Site> destinations = new ArrayList<>();
         destinations.add(store);
         destinations.add(supplier);
@@ -114,8 +114,8 @@ class TransportTest {
     @Test
     void number_of_suppliers() {
         Supplier supplier = new Supplier("Ben Gurion", "054876542", "Osem", "David Shafir");
-        Store store = new Store(10000, "Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3);
-        Store store1 = new Store(100021, "Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7);
+        Store store = new Store("Candy Factory", "Hertzel 36, Tel Aviv", "0506489571", "Idan levinshtain", 3);
+        Store store1 = new Store("Candy World", "Derech hashalom", "0523147859", "Tamar Yahalom", 7);
         ArrayList<Site> destinations = new ArrayList<>();
         destinations.add(store);
         destinations.add(supplier);
@@ -127,8 +127,8 @@ class TransportTest {
     @Test
     void number_of_stores() {
         Supplier supplier = new Supplier("Ben Gurion", "054876542", "Osem", "David Shafir");
-        Store store = new Store(10000, "Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3);
-        Store store1 = new Store(100021, "Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7);
+        Store store = new Store("Candy Factory", "Hertzel 36, Tel Aviv", "0506489571", "Idan levinshtain", 3);
+        Store store1 = new Store("Candy World", "Derech hashalom", "0523147859", "Tamar Yahalom", 7);
         ArrayList<Site> destinations = new ArrayList<>();
         destinations.add(store);
         destinations.add(supplier);
@@ -140,8 +140,8 @@ class TransportTest {
     @Test
     void insertToDestinations() {
         Supplier supplier = new Supplier("Ben Gurion", "054876542", "Osem", "David Shafir");
-        Store store = new Store(10000, "Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3);
-        Store store1 = new Store(100021, "Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7);
+        Store store = new Store("Candy Factory", "Hertzel 36, Tel Aviv", "0506489571", "Idan levinshtain", 3);
+        Store store1 = new Store("Candy World", "Derech hashalom", "0523147859", "Tamar Yahalom", 7);
         transport.insertToDestinations(store1);
         transport.insertToDestinations(supplier);
         transport.insertToDestinations(store);
@@ -176,8 +176,8 @@ class TransportTest {
     @Test
     void deleteDestination() {
         Supplier supplier = new Supplier("Ben Gurion", "054876542", "Osem", "David Shafir");
-        Store store = new Store(10000, "Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3);
-        Store store1 = new Store(100021, "Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7);
+        Store store = new Store("Candy Factory", "Hertzel 36, Tel Aviv", "0506489571", "Idan levinshtain", 3);
+        Store store1 = new Store("Candy World", "Derech hashalom", "0523147859", "Tamar Yahalom", 7);
         transport.insertToDestinations(store1);
         transport.insertToDestinations(supplier);
         transport.insertToDestinations(store);
@@ -205,8 +205,8 @@ class TransportTest {
 
     @Test
     void getStoreByName() {
-        Store store = new Store(10000, "Hertzel 36, Tel Aviv", "0506489571", "Candy Factory", "Idan levinshtain", 3);
-        Store store1 = new Store(100021, "Derech hashalom", "0523147859", "Candy World", "Tamar Yahalom", 7);
+        Store store = new Store("Candy Factory", "Hertzel 36, Tel Aviv", "0506489571", "Idan levinshtain", 3);
+        Store store1 = new Store("Candy World", "Derech hashalom", "0523147859", "Tamar Yahalom", 7);
         transport.insertToDestinations(store);
         transport.insertToDestinations(store1);
         assertEquals(store, transport.getStoreByName("Candy Factory"));

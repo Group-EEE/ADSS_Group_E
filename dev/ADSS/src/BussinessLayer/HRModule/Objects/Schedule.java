@@ -11,28 +11,28 @@ import java.util.Locale;
 
 public class Schedule {
     private int _scheduleID;
-    private int _storeID;
+    private String _storeName;
     private LocalDate _startDateOfWeek;
     private Shift[] _shifts = new Shift[14];
     private static final ShiftsDAO _shiftsDAO = ShiftsDAO.getInstance();
 
-    public Schedule(int scheduleID, LocalDate startWeek, int storeID){
+    public Schedule(int scheduleID, LocalDate startWeek, String storeName){
         this._scheduleID = scheduleID;
-        this._startDateOfWeek = startWeek;
-        this._storeID = storeID;
+        this._startDateOfWeek = startWeek;  
+        this._storeName = storeName;
         for (int i=0; i<14; i++){
             if (i % 2 == 0)
-                _shifts[i] = new Shift(_scheduleID,i, ShiftType.MORNING, 8 , 16,startWeek.plusDays(i));
+                _shifts[i] = new Shift(_scheduleID,i, ShiftType.MORNING, 8 , 16,startWeek.plusDays(i/2));
             else
-                _shifts[i] = new Shift(_scheduleID,i, ShiftType.NIGHT, 16 , 24,startWeek.plusDays(i));
+                _shifts[i] = new Shift(_scheduleID,i, ShiftType.NIGHT, 16 , 24,startWeek.plusDays(i/2));
             _shiftsDAO.Insert(_shifts[i]);
         }
     }
 
-    public Schedule(int scheduleID, LocalDate startDateOfWeek, int storeID, List<Shift> shifts){
+    public Schedule(int scheduleID, LocalDate startDateOfWeek, String storeName, List<Shift> shifts){
         this._scheduleID = scheduleID;
         this._startDateOfWeek = startDateOfWeek;
-        this._storeID = storeID;
+        this._storeName = storeName;
         for (int i=0; i<14; i++){
             _shifts[i] = shifts.get(i);
         }
@@ -94,9 +94,16 @@ public class Schedule {
         return _startDateOfWeek;
     }
 
-    public int getStoreID(){
-        return this._storeID;
+    public String getStoreName(){
+        return this._storeName;
     }
 
+    public String toString(){
+        String output="";
+        for (Shift shift : _shifts) {
+            output += shift.toString()+"\n";
+        }
+        return output;
+    }
 }
 

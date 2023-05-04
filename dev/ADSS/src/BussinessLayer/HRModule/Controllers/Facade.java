@@ -106,11 +106,13 @@ public class Facade {
     public boolean removeEmployee(int employeeID){
         if (employeeID <0)
             throw new IllegalArgumentException("Invalid employee id");
+        if (!_storeController.removeEmployee(employeeID))
+            return false;
         return _employeeController.removeEmployee(employeeID);
     }
     //_storeController
-    public boolean createStore(int storeId, String storeName, String storeAddress, String phone, String siteContactName, int area){
-        return _storeController.createStore(storeId, storeName, storeAddress,phone,siteContactName,area);
+    public boolean createStore(String storeName, String storeAddress, String phone, String siteContactName, int area){
+        return _storeController.createStore(storeName, storeAddress,phone,siteContactName,area);
     }
 
     public boolean removeStore(String storeName){
@@ -127,8 +129,7 @@ public class Facade {
 
     //_ScheduleController
     public boolean createNewSchedule(String StoreName, int day, int month, int year){
-        int storeID = _storeController.getStoreIDbyName(StoreName);
-        return _scheduleController.createNewSchedule(storeID, day, month, year);
+        return _scheduleController.createNewSchedule(StoreName, day, month, year);
     }
 
     public boolean addEmployeeToShift(String storeName, int shiftID){

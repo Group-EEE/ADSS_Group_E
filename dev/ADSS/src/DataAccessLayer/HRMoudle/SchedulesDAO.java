@@ -1,6 +1,7 @@
 package DataAccessLayer.HRMoudle;
 
 import BussinessLayer.HRModule.Objects.Employee;
+import BussinessLayer.HRModule.Objects.Pair;
 import BussinessLayer.HRModule.Objects.Schedule;
 import BussinessLayer.HRModule.Objects.Shift;
 import DataAccessLayer.DAO;
@@ -13,16 +14,23 @@ import java.util.List;
 
 public class SchedulesDAO extends DAO {
     private static SchedulesDAO _schedulesDAO = null;
-    private ActiveSchedulesDAO _activeScheduleDAO;
+
+    //schedule table
     public static final String ScheduleIDColumnName = "scheduleID";
+    public static final String StoreNameColumnName = "storeName";
     public static final String StartDateOfWeekColumnName = "startDateOfWeek";
-    public static final String StoreIDColumnName = "StoreID";
-    private int _scheduleIDcache = 0;
+    private static int _scheduleIDcache =-1;
+
+    //ActiveSchedules table
+    public static final String ActiveStoreNameColumnName = "storeName";
+    public static final String ActiveScheduleIDColumnName = "scheduleID";
+    private final HashMap<String, Schedule> storeNametoActiveSchedule;
 
 
     private SchedulesDAO(){
         super("Schedules");
-        _activeScheduleDAO = ActiveSchedulesDAO.getInstance();
+        storeNametoActiveSchedule = new HashMap<>();
+        _scheduleIDcache = getScheduleMaxID();
     }
 
     public static SchedulesDAO getInstance(){
@@ -41,15 +49,15 @@ public class SchedulesDAO extends DAO {
 
 
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}) VALUES(?, ?, ?) "
-                , _tableName, ScheduleIDColumnName, StoreIDColumnName, StartDateOfWeekColumnName );
+                , _tableName, ScheduleIDColumnName, StoreNameColumnName, StartDateOfWeekColumnName );
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, schedule.getScheduleID());
-            pstmt.setInt(2, schedule.getStoreID());
+            pstmt.setString(2, schedule.getStoreName());
             pstmt.setString(3, schedule.getStartDateOfWeek().format(formatters));
             pstmt.executeUpdate();
-            _scheduleIDcache++;
-            if (!_activeScheduleDAO.insertActiveSchedule(schedule.getStoreID(),schedule.getScheduleID()))
+            boolean res = insertActiveSchedule(schedule.getStoreName(),schedule);
+            if (!res)
                 return false;
         } catch (SQLException e) {
             if (e.getMessage().contains("A PRIMARY KEY constraint failed"))
@@ -61,6 +69,34 @@ public class SchedulesDAO extends DAO {
         }
         return true;
     }
+
+    public boolean insertActiveSchedule(String storeName, Schedule schedule){
+        boolean res = isThereActiveSchedule(storeName);
+        if (res)
+            return Update("ActiveSchedules",StoreNameColumnName,ScheduleIDColumnName,storeName,String.valueOf(schedule.getScheduleID()));
+        return InsertActive(storeName,schedule);
+    }
+
+    public boolean InsertActive(String storeName, Schedule schedule){
+        boolean res = true;
+
+        String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}) VALUES(?, ?) "
+                , "ActiveSchedules", StoreNameColumnName, ScheduleIDColumnName);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, storeName);
+            pstmt.setInt(2, schedule.getScheduleID());
+            pstmt.executeUpdate();
+            storeNametoActiveSchedule.put(storeName, schedule);
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+            res = false;
+        }
+        return res;
+    }
+
 
     @Override
     public boolean Delete(Object objectSchedule) {
@@ -80,18 +116,68 @@ public class SchedulesDAO extends DAO {
         return true;
     }
 
+    public boolean DeleteActive(String storeName, int scheduleID){
+        String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ? ", "ActiveSchedules", StoreNameColumnName);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, storeName);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+            return false;
+        }
+        return true;
+    }
+
 
     @Override
     public Schedule convertReaderToObject(ResultSet rs) throws SQLException {
         ShiftsDAO shiftsDAO = ShiftsDAO.getInstance();
         List<Shift> shifts = shiftsDAO.getShiftsByScheduleID(rs.getInt(1));
-        return new Schedule(rs.getInt(1), parseLocalDate(rs.getString(3)), rs.getInt(2), shifts);
+        return new Schedule(rs.getInt(1),  parseLocalDate(rs.getString(3)), rs.getString(2), shifts);
     }
 
-    public Schedule getSchedule(LocalDate date, int storeID) {
-        List<Schedule> result = Select(makeList(StartDateOfWeekColumnName, StoreIDColumnName), makeList(date.format(formatters), String.valueOf(storeID)));
+    public Pair<Integer,Integer> convertReaderToObjectActive(ResultSet rs) throws SQLException {
+        Integer storeName = rs.getInt(1);
+        Integer scheduleID = rs.getInt(2);
+        return new Pair<>(storeName, scheduleID);
+    }
+
+
+
+    public int getScheduleMaxID(){
+        if (_scheduleIDcache != -1)
+            return _scheduleIDcache++;
+        List<String> listMaxScheduleID = SelectMaxString(_tableName, ScheduleIDColumnName, null, null);
+        if (listMaxScheduleID.size() == 0)
+            _scheduleIDcache = 0;
+        else
+            _scheduleIDcache =Integer.valueOf(listMaxScheduleID.get(0));
+        _scheduleIDcache++;
+        return _scheduleIDcache;
+    }
+
+    public Schedule getSchedule(String storeName){
+        if (storeNametoActiveSchedule.containsKey(storeName)) {
+            return storeNametoActiveSchedule.get(storeName);
+        }
+        List<String> listSchedulesID = SelectString("ActiveSchedules",ScheduleIDColumnName,makeList(StoreNameColumnName),makeList(storeName));
+        if (listSchedulesID.size() > 1)
+            throw new IllegalArgumentException("There are more than one active schedule for storeName: " + storeName);
+        if (listSchedulesID.size() == 1) {
+            Schedule schedule = SchedulesDAO.getInstance().getSchedule(Integer.valueOf(listSchedulesID.get(0)));
+            storeNametoActiveSchedule.put(storeName, schedule);
+            return schedule;
+        }
+        return null;
+    }
+
+    public Schedule getSchedule(LocalDate date, String storeName) {
+        List<Schedule> result = Select(makeList(StartDateOfWeekColumnName, StoreNameColumnName), makeList(date.format(formatters), storeName));
         if (result.size() == 0)
-            throw new IllegalArgumentException("Could not find schedule for date " + date.format(formatters) + " and store " + storeID);
+            throw new IllegalArgumentException("Could not find schedule for date " + date.format(formatters) + " and store " + storeName);
         return result.get(0);
 
     }
@@ -104,20 +190,35 @@ public class SchedulesDAO extends DAO {
 
     }
 
-    public int getmaxID(){
-        if (_scheduleIDcache != 0)
-            return _scheduleIDcache;
-        List<ResultSet> rsList = Select();
-        int max = 0;
-        for (ResultSet rs : rsList) {
-            try {
-                if (rs.getInt(1) > max)
-                    max = rs.getInt(1);
-            } catch (SQLException e) {
-                e.printStackTrace();
+    public boolean isThereActiveSchedule(String storeName){
+        if(storeNametoActiveSchedule.containsKey(storeName))
+            return true;
+        List<String> res = SelectString("ActiveSchedules",ScheduleIDColumnName,makeList(StoreNameColumnName),makeList(storeName));
+        if (res.size() > 1)
+            throw new IllegalArgumentException("There are more than one active schedule for storeName: " + storeName);
+        if (res.size() == 0)
+            return false;
+        return true;
+    }
+
+    public boolean loadSchedules(LocalDate localDate){
+        String sql = "SELECT storeName, scheduleID FROM Schedules WHERE startDateOfWeek = ?";
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("DELETE FROM " + _tableName);
+
+            pstmt.setString(1, localDate.format(formatters));
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Insert(convertReaderToObject(rs));
             }
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+            return false;
         }
-        _scheduleIDcache = max;
-        return _scheduleIDcache;
+        return true;
     }
 }

@@ -4,17 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="fixed store DAO">
+    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="more daos">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/72f49aaa-f33e-4039-9636-e5f759e35d36.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/72f49aaa-f33e-4039-9636-e5f759e35d36.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SuperLi.db" beforeDir="false" afterPath="$PROJECT_DIR$/SuperLi.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Schedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/ShiftType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/ShiftType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Store.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Store.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ActiveSchedulesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ActiveSchedulesDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Shift.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Shift.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/DAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ShiftsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ShiftsDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/StoresDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/StoresDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/HRManagerCLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/HRManagerCLI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +108,9 @@
       <workItem from="1683026868589" duration="2648000" />
       <workItem from="1683029528626" duration="42000" />
       <workItem from="1683029584171" duration="10793000" />
-      <workItem from="1683044217388" duration="8657000" />
+      <workItem from="1683044217388" duration="8680000" />
+      <workItem from="1683105456017" duration="1110000" />
+      <workItem from="1683119363634" duration="20381000" />
     </task>
     <task id="LOCAL-00001" summary="created .idea folder">
       <created>1682675006264</created>
@@ -256,7 +259,28 @@
       <option name="project" value="LOCAL" />
       <updated>1683046851412</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="fixed daos">
+      <created>1683097392528</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1683097392528</updated>
+    </task>
+    <task id="LOCAL-00023" summary="removed storeID">
+      <created>1683131547058</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1683131547058</updated>
+    </task>
+    <task id="LOCAL-00024" summary="more daos">
+      <created>1683132115858</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1683132115858</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -309,7 +333,10 @@
     <MESSAGE value="created tables" />
     <MESSAGE value="added fixes" />
     <MESSAGE value="fixed store DAO" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed store DAO" />
+    <MESSAGE value="fixed daos" />
+    <MESSAGE value="removed storeID" />
+    <MESSAGE value="more daos" />
+    <option name="LAST_COMMIT_MESSAGE" value="more daos" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -323,24 +350,6 @@
           </properties>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/EmployeeController.java</url>
-          <line>172</line>
-          <properties class="BussinessLayer.HRModule.Controllers.EmployeeController" method="addStoreToEmployee">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ShiftsDAO.java</url>
-          <line>58</line>
-          <properties class="DataAccessLayer.HRMoudle.ShiftsDAO" method="getShiftsByScheduleID">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/PasswordsDAO.java</url>
           <line>29</line>
@@ -352,29 +361,49 @@
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesToStoreDAO.java</url>
-          <line>123</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/Facade.java</url>
-          <line>108</line>
+          <line>110</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/StoreController.java</url>
-          <line>55</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/InterfaceLayer/HRModule/HRManagerCLI.java</url>
-          <line>704</line>
-          <option name="timeStamp" value="19" />
+          <line>692</line>
+          <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ActiveSchedulesDAO.java</url>
-          <line>120</line>
-          <option name="timeStamp" value="22" />
+          <url>file://$PROJECT_DIR$/src/DataAccessLayer/DAO.java</url>
+          <line>303</line>
+          <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/StoresDAO.java</url>
+          <line>89</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="61" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="62" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java</url>
+          <line>75</line>
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Schedule.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="67" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

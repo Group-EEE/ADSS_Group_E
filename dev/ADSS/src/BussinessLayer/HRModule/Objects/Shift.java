@@ -87,7 +87,7 @@ public class Shift{
     }
 
     public String toString(){
-        String output =  "Date: " + _date + ", Shift type: " + _shiftType + ", Date: "+_date+", Start time: " + _startHour + ", End time: " + _endHour+" ";
+        String output =  "ScheduleID: "+_scheduleID+", ShiftID: "+_shiftID+", Date: " + _date + ", Shift type: " + _shiftType +", Start time: " + _startHour + ", End time: " + _endHour+", Length time: "+_shiftLength+", is approved: "+_approved+", is rejected:"+_rejected;
         for (Map.Entry<RoleType,Employee> entry : _assignedEmployees.entrySet()){
             output += entry.getKey() + ": " + entry.getValue().getFullNameName()+", ";
         }
@@ -104,6 +104,21 @@ public class Shift{
         return _requiredRoles.add(role);
     }
 
+    public int getScheduleID(){
+        return _scheduleID;
+    }
+    public int getShiftID(){
+        return _shiftID;
+    }
+    public ShiftType getShiftType(){
+        return _shiftType;
+    }
+    public int getStartHour(){
+        return _startHour;
+    }
+    public int getEndHour(){
+        return _endHour;
+    }
     /**
      * @param role - the role to remove from the required roles list
      * @return true if the role was removed successfully, false otherwise
@@ -225,5 +240,9 @@ public class Shift{
                 return true;
         }
         return false;
+    }
+
+    public LocalDate getDate() {
+        return _date;
     }
 }

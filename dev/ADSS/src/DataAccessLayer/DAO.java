@@ -37,7 +37,7 @@ public abstract class DAO {
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-             pstmt.executeUpdate();
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
@@ -70,6 +70,24 @@ public abstract class DAO {
         boolean res = true;
         String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE {2} = ? "
                 , _tableName, ColumnValueName, ColumnKey);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, value);
+            pstmt.setString(2, key);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+            res = false;
+        }
+        return res;
+    }
+    public boolean Update(String table, String ColumnKey, String ColumnValueName, String key, String value) {
+        boolean res = true;
+        String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE {2} = ? "
+                , table, ColumnValueName, ColumnKey);
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, value);
@@ -283,7 +301,7 @@ public abstract class DAO {
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             ResultSet resultSet = pstmt.executeQuery();
-            while (resultSet.next()) {
+            while (resultSet.next() != false) {
                 // Fetch each row from the result set
                 list.add(convertReaderToObject(resultSet));
             }
@@ -355,26 +373,25 @@ public abstract class DAO {
         return list;
     }
 
-/*
-    protected  List Select(String ColumnReturn, List<String> Columnkeys, List<String> keys){
-        List list=new ArrayList<>();
+    protected List SelectString(String table, String ColumnName, List<String> Columnkeys, List<String> keys) {
+        List list = new ArrayList<>();
         /// keys is for tables that have more that one key
-        String sql = MessageFormat.format("SELECT {1} From {0} WHERE"+keysQuery(Columnkeys)
-                , _tableName,ColumnReturn);
+        String sql = MessageFormat.format("SELECT {0} From {1} WHERE" + keysQuery(Columnkeys),
+                ColumnName, table);
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            int i=2;
-            for(String key: keys){
+            int i = 1;
+            for (String key : keys) {
                 pstmt.setString(i, key);
                 i++;
             }
-            ResultSet resultSet=pstmt.executeQuery();
+            ResultSet resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
                 // Fetch each row from the result set
-                list.add(resultSet);
+                list.add(resultSet.getString(1));
             }
 
-        } catch (SQLException | ParseException e) {
+        } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
             System.out.println(sql);
@@ -382,9 +399,67 @@ public abstract class DAO {
         return list;
     }
 
-*/
+    protected List SelectMaxString(String table, String ColumnName, List<String> Columnkeys, List<String> keys) {
+        List list = new ArrayList<>();
+        /// keys is for tables that have more that one key
+        String sql;
+        if (Columnkeys == null && keys == null)
+            sql = MessageFormat.format("SELECT MAX({0}) From {1}", ColumnName, table);
+        else
+            sql = MessageFormat.format("SELECT MAX({0}) From {1} WHERE" + keysQuery(Columnkeys),
+                    ColumnName, table);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            if (!(Columnkeys == null && keys == null)) {
+                int i = 1;
+                for (String key : keys) {
+                    pstmt.setString(i, key);
+                    i++;
+                }
+            }
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                String value = resultSet.getString(1);
+                if (!resultSet.wasNull())
+                    list.add(resultSet.getString(1));
+            }
 
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+        }
+        return list;
+    }
 
+    /*
+        protected  List Select(String ColumnReturn, List<String> Columnkeys, List<String> keys){
+            List list=new ArrayList<>();
+            /// keys is for tables that have more that one key
+            String sql = MessageFormat.format("SELECT {1} From {0} WHERE"+keysQuery(Columnkeys)
+                    , _tableName,ColumnReturn);
+            try (Connection connection = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = connection.prepareStatement(sql)) {
+                int i=2;
+                for(String key: keys){
+                    pstmt.setString(i, key);
+                    i++;
+                }
+                ResultSet resultSet=pstmt.executeQuery();
+                while (resultSet.next()) {
+                    // Fetch each row from the result set
+                    list.add(resultSet);
+                }
+
+            } catch (SQLException | ParseException e) {
+                System.out.println("Got Exception:");
+                System.out.println(e.getMessage());
+                System.out.println(sql);
+            }
+            return list;
+        }
+
+    */
     //abstract functions
     public abstract boolean Insert(Object obj);
 
@@ -393,11 +468,12 @@ public abstract class DAO {
     public abstract Object convertReaderToObject(ResultSet res) throws SQLException, ParseException;
 
     protected LocalDate parseLocalDate(String data) {
-        LocalDate d=null;
+        LocalDate d = null;
         try {
-            DateTimeFormatter formatter_1  = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            d= LocalDate.parse(data, formatter_1);
-        } catch (Exception e) { }
+            DateTimeFormatter formatter_1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            d = LocalDate.parse(data, formatter_1);
+        } catch (Exception e) {
+        }
         return d;
     }
 }

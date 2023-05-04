@@ -5,12 +5,8 @@ import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Shift;
 import BussinessLayer.HRModule.Objects.Store;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -244,16 +240,8 @@ public class HRManagerCLI{
     public boolean HRMenuCreateStore(){
         System.out.println("Please enter the following details:");
         boolean valid = false;
-        int storeId = 0;
         int storeArea = 0;
         while(!valid) {
-            try {
-                System.out.println("Store id:");
-                storeId = Integer.valueOf(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid store ID");
-                continue;
-            }
             String storeName = getStoreName();
             if (storeName == null)
                 return false;
@@ -271,7 +259,7 @@ public class HRManagerCLI{
                 continue;
             }
             try {
-                _facade.createStore(storeId, storeName, storeAddress,storePhoneNumber,storeContactName,storeArea);
+                _facade.createStore(storeName, storeAddress,storePhoneNumber,storeContactName,storeArea);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 continue;
