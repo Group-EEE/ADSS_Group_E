@@ -32,7 +32,9 @@ public class ScheduleController {
         if (day < 1 || day > 31 || month < 1 || month > 12 || year < 0)
             throw new IllegalArgumentException("Invalid date parameters");
         LocalDate localDate = LocalDate.of(year, month, day);
-        return _schedulesDAO.Insert(new Schedule(_schedulesDAO.getScheduleMaxID(), localDate, storeName));
+        int scheduleID = _schedulesDAO.getScheduleMaxID();
+        Schedule schedule = new Schedule(scheduleID, localDate, storeName);
+        return _schedulesDAO.Insert(schedule);
     }
 
     public Schedule getSchedule(String StoreName){
@@ -40,7 +42,7 @@ public class ScheduleController {
             throw new IllegalArgumentException("Invalid store ID");
         Schedule schedule = _schedulesDAO.getSchedule(StoreName);
         if (schedule == null)
-            throw new IllegalArgumentException("Invalid store");
+            throw new IllegalArgumentException("Could not find schedule for this store");
         return schedule;
     }
 

@@ -19,12 +19,12 @@ public class Schedule {
     public Schedule(int scheduleID, LocalDate startWeek, String storeName){
         this._scheduleID = scheduleID;
         this._startDateOfWeek = startWeek;  
-        this._storeName = _storeName;
+        this._storeName = storeName;
         for (int i=0; i<14; i++){
             if (i % 2 == 0)
-                _shifts[i] = new Shift(_scheduleID,i, ShiftType.MORNING, 8 , 16,startWeek.plusDays(i));
+                _shifts[i] = new Shift(_scheduleID,i, ShiftType.MORNING, 8 , 16,startWeek.plusDays(i/2));
             else
-                _shifts[i] = new Shift(_scheduleID,i, ShiftType.NIGHT, 16 , 24,startWeek.plusDays(i));
+                _shifts[i] = new Shift(_scheduleID,i, ShiftType.NIGHT, 16 , 24,startWeek.plusDays(i/2));
             _shiftsDAO.Insert(_shifts[i]);
         }
     }
@@ -98,5 +98,12 @@ public class Schedule {
         return this._storeName;
     }
 
+    public String toString(){
+        String output="";
+        for (Shift shift : _shifts) {
+            output += shift.toString()+"\n";
+        }
+        return output;
+    }
 }
 

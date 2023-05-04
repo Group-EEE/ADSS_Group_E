@@ -19,7 +19,7 @@ public class SchedulesDAO extends DAO {
     public static final String ScheduleIDColumnName = "scheduleID";
     public static final String StoreNameColumnName = "storeName";
     public static final String StartDateOfWeekColumnName = "startDateOfWeek";
-    private int _scheduleIDcache = 0;
+    private static int _scheduleIDcache =-1;
 
     //ActiveSchedules table
     public static final String ActiveStoreNameColumnName = "storeName";
@@ -30,6 +30,7 @@ public class SchedulesDAO extends DAO {
     private SchedulesDAO(){
         super("Schedules");
         storeNametoActiveSchedule = new HashMap<>();
+        _scheduleIDcache = getScheduleMaxID();
     }
 
     public static SchedulesDAO getInstance(){
@@ -55,8 +56,8 @@ public class SchedulesDAO extends DAO {
             pstmt.setString(2, schedule.getStoreName());
             pstmt.setString(3, schedule.getStartDateOfWeek().format(formatters));
             pstmt.executeUpdate();
-            _scheduleIDcache++;
-            if (!insertActiveSchedule(schedule.getStoreName(),schedule.getScheduleID()))
+            boolean res = insertActiveSchedule(schedule.getStoreName(),schedule);
+            if (!res)
                 return false;
         } catch (SQLException e) {
             if (e.getMessage().contains("A PRIMARY KEY constraint failed"))
@@ -69,28 +70,24 @@ public class SchedulesDAO extends DAO {
         return true;
     }
 
-    public boolean insertActiveSchedule(String storeName, int scheduleID){
-        if (isThereActiveSchedule(storeName))
-            return Update(storeName,ScheduleIDColumnName,storeName,String.valueOf(scheduleID));
-        return InsertActive(new Pair<>(storeName,scheduleID));
+    public boolean insertActiveSchedule(String storeName, Schedule schedule){
+        boolean res = isThereActiveSchedule(storeName);
+        if (res)
+            return Update("ActiveSchedules",StoreNameColumnName,ScheduleIDColumnName,storeName,String.valueOf(schedule.getScheduleID()));
+        return InsertActive(storeName,schedule);
     }
 
-    public boolean InsertActive(Object pairObj){
-        if (pairObj == null)
-            throw new IllegalArgumentException("Invalid pair object active schedule");
-
+    public boolean InsertActive(String storeName, Schedule schedule){
         boolean res = true;
-        String storeName = (String)(((Pair)pairObj).getKey());
-        int scheduleID = (int)(((Pair)pairObj).getValue());
 
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}) VALUES(?, ?) "
                 , "ActiveSchedules", StoreNameColumnName, ScheduleIDColumnName);
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, storeName);
-            pstmt.setInt(2, scheduleID);
+            pstmt.setInt(2, schedule.getScheduleID());
             pstmt.executeUpdate();
-            storeNametoActiveSchedule.put(storeName, _schedulesDAO.getSchedule(scheduleID));
+            storeNametoActiveSchedule.put(storeName, schedule);
         } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
@@ -151,19 +148,14 @@ public class SchedulesDAO extends DAO {
 
 
     public int getScheduleMaxID(){
-        if (_scheduleIDcache != 0)
-            return _scheduleIDcache;
-        List<ResultSet> rsList = Select();
-        int max = 0;
-        for (ResultSet rs : rsList) {
-            try {
-                if (rs.getInt(1) > max)
-                    max = rs.getInt(1);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        _scheduleIDcache = max;
+        if (_scheduleIDcache != -1)
+            return _scheduleIDcache++;
+        List<String> listMaxScheduleID = SelectMaxString(_tableName, ScheduleIDColumnName, null, null);
+        if (listMaxScheduleID.size() == 0)
+            _scheduleIDcache = 0;
+        else
+            _scheduleIDcache =Integer.valueOf(listMaxScheduleID.get(0));
+        _scheduleIDcache++;
         return _scheduleIDcache;
     }
 
@@ -204,7 +196,9 @@ public class SchedulesDAO extends DAO {
         List<String> res = SelectString("ActiveSchedules",ScheduleIDColumnName,makeList(StoreNameColumnName),makeList(storeName));
         if (res.size() > 1)
             throw new IllegalArgumentException("There are more than one active schedule for storeName: " + storeName);
-        return res.get(0).equals(String.valueOf(storeName));
+        if (res.size() == 0)
+            return false;
+        return true;
     }
 
     public boolean loadSchedules(LocalDate localDate){

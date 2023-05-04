@@ -87,7 +87,7 @@ public class StoresDAO extends DAO {
     public boolean existsStore(String storeName){
         if (storesCache.containsKey(storeName))
             return true;
-        List<Store> listStores = Select(storeName);
+        List<Store> listStores = Select(makeList(NameColumnName), makeList(storeName));
         for (Store store : listStores) {
             if (store.getName().equals(storeName)) {
                 return true;
