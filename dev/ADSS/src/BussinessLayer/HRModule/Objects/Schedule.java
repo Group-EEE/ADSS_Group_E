@@ -13,29 +13,20 @@ public class Schedule {
     private int _scheduleID;
     private String _storeName;
     private LocalDate _startDateOfWeek;
-    private Shift[] _shifts = new Shift[14];
-    private static final ShiftsDAO _shiftsDAO = ShiftsDAO.getInstance();
+    private Shift[] _shifts;
 
-    public Schedule(int scheduleID, LocalDate startWeek, String storeName){
-        this._scheduleID = scheduleID;
-        this._startDateOfWeek = startWeek;  
-        this._storeName = storeName;
-        for (int i=0; i<14; i++){
-            if (i % 2 == 0)
-                _shifts[i] = new Shift(_scheduleID,i, ShiftType.MORNING, 8 , 16,startWeek.plusDays(i/2));
-            else
-                _shifts[i] = new Shift(_scheduleID,i, ShiftType.NIGHT, 16 , 24,startWeek.plusDays(i/2));
-            _shiftsDAO.Insert(_shifts[i]);
-        }
-    }
 
-    public Schedule(int scheduleID, LocalDate startDateOfWeek, String storeName, List<Shift> shifts){
+    public Schedule(int scheduleID, LocalDate startDateOfWeek, String storeName){
         this._scheduleID = scheduleID;
         this._startDateOfWeek = startDateOfWeek;
         this._storeName = storeName;
+    }
+
+    public boolean addShifts(List<Shift> shifts){
         for (int i=0; i<14; i++){
             _shifts[i] = shifts.get(i);
         }
+        return true; //TODO
     }
 
     /**
@@ -45,6 +36,9 @@ public class Schedule {
      * * @return - true if the change was successful, false otherwise
      */
     public boolean changeHoursShift(int newStartHour, int newEndHour, int shiftID){
+        if (_shifts == null)
+            throw new IllegalArgumentException("shifts haven't been initialized"); //TODO:
+
         if (shiftID < 0 || shiftID > 13 || newEndHour > 24 || newStartHour <0)
             return false;
         if (!_shifts[shiftID].setStartHour(newStartHour))
@@ -74,7 +68,7 @@ public class Schedule {
         return rejectedShifts;
     }
 
-    public Shift[] getShifts() {
+    public Shift[] getShifts(){
         return _shifts;
     }
 

@@ -1,40 +1,51 @@
-//
-//import BussinessLayer.HRModule.Controllers.Facade;
-//import BussinessLayer.HRModule.Objects.Store;
-//import org.junit.jupiter.api.Test;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//class StoreTest {
-//
-//    @Test
-//    void getName() {
-//        Store store = new Store(1, "a", "b");
-//        assertEquals("a", store.getName());
-//    }
-//
-//    @Test
-//    void addEmployee() {
-//        Facade facade = Facade.getInstance();
-//        facade.createStore(1, "a", "b");
-//        facade.createEmployee("daniel", "shapira", 26, 209876676, "234657", "a", false);
-//        assertTrue(facade.addEmployeeToStore(209876676, "a"));
-//    }
-//
-//
-//
-//    @Test
-//    void removeEmployee() {
-//        Facade facade = Facade.getInstance();
-//        facade.createStore(1, "a", "b");
-//        facade.createEmployee("daniel", "shapira", 26, 209876676, "234657", "a", false);
-//        assertTrue(facade.addEmployeeToStore(209876676, "a"));
-//        assertTrue(facade.removeEmployeeFromStore(209876676, "a"));
-//    }
-//
-//    @Test
-//    void getAddress() {
-//        Store store = new Store(1,"a", "b");
-//        assertEquals("b", store.getAddress());
-//    }
-//}
+
+import BussinessLayer.HRModule.Controllers.Facade;
+import BussinessLayer.HRModule.Objects.Store;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class StoreTest {
+    Store store;
+
+    @BeforeEach
+    void setUp() {
+        store = new Store("testName", "testAddress", "testPhone", "testContactName",0);
+    }
+
+    @Test
+    void getName() {
+        assertEquals("testName", store.getName());
+    }
+
+    @Test
+    void getAddress() {
+        assertEquals("testAddress", store.getAddress());
+    }
+
+    @Test
+    void getArea(){
+        assertEquals(0, store.get_area());
+    }
+
+    @Test
+    void is_store(){
+        assertTrue(store.is_store());
+    }
+
+    @Test
+    void is_supplier(){
+        assertFalse(store.is_supplier());
+    }
+
+    @Test
+    void is_logistical_center(){
+        assertFalse(store.is_logistical_center());
+    }
+
+    @Test
+    void toStringTest(){
+        assertEquals("Store Name: testName, Store Address: testAddress, Store Phone: testPhone, Store Contact Name: testContactName, Store Area: 0", store.toString());
+    }
+}

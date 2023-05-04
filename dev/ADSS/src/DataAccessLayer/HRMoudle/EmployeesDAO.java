@@ -56,7 +56,7 @@ public class EmployeesDAO extends DAO {
             pstmt.setInt(6, employee.getSalary());
             pstmt.setString(7, employee.getHiringCondition());
             pstmt.setString(8, employee.getStartDateOfEmployement().format(formatters));
-            pstmt.setBoolean(8, employee.getFinishWorking());
+            //pstmt.setBoolean(9, employee.getFinishedWorking());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             if (e.getMessage().contains("A PRIMARY KEY constraint failed"))
@@ -104,7 +104,6 @@ public class EmployeesDAO extends DAO {
     @Override
     public boolean Delete(Object objectEmployeeID) {
         int employeeID = (int)objectEmployeeID;
-        boolean res = true;
         String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ? ", _tableName, IDColumnName);
 
         try (Connection connection = DriverManager.getConnection(url);
@@ -115,9 +114,10 @@ public class EmployeesDAO extends DAO {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
             System.out.println(sql);
-            res = false;
+            return false;
         }
-        return res;
+        employeesCache.remove(employeeID);
+        return true;
     }
 
     public boolean inCache(int idEmployee){

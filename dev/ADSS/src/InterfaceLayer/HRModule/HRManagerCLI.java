@@ -316,7 +316,7 @@ public class HRManagerCLI{
             System.out.println("Role was not added to the employee");
             return false;
         }
-        System.out.println("The role "+newRole+" was added to the employee "+_facade.getEmployeeNameById(employeeID)+" successfully");
+        System.out.println("The role "+newRole+" was added to the employee "+_facade.getEmployeeFullNameById(employeeID)+" successfully");
         return true;
     }
 
@@ -525,7 +525,7 @@ public class HRManagerCLI{
             return false;
         String firstName;
         try {
-            firstName = _facade.getEmployeeNameById(employeeID);
+            firstName = _facade.getEmployeeFullNameById(employeeID);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;

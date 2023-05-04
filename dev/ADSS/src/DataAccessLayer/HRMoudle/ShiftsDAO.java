@@ -61,7 +61,37 @@ public class ShiftsDAO extends DAO {
 
     @Override
     public boolean Delete(Object objectShift) {
-        return false;
+        Shift shift = (Shift) objectShift;
+        int scheduleID = shift.getScheduleID();
+        int shiftID = shift.getShiftID();
+        String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ? AND {2} = ?", _tableName, ScheduleIDColumnName,ShiftIDColumnName);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, scheduleID);
+            pstmt.setInt(1, shiftID);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean Delete(int scheduleID) {
+        String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ?", _tableName, ScheduleIDColumnName);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, scheduleID);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+            return false;
+        }
+        return true;
     }
 
     @Override

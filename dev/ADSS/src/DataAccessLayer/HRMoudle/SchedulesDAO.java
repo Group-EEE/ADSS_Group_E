@@ -107,6 +107,9 @@ public class SchedulesDAO extends DAO {
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, schedule.getScheduleID());
             pstmt.executeUpdate();
+
+            //delete the active schedules if there is
+            DeleteActive(schedule.getStoreName());
         } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
@@ -116,7 +119,7 @@ public class SchedulesDAO extends DAO {
         return true;
     }
 
-    public boolean DeleteActive(String storeName, int scheduleID){
+    public boolean DeleteActive(String storeName){
         String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ? ", "ActiveSchedules", StoreNameColumnName);
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -136,7 +139,7 @@ public class SchedulesDAO extends DAO {
     public Schedule convertReaderToObject(ResultSet rs) throws SQLException {
         ShiftsDAO shiftsDAO = ShiftsDAO.getInstance();
         List<Shift> shifts = shiftsDAO.getShiftsByScheduleID(rs.getInt(1));
-        return new Schedule(rs.getInt(1),  parseLocalDate(rs.getString(3)), rs.getString(2), shifts);
+        return new Schedule(rs.getInt(1),  parseLocalDate(rs.getString(3)), rs.getString(2));//TODO
     }
 
     public Pair<Integer,Integer> convertReaderToObjectActive(ResultSet rs) throws SQLException {

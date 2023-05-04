@@ -3,6 +3,7 @@ package BussinessLayer.HRModule.Controllers;
 import BussinessLayer.HRModule.Objects.*;
 import DataAccessLayer.HRMoudle.EmployeesToStoreDAO;
 import DataAccessLayer.HRMoudle.SchedulesDAO;
+import DataAccessLayer.HRMoudle.ShiftsDAO;
 
 
 import java.time.LocalDate;
@@ -15,10 +16,12 @@ public class ScheduleController {
     private static ScheduleController _scheduleController = null;
     private final SchedulesDAO _schedulesDAO;
     private final EmployeesToStoreDAO _employeesToStoreDAO;
+    private static ShiftsDAO _shiftsDAO;
 
     private ScheduleController(){
         _schedulesDAO = SchedulesDAO.getInstance();
         _employeesToStoreDAO = EmployeesToStoreDAO.getInstance();
+        _shiftsDAO = ShiftsDAO.getInstance();
     }
     public static ScheduleController getInstance(){
         if (_scheduleController == null)
@@ -33,8 +36,26 @@ public class ScheduleController {
             throw new IllegalArgumentException("Invalid date parameters");
         LocalDate localDate = LocalDate.of(year, month, day);
         int scheduleID = _schedulesDAO.getScheduleMaxID();
+        List<Shift> shifts = new ArrayList<>();
+        for (int i=0; i<14; i++){
+            Shift shift;
+            if (i % 2 == 0)
+                shift = new Shift(scheduleID,i, ShiftType.MORNING, 8 , 16,localDate.plusDays(i/2));
+            else
+                shift = new Shift(scheduleID,i, ShiftType.NIGHT, 16 , 24,localDate.plusDays(i/2));
+            shifts.add(shift);
+            _shiftsDAO.Insert(shift);
+        }
         Schedule schedule = new Schedule(scheduleID, localDate, storeName);
         return _schedulesDAO.Insert(schedule);
+    }
+
+    public boolean deleteSchedule(String storeName){
+        if (storeName == null)
+            throw new IllegalArgumentException("Invalid store ID");
+        int scheduleID = _schedulesDAO.getSchedule(storeName).getScheduleID();
+        _shiftsDAO.Delete(scheduleID);
+        return _schedulesDAO.Delete(storeName);
     }
 
     public Schedule getSchedule(String StoreName){

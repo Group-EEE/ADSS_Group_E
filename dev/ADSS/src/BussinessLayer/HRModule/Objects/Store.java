@@ -24,36 +24,6 @@ public class Store extends Site {
         return _name;
     }
 
-//    /**
-//     * @param employee the employee to add to the store
-//     * @return true if the employee was added successfully, false otherwise
-//     */
-//    public boolean addEmployee(Employee employee){
-//        if (employee == null)
-//            return false;
-//        this._employees.add(employee);
-//        return true;
-//    }
-
-//    /**
-//     * @param employee the employee to remove from the store
-//     * @return true if the employee was removed successfully, false otherwise
-//     */
-//    public boolean removeEmployee(Employee employee){
-//        if (employee == null)
-//            return false;
-//        if(!(this._employees.remove(employee)))
-//            return false;
-//        return true;
-//    }
-
-//    /**
-//     * @return the list of all employees in the store
-//     */
-//    public List<Employee> getEmployees(){
-//        return this._employees;
-//    }
-
     @Override
     public boolean is_supplier() {
         return false;
@@ -66,7 +36,7 @@ public class Store extends Site {
 
     @Override
     public boolean is_store() {
-        return false;
+        return true;
     }
 
     /**
@@ -76,12 +46,6 @@ public class Store extends Site {
         return address;
     }
 
-    /**
-     * @return the past Schedules
-     */
-    public List<Schedule> getPastSchedules() {
-        return _pastSchedules;
-    }
 
     public String toString(){
        return "Store Name: " + this._name + ", Store Address: " + this.address+ ", Store Phone: " + this.phone + ", Store Contact Name: " + this.site_contact_name+ ", Store Area: " + this._area;
