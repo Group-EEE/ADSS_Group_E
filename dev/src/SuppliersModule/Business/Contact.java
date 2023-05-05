@@ -22,7 +22,7 @@ public class Contact {
     }
 
     public String toString(){
-        return "SuppliersModule.Business.Contact name: " + Name + ", phone number: " + PhoneNumber + "\n";
+        return "Contact name: " + Name + ", phone number: " + PhoneNumber + "\n";
     }
 
     public String getName() {
