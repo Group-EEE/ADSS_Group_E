@@ -50,9 +50,6 @@ public class Shift{
             throw new IllegalArgumentException("Start time must be between 0 and 24");
         if (startTime > _endHour)
             throw new IllegalArgumentException("Start time cannot be after end time");
-        if (_endHour - _startHour < 0) {
-            throw new IllegalArgumentException("Shift length cannot be negative");
-        }
         _shiftLength = _endHour - _startHour;
         this._startHour = startTime;
         return true;
@@ -67,8 +64,6 @@ public class Shift{
             throw new IllegalArgumentException("End time must be between 0 and 24");
         if (endTime < _startHour)
             throw new IllegalArgumentException("End time cannot be before start time");
-        if (_endHour - _startHour < 0)
-            throw new IllegalArgumentException("Shift length cannot be negative");
         this._endHour = endTime;
         _shiftLength = _endHour - _startHour;
         return true;
@@ -101,31 +96,38 @@ public class Shift{
     public boolean addRequiredRole(RoleType role){
         if (role == null)
             throw new IllegalArgumentException("Invalid role");
+        if (_requiredRoles.contains(role))
+            return false;
         return _requiredRoles.add(role);
     }
 
     public int getScheduleID(){
         return _scheduleID;
     }
+
     public int getShiftID(){
         return _shiftID;
     }
+
     public ShiftType getShiftType(){
         return _shiftType;
     }
+
     public int getStartHour(){
         return _startHour;
     }
+
     public int getEndHour(){
         return _endHour;
     }
+
     /**
      * @param role - the role to remove from the required roles list
      * @return true if the role was removed successfully, false otherwise
      */
     public boolean removeRequiredRole(RoleType role){
         if (role == null)
-            return false;
+            throw new IllegalArgumentException("Invalid role");
         return _requiredRoles.remove(role);
     }
 
@@ -163,16 +165,25 @@ public class Shift{
      */
     public boolean removeInquiredEmployee(Employee employee){
         if (employee == null)
-            return false;
+            throw new IllegalArgumentException("Invalid employee");
         return _inquiredEmployees.remove(employee);
     }
 
+    /**
+     * @param role - the role to remove from the filled roles list
+     * @param employee - the employee to remove from the assigned employees list
+     * employee CANT work more than one role in the same shift
+     * employee can sign to more than one shift in the same shift
+     * @return
+     */
     public boolean addFilledRole(RoleType role, Employee employee){
-        if (role == null || employee == null)
+        if (role == null)
+            throw new IllegalArgumentException("Invalid role");
+        if (employee == null)
+            throw new IllegalArgumentException("Invalid employee");
+        if (!_inquiredEmployees.contains(employee) || !_requiredRoles.contains(role))
             return false;
-        if (!removeRequiredRole(role))
-            return false;
-        if (!removeInquiredEmployee(employee))
+        if (!removeRequiredRole(role) || !removeInquiredEmployee(employee))
             return false;
         _assignedEmployees.put(role, employee);
         return _filledRoles.add(role);
@@ -182,6 +193,12 @@ public class Shift{
         if (approved == true)
             _rejected = false;
         _approved = approved;
+        return true;
+    }
+    public boolean setRejected(boolean rejected){
+        if (rejected == true)
+            _approved = false;
+        _rejected = rejected;
         return true;
     }
 
@@ -232,7 +249,7 @@ public class Shift{
         return null;
     }
 
-    public boolean hasEmployee(Employee employee){
+    public boolean hasAssignedEmployee(Employee employee){
         if (employee == null)
             throw new IllegalArgumentException("Invalid Employee");
         for (Map.Entry<RoleType,Employee> entry : _assignedEmployees.entrySet()){
@@ -244,5 +261,34 @@ public class Shift{
 
     public LocalDate getDate() {
         return _date;
+    }
+
+    public boolean setRequiredRoles(List<RoleType> roles){
+        if (roles == null)
+            throw new IllegalArgumentException("Invalid roles");
+        _requiredRoles = roles;
+        return true;
+    }
+
+    public boolean setInquiredEmployees(List<Employee> employees){
+        if (employees == null)
+            throw new IllegalArgumentException("Invalid employees");
+        if (_inquiredEmployees.size() != 0)
+            throw new IllegalArgumentException("Inquired employees already set");
+        _inquiredEmployees = employees;
+        return true;
+    }
+
+    public boolean setAssignedEmployees(HashMap<RoleType,Employee> assignedEmployees){
+        if (assignedEmployees == null)
+            throw new IllegalArgumentException("Invalid employees");
+        if (_assignedEmployees.size() != 0)
+            throw new IllegalArgumentException("Assigned employees already set");
+        _assignedEmployees = assignedEmployees;
+        return true;
+    }
+
+    public HashMap<RoleType,Employee> getAssignedEmployees(){
+        return _assignedEmployees;
     }
 }

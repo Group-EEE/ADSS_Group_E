@@ -34,7 +34,7 @@ public class Employee{
      */
     public boolean setNewFirstName(String firstName){
         if (firstName == null)
-            return false;
+            throw new IllegalArgumentException("First name cannot be null");
         _firstName = firstName;
         return true;
     }
@@ -45,7 +45,7 @@ public class Employee{
      */
     public boolean setNewLastName(String lastName){
         if (lastName == null)
-            return false;
+            throw new IllegalArgumentException("Last name cannot be null");
         _lastName = lastName;
         return true;
     }
@@ -56,7 +56,7 @@ public class Employee{
      */
     public boolean setNewBankAccount(String bankAccount){
         if (bankAccount == null)
-            return false;
+            throw new IllegalArgumentException("Bank account cannot be null");
         _bankAccount = bankAccount;
         return true;
     }
@@ -74,7 +74,7 @@ public class Employee{
      */
     public boolean addRole(RoleType role){
         if (role == null)
-            return false;
+            throw new IllegalArgumentException("Role cannot be null");
         _roles.add(role);
         return true;
     }

@@ -1,6 +1,7 @@
 package BussinessLayer.HRModule.Controllers;
 
 import BussinessLayer.HRModule.Objects.*;
+import DataAccessLayer.HRMoudle.EmployeesDAO;
 import DataAccessLayer.HRMoudle.EmployeesToStoreDAO;
 import DataAccessLayer.HRMoudle.SchedulesDAO;
 import DataAccessLayer.HRMoudle.ShiftsDAO;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ScheduleController {
 
@@ -18,12 +20,15 @@ public class ScheduleController {
     private final SchedulesDAO _schedulesDAO;
     private final EmployeesToStoreDAO _employeesToStoreDAO;
     private static ShiftsDAO _shiftsDAO;
+    private static EmployeesDAO _employeesDAO;
     private final HashMap<Integer,List<Shift>> _scheduleIDToShifts;
+
 
     private ScheduleController(){
         _schedulesDAO = SchedulesDAO.getInstance();
         _employeesToStoreDAO = EmployeesToStoreDAO.getInstance();
         _shiftsDAO = ShiftsDAO.getInstance();
+        _employeesDAO = EmployeesDAO.getInstance();
         _scheduleIDToShifts = new HashMap<>();
     }
     public static ScheduleController getInstance(){
@@ -68,7 +73,19 @@ public class ScheduleController {
         Schedule schedule = _schedulesDAO.getSchedule(StoreName);
         if (schedule == null)
             throw new IllegalArgumentException("Could not find schedule for this store");
-        schedule.setShifts(_shiftsDAO.getShiftsByScheduleID(schedule.getScheduleID()));
+        List<Shift> shifts = _shiftsDAO.getShiftsByScheduleID(schedule.getScheduleID());
+        for (Shift shift : shifts){
+            for (String strRole : _shiftsDAO.getRequiredRoles(shift.getScheduleID(),shift.getShiftID())){
+                shift.addRequiredRole(RoleType.valueOf(strRole));
+            }
+            for (Integer employeeID : _shiftsDAO.getInquireEmployees(shift.getScheduleID(),shift.getShiftID())){
+                shift.addInquiredEmployee(_employeesDAO.getEmployee(employeeID));
+            }
+            for (Map.Entry<String, Integer> entry : _shiftsDAO.getAssignedEmployees(shift.getScheduleID(),shift.getShiftID()).entrySet()){
+                shift.addFilledRole(RoleType.valueOf(entry.getKey()), _employeesDAO.getEmployee(entry.getValue()));
+            }
+        }
+        schedule.setShifts(shifts);
         return schedule;
     }
 
@@ -89,7 +106,7 @@ public class ScheduleController {
         //get objects schedules by schedules ids
         for (Schedule schedule : schedules){
             for (Shift shift : schedule.getShifts()){
-                if (shift.hasEmployee(employee)){
+                if (shift.hasAssignedEmployee(employee)){
                     shiftList.add(shift);
                 }
             }
@@ -121,6 +138,10 @@ public class ScheduleController {
         if (schedule == null)
             throw new IllegalArgumentException("Schedule not yet created");
         List<Shift> rejectedShifts = schedule.approveSchedule();
+        for (Shift shift : schedule.getShifts()){
+            for (HashMap.Entry<RoleType,Employee> entry : shift.getAssignedEmployees().entrySet())
+                _shiftsDAO.insertAssignedEmployee(schedule.getScheduleID(),shift.getShiftID(),entry.getKey().toString(),entry.getValue().getID());
+        }
         return rejectedShifts;
     }
 
@@ -132,6 +153,7 @@ public class ScheduleController {
     public boolean removeRoleFromShift(Shift shift, RoleType role){
         if (shift == null || role == null)
             return false;
+        _shiftsDAO.removeRequiredRole(shift.getScheduleID(), shift.getShiftID(), role.toString());
         return shift.removeRequiredRole(role);
     }
 
@@ -187,7 +209,7 @@ public class ScheduleController {
         Schedule schedule = _schedulesDAO.getSchedule(storeName);
         if (schedule == null)
             throw new IllegalArgumentException("schedule not yet made");
-        if (!_shiftsDAO.InsertInquired(schedule.getScheduleID(),choice,employee.getID()))
+        if (!_shiftsDAO.InsertInquiredEmployee(schedule.getScheduleID(),choice,employee.getID()))
             return false;
         return schedule.addEmployeeToShift(employee,choice);
     }

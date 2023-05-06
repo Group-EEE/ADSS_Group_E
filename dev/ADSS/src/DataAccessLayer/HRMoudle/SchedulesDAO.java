@@ -137,9 +137,7 @@ public class SchedulesDAO extends DAO {
 
     @Override
     public Schedule convertReaderToObject(ResultSet rs) throws SQLException {
-        ShiftsDAO shiftsDAO = ShiftsDAO.getInstance();
-        List<Shift> shifts = shiftsDAO.getShiftsByScheduleID(rs.getInt(1));
-        return new Schedule(rs.getInt(1),  parseLocalDate(rs.getString(3)), rs.getString(2));//TODO
+        return new Schedule(rs.getInt(1),  parseLocalDate(rs.getString(3)), rs.getString(2));
     }
 
     public Pair<Integer,Integer> convertReaderToObjectActive(ResultSet rs) throws SQLException {
@@ -163,9 +161,8 @@ public class SchedulesDAO extends DAO {
     }
 
     public Schedule getSchedule(String storeName){
-        if (storeNametoActiveSchedule.containsKey(storeName)) {
+        if (storeNametoActiveSchedule.containsKey(storeName))
             return storeNametoActiveSchedule.get(storeName);
-        }
         List<String> listSchedulesID = SelectString("ActiveSchedules",ScheduleIDColumnName,makeList(StoreNameColumnName),makeList(storeName));
         if (listSchedulesID.size() > 1)
             throw new IllegalArgumentException("There are more than one active schedule for storeName: " + storeName);
@@ -199,9 +196,7 @@ public class SchedulesDAO extends DAO {
         List<String> res = SelectString("ActiveSchedules",ScheduleIDColumnName,makeList(StoreNameColumnName),makeList(storeName));
         if (res.size() > 1)
             throw new IllegalArgumentException("There are more than one active schedule for storeName: " + storeName);
-        if (res.size() == 0)
-            return false;
-        return true;
+        return res.size() != 0;
     }
 
     public boolean loadSchedules(LocalDate localDate){

@@ -9,6 +9,7 @@ import DataAccessLayer.DAO;
 import java.sql.*;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ShiftsDAO extends DAO {
@@ -50,6 +51,8 @@ public class ShiftsDAO extends DAO {
             pstmt.setBoolean(7, shift.isApproved());
             pstmt.setBoolean(8, shift.isRejected());
             pstmt.executeUpdate();
+            for (RoleType role : shift.getRequiredRoles())
+                InsertRequiredRole(shift.getScheduleID(),shift.getShiftID(),role.toString());
         } catch (SQLException e) {
             if (e.getMessage().contains("A PRIMARY KEY constraint failed"))
                 throw new IllegalArgumentException("An shift with this ID already exists");
@@ -106,7 +109,16 @@ public class ShiftsDAO extends DAO {
 
     @Override
     public Shift convertReaderToObject(ResultSet rs) throws SQLException {
-        return new Shift(rs.getInt(1), rs.getInt(2), ShiftType.toEnum(rs.getString(3)), rs.getInt(4), rs.getInt(5), parseLocalDate(rs.getString(6)));
+        Shift shift = new Shift(rs.getInt(1), rs.getInt(2), ShiftType.toEnum(rs.getString(3)), rs.getInt(4), rs.getInt(5), parseLocalDate(rs.getString(6)));
+//        List<Employee> inquiredEmployees = getInquireEmployees(shift.getScheduleID(), shift.getShiftID());
+//        List<RoleType> requiredRoles = getRequiredRoles(shift.getScheduleID(), shift.getShiftID());
+//        HashMap<RoleType,Employee> assignedEmployees = getAssignedEmployees(shift.getScheduleID(), shift.getShiftID());
+//        shift.setInquiredEmployees(inquiredEmployees);
+//        shift.setInquiredEmployees(inquiredEmployees);
+//        shift.setRequiredRoles(requiredRoles);
+//        shift.setAssignedEmployees(assignedEmployees);
+        return shift;
+
     }
 
 
@@ -116,14 +128,7 @@ public class ShiftsDAO extends DAO {
      *
      */
     public List<Shift> getShiftsByScheduleID(int scheduleID) {
-        List<Shift> listShift = Select(makeList(ScheduleIDColumnName), makeList(String.valueOf(scheduleID)));
-        for (Shift shift : listShift){
-            //getInquiredEmployees returns list of employee ids, so we need to convert it employees by EmployeeDAO
-            for (int employeeID : getInquireEmployees(scheduleID, shift.getShiftID())) {
-                shift.addInquiredEmployee(EmployeesDAO.getInstance().getEmployee(employeeID));
-            }
-        }
-        return listShift;
+        return Select(makeList(ScheduleIDColumnName), makeList(String.valueOf(scheduleID)));
     }
 
     public List<Integer> getInquireEmployees(int scheduleID, int shiftID){
@@ -146,7 +151,7 @@ public class ShiftsDAO extends DAO {
         }
         return null;
     }
-    public boolean InsertInquired(int scheduleID, int shiftID, int employeeID){
+    public boolean InsertInquiredEmployee(int scheduleID, int shiftID, int employeeID){
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}) VALUES(?, ?, ?) "
                 , "InquiredEmployees", "scheduleID", "shiftID", "employeeID"
         );
@@ -171,7 +176,7 @@ public class ShiftsDAO extends DAO {
 
     public boolean InsertRequiredRole(int scheduleID, int shiftID, String roleStr){
         String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}) VALUES(?, ?, ?) "
-                , "RequiredRolesToEmployees", "scheduleID", "shiftID", "employeeID"
+                , "RequiredRolesToEmployees", "scheduleID", "shiftID", "roleType"
         );
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -189,7 +194,7 @@ public class ShiftsDAO extends DAO {
         }
         return true;
     }
-    public List<RoleType> getRequiredRoles(int scheduleID, int shiftID){
+    public List<String> getRequiredRoles(int scheduleID, int shiftID){
         String sql = MessageFormat.format("SELECT * FROM {0} WHERE {1} = ? AND {2} = ?"
                 , "RequiredRolesToEmployees", "scheduleID", "shiftID"
         );
@@ -198,9 +203,9 @@ public class ShiftsDAO extends DAO {
             pstmt.setInt(1, scheduleID);
             pstmt.setInt(2, shiftID);
             ResultSet rs = pstmt.executeQuery();
-            List<RoleType> list = new ArrayList<>();
+            List<String> list = new ArrayList<>();
             while (rs.next()) {
-                list.add(RoleType.toEnum(rs.getString(3)));
+                list.add(rs.getString(3));
             }
             return list;
         } catch (SQLException e) {
@@ -230,4 +235,46 @@ public class ShiftsDAO extends DAO {
         return true;
     }
 
+    public boolean insertAssignedEmployee(int scheduleID, int shiftID, String roleStr, int employeeID){
+        String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}, {4}) VALUES(?, ?, ?, ?) "
+                , "RequiredRolesToEmployees", "scheduleID", "shiftID", "employeeID", "roleType"
+        );
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, scheduleID);
+            pstmt.setInt(2, shiftID);
+            pstmt.setInt(3, employeeID);
+            pstmt.setString(4, roleStr);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            if (e.getMessage().contains("UNIQUE constraint failed: InquiredEmployees.scheduleID, InquiredEmployees.shiftID, InquiredEmployees.employeeID"))
+                throw new IllegalArgumentException("already have required role for this shift");
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+            return false;
+        }
+        return true;
+    }
+    public HashMap<String,Integer> getAssignedEmployees(int scheduleID, int shiftID){
+        String sql = MessageFormat.format("SELECT roleType, employeeID FROM {0} WHERE {1} = ? AND {2} = ? AND employeeID IS NOT NULL"
+                , "RequiredRolesToEmployees", "scheduleID", "shiftID"
+        );
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, scheduleID);
+            pstmt.setInt(2, shiftID);
+            ResultSet rs = pstmt.executeQuery();
+            HashMap<String,Integer> map = new HashMap<>();
+            while (rs.next()) {
+                map.put(rs.getString(1), rs.getInt(2));
+            }
+            return map;
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+        }
+        return null;
+    }
 }

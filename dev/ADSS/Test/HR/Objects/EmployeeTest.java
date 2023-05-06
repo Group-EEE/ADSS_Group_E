@@ -1,11 +1,7 @@
 package HR.Objects;
 
-import BussinessLayer.HRModule.Controllers.EmployeeController;
-import BussinessLayer.HRModule.Controllers.Facade;
 import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.RoleType;
-import com.sun.source.tree.AssertTree;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +10,6 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeTest {
-
-    Facade _facade = Facade.getInstance();
     private Employee employee;
 
     @BeforeEach
@@ -35,18 +29,27 @@ class EmployeeTest {
 
     @Test
     void setNewFirstName() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            employee.setNewFirstName(null);
+        });
         employee.setNewFirstName("dani");
         assertEquals(employee.getFirstName(), "dani");
     }
 
     @Test
     void setNewLastName() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            employee.setNewLastName(null);
+        });
         employee.setNewLastName("shapir");
         assertEquals(employee.getLastName(), "shapir");
     }
 
     @Test
     void setNewBankAccount(){
+        assertThrows(IllegalArgumentException.class, () -> {
+            employee.setNewBankAccount(null);
+        });
         assertTrue(employee.setNewBankAccount("123456"));
     }
 
@@ -87,7 +90,10 @@ class EmployeeTest {
     }
 
     @Test
-    void setRole() {
+    void addRole() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            employee.addRole(null);
+        });
         assertTrue(employee.addRole(RoleType.HRManager));
     }
 
@@ -101,6 +107,9 @@ class EmployeeTest {
 
     @Test
     void removeRoles() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            employee.removeRole(0);
+        });
         employee.addRole(RoleType.Cleaner);
         employee.addRole(RoleType.Cashier);
         assertTrue(employee.removeRole(1));
@@ -116,4 +125,5 @@ class EmployeeTest {
     void getFullNameName() {
         assertEquals("daniel shapira", employee.getFullNameName());
     }
+
 }
