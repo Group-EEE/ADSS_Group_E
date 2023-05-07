@@ -90,6 +90,40 @@ public class ShiftsDAO extends DAO {
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, scheduleID);
             pstmt.executeUpdate();
+            if (!deleteRequired(scheduleID))
+                return false;
+            if (!deleteInquired(scheduleID))
+                return false;
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean deleteRequired(int scheduleID){
+        String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ?", "RequiredRolesToEmployees", ScheduleIDColumnName);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, scheduleID);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean deleteInquired(int scheduleID){
+        String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ?", "InquiredEmployees", ScheduleIDColumnName);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, scheduleID);
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
@@ -218,7 +252,7 @@ public class ShiftsDAO extends DAO {
 
     public boolean removeRequiredRole(int scheduleID, int shiftID, String roleStr){
         String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ? AND {2} = ? AND {3} = ?"
-                , "RequiredRolesToEmployees", "scheduleID", "shiftID"
+                , "RequiredRolesToEmployees", "scheduleID", "shiftID", "roleType"
         );
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {

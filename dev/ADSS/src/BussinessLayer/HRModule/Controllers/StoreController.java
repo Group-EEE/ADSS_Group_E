@@ -38,10 +38,16 @@ public class StoreController {
             throw new IllegalArgumentException("Invalid store name");
         if (storeAddress == null)
             throw new IllegalArgumentException("Invalid store address");
-        if (_storesDAO.existsStore(storeName))
+        if (existsStore(storeName))
             throw new IllegalArgumentException("Store already has this name");
         Store newStore = new Store(storeName, storeAddress,phone,siteContactName, area);
         return _storesDAO.Insert(newStore);
+    }
+
+    public boolean existsStore(String storeName){
+        if (storeName == null)
+            throw new IllegalArgumentException("Invalid store name");
+        return _storesDAO.existsStore(storeName);
     }
 
     /**

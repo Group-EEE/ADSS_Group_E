@@ -86,11 +86,10 @@ public class Facade {
     public boolean createEmployee(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployemen, String password, boolean isHRManager) {
         if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null)
             throw new IllegalArgumentException("Invalid arguments");
-        boolean res = _employeeController.createEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployemen, password);
-        if (!res)
+        if (!_employeeController.createEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployemen, password))
             return false;
         if (isHRManager) {
-            return _employeeController.addRoleToEmployee(employeeID, RoleType.HRManager);
+            return addRoleToEmployee(employeeID, RoleType.HRManager);
         }
         return true;
     }
@@ -129,6 +128,8 @@ public class Facade {
 
     //_ScheduleController
     public boolean createNewSchedule(String StoreName, int day, int month, int year){
+        if (_storeController.existsStore(StoreName))
+            throw new IllegalArgumentException("Store doesn't exist");
         return _scheduleController.createNewSchedule(StoreName, day, month, year);
     }
 
@@ -169,5 +170,9 @@ public class Facade {
 
     public List<Employee> getAllEmployees(){
         return _employeeController.getAllEmployees();
+    }
+
+    public boolean deleteSchedule(String storeName){
+        return _scheduleController.deleteSchedule(storeName);
     }
 }

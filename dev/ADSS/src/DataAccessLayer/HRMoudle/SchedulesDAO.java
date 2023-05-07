@@ -109,7 +109,9 @@ public class SchedulesDAO extends DAO {
             pstmt.executeUpdate();
 
             //delete the active schedules if there is
-            DeleteActive(schedule.getStoreName());
+            if (!DeleteActive(schedule.getStoreName()))
+                return false;
+
         } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());

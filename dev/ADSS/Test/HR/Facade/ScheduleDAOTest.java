@@ -1,6 +1,7 @@
 package HR.Facade;
 
 import BussinessLayer.HRModule.Controllers.Facade;
+import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Schedule;
 import BussinessLayer.HRModule.Objects.ShiftType;
 import DataAccessLayer.HRMoudle.SchedulesDAO;
@@ -15,7 +16,6 @@ class ScheduleDAOTest {
 
     Schedule schedule;
     Facade _facade = Facade.getInstance();
-    SchedulesDAO _schedulesDAO = SchedulesDAO.getInstance();
 
     @BeforeEach
     void setUp() {
@@ -23,7 +23,7 @@ class ScheduleDAOTest {
     }
     @AfterEach
     void tearDown() {
-        _schedulesDAO.Delete("testStore");
+        _facade.deleteSchedule("testStore");
     }
 
     @Test
@@ -31,5 +31,12 @@ class ScheduleDAOTest {
         assertEquals(ShiftType.MORNING, schedule.getShift(0).getShiftType());
         assertNull(schedule.getShift(15));
     }
+
+    @Test
+    void addRoleToShift(){
+        assertTrue(_facade.addRequiredRoleToShift("testStore", 0, RoleType.Cleaner));
+        assertTrue(_facade.removeRequiredRoleFromShift("testStore", 0, RoleType.Cleaner));
+    }
+
 
 }
