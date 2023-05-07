@@ -4,16 +4,6 @@ import DataAccess.InventoryModule.*;
 import DataAccess.SuppliersModule.*;
 import SuppliersModule.Business.*;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.*;
 import java.util.List;
 import java.util.Map;
@@ -39,15 +29,17 @@ public class SuperLeeDB {
     private SubSubCategoryDAO subSubCategoryDAO;
     private SuperLiProductDAO superLiProductDAO;
 
-    URL resourceUrl;
-    Path tempDbFile;
     private SuperLeeDB() {
 
         //---------------------------------Try connect to DB-----------------------------------
         try {
             conn = DriverManager.getConnection("jdbc:sqlite:dev/res/SuperLeeDB");
         }
-        catch (SQLException e) {throw new RuntimeException(e);}
+        catch (SQLException e) {
+            try {conn = DriverManager.getConnection("jdbc:sqlite::resource:SuperLeeDB");}
+            catch (SQLException ex) {throw new RuntimeException(ex);}
+        }
+
 
         //------------------------------------Initialization--------------------------------------
         supplierDAO = SupplierDAO.getInstance(conn);
