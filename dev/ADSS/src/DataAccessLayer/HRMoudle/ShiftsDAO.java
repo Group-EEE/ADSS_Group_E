@@ -46,32 +46,32 @@ public class ShiftsDAO extends DAO {
     }
 
     public boolean deleteShift(int scheduleID, int shiftID) {
-        if (!deleteRequired(scheduleID,shiftID))
+        if (!deleteRequiredRoles(scheduleID,shiftID))
             return false;
-        if (!deleteInquired(scheduleID,shiftID))
+        if (!deleteInquiredEmployees(scheduleID,shiftID))
             return false;
         return delete(_tableName,makeList(ScheduleIDColumnName, ShiftIDColumnName),makeList(scheduleID, shiftID));
     }
 
     public boolean deleteShifts(int scheduleID) {
-        if (!deleteRequired(scheduleID))
+        if (!deleteRequiredRoles(scheduleID))
             return false;
-        if (!deleteInquired(scheduleID))
+        if (!deleteInquiredEmployees(scheduleID))
             return false;
         return delete(_tableName,makeList(ScheduleIDColumnName),makeList(scheduleID));
     }
 
-    public boolean deleteRequired(int scheduleID){
+    public boolean deleteRequiredRoles(int scheduleID){
         return delete("RequiredRolesToEmployees",makeList(ScheduleIDColumnName),makeList(scheduleID));
     }
-    public boolean deleteRequired(int scheduleID,int shiftID){
+    public boolean deleteRequiredRoles(int scheduleID,int shiftID){
         return delete("RequiredRolesToEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID));
     }
 
-    public boolean deleteInquired(int scheduleID){
+    public boolean deleteInquiredEmployees(int scheduleID){
         return delete("InquiredEmployees",makeList(ScheduleIDColumnName),makeList(scheduleID));
     }
-    public boolean deleteInquired(int scheduleID,int shiftID){
+    public boolean deleteInquiredEmployees(int scheduleID,int shiftID){
         return delete("InquiredEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID));
     }
 

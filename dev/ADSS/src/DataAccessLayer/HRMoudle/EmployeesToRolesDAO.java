@@ -125,7 +125,7 @@ public class EmployeesToRolesDAO extends DAO {
     public boolean addRolesToEmployee(Employee employee){
         if (employee == null)
             return false;
-        List<String> strRoles = selectString(_tableName,RoleTypeColumnName,makeList(EmployeeIDColumnName),makeList(employee.getEmployeeID()));
+        List<String> strRoles = selectT(_tableName,RoleTypeColumnName,makeList(EmployeeIDColumnName),makeList(employee.getEmployeeID()),String.class);
         for (String strRole : strRoles) {
             employee.addRole(RoleType.valueOf(strRole));
         }

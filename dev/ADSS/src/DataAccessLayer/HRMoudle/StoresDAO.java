@@ -93,8 +93,8 @@ public class StoresDAO extends DAO {
     }
 
     public int getActiveSchedule(String storeName){
-        List<String> result = selectString(_tableName,ScheduleIDColumnName,makeList(StoreNameColumnName),makeList(storeName));
-        return Integer.valueOf(result.get(0));
+        List<Integer> result = selectT(_tableName,ScheduleIDColumnName,makeList(StoreNameColumnName),makeList(storeName),Integer.class);
+        return result.get(0);
     }
 
 }

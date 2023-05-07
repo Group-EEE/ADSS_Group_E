@@ -12,10 +12,9 @@ import java.util.List;
 
 public abstract class DAO {
 
-    //public final String _connectionString;
-    public final String _tableName;
-    public static Connection connection = null;
-    public static final String url = "jdbc:sqlite:SuperLi.db";
+    protected final String _tableName;
+    public static Connection connection;
+    protected final String url = "jdbc:sqlite:SuperLi.db";
     protected DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     //constructor
@@ -40,6 +39,7 @@ public abstract class DAO {
 
         return keysQuery;
     }
+
     public List<Object> makeList(Object... objects) {
         List<Object> list = new ArrayList<Object>();
         list.addAll(Arrays.asList(objects));
@@ -119,6 +119,7 @@ public abstract class DAO {
         }
         return list;
     }
+
     protected List select(String tableName, List<Object> columnKeys, List keys) {
         List list = new ArrayList<>();
         String sql = MessageFormat.format("SELECT * From {0} WHERE" + keysQuery(columnKeys)
@@ -141,7 +142,8 @@ public abstract class DAO {
         }
         return list;
     }
-    protected List selectString(String tableName, String ColumnName, List<Object> Columnkeys, List<Object> keys) {
+
+    protected <T> List<T> selectT(String tableName, String ColumnName, List<Object> Columnkeys, List<Object> keys,Class<T> type) {
         List list = new ArrayList<>();
         /// keys is for tables that have more that one key
         String sql = MessageFormat.format("SELECT {0} From {1} WHERE" + keysQuery(Columnkeys),
@@ -157,7 +159,10 @@ public abstract class DAO {
             ResultSet resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
                 // Fetch each row from the result set
-                list.add(resultSet.getString(1));
+                if (type == String.class)
+                    list.add(resultSet.getString(1));
+                else if (type == Integer.class)
+                    list.add(resultSet.getInt(1));
             }
 
         } catch (SQLException e) {
@@ -200,6 +205,7 @@ public abstract class DAO {
         }
         return list;
     }
+
     public boolean update(String tableName, String columnName, Object value, List columnKeys, List keys) {
         String keysString = String.join(", ", columnKeys);
         String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE" + keysQuery(columnKeys)
@@ -240,8 +246,12 @@ public abstract class DAO {
             for (Object key : keys) {
                 if (key instanceof String)
                     pstmt.setString(i, (String) key);
-                else
+                else if (key instanceof Integer)
                     pstmt.setInt(i, (Integer) key);
+                else if (key instanceof Boolean)
+                    pstmt.setBoolean(i, (Boolean) key);
+                else
+                    pstmt.setNull(i, Types.INTEGER);
                 i++;
             }
             pstmt.executeUpdate();

@@ -115,7 +115,7 @@ public class EmployeeController {
     public boolean removeEmployee(int employeeID) {
         if (employeeID <0)
             throw new IllegalArgumentException("Illegal employee ID");
-        if (!_employeesDAO.Delete(employeeID))
+        if (!_employeesDAO.deleteEmployee(employeeID))
             return false;
         return _employeesToRolesDAO.Delete(employeeID);
     }
