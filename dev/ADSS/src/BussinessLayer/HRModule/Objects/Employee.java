@@ -16,7 +16,8 @@ public class Employee{
     private String _hiringCondition;
     private LocalDate _startDateOfEmployement;
     private boolean _finishWorking;
-    public Employee(int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
+    private String _password;
+    public Employee(int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment,String password) {
         this._id = id;
         this._firstName = firstName;
         this._lastName = lastName;
@@ -26,6 +27,7 @@ public class Employee{
         this._hiringCondition = hiringCondition;
         this._startDateOfEmployement = startDateOfEmployment;
         this._finishWorking = false;
+        this._password = password;
     }
 
     /**
@@ -141,6 +143,10 @@ public class Employee{
 
     public boolean getFinishedWorking(){
         return this._finishWorking;
+    }
+
+    public String getPassword(){
+        return this._password;
     }
 
     public boolean setFinishedWorking(){

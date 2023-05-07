@@ -41,7 +41,7 @@ class ShiftTest {
 
     @Test
     void addInquiredEmployee() {
-        Employee employee = new Employee(1,"a", "b", 22,"a", 567853345,"c",LocalDate.of(2017, 1, 13));
+        Employee employee = new Employee(1,"a", "b", 22,"a", 567853345,"c",LocalDate.of(2017, 1, 13),"a");
         assertTrue(shift.addInquiredEmployee(employee));
         assertThrows(IllegalArgumentException.class, () -> {
             shift.addInquiredEmployee(employee);
@@ -75,8 +75,8 @@ class ShiftTest {
 
     @Test
     void removeInquiredEmployee() {
-        Employee employee = new Employee(1,"a", "b", 22,"a", 567853345,"c",LocalDate.of(2017, 1, 13));
-        Employee employeeNotInquired = new Employee(2,"a", "b", 22,"a", 567853345,"c",LocalDate.of(2017, 1, 13));
+        Employee employee = new Employee(1,"a", "b", 22,"a", 567853345,"c",LocalDate.of(2017, 1, 13),"passwordTest");
+        Employee employeeNotInquired = new Employee(2,"a", "b", 22,"a", 567853345,"c",LocalDate.of(2017, 1, 13),"passwordTest");
         assertTrue(shift.addInquiredEmployee(employee));
         assertTrue(shift.removeInquiredEmployee(employee));
         assertFalse(shift.removeInquiredEmployee(employee));
@@ -142,7 +142,7 @@ class ShiftTest {
 
     @Test
     void addFilledRole(){
-        Employee employee = new Employee(1,"a", "b", 22,"a", 567853345,"c",LocalDate.of(2017, 1, 13));
+        Employee employee = new Employee(1,"a", "b", 22,"a", 567853345,"c",LocalDate.of(2017, 1, 13),"passwordTest");
         assertThrows(IllegalArgumentException.class, () -> {
             shift.addFilledRole(null,employee);
         });

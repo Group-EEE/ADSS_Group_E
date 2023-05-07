@@ -143,16 +143,7 @@ public class ShiftsDAO extends DAO {
 
     @Override
     public Shift convertReaderToObject(ResultSet rs) throws SQLException {
-        Shift shift = new Shift(rs.getInt(1), rs.getInt(2), ShiftType.toEnum(rs.getString(3)), rs.getInt(4), rs.getInt(5), parseLocalDate(rs.getString(6)));
-//        List<Employee> inquiredEmployees = getInquireEmployees(shift.getScheduleID(), shift.getShiftID());
-//        List<RoleType> requiredRoles = getRequiredRoles(shift.getScheduleID(), shift.getShiftID());
-//        HashMap<RoleType,Employee> assignedEmployees = getAssignedEmployees(shift.getScheduleID(), shift.getShiftID());
-//        shift.setInquiredEmployees(inquiredEmployees);
-//        shift.setInquiredEmployees(inquiredEmployees);
-//        shift.setRequiredRoles(requiredRoles);
-//        shift.setAssignedEmployees(assignedEmployees);
-        return shift;
-
+        return new Shift(rs.getInt(1), rs.getInt(2), ShiftType.toEnum(rs.getString(3)), rs.getInt(4), rs.getInt(5), parseLocalDate(rs.getString(6)));
     }
 
 

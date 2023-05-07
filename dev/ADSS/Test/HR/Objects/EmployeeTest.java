@@ -14,7 +14,7 @@ class EmployeeTest {
 
     @BeforeEach
     void setUp() {
-        employee = new Employee(209876676, "daniel", "shapira", 26, "234657",10, "a", LocalDate.of(2023,4, 23));
+        employee = new Employee(209876676, "daniel", "shapira", 26, "234657",10, "a", LocalDate.of(2023,4, 23),"test");
     }
 
     @Test
