@@ -4,18 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="updated DAO file. now each query is 1 line code">
+    <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="more fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SuperLi.db" beforeDir="false" afterPath="$PROJECT_DIR$/SuperLi.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/DAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesToRolesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesToRolesDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesToStoreDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesToStoreDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test/HR/Facade/ScheduleDAOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/HR/Facade/ScheduleDAOTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/StoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/StoreController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesToStoreDAO.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ShiftsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ShiftsDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/StoresDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/StoresDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InterfaceLayer/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceLayer/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InterfaceLayer/TransportModule/transport_manager_UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceLayer/TransportModule/transport_manager_UI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +72,7 @@
       <recent name="C:\Users\Chen\Documents\GitHub\ADSS_Group_E\dev\ADSS\Test\HR\Objects" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.EmployeesDAOTest">
+  <component name="RunManager" selected="JUnit.ScheduleDAOTest.getShift">
     <configuration name="EmployeesDAOTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ADSS" />
       <extension name="coverage">
@@ -90,32 +88,32 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ScheduleTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="HR in ADSS" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ADSS" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="HR.Objects.*" />
+          <option name="PATTERN" value="HR.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="HR.Objects" />
-      <option name="MAIN_CLASS_NAME" value="HR.Objects.ScheduleTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="HR" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ShiftTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ScheduleDAOTest.getShift" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ADSS" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="HR.Objects.*" />
+          <option name="PATTERN" value="HR.Facade.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="HR.Objects" />
-      <option name="MAIN_CLASS_NAME" value="HR.Objects.ShiftTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="HR.Facade" />
+      <option name="MAIN_CLASS_NAME" value="HR.Facade.ScheduleDAOTest" />
+      <option name="METHOD_NAME" value="getShift" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -152,18 +150,18 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.EmployeesDAOTest" />
-      <item itemvalue="JUnit.ScheduleTest" />
+      <item itemvalue="JUnit.HR in ADSS" />
+      <item itemvalue="JUnit.ScheduleDAOTest.getShift" />
       <item itemvalue="JUnit.StoresDAOTest" />
-      <item itemvalue="JUnit.ShiftTest" />
       <item itemvalue="JUnit.StoreTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ScheduleDAOTest.getShift" />
+        <item itemvalue="JUnit.HR in ADSS" />
         <item itemvalue="JUnit.EmployeesDAOTest" />
         <item itemvalue="JUnit.StoresDAOTest" />
         <item itemvalue="JUnit.StoreTest" />
-        <item itemvalue="JUnit.ShiftTest" />
-        <item itemvalue="JUnit.ScheduleTest" />
       </list>
     </recent_temporary>
   </component>
@@ -199,7 +197,7 @@
       <workItem from="1683275158870" duration="3369000" />
       <workItem from="1683383508993" duration="5407000" />
       <workItem from="1683391749888" duration="3565000" />
-      <workItem from="1683450845811" duration="26039000" />
+      <workItem from="1683450845811" duration="28547000" />
     </task>
     <task id="LOCAL-00001" summary="created .idea folder">
       <created>1682675006264</created>
@@ -432,7 +430,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683479281795</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="more fixes">
+      <created>1683482256075</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1683482256075</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -465,7 +470,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="created table and created DAO" />
     <MESSAGE value="DAOs" />
     <MESSAGE value="passwordDAO" />
     <MESSAGE value="for some reason they got deleted" />
@@ -490,7 +494,8 @@
     <MESSAGE value="fixed more errors" />
     <MESSAGE value="deleted passwordDAO" />
     <MESSAGE value="updated DAO file. now each query is 1 line code" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated DAO file. now each query is 1 line code" />
+    <MESSAGE value="more fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="more fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -512,13 +517,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java</url>
-          <line>186</line>
+          <line>177</line>
           <option name="timeStamp" value="141" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Test/HR/Facade/ScheduleDAOTest.java</url>
-          <line>36</line>
-          <option name="timeStamp" value="158" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Test/HR/Facade/StoresDAOTest.java</url>
@@ -526,9 +526,19 @@
           <option name="timeStamp" value="206" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/DataAccessLayer/DAO.java</url>
-          <line>159</line>
-          <option name="timeStamp" value="207" />
+          <url>file://$PROJECT_DIR$/Test/HR/Facade/EmployeesDAOTest.java</url>
+          <line>43</line>
+          <option name="timeStamp" value="211" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/EmployeeController.java</url>
+          <line>59</line>
+          <option name="timeStamp" value="212" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Test/HR/Facade/ScheduleDAOTest.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="213" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Schedule.java</url>

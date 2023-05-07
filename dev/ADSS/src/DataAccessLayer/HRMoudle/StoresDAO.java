@@ -1,5 +1,6 @@
 package DataAccessLayer.HRMoudle;
 
+import BussinessLayer.HRModule.Objects.Pair;
 import BussinessLayer.HRModule.Objects.Store;
 import DataAccessLayer.DAO;
 
@@ -18,6 +19,9 @@ public class StoresDAO extends DAO {
     private final String ContactColumnName= "contactName";
     private final String AreaColumnName = "area";
     private final String ScheduleIDColumnName = "scheduleID";
+    //EmployeeToStoreDAO
+    private final String EmployeeIDColumnName = "employeeID";
+    private final String EmployeeToStoreTable = "EmployeesToStores";
 
     private StoresDAO() {
         super("Stores");
@@ -40,6 +44,7 @@ public class StoresDAO extends DAO {
     public boolean deleteStore(String storeName) {
         if (!delete(_tableName,makeList(StoreNameColumnName), makeList(storeName)))
             return false;
+        delete(EmployeeToStoreTable, makeList(StoreNameColumnName), makeList(storeName));
         storesCache.remove(storeName);
         return true;
     }
@@ -72,7 +77,7 @@ public class StoresDAO extends DAO {
     }
 
     public List<Store> SelectAllStores() {
-        return (List<Store>) (List<?>) select();
+        return (List<Store>)select();
     }
 
     public boolean isAnyStoreExist(){
@@ -97,4 +102,27 @@ public class StoresDAO extends DAO {
         return result.get(0);
     }
 
+    public boolean insertEmployeeToStore(int employeeID, String storeName) {
+        return insert(EmployeeToStoreTable, makeList(EmployeeIDColumnName, StoreNameColumnName), makeList(employeeID, storeName));
+    }
+
+    public boolean deleteEmployeeFromStore(int employeeID, String storeName) {
+        return delete(EmployeeToStoreTable, makeList(EmployeeIDColumnName, StoreNameColumnName), makeList(employeeID, storeName));
+    }
+
+    public boolean deleteEmployeeFromAllStores(int employeeID){
+        return delete(EmployeeToStoreTable, makeList(EmployeeIDColumnName), makeList(employeeID));
+    }
+
+    public List<Integer> getEmployeesIDByStoreName(String storeName){
+        return selectT(EmployeeToStoreTable, StoreNameColumnName, makeList(storeName), makeList(EmployeeIDColumnName), Integer.class);
+    }
+
+    public List<String> getStoreNamesByEmployeeID(int employeeID){
+        return selectT(EmployeeToStoreTable, StoreNameColumnName,makeList(EmployeeIDColumnName), makeList(employeeID), String.class);
+    }
+
+    public boolean checkIfEmployeeInStore(int employeeID, String storeName){
+        return select(EmployeeToStoreTable, makeList(EmployeeIDColumnName, StoreNameColumnName), makeList(employeeID, storeName)).size() > 0;
+    }
 }

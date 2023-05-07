@@ -34,11 +34,15 @@ public class SchedulesDAO extends DAO {
     public boolean insertSchedule(int scheduleID, String storeName, LocalDate startDateOfWeek){
         if (scheduleID > _scheduleIDcache)
             throw new IllegalArgumentException("Invalid schedule ID");
+        Schedule schedule = new Schedule(scheduleID, storeName, startDateOfWeek);
+        scheduleCache.put(scheduleID, schedule);
         return insert(_tableName, makeList(ScheduleIDColumnName, StoreNameColumnName, StartDateOfWeekColumnName),
                 makeList(scheduleID, storeName, startDateOfWeek.format(formatters)));
     }
 
     public boolean deleteSchedule(int scheduleID) {
+        if (scheduleCache.containsKey(scheduleID))
+            scheduleCache.remove(scheduleID);
         return delete(_tableName, makeList(ScheduleIDColumnName), makeList(scheduleID));
     }
 
@@ -63,7 +67,11 @@ public class SchedulesDAO extends DAO {
         List<Schedule> result = select(_tableName,makeList(StartDateOfWeekColumnName, StoreNameColumnName), makeList(date.format(formatters), storeName));
         if (result.size() == 0)
             throw new IllegalArgumentException("Could not find schedule for date " + date.format(formatters) + " and store " + storeName);
-        return result.get(0);
+        Schedule schedule = result.get(0);
+        if (scheduleCache.containsKey(schedule.getScheduleID()))
+            return scheduleCache.get(schedule.getScheduleID());
+        scheduleCache.put(schedule.getScheduleID(), schedule);
+        return schedule;
 
     }
 
@@ -78,12 +86,6 @@ public class SchedulesDAO extends DAO {
 
     }
 
-    public void insertShifts(int scheduleID,List<Shift> shifts) {
-        if (!scheduleCache.containsKey(scheduleID)){
-            getSchedule(scheduleID);
-        }
-        scheduleCache.get(scheduleID).setShifts(shifts);
-    }
 
 
 //    public boolean loadSchedules(LocalDate localDate){

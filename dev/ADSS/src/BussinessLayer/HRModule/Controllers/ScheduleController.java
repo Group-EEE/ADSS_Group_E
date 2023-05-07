@@ -14,15 +14,13 @@ public class ScheduleController {
 
 
     private static ScheduleController _scheduleController = null;
-    private static SchedulesDAO _schedulesDAO;
-    private static EmployeesToStoreDAO _employeesToStoreDAO;
-    private static ShiftsDAO _shiftsDAO;
-    private static EmployeesDAO _employeesDAO;
-    private static StoresDAO _storesDAO;
+    private SchedulesDAO _schedulesDAO;
+    private ShiftsDAO _shiftsDAO;
+    private EmployeesDAO _employeesDAO;
+    private StoresDAO _storesDAO;
 
     private ScheduleController(){
         _schedulesDAO = SchedulesDAO.getInstance();
-        _employeesToStoreDAO = EmployeesToStoreDAO.getInstance();
         _shiftsDAO = ShiftsDAO.getInstance();
         _employeesDAO = EmployeesDAO.getInstance();
         _storesDAO = StoresDAO.getInstance();
@@ -50,8 +48,8 @@ public class ScheduleController {
         }
         _storesDAO.insertActiveSchedule(storeName, scheduleID);
         _schedulesDAO.insertSchedule(scheduleID, storeName,localDate);
-        _schedulesDAO.insertShifts(scheduleID,shifts);
-        return true;
+        Schedule schedule = _schedulesDAO.getSchedule(scheduleID);
+        return schedule.setShifts(shifts);
     }
 
     public boolean deleteActiveSchedule(String storeName){
@@ -97,17 +95,10 @@ public class ScheduleController {
         if (employee == null)
             throw new IllegalArgumentException("Invalid employee");
         //get all the stores that employee works in
-        List<String> storesNames = _employeesToStoreDAO.getStoreNameByEmployeeID(employee.getEmployeeID());
+        List<String> storesNames = _storesDAO.getStoreNamesByEmployeeID(employee.getEmployeeID());
         //get all the active schedules for those stores
-        List<Schedule> schedules = new ArrayList<>();
         for (String storeName :storesNames){
-            Schedule schedule = getSchedule(storeName);
-            if (schedule != null)
-                schedules.add(schedule);
-        }
-        //get objects schedules by schedules ids
-        for (Schedule schedule : schedules){
-            for (Shift shift : schedule.getShifts()){
+            for (Shift shift : getSchedule(storeName).getShifts()){
                 if (shift.hasAssignedEmployee(employee)){
                     shiftList.add(shift);
                 }

@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ScheduleDAOTest {
 
-    Schedule schedule;
     Facade _facade = Facade.getInstance();
 
     @BeforeEach
@@ -28,6 +27,7 @@ class ScheduleDAOTest {
 
     @Test
     void getShift(){
+        Schedule schedule = _facade.getSchedule("testStore");
         assertEquals(ShiftType.MORNING, schedule.getShift(0).getShiftType());
         assertNull(schedule.getShift(15));
     }
