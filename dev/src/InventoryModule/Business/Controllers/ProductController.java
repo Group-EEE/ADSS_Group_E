@@ -275,7 +275,4 @@ public class ProductController {
     public int getBarcodesOfNewProductsSize(){
        return BarcodesOfNewProducts.size();
     }
-
-
-
 }

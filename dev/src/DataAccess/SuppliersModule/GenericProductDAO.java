@@ -17,6 +17,7 @@ public class GenericProductDAO {
     static GenericProductDAO genericProductDAO;
     private ManufacturerDAO manufacturerDAO;
 
+    List<Integer> observerBarocdeList;
     Map<List<String>, GenericProduct> IdentifyMapGenericProductByName;
     Map<Integer, GenericProduct> IdentifyMapGenericProductByBarcode;
 
@@ -25,6 +26,7 @@ public class GenericProductDAO {
         manufacturerDAO = ManufacturerDAO.getInstance(this.conn);
         IdentifyMapGenericProductByName = new HashMap<>();
         IdentifyMapGenericProductByBarcode = new HashMap<>();
+        observerBarocdeList = new ArrayList<>();
     }
 
     public static GenericProductDAO getInstance(Connection conn) {
@@ -35,6 +37,14 @@ public class GenericProductDAO {
 
     public void ReadGenericProductsToCache() {
         PreparedStatement stmt;
+        try{
+            stmt = conn.prepareStatement("SELECT * FROM ObserverBarcode");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next())
+                observerBarocdeList.add(rs.getInt("Barcode"));
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
         try{
             stmt = conn.prepareStatement("SELECT Barcode FROM staticValue");
             ResultSet rs = stmt.executeQuery();
@@ -69,6 +79,17 @@ public class GenericProductDAO {
     public void WriteFromCacheToDB()
     {
         PreparedStatement stmt;
+        try{
+            stmt = conn.prepareStatement("DELETE FROM ObserverBarcode");
+            stmt.executeUpdate();
+            for(int currBarcode : observerBarocdeList)
+            {
+                stmt = conn.prepareStatement("Insert into ObserverBarcode VALUES (?)");
+                stmt.setInt(1, currBarcode);
+            }
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
 
         try
         {
@@ -97,11 +118,6 @@ public class GenericProductDAO {
         }
     }
 
-    public boolean CheckIfGenericProductExist(String name , String manufacturerName)
-    {
-        return IdentifyMapGenericProductByName.containsKey(createKey(name, manufacturerName));
-    }
-
     public void insert(GenericProduct genericProduct)
     {
         List<String> key = createKey(genericProduct.getName(), genericProduct.getMyManufacturer().getName());
@@ -124,5 +140,24 @@ public class GenericProductDAO {
         return IdentifyMapGenericProductByBarcode.get(barcode);
     }
 
+    public void addToObserverBarcodeList(int barcode)
+    {
+        if(!observerBarocdeList.contains(barcode))
+            observerBarocdeList.add(barcode);
+    }
 
+    public void removeFromObserverBarcodeList(int barcode)
+    {
+        observerBarocdeList.remove(barcode);
+    }
+
+    public int getBarcodeFromObserverBarcodeList(int barcode)
+    {
+        return observerBarocdeList.get(observerBarocdeList.indexOf(barcode));
+    }
+
+    public List<Integer> getObserverBarcodeList()
+    {
+        return observerBarocdeList;
+    }
 }

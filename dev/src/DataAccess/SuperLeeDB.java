@@ -4,6 +4,16 @@ import DataAccess.InventoryModule.*;
 import DataAccess.SuppliersModule.*;
 import SuppliersModule.Business.*;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.*;
 import java.util.List;
 import java.util.Map;
@@ -29,11 +39,15 @@ public class SuperLeeDB {
     private SubSubCategoryDAO subSubCategoryDAO;
     private SuperLiProductDAO superLiProductDAO;
 
+    URL resourceUrl;
+    Path tempDbFile;
     private SuperLeeDB() {
 
         //---------------------------------Try connect to DB-----------------------------------
-        try {conn = DriverManager.getConnection("jdbc:sqlite:dev/res/SuperLeeDB");}
-        catch (SQLException e) {e.printStackTrace();}
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlite:dev/res/SuperLeeDB");
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
 
         //------------------------------------Initialization--------------------------------------
         supplierDAO = SupplierDAO.getInstance(conn);
@@ -88,11 +102,7 @@ public class SuperLeeDB {
         catch (SQLException e) {throw new RuntimeException(e);}
     }
 
-    public boolean CheckIfSupplierExist(String supplierNum)
-    {
-        return supplierDAO.CheckIfSupplierExist(supplierNum);
-    }
-
+    //------------------------------------SupplierDAO-----------------------------------------------
     public Supplier getSupplierBySupplierNumber(String supplierNum)
     {
         return supplierDAO.getSupplierBySupplierNumber(supplierNum);
@@ -101,66 +111,6 @@ public class SuperLeeDB {
     public void insertSupplier(Supplier supplier)
     {
         supplierDAO.insert(supplier);
-    }
-
-    public boolean CheckIfManufacturerExist(String manufacturerName)
-    {
-        return manufacturerDAO.CheckIfManufacturerExist(manufacturerName);
-    }
-
-    public void insertManufacturer(Manufacturer manufacturer)
-    {
-        manufacturerDAO.insert(manufacturer);
-    }
-
-    public boolean CheckIfGenericProductExist(String name , String manufacturerName)
-    {
-        return genericProductDAO.CheckIfGenericProductExist(name, manufacturerName);
-    }
-
-    public void insertGenericProduct(GenericProduct genericProduct)
-    {
-        genericProductDAO.insert(genericProduct);
-    }
-
-    public Manufacturer getManufacturer(String manufacturerName)
-    {
-        return manufacturerDAO.getManufacturer(manufacturerName);
-    }
-
-    public GenericProduct getGenericProductByName(String name , String manufacturerName)
-    {
-        return genericProductDAO.getGenericProductByName(name, manufacturerName);
-    }
-
-    public GenericProduct getGenericProductByBarcode(int barcode)
-    {
-        return genericProductDAO.getGenericProductByBarcode(barcode);
-    }
-
-    public void insertSupplierProduct(SupplierProduct supplierProduct)
-    {
-        supplierProductDAO.insert(supplierProduct);
-    }
-
-    public void deleteSupplierProduct(SupplierProduct supplierProduct)
-    {
-        supplierProductDAO.delete(supplierProduct);
-    }
-
-    public void insertSupplierProductDiscount(SupplierProduct supplierProduct, SupplierProductDiscount supplierProductDiscount)
-    {
-        supplierProductDiscountDAO.insert(supplierProduct, supplierProductDiscount);
-    }
-
-    public boolean CheckIfOrderDiscountExist(String supplierNum, String priceOrQuantity, int amount)
-    {
-        return orderDiscountDAO.CheckIfOrderDiscountExist(supplierNum, priceOrQuantity, amount);
-    }
-
-    public void insertOrderDiscount(String supplierNum, OrderDiscount orderDiscount)
-    {
-        orderDiscountDAO.insert(supplierNum, orderDiscount);
     }
 
     public Map<String, Supplier> gatAllSuppliers()
@@ -173,9 +123,87 @@ public class SuperLeeDB {
         supplierDAO.delete(supplierNum);
     }
 
+
+    //------------------------------------ManufacturerDAO-----------------------------------------------
+
+    public void insertManufacturer(Manufacturer manufacturer)
+    {
+        manufacturerDAO.insert(manufacturer);
+    }
+
+    public Manufacturer getManufacturer(String manufacturerName)
+    {
+        return manufacturerDAO.getManufacturer(manufacturerName);
+    }
+
+
+
+    //------------------------------------GenericProductDAO-----------------------------------------------
+
+    public void insertGenericProduct(GenericProduct genericProduct)
+    {
+        genericProductDAO.insert(genericProduct);
+    }
+
+    public GenericProduct getGenericProductByName(String name , String manufacturerName)
+    {
+        return genericProductDAO.getGenericProductByName(name, manufacturerName);
+    }
+
+    public GenericProduct getGenericProductByBarcode(int barcode)
+    {
+        return genericProductDAO.getGenericProductByBarcode(barcode);
+    }
+
+    public void addToObserverBarcodeList(int barcode)
+    {
+        genericProductDAO.addToObserverBarcodeList(barcode);
+    }
+
+    public void removeFromObserverBarcodeList(int barcode)
+    {
+        genericProductDAO.removeFromObserverBarcodeList(barcode);
+    }
+
+    public int getBarcodeFromObserverBarcodeList(int barcode)
+    {
+        return genericProductDAO.getBarcodeFromObserverBarcodeList(barcode);
+    }
+
+    public List<Integer> getObserverBarcodeList()
+    {
+        return genericProductDAO.getObserverBarcodeList();
+    }
+
+    //------------------------------------SupplierProductDAO-----------------------------------------------
+
+    public void insertSupplierProduct(SupplierProduct supplierProduct)
+    {
+        supplierProductDAO.insert(supplierProduct);
+    }
+
+    public void deleteSupplierProduct(SupplierProduct supplierProduct)
+    {
+        supplierProductDAO.delete(supplierProduct);
+    }
+
+    //------------------------------------SupplierProductDiscountDAO-----------------------------------------------
+
+    public void insertSupplierProductDiscount(SupplierProduct supplierProduct, SupplierProductDiscount supplierProductDiscount)
+    {
+        supplierProductDiscountDAO.insert(supplierProduct, supplierProductDiscount);
+    }
+
     public void deleteSupplierProductDiscount(String supplierNum, String supplierCatalog, int amount)
     {
         supplierProductDiscountDAO.delete(supplierNum, supplierCatalog ,amount);
+    }
+
+    //------------------------------------OrderDiscountDAO-----------------------------------------------
+
+    public boolean CheckIfOrderDiscountExist(String supplierNum, String priceOrQuantity, int amount)
+    {
+        return orderDiscountDAO.CheckIfOrderDiscountExist(supplierNum, priceOrQuantity, amount);
     }
 
     public void deleteOrderDiscount(String supplierNum, String priceOrQuantity, int minimumAmount)
@@ -183,10 +211,12 @@ public class SuperLeeDB {
         orderDiscountDAO.delete(supplierNum, priceOrQuantity ,minimumAmount);
     }
 
-    public Map<List<String>, GenericProduct> getAllGenericProduct()
+    public void insertOrderDiscount(String supplierNum, OrderDiscount orderDiscount)
     {
-        return genericProductDAO.getIdentifyMapGenericProductByName();
+        orderDiscountDAO.insert(supplierNum, orderDiscount);
     }
+
+    //------------------------------------ContactDAO-----------------------------------------------
 
     public void insertContact(Contact contact)
     {
@@ -198,20 +228,12 @@ public class SuperLeeDB {
         return contactDAO.CheckIfContactExist(phoneNumber);
     }
 
-    public void updateContact(String oldPhone, Contact contact)
-    {
-        contactDAO.update(oldPhone, contact);
-    }
-
     public void deleteContact(String phoneNumber)
     {
         contactDAO.delete(phoneNumber);
     }
 
-    public void deleteWorkingWithManufacturer(String supplierNum, String manufacturerNum)
-    {
-        manufacturerDAO.deleteWorkingWithManufacturer(supplierNum, manufacturerNum);
-    }
+    //------------------------------------PeriodicOrderDAO-----------------------------------------------
 
     public Map<Integer, PeriodicOrder> getAllPeriodicOrder()
     {
@@ -232,6 +254,8 @@ public class SuperLeeDB {
     {
         periodicOrderDAO.delete(id);
     }
+
+    //------------------------------------OrderFromSupplierDAO-----------------------------------------------
 
     public void insertOrderFromSupplier(OrderFromSupplier orderFromSupplier)
     {

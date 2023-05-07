@@ -99,11 +99,6 @@ public class ManufacturerDAO {
         }
     }
 
-    public boolean CheckIfManufacturerExist(String manufacturerName)
-    {
-        return IdentifyMapManufacturer.containsKey(manufacturerName);
-    }
-
     public Manufacturer getManufacturer(String manufacturerName)
     {
         return IdentifyMapManufacturer.get(manufacturerName);
@@ -112,27 +107,5 @@ public class ManufacturerDAO {
     public void insert(Manufacturer manufacturer)
     {
         IdentifyMapManufacturer.put(manufacturer.getName(), manufacturer);
-    }
-
-
-    public void deleteBySupplier(String supplierNum)
-    {
-        try {
-            PreparedStatement stmt = conn.prepareStatement("Delete FROM Supplier_Manufacturer WHERE SupplierNum = ?");
-            stmt.setString(1, supplierNum);
-            stmt.executeUpdate();
-        }
-        catch (SQLException e) {throw new RuntimeException(e);}
-    }
-
-    public void deleteWorkingWithManufacturer(String supplierNum, String manufacturerNum)
-    {
-        try {
-            PreparedStatement stmt = conn.prepareStatement("Delete FROM Supplier_Manufacturer WHERE SupplierNum = ? AND manufacturerNum = ?");
-            stmt.setString(1, supplierNum);
-            stmt.setString(2, manufacturerNum);
-            stmt.executeUpdate();
-        }
-        catch (SQLException e) {throw new RuntimeException(e);}
     }
 }

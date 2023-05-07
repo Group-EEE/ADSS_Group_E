@@ -94,12 +94,6 @@ public class ContactDAO {
         return IdentifyMapContact.containsKey(phoneNumber);
     }
 
-    public void update(String oldPhone, Contact contact)
-    {
-        IdentifyMapContact.remove(oldPhone);
-        insert(contact);
-    }
-
     public void delete(String phoneNumber)
     {
         IdentifyMapContact.remove(phoneNumber);

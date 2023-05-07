@@ -165,11 +165,6 @@ public class SupplierDAO {
         }
     }
 
-    public boolean CheckIfSupplierExist(String supplierNum)
-    {
-        return IdentifyMapSupplier.containsKey(supplierNum);
-    }
-
     public Supplier getSupplierBySupplierNumber(String supplierNum)
     {
         return IdentifyMapSupplier.get(supplierNum);
@@ -194,7 +189,6 @@ public class SupplierDAO {
         supplierProductDAO.deleteBySupplier(supplierNum);
         orderFromSupplierDAO.deleteBySupplier(supplierNum);
         periodicOrderDAO.deleteBySupplier(supplierNum);
-        manufacturerDAO.deleteBySupplier(supplierNum);
 
         try {
             PreparedStatement stmt = conn.prepareStatement("Delete FROM Supplier_Categories WHERE SupplierNum = ?");

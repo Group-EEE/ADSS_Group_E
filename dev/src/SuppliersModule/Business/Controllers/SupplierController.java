@@ -4,19 +4,16 @@ import InventoryModule.Business.Controllers.ProductController;
 import SuppliersModule.Business.*;
 import DataAccess.*;
 
-import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
 
 public class SupplierController {
     static SupplierController supplierController;
-    ProductController productController;
     private SuperLeeDB superLeeDB;
 
     private SupplierController() {
 
         superLeeDB = SuperLeeDB.getInstance();
-        productController = ProductController.getInstance();
     }
 
     public static SupplierController getInstance() {
@@ -26,7 +23,7 @@ public class SupplierController {
     }
 
     public boolean checkIfSupplierExist(String supplierNum) {
-        return superLeeDB.CheckIfSupplierExist(supplierNum);
+        return getSupplier(supplierNum) != null;
     }
 
     public boolean checkIfSupplierSupplyProduct(String supplierNum, int barcode){
@@ -47,10 +44,10 @@ public class SupplierController {
 
     public void addSupplierProduct(String productName, String manufacturerName, int barcode, String supplierNum, float price, String supplierCatalog, int amount) {
 
-        if (!superLeeDB.CheckIfManufacturerExist(manufacturerName))
+        if (superLeeDB.getManufacturer(manufacturerName) == null)
             superLeeDB.insertManufacturer(new Manufacturer(manufacturerName));
 
-        if (!superLeeDB.CheckIfGenericProductExist(productName, manufacturerName)){
+        if (superLeeDB.getGenericProductByName(productName, manufacturerName) == null){
             GenericProduct genericProduct = new GenericProduct(productName, superLeeDB.getManufacturer(manufacturerName), barcode);
             superLeeDB.insertGenericProduct(genericProduct);
         }
@@ -58,7 +55,7 @@ public class SupplierController {
         Supplier supplier = getSupplier(supplierNum);
         GenericProduct genericProduct = superLeeDB.getGenericProductByName(productName, manufacturerName);
 
-        ProductController.BarcodesOfNewProducts.add(genericProduct.getBarcode());
+        superLeeDB.addToObserverBarcodeList(genericProduct.getBarcode());
 
         SupplierProduct supplierProduct = new SupplierProduct(price, supplierCatalog, amount,
                 supplier, genericProduct, supplier.getMyAgreement());
@@ -127,12 +124,6 @@ public class SupplierController {
         Supplier supplier = getSupplier(supplierNum);
         supplier.setBankAccount(account);
     }
-
-    public Map<List<String>, GenericProduct> getAllProducts() {
-        return superLeeDB.getAllGenericProduct();
-    }
-
-
     public void addContactToSupplier(String supplierNum, String name, String phoneNumber)
     {
         Supplier supplier = getSupplier(supplierNum);
@@ -150,7 +141,6 @@ public class SupplierController {
         Supplier supplier = getSupplier(supplierNum);
         Contact contact = supplier.getContact(OldPhone);
         contact.setPhoneNumber(NewPhone);
-        superLeeDB.updateContact(OldPhone, contact);
     }
 
     public void deleteContactFromSupplier(String supplierNum, String phoneNumber)
@@ -171,7 +161,6 @@ public class SupplierController {
     {
         Supplier supplier = getSupplier(supplierNum);
         supplier.stopWorkingWithManufacturer(manufacturerName);
-        superLeeDB.deleteWorkingWithManufacturer(supplierNum, manufacturerName);
     }
 
     public String StringSupplierDetails(String supplierNum)
