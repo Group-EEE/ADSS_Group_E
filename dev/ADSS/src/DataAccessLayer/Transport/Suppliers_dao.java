@@ -25,7 +25,7 @@ public class Suppliers_dao extends DAO {
         super("Suppliers");
         Suppliers_map = new HashMap<>();
     }
-    @Override
+
     public boolean Insert(Object obj) {
         Supplier supplier = (Supplier) obj;
         try {
@@ -46,7 +46,7 @@ public class Suppliers_dao extends DAO {
         return false;
     }
 
-    @Override
+
     public boolean Delete(Object obj) {
         Supplier supplier = (Supplier) obj;
         String query = "DELETE FROM " + _tableName + " WHERE Name = ?";

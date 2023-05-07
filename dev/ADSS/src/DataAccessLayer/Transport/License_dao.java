@@ -21,8 +21,9 @@ public class License_dao extends DAO {
         Licenses = new HashMap<>();
         get_all_licenses_from_db();
     }
-    @Override
-    public boolean Insert(Object licenseObj) {
+
+
+    public boolean insert(Object licenseObj) {
         License license = (License) licenseObj;
         try {
             String query = "INSERT INTO Licenses (ID, cold_level, weight) VALUES (?, ?, ?)";
@@ -43,7 +44,7 @@ public class License_dao extends DAO {
         return false;
     }
 
-    @Override
+
     public boolean Delete(Object Licenseobj) {
         License license = (License) Licenseobj;
         String query = "DELETE FROM Licenses WHERE ID = ?";

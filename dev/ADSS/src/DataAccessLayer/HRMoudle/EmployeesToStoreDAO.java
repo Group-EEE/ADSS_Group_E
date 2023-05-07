@@ -30,10 +30,7 @@ public class EmployeesToStoreDAO extends DAO {
         return _employeeToStoreDAO;
     }
 
-    public boolean Insert(Object pairObj) {
-        Pair pair = (Pair) pairObj;
-        int employeeID = (int)pair.getKey();
-        String storeName = (String)pair.getValue();
+    public boolean insertEmployeeToStore(int employeeID, String storeName) {
         if (employeeID < 0)
             throw new IllegalArgumentException("Invalid employee id");
         if (employeeCache.containsKey(employeeID) && employeeCache.get(employeeID).contains(storeName))
@@ -76,19 +73,14 @@ public class EmployeesToStoreDAO extends DAO {
         return true;
     }
 
-    @Override
-    public boolean Delete(Object pairObj) {
-        Pair pair = (Pair) pairObj;
-        int employeeID = (int)pair.getKey();
-        int storeName = (int)pair.getValue();
-
+    public boolean deleteEmployeeFromStore(int employeeID, String storeName) {
         String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ? AND {2} = ?"
                 , _tableName, EmployeeIDColumnName, StoreNameColumnName);
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
             pstmt.setInt(1, employeeID);
-            pstmt.setInt(2, storeName);
+            pstmt.setString(2, storeName);
             pstmt.executeUpdate();
             if (storeCache.get(storeName).contains(employeeID))
                 storeCache.get(storeName).remove(employeeID);
@@ -104,46 +96,12 @@ public class EmployeesToStoreDAO extends DAO {
         return true;
     }
 
-    public boolean Delete(int employeeID){
-        String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ?", _tableName, EmployeeIDColumnName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, employeeID);
-            pstmt.executeUpdate();
-            if (employeeCache.containsKey(employeeID)) {
-                for (String storeName : employeeCache.get(employeeID)) {
-                    storeCache.get(storeName).remove(employeeID);
-                }
-                employeeCache.remove(employeeID);
-            }
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            return false;
-        }
-        return true;
+    public boolean deleteEmployee(int employeeID){
+        return delete(_tableName, makeList(EmployeeIDColumnName), makeList(employeeID));
     }
 
-    public boolean Delete(String storeName){
-        String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ?", _tableName, EmployeeIDColumnName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, storeName);
-            pstmt.executeUpdate();
-            if (storeCache.containsKey(storeName)) {
-                for (int employeeID : storeCache.get(storeName)) {
-                    employeeCache.get(employeeID).remove(storeName);
-                }
-                storeCache.remove(storeName);
-            }
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            return false;
-        }
-        return true;
+    public boolean deleteStore(String storeName){
+        return delete(_tableName, makeList(StoreNameColumnName), makeList(storeName));
     }
 
     @Override
@@ -227,6 +185,4 @@ public class EmployeesToStoreDAO extends DAO {
         }
         return false;
     }
-
-
 }

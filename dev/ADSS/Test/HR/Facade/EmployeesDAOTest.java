@@ -1,7 +1,6 @@
-package HR.Objects;
+package HR.Facade;
 
 import BussinessLayer.HRModule.Controllers.Facade;
-import BussinessLayer.HRModule.Objects.Employee;
 import DataAccessLayer.HRMoudle.EmployeesDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,7 +12,6 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeesDAOTest {
-    private Employee employee;
     private static Facade _facade;
     private static EmployeesDAO _employeesDAO;
 
@@ -35,7 +33,7 @@ class EmployeesDAOTest {
 
     @Test
     void existsEmployee(){
-        assertTrue(_employeesDAO.existEmployee(1));
+        assertTrue(_employeesDAO.existEmployee(9999));
     }
 
     @Test

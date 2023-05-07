@@ -26,12 +26,13 @@ public class Drivers_dao extends DAO {
             drivers_dao = new Drivers_dao("Drivers");
         return drivers_dao;
     }
-    @Override
+
+
     public boolean Insert(Object Driverobj) {
         Truck_Driver driver = (Truck_Driver) Driverobj;
         try {
             String query = "INSERT INTO Drivers (ID, Name, License_ID) VALUES (?, ?, ?)";
-            L_dao.Insert(driver.getLicense());
+            L_dao.insert(driver.getLicense());
             // Prepare SQL statement with parameters
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, driver.getID());
@@ -52,7 +53,7 @@ public class Drivers_dao extends DAO {
         return false;
     }
 
-    @Override
+
     public boolean Delete(Object obj) {
         Truck_Driver driver = (Truck_Driver) obj;
         try {

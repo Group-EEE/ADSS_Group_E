@@ -14,7 +14,6 @@ public class EmployeeController {
 
 
     private final EmployeesDAO _employeesDAO;
-    private final EmployeesToStoreDAO _employeesToStoreDAO;
     private final EmployeesToRolesDAO _employeesToRolesDAO;
 
     private static EmployeeController _employeeController;
@@ -23,7 +22,7 @@ public class EmployeeController {
     private EmployeeController() {
         _employeesDAO = EmployeesDAO.getInstance();
         _employeesToRolesDAO = EmployeesToRolesDAO.getInstance();
-        _employeesToStoreDAO = EmployeesToStoreDAO.getInstance();
+        //_employeesToStoreDAO = EmployeesToStoreDAO.getInstance();
     }
 
     public static EmployeeController getInstance() {
@@ -46,8 +45,7 @@ public class EmployeeController {
     public boolean createEmployee(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployement, String password) {
         if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null)
             throw new IllegalArgumentException("Invalid arguments");
-        Employee employee = new Employee(employeeID, firstName,lastName, age , bankAccount, salary, hiringCondition, startDateOfEmployement,password);
-        return _employeesDAO.Insert(employee);
+        return _employeesDAO.insertEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployement, password);
     }
 
     /**
@@ -58,8 +56,7 @@ public class EmployeeController {
     public Employee login(int employeeID, String password){
         if (employeeID < 0 || password == null)
             return null;
-        boolean employeeExists = _employeesDAO.existEmployee(employeeID);
-        if (!employeeExists)
+        if (!_employeesDAO.existEmployee(employeeID))
             return null;
         if(!_employeesDAO.checkPassword(employeeID,password))
             return null;
@@ -150,7 +147,7 @@ public class EmployeeController {
         Employee employee = getEmployeeByID(employeeID);
         if (employee == null)
             throw new IllegalArgumentException("employee not found");
-        _employeesToRolesDAO.Insert(new Pair<Integer,String>(employeeID, role.toString()));
+        _employeesToRolesDAO.insert(new Pair<Integer,String>(employeeID, role.toString()));
         return employee.addRole(role);
     }
 

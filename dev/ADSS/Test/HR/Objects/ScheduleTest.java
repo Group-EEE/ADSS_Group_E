@@ -22,7 +22,7 @@ class ScheduleTest {
 
     @BeforeEach
     void setUp() {
-        schedule = new Schedule(1, LocalDate.of(1999,1,1), "testStore");
+        schedule = new Schedule(1, "testStore", LocalDate.of(1999,1,1));
     }
 
     @Test

@@ -128,8 +128,8 @@ public class Facade {
 
     //_ScheduleController
     public boolean createNewSchedule(String StoreName, int day, int month, int year){
-        if (_storeController.existsStore(StoreName))
-            throw new IllegalArgumentException("Store doesn't exist");
+        if (!_storeController.existsStore(StoreName))
+            throw new IllegalArgumentException("Store doesn't exist in order to create for it a schedule");
         return _scheduleController.createNewSchedule(StoreName, day, month, year);
     }
 
@@ -173,6 +173,6 @@ public class Facade {
     }
 
     public boolean deleteSchedule(String storeName){
-        return _scheduleController.deleteSchedule(storeName);
+        return _scheduleController.deleteActiveSchedule(storeName);
     }
 }

@@ -7,7 +7,7 @@ import java.util.Locale;
 
 public class Employee{
     private final List<RoleType> _roles = new ArrayList<RoleType>();
-    private final int _id;
+    private final int _employeeID;
     private String _firstName;
     private String _lastName;
     private int _age;
@@ -17,8 +17,8 @@ public class Employee{
     private LocalDate _startDateOfEmployement;
     private boolean _finishWorking;
     private String _password;
-    public Employee(int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment,String password) {
-        this._id = id;
+    public Employee(int employeeID, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment,String password) {
+        this._employeeID = employeeID;
         this._firstName = firstName;
         this._lastName = lastName;
         this._age = age;
@@ -77,8 +77,7 @@ public class Employee{
     public boolean addRole(RoleType role){
         if (role == null)
             throw new IllegalArgumentException("Role cannot be null");
-        _roles.add(role);
-        return true;
+        return _roles.add(role);
     }
 
     /**
@@ -101,7 +100,7 @@ public class Employee{
 
 
     public String toString(){
-        String employeeToString = "Employee: " + this._firstName + " " + this._lastName + ", ID: " + this._id+", age: "+this._age;
+        String employeeToString = "Employee: " + this._firstName + " " + this._lastName + ", ID: " + this._employeeID+", age: "+this._age;
         employeeToString += ", Roles: ";
         for (RoleType role : this._roles){
             employeeToString += role + ", ";
@@ -109,8 +108,8 @@ public class Employee{
         return employeeToString;
     }
 
-    public int getID(){
-        return this._id;
+    public int getEmployeeID(){
+        return this._employeeID;
     }
 
     public String getFirstName(){

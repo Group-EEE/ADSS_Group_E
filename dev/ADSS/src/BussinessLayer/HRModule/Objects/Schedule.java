@@ -11,10 +11,10 @@ public class Schedule {
     private LocalDate _startDateOfWeek;
     private List<Shift> _shifts;
 
-    public Schedule(int scheduleID, LocalDate startDateOfWeek, String storeName){
+    public Schedule(int scheduleID, String storeName, LocalDate startDateOfWeek){
         this._scheduleID = scheduleID;
-        this._startDateOfWeek = startDateOfWeek;
         this._storeName = storeName;
+        this._startDateOfWeek = startDateOfWeek;
     }
 
     public boolean setShifts(List<Shift> shifts){

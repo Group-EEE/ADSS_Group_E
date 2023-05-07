@@ -29,7 +29,7 @@ public class Site_Supply_dao extends DAO {
         get_site_supply_documents_from_db();
     }
 
-    @Override
+
     public boolean Insert(Object obj) {
         Site_Supply site_supply = (Site_Supply) obj;
         try {
@@ -52,7 +52,7 @@ public class Site_Supply_dao extends DAO {
         return false;
     }
 
-    @Override
+
     public boolean Delete(Object obj) {
         Site_Supply site_supply = (Site_Supply) obj;
         String query = "DELETE FROM " + _tableName + " WHERE ID = ?";

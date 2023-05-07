@@ -338,7 +338,7 @@ public class transport_manager_UI {
      * creates transport document getting the details from the manager
      */
     private void create_transport_document(){
-        if (!StoresDAO.getInstance().is_any_store_exist()){
+        if (!StoresDAO.getInstance().isAnyStoreExist()){
             System.out.println("There's no stores in the Database!");
             return;
         }
@@ -575,7 +575,7 @@ public class transport_manager_UI {
                             continue;
                         }
 
-                        if (!StoresDAO.getInstance().is_store_in_the_area(store_name, area)){
+                        if (!StoresDAO.getInstance().isStoreInArea(store_name, area)){
                             System.out.println("This store is not in the area of this transport...");
                         }
 

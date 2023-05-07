@@ -117,8 +117,8 @@ class EmployeeTest {
     }
 
     @Test
-    void getID() {
-        assertEquals(209876676, employee.getID());
+    void getEmployeeID() {
+        assertEquals(209876676, employee.getEmployeeID());
     }
 
     @Test

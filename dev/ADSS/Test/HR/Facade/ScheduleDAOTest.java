@@ -4,10 +4,8 @@ import BussinessLayer.HRModule.Controllers.Facade;
 import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Schedule;
 import BussinessLayer.HRModule.Objects.ShiftType;
-import DataAccessLayer.HRMoudle.SchedulesDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,11 +17,13 @@ class ScheduleDAOTest {
 
     @BeforeEach
     void setUp() {
+        _facade.createStore("testStore", "testAddress", "testPhone", "testContact", 1);
         _facade.createNewSchedule("testStore", 11, 12, 2021);
     }
     @AfterEach
     void tearDown() {
         _facade.deleteSchedule("testStore");
+        _facade.removeStore("testStore");
     }
 
     @Test

@@ -25,8 +25,7 @@ public class EmployeesToRolesDAO extends DAO {
         return _employeesToRolesDAO;
     }
 
-    @Override
-    public boolean Insert(Object pairObj) {
+    public boolean insert(Object pairObj) {
         Pair pair = (Pair) pairObj;
         int employeeID = (int)pair.getKey();
         String strRoleType = (String)pair.getValue();
@@ -48,7 +47,6 @@ public class EmployeesToRolesDAO extends DAO {
         return true;
     }
 
-    @Override
     public boolean Delete(Object pairObj) {
         Pair pair = (Pair) pairObj;
         int employeeID = (int)pair.getKey();
@@ -127,9 +125,9 @@ public class EmployeesToRolesDAO extends DAO {
     public boolean addRolesToEmployee(Employee employee){
         if (employee == null)
             return false;
-        List<String> strRoles = SelectString(RoleTypeColumnName,makeList(EmployeeIDColumnName),makeList(String.valueOf(employee.getID())));
+        List<String> strRoles = selectString(_tableName,RoleTypeColumnName,makeList(EmployeeIDColumnName),makeList(employee.getEmployeeID()));
         for (String strRole : strRoles) {
-            employee.addRole(RoleType.toEnum(strRole));
+            employee.addRole(RoleType.valueOf(strRole));
         }
         return true;
     }
