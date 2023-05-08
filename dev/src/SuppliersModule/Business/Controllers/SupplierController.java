@@ -1,6 +1,5 @@
 package SuppliersModule.Business.Controllers;
 
-import InventoryModule.Business.Controllers.ProductController;
 import SuppliersModule.Business.*;
 import DataAccess.*;
 
@@ -9,11 +8,11 @@ import java.util.Map;
 
 public class SupplierController {
     static SupplierController supplierController;
-    private SuperLeeDB superLeeDB;
+    private SuperLiDB superLiDB;
 
     private SupplierController() {
 
-        superLeeDB = SuperLeeDB.getInstance();
+        superLiDB = SuperLiDB.getInstance();
     }
 
     public static SupplierController getInstance() {
@@ -27,40 +26,40 @@ public class SupplierController {
     }
 
     public boolean checkIfSupplierSupplyProduct(String supplierNum, int barcode){
-        GenericProduct genericProduct = superLeeDB.getGenericProductByBarcode(barcode);
+        GenericProduct genericProduct = superLiDB.getGenericProductByBarcode(barcode);
         if(genericProduct == null)
             return false;
         return genericProduct.checkIfSupplierSupplyTheProduct(supplierNum);
     }
 
     public Supplier getSupplier(String supplierNum) {
-        return superLeeDB.getSupplierBySupplierNumber(supplierNum);
+        return superLiDB.getSupplierBySupplierNumber(supplierNum);
     }
 
     public void addNewSupplier(Supplier supplier) {
-        superLeeDB.insertSupplier(supplier);
+        superLiDB.insertSupplier(supplier);
     }
 
 
     public void addSupplierProduct(String productName, String manufacturerName, int barcode, String supplierNum, float price, String supplierCatalog, int amount) {
 
-        if (superLeeDB.getManufacturer(manufacturerName) == null)
-            superLeeDB.insertManufacturer(new Manufacturer(manufacturerName));
+        if (superLiDB.getManufacturer(manufacturerName) == null)
+            superLiDB.insertManufacturer(new Manufacturer(manufacturerName));
 
-        if (superLeeDB.getGenericProductByName(productName, manufacturerName) == null){
-            GenericProduct genericProduct = new GenericProduct(productName, superLeeDB.getManufacturer(manufacturerName), barcode);
-            superLeeDB.insertGenericProduct(genericProduct);
+        if (superLiDB.getGenericProductByName(productName, manufacturerName) == null){
+            GenericProduct genericProduct = new GenericProduct(productName, superLiDB.getManufacturer(manufacturerName), barcode);
+            superLiDB.insertGenericProduct(genericProduct);
         }
 
         Supplier supplier = getSupplier(supplierNum);
-        GenericProduct genericProduct = superLeeDB.getGenericProductByName(productName, manufacturerName);
+        GenericProduct genericProduct = superLiDB.getGenericProductByName(productName, manufacturerName);
 
-        superLeeDB.addToObserverBarcodeList(genericProduct.getBarcode());
+        superLiDB.addToObserverBarcodeList(genericProduct.getBarcode());
 
         SupplierProduct supplierProduct = new SupplierProduct(price, supplierCatalog, amount,
                 supplier, genericProduct, supplier.getMyAgreement());
 
-        superLeeDB.insertSupplierProduct(supplierProduct);
+        superLiDB.insertSupplierProduct(supplierProduct);
     }
 
     public boolean checkIfSupplierSupplyProduct(String supplierCatalog, String supplierNum)
@@ -73,19 +72,19 @@ public class SupplierController {
         Supplier supplier = getSupplier(supplierNum);
         SupplierProduct currSupplierProduct = supplier.getSupplierProduct(supplierCatalog);
         currSupplierProduct.delete();
-        superLeeDB.deleteSupplierProduct(currSupplierProduct);
+        superLiDB.deleteSupplierProduct(currSupplierProduct);
     }
 
     public void addProductDiscount(String supplierCatalog, float discountPercentage, int minimumQuantity, String supplierNum){
         Supplier supplier = getSupplier(supplierNum);
         SupplierProduct supplierProduct = supplier.getSupplierProduct(supplierCatalog);
         supplierProduct.addProductDiscount(discountPercentage, minimumQuantity);
-        superLeeDB.insertSupplierProductDiscount(supplierProduct, supplierProduct.getSupplierProductDiscount(minimumQuantity));
+        superLiDB.insertSupplierProductDiscount(supplierProduct, supplierProduct.getSupplierProductDiscount(minimumQuantity));
     }
 
     public boolean CheckIfExistOrderDiscount(String supplierNum, String priceOrQuantity, int minimumAmount)
     {
-        return superLeeDB.CheckIfOrderDiscountExist(supplierNum, priceOrQuantity, minimumAmount);
+        return superLiDB.CheckIfOrderDiscountExist(supplierNum, priceOrQuantity, minimumAmount);
     }
 
     public void addOrderDiscount(String supplierNum, String priceOrQuantity, int minimumAmount, float discountPercentage)
@@ -93,15 +92,15 @@ public class SupplierController {
         Supplier supplier = getSupplier(supplierNum);
         Agreement agreement = supplier.getMyAgreement();
         agreement.addOrderDiscount(priceOrQuantity, minimumAmount, discountPercentage);
-        superLeeDB.insertOrderDiscount(supplierNum, agreement.getOrderDiscount(priceOrQuantity, minimumAmount));
+        superLiDB.insertOrderDiscount(supplierNum, agreement.getOrderDiscount(priceOrQuantity, minimumAmount));
     }
 
-    public Map<String, Supplier> returnAllSuppliers(){return superLeeDB.gatAllSuppliers();}
+    public Map<String, Supplier> returnAllSuppliers(){return superLiDB.gatAllSuppliers();}
 
     public void fireSupplier(String supplierNum){
         Supplier supplier = getSupplier(supplierNum);
         supplier.fireSupplier();
-        superLeeDB.deleteSupplier(supplierNum);
+        superLiDB.deleteSupplier(supplierNum);
     }
 
     public void deleteDiscountProduct(String supplierNum, String supplierCatalog, int amount)
@@ -109,7 +108,7 @@ public class SupplierController {
         Supplier supplier = getSupplier(supplierNum);
         SupplierProduct supplierProduct = supplier.getSupplierProduct(supplierCatalog);
         supplierProduct.deleteDiscountProduct(amount);
-        superLeeDB.deleteSupplierProductDiscount(supplierNum, supplierCatalog, amount);
+        superLiDB.deleteSupplierProductDiscount(supplierNum, supplierCatalog, amount);
     }
 
     public void deleteOrderDiscount(String supplierNum, String priceOrQuantity, int minimumAmount)
@@ -117,7 +116,7 @@ public class SupplierController {
         Supplier supplier = getSupplier(supplierNum);
         Agreement agreement = supplier.getMyAgreement();
         agreement.deleteOrderDiscount(priceOrQuantity, minimumAmount);
-        superLeeDB.deleteOrderDiscount(supplierNum, priceOrQuantity, minimumAmount);
+        superLiDB.deleteOrderDiscount(supplierNum, priceOrQuantity, minimumAmount);
     }
 
     public void setBankAccount(String supplierNum, String account){
@@ -128,12 +127,12 @@ public class SupplierController {
     {
         Supplier supplier = getSupplier(supplierNum);
         supplier.addContact(name, phoneNumber);
-        superLeeDB.insertContact(supplier.getContact(phoneNumber));
+        superLiDB.insertContact(supplier.getContact(phoneNumber));
     }
 
     public boolean checkIfContactExist(String phoneNumber)
     {
-        return superLeeDB.CheckIfContactExist(phoneNumber);
+        return superLiDB.CheckIfContactExist(phoneNumber);
     }
 
     public void setNewContactPhone(String supplierNum, String NewPhone, String OldPhone)
@@ -147,7 +146,7 @@ public class SupplierController {
     {
         Supplier supplier = getSupplier(supplierNum);
         supplier.deleteContact(phoneNumber);
-        superLeeDB.deleteContact(phoneNumber);
+        superLiDB.deleteContact(phoneNumber);
     }
 
     public void updateSupplierPaymentTerm(String supplierNum, int yourPayment)
@@ -174,6 +173,6 @@ public class SupplierController {
     }
 
     public GenericProduct findGenericProductByBarcode(int barcode){
-        return superLeeDB.getGenericProductByBarcode(barcode);
+        return superLiDB.getGenericProductByBarcode(barcode);
     }
 }

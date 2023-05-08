@@ -2,8 +2,7 @@ package DataAccess.InventoryModule;
 
 import InventoryModule.Business.Discount;
 import InventoryModule.Business.SpecificProduct;
-import InventoryModule.Business.SubCategory;
-import InventoryModule.Business.SubSubCategory;
+import InventoryModule.Business.SuperLiProduct;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,7 +33,7 @@ public class SpecificProductDAO {
         return specificProductDAO;
     }
 
-    public List<SpecificProduct> getAllSpecificProductsByBarcode(int barcode){
+    public List<SpecificProduct> ReadAllSpecificProductsByBarcode(int barcode){
         List<SpecificProduct> allsp = new ArrayList<>();
         //-----------------------------------------Create a query-----------------------------------------
         try {
@@ -54,9 +53,40 @@ public class SpecificProductDAO {
             }
         }
         catch (SQLException e) {throw new RuntimeException(e);}
-
         return allsp;
+    }
 
+    public void DeleteFromDB(){
+        PreparedStatement stmt;
+
+        try{
+            stmt = conn.prepareStatement("DELETE FROM SpecificProduct");
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+    }
+    public void WriteFromCacheToDB(List <SpecificProduct> lsp){
+        PreparedStatement stmt;
+        for (int i=0; i< lsp.size();i++) {
+            try{
+                stmt = conn.prepareStatement("Insert into SuperLiProduct VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+                stmt.setInt(1, lsp.get(i).getSp_ID());
+                stmt.setInt(2, lsp.get(i).getBarcode());
+                stmt.setObject(3, lsp.get(i).getExpDate());
+                stmt.setString(4, lsp.get(i).getDefect_Report_By());
+                stmt.setBoolean(5, lsp.get(i).isDefective());
+                stmt.setBoolean(6, lsp.get(i).isInWarehouse());
+                stmt.setString(7, lsp.get(i).getStore_Branch());
+                stmt.setInt(8, lsp.get(i).getLocation_in_Store());
+                stmt.setString(9, lsp.get(i).getDefectType());
+                stmt.setString(10, lsp.get(i).getSupplierNum());
+                stmt.setDouble(11, lsp.get(i).getSupplier_Price());
+                stmt.setObject(12, lsp.get(i).getArrivaldate());
+                stmt.executeUpdate();
+                discountDAO.WriteFromCacheToDB(lsp.get(i), lsp.get(i).getDiscount());
+            }
+            catch (SQLException e) {throw new RuntimeException(e);}
+        }
     }
 
 

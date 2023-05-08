@@ -1,6 +1,6 @@
 package DataAccess.InventoryModule;
 
-import InventoryModule.Business.SubCategory;
+import InventoryModule.Business.Category;
 import InventoryModule.Business.SubSubCategory;
 
 import java.sql.Connection;
@@ -29,7 +29,7 @@ public class SubSubCategoryDAO {
     }
 
 
-    public List<SubSubCategory> getAllSubSubCategoriesBySubCategoryName(String subCategory) {
+    public List<SubSubCategory> ReadAllSubSubCategoriesBySubCategoryName(String subCategory) {
         List<SubSubCategory> subsub = new ArrayList<>();
         //-----------------------------------------Create a query-----------------------------------------
         try {
@@ -47,5 +47,42 @@ public class SubSubCategoryDAO {
         }
         catch (SQLException e) {throw new RuntimeException(e);}
         return subsub;
+    }
+
+    public void DeleteFromDB(){
+        PreparedStatement stmt;
+
+        try{
+            stmt = conn.prepareStatement("DELETE FROM SubSubCategory");
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+    }
+
+    public void WriteFromCacheToDB(List <SubSubCategory> ssl, String sub, String cat){
+        PreparedStatement stmt;
+        try{
+            for(int i=0; i< ssl.size(); i++){
+                stmt = conn.prepareStatement("Insert into SubSubCategory VALUES (?,?,?)");
+                stmt.setString(1, ssl.get(i).getName());
+                stmt.setString(2, cat);
+                stmt.setString(3, sub);
+                stmt.executeUpdate();
+            }
+        }
+
+        catch (SQLException e) {throw new RuntimeException(e);}
+    }
+
+    public void Insert(SubSubCategory ssc){
+        IdentifyMapSubSubCategory.put(ssc.getName(), ssc);
+    }
+
+    public void delete (SubSubCategory sscat){
+        IdentifyMapSubSubCategory.remove(sscat.getName());
+    }
+
+    public Map<String, SubSubCategory> getIdentifyMapSubSubCategory() {
+        return IdentifyMapSubSubCategory;
     }
 }

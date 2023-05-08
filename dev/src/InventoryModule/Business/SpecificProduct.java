@@ -114,4 +114,20 @@ public class SpecificProduct {
     public LocalDateTime getArrivaldate() {
         return arrivaldate;
     }
+
+    public int getBarcode() {
+        return Barcode;
+    }
+
+    public String getStore_Branch() {
+        return Store_Branch;
+    }
+
+    public String getSupplierNum() {
+        return SupplierNum;
+    }
+
+    public double getSupplier_Price() {
+        return Supplier_Price;
+    }
 }

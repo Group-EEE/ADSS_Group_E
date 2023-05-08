@@ -2,15 +2,19 @@ package DataAccess;
 
 import DataAccess.InventoryModule.*;
 import DataAccess.SuppliersModule.*;
+import InventoryModule.Business.Category;
+import InventoryModule.Business.SubCategory;
+import InventoryModule.Business.SubSubCategory;
 import SuppliersModule.Business.*;
 
 import java.sql.*;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SuperLeeDB {
+public class SuperLiDB {
 
-    private static SuperLeeDB superLeeDB;
+    private static SuperLiDB superLiDB;
     private Connection conn;
 
     private SupplierDAO supplierDAO;                        // Data access object of suppliers
@@ -29,7 +33,7 @@ public class SuperLeeDB {
     private SubSubCategoryDAO subSubCategoryDAO;
     private SuperLiProductDAO superLiProductDAO;
 
-    private SuperLeeDB() {
+    private SuperLiDB() {
 
         //---------------------------------Try connect to DB-----------------------------------
         try {
@@ -61,13 +65,13 @@ public class SuperLeeDB {
 
     }
 
-    public static SuperLeeDB getInstance() {
-        if (superLeeDB == null) {
-            superLeeDB = new SuperLeeDB();
+    public static SuperLiDB getInstance() {
+        if (superLiDB == null) {
+            superLiDB = new SuperLiDB();
             //superLeeDB.WriteAllToDB();
-            superLeeDB.ReadAllToCache();
+            superLiDB.ReadAllToCache();
         }
-        return superLeeDB;
+        return superLiDB;
     }
 
     public Connection getConnection() {
@@ -81,14 +85,16 @@ public class SuperLeeDB {
         genericProductDAO.ReadGenericProductsToCache();
         supplierDAO.ReadSuppliersToCache();
         categoryDAO.ReadCategoryToCache();
-        discountDAO.ReadDiscountToCache();
-        superLiProductDAO.ReadSuperLiProductToCache();
+        //discountDAO.ReadDiscountToCache();
+        //superLiProductDAO.ReadSuperLiProductToCache();
+        System.out.println("hi");
     }
 
     public void WriteAllToDB(){
         manufacturerDAO.WriteFromCacheToDB();
         genericProductDAO.WriteFromCacheToDB();
         supplierDAO.WriteFromCacheToDB();
+        categoryDAO.WriteFromCacheToDB();
 
         try{conn.close();}
         catch (SQLException e) {throw new RuntimeException(e);}
@@ -253,4 +259,46 @@ public class SuperLeeDB {
     {
         orderFromSupplierDAO.insert(orderFromSupplier);
     }
+
+    //------------------------------------CategoryDAO-----------------------------------------------
+    public void insertCategory(Category category)
+    {
+        categoryDAO.Insert(category);
+    }
+
+    public Map<String, Category> getCategoriesMap(){
+        return categoryDAO.getIdentifyMapCategory();
+    }
+
+    public Map<String, SubCategory> getSubCategoriesMap(){
+        return subCategoryDAO.getIdentifyMapSubCategory();
+    }
+
+    public Map<String, SubSubCategory> getSubSubCategoriesMap(){
+        return subSubCategoryDAO.getIdentifyMapSubSubCategory();
+    }
+
+    public void insertSubCategory(SubCategory subcategory)
+    {
+        subCategoryDAO.Insert(subcategory);
+    }
+
+    public void insertSubSubCategory(SubSubCategory subsubcategory)
+    {
+        subSubCategoryDAO.Insert(subsubcategory);
+    }
+
+    public void removeCategory(Category c){
+        categoryDAO.delete(c);
+    }
+
+    public void removeSubCategory(SubCategory sc){
+        subCategoryDAO.delete(sc);
+    }
+
+    public void removeSubSubCategory(SubSubCategory ssc){
+        subSubCategoryDAO.delete(ssc);
+    }
+
+
 }

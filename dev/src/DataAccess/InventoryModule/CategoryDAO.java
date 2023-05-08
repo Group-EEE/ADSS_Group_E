@@ -1,10 +1,7 @@
 package DataAccess.InventoryModule;
 
-import DataAccess.SuppliersModule.AgreementDAO;
-import DataAccess.SuppliersModule.OrderDiscountDAO;
 import InventoryModule.Business.Category;
 import InventoryModule.Business.SubCategory;
-import SuppliersModule.Business.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,12 +15,14 @@ public class CategoryDAO {
     private Connection conn;
     static CategoryDAO categoryDAO;
     private SubCategoryDAO subCategoryDAO;
+    private SubSubCategoryDAO subSubCategoryDAO;
 
     private Map<String, Category> IdentifyMapCategory;
 
     private CategoryDAO(Connection conn) {
         this.conn = conn;
         subCategoryDAO = SubCategoryDAO.getInstance(conn);
+        subSubCategoryDAO = SubSubCategoryDAO.getInstance(conn);
         IdentifyMapCategory = new HashMap<>();
     }
 
@@ -43,7 +42,7 @@ public class CategoryDAO {
             while (rs.next()) {
                 String category = rs.getString("Name");
                 Category cat = new Category(category);
-                List<SubCategory> sub = subCategoryDAO.getAllSubCategoriesByCategoryName(category);
+                List<SubCategory> sub = subCategoryDAO.ReadAllSubCategoriesByCategoryName(category);
                 cat.setSubCategories(sub);
                 IdentifyMapCategory.put(category, cat);
             }
@@ -60,18 +59,33 @@ public class CategoryDAO {
             stmt.executeUpdate();
         }
         catch (SQLException e) {throw new RuntimeException(e);}
-
+        subCategoryDAO.DeleteFromDB();
+        subSubCategoryDAO.DeleteFromDB();
         for (Map.Entry<String, Category> pair : IdentifyMapCategory.entrySet()) {
             try{
                 stmt = conn.prepareStatement("Insert into Category VALUES (?)");
                 stmt.setString(1, pair.getKey());
                 stmt.executeUpdate();
+                subCategoryDAO.WriteFromCacheToDB(pair.getValue().getSubCategories(), pair.getKey());
             }
             catch (SQLException e) {throw new RuntimeException(e);}
         }
-
-        //writeAllToSupplierManufacturer();
     }
 
+    public void Insert(Category c){
+        IdentifyMapCategory.put(c.getName(), c);
+    }
+
+    public Map<String, Category> getIdentifyMapCategory() {
+        return IdentifyMapCategory;
+    }
+
+    public void delete(Category c){
+        IdentifyMapCategory.remove(c.getName());
+        for(SubCategory subCategory : c.getSubCategories()){
+            subCategoryDAO.delete(subCategory);
+        }
+
+    }
 }
 

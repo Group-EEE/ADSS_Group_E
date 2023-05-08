@@ -1,6 +1,6 @@
 package SuppliersModule.Business.Generator;
 
-import DataAccess.SuperLeeDB;
+import DataAccess.SuperLiDB;
 import InventoryModule.Business.OrderReport;
 import SuppliersModule.Business.*;
 import SuppliersModule.Business.Controllers.OrderController;
@@ -15,7 +15,7 @@ import java.util.*;
 public class OrderGenerator {
     static OrderController orderController;
     static SupplierController supplierController;
-    static SuperLeeDB superLeeDB;
+    static SuperLiDB superLiDB;
     static float cheapestCombination; // The price of the cheapest combination of orders from suppliers
     static Map<Supplier, OrderFromSupplier> bestSuppliersCombination; // The cheapest combination of orders from suppliers
     static Map<Supplier, OrderFromSupplier> MustBuyOrders; // When we want to buy a certain quantity of certain product, and there is no supplier that can supply the desired quantity, We must buy from the supplier that can supply the maximum quantity. This map includes all the orders like mention
@@ -46,7 +46,7 @@ public class OrderGenerator {
 
         orderController = OrderController.getInstance();
         supplierController = SupplierController.getInstance();
-        superLeeDB = SuperLeeDB.getInstance();
+        superLiDB = SuperLiDB.getInstance();
     }
 
     public static String makeOrder(){
@@ -245,7 +245,7 @@ public class OrderGenerator {
     private static void invite(){
         for (Map.Entry<Supplier, OrderFromSupplier> pair : bestSuppliersCombination.entrySet()) {
             pair.getValue().invite();
-            superLeeDB.insertOrderFromSupplier(pair.getValue());
+            superLiDB.insertOrderFromSupplier(pair.getValue());
         }
     }
 

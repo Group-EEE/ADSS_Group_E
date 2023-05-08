@@ -1,6 +1,6 @@
 package SuppliersModule.Business.Controllers;
 
-import DataAccess.SuperLeeDB;
+import DataAccess.SuperLiDB;
 import SuppliersModule.Business.*;
 
 import java.util.*;
@@ -14,11 +14,11 @@ public class OrderController {
     private OrderedProduct curOrderedProduct;
     private SupplierProduct curSupplierProduct;
     private final SupplierController supplierController;
-    private SuperLeeDB superLeeDB;
+    private SuperLiDB superLiDB;
     Timer timer;
 
     private OrderController(){
-        superLeeDB = SuperLeeDB.getInstance();
+        superLiDB = SuperLiDB.getInstance();
         supplierController = SupplierController.getInstance();
         taskTimer();
     }
@@ -55,10 +55,10 @@ public class OrderController {
 
     public void invitePeriodicOrders(int curDay){
         OrderFromSupplier orderFromSupplier;
-        for(Map.Entry<Integer, PeriodicOrder> pair : superLeeDB.getAllPeriodicOrder().entrySet()){
+        for(Map.Entry<Integer, PeriodicOrder> pair : superLiDB.getAllPeriodicOrder().entrySet()){
             if(pair.getValue().getDayForInvite() == curDay) {
                 orderFromSupplier = pair.getValue().invite();
-                superLeeDB.insertOrderFromSupplier(orderFromSupplier);
+                superLiDB.insertOrderFromSupplier(orderFromSupplier);
                 System.out.println(orderFromSupplier);
             }
         }
@@ -94,17 +94,17 @@ public class OrderController {
     }
 
     public void savePeriodicOrder(){
-        superLeeDB.insertPeriodicOrder(curPeriodicOrder);
-        superLeeDB.insertOrderFromSupplier(curPeriodicOrder.getOrderFromSupplier());
+        superLiDB.insertPeriodicOrder(curPeriodicOrder);
+        superLiDB.insertOrderFromSupplier(curPeriodicOrder.getOrderFromSupplier());
     }
 
     public boolean findPeriodicOrder(int id){
-        curPeriodicOrder = superLeeDB.getPeriodicOrder(id);
+        curPeriodicOrder = superLiDB.getPeriodicOrder(id);
         return curPeriodicOrder != null;
     }
 
     public void deleteCurPeriodicOrder(){
-        superLeeDB.deletePeriodicOrder(curPeriodicOrder.getId());
+        superLiDB.deletePeriodicOrder(curPeriodicOrder.getId());
         curPeriodicOrder.delete();
     }
 
@@ -132,6 +132,6 @@ public class OrderController {
     public void cancelTimer()
     {
         timer.cancel();
-        superLeeDB.WriteAllToDB();
+        superLiDB.WriteAllToDB();
     }
 }

@@ -63,4 +63,16 @@ public class Discount {
             }
         }
     }
+
+    public LocalDateTime getStart() {
+        return Start;
+    }
+
+    public LocalDateTime getEnd() {
+        return End;
+    }
+
+    public double getDiscount() {
+        return Discount;
+    }
 }

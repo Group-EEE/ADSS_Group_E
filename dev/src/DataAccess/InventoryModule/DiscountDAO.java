@@ -2,6 +2,7 @@ package DataAccess.InventoryModule;
 
 import InventoryModule.Business.Category;
 import InventoryModule.Business.Discount;
+import InventoryModule.Business.SpecificProduct;
 import InventoryModule.Business.SubCategory;
 
 import java.sql.Connection;
@@ -58,6 +59,30 @@ public class DiscountDAO {
         para.add(e);
         para.add(d);
         return IdentifyMapDiscount.get(para);
+    }
+
+    public void DeleteFromDB(){
+        PreparedStatement stmt;
+
+        try{
+            stmt = conn.prepareStatement("DELETE FROM Discount");
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+    }
+
+    public void WriteFromCacheToDB(SpecificProduct sp, Discount d){
+        PreparedStatement stmt;
+        try{
+            stmt = conn.prepareStatement("Insert into Discount VALUES (?,?,?,?,?)");
+            stmt.setInt(1, sp.getBarcode());
+            stmt.setInt(2, sp.getSp_ID());
+            stmt.setObject(3, d.getStart());
+            stmt.setObject(4, d.getEnd());
+            stmt.setDouble(5, d.getDiscount());
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
     }
 
 
