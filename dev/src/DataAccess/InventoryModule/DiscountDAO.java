@@ -37,10 +37,11 @@ public class DiscountDAO {
             // -----------------------------------For each Supplier------------------------------------
             while (rs.next()) {
                 String s = rs.getString("Start");
-                DateTimeFormatter sf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime start = LocalDateTime.parse(s, sf);
+                //DateTimeFormatter sf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime start = LocalDateTime.parse(s+"T00:00:00");
                 String e = rs.getString("End");
-                LocalDateTime end = LocalDateTime.parse(e, sf);
+                LocalDateTime end = LocalDateTime.parse(e+"T00:00:00");
+                //LocalDateTime end = LocalDateTime.parse(e, sf);
                 Double dis = rs.getDouble("Discount");
                 Discount d = new Discount(start, end, dis);
                 List<String> alldis = new ArrayList<>();

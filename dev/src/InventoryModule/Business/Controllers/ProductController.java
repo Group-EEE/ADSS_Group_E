@@ -1,27 +1,29 @@
 package InventoryModule.Business.Controllers;
 
+import DataAccess.SuperLiDB;
+import InventoryModule.Business.Category;
 import InventoryModule.Business.Discount;
 import InventoryModule.Business.SpecificProduct;
 import InventoryModule.Business.SuperLiProduct;
 import SuppliersModule.Business.Controllers.SupplierController;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 import static InventoryModule.Presentation.InventoryModulePresentation.reader;
 
 //this class saves all the information about the products in the store
 public class ProductController {
-    private static List<SuperLiProduct> products; //list that saves akk the products in the store
     public static List<Integer> BarcodesOfNewProducts;
+    private CategoryController categoryController;
     static ProductController productController;
+    private static SuperLiDB superLiDB;
 
     private ProductController() { //constructor
-        products = new ArrayList<SuperLiProduct>();
-        BarcodesOfNewProducts = new ArrayList<Integer>();
+        superLiDB = SuperLiDB.getInstance();
+        categoryController = CategoryController.getInstance();
+        BarcodesOfNewProducts = superLiDB.getObserverBarcodeList();
+
     }
     public static ProductController getInstance(){
         if(productController == null)
@@ -60,15 +62,15 @@ public class ProductController {
         System.out.println("Please enter Minimum amount:");
         int Minimumamount = reader.nextInt();
         //if the category of the new product doesnt exist yet, we will create it
-        if(!CategoryController.check_if_exist_cat(Category)){
-            CategoryController.addCategory(Category);
-            CategoryController.addSubCategory(Category,Subcategory);
-            CategoryController.addSubSubCategory(Subcategory, Subsubcategory,Category);
+        if(!categoryController.check_if_exist_cat(Category)){
+            categoryController.addCategory(Category);
+            categoryController.addSubCategory(Category,Subcategory);
+            categoryController.addSubSubCategory(Subcategory, Subsubcategory,Category);
         }
         //create the new product - call to its constructor
         SuperLiProduct P = new SuperLiProduct(Barcode, Name, Costumerprice, Category,Subcategory, Subsubcategory,
                 Supplydays,Manufacturer,Minimumamount);
-        products.add(P); //add to the controller's list
+        superLiDB.insertSuperLiProduct(P); //add to the controller's list
         ///*****************the change**********************////
         BarcodesOfNewProducts.remove(Barcode);
     }
@@ -79,32 +81,32 @@ public class ProductController {
     public void change_Shelf_Warehouse(int sp_id, int p_id) {
         boolean found = false; //if true- the product was found
         //check if the product exist in the controller
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getBarcode() == p_id) {
+        for (Map.Entry<Integer, SuperLiProduct> pair : superLiDB.getSuperLiProductMap().entrySet()){
+            if (pair.getValue().getBarcode() == p_id) {
                 found = true;
                 //if the product is in warehouse
-                if (products.get(i).getSpecificProduct(sp_id).isInWarehouse() == true) {
+                if (pair.getValue().getSpecificProduct(sp_id).isInWarehouse() == true) {
                     //change the field to false - not in the warehouse
-                    products.get(i).getSpecificProduct(sp_id).setInWarehouse(false);
+                    pair.getValue().getSpecificProduct(sp_id).setInWarehouse(false);
                     //get a random number for the shelf number
                     Random r = new Random();
                     int rand = r.nextInt(200);
                     //change the field to the new shelf number
-                    products.get(i).getSpecificProduct(sp_id).setLocation_in_Store(rand);
+                    pair.getValue().getSpecificProduct(sp_id).setLocation_in_Store(rand);
                     //change the number of spec. product that on the shelf for this main product
-                    products.get(i).setWarehouse_amount(products.get(i).getWarehouse_amount()-1);
+                    pair.getValue().setWarehouse_amount(pair.getValue().getWarehouse_amount()-1);
                     //change the number of spec. product that on the shelf for this main product
-                    products.get(i).setShelf_amount(products.get(i).getShelf_amount()+1);
+                    pair.getValue().setShelf_amount(pair.getValue().getShelf_amount()+1);
                     System.out.println("Product transfer to store in shelf number " + rand);
                 } else {  //if the product is in store
                     ////change the field to true - in the warehouse
-                    products.get(i).getSpecificProduct(sp_id).setInWarehouse(true);
+                    pair.getValue().getSpecificProduct(sp_id).setInWarehouse(true);
                     //change the location in store to -1 - represent warehouse
-                    products.get(i).getSpecificProduct(sp_id).setLocation_in_Store(-1);
+                    pair.getValue().getSpecificProduct(sp_id).setLocation_in_Store(-1);
                     //change the number of spec. product that on the shelf for this main product
-                    products.get(i).setShelf_amount( products.get(i).getShelf_amount()-1);
+                    pair.getValue().setShelf_amount( pair.getValue().getShelf_amount()-1);
                     //change the number of spec. product that on the shelf for this main product
-                    products.get(i).setWarehouse_amount( products.get(i).getWarehouse_amount()+1);
+                    pair.getValue().setWarehouse_amount( pair.getValue().getWarehouse_amount()+1);
                     System.out.println("Product transfer to warehouse!");
                 }
             }
@@ -116,21 +118,16 @@ public class ProductController {
 
     public void GetAllProductBarcode(){ //print all the barcodes that exist in the store
         System.out.println("******Store Products Barcodes******");
-        for(int i=0; i<products.size(); i++){
-            System.out.println(products.get(i).getPName() + ": " +products.get(i).getBarcode());
+        for (Map.Entry<Integer, SuperLiProduct> pair : superLiDB.getSuperLiProductMap().entrySet()){
+            System.out.println(pair.getValue().getPName() + ": " +pair.getValue().getBarcode());
         }
-    }
-
-    //function that return the list of all products
-    public static List<SuperLiProduct> getProducts() {
-        return products;
     }
 
     //function that get barcode and return a product
     public SuperLiProduct getProductByBarcode(int BID){
-        for(int i=0; i<products.size(); i++){ //search the given barcode in the controller's list
-            if(products.get(i).getBarcode()==BID){
-                return products.get(i);
+        for (Map.Entry<Integer, SuperLiProduct> pair : superLiDB.getSuperLiProductMap().entrySet()){//search the given barcode in the controller's list
+            if(pair.getValue().getBarcode()==BID){
+                return pair.getValue();
             }
         }
         return null;
@@ -274,5 +271,13 @@ public class ProductController {
     }
     public int getBarcodesOfNewProductsSize(){
        return BarcodesOfNewProducts.size();
+    }
+
+    public static List<SuperLiProduct> getProducts(){
+        List<SuperLiProduct> slp = new ArrayList<>();
+        for (Map.Entry<Integer, SuperLiProduct> pair : superLiDB.getSuperLiProductMap().entrySet()) {//search the given barcode in the controller's list
+            slp.add(pair.getValue());
+        }
+        return slp;
     }
 }

@@ -5,10 +5,10 @@ import DataAccess.SuppliersModule.*;
 import InventoryModule.Business.Category;
 import InventoryModule.Business.SubCategory;
 import InventoryModule.Business.SubSubCategory;
+import InventoryModule.Business.SuperLiProduct;
 import SuppliersModule.Business.*;
 
 import java.sql.*;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +16,6 @@ public class SuperLiDB {
 
     private static SuperLiDB superLiDB;
     private Connection conn;
-
     private SupplierDAO supplierDAO;                        // Data access object of suppliers
     private ManufacturerDAO manufacturerDAO;                // Data access object of manufacturers
     private GenericProductDAO genericProductDAO;            // Data access object of genericProducts
@@ -68,7 +67,7 @@ public class SuperLiDB {
     public static SuperLiDB getInstance() {
         if (superLiDB == null) {
             superLiDB = new SuperLiDB();
-            //superLeeDB.WriteAllToDB();
+            //superLiDB.WriteAllToDB();
             superLiDB.ReadAllToCache();
         }
         return superLiDB;
@@ -85,9 +84,8 @@ public class SuperLiDB {
         genericProductDAO.ReadGenericProductsToCache();
         supplierDAO.ReadSuppliersToCache();
         categoryDAO.ReadCategoryToCache();
-        //discountDAO.ReadDiscountToCache();
-        //superLiProductDAO.ReadSuperLiProductToCache();
-        System.out.println("hi");
+        discountDAO.ReadDiscountToCache();
+        superLiProductDAO.ReadSuperLiProductToCache();
     }
 
     public void WriteAllToDB(){
@@ -95,6 +93,7 @@ public class SuperLiDB {
         genericProductDAO.WriteFromCacheToDB();
         supplierDAO.WriteFromCacheToDB();
         categoryDAO.WriteFromCacheToDB();
+        superLiProductDAO.WriteFromCacheToDB();
 
         try{conn.close();}
         catch (SQLException e) {throw new RuntimeException(e);}
@@ -299,6 +298,21 @@ public class SuperLiDB {
     public void removeSubSubCategory(SubSubCategory ssc){
         subSubCategoryDAO.delete(ssc);
     }
+
+    //------------------------------------ProductDAO-----------------------------------------------
+
+    public void insertSuperLiProduct(SuperLiProduct p)
+    {
+
+        superLiProductDAO.Insert(p);
+    }
+
+    public Map<Integer, SuperLiProduct> getSuperLiProductMap(){
+
+        return superLiProductDAO.getIdentifySuperLiProduct();
+    }
+
+
 
 
 }

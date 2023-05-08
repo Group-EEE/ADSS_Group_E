@@ -13,7 +13,7 @@ import java.util.Map;
 //in this class we save all the information about them
 public class CategoryController {
     static CategoryController categoryController;
-    private SuperLiDB superLiDB;
+    private static SuperLiDB superLiDB;
 
     //constructor of the category controller
     private CategoryController(){
@@ -26,13 +26,13 @@ public class CategoryController {
     }
 
     //this function adds category to the categories list
-    public void addCategory(String name){
+    public static void addCategory(String name){
         Category c = new Category(name);
         superLiDB.insertCategory(c);
     }
 
     //this function adds subcategory to the subcategories list
-    public void addSubCategory(String catname, String subcatname){
+    public static void addSubCategory(String catname, String subcatname){
         SubCategory sc = new SubCategory(subcatname); //create a subcategory
         for (Map.Entry<String, Category> pair : superLiDB.getCategoriesMap().entrySet()){
             if(pair.getValue().getName().compareTo(catname)==0){
@@ -43,7 +43,7 @@ public class CategoryController {
     }
 
     //this function adds subsubcategory to the subsubcategories list
-    public void addSubSubCategory(String subcatname, String subsubcatname, String catname){
+    public static void addSubSubCategory(String subcatname, String subsubcatname, String catname){
         SubSubCategory ssc = new SubSubCategory(subsubcatname);
         for (Map.Entry<String, Category> pair : superLiDB.getCategoriesMap().entrySet()){
             if(pair.getValue().getName().compareTo(catname)==0){

@@ -1,5 +1,6 @@
 package DataAccess.InventoryModule;
 
+import DataAccess.SuperLiDB;
 import InventoryModule.Business.SpecificProduct;
 import InventoryModule.Business.SuperLiProduct;
 
@@ -77,6 +78,14 @@ public class SuperLiProductDAO {
             }
             catch (SQLException e) {throw new RuntimeException(e);}
         }
+    }
+
+    public void Insert(SuperLiProduct p){
+        IdentifyMapSuperLiProduct.put(p.getBarcode(), p);
+    }
+
+    public Map<Integer, SuperLiProduct> getIdentifySuperLiProduct(){
+        return IdentifyMapSuperLiProduct;
     }
 
 
