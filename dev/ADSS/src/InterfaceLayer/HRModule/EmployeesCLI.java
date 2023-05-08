@@ -98,6 +98,7 @@ public class EmployeesCLI {
         System.out.println("1. first name");
         System.out.println("2. last name");
         System.out.println("3. bank account");
+        System.out.println("4. password");
         System.out.println("0. Back to main menu");
         String option = scanner.nextLine();
         switch (option) {
@@ -121,6 +122,13 @@ public class EmployeesCLI {
                     System.out.println("Bank account updated successfully");
                 else
                     System.out.println("Bank account update failed");
+                break;
+            case "4": //password
+                System.out.println("What is your new password? ");
+                if (_facade.setNewPassword(scanner.nextLine()))
+                    System.out.println("Password updated successfully");
+                else
+                    System.out.println("Password update failed");
                 break;
             case "0": //back to main menu
                 return false;

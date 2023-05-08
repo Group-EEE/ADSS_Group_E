@@ -16,15 +16,17 @@ import java.util.List;
 public class ShiftsDAO extends DAO {
     private static ShiftsDAO _shiftsDAO = null;
 
-    public static final String ScheduleIDColumnName = "scheduleID";
-    public static final String ShiftIDColumnName = "shiftID";
-    public static final String ShiftTypeColumnName = "shiftType";
-    public static final String StartTimeColumnName = "shiftStartTime";
-    public static final String EndTimeColumnName = "shiftEndTime";
-    public static final String DateColumnName = "date";
-    public static final String ApprovedColumnName = "approved";
-    public static final String RejectedColumnName = "rejected";
+    private final String ScheduleIDColumnName = "scheduleID";
+    private final String ShiftIDColumnName = "shiftID";
+    private final String ShiftTypeColumnName = "shiftType";
+    private final String StartTimeColumnName = "shiftStartTime";
+    private final String EndTimeColumnName = "shiftEndTime";
+    private final String DateColumnName = "date";
+    private final String ApprovedColumnName = "approved";
+    private final String RejectedColumnName = "rejected";
 
+    //RequiredRolesToEmployees table
+    private final String RoleTypeColumnName = "roleType";
     private final String EmployeeIDColumnName = "employeeID";
     private ShiftsDAO() {
         super("Shifts");
@@ -97,7 +99,7 @@ public class ShiftsDAO extends DAO {
     }
 
     public List<Integer> getInquireEmployees(int scheduleID, int shiftID){
-        return select(_tableName,makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID));
+        return selectT(_tableName,EmployeeIDColumnName,makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID),Integer.class);
     }
 
     public boolean insertInquiredEmployee(int scheduleID, int shiftID, int employeeID){
@@ -109,7 +111,7 @@ public class ShiftsDAO extends DAO {
     }
 
     public List<String> getRequiredRoles(int scheduleID, int shiftID){
-        return select("RequiredRolesToEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID));
+        return selectT("RequiredRolesToEmployees",RoleTypeColumnName,makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID),String.class);
     }
 
     public boolean removeRequiredRole(int scheduleID, int shiftID, String roleStr){

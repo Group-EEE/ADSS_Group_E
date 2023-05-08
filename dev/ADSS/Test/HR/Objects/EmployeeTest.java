@@ -17,6 +17,7 @@ class EmployeeTest {
         employee = new Employee(209876676, "daniel", "shapira", 26, "234657",10, "a", LocalDate.of(2023,4, 23),"test");
     }
 
+    //getters
     @Test
     void getFirstName() {
         assertEquals(employee.getFirstName(), "daniel");
@@ -25,32 +26,6 @@ class EmployeeTest {
     @Test
     void getLastName(){
         assertEquals(employee.getLastName(), "shapira");
-    }
-
-    @Test
-    void setNewFirstName() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            employee.setNewFirstName(null);
-        });
-        employee.setNewFirstName("dani");
-        assertEquals(employee.getFirstName(), "dani");
-    }
-
-    @Test
-    void setNewLastName() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            employee.setNewLastName(null);
-        });
-        employee.setNewLastName("shapir");
-        assertEquals(employee.getLastName(), "shapir");
-    }
-
-    @Test
-    void setNewBankAccount(){
-        assertThrows(IllegalArgumentException.class, () -> {
-            employee.setNewBankAccount(null);
-        });
-        assertTrue(employee.setNewBankAccount("123456"));
     }
 
     @Test
@@ -84,17 +59,8 @@ class EmployeeTest {
     }
 
     @Test
-    void setFinishedWorking() {
-        assertTrue(employee.setFinishedWorking());
-        assertTrue(employee.getFinishedWorking());
-    }
-
-    @Test
-    void addRole() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            employee.addRole(null);
-        });
-        assertTrue(employee.addRole(RoleType.HRManager));
+    void getPassword() {
+        assertEquals(employee.getPassword(), "test");
     }
 
     @Test
@@ -103,6 +69,59 @@ class EmployeeTest {
         employee.addRole(RoleType.Cashier);
         assertEquals(RoleType.Cleaner, employee.getRoles().get(0));
         assertEquals(RoleType.Cashier,employee.getRoles().get(1));
+    }
+
+    @Test
+    void getEmployeeID() {
+        assertEquals(209876676, employee.getEmployeeID());
+    }
+
+    @Test
+    void getFullNameName() {
+        assertEquals("daniel shapira", employee.getFullNameName());
+    }
+
+
+    //setters
+    @Test
+    void setNewLastName() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            employee.setNewLastName(null);
+        });
+        employee.setNewLastName("shapir");
+        assertEquals(employee.getLastName(), "shapir");
+    }
+
+    @Test
+    void setNewFirstName() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            employee.setNewFirstName(null);
+        });
+        employee.setNewFirstName("dani");
+        assertEquals(employee.getFirstName(), "dani");
+    }
+
+    @Test
+    void setNewBankAccount(){
+        assertThrows(IllegalArgumentException.class, () -> {
+            employee.setNewBankAccount(null);
+        });
+        assertTrue(employee.setNewBankAccount("123456"));
+    }
+
+    @Test
+    void setFinishedWorking() {
+        assertTrue(employee.setFinishedWorking());
+    }
+
+
+
+    @Test
+    void addRole() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            employee.addRole(null);
+        });
+        assertTrue(employee.addRole(RoleType.HRManager));
     }
 
     @Test
@@ -117,13 +136,16 @@ class EmployeeTest {
     }
 
     @Test
-    void getEmployeeID() {
-        assertEquals(209876676, employee.getEmployeeID());
+    void hasRole(){
+        assertFalse(employee.hasRole(RoleType.Cleaner));
+        employee.addRole(RoleType.Cleaner);
+        assertTrue(employee.hasRole(RoleType.Cleaner));
     }
-
     @Test
-    void getFullNameName() {
-        assertEquals("daniel shapira", employee.getFullNameName());
+    void testToString(){
+        assertEquals("Employee: daniel shapira, ID: 209876676, age: 26", employee.toString());
+        employee.addRole(RoleType.Cleaner);
+        employee.addRole(RoleType.Cashier);
+        assertEquals("Employee: daniel shapira, ID: 209876676, age: 26, Roles: Cleaner, Cashier", employee.toString());
     }
-
 }

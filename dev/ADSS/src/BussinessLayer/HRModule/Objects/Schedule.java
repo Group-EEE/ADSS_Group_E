@@ -49,7 +49,6 @@ public class Schedule {
     public boolean changeHoursShift(int newStartHour, int newEndHour, int shiftID){
         if (_shifts == null)
             throw new IllegalArgumentException("shifts haven't been initialized"); //TODO:
-
         if (shiftID < 0 || shiftID > 13 || newEndHour > 24 || newStartHour <0)
             return false;
         if (!_shifts.get(shiftID).setStartHour(newStartHour))

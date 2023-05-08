@@ -1,5 +1,6 @@
 package BussinessLayer.HRModule.Objects;
 
+import javax.management.relation.Role;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,260 +8,68 @@ import java.util.List;
 import java.util.Map;
 
 public class Shift{
-    private int _scheduleID;
-    private int _shiftID;
-    private ShiftType _shiftType;
+    private final int _scheduleID;
+    private final int _shiftID;
+    private final ShiftType _shiftType;
     private int _startHour;
     private int _endHour;
     private int _shiftLength;
     private boolean _approved;
     private boolean _rejected;
-    private LocalDate _date;
+    private final LocalDate _date;
     private List<Employee> _inquiredEmployees;
     private HashMap<RoleType,Employee> _assignedEmployees;
     private List<RoleType> _requiredRoles;
-    private List<RoleType> _filledRoles;
+    private final List<RoleType> _filledRoles;
 
-    public Shift(int scheduleID, int shiftID, ShiftType shiftType, int startTime, int endTime, LocalDate date){
+    public Shift(int scheduleID, int shiftID, ShiftType shiftType, int startHour, int endHour, LocalDate date){
         this._scheduleID = scheduleID;
         this._shiftID = shiftID;
-        this._assignedEmployees = new HashMap<RoleType,Employee>();
-        this._inquiredEmployees = new ArrayList<Employee>();
-        this._requiredRoles = new ArrayList<RoleType>();
-        this._filledRoles = new ArrayList<RoleType>();
+        this._assignedEmployees = new HashMap<>();
+        this._inquiredEmployees = new ArrayList<>();
+        this._requiredRoles = new ArrayList<>();
+        this._filledRoles = new ArrayList<>();
         this._approved = false;
         this._rejected = false;
         this._shiftType = shiftType;
-        this._startHour = startTime;
-        this._endHour = endTime;
-        this._shiftLength = endTime - startTime;
+        this._startHour = startHour;
+        this._endHour = endHour;
+        this._shiftLength = endHour - startHour;
         this._date = date;
+        this._requiredRoles.add(RoleType.ShiftManager); //this has to be first, in order to be the first the be filled.
         this._requiredRoles.add(RoleType.Cashier);
-        this._requiredRoles.add(RoleType.ShiftManager);
         this._requiredRoles.add(RoleType.Warehouse);
         this._requiredRoles.add(RoleType.General);
     }
 
+    //setters
+
     /**
-     * @param startTime - the start time of the shift
+     * @param startHour - the start time of the shift
      * @return true if the start time was set successfully, false otherwise
      */
-    public boolean setStartHour(int startTime) {
-        if (startTime < 0 || startTime > 24)
+    public boolean setStartHour(int startHour) {
+        if (startHour < 0 || startHour > 24)
             throw new IllegalArgumentException("Start time must be between 0 and 24");
-        if (startTime > _endHour)
+        if (startHour > _endHour)
             throw new IllegalArgumentException("Start time cannot be after end time");
         _shiftLength = _endHour - _startHour;
-        this._startHour = startTime;
+        this._startHour = startHour;
         return true;
     }
 
     /**
-     * @param endTime - the end time of the shift
+     * @param endHour - the end time of the shift
      * @return true if the end time was set successfully, false otherwise
      */
-    public boolean setEndHour(int endTime) {
-        if (endTime < 0 || endTime > 24)
+    public boolean setEndHour(int endHour) {
+        if (endHour < 0 || endHour > 24)
             throw new IllegalArgumentException("End time must be between 0 and 24");
-        if (endTime < _startHour)
+        if (endHour < _startHour)
             throw new IllegalArgumentException("End time cannot be before start time");
-        this._endHour = endTime;
+        this._endHour = endHour;
         _shiftLength = _endHour - _startHour;
         return true;
-    }
-
-    /**
-     * @param employee - the employee to add to the approved employees list
-     * @return true if the employee was added successfully, false otherwise
-     */
-    public boolean addInquiredEmployee(Employee employee){
-        if (employee == null)
-            throw new IllegalArgumentException("Employee cannot be null");
-        if (_inquiredEmployees.contains(employee))
-            throw new IllegalArgumentException("Employee already inquired");
-        return _inquiredEmployees.add(employee);
-    }
-
-    public String toString(){
-        String output =  "ScheduleID: "+_scheduleID+", ShiftID: "+_shiftID+", Date: " + _date + ", Shift type: " + _shiftType +", Start time: " + _startHour + ", End time: " + _endHour+", Length time: "+_shiftLength+", is approved: "+_approved+", is rejected:"+_rejected;
-        for (Map.Entry<RoleType,Employee> entry : _assignedEmployees.entrySet()){
-            output += entry.getKey() + ": " + entry.getValue().getFullNameName()+", ";
-        }
-        return output;
-    }
-
-    /**
-     * @param role the role to add to the required roles list
-     * @return true if the role was added successfully, false otherwise
-     */
-    public boolean addRequiredRole(RoleType role){
-        if (role == null)
-            throw new IllegalArgumentException("Invalid role");
-        if (_requiredRoles.contains(role))
-            return false;
-        return _requiredRoles.add(role);
-    }
-
-    public int getScheduleID(){
-        return _scheduleID;
-    }
-
-    public int getShiftID(){
-        return _shiftID;
-    }
-
-    public ShiftType getShiftType(){
-        return _shiftType;
-    }
-
-    public int getStartHour(){
-        return _startHour;
-    }
-
-    public int getEndHour(){
-        return _endHour;
-    }
-
-    /**
-     * @param role - the role to remove from the required roles list
-     * @return true if the role was removed successfully, false otherwise
-     */
-    public boolean removeRequiredRole(RoleType role){
-        if (role == null)
-            throw new IllegalArgumentException("Invalid role");
-        return _requiredRoles.remove(role);
-    }
-
-    /**
-     * @return boolean if the shift is approved
-     */
-    public boolean isApproved(){
-        return _approved;
-    }
-
-    /**
-     * @return boolean if the shift is rejected
-     */
-    public boolean isRejected(){
-        return _rejected;
-    }
-
-    /**
-     * @return the list of required roles
-     */
-    public List<RoleType> getRequiredRoles(){
-        return _requiredRoles;
-    }
-
-    /**
-     * @return the list of Inquired employees
-     */
-    public List<Employee> getInquiredEmployees(){
-        return _inquiredEmployees;
-    }
-
-    /**
-     * @param employee - the employee to remove from the inquired employees list
-     * @return true if the employee was removed successfully, false otherwise
-     */
-    public boolean removeInquiredEmployee(Employee employee){
-        if (employee == null)
-            throw new IllegalArgumentException("Invalid employee");
-        return _inquiredEmployees.remove(employee);
-    }
-
-    /**
-     * @param role - the role to remove from the filled roles list
-     * @param employee - the employee to remove from the assigned employees list
-     * employee CANT work more than one role in the same shift
-     * employee can sign to more than one shift in the same shift
-     * @return
-     */
-    public boolean addFilledRole(RoleType role, Employee employee){
-        if (role == null)
-            throw new IllegalArgumentException("Invalid role");
-        if (employee == null)
-            throw new IllegalArgumentException("Invalid employee");
-        if (!_inquiredEmployees.contains(employee) || !_requiredRoles.contains(role))
-            return false;
-        if (!removeRequiredRole(role) || !removeInquiredEmployee(employee))
-            return false;
-        _assignedEmployees.put(role, employee);
-        return _filledRoles.add(role);
-    }
-
-    public boolean setApproved(boolean approved){
-        if (approved == true)
-            _rejected = false;
-        _approved = approved;
-        return true;
-    }
-    public boolean setRejected(boolean rejected){
-        if (rejected == true)
-            _approved = false;
-        _rejected = rejected;
-        return true;
-    }
-
-    public boolean approveShift(){
-        if (_approved || _rejected) //shift was already approved or canceled.
-            return false;
-        //first we assign all the employee that has only one match.
-        int iter=0;
-        while(_inquiredEmployees != null && iter < _inquiredEmployees.size()){
-            Employee employee = _inquiredEmployees.get(iter);
-            RoleType role = findMatch(employee);
-            if (role != null)
-                //we found a match, we remove the employee from the seaching list and add the role to the
-                addFilledRole(role, employee);
-            else
-                iter++;
-        }
-        for (RoleType role : _requiredRoles) {
-            for (Employee employee : _inquiredEmployees) {
-                if (employee.getRoles().contains(role)){
-                    if (!addFilledRole(role, employee))
-                        return false;
-                    break;
-                }
-            }
-        }
-        if (_requiredRoles.size() == 0){
-            setApproved(true);
-        }
-        else
-            return false;
-        return true;
-    }
-
-    public RoleType findMatch(Employee employee){
-        if (employee == null)
-            throw new IllegalArgumentException("Invalid Employee");
-        int counter = 0;
-        RoleType lastRole = null;
-        for (RoleType Role : employee.getRoles()) {
-            if (_requiredRoles.contains(Role)){
-                counter++;
-                lastRole = Role;
-            }
-        }
-        if (counter == 1)
-            return lastRole;
-        return null;
-    }
-
-    public boolean hasAssignedEmployee(Employee employee){
-        if (employee == null)
-            throw new IllegalArgumentException("Invalid Employee");
-        for (Map.Entry<RoleType,Employee> entry : _assignedEmployees.entrySet()){
-            if (entry.getValue().equals(employee))
-                return true;
-        }
-        return false;
-    }
-
-    public LocalDate getDate() {
-        return _date;
     }
 
     public boolean setRequiredRoles(List<RoleType> roles){
@@ -288,7 +97,224 @@ public class Shift{
         return true;
     }
 
+    public boolean setApproved(boolean approved){
+        if (approved)
+            _rejected = false;
+        _approved = approved;
+        return true;
+    }
+
+    public boolean setRejected(boolean rejected){
+        if (rejected)
+            _approved = false;
+        _rejected = rejected;
+        return true;
+    }
+
+    //getters
+
+    public int getScheduleID(){
+        return _scheduleID;
+    }
+
+    public int getShiftID(){
+        return _shiftID;
+    }
+
+    public ShiftType getShiftType(){
+        return _shiftType;
+    }
+
+    public int getStartHour(){
+        return _startHour;
+    }
+
+    public int getEndHour(){
+        return _endHour;
+    }
+
+    public LocalDate getDate() {
+        return _date;
+    }
+
+    /**
+     * @return the list of required roles
+     */
+    public List<RoleType> getRequiredRoles(){
+        return _requiredRoles;
+    }
+
+    /**
+     * @return the list of Inquired employees
+     */
+    public List<Employee> getInquiredEmployees(){
+        return _inquiredEmployees;
+    }
+
     public HashMap<RoleType,Employee> getAssignedEmployees(){
         return _assignedEmployees;
+    }
+
+
+    /**
+     * @return boolean if the shift is approved
+     */
+    public boolean isApproved(){
+        return _approved;
+    }
+
+    /**
+     * @return boolean if the shift is rejected
+     */
+    public boolean isRejected(){
+        return _rejected;
+    }
+
+
+    public boolean addFilledRole(RoleType role, Employee employee){
+        if (role == null)
+            throw new IllegalArgumentException("Invalid role");
+        if (employee == null)
+            throw new IllegalArgumentException("Invalid employee");
+        if (!_inquiredEmployees.contains(employee) || !_requiredRoles.contains(role))
+            return false;
+        if (!employee.hasRole(role)) //cannot add employee which don't have this role
+            return false;
+        if (!removeRequiredRole(role) || !removeInquiredEmployee(employee)) {
+            return false;
+        }
+        _assignedEmployees.put(role, employee);
+        return _filledRoles.add(role);
+    }
+
+
+    public boolean approveShift(){
+        if (_approved || _rejected) //shift was already approved or canceled.
+            return false;
+        //first we assign all the employee that has only one match.
+        int iter=0;
+        int jter=0;
+        while(_inquiredEmployees.size() != 0 && iter < _inquiredEmployees.size()){
+            Employee employee = _inquiredEmployees.get(iter);
+            RoleType role = findMatch(employee);
+            if (role != null)
+                //we found a match, we remove the employee from the searching list and add the role to the
+            {
+                addFilledRole(role, employee);
+            }
+            else {
+                iter++;
+            }
+        }
+        iter =0;
+        while(_requiredRoles.size() != 0 && iter <_requiredRoles.size() && _inquiredEmployees.size() != 0 && jter < _inquiredEmployees.size()){
+            while(_inquiredEmployees.size() != 0 && jter < _inquiredEmployees.size()){
+                Employee employee = _inquiredEmployees.get(jter);
+                RoleType role = _requiredRoles.get(iter);
+                if (employee.getRoles().contains(role)) {
+                    if (addFilledRole(role, employee))
+                        jter++; //filled the role, we can move to the next employee.
+                }
+                else
+                    iter++;
+                if (iter == employee.getRoles().size()) //finished all the roles of the such employee.
+                    jter++;
+            }
+        }
+        if (_requiredRoles.size() == 0)
+            return setApproved(true);
+        if (_requiredRoles.contains(RoleType.ShiftManager))
+            setRejected(true);
+        return false;
+    }
+
+    public RoleType findMatch(Employee employee){
+        if (employee == null)
+            throw new IllegalArgumentException("Invalid Employee");
+        int counter = 0;
+        RoleType lastRole = null;
+        for (RoleType Role : employee.getRoles()) {
+            if (_requiredRoles.contains(Role)){
+                counter++;
+                lastRole = Role;
+            }
+        }
+        if (counter == 1)
+            return lastRole;
+        return null;
+    }
+
+    public boolean hasAssignedEmployee(Employee employee){
+        if (employee == null)
+            throw new IllegalArgumentException("Invalid Employee");
+        for (Map.Entry<RoleType,Employee> entry : _assignedEmployees.entrySet()){
+            if (entry.getValue() == employee)
+                return true;
+        }
+        return false;
+    }
+
+
+    //adders
+    /**
+     * @param employee - the employee to add to the approved employees list
+     * @return true if the employee was added successfully, false otherwise
+     */
+    public boolean addInquiredEmployee(Employee employee){
+        if (employee == null)
+            throw new IllegalArgumentException("Employee cannot be null");
+        if (_inquiredEmployees.contains(employee))
+            throw new IllegalArgumentException("Employee already inquired");
+        return _inquiredEmployees.add(employee);
+    }
+
+    /**
+     * @param role the role to add to the required roles list
+     * @return true if the role was added successfully, false otherwise
+     */
+    public boolean addRequiredRole(RoleType role){
+        if (role == null)
+            throw new IllegalArgumentException("Invalid role");
+        if (_requiredRoles.contains(role))
+            return false;
+        return _requiredRoles.add(role);
+    }
+
+    //removers
+    /**
+     * @param role - the role to remove from the required roles list
+     * @return true if the role was removed successfully, false otherwise
+     */
+    public boolean removeRequiredRole(RoleType role){
+        if (role == null)
+            throw new IllegalArgumentException("Invalid role");
+        return _requiredRoles.remove(role);
+    }
+
+    /**
+     * @param employee - the employee to remove from the inquired employees list
+     * @return true if the employee was removed successfully, false otherwise
+     */
+    public boolean removeInquiredEmployee(Employee employee){
+        if (employee == null)
+            throw new IllegalArgumentException("Invalid employee");
+        return _inquiredEmployees.remove(employee);
+    }
+
+    public String toString(){
+        StringBuilder output = new StringBuilder("ScheduleID: " + _scheduleID + ", ShiftID: " + _shiftID + ", Date: " + _date + ", ShiftType: " + _shiftType + ", Start hour: " + _startHour + ", End hour: " + _endHour + ", Length time: " + _shiftLength + ", Approved: " + _approved + ", Rejected: " + _rejected);
+        if (_assignedEmployees.isEmpty())
+            return output.toString();
+        output.append(", Assigned employees: ");
+        for (Map.Entry<RoleType,Employee> entry : _assignedEmployees.entrySet()){
+            output.append(entry.getKey()).append(": ").append(entry.getValue().getFullNameName()).append(", ");
+        }
+        return output.substring(0,output.length()-2);
+    }
+
+    public boolean hasFilledRole(RoleType role){
+        if (role == null)
+            throw new IllegalArgumentException("Invalid role");
+        return _filledRoles.contains(role);
     }
 }

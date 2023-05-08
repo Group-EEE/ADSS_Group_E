@@ -63,6 +63,13 @@ public class Employee{
         return true;
     }
 
+    public boolean setNewPassword(String password){
+        if (password == null)
+            throw new IllegalArgumentException("Password cannot be null");
+        _password = password;
+        return true;
+    }
+
     /**
      * @return the first name of the employee
      */
@@ -101,11 +108,13 @@ public class Employee{
 
     public String toString(){
         String employeeToString = "Employee: " + this._firstName + " " + this._lastName + ", ID: " + this._employeeID+", age: "+this._age;
+        if (_roles.size() == 0)
+            return employeeToString;
         employeeToString += ", Roles: ";
         for (RoleType role : this._roles){
             employeeToString += role + ", ";
         }
-        return employeeToString;
+        return employeeToString.substring(0, employeeToString.length()-2);
     }
 
     public int getEmployeeID(){
@@ -151,5 +160,9 @@ public class Employee{
     public boolean setFinishedWorking(){
         this._finishWorking = true;
         return true;
+    }
+
+    public boolean hasRole(RoleType role){
+        return this._roles.contains(role);
     }
 }
