@@ -34,16 +34,6 @@ public class OrderFromSupplierDAO {
         List<OrderFromSupplier> orderFromSupplierList = new ArrayList<>();
 
         PreparedStatement stmt;
-        try{
-            stmt = conn.prepareStatement("SELECT OrderFromSupplierId FROM staticValue");
-            ResultSet rs = stmt.executeQuery();
-            OrderFromSupplier.setUnique(rs.getInt("OrderFromSupplierId"));
-
-            stmt = conn.prepareStatement("SELECT OrderedProductId FROM staticValue");
-            rs = stmt.executeQuery();
-            OrderedProduct.setUnique(rs.getInt("OrderedProductId"));
-        }
-        catch (SQLException e) {throw new RuntimeException(e);}
 
         try {
             stmt = conn.prepareStatement("SELECT * FROM OrderFromSupplier WHERE SupplierNum = ?");
@@ -65,6 +55,17 @@ public class OrderFromSupplierDAO {
 
                 IdentifyMapOrderFromSupplier.put(rs.getInt("Id"), orderFromSupplier);
             }
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
+        try{
+            stmt = conn.prepareStatement("SELECT OrderFromSupplierId FROM staticValue");
+            ResultSet rs = stmt.executeQuery();
+            OrderFromSupplier.setUnique(rs.getInt("OrderFromSupplierId"));
+
+            stmt = conn.prepareStatement("SELECT OrderedProductId FROM staticValue");
+            rs = stmt.executeQuery();
+            OrderedProduct.setUnique(rs.getInt("OrderedProductId"));
         }
         catch (SQLException e) {throw new RuntimeException(e);}
 
