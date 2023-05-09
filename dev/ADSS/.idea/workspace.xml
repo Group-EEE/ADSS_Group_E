@@ -8,22 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/72f49aaa-f33e-4039-9636-e5f759e35d36.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/72f49aaa-f33e-4039-9636-e5f759e35d36.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SuperLi.db" beforeDir="false" afterPath="$PROJECT_DIR$/SuperLi.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/EmployeesCLITest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/HR/Objects/EmployeeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/HR/Objects/EmployeeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/HR/Objects/ShiftTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/HR/Objects/ShiftTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/Facade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Pair.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Schedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Shift.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Shift.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/DAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/EmployeesToRolesDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/SchedulesDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ShiftsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/ShiftsDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/StoresDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/HRMoudle/StoresDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/EmployeesCLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceLayer/HRModule/EmployeesCLI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,41 +32,57 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Chen/Documents/GitHub/ADSS_Group_E/dev/ADSS/lib/sqlite-jdbc-3.41.2.1.jar&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;gradle.compiler&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "true",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Chen/Documents/GitHub/ADSS_Group_E/dev/ADSS/lib/sqlite-jdbc-3.41.2.1.jar",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "gradle.compiler",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Chen\Documents\GitHub\ADSS_Group_E\dev\ADSS\Test\HR\Objects" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ShiftTest">
+  <component name="RunManager" selected="JUnit.HR in ADSS">
+    <configuration name="EmployeesDAOTest.existsEmployee" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="HR.Facade.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="HR.Facade" />
+      <option name="MAIN_CLASS_NAME" value="HR.Facade.EmployeesDAOTest" />
+      <option name="METHOD_NAME" value="existsEmployee" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="HR in ADSS" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ADSS" />
       <extension name="coverage" sample_coverage="false" track_test_folders="true">
@@ -110,22 +110,6 @@
       <option name="PACKAGE_NAME" value="HR.Objects" />
       <option name="MAIN_CLASS_NAME" value="HR.Objects.ShiftTest" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ShiftTest.approveEmptyShift" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ADSS" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="HR.Objects.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="HR.Objects" />
-      <option name="MAIN_CLASS_NAME" value="HR.Objects.ShiftTest" />
-      <option name="METHOD_NAME" value="approveEmptyShift" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -163,19 +147,19 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.EmployeesDAOTest.existsEmployee" />
       <item itemvalue="JUnit.ShiftTest" />
-      <item itemvalue="JUnit.ShiftTest.approveEmptyShift" />
       <item itemvalue="JUnit.ShiftTest.approveShift" />
       <item itemvalue="JUnit.ShiftTest.approveShiftNoShiftManager" />
       <item itemvalue="JUnit.HR in ADSS" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ShiftTest" />
         <item itemvalue="JUnit.HR in ADSS" />
+        <item itemvalue="JUnit.EmployeesDAOTest.existsEmployee" />
+        <item itemvalue="JUnit.ShiftTest" />
         <item itemvalue="JUnit.ShiftTest.approveShift" />
         <item itemvalue="JUnit.ShiftTest.approveShiftNoShiftManager" />
-        <item itemvalue="JUnit.ShiftTest.approveEmptyShift" />
       </list>
     </recent_temporary>
   </component>
@@ -213,6 +197,7 @@
       <workItem from="1683391749888" duration="3565000" />
       <workItem from="1683450845811" duration="29672000" />
       <workItem from="1683544761333" duration="13356000" />
+      <workItem from="1683634178664" duration="310000" />
     </task>
     <task id="LOCAL-00001" summary="created .idea folder">
       <created>1682675006264</created>
@@ -576,6 +561,11 @@
           <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Shift.java</url>
           <line>213</line>
           <option name="timeStamp" value="239" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Test/HR/Facade/EmployeesDAOTest.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="240" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Objects/Schedule.java</url>
