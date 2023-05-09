@@ -96,7 +96,7 @@ public class underway_transport_controller {
             return;
         }
 
-        Transport_dao.getInstance().mark_transport_as_finished(transport_id);
+        Transport_dao.getInstance().getInstance().mark_transport_as_finished(transport_id);
         truck.setCurrent_driver(null);
         truck.setOccupied(false);
 
@@ -143,12 +143,12 @@ public class underway_transport_controller {
         transport.setDeparture_time(Time);
         //I'm here in the check start transport
         // need to create :
-         Transport_dao.getInstance().update_transport_date_and_time(transport_ID, Date, Time);
+         Transport_dao.getInstance().getInstance().update_transport_date_and_time(transport_ID, Date, Time);
     }
 
     public boolean is_siteSupply_id_exist_in_current_transport(int transport_id, int siteSupply_ID){
         Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
-        Truck_Driver driver = Drivers_dao.get_instance().getDriver(transport.getDriver_ID());
+        Truck_Driver driver = Drivers_dao.get_instance().get_instance().getDriver(transport.getDriver_ID());
         for(Site_Supply s : driver.getSites_documents()){
             if(s.getId() == siteSupply_ID){
                 return true;
@@ -233,7 +233,7 @@ public class underway_transport_controller {
         double weight = truck.getCurrent_weight();
         truck = null;
         for(Truck t : logistical_center_controller.get_trucks()){
-            if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight && Transport_dao.getInstance().check_if_truck_taken_that_date(transport.getPlanned_date(), t.getRegistration_plate())) {
+            if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight && Transport_dao.getInstance().getInstance().check_if_truck_taken_that_date(transport.getPlanned_date(), t.getRegistration_plate())) {
                 return true;
             }
         }
@@ -454,6 +454,11 @@ public class underway_transport_controller {
         truck.getNavigator().add_site(truck.get_current_location());
     }
 
+    /**
+     * @param transport_ID transport ID
+     * @param store_name the name of the store we're adding
+     *                   the function add store to the transport.
+     */
     public void add_store_to_route(int transport_ID, String store_name){
         Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
@@ -470,5 +475,19 @@ public class underway_transport_controller {
      Truck truck = get_truck_by_registration_plate(get_truck_number(transport_ID));
      truck_driver.setCurrent_truck(truck);
      truck.setCurrent_driver(truck_driver);
+    }
+
+    public boolean check_if_warehouse_worker_exist_in_all_stores(int transport_ID){
+        Transport transport = Transport_dao.getInstance().getTransport(transport_ID);
+        boolean exist = true;
+        for (Site site: transport.getDestinations()){
+            if (site.is_store()){
+                //if(boolean function that chen need to implement to check if there's warehouse worker in store){
+                // exist = false;
+                // break;
+                // }
+            }
+        }
+        return exist;
     }
 }
