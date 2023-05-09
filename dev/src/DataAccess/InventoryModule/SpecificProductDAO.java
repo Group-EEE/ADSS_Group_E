@@ -37,7 +37,7 @@ public class SpecificProductDAO {
         List<SpecificProduct> allsp = new ArrayList<>();
         //-----------------------------------------Create a query-----------------------------------------
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SpecificProduct WHERE P_ID = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SpecificProduct WHERE Barcode = ?");
             stmt.setInt(1, barcode);
             ResultSet rs = stmt.executeQuery();
             //-----------------------------------------Create array-----------------------------------------
@@ -46,7 +46,7 @@ public class SpecificProductDAO {
                 Discount d = discountDAO.ReadDiscountToCache(rs.getInt("Barcode"), rs.getInt("Sp_ID"));
                 String exp = rs.getString("ExpDate");
                 LocalDateTime expdate = LocalDateTime.parse(exp+"T00:00:00");
-                SpecificProduct specificProduct = new SpecificProduct(rs.getDouble("Supplier_Price"), rs.getString("Supplier"), rs.getInt("Sp_ID"),rs.getInt("P_ID"), expdate, rs.getBoolean("Defective"), rs.getString("Defect_Report_By"), rs.getBoolean("InWarehouse"), rs.getString("Store_Branch"), rs.getInt("Location_in_Store"), d, rs.getString("DefectType"));
+                SpecificProduct specificProduct = new SpecificProduct(rs.getDouble("Supplier_Price"), rs.getString("Supplier"), rs.getInt("Sp_ID"),rs.getInt("Barcode"), expdate, rs.getBoolean("Defective"), rs.getString("Defect_Report_By"), rs.getBoolean("InWarehouse"), rs.getString("Store_Branch"), rs.getInt("Location_in_Store"), d, rs.getString("DefectType"));
                 String arrival = rs.getString("arrivaldate");
                 LocalDateTime arrDate = LocalDateTime.parse(arrival+"T00:00:00");
                 specificProduct.setArrivaldate(arrDate);

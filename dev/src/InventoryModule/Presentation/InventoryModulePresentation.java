@@ -19,6 +19,7 @@ public class InventoryModulePresentation {
     ReportController reportController; //create a report controller
 
     SpecificProductPresentation specificProductPresentation;
+    SuperLiProductPresentation superLiProductPresentation;
     ReportPresentation reportPresentation;
     CategoryPresentation categoryPresentation;
 
@@ -28,6 +29,7 @@ public class InventoryModulePresentation {
         categoryController = CategoryController.getInstance(); //create a category controller
         reportController = ReportController.getInstance(); //create a report controller
         specificProductPresentation = new SpecificProductPresentation();
+        superLiProductPresentation = new SuperLiProductPresentation();
         categoryPresentation = new CategoryPresentation();
         reportPresentation = new ReportPresentation();
     }
@@ -52,25 +54,7 @@ public class InventoryModulePresentation {
             c = option.nextLine();
             switch (c) {
                 case "1": //sub menu - everything about products
-                    String c1 = "";
-                    while (!c1.equals("0")){
-                        Scanner option1 = new Scanner(System.in);
-                        System.out.println("Please choose an option");
-                        System.out.println("1. Add new product to the store");
-                        System.out.println("2. Get all products' barcode");
-                        System.out.println("0. Exit");
-                        c1 = option1.nextLine();
-                        switch (c1) {
-                            case "1":
-                                //add the new product to the controller, inside there is a call to the constructor
-                                productController.addProduct();
-                                break;
-                            case "2":
-                                //call the function that print all products barcodes
-                                productController.GetAllProductBarcode();
-                                break;
-                        }
-                    }
+                    superLiProductPresentation.ShowSuperLiProductMenu();
                     break;
                 case "2": //sub menu - everything about Specific Products
                     specificProductPresentation.ShowSpecificProductMenu();
