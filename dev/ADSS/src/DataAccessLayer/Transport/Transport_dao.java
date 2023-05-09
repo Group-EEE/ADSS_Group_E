@@ -340,6 +340,6 @@ public class Transport_dao extends DAO {
     }
 
     public String get_end_time(Transport transport){
-
+        return ""; //TODO: FIX
     }
 }

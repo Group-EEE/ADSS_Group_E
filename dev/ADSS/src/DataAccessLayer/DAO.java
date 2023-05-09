@@ -1,5 +1,6 @@
 package DataAccessLayer;
 
+import java.lang.reflect.Type;
 import java.sql.*;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -159,13 +160,11 @@ public abstract class DAO {
                     pstmt.setInt(i++, (int) key);
             ResultSet resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
-                // Fetch each row from the result set
-                if (type == String.class)
-                    list.add(resultSet.getString(1));
-                else if (type == Integer.class)
-                    list.add(resultSet.getInt(1));
+                Object resultObj = resultSet.getObject(1);
+                if (resultObj == null)
+                    return list;
+                list.add(type.cast(resultObj));
             }
-
         } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
