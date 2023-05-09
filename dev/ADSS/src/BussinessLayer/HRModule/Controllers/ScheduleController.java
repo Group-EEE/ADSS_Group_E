@@ -34,9 +34,14 @@ public class ScheduleController {
     public boolean createNewSchedule(String storeName, int day, int month, int year){
         if (storeName == null)
             throw new IllegalArgumentException("Invalid store name");
-        if (day < 1 || day > 31 || month < 1 || month > 12 || year < 0)
-            throw new IllegalArgumentException("Invalid date parameters");
-        LocalDate localDate = LocalDate.of(year, month, day);
+        if(!_storesDAO.existsStore(storeName))
+            throw new IllegalArgumentException("Store does not exist");
+        LocalDate localDate;
+        try {
+            localDate = LocalDate.of(year, month, day);
+        }catch (Exception e){
+            throw new IllegalArgumentException("Invalid date");
+        }
         int scheduleID = _schedulesDAO.getScheduleMaxID();
         List<Shift> shifts = new ArrayList<>();
         for (int i=0; i<14; i++){
@@ -52,17 +57,26 @@ public class ScheduleController {
         return schedule.setShifts(shifts);
     }
 
-    public boolean deleteActiveSchedule(String storeName){
+    public boolean deleteScheduleIDFromStore(String storeName){
         if (storeName == null)
             throw new IllegalArgumentException("Invalid store ID");
-        int scheduleID = _storesDAO.getActiveSchedule(storeName);//TODO:DELETE FROM STORES
-        _storesDAO.deleteActive(storeName);
-        return deleteSchedule(scheduleID);
+        if (!_storesDAO.existsStore(storeName))
+            throw new IllegalArgumentException("Store does not exist");
+        return _storesDAO.deleteActive(storeName);
     }
 
     public boolean deleteSchedule(int scheduleID){
         if (scheduleID < 0)
             throw new IllegalArgumentException("Invalid schedule ID");
+        _shiftsDAO.deleteShifts(scheduleID);
+        return _schedulesDAO.deleteSchedule(scheduleID);
+    }
+
+    public boolean deleteSchedule(String storeName){
+        if (storeName == null)
+            throw new IllegalArgumentException("Invalid schedule ID");
+        int scheduleID = _storesDAO.getActiveSchedule(storeName);
+        _storesDAO.deleteActive(storeName);
         _shiftsDAO.deleteShifts(scheduleID);
         return _schedulesDAO.deleteSchedule(scheduleID);
     }

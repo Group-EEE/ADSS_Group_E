@@ -92,11 +92,13 @@ public class StoresDAO extends DAO {
     }
 
     public boolean deleteActive(String storeName){
-        return update(_tableName,ScheduleIDColumnName,null,makeList(ScheduleIDColumnName),makeList(storeName));
+        return update(_tableName,ScheduleIDColumnName,null,makeList(StoreNameColumnName),makeList(storeName));
     }
 
     public int getActiveSchedule(String storeName){
         List<Integer> result = selectT(_tableName,ScheduleIDColumnName,makeList(StoreNameColumnName),makeList(storeName),Integer.class);
+        if (result.size() == 0)
+            throw new IllegalArgumentException("not created Schedule for this store");
         return result.get(0);
     }
 
@@ -121,6 +123,6 @@ public class StoresDAO extends DAO {
     }
 
     public boolean checkIfEmployeeInStore(int employeeID, String storeName){
-        return select(EmployeeToStoreTable, makeList(EmployeeIDColumnName, StoreNameColumnName), makeList(employeeID, storeName)).size() > 0;
+        return selectExists(EmployeeToStoreTable,makeList(EmployeeIDColumnName, StoreNameColumnName),makeList(employeeID,storeName));
     }
 }

@@ -49,11 +49,17 @@ public class EmployeeController {
     public Employee login(int employeeID, String password){
         if (employeeID < 0 || password == null)
             return null;
-        if (!_employeesDAO.existEmployee(employeeID))
-            return null;
+        if (!existsEmployee(employeeID))
+            throw new IllegalArgumentException("Employee doesn't exists");
         if(!_employeesDAO.checkPassword(employeeID,password))
-            return null;
+            throw new IllegalArgumentException("Wrong password");
         return _employeesDAO.getEmployee(employeeID);
+    }
+
+    public boolean existsEmployee(int employeeID){
+        if (employeeID < 0)
+            throw new IllegalArgumentException("Illegal employee ID");
+        return _employeesDAO.existEmployee(employeeID);
     }
 
 

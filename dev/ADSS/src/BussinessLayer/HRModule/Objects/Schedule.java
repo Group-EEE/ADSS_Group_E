@@ -44,7 +44,7 @@ public class Schedule {
         return this._scheduleID;
     }
 
-    public LocalDate getStartDateOfWeek(){
+        public LocalDate getStartDateOfWeek(){
         return _startDateOfWeek;
     }
 
