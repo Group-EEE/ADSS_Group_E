@@ -48,7 +48,7 @@ public class underway_transport_controller {
 
     private Truck_Driver get_driver_by_transport_id(int transport_id){
         Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
-        return getDriverByTruckNumber(transport.getTruck_number());
+        return Drivers_dao.get_instance().getDriver(transport.getDriver_ID());
     }
 
     /**
@@ -97,6 +97,7 @@ public class underway_transport_controller {
         }
 
         Transport_dao.getInstance().getInstance().mark_transport_as_finished(transport_id);
+        Transport_dao.getInstance().insert_products_to_table(chosen_transport);
         truck.setCurrent_driver(null);
         truck.setOccupied(false);
 

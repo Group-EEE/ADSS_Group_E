@@ -40,8 +40,9 @@ public class Site_Supply_dao extends DAO {
             statement.setString(2, site_supply.getStore().getSite_name());
             statement.setString(3, site_supply.getOrigin());
             statement.setDouble(4, site_supply.getProducts_total_weight());
-            insert_products_to_table(site_supply);
             statement.execute();
+            insert_products_to_table(site_supply);
+
 
             site_supply_documents.put(site_supply.getId(), site_supply);
             return true;
@@ -79,7 +80,7 @@ public class Site_Supply_dao extends DAO {
         Store store = StoresDAO.getInstance().getStore(store_name);
         if (store != null) {
             Site_Supply site_supply = new Site_Supply(res.getInt(1), store , res.getString(3));
-            insert_products_to_site_supply(site_supply);
+            //insert_products_to_site_supply(site_supply);
             site_supply_documents.put(site_supply.getId(), site_supply);
             return site_supply;
         }
@@ -121,6 +122,7 @@ public class Site_Supply_dao extends DAO {
             ResultSet res = statement.executeQuery();
             while (res.next()) {
                 Site_Supply site_supply = (Site_Supply) convertReaderToObject(res);
+                insert_products_to_site_supply(site_supply);
                 if(site_supply != null){
                     site_supply_documents.put(site_supply.getId(), site_supply);
                 }

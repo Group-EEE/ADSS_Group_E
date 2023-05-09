@@ -109,7 +109,6 @@ public class Transport_dao extends DAO {
         }
         String query = "SELECT * FROM " + this._tableName + " WHERE ID = ?";
         try {
-            Connection connection = DriverManager.getConnection(url);
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, transport_id);
             ResultSet res = statement.executeQuery();
@@ -127,7 +126,6 @@ public class Transport_dao extends DAO {
     public boolean check_if_Transport_exist(int transport_id){
         String query = "SELECT * FROM " + this._tableName + " WHERE ID = ?";
         try {
-            Connection connection = DriverManager.getConnection(url);
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, transport_id);
             ResultSet res = statement.executeQuery();
@@ -223,7 +221,7 @@ public class Transport_dao extends DAO {
             if (store.equals("")){
                 continue;
             }
-            String query = "SELECT * FROM Stores WHERE Name = ?";
+            String query = "SELECT * FROM Stores WHERE storeName = ?";
             try {
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setString(1, store);
@@ -317,10 +315,11 @@ public class Transport_dao extends DAO {
     }
 
     public void mark_transport_as_finished(int transport_ID){
-        String query = "UPDATE " + this._tableName + " Finished = ? WHERE ID = ?";
+        String query = "UPDATE " + this._tableName + " SET Finished = ? WHERE ID = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, 1);
+            statement.setInt(2, transport_ID);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -339,7 +338,13 @@ public class Transport_dao extends DAO {
         }
     }
 
+<<<<<<< HEAD
     public String get_end_time(Transport transport){
         return ""; //TODO: FIX
     }
+=======
+//    public String get_end_time(Transport transport){
+//
+//    }
+>>>>>>> 71acd27891dc72812658bd90ba06eb3d8b9243d9
 }
