@@ -5,7 +5,7 @@ package SuppliersModule.Business;
  */
 public class OrderedProduct {
 
-    static int unique;
+    static int unique = 1;
 
     //------------------------------------------ Attributes ---------------------------------------
     private int Quantity;

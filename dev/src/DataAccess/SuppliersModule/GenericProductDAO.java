@@ -86,6 +86,7 @@ public class GenericProductDAO {
             {
                 stmt = conn.prepareStatement("Insert into ObserverBarcode VALUES (?)");
                 stmt.setInt(1, currBarcode);
+                stmt.executeUpdate();
             }
         }
         catch (SQLException e) {throw new RuntimeException(e);}
