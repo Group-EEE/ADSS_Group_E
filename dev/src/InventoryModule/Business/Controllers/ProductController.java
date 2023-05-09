@@ -38,7 +38,7 @@ public class ProductController {
         int Barcode = 0;
         while(!isBarcodeExist){
             System.out.println("Please enter Barcode:");
-            Barcode = reader.nextInt();
+            Barcode = Integer.parseInt(reader.nextLine());
             if(!BarcodesOfNewProducts.contains(Barcode)){
                 System.out.println("Wrong barcode!");
             }
@@ -48,7 +48,7 @@ public class ProductController {
         System.out.println("Please enter Name:");
         String Name = reader.nextLine();
         System.out.println("Please enter Costumer price:");
-        Double Costumerprice = reader.nextDouble();
+        Double Costumerprice = Double.parseDouble(reader.nextLine());
         System.out.println("Please enter Category:");
         String Category = reader.nextLine();
         System.out.println("Please enter Subcategory:");
@@ -56,11 +56,11 @@ public class ProductController {
         System.out.println("Please enter Subsubcategory:");
         String Subsubcategory = reader.nextLine();
         System.out.println("Please enter Supply days:");
-        int Supplydays = reader.nextInt();
+        int Supplydays = Integer.parseInt(reader.nextLine());
         System.out.println("Please enter Manufacturer:");
         String Manufacturer = reader.nextLine();
         System.out.println("Please enter Minimum amount:");
-        int Minimumamount = reader.nextInt();
+        int Minimumamount = Integer.parseInt(reader.nextLine());
         //if the category of the new product doesnt exist yet, we will create it
         if(!categoryController.check_if_exist_cat(Category)){
             categoryController.addCategory(Category);
@@ -138,24 +138,24 @@ public class ProductController {
         SupplierController supplierController= SupplierController.getInstance();
         //get from the warehouse manager all the information needed to create new spec. product
         System.out.println("Please enter Barcode:");
-        int Barcode = reader.nextInt();
+        int Barcode = Integer.parseInt(reader.nextLine());
         System.out.println("Please enter Exp Date yyyy-MM-dd:");
         String date = reader.nextLine();
         LocalDateTime aExp_date = LocalDateTime.parse(date+"T00:00:00");
         System.out.println("Is the product defective? - please enter true/false:");
-        boolean aDefective = reader.nextBoolean();
+        boolean aDefective = Boolean.parseBoolean(reader.nextLine());
         System.out.println("Please enter Defect reporter name else press null:");
         String aDefect_report_by = reader.nextLine();
         System.out.println("Please enter Defect type else press null:");
         String  defectype = reader.nextLine();
         System.out.println("Is the product stored in warehouse? - please enter true/false:");
-        boolean aInWarehouse = reader.nextBoolean();
+        boolean aInWarehouse = Boolean.parseBoolean(reader.nextLine());
         System.out.println("Please enter store branch name:");
         String aStoreBranch = reader.nextLine();
         System.out.println("Please enter product Shelf number - if the product located in warehouse enter -1:");
-        int aLocationInStore = reader.nextInt();
+        int aLocationInStore = Integer.parseInt(reader.nextLine());
         System.out.println("Please enter discount amount:");
-        double aDiscount = reader.nextDouble();
+        double aDiscount = Double.parseDouble(reader.nextLine());
         System.out.println("If the product has discount please enter start Date yyyy-MM-dd else press null:");
         String start = reader.nextLine();
         if(start.compareTo("null")==0){ //there is no discount
@@ -186,7 +186,7 @@ public class ProductController {
         }
 
         System.out.println("Enter supplier price");
-        double supPrice = reader.nextDouble();
+        double supPrice = Double.parseDouble(reader.nextLine());
 
         ///*****************the change**********************////
         //check if there is barcode like this in the system//
@@ -209,9 +209,9 @@ public class ProductController {
 
     public void removespecificproduct(){
         System.out.println("Please enter product's Barcode:");
-        int barcode = reader.nextInt();
+        int barcode = Integer.parseInt(reader.nextLine());
         System.out.println("Please enter specific product id:");
-        int spid = reader.nextInt();
+        int spid = Integer.parseInt(reader.nextLine());
         SuperLiProduct np = this.getProductByBarcode(barcode);
         if(np!=null){ //general product found
             np.removeSpecificProduct(spid);
@@ -223,9 +223,9 @@ public class ProductController {
 
     public void reportdefectedspecificproduct(){
         System.out.println("Please enter product's Barcode:");
-        int barcode3 = reader.nextInt();
+        int barcode3 = Integer.parseInt(reader.nextLine());
         System.out.println("Please enter specific product id:");
-        int spid3 = reader.nextInt();
+        int spid3 = Integer.parseInt(reader.nextLine());
         SuperLiProduct np3 = this.getProductByBarcode(barcode3);
         if(np3!=null){
             System.out.println("Please enter defect reporter:");
@@ -241,9 +241,9 @@ public class ProductController {
 
     public void getspecifproductlocationinstore(){
         System.out.println("Please enter product's Barcode:");
-        int barcode4 = reader.nextInt();
+        int barcode4 = Integer.parseInt(reader.nextLine());
         System.out.println("Please enter specific product id:");
-        int spid4 = reader.nextInt();
+        int spid4 = Integer.parseInt(reader.nextLine());
         SuperLiProduct np4 = this.getProductByBarcode(barcode4);
         if(np4!=null){
             np4.getProductLocationInStore(spid4);
@@ -255,14 +255,14 @@ public class ProductController {
 
     public void changespecificproductlocationinstore(){
         System.out.println("Please enter product's Barcode:");
-        int barcode5 = reader.nextInt();
+        int barcode5 = Integer.parseInt(reader.nextLine());
         System.out.println("Please enter specific product id:");
-        int spid5 = reader.nextInt();
+        int spid5 = Integer.parseInt(reader.nextLine());
         SuperLiProduct np5 = this.getProductByBarcode(barcode5);
         if(np5!=null){
             SpecificProduct thep5 = np5.getSpecificProduct(spid5);
             System.out.println("Please enter product's new shelf number in store:");
-            int location5 = reader.nextInt();
+            int location5 = Integer.parseInt(reader.nextLine());
             thep5.setLocation_in_Store(location5);
         }
         else{

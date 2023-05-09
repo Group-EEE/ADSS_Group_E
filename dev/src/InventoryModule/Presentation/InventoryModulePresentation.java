@@ -114,7 +114,7 @@ public class InventoryModulePresentation {
                     System.out.println("Please enter Category:");
                     String category4 = reader.nextLine();
                     System.out.println("Please enter discount amount:");
-                    double discount4 = reader.nextDouble();
+                    double discount4 = Double.parseDouble(reader.nextLine());
                     System.out.println("Please enter Exp Date yyyy-MM-dd:");
                     String start4 = reader.nextLine();
                     LocalDateTime start44 = LocalDateTime.parse(start4+"T00:00:00");
@@ -127,7 +127,7 @@ public class InventoryModulePresentation {
                     System.out.println("Please enter Product's name:");
                     String nam5 = reader.nextLine();
                     System.out.println("Please enter discount amount:");
-                    double discount5 = reader.nextDouble();
+                    double discount5 = Double.parseDouble(reader.nextLine());
                     System.out.println("Please enter discount start Date yyyy-MM-dd:");
                     String start5 = reader.nextLine();
                     LocalDateTime start55 = LocalDateTime.parse(start5+"T00:00:00");
@@ -140,9 +140,9 @@ public class InventoryModulePresentation {
                     System.out.println("Please enter Product's name:");
                     String nam6 = reader.nextLine();
                     System.out.println("Please enter Product's name:");
-                    int pid66 = reader.nextInt();
+                    int pid66 = Integer.parseInt(reader.nextLine());
                     System.out.println("Please enter discount amount:");
-                    double discount6 = reader.nextDouble();
+                    double discount6 = Double.parseDouble(reader.nextLine());
                     System.out.println("Please enter discount start Date yyyy-MM-dd:");
                     String start6 = reader.nextLine();
                     LocalDateTime start66 = LocalDateTime.parse(start6+"T00:00:00");
@@ -153,9 +153,9 @@ public class InventoryModulePresentation {
                     break;
                 case "4": //Update store price
                     System.out.println("Please enter Product's barcode:");
-                    int Barcode8 = reader.nextInt();
+                    int Barcode8 = Integer.parseInt(reader.nextLine());
                     System.out.println("Please enter Product's new price:");
-                    double np8 = reader.nextDouble();
+                    double np8 = Double.parseDouble(reader.nextLine());
                     productController.getProductByBarcode(Barcode8).setCostumer_Price(np8);
                     break;
             }
