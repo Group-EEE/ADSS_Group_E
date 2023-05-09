@@ -1,0 +1,53 @@
+package HR.Facade;
+
+import BussinessLayer.HRModule.Controllers.Facade;
+import DataAccessLayer.HRMoudle.EmployeesDAO;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class EmployeesDAOTest {
+    private static Facade _facade;
+    private static EmployeesDAO _employeesDAO;
+
+    @BeforeAll
+    static void setUpAll() {
+        _facade = Facade.getInstance();
+        _employeesDAO = EmployeesDAO.getInstance();
+    }
+
+    @BeforeEach
+    void setUp() {
+        _facade.createEmployee(9999, "John", "Doe", 30, "123456789", 10000, "Full time", LocalDate.now(),"passwordTest",false);
+    }
+
+    @AfterEach
+    void tearDown() {
+        _facade.removeEmployee(9999);
+    }
+
+    @Test
+    void existsEmployee(){
+        assertTrue(_employeesDAO.existEmployee(9999));
+    }
+
+    @Test
+    void login() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            _facade.login(209876676, "falsePassword");
+        });
+        assertTrue(_facade.login(9999, "passwordTest"));
+    }
+
+    @Test
+    void logout(){
+        login();
+        assertTrue(_facade.logout());
+    }
+
+}

@@ -1,34 +1,21 @@
 package BussinessLayer.HRModule.Controllers;
 
 import BussinessLayer.HRModule.Objects.Employee;
-import BussinessLayer.HRModule.Objects.Pair;
 import BussinessLayer.HRModule.Objects.RoleType;
-import BussinessLayer.HRModule.Objects.Store;
 import DataAccessLayer.HRMoudle.EmployeesDAO;
-import DataAccessLayer.HRMoudle.PasswordsDAO;
-import DataAccessLayer.HRMoudle.EmployeesToStoreDAO;
-import DataAccessLayer.HRMoudle.EmployeesToRolesDAO;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 public class EmployeeController {
 
 
     private final EmployeesDAO _employeesDAO;
-    private final PasswordsDAO _passwordsDAO;
-    private final EmployeesToStoreDAO _employeesToStoreDAO;
-    private final EmployeesToRolesDAO _employeesToRolesDAO;
-
     private static EmployeeController _employeeController;
 
 
     private EmployeeController() {
-        _passwordsDAO = PasswordsDAO.getInstance();
         _employeesDAO = EmployeesDAO.getInstance();
-        _employeesToRolesDAO = EmployeesToRolesDAO.getInstance();
-        _employeesToStoreDAO = EmployeesToStoreDAO.getInstance();
     }
 
     public static EmployeeController getInstance() {
@@ -51,10 +38,7 @@ public class EmployeeController {
     public boolean createEmployee(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployement, String password) {
         if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null)
             throw new IllegalArgumentException("Invalid arguments");
-        Employee employee = new Employee(employeeID, firstName,lastName, age , bankAccount, salary, hiringCondition, startDateOfEmployement);
-        _employeesDAO.Insert(employee);
-        _passwordsDAO.Insert(new Pair<Integer,String>(employeeID, password));
-        return true;
+        return _employeesDAO.insertEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployement, password);
     }
 
     /**
@@ -65,11 +49,9 @@ public class EmployeeController {
     public Employee login(int employeeID, String password){
         if (employeeID < 0 || password == null)
             return null;
-        boolean employeeExists = _employeesDAO.existEmployee(employeeID);
-        if (!employeeExists)
+        if (!_employeesDAO.existEmployee(employeeID))
             return null;
-        boolean passwordMatching =_passwordsDAO.checkPassword(employeeID,password);
-        if (!passwordMatching)
+        if(!_employeesDAO.checkPassword(employeeID,password))
             return null;
         return _employeesDAO.getEmployee(employeeID);
     }
@@ -80,17 +62,39 @@ public class EmployeeController {
      * @param newPassword - the new password of the employee
      * @return - true if the password was changed successfully, false otherwise
      */
-    public boolean changePassword(int employeeID, String newPassword){
+    public boolean updatePassword(int employeeID, String newPassword){
         if (employeeID < 0 || newPassword == null)
             return false;
-        return _passwordsDAO.updatePassword(employeeID, newPassword);
+        _employeesDAO.getEmployee(employeeID).setNewPassword(newPassword);
+        return _employeesDAO.updatePassword(employeeID, newPassword);
+    }
+
+    public boolean updateFirstName(int employeeID, String newFirstName){
+        if (employeeID < 0 || newFirstName == null)
+            return false;
+        _employeesDAO.getEmployee(employeeID).setNewFirstName(newFirstName);
+        return _employeesDAO.updateFirstName(employeeID, newFirstName);
+    }
+
+    public boolean updateLastName(int employeeID, String newLastName){
+        if (employeeID < 0 || newLastName == null)
+            return false;
+        _employeesDAO.getEmployee(employeeID).setNewLastName(newLastName);
+        return _employeesDAO.updateLastName(employeeID, newLastName);
+    }
+
+    public boolean updateBankAccount(int employeeID, String newBankAccount){
+        if (employeeID < 0 || newBankAccount == null)
+            return false;
+        _employeesDAO.getEmployee(employeeID).setNewBankAccount(newBankAccount);
+        return _employeesDAO.updateBankAccount(employeeID, newBankAccount);
     }
 
     /**
      * @param employeeID - the id of the employee
      * @return - the employee with the given id, null if the id is invalid
      */
-    public Employee getEmployeeByID(int employeeID){
+    public Employee getEmployee(int employeeID){
         if (employeeID < 0)
             throw new IllegalArgumentException("Illegal employee ID");
         return _employeesDAO.getEmployee(employeeID);
@@ -113,7 +117,7 @@ public class EmployeeController {
     public List<RoleType> printEmployeeRoles(int employeeID) {
         if (employeeID <0)
             throw new IllegalArgumentException("Illegal employee ID");
-        Employee employee = getEmployeeByID(employeeID);
+        Employee employee = getEmployee(employeeID);
         if (employee == null)
             throw new IllegalArgumentException("Employee not found");
         return employee.getRoles();
@@ -126,11 +130,7 @@ public class EmployeeController {
     public boolean removeEmployee(int employeeID) {
         if (employeeID <0)
             throw new IllegalArgumentException("Illegal employee ID");
-        _employeesDAO.Delete(employeeID);
-        _passwordsDAO.Delete(employeeID);
-        _employeesToRolesDAO.Delete(employeeID);
-
-        return true;
+        return _employeesDAO.deleteEmployee(employeeID);
     }
 
 
@@ -142,7 +142,7 @@ public class EmployeeController {
     public boolean removeRoleFromEmployee(int employeeID, int roleIndex) {
         if (employeeID <0)
             throw new IllegalArgumentException("Illegal employee ID");
-        Employee employee = getEmployeeByID(employeeID);
+        Employee employee = getEmployee(employeeID);
         if (employee == null)
             throw new IllegalArgumentException("employee not found");
         return employee.removeRole(roleIndex);
@@ -157,15 +157,24 @@ public class EmployeeController {
     public boolean addRoleToEmployee(int employeeID, RoleType role) {
         if (employeeID <0 || role == null)
             throw new IllegalArgumentException("Invalid arguments");
-        Employee employee = getEmployeeByID(employeeID);
+        Employee employee = getEmployee(employeeID);
         if (employee == null)
             throw new IllegalArgumentException("employee not found");
-        _employeesToRolesDAO.Insert(new Pair<Integer,String>(employeeID, role.toString()));
+        if (!_employeesDAO.insertRoleToEmployee(employeeID, role.toString()))
+            return false;
         return employee.addRole(role);
     }
 
     public List<Employee> getAllEmployees() {
         return _employeesDAO.SelectAllEmployees();
+    }
+
+    public boolean hasHRManager(){
+        return _employeesDAO.existHRmanager();
+    }
+
+    public int getHRManagerID(){
+        return _employeesDAO.getHRManagerID();
     }
 
 }

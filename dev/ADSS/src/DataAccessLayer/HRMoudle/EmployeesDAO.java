@@ -1,33 +1,36 @@
 package DataAccessLayer.HRMoudle;
 
+import BussinessLayer.HRModule.Objects.RoleType;
 import DataAccessLayer.DAO;
 import BussinessLayer.HRModule.Objects.Employee;
 import java.sql.*;
-import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
 public class EmployeesDAO extends DAO {
-
     //int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
-    public static final String IDColumnName = "employeeID";
-    public static final String FirstNameColumnName = "firstName";
-    public static final String LastNameColumnName = "lastName";
-    public static final String AgeColumnName = "age";
-    public static final String BankAccountColumnName = "bankAccount";
-    public static final String SalaryColumnName = "salary";
-    public static final String HiringConditionsColumnName = "hiringConditions";
-    public static final String StartOfEmploymentColumnName = "startDateOfEmployment";
-    public static final String FinishWorkingColumnName = "finishedWorking";
+    private final String EmployeeIDColumnName = "employeeID";
+    private final String FirstNameColumnName = "firstName";
+    private final String LastNameColumnName = "lastName";
+    private final String AgeColumnName = "age";
+    private final String BankAccountColumnName = "bankAccount";
+    private final String SalaryColumnName = "salary";
+    private final String HiringConditionsColumnName = "hiringConditions";
+    private final String StartOfEmploymentColumnName = "startDateOfEmployment";
+    private final String FinishWorkingColumnName = "finishedWorking";
+    private final String PasswordColumnName = "password";
+
+    //EmployeesToRolesDAO
+    private final String RoleTypeColumnName = "roleType";
+    private int _HRmanagerID = -1;
 
     private static EmployeesDAO _employeesDAO;
-    private static EmployeesToRolesDAO _employeesToRolesDAO;
     private HashMap<Integer, Employee> employeesCache;
     private HashMap<Integer, Driver> driverCache;
 
     private EmployeesDAO() {
         super("Employees");
-        _employeesToRolesDAO = EmployeesToRolesDAO.getInstance();
         employeesCache = new HashMap<>();
     }
     public static EmployeesDAO getInstance(){
@@ -36,174 +39,123 @@ public class EmployeesDAO extends DAO {
         return _employeesDAO;
     }
 
-    //table column names
-
-    public boolean Insert(Object employeeObj) {
-
-        Employee employee = (Employee) employeeObj;
-        if (employeesCache.containsKey(employee.getID()))
+    public boolean insertEmployee(int employeeID, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment, String password) {
+        if (employeesCache.containsKey(employeeID))
             throw new IllegalArgumentException("Employee already exists with this ID");
-        //int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
-        String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}, {4}, {5}, {6} ,{7},{8}) VALUES(?, ?, ?, ?, ?, ?,?,?) "
-                , _tableName, IDColumnName, FirstNameColumnName, LastNameColumnName, AgeColumnName, BankAccountColumnName, SalaryColumnName, HiringConditionsColumnName, StartOfEmploymentColumnName);
-        try (Connection connection = DriverManager.getConnection(url);
-            PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, employee.getID());
-            pstmt.setString(2, employee.getFirstName());
-            pstmt.setString(3, employee.getLastName());
-            pstmt.setInt(4, employee.getAge());
-            pstmt.setString(5, employee.getBankAccount());
-            pstmt.setInt(6, employee.getSalary());
-            pstmt.setString(7, employee.getHiringCondition());
-            pstmt.setString(8, employee.getStartDateOfEmployement().format(formatters));
-            //pstmt.setBoolean(9, employee.getFinishedWorking());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            if (e.getMessage().contains("A PRIMARY KEY constraint failed"))
-                throw new IllegalArgumentException("An employee with this ID already exists");
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            return false;
-        }
+        insert(_tableName, makeList(EmployeeIDColumnName, FirstNameColumnName, LastNameColumnName, AgeColumnName, BankAccountColumnName, SalaryColumnName, HiringConditionsColumnName, StartOfEmploymentColumnName, FinishWorkingColumnName, PasswordColumnName),
+                makeList(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployment.format(formatters), false, password));
+        employeesCache.put(employeeID, new Employee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployment, password));
         return true;
     }
 
-    /*public boolean Insert(Driver driver) {
-        Employee employee = new Employee(driver.getID(), driver.getName(), driver.getBankAccount(), driver.getSalary(), driver.getHiringCondition(), driver.getJobType().toString());
-        boolean res = true;
-        String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}, {4}, {5}, {6} ,{7},{8}) VALUES(?, ?, ?, ?, ?, ?,?,?) "
-                , _tableName, IDColumnName, NameColumnName, BankAccountColumnName, SalaryColumnName, HiringConditionsColumnName, StartOfEmploymentColumnName, FinishWorkingColumnName, JobTypeColumnName
-        );
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            //Connection connection=open
-            //pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1, employee.getId());
-            pstmt.setString(2, employee.getName());
-            pstmt.setInt(3, employee.getBankAccount());
-            pstmt.setInt(4, employee.getSalary());
-            pstmt.setString(5, employee.getHiringCondition());
-            pstmt.setString(6, employee.getStartOfEmployment().format(formatters));
-            pstmt.setBoolean(7, employee.getFinishWorking());
-            pstmt.setString(8, employee.getJobType().toString());
-            pstmt.executeUpdate();
-            //   EmployeeConstraintsDAO.Insert
-
-
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            res = false;
+    public boolean deleteEmployee(int employeeID) {
+        if (employeesCache.containsKey(employeeID)) {
+            employeesCache.remove(employeeID);
         }
-        return res;
-    }
-*/
-
-    @Override
-    public boolean Delete(Object objectEmployeeID) {
-        int employeeID = (int)objectEmployeeID;
-        String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ? ", _tableName, IDColumnName);
-
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-             pstmt.setInt(1, employeeID);
-             pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            return false;
-        }
-        employeesCache.remove(employeeID);
-        return true;
-    }
-
-    public boolean inCache(int idEmployee){
-        return employeesCache.containsKey(idEmployee);
+        deleteAllRolesFromEmployee(employeeID);
+        return delete(_tableName, makeList(EmployeeIDColumnName), makeList(employeeID));
     }
 
     public List<Employee> SelectAllEmployees() {
-        return (List<Employee>) (List<?>) Select();
-    }
-
-    public List<Employee> SelectAllEmployeesID() {
-        return (List<Employee>) (List<?>) Select();
+        return (List<Employee>) (List<?>) select();
     }
 
     @Override
     public Employee convertReaderToObject(ResultSet rs) throws SQLException {
         if(employeesCache.containsKey(rs.getInt(1)))
             return employeesCache.get(rs.getInt(1));
-        //int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
-        Employee employee = new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6), rs.getString(7), parseLocalDate(rs.getString(8)));
-        _employeesToRolesDAO.addRolesToEmployee(employee);
-        employeesCache.put(employee.getID(), employee);
+        Employee employee = new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6), rs.getString(7), parseLocalDate(rs.getString(8)),rs.getString(9));
+        addRolesToEmployee(employee);
+        employeesCache.put(employee.getEmployeeID(), employee);
         return employee;
     }
 
-    public void setBankAccount(int id, int bankAccount) {
-        Update(BankAccountColumnName, bankAccount, makeList(IDColumnName), makeList(String.valueOf(id)));
+    public boolean updateBankAccount(int employeeID, String bankAccount) {
+        return update(_tableName,BankAccountColumnName, bankAccount, makeList(EmployeeIDColumnName), makeList(employeeID));
     }
 
-    public void setSalary(int id, int salary) {
-        Update(SalaryColumnName, salary, makeList(IDColumnName), makeList(String.valueOf(id)));
+    public boolean updateSalary(int employeeID, int salary) {
+        return update(_tableName, SalaryColumnName, salary, makeList(EmployeeIDColumnName), makeList(employeeID));
     }
 
-    public void setHiringConditions(int id, String hiringConditions) {
-        Update(HiringConditionsColumnName, hiringConditions, makeList(IDColumnName), makeList(String.valueOf(id)));
+    public boolean updateFirstName(int employeeID, String firstName) {
+        return update(_tableName, FirstNameColumnName, firstName, makeList(EmployeeIDColumnName), makeList(employeeID));
     }
 
-    public void setStartOfEmployment(int id, String startOfEmployment) {
-        Update(StartOfEmploymentColumnName, startOfEmployment, makeList(IDColumnName), makeList(String.valueOf(id)));
+    public boolean updateLastName(int employeeID, String lastName) {
+        return update(_tableName, LastNameColumnName, lastName, makeList(EmployeeIDColumnName), makeList(employeeID));
     }
 
-    public void setFinishWorking(int id, boolean finishWorking) {
-        Update(FinishWorkingColumnName, finishWorking, makeList(IDColumnName), makeList(String.valueOf(id)));
+    public boolean updateFinishWorking(int employeeID, boolean finishWorking) {
+        return update(_tableName,FinishWorkingColumnName, finishWorking, makeList(EmployeeIDColumnName), makeList(employeeID));
     }
 
-
-    public Employee getEmployee(int id) {
-        if (employeesCache.containsKey(id)) //Employee in cache
-            return employeesCache.get(id);
-        List<Employee> result = Select(makeList(IDColumnName), makeList(String.valueOf(id)));
+    public Employee getEmployee(int employeeID) {
+        if (employeesCache.containsKey(employeeID)) //Employee in cache
+            return employeesCache.get(employeeID);
+        List<Employee> result = select(_tableName,makeList(EmployeeIDColumnName), makeList(employeeID));
         if (result.size() == 0)
-            throw new IllegalArgumentException("Employee " + id + " does not exist");
+            return null;
         Employee employee = result.get(0);
-        employeesCache.put(id, employee);
+        employeesCache.put(employeeID, employee);
         return employee;
 
     }
 
+    public boolean existEmployee(int employeeID){
+        List employees = select(_tableName,makeList(EmployeeIDColumnName), makeList(employeeID));
+        return employees.size() != 0;
+    }
 
-    public boolean existEmployee(int id){
-        boolean exist =false;
-        /// keys is for tables that have more than one key
-        String sql = MessageFormat.format("SELECT {0} From {1} WHERE {2} = ?",
-                IDColumnName,  _tableName, IDColumnName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            ResultSet resultSet = pstmt.executeQuery();
-            while (resultSet.next()) {
-                // Fetch each row from the result set
-                exist=true;
-            }
+    public boolean checkPassword(int employeeID, String password){
+        return selectT(_tableName,PasswordColumnName,makeList(EmployeeIDColumnName,PasswordColumnName), makeList(employeeID,password),String.class).get(0).equals(password);
+    }
 
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
+    public boolean updatePassword(int employeeID, String password) {
+        return update("Passwords", PasswordColumnName, password, makeList(EmployeeIDColumnName), makeList(employeeID));
+    }
+
+    public boolean insertRoleToEmployee(int employeeID, String strRoleType) {
+        if (strRoleType.equals("HRManager"))
+            _HRmanagerID = employeeID;
+        return insert("EmployeesToRoles", makeList(EmployeeIDColumnName, RoleTypeColumnName), makeList(employeeID, strRoleType));
+    }
+
+    public boolean deleteRoleFromEmployee(int employeeID,String strRoleType) {
+        return delete("EmployeesToRoles", makeList(EmployeeIDColumnName, RoleTypeColumnName), makeList(employeeID, strRoleType));
+    }
+
+    public boolean deleteAllRolesFromEmployee(int employeeID) {
+        return delete("EmployeesToRoles", makeList(EmployeeIDColumnName), makeList(employeeID));
+    }
+
+    public boolean existHRmanager(){
+        if (_HRmanagerID != -1)
+            return true;
+        List<Integer> result = selectT("EmployeesToRoles",EmployeeIDColumnName,makeList(RoleTypeColumnName),makeList("HRManager"),Integer.class);
+        if (result.size() == 0)
+            return false;
+        _HRmanagerID = result.get(0);
+        return true;
+    }
+
+    public int getHRManagerID() {
+        if (_HRmanagerID != -1)
+            return _HRmanagerID;
+        existHRmanager();
+        return _HRmanagerID;
+    }
+
+    public boolean addRolesToEmployee(Employee employee){
+        if (employee == null)
+            return false;
+        List<String> strRoles = selectT(_tableName,RoleTypeColumnName,makeList(EmployeeIDColumnName),makeList(employee.getEmployeeID()),String.class);
+        for (String strRole : strRoles) {
+            employee.addRole(RoleType.valueOf(strRole));
         }
-        return exist;
+        return true;
     }
-
-    public void resetCache() {
-        employeesCache.clear();
-    }
-
-
 }
+
 
 

@@ -2,14 +2,13 @@ package BussinessLayer.HRModule.Controllers;
 
 import BussinessLayer.HRModule.Objects.*;
 import DataAccessLayer.HRMoudle.EmployeesDAO;
-import DataAccessLayer.HRMoudle.EmployeesToRolesDAO;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class Facade {
     private Employee _loggedUser;
-    private Employee _HRManager;
+    int _HRManagerID;
     private boolean _hasHRManager;
     private static Facade _facade = null;
     private final StoreController _storeController;
@@ -20,9 +19,9 @@ public class Facade {
         _storeController = StoreController.getInstance();
         _employeeController = EmployeeController.getInstance();
         _scheduleController = ScheduleController.getInstance();
-        _hasHRManager = EmployeesToRolesDAO.getInstance().existHRmanager();
+        _hasHRManager = _employeeController.hasHRManager();
         if (_hasHRManager)
-            _HRManager = EmployeesDAO.getInstance().getEmployee(EmployeesToRolesDAO.getInstance().getHRmangerID());
+            _HRManagerID = _employeeController.getHRManagerID();
     }
 
     public static Facade getInstance(){
@@ -47,7 +46,7 @@ public class Facade {
     }
 
     public boolean isLoggedUserIsHRManager(){
-        return _loggedUser == _HRManager;
+        return _loggedUser.getEmployeeID() == _HRManagerID;
     }
 
     public boolean logout(){
@@ -68,29 +67,34 @@ public class Facade {
     public boolean setNewFirstName(String firstName){
         if (firstName == null)
             throw new IllegalArgumentException("Invalid first name");
-        return _loggedUser.setNewFirstName(firstName);
+        return _employeeController.updateFirstName(_loggedUser.getEmployeeID(), firstName);
     }
 
     public boolean setNewLastName(String lastName){
         if (lastName == null)
             throw new IllegalArgumentException("Invalid last name");
-        return _loggedUser.setNewLastName(lastName);
+        return _employeeController.updateLastName(_loggedUser.getEmployeeID(), lastName);
     }
 
     public boolean setNewBankAccount(String bankAccount){
         if (bankAccount == null)
             throw new IllegalArgumentException("Invalid bank account");
-        return _loggedUser.setNewBankAccount(bankAccount);
+        return _employeeController.updateBankAccount(_loggedUser.getEmployeeID(), bankAccount);
+    }
+
+    public boolean setNewPassword(String password){
+        if (password == null)
+            throw new IllegalArgumentException("Invalid password");
+        return _employeeController.updatePassword(_loggedUser.getEmployeeID(), password);
     }
 
     public boolean createEmployee(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployemen, String password, boolean isHRManager) {
         if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null)
             throw new IllegalArgumentException("Invalid arguments");
-        boolean res = _employeeController.createEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployemen, password);
-        if (!res)
+        if (!_employeeController.createEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployemen, password))
             return false;
         if (isHRManager) {
-            return _employeeController.addRoleToEmployee(employeeID, RoleType.HRManager);
+            return addRoleToEmployee(employeeID, RoleType.HRManager);
         }
         return true;
     }
@@ -129,6 +133,8 @@ public class Facade {
 
     //_ScheduleController
     public boolean createNewSchedule(String StoreName, int day, int month, int year){
+        if (!_storeController.existsStore(StoreName))
+            throw new IllegalArgumentException("Store doesn't exist in order to create for it a schedule");
         return _scheduleController.createNewSchedule(StoreName, day, month, year);
     }
 
@@ -169,5 +175,9 @@ public class Facade {
 
     public List<Employee> getAllEmployees(){
         return _employeeController.getAllEmployees();
+    }
+
+    public boolean deleteSchedule(String storeName){
+        return _scheduleController.deleteActiveSchedule(storeName);
     }
 }

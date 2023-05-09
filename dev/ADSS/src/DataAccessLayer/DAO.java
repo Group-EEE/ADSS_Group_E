@@ -6,16 +6,15 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Date;
 
 
 public abstract class DAO {
 
-    //public final String _connectionString;
-    public final String _tableName;
-    public static Connection connection = null;
-    public static final String url = "jdbc:sqlite:SuperLi.db";
+    protected final String _tableName;
+    public static Connection connection;
+    protected final String url = "jdbc:sqlite:SuperLi.db";
     protected DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     //constructor
@@ -31,7 +30,35 @@ public abstract class DAO {
         }
     }
 
-    public boolean Delete() {
+    protected String keysQuery(List<Object> columnKeys) {
+        String keysQuery = "";
+        for (Object key : columnKeys) {
+            keysQuery += " " + (String)key + " = ? AND";
+        }
+        keysQuery = keysQuery.substring(0, keysQuery.length() - 4);
+
+        return keysQuery;
+    }
+
+    public List<Object> makeList(Object... objects) {
+        List<Object> list = new ArrayList<Object>();
+        list.addAll(Arrays.asList(objects));
+        return list;
+    }
+
+    public abstract Object convertReaderToObject(ResultSet res) throws SQLException, ParseException;
+
+    protected LocalDate parseLocalDate(String data) {
+        LocalDate d = null;
+        try {
+            DateTimeFormatter formatter_1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            d = LocalDate.parse(data, formatter_1);
+        } catch (Exception e) {
+        }
+        return d;
+    }
+
+    public boolean delete() {
         boolean res = true;
         String sql = MessageFormat.format("DELETE FROM {0}", _tableName);
 
@@ -47,234 +74,33 @@ public abstract class DAO {
         return res;
     }
 
-    public boolean Update(String ColumnName, String value, String key) {
-        boolean res = true;
-        String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE id = ? "
-                , _tableName, ColumnName);
+    public boolean delete(String tableName, List<Object> columnKeys, List keys) {
+        StringBuilder keysString= new StringBuilder();
+        for (Object key : keys)
+            keysString.append(String.valueOf(key)).append(", ");
+        keysString = new StringBuilder(keysString.substring(0, keysString.length() - 2));
+        String sql = MessageFormat.format("DELETE FROM {0} WHERE" + keysQuery(columnKeys)
+                , tableName, keysString.toString());
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, value);
-            pstmt.setString(2, key);
+            int i = 1;
+            for (Object key : keys)
+                if (key instanceof String)
+                    pstmt.setString(i++, (String) key);
+                else
+                    pstmt.setInt(i++, (int) key);
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
             System.out.println(sql);
-            res = false;
+            return false;
         }
-        return res;
+        return true;
     }
 
-    public boolean Update(String ColumnKey, String ColumnValueName, String key, String value) {
-        boolean res = true;
-        String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE {2} = ? "
-                , _tableName, ColumnValueName, ColumnKey);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, value);
-            pstmt.setString(2, key);
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            res = false;
-        }
-        return res;
-    }
-    public boolean Update(String table, String ColumnKey, String ColumnValueName, String key, String value) {
-        boolean res = true;
-        String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE {2} = ? "
-                , table, ColumnValueName, ColumnKey);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, value);
-            pstmt.setString(2, key);
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            res = false;
-        }
-        return res;
-    }
-
-    public boolean Update(String ColumnName, String value, List<String> Columnkeys, List<String> keys) {
-        boolean res = true;
-        String keysQuery;
-        String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE" + keysQuery(Columnkeys)
-                , _tableName, ColumnName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, value);
-            int i = 2;
-            for (String key : keys) {
-                pstmt.setString(i, key);
-                i++;
-            }
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            res = false;
-        }
-        return res;
-    }
-
-    public boolean Update(String ColumnName, int value, List<String> Columnkeys, List<String> keys) {
-        boolean res = true;
-        String keysQuery;
-        String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE" + keysQuery(Columnkeys)
-                , _tableName, ColumnName);
-
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, value);
-            int i = 2;
-            for (String key : keys) {
-                pstmt.setString(i, key);
-                i++;
-            }
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            res = false;
-        }
-        return res;
-    }
-
-    public boolean Update(String ColumnName, double value, List<String> Columnkeys, List<String> keys) {
-        boolean res = true;
-        String keysQuery;
-        String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE" + keysQuery(Columnkeys)
-                , _tableName, ColumnName);
-
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setDouble(1, value);
-            int i = 2;
-            for (String key : keys) {
-                pstmt.setString(i, key);
-                i++;
-            }
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            res = false;
-        }
-        return res;
-    }
-
-    public boolean Update(String ColumnName, Date value, List<String> Columnkeys, List<String> keys) {
-        boolean res = true;
-        String keysQuery;
-        String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE" + keysQuery(Columnkeys)
-                , _tableName, ColumnName);
-
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setDate(1, (java.sql.Date) value);
-            int i = 2;
-            for (String key : keys) {
-                pstmt.setString(i, key);
-                i++;
-            }
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            res = false;
-        }
-        return res;
-    }
-
-    public boolean Update(String ColumnName, boolean value, List<String> Columnkeys, List<String> keys) {
-        boolean res = true;
-        String keysQuery;
-        String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE" + keysQuery(Columnkeys)
-                , _tableName, ColumnName);
-
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setBoolean(1, value);
-            int i = 2;
-            for (String key : keys) {
-                pstmt.setString(i, key);
-                i++;
-            }
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            res = false;
-        }
-        return res;
-    }
-
-    protected String keysQuery(List<String> Columnkeys) {
-        String keysQuery = "";
-        for (String key : Columnkeys) {
-            keysQuery += " " + key + " = ? AND";
-        }
-        keysQuery = keysQuery.substring(0, keysQuery.length() - 4);
-
-        return keysQuery;
-    }
-
-    public boolean Update(String ColumnName, int value, String key) {
-        boolean res = true;
-        String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE id = ? "
-                , _tableName, ColumnName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, value);
-            pstmt.setString(2, key);
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            res = false;
-        }
-        return res;
-    }
-
-    public boolean Update(String ColumnName, double value, String key) {
-        boolean res = true;
-        String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE id = ? "
-                , _tableName, ColumnName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setDouble(1, value);
-            pstmt.setString(2, key);
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            res = false;
-        }
-        return res;
-    }
-
-    protected List Select() {
+    protected List select() {
         List list = new ArrayList<>();
         String sql = MessageFormat.format("SELECT * From {0}"
                 , _tableName);
@@ -294,51 +120,21 @@ public abstract class DAO {
         return list;
     }
 
-    protected List Select(String columnName) {
+    protected List select(String tableName, List<Object> columnKeys, List keys) {
         List list = new ArrayList<>();
-        String sql = MessageFormat.format("SELECT {0} From {1}"
-                , columnName, _tableName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            ResultSet resultSet = pstmt.executeQuery();
-            while (resultSet.next() != false) {
-                // Fetch each row from the result set
-                list.add(convertReaderToObject(resultSet));
-            }
-
-        } catch (SQLException | ParseException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-        }
-        return list;
-    }
-
-    public List<String> makeList(String... strings) {
-        List<String> list = new ArrayList<String>();
-        for (String s : strings)
-            list.add(s);
-        return list;
-    }
-
-    protected List Select(List<String> Columnkeys, List<String> keys) {
-        List list = new ArrayList<>();
-        /// keys is for tables that have more that one key
-        String sql = MessageFormat.format("SELECT * From {0} WHERE" + keysQuery(Columnkeys)
-                , _tableName);
+        String sql = MessageFormat.format("SELECT * From {0} WHERE" + keysQuery(columnKeys)
+                , tableName);
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             int i = 1;
-            for (String key : keys) {
-                pstmt.setString(i, key);
-                i++;
-            }
+            for (Object key : keys)
+                if (key instanceof String)
+                    pstmt.setString(i++, (String) key);
+                else
+                    pstmt.setInt(i++, (int) key);
             ResultSet resultSet = pstmt.executeQuery();
-            while (resultSet.next()) {
-                // Fetch each row from the result set
+            while (resultSet.next())
                 list.add(convertReaderToObject(resultSet));
-            }
-
         } catch (SQLException | ParseException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
@@ -347,22 +143,27 @@ public abstract class DAO {
         return list;
     }
 
-    protected List SelectString(String ColumnName, List<String> Columnkeys, List<String> keys) {
+    
+    protected <T> List<T> selectT(String tableName, String ColumnName, List<Object> Columnkeys, List<Object> keys,Class<T> type) {
         List list = new ArrayList<>();
         /// keys is for tables that have more that one key
         String sql = MessageFormat.format("SELECT {0} From {1} WHERE" + keysQuery(Columnkeys),
-                ColumnName, _tableName);
+                ColumnName, tableName);
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             int i = 1;
-            for (String key : keys) {
-                pstmt.setString(i, key);
-                i++;
-            }
+            for (Object key : keys)
+                if (key instanceof String)
+                    pstmt.setString(i++, (String) key);
+                else
+                    pstmt.setInt(i++, (int) key);
             ResultSet resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
                 // Fetch each row from the result set
-                list.add(resultSet.getString(1));
+                if (type == String.class)
+                    list.add(resultSet.getString(1));
+                else if (type == Integer.class)
+                    list.add(resultSet.getInt(1));
             }
 
         } catch (SQLException e) {
@@ -373,41 +174,15 @@ public abstract class DAO {
         return list;
     }
 
-    protected List SelectString(String table, String ColumnName, List<String> Columnkeys, List<String> keys) {
-        List list = new ArrayList<>();
-        /// keys is for tables that have more that one key
-        String sql = MessageFormat.format("SELECT {0} From {1} WHERE" + keysQuery(Columnkeys),
-                ColumnName, table);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            int i = 1;
-            for (String key : keys) {
-                pstmt.setString(i, key);
-                i++;
-            }
-            ResultSet resultSet = pstmt.executeQuery();
-            while (resultSet.next()) {
-                // Fetch each row from the result set
-                list.add(resultSet.getString(1));
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-        }
-        return list;
-    }
-
-    protected List SelectMaxString(String table, String ColumnName, List<String> Columnkeys, List<String> keys) {
+    protected List selectMaxString(String tableName, String ColumnName, List Columnkeys, List<String> keys) {
         List list = new ArrayList<>();
         /// keys is for tables that have more that one key
         String sql;
         if (Columnkeys == null && keys == null)
-            sql = MessageFormat.format("SELECT MAX({0}) From {1}", ColumnName, table);
+            sql = MessageFormat.format("SELECT MAX({0}) From {1}", ColumnName, tableName);
         else
             sql = MessageFormat.format("SELECT MAX({0}) From {1} WHERE" + keysQuery(Columnkeys),
-                    ColumnName, table);
+                    ColumnName, tableName);
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             if (!(Columnkeys == null && keys == null)) {
@@ -432,48 +207,61 @@ public abstract class DAO {
         return list;
     }
 
-    /*
-        protected  List Select(String ColumnReturn, List<String> Columnkeys, List<String> keys){
-            List list=new ArrayList<>();
-            /// keys is for tables that have more that one key
-            String sql = MessageFormat.format("SELECT {1} From {0} WHERE"+keysQuery(Columnkeys)
-                    , _tableName,ColumnReturn);
-            try (Connection connection = DriverManager.getConnection(url);
-                 PreparedStatement pstmt = connection.prepareStatement(sql)) {
-                int i=2;
-                for(String key: keys){
-                    pstmt.setString(i, key);
-                    i++;
-                }
-                ResultSet resultSet=pstmt.executeQuery();
-                while (resultSet.next()) {
-                    // Fetch each row from the result set
-                    list.add(resultSet);
-                }
+    public boolean update(String tableName, String columnName, Object value, List columnKeys, List keys) {
+        String keysString = String.join(", ", columnKeys);
+        String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE" + keysQuery(columnKeys)
+                , tableName, columnName,keysString);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            if (value instanceof String)
+                pstmt.setString(1, (String) value);
+            else if (value instanceof Integer)
+                pstmt.setInt(1, (int) value);
+            else
+                pstmt.setNull(2, Types.INTEGER);
 
-            } catch (SQLException | ParseException e) {
-                System.out.println("Got Exception:");
-                System.out.println(e.getMessage());
-                System.out.println(sql);
+            for (Object key : keys)
+                if (key instanceof String)
+                    pstmt.setString(2, (String) key);
+                else if (key instanceof Integer)
+                    pstmt.setInt(2, (int) key);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean insert(String tableName, List columnKeys, List keys) {
+        String keysString = String.join(", ", columnKeys); // Combine columnKeys into a comma-separated string
+        String sql =  "INSERT INTO {0} ("+String.join(",",columnKeys)+") VALUES ("+"?,".repeat(columnKeys.size()-1)+"?)";
+        sql = MessageFormat.format(sql, tableName,keysString);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            int i = 1;
+            for (Object key : keys) {
+                if (key instanceof String)
+                    pstmt.setString(i, (String) key);
+                else if (key instanceof Integer)
+                    pstmt.setInt(i, (Integer) key);
+                else if (key instanceof Boolean)
+                    pstmt.setBoolean(i, (Boolean) key);
+                else
+                    pstmt.setNull(i, Types.INTEGER);
+                i++;
             }
-            return list;
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+            return false;
         }
-
-    */
-    //abstract functions
-    public abstract boolean Insert(Object obj);
-
-    public abstract boolean Delete(Object obj);
-
-    public abstract Object convertReaderToObject(ResultSet res) throws SQLException, ParseException;
-
-    protected LocalDate parseLocalDate(String data) {
-        LocalDate d = null;
-        try {
-            DateTimeFormatter formatter_1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            d = LocalDate.parse(data, formatter_1);
-        } catch (Exception e) {
-        }
-        return d;
+        return true;
     }
 }

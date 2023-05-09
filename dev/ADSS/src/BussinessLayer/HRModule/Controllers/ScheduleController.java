@@ -1,30 +1,29 @@
 package BussinessLayer.HRModule.Controllers;
 
 import BussinessLayer.HRModule.Objects.*;
-import DataAccessLayer.HRMoudle.EmployeesToStoreDAO;
-import DataAccessLayer.HRMoudle.SchedulesDAO;
-import DataAccessLayer.HRMoudle.ShiftsDAO;
+import DataAccessLayer.HRMoudle.*;
 
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ScheduleController {
 
 
     private static ScheduleController _scheduleController = null;
-    private final SchedulesDAO _schedulesDAO;
-    private final EmployeesToStoreDAO _employeesToStoreDAO;
-    private static ShiftsDAO _shiftsDAO;
-    private final HashMap<Integer,List<Shift>> _scheduleIDToShifts;
+    private SchedulesDAO _schedulesDAO;
+    private ShiftsDAO _shiftsDAO;
+    private EmployeesDAO _employeesDAO;
+    private StoresDAO _storesDAO;
 
     private ScheduleController(){
         _schedulesDAO = SchedulesDAO.getInstance();
-        _employeesToStoreDAO = EmployeesToStoreDAO.getInstance();
         _shiftsDAO = ShiftsDAO.getInstance();
-        _scheduleIDToShifts = new HashMap<>();
+        _employeesDAO = EmployeesDAO.getInstance();
+        _storesDAO = StoresDAO.getInstance();
     }
     public static ScheduleController getInstance(){
         if (_scheduleController == null)
@@ -34,61 +33,73 @@ public class ScheduleController {
 
     public boolean createNewSchedule(String storeName, int day, int month, int year){
         if (storeName == null)
-            throw new IllegalArgumentException("Invalid store ID");
+            throw new IllegalArgumentException("Invalid store name");
         if (day < 1 || day > 31 || month < 1 || month > 12 || year < 0)
             throw new IllegalArgumentException("Invalid date parameters");
         LocalDate localDate = LocalDate.of(year, month, day);
         int scheduleID = _schedulesDAO.getScheduleMaxID();
         List<Shift> shifts = new ArrayList<>();
         for (int i=0; i<14; i++){
-            Shift shift;
             if (i % 2 == 0)
-                shift = new Shift(scheduleID,i, ShiftType.MORNING, 8 , 16,localDate.plusDays(i/2));
+                shifts.add(_shiftsDAO.insertShift(scheduleID,i, ShiftType.MORNING.toString(), 8 , 16,localDate.plusDays(i/2)));
             else
-                shift = new Shift(scheduleID,i, ShiftType.NIGHT, 16 , 24,localDate.plusDays(i/2));
-            shifts.add(shift);
-            _scheduleIDToShifts.put(scheduleID,shifts);
-            _shiftsDAO.Insert(shift);
+                shifts.add(_shiftsDAO.insertShift(scheduleID,i, ShiftType.NIGHT.toString(), 16 , 24,localDate.plusDays(i/2)));
+
         }
-        Schedule schedule = new Schedule(scheduleID, localDate, storeName);
-        return _schedulesDAO.Insert(schedule);
+        _storesDAO.insertActiveSchedule(storeName, scheduleID);
+        _schedulesDAO.insertSchedule(scheduleID, storeName,localDate);
+        Schedule schedule = _schedulesDAO.getSchedule(scheduleID);
+        return schedule.setShifts(shifts);
     }
 
-    public boolean deleteSchedule(String storeName){
+    public boolean deleteActiveSchedule(String storeName){
         if (storeName == null)
             throw new IllegalArgumentException("Invalid store ID");
-        int scheduleID = _schedulesDAO.getSchedule(storeName).getScheduleID();
-        _shiftsDAO.Delete(scheduleID);
-        return _schedulesDAO.Delete(storeName);
+        int scheduleID = _storesDAO.getActiveSchedule(storeName);//TODO:DELETE FROM STORES
+        _storesDAO.deleteActive(storeName);
+        return deleteSchedule(scheduleID);
+    }
+
+    public boolean deleteSchedule(int scheduleID){
+        if (scheduleID < 0)
+            throw new IllegalArgumentException("Invalid schedule ID");
+        _shiftsDAO.deleteShifts(scheduleID);
+        return _schedulesDAO.deleteSchedule(scheduleID);
     }
 
     public Schedule getSchedule(String StoreName){
         if (StoreName == null )
             throw new IllegalArgumentException("Invalid store ID");
-        Schedule schedule = _schedulesDAO.getSchedule(StoreName);
+        int scheduleID = _storesDAO.getActiveSchedule(StoreName);
+        Schedule schedule = _schedulesDAO.getSchedule(scheduleID);
         if (schedule == null)
             throw new IllegalArgumentException("Could not find schedule for this store");
+        List<Shift> shifts = _shiftsDAO.getShiftsByScheduleID(schedule.getScheduleID());
+        for (Shift shift : shifts){
+            for (String strRole : _shiftsDAO.getRequiredRoles(shift.getScheduleID(),shift.getShiftID())){
+                shift.addRequiredRole(RoleType.valueOf(strRole));
+            }
+            for (Integer employeeID : _shiftsDAO.getInquireEmployees(shift.getScheduleID(),shift.getShiftID())){
+                shift.addInquiredEmployee(_employeesDAO.getEmployee(employeeID));
+            }
+            for (Map.Entry<String, Integer> entry : _shiftsDAO.getAssignedEmployees(shift.getScheduleID(),shift.getShiftID()).entrySet()){
+                shift.addFilledRole(RoleType.valueOf(entry.getKey()), _employeesDAO.getEmployee(entry.getValue()));
+            }
+        }
+        schedule.setShifts(shifts);
         return schedule;
     }
-
 
     public List<Shift> getEmployeeSchedule(Employee employee){
         List<Shift> shiftList = new ArrayList<>();
         if (employee == null)
             throw new IllegalArgumentException("Invalid employee");
         //get all the stores that employee works in
-        List<String> storesNames = _employeesToStoreDAO.getStoreNameByEmployeeID(employee.getID());
+        List<String> storesNames = _storesDAO.getStoreNamesByEmployeeID(employee.getEmployeeID());
         //get all the active schedules for those stores
-        List<Schedule> schedules = new ArrayList<>();
         for (String storeName :storesNames){
-            Schedule schedule = _schedulesDAO.getSchedule(storeName);
-            if (schedule != null)
-                schedules.add(schedule);
-        }
-        //get objects schedules by schedules ids
-        for (Schedule schedule : schedules){
-            for (Shift shift : schedule.getShifts()){
-                if (shift.hasEmployee(employee)){
+            for (Shift shift : getSchedule(storeName).getShifts()){
+                if (shift.hasAssignedEmployee(employee)){
                     shiftList.add(shift);
                 }
             }
@@ -101,43 +112,37 @@ public class ScheduleController {
             throw new IllegalArgumentException("Invalid store name");
         if (newStartHour < 0 || newStartHour > 23 || newEndHour < 0 || newEndHour > 23)
             throw new IllegalArgumentException("Invalid hours");
-        Schedule schedule = _schedulesDAO.getSchedule(storeName);
+        Schedule schedule = getSchedule(storeName);
         if (schedule == null)
             throw new IllegalArgumentException("Invalid store");
-        schedule.getShift(shiftID).setStartHour(newStartHour);
-        schedule.getShift(shiftID).setEndHour(newEndHour);
+        schedule.changeHoursShift(shiftID, newStartHour, newEndHour);
+        _shiftsDAO.setStartTime(schedule.getScheduleID(),shiftID, newStartHour);
+        _shiftsDAO.setEndTime(schedule.getScheduleID(),shiftID, newEndHour);
         return true;
     }
-    /**
-     * @param storeName - the store to approve the schedule for
-     * @return the list of shifts that were rejected
-     */
+
     public List<Shift> approveSchedule(String storeName){
         if (storeName == null )
             throw new IllegalArgumentException("Invalid store name");
-        Schedule schedule = _schedulesDAO.getSchedule(storeName);
+        Schedule schedule = getSchedule(storeName);
         if (schedule == null)
             throw new IllegalArgumentException("Schedule not yet created");
         List<Shift> rejectedShifts = schedule.approveSchedule();
+        for (Shift shift : schedule.getShifts()){
+            for (HashMap.Entry<RoleType,Employee> entry : shift.getAssignedEmployees().entrySet())
+                _shiftsDAO.insertAssignedEmployee(schedule.getScheduleID(),shift.getShiftID(),entry.getKey().toString(),entry.getValue().getEmployeeID());
+        }
         return rejectedShifts;
     }
 
-    /**
-     * @param shift - the shift to remove the role from
-     * @param role - the role to remove
-     * @return true if the role was removed successfully, false otherwise
-     */
+
     public boolean removeRoleFromShift(Shift shift, RoleType role){
         if (shift == null || role == null)
             return false;
+        _shiftsDAO.removeRequiredRole(shift.getScheduleID(), shift.getShiftID(), role.toString());
         return shift.removeRequiredRole(role);
     }
 
-
-    /**
-     * @param shift - the shift to check possible
-     * @return
-     */
     public List<RoleType> shiftHasMissingRequiredRole(Shift shift){
         if (shift == null)
             return null;
@@ -155,13 +160,11 @@ public class ScheduleController {
             throw new IllegalArgumentException("Invalid store name");
         if (role == null)
             throw new IllegalArgumentException("Invalid role");
-        Schedule schedule = _schedulesDAO.getSchedule(storeName);
+        Schedule schedule = getSchedule(storeName);
         if (schedule == null)
             throw new IllegalArgumentException("schedule not yet made");
-        Shift shift = schedule.getShift(shiftID);
-        if (shift == null)
-            throw new IllegalArgumentException("Invalid shift");
-        return shift.addRequiredRole(role);
+        _shiftsDAO.insertRequiredRole(schedule.getScheduleID(),shiftID, role.toString());
+        return schedule.addRequiredRoleToShift(shiftID, role);
     }
 
     public boolean removeRequiredRoleFromShift(String storeName, int shiftID, RoleType role){
@@ -169,30 +172,23 @@ public class ScheduleController {
             throw new IllegalArgumentException("Invalid store name");
         if (role == null)
             throw new IllegalArgumentException("Invalid role");
-        Schedule schedule = _schedulesDAO.getSchedule(storeName);
+        Schedule schedule = getSchedule(storeName);
         if (schedule == null)
             throw new IllegalArgumentException("schedule not yet made");
-        Shift shift = schedule.getShift(shiftID);
-        if (shift == null)
-            throw new IllegalArgumentException("Invalid shift");
-        return shift.removeRequiredRole(role);
+        if (!_shiftsDAO.removeRequiredRole(schedule.getScheduleID(),shiftID, role.toString()))
+            return false;
+        return schedule.removeRequiredRoleFromShift(shiftID, role);
     }
 
-    public boolean addEmployeeToShift(Employee employee, int storeID, int choice){
-        if (storeID < 0 )
-            throw new IllegalArgumentException("Invalid store ID");
-        Schedule schedule = _schedulesDAO.getSchedule(storeID);
-        if (schedule == null)
-            throw new IllegalArgumentException("schedule not yet made");
-        return schedule.addEmployeeToShift(employee,choice);
-    }
 
     public boolean addEmployeeToShift(Employee employee, String storeName, int choice){
         if (storeName == null )
             throw new IllegalArgumentException("Invalid store name");
-        Schedule schedule = _schedulesDAO.getSchedule(storeName);
+        Schedule schedule = getSchedule(storeName);
         if (schedule == null)
             throw new IllegalArgumentException("schedule not yet made");
+        if (!_shiftsDAO.insertInquiredEmployee(schedule.getScheduleID(),choice,employee.getEmployeeID()))
+            return false;
         return schedule.addEmployeeToShift(employee,choice);
     }
 }

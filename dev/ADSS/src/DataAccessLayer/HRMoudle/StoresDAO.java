@@ -1,11 +1,9 @@
 package DataAccessLayer.HRMoudle;
 
-import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.Store;
 import DataAccessLayer.DAO;
 
 import java.sql.*;
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,11 +11,15 @@ public class StoresDAO extends DAO {
     private static StoresDAO _storesDAO = null;
     private final HashMap<String,Store> storesCache;
 
-    public static final String NameColumnName = "name";
-    public static final String AddressColumnName = "address";
-    public static final String PhoneColumnName = "phone";
-    public static final String ContactColumnName= "contactName";
-    public static final String AreaColumnName = "area";
+    private final String StoreNameColumnName = "storeName";
+    private final String AddressColumnName = "address";
+    private final String PhoneColumnName = "phone";
+    private final String ContactColumnName= "contactName";
+    private final String AreaColumnName = "area";
+    private final String ScheduleIDColumnName = "scheduleID";
+    //EmployeeToStoreDAO
+    private final String EmployeeIDColumnName = "employeeID";
+    private final String EmployeeToStoreTable = "EmployeesToStores";
 
     private StoresDAO() {
         super("Stores");
@@ -30,48 +32,18 @@ public class StoresDAO extends DAO {
         return _storesDAO;
     }
 
-    @Override
-    public boolean Insert(Object storeObj) {
-        Store store = (Store) storeObj;
-        String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}, {4}, {5}) VALUES(?, ?, ? ,?, ?) "
-                , _tableName, NameColumnName, AddressColumnName, PhoneColumnName, ContactColumnName, AreaColumnName
-        );
-
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, store.getName());
-            pstmt.setString(2, store.getAddress());
-            pstmt.setString(3, store.getPhone());
-            pstmt.setString(4, store.getSite_contact_name());
-            pstmt.setInt(5, store.get_area());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            return false;
-        }
-        storesCache.put(store.getName(), store);
+    public boolean insertStore(String storeName, String address, String phone, String siteContactName, int area) {
+        insert(_tableName,makeList(StoreNameColumnName, AddressColumnName, PhoneColumnName, ContactColumnName, AreaColumnName),
+                makeList(storeName, address, phone, siteContactName, area));
+        storesCache.put(storeName, new Store(storeName, address,phone,siteContactName, area));
         return true;
     }
 
-    @Override
-    public boolean Delete(Object storeObj) {
-        Store store = (Store) storeObj;
-        String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ? "
-                , _tableName, NameColumnName);
-
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, store.getName());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
+    public boolean deleteStore(String storeName) {
+        if (!delete(_tableName,makeList(StoreNameColumnName), makeList(storeName)))
             return false;
-        }
-        storesCache.remove(store.getName());
+        delete(EmployeeToStoreTable, makeList(StoreNameColumnName), makeList(storeName));
+        storesCache.remove(storeName);
         return true;
     }
 
@@ -87,21 +59,15 @@ public class StoresDAO extends DAO {
     public boolean existsStore(String storeName){
         if (storesCache.containsKey(storeName))
             return true;
-        List<Store> listStores = Select(makeList(NameColumnName), makeList(storeName));
-        for (Store store : listStores) {
-            if (store.getName().equals(storeName)) {
-                return true;
-            }
-        }
-        return false;
+        return getStore(storeName) != null;
     }
 
     public Store getStore(String storeName) {
         if (storesCache.containsKey(storeName))
             return storesCache.get(storeName);
-        List<Store> result = Select(makeList(NameColumnName), makeList(storeName));
+        List<Store> result = select(_tableName,makeList(StoreNameColumnName), makeList(storeName));
         if (result.size() == 0)
-            throw new IllegalArgumentException("store " +storeName + " does not exist");
+            return null;
         Store store = result.get(0);
         storesCache.put(store.getName(),store);
         return store;
@@ -109,36 +75,52 @@ public class StoresDAO extends DAO {
     }
 
     public List<Store> SelectAllStores() {
-        return (List<Store>) (List<?>) Select();
+        return (List<Store>)select();
     }
 
-    public boolean is_any_store_exist(){
-        if (storesCache.size() > 0){
-            return true;
-        }
-        else {
-            String query = "SELECT * FROM " + this._tableName;
-            try (PreparedStatement pstmt = connection.prepareStatement(query);) {
-                ResultSet rs = pstmt.executeQuery();
-                if (rs.next()){
-                    return true;
-                }
-                return false;
-            } catch (SQLException ex) {
-            }
-            return false;
-        }
+    public boolean isAnyStoreExist(){
+        return select().size() > 0;
     }
 
 
-    public boolean is_store_in_the_area(String store_name, int area){
-        List<String> res = SelectString(AreaColumnName,makeList(NameColumnName),makeList(String.valueOf(area)));
-        for (String str : res) {
-            if (str.equals(store_name)){
-                return true;
-            }
-        }
-        return false;
+    public boolean isStoreInArea(String storeName, int area){
+        return select(_tableName,makeList(StoreNameColumnName,AreaColumnName),makeList(storeName,area)).size() > 0;
     }
 
+    public boolean insertActiveSchedule(String storeName, int scheduleID){
+        return update(_tableName,ScheduleIDColumnName,scheduleID,makeList(StoreNameColumnName),makeList(storeName));
+    }
+
+    public boolean deleteActive(String storeName){
+        return update(_tableName,ScheduleIDColumnName,null,makeList(ScheduleIDColumnName),makeList(storeName));
+    }
+
+    public int getActiveSchedule(String storeName){
+        List<Integer> result = selectT(_tableName,ScheduleIDColumnName,makeList(StoreNameColumnName),makeList(storeName),Integer.class);
+        return result.get(0);
+    }
+
+    public boolean insertEmployeeToStore(int employeeID, String storeName) {
+        return insert(EmployeeToStoreTable, makeList(EmployeeIDColumnName, StoreNameColumnName), makeList(employeeID, storeName));
+    }
+
+    public boolean deleteEmployeeFromStore(int employeeID, String storeName) {
+        return delete(EmployeeToStoreTable, makeList(EmployeeIDColumnName, StoreNameColumnName), makeList(employeeID, storeName));
+    }
+
+    public boolean deleteEmployeeFromAllStores(int employeeID){
+        return delete(EmployeeToStoreTable, makeList(EmployeeIDColumnName), makeList(employeeID));
+    }
+
+    public List<Integer> getEmployeesIDByStoreName(String storeName){
+        return selectT(EmployeeToStoreTable, StoreNameColumnName, makeList(storeName), makeList(EmployeeIDColumnName), Integer.class);
+    }
+
+    public List<String> getStoreNamesByEmployeeID(int employeeID){
+        return selectT(EmployeeToStoreTable, StoreNameColumnName,makeList(EmployeeIDColumnName), makeList(employeeID), String.class);
+    }
+
+    public boolean checkIfEmployeeInStore(int employeeID, String storeName){
+        return select(EmployeeToStoreTable, makeList(EmployeeIDColumnName, StoreNameColumnName), makeList(employeeID, storeName)).size() > 0;
+    }
 }

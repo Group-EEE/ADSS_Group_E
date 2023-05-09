@@ -31,7 +31,7 @@ public class Transport_dao extends DAO {
         return transport_dao;
     }
 
-    @Override
+
     public boolean Insert(Object obj) {
         Transport transport = (Transport) obj;
         try {
@@ -70,7 +70,7 @@ public class Transport_dao extends DAO {
         return false;
     }
 
-    @Override
+
     public boolean Delete(Object obj) {
         Transport transport = (Transport) obj;
         String query = "DELETE FROM " + this._tableName + " WHERE Transport_ID = ?";

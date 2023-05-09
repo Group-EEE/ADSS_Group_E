@@ -1,24 +1,15 @@
 package BussinessLayer.HRModule.Controllers;
 
 import BussinessLayer.HRModule.Objects.Employee;
-import BussinessLayer.HRModule.Objects.Pair;
 import BussinessLayer.HRModule.Objects.Store;
-import DataAccessLayer.HRMoudle.EmployeesToStoreDAO;
 import DataAccessLayer.HRMoudle.StoresDAO;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 public class StoreController {
-
-    private final EmployeesToStoreDAO _employeesToStoreDAO;
     private final StoresDAO _storesDAO;
     private static StoreController _storeController = null;
 
     public StoreController(){
-        _employeesToStoreDAO = EmployeesToStoreDAO.getInstance();
         _storesDAO = StoresDAO.getInstance();
     }
 
@@ -38,10 +29,15 @@ public class StoreController {
             throw new IllegalArgumentException("Invalid store name");
         if (storeAddress == null)
             throw new IllegalArgumentException("Invalid store address");
-        if (_storesDAO.existsStore(storeName))
+        if (existsStore(storeName))
             throw new IllegalArgumentException("Store already has this name");
-        Store newStore = new Store(storeName, storeAddress,phone,siteContactName, area);
-        return _storesDAO.Insert(newStore);
+        return _storesDAO.insertStore(storeName, storeAddress, phone, siteContactName, area);
+    }
+
+    public boolean existsStore(String storeName){
+        if (storeName == null)
+            throw new IllegalArgumentException("Invalid store name");
+        return _storesDAO.existsStore(storeName);
     }
 
     /**
@@ -51,14 +47,14 @@ public class StoreController {
     public boolean addEmployeeToStore(int employeeID, String storeName) {
         if (employeeID < 0 || storeName == null)
             throw new IllegalArgumentException("Invalid employee id or store name");
-        return _employeesToStoreDAO.Insert(new Pair<Integer,String>(employeeID,storeName));
+        return _storesDAO.insertEmployeeToStore(employeeID,storeName);
     }
 
     /**
      * @param storeName - the name of the store
      * @return the store with the given name
      */
-    public Store findStoreByName(String storeName) {
+    public Store getStore(String storeName) {
         if (storeName == null)
             throw new IllegalArgumentException("Invalid store name");
         return _storesDAO.getStore(storeName);
@@ -72,13 +68,13 @@ public class StoreController {
     public boolean removeEmployeeFromStore(int employeeID, String storeName) {
         if (storeName == null)
             throw new IllegalArgumentException("Invalid employee or store name");
-        return _employeesToStoreDAO.Delete(new Pair<Integer,String>(employeeID,storeName));
+        return _storesDAO.deleteEmployeeFromStore(employeeID,storeName);
     }
 
     public boolean removeEmployee(int employeeID){
         if (employeeID < 0)
             throw new IllegalArgumentException("Invalid employee id");
-        return _employeesToStoreDAO.Delete(employeeID);
+        return _storesDAO.deleteEmployeeFromAllStores(employeeID);
     }
 
     /**
@@ -88,15 +84,13 @@ public class StoreController {
     public boolean removeStore(String storeName) {
         if (storeName == null)
             throw new IllegalArgumentException("Invalid store name");
-        Store store = _storesDAO.getStore(storeName);
-        _employeesToStoreDAO.Delete(storeName);
-        return _storesDAO.Delete(store);
+        return _storesDAO.deleteStore(storeName);
     }
 
     public boolean checkIfEmployeeWorkInStore(String storeName,Employee employee){
         if (employee == null)
             throw new IllegalArgumentException("employee not found");
-        return _employeesToStoreDAO.checkIfEmployeeInStore(employee.getID(),storeName);
+        return _storesDAO.checkIfEmployeeInStore(employee.getEmployeeID(),storeName);
     }
 
     public List<Store> getAllStores(){

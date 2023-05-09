@@ -96,13 +96,7 @@ public class transport_manager_UI {
                 case 7 -> controller.display_transport_doc();
                 case 8 -> controller.display_site_supply();
                 case 9 -> {
-                    try {
-                        DAO.connection.close();
-                        DAO.connection = null;
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                    return;
+                    return; //Connection moved to main
                 }
             }
 
@@ -338,7 +332,7 @@ public class transport_manager_UI {
      * creates transport document getting the details from the manager
      */
     private void create_transport_document(){
-        if (!StoresDAO.getInstance().is_any_store_exist()){
+        if (!StoresDAO.getInstance().isAnyStoreExist()){
             System.out.println("There's no stores in the Database!");
             return;
         }
@@ -575,7 +569,7 @@ public class transport_manager_UI {
                             continue;
                         }
 
-                        if (!StoresDAO.getInstance().is_store_in_the_area(store_name, area)){
+                        if (!StoresDAO.getInstance().isStoreInArea(store_name, area)){
                             System.out.println("This store is not in the area of this transport...");
                         }
 

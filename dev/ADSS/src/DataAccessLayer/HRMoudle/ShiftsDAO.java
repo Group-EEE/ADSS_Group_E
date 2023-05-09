@@ -1,26 +1,33 @@
 package DataAccessLayer.HRMoudle;
 
 import BussinessLayer.HRModule.Objects.Employee;
+import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Shift;
 import BussinessLayer.HRModule.Objects.ShiftType;
 import DataAccessLayer.DAO;
 
 import java.sql.*;
 import java.text.MessageFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ShiftsDAO extends DAO {
     private static ShiftsDAO _shiftsDAO = null;
 
-    public static final String ScheduleIDColumnName = "scheduleID";
-    public static final String ShiftIDColumnName = "shiftID";
-    public static final String ShiftTypeColumnName = "shiftType";
-    public static final String StartTimeColumnName = "shiftStartTime";
-    public static final String EndTimeColumnName = "shiftEndTime";
-    public static final String DateColumnName = "date";
-    public static final String ApprovedColumnName = "approved";
-    public static final String RejectedColumnName = "rejected";
+    private final String ScheduleIDColumnName = "scheduleID";
+    private final String ShiftIDColumnName = "shiftID";
+    private final String ShiftTypeColumnName = "shiftType";
+    private final String StartTimeColumnName = "shiftStartTime";
+    private final String EndTimeColumnName = "shiftEndTime";
+    private final String DateColumnName = "date";
+    private final String ApprovedColumnName = "approved";
+    private final String RejectedColumnName = "rejected";
 
+    //RequiredRolesToEmployees table
+    private final String RoleTypeColumnName = "roleType";
+    private final String EmployeeIDColumnName = "employeeID";
     private ShiftsDAO() {
         super("Shifts");
     }
@@ -31,76 +38,109 @@ public class ShiftsDAO extends DAO {
         return _shiftsDAO;
     }
 
-    @Override
-    public boolean Insert(Object objectShift) {
-        Shift shift = (Shift) objectShift;
-        //int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
-        String sql = MessageFormat.format("INSERT INTO {0} ({1}, {2}, {3}, {4}, {5}, {6} ,{7},{8}) VALUES(?, ?, ?, ?, ?, ?, ?,?) "
-                , _tableName, ScheduleIDColumnName, ShiftIDColumnName, ShiftTypeColumnName, StartTimeColumnName,EndTimeColumnName, DateColumnName, ApprovedColumnName, RejectedColumnName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, shift.getScheduleID());
-            pstmt.setInt(2, shift.getShiftID());
-            pstmt.setString(3, shift.getShiftType().toString());
-            pstmt.setInt(4, shift.getStartHour());
-            pstmt.setInt(5, shift.getEndHour());
-            pstmt.setString(6, shift.getDate().format(formatters));
-            pstmt.setBoolean(7, shift.isApproved());
-            pstmt.setBoolean(8, shift.isRejected());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            if (e.getMessage().contains("A PRIMARY KEY constraint failed"))
-                throw new IllegalArgumentException("An shift with this ID already exists");
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
-            return false;
-        }
-        return true;
+    public Shift insertShift(int scheduleID, int shiftID, String strShiftType, int startTime, int endTime, LocalDate date) {
+        insert(_tableName,makeList(ScheduleIDColumnName, ShiftIDColumnName, ShiftTypeColumnName, StartTimeColumnName, EndTimeColumnName, DateColumnName),
+                makeList(scheduleID, shiftID, strShiftType, startTime, endTime, date.format(formatters)));
+        Shift shift = new Shift(scheduleID, shiftID, ShiftType.valueOf(strShiftType), startTime, endTime, date);
+        for (RoleType role : shift.getRequiredRoles())
+            insertRequiredRole(shift.getScheduleID(),shift.getShiftID(),role.toString());
+        return shift;
     }
 
-    @Override
-    public boolean Delete(Object objectShift) {
-        Shift shift = (Shift) objectShift;
-        int scheduleID = shift.getScheduleID();
-        int shiftID = shift.getShiftID();
-        String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ? AND {2} = ?", _tableName, ScheduleIDColumnName,ShiftIDColumnName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, scheduleID);
-            pstmt.setInt(1, shiftID);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
+    public boolean deleteShift(int scheduleID, int shiftID) {
+        if (!deleteRequiredRoles(scheduleID,shiftID))
             return false;
-        }
-        return true;
+        if (!deleteInquiredEmployees(scheduleID,shiftID))
+            return false;
+        return delete(_tableName,makeList(ScheduleIDColumnName, ShiftIDColumnName),makeList(scheduleID, shiftID));
     }
 
-    public boolean Delete(int scheduleID) {
-        String sql = MessageFormat.format("DELETE FROM {0} WHERE {1} = ?", _tableName, ScheduleIDColumnName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, scheduleID);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
+    public boolean deleteShifts(int scheduleID) {
+        if (!deleteRequiredRoles(scheduleID))
             return false;
-        }
-        return true;
+        if (!deleteInquiredEmployees(scheduleID))
+            return false;
+        return delete(_tableName,makeList(ScheduleIDColumnName),makeList(scheduleID));
+    }
+
+    public boolean deleteRequiredRoles(int scheduleID){
+        return delete("RequiredRolesToEmployees",makeList(ScheduleIDColumnName),makeList(scheduleID));
+    }
+    public boolean deleteRequiredRoles(int scheduleID,int shiftID){
+        return delete("RequiredRolesToEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID));
+    }
+
+    public boolean deleteInquiredEmployees(int scheduleID){
+        return delete("InquiredEmployees",makeList(ScheduleIDColumnName),makeList(scheduleID));
+    }
+    public boolean deleteInquiredEmployees(int scheduleID,int shiftID){
+        return delete("InquiredEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID));
+    }
+
+    public boolean setStartTime(int scheduleID,int shiftID, int startTime) {
+        return update(_tableName,StartTimeColumnName,startTime,makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID));
+    }
+
+    public boolean setEndTime(int scheduleID,int shiftID, int endTime) {
+        return update(_tableName,EndTimeColumnName,endTime,makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID));
     }
 
     @Override
     public Shift convertReaderToObject(ResultSet rs) throws SQLException {
-        return new Shift(rs.getInt(1), rs.getInt(2), ShiftType.toEnum(rs.getString(3)), rs.getInt(4), rs.getInt(5), parseLocalDate(rs.getString(6)));
+        return new Shift(rs.getInt(1), rs.getInt(2), ShiftType.valueOf(rs.getString(3)), rs.getInt(4), rs.getInt(5), parseLocalDate(rs.getString(6)));
     }
 
-
+    /**
+     * @param scheduleID - the schedule id
+     * @return - list of all the shifts in the schedule
+     */
     public List<Shift> getShiftsByScheduleID(int scheduleID) {
-        return Select(makeList(ScheduleIDColumnName), makeList(String.valueOf(scheduleID)));
+        return select(_tableName,makeList(ScheduleIDColumnName),makeList(scheduleID));
+    }
+
+    public List<Integer> getInquireEmployees(int scheduleID, int shiftID){
+        return selectT(_tableName,EmployeeIDColumnName,makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID),Integer.class);
+    }
+
+    public boolean insertInquiredEmployee(int scheduleID, int shiftID, int employeeID){
+        return insert("InquiredEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName,EmployeeIDColumnName),makeList(scheduleID,shiftID,employeeID));
+    }
+
+    public boolean insertRequiredRole(int scheduleID, int shiftID, String roleStr){
+        return insert("RequiredRolesToEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName,"roleType"),makeList(scheduleID,shiftID,roleStr));
+    }
+
+    public List<String> getRequiredRoles(int scheduleID, int shiftID){
+        return selectT("RequiredRolesToEmployees",RoleTypeColumnName,makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID),String.class);
+    }
+
+    public boolean removeRequiredRole(int scheduleID, int shiftID, String roleStr){
+        return delete("RequiredRolesToEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName,"roleType"),makeList(scheduleID,shiftID,roleStr));
+    }
+
+    public boolean insertAssignedEmployee(int scheduleID, int shiftID, String roleStr, int employeeID){
+        return insert("RequiredRolesToEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName,"roleType",EmployeeIDColumnName),makeList(scheduleID,shiftID,roleStr,employeeID));
+    }
+
+    public HashMap<String,Integer> getAssignedEmployees(int scheduleID, int shiftID){
+        String sql = MessageFormat.format("SELECT roleType, employeeID FROM {0} WHERE {1} = ? AND {2} = ? AND employeeID IS NOT NULL"
+                , "RequiredRolesToEmployees", "scheduleID", "shiftID"
+        );
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, scheduleID);
+            pstmt.setInt(2, shiftID);
+            ResultSet rs = pstmt.executeQuery();
+            HashMap<String,Integer> map = new HashMap<>();
+            while (rs.next()) {
+                map.put(rs.getString(1), rs.getInt(2));
+            }
+            return map;
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+        }
+        return null;
     }
 }

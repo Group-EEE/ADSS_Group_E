@@ -7,7 +7,7 @@ import java.util.Locale;
 
 public class Employee{
     private final List<RoleType> _roles = new ArrayList<RoleType>();
-    private final int _id;
+    private final int _employeeID;
     private String _firstName;
     private String _lastName;
     private int _age;
@@ -16,8 +16,9 @@ public class Employee{
     private String _hiringCondition;
     private LocalDate _startDateOfEmployement;
     private boolean _finishWorking;
-    public Employee(int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
-        this._id = id;
+    private String _password;
+    public Employee(int employeeID, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment,String password) {
+        this._employeeID = employeeID;
         this._firstName = firstName;
         this._lastName = lastName;
         this._age = age;
@@ -26,6 +27,7 @@ public class Employee{
         this._hiringCondition = hiringCondition;
         this._startDateOfEmployement = startDateOfEmployment;
         this._finishWorking = false;
+        this._password = password;
     }
 
     /**
@@ -34,7 +36,7 @@ public class Employee{
      */
     public boolean setNewFirstName(String firstName){
         if (firstName == null)
-            return false;
+            throw new IllegalArgumentException("First name cannot be null");
         _firstName = firstName;
         return true;
     }
@@ -45,7 +47,7 @@ public class Employee{
      */
     public boolean setNewLastName(String lastName){
         if (lastName == null)
-            return false;
+            throw new IllegalArgumentException("Last name cannot be null");
         _lastName = lastName;
         return true;
     }
@@ -56,8 +58,15 @@ public class Employee{
      */
     public boolean setNewBankAccount(String bankAccount){
         if (bankAccount == null)
-            return false;
+            throw new IllegalArgumentException("Bank account cannot be null");
         _bankAccount = bankAccount;
+        return true;
+    }
+
+    public boolean setNewPassword(String password){
+        if (password == null)
+            throw new IllegalArgumentException("Password cannot be null");
+        _password = password;
         return true;
     }
 
@@ -74,9 +83,8 @@ public class Employee{
      */
     public boolean addRole(RoleType role){
         if (role == null)
-            return false;
-        _roles.add(role);
-        return true;
+            throw new IllegalArgumentException("Role cannot be null");
+        return _roles.add(role);
     }
 
     /**
@@ -99,16 +107,18 @@ public class Employee{
 
 
     public String toString(){
-        String employeeToString = "Employee: " + this._firstName + " " + this._lastName + ", ID: " + this._id+", age: "+this._age;
+        String employeeToString = "Employee: " + this._firstName + " " + this._lastName + ", ID: " + this._employeeID+", age: "+this._age;
+        if (_roles.size() == 0)
+            return employeeToString;
         employeeToString += ", Roles: ";
         for (RoleType role : this._roles){
             employeeToString += role + ", ";
         }
-        return employeeToString;
+        return employeeToString.substring(0, employeeToString.length()-2);
     }
 
-    public int getID(){
-        return this._id;
+    public int getEmployeeID(){
+        return this._employeeID;
     }
 
     public String getFirstName(){
@@ -143,8 +153,16 @@ public class Employee{
         return this._finishWorking;
     }
 
+    public String getPassword(){
+        return this._password;
+    }
+
     public boolean setFinishedWorking(){
         this._finishWorking = true;
         return true;
+    }
+
+    public boolean hasRole(RoleType role){
+        return this._roles.contains(role);
     }
 }

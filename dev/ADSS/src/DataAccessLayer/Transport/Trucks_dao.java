@@ -25,7 +25,7 @@ public class Trucks_dao extends DAO {
         get_all_trucks_from_database();
     }
 
-    @Override
+
     public boolean Insert(Object obj) {
         Truck truck = (Truck) obj;
         try {
@@ -49,7 +49,7 @@ public class Trucks_dao extends DAO {
         return false;
     }
 
-    @Override
+
     public boolean Delete(Object Truckobj) {
         Truck truck = (Truck) Truckobj;
         String query = "DELETE FROM Trucks WHERE registration_plate = ?";

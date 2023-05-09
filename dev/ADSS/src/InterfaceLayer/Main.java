@@ -1,8 +1,10 @@
 package InterfaceLayer;
 
+import DataAccessLayer.DAO;
 import InterfaceLayer.HRModule.HRModuleCLI;
 import InterfaceLayer.TransportModule.transport_manager_UI;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -27,8 +29,15 @@ public class Main {
             mainHR();
         else if (menuChoice == 2)
             mainTransport();
-        else if (menuChoice == 0)
+        else if (menuChoice == 0) {
+            try {
+                DAO.connection.close();
+                DAO.connection = null;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             exit(0);
+        }
         else
             System.out.println("Invalid input");
 

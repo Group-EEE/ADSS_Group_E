@@ -11,17 +11,33 @@ public class Schedule {
     private LocalDate _startDateOfWeek;
     private List<Shift> _shifts;
 
-    public Schedule(int scheduleID, LocalDate startDateOfWeek, String storeName){
+    public Schedule(int scheduleID, String storeName, LocalDate startDateOfWeek){
         this._scheduleID = scheduleID;
-        this._startDateOfWeek = startDateOfWeek;
         this._storeName = storeName;
+        this._startDateOfWeek = startDateOfWeek;
     }
 
-    public boolean addShifts(List<Shift> shifts){
+    public boolean setShifts(List<Shift> shifts){
         if (shifts == null)
             return false;
         this._shifts = shifts;
         return true;
+    }
+
+    public boolean addRequiredRoleToShift(int shiftID, RoleType roleType){
+        if (_shifts == null)
+            throw new IllegalArgumentException("shifts haven't been initialized");
+        if (shiftID < 0 || shiftID > 13)
+            return false;
+        return _shifts.get(shiftID).addRequiredRole(roleType);
+    }
+
+    public boolean removeRequiredRoleFromShift(int shiftID, RoleType roleType){
+        if (_shifts == null)
+            throw new IllegalArgumentException("shifts haven't been initialized");
+        if (shiftID < 0 || shiftID > 13)
+            return false;
+        return _shifts.get(shiftID).removeRequiredRole(roleType);
     }
 
     /**
@@ -33,7 +49,6 @@ public class Schedule {
     public boolean changeHoursShift(int newStartHour, int newEndHour, int shiftID){
         if (_shifts == null)
             throw new IllegalArgumentException("shifts haven't been initialized"); //TODO:
-
         if (shiftID < 0 || shiftID > 13 || newEndHour > 24 || newStartHour <0)
             return false;
         if (!_shifts.get(shiftID).setStartHour(newStartHour))
@@ -67,12 +82,12 @@ public class Schedule {
         return _shifts;
     }
 
-    public boolean addEmployeeToShift(Employee employee, int choice){
+    public boolean addEmployeeToShift(Employee employee, int shiftID){
         if (employee == null)
             throw new IllegalArgumentException("Employee cannot be null");
-        if (choice < 0 || choice > 13)
-            throw new IllegalArgumentException("Invalid choice");
-        return _shifts.get(choice).addInquiredEmployee(employee);
+        if (shiftID < 0 || shiftID > 13)
+            throw new IllegalArgumentException("Invalid shiftID");
+        return _shifts.get(shiftID).addInquiredEmployee(employee);
     }
 
     public int getScheduleID(){
@@ -87,12 +102,13 @@ public class Schedule {
         return this._storeName;
     }
 
-    public String toString(){
-        String output="";
+    public String toString() {
+        String output = "";
         for (Shift shift : _shifts) {
-            output += shift.toString()+"\n";
+            output += shift.toString() + "\n";
         }
         return output;
     }
+
 }
 
