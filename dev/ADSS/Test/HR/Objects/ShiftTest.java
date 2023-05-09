@@ -265,11 +265,11 @@ class ShiftTest {
     //shift methods
     @Test
     void testToString(){
-        assertEquals("ScheduleID: 1, ShiftID: 1, Date: 2017-01-13, ShiftType: MORNING, Start hour: 8, End hour: 16, Length time: 8, Approved: false, Rejected: false", shift.toString());
+        assertEquals("ShiftID: 1, Date: 2017-01-13, ShiftType: MORNING, Start hour: 8, End hour: 16, Length time: 8, Approved: false, Rejected: false", shift.toString());
         employee1.addRole(RoleType.ShiftManager);
         shift.addInquiredEmployee(employee1);
         shift.addFilledRole(RoleType.ShiftManager,employee1);
-        assertEquals("ScheduleID: 1, ShiftID: 1, Date: 2017-01-13, ShiftType: MORNING, Start hour: 8, End hour: 16, Length time: 8, Approved: false, Rejected: false, Assigned employees: ShiftManager: a b", shift.toString());
+        assertEquals("ShiftID: 1, Date: 2017-01-13, ShiftType: MORNING, Start hour: 8, End hour: 16, Length time: 8, Approved: false, Rejected: false, Assigned employees: ShiftManager: a b", shift.toString());
     }
 
     @Test

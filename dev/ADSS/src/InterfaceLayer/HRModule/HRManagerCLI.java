@@ -543,7 +543,7 @@ public class HRManagerCLI{
         if (roleChoice == 0)
             return false;
         try {
-            _facade.removeRoleFromEmployee(employeeID, roleChoice);
+            _facade.removeRoleFromEmployee(employeeID, roleChoice-1);
             System.out.println("The role was removed successfully from " + firstName);
         } catch (Exception e) {
             System.out.println(e.getMessage());

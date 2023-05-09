@@ -74,12 +74,12 @@ public class ScheduleController {
         Schedule schedule = _schedulesDAO.getSchedule(scheduleID);
         if (schedule == null)
             throw new IllegalArgumentException("Could not find schedule for this store");
-        List<Shift> shifts = _shiftsDAO.getShiftsByScheduleID(schedule.getScheduleID());
+        List<Shift> shifts = _shiftsDAO.getShiftsByScheduleID(scheduleID);
         for (Shift shift : shifts){
-            for (String strRole : _shiftsDAO.getRequiredRoles(shift.getScheduleID(),shift.getShiftID())){
+            for (String strRole : _shiftsDAO.getRequiredRoles(scheduleID,shift.getShiftID())){
                 shift.addRequiredRole(RoleType.valueOf(strRole));
             }
-            for (Integer employeeID : _shiftsDAO.getInquireEmployees(shift.getScheduleID(),shift.getShiftID())){
+            for (Integer employeeID : _shiftsDAO.getInquireEmployees(scheduleID,shift.getShiftID())){
                 shift.addInquiredEmployee(_employeesDAO.getEmployee(employeeID));
             }
             for (Map.Entry<String, Integer> entry : _shiftsDAO.getAssignedEmployees(shift.getScheduleID(),shift.getShiftID()).entrySet()){

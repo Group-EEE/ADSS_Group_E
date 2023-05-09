@@ -92,9 +92,9 @@ public class Employee{
      * @return true if the role was removed successfully, false otherwise
      */
     public boolean removeRole(int roleIndex){
-        if (roleIndex < 1 || roleIndex > this._roles.size())
+        if (roleIndex < 0 || roleIndex > this._roles.size()-1)
             throw new IllegalArgumentException("Illegal role index");
-        this._roles.remove(roleIndex-1);
+        this._roles.remove(roleIndex);
         return true;
     }
 
