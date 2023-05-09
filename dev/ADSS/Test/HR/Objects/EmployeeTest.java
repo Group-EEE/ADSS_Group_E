@@ -114,6 +114,13 @@ class EmployeeTest {
         assertTrue(employee.setFinishedWorking());
     }
 
+    @Test
+    void setNewPassword(){
+        assertThrows(IllegalArgumentException.class, () -> {
+            employee.setNewPassword(null);
+        });
+        assertTrue(employee.setNewPassword("test2"));
+    }
 
 
     @Test
@@ -127,11 +134,14 @@ class EmployeeTest {
     @Test
     void removeRoles() {
         assertThrows(IllegalArgumentException.class, () -> {
-            employee.removeRole(0);
+            employee.removeRole(-1);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            employee.removeRole(employee.getRoles().size());
         });
         employee.addRole(RoleType.Cleaner);
         employee.addRole(RoleType.Cashier);
-        assertTrue(employee.removeRole(1));
+        assertTrue(employee.removeRole(0));
         assertEquals(RoleType.Cashier,employee.getRoles().get(0));
     }
 

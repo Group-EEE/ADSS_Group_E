@@ -114,6 +114,17 @@ public class Facade {
             return false;
         return _employeeController.removeEmployee(employeeID);
     }
+
+    public boolean createDriver(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployemen, String password, boolean isHRManager) {
+        if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null)
+            throw new IllegalArgumentException("Invalid arguments");
+        if (!_employeeController.createEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployemen, password))
+            return false;
+        if (isHRManager) {
+            return addRoleToEmployee(employeeID, RoleType.HRManager);
+        }
+        return true;
+    }
     //_storeController
     public boolean createStore(String storeName, String storeAddress, String phone, String siteContactName, int area){
         return _storeController.createStore(storeName, storeAddress,phone,siteContactName,area);

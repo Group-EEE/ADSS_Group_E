@@ -17,12 +17,42 @@ public class Schedule {
         this._startDateOfWeek = startDateOfWeek;
     }
 
+    //setters
     public boolean setShifts(List<Shift> shifts){
         if (shifts == null)
             return false;
         this._shifts = shifts;
         return true;
     }
+
+    //getters
+    /**
+     * @param shiftID - the id of the shift
+     * @return - the shift with the given id, null if the id is invalid
+     */
+    public Shift getShift(int shiftID){
+        if (shiftID < 0 || shiftID > 13)
+            return null;
+        return _shifts.get(shiftID);
+    }
+
+    public List<Shift> getShifts(){
+        return _shifts;
+    }
+
+    public int getScheduleID(){
+        return this._scheduleID;
+    }
+
+    public LocalDate getStartDateOfWeek(){
+        return _startDateOfWeek;
+    }
+
+    public String getStoreName(){
+        return this._storeName;
+    }
+
+    //methods
 
     public boolean addRequiredRoleToShift(int shiftID, RoleType roleType){
         if (_shifts == null)
@@ -51,21 +81,7 @@ public class Schedule {
             throw new IllegalArgumentException("shifts haven't been initialized"); //TODO:
         if (shiftID < 0 || shiftID > 13 || newEndHour > 24 || newStartHour <0)
             return false;
-        if (!_shifts.get(shiftID).setStartHour(newStartHour))
-            return false;
-        if (!_shifts.get(shiftID).setEndHour(newEndHour))
-            return false;
-        return true;
-    }
-
-    /**
-     * @param shiftID - the id of the shift
-     * @return - the shift with the given id, null if the id is invalid
-     */
-    public Shift getShift(int shiftID){
-        if (shiftID < 0 || shiftID > 13)
-            return null;
-        return _shifts.get(shiftID);
+        return _shifts.get(shiftID).setStartHour(newStartHour) && _shifts.get(shiftID).setEndHour(newEndHour);
     }
 
     public List<Shift> approveSchedule(){
@@ -78,10 +94,6 @@ public class Schedule {
         return rejectedShifts;
     }
 
-    public List<Shift> getShifts(){
-        return _shifts;
-    }
-
     public boolean addEmployeeToShift(Employee employee, int shiftID){
         if (employee == null)
             throw new IllegalArgumentException("Employee cannot be null");
@@ -90,24 +102,15 @@ public class Schedule {
         return _shifts.get(shiftID).addInquiredEmployee(employee);
     }
 
-    public int getScheduleID(){
-        return this._scheduleID;
-    }
-
-    public LocalDate getStartDateOfWeek(){
-        return _startDateOfWeek;
-    }
-
-    public String getStoreName(){
-        return this._storeName;
-    }
-
     public String toString() {
-        String output = "";
+        String output = "Schedule ID: " + _scheduleID + ", Store name: " + _storeName + ", Start date of week: " + _startDateOfWeek;
+        if (_shifts == null)
+            return output;
+        output += ", Shifts: \n";
         for (Shift shift : _shifts) {
             output += shift.toString() + "\n";
         }
-        return output;
+        return output.substring(0, output.length() - 1);
     }
 
 }

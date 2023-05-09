@@ -302,7 +302,7 @@ public class Shift{
     }
 
     public String toString(){
-        StringBuilder output = new StringBuilder("ScheduleID: " + _scheduleID + ", ShiftID: " + _shiftID + ", Date: " + _date + ", ShiftType: " + _shiftType + ", Start hour: " + _startHour + ", End hour: " + _endHour + ", Length time: " + _shiftLength + ", Approved: " + _approved + ", Rejected: " + _rejected);
+        StringBuilder output = new StringBuilder("ShiftID: " + _shiftID + ", Date: " + _date + ", ShiftType: " + _shiftType + ", Start hour: " + _startHour + ", End hour: " + _endHour + ", Length time: " + _shiftLength + ", Approved: " + _approved + ", Rejected: " + _rejected);
         if (_assignedEmployees.isEmpty())
             return output.toString();
         output.append(", Assigned employees: ");

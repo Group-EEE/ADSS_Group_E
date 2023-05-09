@@ -99,7 +99,7 @@ public class ShiftsDAO extends DAO {
     }
 
     public List<Integer> getInquireEmployees(int scheduleID, int shiftID){
-        return selectT(_tableName,EmployeeIDColumnName,makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID),Integer.class);
+        return selectT("InquiredEmployees",EmployeeIDColumnName,makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID),Integer.class);
     }
 
     public boolean insertInquiredEmployee(int scheduleID, int shiftID, int employeeID){
