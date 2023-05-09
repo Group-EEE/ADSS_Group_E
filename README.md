@@ -83,10 +83,20 @@ You may return to the previous menu by selecting the exit option.
   the system checks whether the periodic orders that are waiting for approval should be ordered automatically.
 
 3.When a product supplied by a certain supplier is added, when you enter the inventory system,\
-  you will be notified that there are new products that you must check.\
+  you will be notified that there are new products that you must check.
 
 4.To exit the system, select the exit option in the first menu that the system is activated.</font>
 
 
 
+| SupplierNum | Name  | BankAccount | PaymentTerm |
+|-------------|-------|-------------|-------------|
+| 0001        | Yoni  | 272893      | 1           |
+| 0002        | Alon  | 563743      | 2           |
+| 0003        | May   | 123412      | 0           |
+| 0004        | Avi   | 234234      | 1           |
+| 0005        | Eden  | 859930      | 0           | 
+| 0006        | Noam  | 829004      | 2           |
+| 0007        | Nir   | 884392      | 0           |
+| 0008        | Nevo  | 986203      | 2           |
 
