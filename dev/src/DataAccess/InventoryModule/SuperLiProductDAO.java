@@ -40,6 +40,7 @@ public class SuperLiProductDAO {
             while (rs.next()) {
                 int barcode = rs.getInt("Barcode");
                 SuperLiProduct slp = new SuperLiProduct(rs.getInt("Barcode"), rs.getString("PName"), rs.getDouble("Costumer_Price"), rs.getString("Category"), rs.getString("SubCategory"),rs.getString("SubSubCategory"), rs.getInt("Supply_Days"), rs.getString("Manufacturer"), rs.getInt("Minimum_Amount"));
+                slp.setSp_counter(rs.getInt("SP_Counter"));
                 IdentifyMapSuperLiProduct.put(barcode, slp);
                 List <SpecificProduct> allsp = specificProductDAO.ReadAllSpecificProductsByBarcode(barcode);
                 slp.setSpecificProducts(allsp);
@@ -61,7 +62,7 @@ public class SuperLiProductDAO {
         discountDAO.DeleteFromDB();
         for (Map.Entry<Integer, SuperLiProduct> pair : IdentifyMapSuperLiProduct.entrySet()) {
             try{
-                stmt = conn.prepareStatement("Insert into SuperLiProduct VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+                stmt = conn.prepareStatement("Insert into SuperLiProduct VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
                 stmt.setInt(1, pair.getValue().getBarcode());
                 stmt.setString(2, pair.getValue().getPName());
                 stmt.setDouble(3, pair.getValue().getCostumer_Price());
@@ -73,6 +74,7 @@ public class SuperLiProductDAO {
                 stmt.setInt(9, pair.getValue().getSupply_Days());
                 stmt.setString(10, pair.getValue().getManufacturer());
                 stmt.setInt(11, pair.getValue().getMinimum_Amount());
+                stmt.setInt(12, pair.getValue().getSp_counter());
                 stmt.executeUpdate();
                 specificProductDAO.WriteFromCacheToDB(pair.getValue().getSpecificProducts());
             }

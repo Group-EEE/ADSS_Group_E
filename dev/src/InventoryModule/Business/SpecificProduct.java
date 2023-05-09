@@ -130,4 +130,8 @@ public class SpecificProduct {
     public double getSupplier_Price() {
         return Supplier_Price;
     }
+
+    public void setArrivaldate(LocalDateTime arrivaldate) {
+        this.arrivaldate = arrivaldate;
+    }
 }

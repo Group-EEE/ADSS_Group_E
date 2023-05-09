@@ -198,4 +198,12 @@ public class SuperLiProduct {
     public void setSpecificProducts(List<SpecificProduct> specificProducts) {
         this.specificProducts = specificProducts;
     }
+
+    public void setSp_counter(int sp_counter) {
+        this.sp_counter = sp_counter;
+    }
+
+    public int getSp_counter() {
+        return sp_counter;
+    }
 }

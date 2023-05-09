@@ -84,7 +84,7 @@ public class SuperLiDB {
         genericProductDAO.ReadGenericProductsToCache();
         supplierDAO.ReadSuppliersToCache();
         categoryDAO.ReadCategoryToCache();
-        discountDAO.ReadDiscountToCache();
+        //discountDAO.ReadDiscountToCache();
         superLiProductDAO.ReadSuperLiProductToCache();
     }
 

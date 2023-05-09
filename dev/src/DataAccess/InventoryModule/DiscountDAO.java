@@ -29,38 +29,42 @@ public class DiscountDAO {
         return discountDAO;
     }
 
-    public void ReadDiscountToCache(){
+    public Discount ReadDiscountToCache(int barcode, int sp_id){
         // -----------------------------------Create a query-----------------------------------------
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Discount");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Discount WHERE Barcode = ? AND Sp_ID = ?");
+            stmt.setInt(1, barcode);
+            stmt.setInt(2, sp_id);
             ResultSet rs = stmt.executeQuery();
             // -----------------------------------For each Supplier------------------------------------
             while (rs.next()) {
                 String s = rs.getString("Start");
-                //DateTimeFormatter sf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 LocalDateTime start = LocalDateTime.parse(s+"T00:00:00");
                 String e = rs.getString("End");
                 LocalDateTime end = LocalDateTime.parse(e+"T00:00:00");
-                //LocalDateTime end = LocalDateTime.parse(e, sf);
                 Double dis = rs.getDouble("Discount");
                 Discount d = new Discount(start, end, dis);
                 List<String> alldis = new ArrayList<>();
                 alldis.add(s);
                 alldis.add(e);
                 alldis.add(dis.toString());
+                alldis.add(String.valueOf(barcode));
+                alldis.add(String.valueOf(sp_id));
                 IdentifyMapDiscount.put(alldis, d);
+                return d;
             }
         }
         catch (SQLException e) {throw new RuntimeException(e);}
+        return null;
     }
 
-    public Discount getDiscountByParameters(String s, String e, String d){
+    /*public Discount getDiscountByParameters(String s, String e, String d){
         List<String> para = new ArrayList<>();
         para.add(s);
         para.add(e);
         para.add(d);
         return IdentifyMapDiscount.get(para);
-    }
+    }*/
 
     public void DeleteFromDB(){
         PreparedStatement stmt;

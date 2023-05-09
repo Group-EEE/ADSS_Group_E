@@ -43,11 +43,13 @@ public class SpecificProductDAO {
             //-----------------------------------------Create array-----------------------------------------
             while (rs.next()) {
                 int sp =rs.getInt("Sp_ID");
-                Discount d = discountDAO.getDiscountByParameters(rs.getString("Start"), rs.getString("End"), rs.getString("Discount"));
+                Discount d = discountDAO.ReadDiscountToCache(rs.getInt("Barcode"), rs.getInt("Sp_ID"));
                 String exp = rs.getString("ExpDate");
-                DateTimeFormatter sf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime expdate = LocalDateTime.parse(exp, sf);
+                LocalDateTime expdate = LocalDateTime.parse(exp+"T00:00:00");
                 SpecificProduct specificProduct = new SpecificProduct(rs.getDouble("Supplier_Price"), rs.getString("Supplier"), rs.getInt("Sp_ID"),rs.getInt("P_ID"), expdate, rs.getBoolean("Defective"), rs.getString("Defect_Report_By"), rs.getBoolean("InWarehouse"), rs.getString("Store_Branch"), rs.getInt("Location_in_Store"), d, rs.getString("DefectType"));
+                String arrival = rs.getString("arrivaldate");
+                LocalDateTime arrDate = LocalDateTime.parse(arrival+"T00:00:00");
+                specificProduct.setArrivaldate(arrDate);
                 IdentifyMapSpecificProduct.put(sp, specificProduct);
                 allsp.add(specificProduct);
             }
