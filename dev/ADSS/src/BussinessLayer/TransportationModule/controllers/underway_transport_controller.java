@@ -454,6 +454,11 @@ public class underway_transport_controller {
         truck.getNavigator().add_site(truck.get_current_location());
     }
 
+    /**
+     * @param transport_ID transport ID
+     * @param store_name the name of the store we're adding
+     *                   the function add store to the transport.
+     */
     public void add_store_to_route(int transport_ID, String store_name){
         Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
@@ -470,5 +475,19 @@ public class underway_transport_controller {
      Truck truck = get_truck_by_registration_plate(get_truck_number(transport_ID));
      truck_driver.setCurrent_truck(truck);
      truck.setCurrent_driver(truck_driver);
+    }
+
+    public boolean check_if_warehouse_worker_exist_in_all_stores(int transport_ID){
+        Transport transport = Transport_dao.getInstance().getTransport(transport_ID);
+        boolean exist = true;
+        for (Site site: transport.getDestinations()){
+            if (site.is_store()){
+                //if(boolean function that chen need to implement to check if there's warehouse worker in store){
+                // exist = false;
+                // break;
+                // }
+            }
+        }
+        return exist;
     }
 }

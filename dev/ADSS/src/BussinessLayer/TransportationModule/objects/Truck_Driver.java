@@ -1,8 +1,10 @@
 package BussinessLayer.TransportationModule.objects;
 
+import BussinessLayer.HRModule.Objects.Employee;
+
 import java.util.ArrayList;
 
-public class Truck_Driver {
+public class Truck_Driver{
     private int ID;
     private License license;
     private String name;
@@ -10,6 +12,7 @@ public class Truck_Driver {
     private Truck current_truck = null;
 
     public Truck_Driver(int driver_ID, String driver_name, int license_id, cold_level level, double truck_weight) {
+
         this.ID = driver_ID;
         this.name = driver_name;
         this.license = new License(license_id, level, truck_weight);

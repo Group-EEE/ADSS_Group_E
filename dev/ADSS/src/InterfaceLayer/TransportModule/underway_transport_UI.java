@@ -28,6 +28,10 @@ public class underway_transport_UI {
     // ===== Starting the transport =====
     public void start_transport(int transport_ID){
         boolean aborted = false;
+        if (controller.check_if_warehouse_worker_exist_in_all_stores(transport_ID)){
+            System.out.println("Transport cancelled, there's no warehouse worker in all the stores.");
+            return;
+        }
         // ======================== Date And Time ======================== //
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
