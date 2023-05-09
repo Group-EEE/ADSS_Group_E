@@ -174,6 +174,27 @@ public abstract class DAO {
         return list;
     }
 
+    protected boolean selectExists(String tableName, List<Object> columnKeys, List keys) {
+        String sql = MessageFormat.format("SELECT * From {0} WHERE" + keysQuery(columnKeys)
+                , tableName);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            int i = 1;
+            for (Object key : keys)
+                if (key instanceof String)
+                    pstmt.setString(i++, (String) key);
+                else
+                    pstmt.setInt(i++, (int) key);
+            ResultSet resultSet = pstmt.executeQuery();
+            i=1;
+            return resultSet.next();
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+        }
+        return false;
+    }
     protected List selectMaxString(String tableName, String ColumnName, List Columnkeys, List<String> keys) {
         List list = new ArrayList<>();
         /// keys is for tables that have more that one key
@@ -215,16 +236,15 @@ public abstract class DAO {
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             if (value instanceof String)
                 pstmt.setString(1, (String) value);
-            else if (value instanceof Integer)
-                pstmt.setInt(1, (int) value);
             else
-                pstmt.setNull(2, Types.INTEGER);
+                pstmt.setObject(1, value, java.sql.Types.INTEGER);
 
+            int i = 2;
             for (Object key : keys)
                 if (key instanceof String)
-                    pstmt.setString(2, (String) key);
+                    pstmt.setString(i++, (String) key);
                 else if (key instanceof Integer)
-                    pstmt.setInt(2, (int) key);
+                    pstmt.setInt(i++, (int) key);
 
             pstmt.executeUpdate();
 

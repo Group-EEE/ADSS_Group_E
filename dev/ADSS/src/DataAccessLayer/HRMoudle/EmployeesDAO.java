@@ -108,7 +108,7 @@ public class EmployeesDAO extends DAO {
     }
 
     public boolean checkPassword(int employeeID, String password){
-        return selectT(_tableName,PasswordColumnName,makeList(EmployeeIDColumnName,PasswordColumnName), makeList(employeeID,password),String.class).get(0).equals(password);
+        return selectT(_tableName,PasswordColumnName,makeList(EmployeeIDColumnName), makeList(employeeID),String.class).get(0).equals(password);
     }
 
     public boolean updatePassword(int employeeID, String password) {
@@ -149,7 +149,7 @@ public class EmployeesDAO extends DAO {
     public boolean addRolesToEmployee(Employee employee){
         if (employee == null)
             return false;
-        List<String> strRoles = selectT(_tableName,RoleTypeColumnName,makeList(EmployeeIDColumnName),makeList(employee.getEmployeeID()),String.class);
+        List<String> strRoles = selectT("EmployeesToRoles",RoleTypeColumnName,makeList(EmployeeIDColumnName),makeList(employee.getEmployeeID()),String.class);
         for (String strRole : strRoles) {
             employee.addRole(RoleType.valueOf(strRole));
         }

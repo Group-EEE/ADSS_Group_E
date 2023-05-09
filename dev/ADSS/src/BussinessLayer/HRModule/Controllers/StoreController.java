@@ -29,6 +29,12 @@ public class StoreController {
             throw new IllegalArgumentException("Invalid store name");
         if (storeAddress == null)
             throw new IllegalArgumentException("Invalid store address");
+        if (phone == null)
+            throw new IllegalArgumentException("Invalid store phone");
+        if (siteContactName == null)
+            throw new IllegalArgumentException("Invalid store contact name");
+        if (area <0)
+            throw new IllegalArgumentException("Invalid store area");
         if (existsStore(storeName))
             throw new IllegalArgumentException("Store already has this name");
         return _storesDAO.insertStore(storeName, storeAddress, phone, siteContactName, area);
@@ -63,11 +69,13 @@ public class StoreController {
     /**
      * @param employeeID - the ID of the employee
      * @param storeName - the name of the store
-     * @return
+     * @return true if the employee was removed successfully, false otherwise
      */
-    public boolean removeEmployeeFromStore(int employeeID, String storeName) {
+    public boolean removeEmployeeFromStore(int employeeID,String storeName) {
         if (storeName == null)
             throw new IllegalArgumentException("Invalid employee or store name");
+        if (!checkIfEmployeeWorkInStore(employeeID,storeName))
+            throw new IllegalArgumentException("Employee not found in store");
         return _storesDAO.deleteEmployeeFromStore(employeeID,storeName);
     }
 
@@ -87,10 +95,10 @@ public class StoreController {
         return _storesDAO.deleteStore(storeName);
     }
 
-    public boolean checkIfEmployeeWorkInStore(String storeName,Employee employee){
-        if (employee == null)
+    public boolean checkIfEmployeeWorkInStore(int employeeID,String storeName){
+        if (employeeID < 0)
             throw new IllegalArgumentException("employee not found");
-        return _storesDAO.checkIfEmployeeInStore(employee.getEmployeeID(),storeName);
+        return _storesDAO.checkIfEmployeeInStore(employeeID,storeName);
     }
 
     public List<Store> getAllStores(){

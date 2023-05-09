@@ -32,7 +32,12 @@ public class Facade {
 
     //_employeeController
     public boolean login(int employeeID, String password){
-        _loggedUser =  _employeeController.login(employeeID, password);
+        try {
+            _loggedUser = _employeeController.login(employeeID, password);
+        }
+        catch (IllegalArgumentException e){
+            return false;
+        }
         if (_loggedUser == null)
             throw new IllegalArgumentException("Invalid id or password");
         return true;
@@ -137,11 +142,13 @@ public class Facade {
     }
 
     public boolean addEmployeeToStore(int employeeID, String storeName){
+        if (!_employeeController.existsEmployee(employeeID))
+            return false;
         return _storeController.addEmployeeToStore(employeeID, storeName);
     }
 
     public boolean removeEmployeeFromStore(int employeeID, String storeName){
-        return _storeController.removeEmployeeFromStore(employeeID, storeName);
+        return _storeController.removeEmployeeFromStore( employeeID,storeName);
     }
 
     //_ScheduleController
@@ -153,7 +160,7 @@ public class Facade {
 
     public boolean addEmployeeToShift(String storeName, int shiftID){
         //if employee not working in this store
-        if (!_storeController.checkIfEmployeeWorkInStore(storeName, _loggedUser))
+        if (!_storeController.checkIfEmployeeWorkInStore(_loggedUser.getEmployeeID(),storeName))
             throw new IllegalArgumentException("Employee not working in this store");
         return _scheduleController.addEmployeeToShift(_loggedUser, storeName, shiftID);
     }
@@ -191,7 +198,7 @@ public class Facade {
     }
 
     public boolean deleteSchedule(String storeName){
-        return _scheduleController.deleteActiveSchedule(storeName);
+        return _scheduleController.deleteSchedule(storeName);
     }
 
     public boolean hasWareHouse(String storeName, int shiftID){

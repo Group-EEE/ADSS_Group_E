@@ -1,4 +1,4 @@
-package HR.Facade;
+package HR.DAO;
 
 import BussinessLayer.HRModule.Controllers.Facade;
 import DataAccessLayer.HRMoudle.EmployeesDAO;
@@ -12,23 +12,21 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeesDAOTest {
-    private static Facade _facade;
     private static EmployeesDAO _employeesDAO;
 
     @BeforeAll
     static void setUpAll() {
-        _facade = Facade.getInstance();
         _employeesDAO = EmployeesDAO.getInstance();
     }
 
     @BeforeEach
     void setUp() {
-        _facade.createEmployee(9999, "John", "Doe", 30, "123456789", 10000, "Full time", LocalDate.now(),"passwordTest",false);
+        _employeesDAO.insertEmployee(9999, "John", "Doe", 30, "123456789", 10000, "Full time", LocalDate.now(),"passwordTest");
     }
 
     @AfterEach
     void tearDown() {
-        _facade.removeEmployee(9999);
+        _employeesDAO.deleteEmployee(9999);
     }
 
     @Test
@@ -37,17 +35,14 @@ class EmployeesDAOTest {
     }
 
     @Test
-    void login() {
+    void doubleCreate(){
         assertThrows(IllegalArgumentException.class, () -> {
-            _facade.login(209876676, "falsePassword");
+            _employeesDAO.insertEmployee(9999, "John", "Doe", 30, "123456789", 10000, "Full time", LocalDate.now(),"passwordTest");
         });
-        assertTrue(_facade.login(9999, "passwordTest"));
     }
 
     @Test
-    void logout(){
-        login();
-        assertTrue(_facade.logout());
+    void selectAllEmployees(){
+        assertTrue(_employeesDAO.SelectAllEmployees().size() > 0);
     }
-
 }

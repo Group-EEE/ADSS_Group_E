@@ -1,4 +1,4 @@
-package HR.Facade;
+package HR.DAO;
 
 import BussinessLayer.HRModule.Controllers.Facade;
 import BussinessLayer.HRModule.Objects.RoleType;
