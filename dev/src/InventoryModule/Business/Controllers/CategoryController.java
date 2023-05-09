@@ -39,7 +39,7 @@ public class CategoryController {
                 pair.getValue().addSub(sc);
             }
         }
-        superLiDB.insertSubCategory(sc);
+        superLiDB.insertSubCategory(sc, catname);
     }
 
     //this function adds subsubcategory to the subsubcategories list
@@ -54,7 +54,15 @@ public class CategoryController {
                 }
             }
         }
-        superLiDB.insertSubSubCategory(ssc);
+        superLiDB.insertSubSubCategory(ssc, subcatname, catname);
+    }
+
+    public List<Category> getCategories() {
+        List<Category> cat = new ArrayList<>();
+        for (Map.Entry<String, Category> pair : superLiDB.getCategoriesMap().entrySet()){
+            cat.add(pair.getValue());
+        }
+        return cat;
     }
 
     //this function removes category from the categories list
@@ -84,7 +92,7 @@ public class CategoryController {
     public void removeSubCategory(String subname, String catname){
         boolean exist = false; //if there is a product that belongs to this subcategory- will be true
         SubCategory c = null;
-        for (Map.Entry<String, SubCategory> pair : superLiDB.getSubCategoriesMap().entrySet()){
+        for (Map.Entry<List<String>, SubCategory> pair : superLiDB.getSubCategoriesMap().entrySet()){
             if(pair.getValue().getName().compareTo(subname)==0){
                 c = pair.getValue(); //the subcategory found and saved, so we can remove it if need
                 for(int j=0; j< ProductController.getProducts().size(); j++){
@@ -113,7 +121,7 @@ public class CategoryController {
     public void removeSubSubCategory(String subsubname,String subname, String catname){
         boolean exist = false;//if there is a product that belongs to this subsubcategory- will be true
         SubSubCategory c = null;
-        for (Map.Entry<String, SubSubCategory> pair : superLiDB.getSubSubCategoriesMap().entrySet()){//find the subsubcategory by its name in the list
+        for (Map.Entry<List<String>, SubSubCategory> pair : superLiDB.getSubSubCategoriesMap().entrySet()){//find the subsubcategory by its name in the list
             if(pair.getValue().getName().compareTo(subsubname)==0){
                 c = pair.getValue();//the subsubcategory found and saved, so we can remove it if need
                 for(int j=0; j< ProductController.getProducts().size(); j++){
@@ -126,7 +134,7 @@ public class CategoryController {
         }
         if(exist==false){//we couldnt find product that belongs to this subsucategory
             //find the subcategory of the subsubcategory
-            for (Map.Entry<String, SubCategory> pair : superLiDB.getSubCategoriesMap().entrySet()){
+            for (Map.Entry<List<String>, SubCategory> pair : superLiDB.getSubCategoriesMap().entrySet()){
                 if(pair.getValue().getName().compareTo(catname)==0){
                     //remove the subsubcategory from the subcategory's list
                     pair.getValue().getSubSubCategories().remove(c);
@@ -154,7 +162,7 @@ public class CategoryController {
 
     //this function checks if the subcategory exist in the system
     public boolean check_if_exist_subcat(String subcat_name){
-        for (Map.Entry<String, SubCategory> pair : superLiDB.getSubCategoriesMap().entrySet()){//check every category in the controller's list
+        for (Map.Entry<List<String>, SubCategory> pair : superLiDB.getSubCategoriesMap().entrySet()){//check every category in the controller's list
             if(pair.getValue().getName().compareTo(subcat_name)==0){
                 return true;
             }
@@ -164,7 +172,7 @@ public class CategoryController {
 
     //his function checks if the subsubcategory exist in the system
     public boolean check_if_exist_subsubcat(String subsubcat_name){
-        for (Map.Entry<String, SubSubCategory> pair : superLiDB.getSubSubCategoriesMap().entrySet()){//check every category in the controller's list
+        for (Map.Entry<List<String>, SubSubCategory> pair : superLiDB.getSubSubCategoriesMap().entrySet()){//check every category in the controller's list
             if(pair.getValue().getName().compareTo(subsubcat_name)==0){
                 return true;
             }
@@ -179,4 +187,19 @@ public class CategoryController {
         }
     }
 
+    public List<SubCategory> getSubcategories() {
+        List<SubCategory> subcat = new ArrayList<>();
+        for (Map.Entry<List<String>, SubCategory> pair : superLiDB.getSubCategoriesMap().entrySet()){
+            subcat.add(pair.getValue());
+        }
+        return subcat;
+    }
+
+    public List<SubSubCategory> getSubSubCategories() {
+        List<SubSubCategory> subsubcat = new ArrayList<>();
+        for (Map.Entry<List<String>, SubSubCategory> pair : superLiDB.getSubSubCategoriesMap().entrySet()){
+            subsubcat.add(pair.getValue());
+        }
+        return subsubcat;
+    }
 }

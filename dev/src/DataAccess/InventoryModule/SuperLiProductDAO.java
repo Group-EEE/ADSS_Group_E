@@ -44,7 +44,6 @@ public class SuperLiProductDAO {
                 IdentifyMapSuperLiProduct.put(barcode, slp);
                 List <SpecificProduct> allsp = specificProductDAO.ReadAllSpecificProductsByBarcode(barcode);
                 slp.setSpecificProducts(allsp);
-                rs.next();
             }
         }
         catch (SQLException e) {throw new RuntimeException(e);}

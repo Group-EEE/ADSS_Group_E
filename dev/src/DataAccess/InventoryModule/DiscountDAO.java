@@ -82,8 +82,10 @@ public class DiscountDAO {
             stmt = conn.prepareStatement("Insert into Discount VALUES (?,?,?,?,?)");
             stmt.setInt(1, sp.getBarcode());
             stmt.setInt(2, sp.getSp_ID());
-            stmt.setObject(3, d.getStart());
-            stmt.setObject(4, d.getEnd());
+            String s = d.getStart().toString().substring(0,11);
+            stmt.setObject(3, s);
+            String e = d.getEnd().toString().substring(0,11);
+            stmt.setObject(4, e);
             stmt.setDouble(5, d.getDiscount());
             stmt.executeUpdate();
         }

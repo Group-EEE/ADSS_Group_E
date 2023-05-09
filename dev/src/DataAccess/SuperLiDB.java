@@ -84,7 +84,6 @@ public class SuperLiDB {
         genericProductDAO.ReadGenericProductsToCache();
         supplierDAO.ReadSuppliersToCache();
         categoryDAO.ReadCategoryToCache();
-        //discountDAO.ReadDiscountToCache();
         superLiProductDAO.ReadSuperLiProductToCache();
     }
 
@@ -269,22 +268,22 @@ public class SuperLiDB {
         return categoryDAO.getIdentifyMapCategory();
     }
 
-    public Map<String, SubCategory> getSubCategoriesMap(){
+    public Map<List<String>, SubCategory> getSubCategoriesMap(){
         return subCategoryDAO.getIdentifyMapSubCategory();
     }
 
-    public Map<String, SubSubCategory> getSubSubCategoriesMap(){
+    public Map<List<String>, SubSubCategory> getSubSubCategoriesMap(){
         return subSubCategoryDAO.getIdentifyMapSubSubCategory();
     }
 
-    public void insertSubCategory(SubCategory subcategory)
+    public void insertSubCategory(SubCategory subcategory, String catname)
     {
-        subCategoryDAO.Insert(subcategory);
+        subCategoryDAO.Insert(subcategory, catname);
     }
 
-    public void insertSubSubCategory(SubSubCategory subsubcategory)
+    public void insertSubSubCategory(SubSubCategory subsubcategory, String subcat, String cat)
     {
-        subSubCategoryDAO.Insert(subsubcategory);
+        subSubCategoryDAO.Insert(subsubcategory, subcat, cat);
     }
 
     public void removeCategory(Category c){

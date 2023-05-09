@@ -15,7 +15,7 @@ import java.util.Map;
 public class SubSubCategoryDAO {
     private Connection conn;
     static SubSubCategoryDAO subSubCategoryDAO;
-    private Map<String, SubSubCategory> IdentifyMapSubSubCategory;
+    private Map<List<String>, SubSubCategory> IdentifyMapSubSubCategory;
 
     private SubSubCategoryDAO(Connection conn) {
         this.conn = conn;
@@ -29,19 +29,23 @@ public class SubSubCategoryDAO {
     }
 
 
-    public List<SubSubCategory> ReadAllSubSubCategoriesBySubCategoryName(String subCategory) {
+    public List<SubSubCategory> ReadAllSubSubCategoriesBySubCategoryName(String subCategory, String Category) {
         List<SubSubCategory> subsub = new ArrayList<>();
         //-----------------------------------------Create a query-----------------------------------------
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SubSubCategory WHERE SubCategory = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SubSubCategory WHERE SubCategory = ? AND Category = ? ");
             stmt.setString(1, subCategory);
+            stmt.setString(2, Category);
             ResultSet rs = stmt.executeQuery();
             //-----------------------------------------Create array-----------------------------------------
-            List<String> key;
             while (rs.next()) {
+                List<String> subsubkey = new ArrayList<>();
                 String subSubCategory =rs.getString("Name");
                 SubSubCategory subsubcat = new SubSubCategory(subSubCategory);
-                IdentifyMapSubSubCategory.put(subSubCategory, subsubcat);
+                subsubkey.add(rs.getString("Category"));
+                subsubkey.add(rs.getString("SubCategory"));
+                subsubkey.add(subSubCategory);
+                IdentifyMapSubSubCategory.put(subsubkey, subsubcat);
                 subsub.add(subsubcat);
             }
         }
@@ -74,15 +78,19 @@ public class SubSubCategoryDAO {
         catch (SQLException e) {throw new RuntimeException(e);}
     }
 
-    public void Insert(SubSubCategory ssc){
-        IdentifyMapSubSubCategory.put(ssc.getName(), ssc);
+    public void Insert(SubSubCategory ssc, String subcat, String cat){
+        List<String> l = new ArrayList<>();
+        l.add(cat);
+        l.add(subcat);
+        l.add(ssc.getName());
+        IdentifyMapSubSubCategory.put(l, ssc);
     }
 
     public void delete (SubSubCategory sscat){
         IdentifyMapSubSubCategory.remove(sscat.getName());
     }
 
-    public Map<String, SubSubCategory> getIdentifyMapSubSubCategory() {
+    public Map<List<String>, SubSubCategory> getIdentifyMapSubSubCategory() {
         return IdentifyMapSubSubCategory;
     }
 }

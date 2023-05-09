@@ -19,7 +19,7 @@ public class SpecificProductDAO {
     private Connection conn;
     private DiscountDAO discountDAO;
     static SpecificProductDAO specificProductDAO;
-    private Map<Integer, SpecificProduct> IdentifyMapSpecificProduct;
+    private Map<List<Integer>, SpecificProduct> IdentifyMapSpecificProduct;
 
     private SpecificProductDAO(Connection conn) {
         this.conn = conn;
@@ -42,6 +42,7 @@ public class SpecificProductDAO {
             ResultSet rs = stmt.executeQuery();
             //-----------------------------------------Create array-----------------------------------------
             while (rs.next()) {
+                List<Integer> spkey = new ArrayList<>();
                 int sp =rs.getInt("Sp_ID");
                 Discount d = discountDAO.ReadDiscountToCache(rs.getInt("Barcode"), rs.getInt("Sp_ID"));
                 String exp = rs.getString("ExpDate");
@@ -50,7 +51,9 @@ public class SpecificProductDAO {
                 String arrival = rs.getString("arrivaldate");
                 LocalDateTime arrDate = LocalDateTime.parse(arrival+"T00:00:00");
                 specificProduct.setArrivaldate(arrDate);
-                IdentifyMapSpecificProduct.put(sp, specificProduct);
+                spkey.add(sp);
+                spkey.add(barcode);
+                IdentifyMapSpecificProduct.put(spkey, specificProduct);
                 allsp.add(specificProduct);
             }
         }
@@ -71,7 +74,7 @@ public class SpecificProductDAO {
         PreparedStatement stmt;
         for (int i=0; i< lsp.size();i++) {
             try{
-                stmt = conn.prepareStatement("Insert into SuperLiProduct VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+                stmt = conn.prepareStatement("Insert into SpecificProduct VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
                 stmt.setInt(1, lsp.get(i).getSp_ID());
                 stmt.setInt(2, lsp.get(i).getBarcode());
                 stmt.setObject(3, lsp.get(i).getExpDate());

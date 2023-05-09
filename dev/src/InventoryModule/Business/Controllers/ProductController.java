@@ -44,7 +44,7 @@ public class ProductController {
         SuperLiProduct P = new SuperLiProduct(Barcode, Name, Costumerprice, Category,Subcategory, Subsubcategory,
                 Supplydays,Manufacturer,Minimumamount);
         superLiDB.insertSuperLiProduct(P); //add to the controller's list
-        BarcodesOfNewProducts.remove(Barcode);
+        BarcodesOfNewProducts.remove(BarcodesOfNewProducts.indexOf(Barcode));
     }
 
 

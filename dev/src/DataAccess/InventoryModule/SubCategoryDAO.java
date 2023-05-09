@@ -17,7 +17,7 @@ public class SubCategoryDAO {
     private Connection conn;
     static SubCategoryDAO subCategoryDAO;
     private SubSubCategoryDAO subSubCategoryDAO;
-    private Map<String, SubCategory> IdentifyMapSubCategory;
+    private Map<List<String>, SubCategory> IdentifyMapSubCategory;
 
     private SubCategoryDAO(Connection conn) {
         this.conn = conn;
@@ -33,6 +33,7 @@ public class SubCategoryDAO {
 
     public List<SubCategory> ReadAllSubCategoriesByCategoryName(String Category){
         List<SubCategory> sub = new ArrayList<>();
+
         //-----------------------------------------Create a query-----------------------------------------
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SubCategory WHERE Category = ?");
@@ -40,11 +41,14 @@ public class SubCategoryDAO {
             ResultSet rs = stmt.executeQuery();
             //-----------------------------------------Create array-----------------------------------------
             while (rs.next()) {
+                List<String> subkey = new ArrayList<>();
                 String subCategory =rs.getString("Name");
                 SubCategory subcat = new SubCategory(subCategory);
-                List<SubSubCategory> subsubcat = subSubCategoryDAO.ReadAllSubSubCategoriesBySubCategoryName(subCategory);
+                List<SubSubCategory> subsubcat = subSubCategoryDAO.ReadAllSubSubCategoriesBySubCategoryName(subCategory, Category);
                 subcat.setSubSubCategories(subsubcat);
-                IdentifyMapSubCategory.put(subCategory, subcat);
+                subkey.add(Category);
+                subkey.add(subCategory);
+                IdentifyMapSubCategory.put(subkey, subcat);
                 sub.add(subcat);
             }
         }
@@ -77,10 +81,13 @@ public class SubCategoryDAO {
         }
     }
 
-    public void Insert(SubCategory sc){
-        IdentifyMapSubCategory.put(sc.getName(), sc);
+    public void Insert(SubCategory sc, String catname){
+        List<String> sublist = new ArrayList<>();
+        sublist.add(sc.getName());
+        sublist.add(catname);
+        IdentifyMapSubCategory.put(sublist, sc);
     }
-    public Map<String, SubCategory> getIdentifyMapSubCategory() {
+    public Map<List<String>, SubCategory> getIdentifyMapSubCategory() {
         return IdentifyMapSubCategory;
     }
 

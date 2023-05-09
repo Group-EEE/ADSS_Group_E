@@ -9,7 +9,7 @@ Yehonatan Kidushim - 319068789
 
 ****************************************** Instruction ***************************************************
 
-Hello dear customer,
+Hello dear costumer,
 Attached are clear operating instructions to facilitate your experience and use of the system.
 
 In these instructions,
@@ -43,7 +43,7 @@ You must choose whether you want to enter a supplier system or an inventory syst
 4.Delete supplier from the system.\
 5.Update Supplier Agreement.\
 6.Change supplier details.\
-7.Print supplier details.
+7.Print supplier details.\
 0.Exit.</font>
 
 You must choose which actions you want in a supplier system.\

@@ -7,23 +7,13 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SuperLiProductTest {
-    SuperLiProduct p = new SuperLiProduct(1234, "Bamba", "Osem", 5.00, 6.00, "Snack", "salty", "yam", 5, "Osem", 3);
+    SuperLiProduct p = new SuperLiProduct(1234, "Bamba", 5.00, "Osem","Snack", "salty", 5, "Osem", 3);
 
     @org.junit.jupiter.api.Test
     void getBarcode() {
         assertEquals(1234, p.getBarcode());
     }
 
-    @Test
-    void getSupplier_Price() {
-        assertEquals(5.00, p.getSupplier_Price());
-    }
-
-    @Test
-    void setSupplier_Price() {
-        p.setSupplier_Price(6);
-        assertEquals(6.00, p.getSupplier_Price());
-    }
 
     @Test
     void getCostumer_Price() {
@@ -64,21 +54,21 @@ class SuperLiProductTest {
     @Test
     void getSpecificProducts() {
         Discount d = new Discount(LocalDateTime.parse("2023-03-04T00:00:00"), LocalDateTime.parse("2023-03-15T00:00:00"), 25);
-        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), false, null, true, "shufersal", -1, d, null);
+        p.addSpecificProduct("osem", 5.00, 1234, LocalDateTime.parse("2023-03-04T00:00:00"), false, null, true, "shufersal", -1, d, null);
         assertEquals(1, p.getSpecificProducts().get(0).getSp_ID());
     }
 
     @Test
     void addSpecificProduct() {
         Discount d = new Discount(LocalDateTime.parse("2023-03-04T00:00:00"), LocalDateTime.parse("2023-03-15T00:00:00"), 25);
-        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), false, null, true, "shufersal", -1, d, null);
+        p.addSpecificProduct("osem", 5.00, 1234, LocalDateTime.parse("2023-03-04T00:00:00"), false, null, true, "shufersal", -1, d, null);
         assertEquals(-1, p.getSpecificProducts().get(0).getLocation_in_Store());
     }
 
     @Test
     void removeSpecificProduct() {
         Discount d = new Discount(LocalDateTime.parse("2023-03-04T00:00:00"), LocalDateTime.parse("2023-03-15T00:00:00"), 25);
-        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), false, null, true, "shufersal", -1, d, null);
+        p.addSpecificProduct("osem", 5.00, 1234, LocalDateTime.parse("2023-03-04T00:00:00"), false, null, true, "shufersal", -1, d, null);
         p.removeSpecificProduct(1);
         assertEquals(0, p.getSpecificProducts().size());
     }
@@ -86,7 +76,7 @@ class SuperLiProductTest {
     @Test
     void add_defected_specific_product() {
         Discount d = new Discount(LocalDateTime.parse("2023-03-04T00:00:00"), LocalDateTime.parse("2023-03-15T00:00:00"), 25);
-        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", true, "shufersal", -1, d, "opened");
+        p.addSpecificProduct("osem", 5.00, 1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", true, "shufersal", -1, d, "opened");
         p.add_defected_specific_product(1, "Liron", "wet bamba");
         assertEquals("opened", p.getDefectedProducts().get(0).getDefectType());
     }
@@ -94,14 +84,14 @@ class SuperLiProductTest {
     @Test
     void getSpecificProduct() {
         Discount d = new Discount(LocalDateTime.parse("2023-03-04T00:00:00"), LocalDateTime.parse("2023-03-15T00:00:00"), 25);
-        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", true, "shufersal", -1, d, "opened");
+        p.addSpecificProduct("osem", 5.00, 1234, LocalDateTime.parse("2023-03-04T00:00:00"), true, "sapir", true, "shufersal", -1, d, "opened");
         assertEquals("opened", p.getDefectedProducts().get(0).getDefectType());
     }
 
     @Test
     void getProductLocationInStore() {
         Discount d = new Discount(LocalDateTime.parse("2023-03-04T00:00:00"), LocalDateTime.parse("2023-03-15T00:00:00"), 25);
-        p.addSpecificProduct(1234, LocalDateTime.parse("2023-03-04T00:00:00"), false, null, false, "shufersal", 10, d, null);
+        p.addSpecificProduct("osem", 5.00, 1234, LocalDateTime.parse("2023-03-04T00:00:00"), false, null, false, "shufersal", 10, d, null);
         assertEquals(10, p.getSpecificProducts().get(0).getLocation_in_Store());
     }
 
@@ -119,11 +109,6 @@ class SuperLiProductTest {
     @Test
     void getSubSubCategory() {
         assertEquals("yam", p.getSubSubCategory());
-    }
-
-    @Test
-    void getSupplier() {
-        assertEquals("Osem", p.getSupplier());
     }
 
     @Test
