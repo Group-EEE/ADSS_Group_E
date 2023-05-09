@@ -35,7 +35,7 @@ public class Transport_dao extends DAO {
     public boolean Insert(Object obj) {
         Transport transport = (Transport) obj;
         try {
-            String query = "INSERT INTO " + _tableName + " (ID, Date, Departure_Time, Truck_Number, Driver_Name, Origin, Cold_Level, Suppliers, Stores, Finished, Planned_Date, Driver_ID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+            String query = "INSERT INTO " + _tableName + " (ID, Date, Departure_Time, Truck_Number, Driver_Name, Origin, Cold_Level, Suppliers, Stores, Finished, Planned_Date, Driver_ID, Estimated_End_Time) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, transport.getTransport_ID());
             statement.setString(2, transport.getDate());
@@ -49,6 +49,7 @@ public class Transport_dao extends DAO {
             if (transport.Started()){
                 statement.setInt(10, 1);
                 insert_products_to_table(transport);
+                statement.setString(13, null);
             }
             else {
                 statement.setInt(10, 0);
@@ -326,4 +327,19 @@ public class Transport_dao extends DAO {
         }
     }
 
+    public void set_end_time(int time, int transport_ID){
+        String query = "UPDATE " + this._tableName + " Estimated_End_Time = ? WHERE ID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, time);
+            statement.setInt(2, transport_ID);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String get_end_time(Transport transport){
+
+    }
 }

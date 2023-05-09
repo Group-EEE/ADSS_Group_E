@@ -14,6 +14,7 @@ public class Drivers_dao extends DAO {
     private License_dao L_dao;
     private static Drivers_dao drivers_dao = null;
 
+
     private Drivers_dao(String table_name){
         super(table_name);
         L_dao = License_dao.getInstance();

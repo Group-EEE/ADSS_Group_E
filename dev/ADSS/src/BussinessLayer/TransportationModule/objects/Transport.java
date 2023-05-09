@@ -19,6 +19,8 @@ public class Transport {
     private String Planned_date;
     private int driver_ID;
 
+    private String Estimated_end_time;
+
     public Transport(int transport_ID, String date, String departure_time, String truck_number, String driver_name, String origin, cold_level cold_level, String planned_date, int driver_ID){
         this.transport_ID = transport_ID;
         this.date = date;
@@ -33,6 +35,7 @@ public class Transport {
         this.started = false;
         this.Planned_date = planned_date;
         this.driver_ID = driver_ID;
+        this.Estimated_end_time = null;
     }
 
 
