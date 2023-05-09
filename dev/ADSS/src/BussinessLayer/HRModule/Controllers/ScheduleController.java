@@ -191,4 +191,11 @@ public class ScheduleController {
             return false;
         return schedule.addEmployeeToShift(employee,choice);
     }
+
+    public boolean hasWareHouse(String storeName, int storeID){
+        Schedule schedule = getSchedule(storeName);
+        if (schedule == null)
+            throw new IllegalArgumentException("schedule not yet made");
+        return schedule.getShift(storeID).hasFilledRole(RoleType.Warehouse);
+    }
 }

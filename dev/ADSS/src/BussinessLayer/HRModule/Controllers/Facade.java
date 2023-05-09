@@ -125,6 +125,8 @@ public class Facade {
         }
         return true;
     }
+
+
     //_storeController
     public boolean createStore(String storeName, String storeAddress, String phone, String siteContactName, int area){
         return _storeController.createStore(storeName, storeAddress,phone,siteContactName,area);
@@ -190,5 +192,9 @@ public class Facade {
 
     public boolean deleteSchedule(String storeName){
         return _scheduleController.deleteActiveSchedule(storeName);
+    }
+
+    public boolean hasWareHouse(String storeName, int shiftID){
+        return _scheduleController.hasWareHouse(storeName,shiftID);
     }
 }
