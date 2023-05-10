@@ -83,18 +83,21 @@ public class SubCategoryDAO {
 
     public void Insert(SubCategory sc, String catname){
         List<String> sublist = new ArrayList<>();
-        sublist.add(sc.getName());
         sublist.add(catname);
+        sublist.add(sc.getName());
         IdentifyMapSubCategory.put(sublist, sc);
     }
     public Map<List<String>, SubCategory> getIdentifyMapSubCategory() {
         return IdentifyMapSubCategory;
     }
 
-    public void delete(SubCategory subcat){
-        IdentifyMapSubCategory.remove(subcat.getName());
+    public void delete(String category, SubCategory subcat){
+        List<String> subkey = new ArrayList<>();
+        subkey.add(category);
+        subkey.add(subcat.getName());
+        IdentifyMapSubCategory.remove(subkey);
         for(SubSubCategory subsubcategory: subcat.getSubSubCategories()){
-            subSubCategoryDAO.delete(subsubcategory);
+            subSubCategoryDAO.delete(category,subcat.getName(), subsubcategory.getName());
         }
     }
 

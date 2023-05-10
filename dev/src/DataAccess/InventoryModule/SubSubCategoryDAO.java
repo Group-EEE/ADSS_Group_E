@@ -86,8 +86,12 @@ public class SubSubCategoryDAO {
         IdentifyMapSubSubCategory.put(l, ssc);
     }
 
-    public void delete (SubSubCategory sscat){
-        IdentifyMapSubSubCategory.remove(sscat.getName());
+    public void delete (String category,String subcat,String subsubcategory){
+        List<String> subsubkey = new ArrayList<>();
+        subsubkey.add(category);
+        subsubkey.add(subcat);
+        subsubkey.add(subsubcategory);
+        IdentifyMapSubSubCategory.remove(subsubkey);
     }
 
     public Map<List<String>, SubSubCategory> getIdentifyMapSubSubCategory() {

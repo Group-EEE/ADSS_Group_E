@@ -17,7 +17,7 @@ class SuperLiProductTest {
 
     @Test
     void getCostumer_Price() {
-        assertEquals(6.00, p.getCostumer_Price());
+        assertEquals(5.00, p.getCostumer_Price());
     }
 
     @Test
@@ -97,18 +97,18 @@ class SuperLiProductTest {
 
     @Test
     void getCategory() {
-        assertEquals("Snack", p.getCategory());
+        assertEquals("Osem", p.getCategory());
 
     }
 
     @Test
     void getSubCategory() {
-        assertEquals("salty", p.getSubCategory());
+        assertEquals("Snack", p.getSubCategory());
     }
 
     @Test
     void getSubSubCategory() {
-        assertEquals("yam", p.getSubSubCategory());
+        assertEquals("salty", p.getSubSubCategory());
     }
 
     @Test

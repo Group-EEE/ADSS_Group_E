@@ -290,12 +290,12 @@ public class SuperLiDB {
         categoryDAO.delete(c);
     }
 
-    public void removeSubCategory(SubCategory sc){
-        subCategoryDAO.delete(sc);
+    public void removeSubCategory(SubCategory sc, String category){
+        subCategoryDAO.delete(category, sc);
     }
 
-    public void removeSubSubCategory(SubSubCategory ssc){
-        subSubCategoryDAO.delete(ssc);
+    public void removeSubSubCategory(List<String> subsubkey){
+        subSubCategoryDAO.delete(subsubkey.get(0), subsubkey.get(1), subsubkey.get(2));
     }
 
     //------------------------------------ProductDAO-----------------------------------------------

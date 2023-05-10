@@ -104,13 +104,15 @@ public class CategoryController {
             }
         }
         if(exist==false){ //we couldnt find product that belongs to this sucategory
+            String cat=null;
             for (Map.Entry<String, Category> pair : superLiDB.getCategoriesMap().entrySet()){//find the main category of the subcategory
                 if(pair.getValue().getName().compareTo(catname)==0){ //the main category
                     //remove the subcategory from the main category's list
                     pair.getValue().getSubCategories().remove(c);
+                    cat = pair.getKey();
                 }
             }
-            superLiDB.removeSubCategory(c);//remove the subcategory from the controllers' list
+            superLiDB.removeSubCategory(c, cat);//remove the subcategory from the controllers' list
         }
         else{
             System.out.println("Can't remove subcategory");
@@ -134,13 +136,17 @@ public class CategoryController {
         }
         if(exist==false){//we couldnt find product that belongs to this subsucategory
             //find the subcategory of the subsubcategory
+            List<String> subsubkey = new ArrayList<>();
             for (Map.Entry<List<String>, SubCategory> pair : superLiDB.getSubCategoriesMap().entrySet()){
-                if(pair.getValue().getName().compareTo(catname)==0){
+                if(pair.getValue().getName().compareTo(subname)==0){
                     //remove the subsubcategory from the subcategory's list
                     pair.getValue().getSubSubCategories().remove(c);
+                    subsubkey.add(catname);
+                    subsubkey.add(subname);
+                    subsubkey.add(subsubname);
                 }
             }
-            superLiDB.removeSubSubCategory(c);//remove the subsubcategory from the controllers' list
+            superLiDB.removeSubSubCategory(subsubkey);//remove the subsubcategory from the controllers' list
         }
         else{
             System.out.println("Can't remove subsubcategory");
