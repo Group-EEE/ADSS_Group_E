@@ -6,7 +6,13 @@ import DataAccessLayer.HRMoudle.EmployeesDAO;
 //import DataAccessLayer.Transport.Drivers_dao;
 import DataAccessLayer.Transport.Transport_dao;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Random;
 
 // singleton
 public class underway_transport_controller {
@@ -493,5 +499,47 @@ public class underway_transport_controller {
             }
         }
         return exist;
+    }
+
+
+    public  void getRandomTimeAfter(String currentTimeString, int transport_ID) {
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
+        int maxSecondsToAdd = transport.getDestinations().size();
+        // Parse the current time string using the format string
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        Calendar now = Calendar.getInstance();
+        try {
+            now.setTime(dateFormat.parse(currentTimeString));
+        } catch (ParseException e) {
+        }
+
+        // Add a random number of seconds to the current time
+        Random random = new Random();
+        int randomSeconds = random.nextInt(maxSecondsToAdd);
+        now.add(Calendar.SECOND, randomSeconds);
+
+        // Format the new time as a string using the format string
+        String newTimeString = dateFormat.format(now.getTime());
+
+        transport.setEstimated_end_time(newTimeString);
+
+        Transport_dao.getInstance().update_transport_estimated_end_time(transport_ID, newTimeString);
+    }
+
+    public void setEstimatedEndTime(int transport_ID, String newTime){
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
+        transport.setEstimated_end_time(newTime);
+        Transport_dao.getInstance().update_transport_estimated_end_time(transport_ID, newTime);
+    }
+
+    public String getEstimatedEndTime(int transport_ID){
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
+        return transport.getEstimated_end_time();
+    }
+
+    public boolean isValidTime(String Time){
+        LocalTime current_time = LocalTime.now();
+        LocalTime time = LocalTime.parse(Time, DateTimeFormatter.ofPattern("HH:mm:ss"));
+        return time.isAfter(current_time);
     }
 }

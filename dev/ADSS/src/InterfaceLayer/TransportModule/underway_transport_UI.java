@@ -40,6 +40,8 @@ public class underway_transport_UI {
         String Time = now.toLocalTime().format(timeFormatter);
         controller.match_driver_and_truck(transport_ID);
         controller.set_time_and_date_for_transport(transport_ID, Date, Time);
+        // ======================== Estimated End Time ======================== //
+        controller.getRandomTimeAfter(Time, transport_ID);
         // ========================= starting the transport ======================= //
         controller.set_navigator_for_transport(transport_ID);
         System.out.println("Transport - " + transport_ID + " started.");
@@ -88,6 +90,32 @@ public class underway_transport_UI {
                     System.out.println("We currently don't have any goods for " + controller.get_current_location_name(transport_ID) + " ,skip this store for now.");
                 }
             }
+            boolean isValidChoice = false;
+            while (!isValidChoice) {
+                System.out.println("The current estimated finish time is: " + controller.getEstimatedEndTime(transport_ID));
+                System.out.println("Do you want to update the estimated finish time of the transport? ");
+                System.out.println("1 - YES");
+                System.out.println("2 - NO");
+                while (true) {
+                    String ch = scanner.nextLine();
+                    if (ch.equals("1")) {
+                        System.out.println("What is the new estimated finish time? ");
+                        String newTime = scanner.nextLine();
+                        while(!controller.isValidTime(newTime)){
+                            System.out.println("Invalid input. try again: ");
+                        }
+                        controller.setEstimatedEndTime(transport_ID, newTime);
+                        break;
+                    } else if (ch.equals("2")) {
+                        isValidChoice = true;
+                        break;
+                    } else {
+                        System.out.println("You must enter 1 or 2.");
+                    }
+                }
+            }
+
+
             // driving to the next site.
             controller.drive_to_next_location(transport_ID);
         }
