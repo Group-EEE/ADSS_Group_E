@@ -130,16 +130,4 @@ public class Truck_Driver extends Employee{
         }
         System.out.println();
     }
-
-
-    // TODO: remove this:
-
-    public int getID() {
-        return this._employeeID;
-    }
-
-    public String getName() {
-        return this._firstName;
-    }
-
 }

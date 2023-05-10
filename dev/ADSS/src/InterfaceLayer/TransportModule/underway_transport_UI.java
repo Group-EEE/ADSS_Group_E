@@ -347,7 +347,7 @@ public class underway_transport_UI {
             if (ch.equals("1")) {
                 System.out.println("What is the new estimated finish time? (enter time in HH:mm:ss format");
                 String newTime = scanner.nextLine();
-                while(!controller.isValidTimeString(newTime)){
+                while(!controller.isValidTime(newTime)){
                     System.out.println("Wrong input, try again. ");
                     newTime = scanner.nextLine();
                 }
