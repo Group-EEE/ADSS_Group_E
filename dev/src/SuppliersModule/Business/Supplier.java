@@ -244,7 +244,16 @@ public class Supplier {
             if(barcode == pair.getValue().getMyProduct().getBarcode())
                 return true;
         }
-
         return false;
+    }
+
+    public SupplierProduct getSupplierProductByBarcode(int barcode)
+    {
+        for (Map.Entry<String, SupplierProduct> pair : MyProducts.entrySet())
+        {
+            if(barcode == pair.getValue().getMyProduct().getBarcode())
+                return pair.getValue();
+        }
+        return null;
     }
 }
