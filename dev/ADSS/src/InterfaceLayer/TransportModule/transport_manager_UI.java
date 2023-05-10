@@ -385,11 +385,11 @@ public class transport_manager_UI {
                 planned_date = inputDate + "/" + currentYear;
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 LocalDate date = LocalDate.parse(planned_date, formatter);
-                // Check if the parsed date is not before the current date
-                if (!date.isBefore(currentDate)) {
+                // Check if the parsed date is not before the current date and not more than one week from the current date
+                if (!date.isBefore(currentDate) && !date.isAfter(currentDate.plusWeeks(1))) {
                     validInput = true;
                 } else {
-                    System.out.println("Invalid input. The date must not be before the current date.");
+                    System.out.println("Invalid input. The date must not be before the current date and not more than one week from the current date.");
                 }
             } else {
                 System.out.println("Invalid input. Please enter a date in the format dd/mm.");
