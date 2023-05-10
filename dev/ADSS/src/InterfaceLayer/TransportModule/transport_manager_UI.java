@@ -9,6 +9,7 @@ import DataAccessLayer.HRMoudle.StoresDAO;
 import DataAccessLayer.Transport.Suppliers_dao;
 
 import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class transport_manager_UI {
         while (true) {
             System.out.println("Hey Boss! what would you like to do?");
             //System.out.println("0 - Hire a new driver");
+            System.out.println("0 - register a supplier to the System");
             System.out.println("1 - See all the trucks with a cold level of your choice: \n\t 1- Freeze \n\t 2- Cold \n \t 3- Dry");
             System.out.println("2 - create a new transport");
             System.out.println("3 - send transports");
@@ -74,6 +76,7 @@ public class transport_manager_UI {
             switch (choice) {
                 // hire a new driver
                 //case 0 -> create_driver();
+                case 0 -> create_supplier();
 
                 // have all the trucks by a cold level
                 case 1 -> display_trucks_by_cold_level();
@@ -246,11 +249,11 @@ public class transport_manager_UI {
                 planned_date = inputDate + "/" + currentYear;
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 LocalDate date = LocalDate.parse(planned_date, formatter);
-                // Check if the parsed date is not before the current date
-                if (!date.isBefore(currentDate)) {
+                // Check if the parsed date is not before the current date and not more than one week from the current date
+                if (!date.isBefore(currentDate) && !date.isAfter(currentDate.plusWeeks(1))) {
                     validInput = true;
                 } else {
-                    System.out.println("Invalid input. The date must not be before the current date.");
+                    System.out.println("Invalid input. The date must not be before the current date and not more than one week from the current date.");
                 }
             } else {
                 System.out.println("Invalid input. Please enter a date in the format dd/mm.");
@@ -345,77 +348,6 @@ public class transport_manager_UI {
                         }
                     }
                 }
-//
-//                int store_ID = 0;
-//                isValid = false;
-//                while (!isValid){
-//                    try {
-//                        System.out.println("Please enter the Store's ID (5 digit number using only 0-9 that not starts with 0): ");
-//                        input = scanner.nextLine();
-//                        store_ID = Integer.parseInt(input);
-//                        if (input.length() != 5){
-//                            System.out.println("Please enter a valid number that not starts with 0 , and with 5 digits.");
-//                        }
-//                        else if (!StoresDAO.getInstance().existsStore(store_ID)) {
-//                            System.out.println("This store is not known to the System.");
-//                        }else {
-//                            isValid = true;
-//                        }
-//                    } catch (NumberFormatException e){
-//                        System.out.println("Invalid input");
-//                    }
-//                }
-//
-//                isValid = false;
-//                String store_address = null;
-//                while(!isValid) {
-//                    System.out.println("Please enter the store address: ");
-//                    input = scanner.nextLine();
-//                    if (input.strip().equals("")) {
-//                        System.out.print("Invalid input. ");
-//                    }
-//                    else{
-//                        store_address = input;
-//                        isValid = true;
-//                    }
-//                }
-//                String phone_number = null;
-//                isValid = false;
-//                while(!isValid) {
-//                    System.out.println("Please enter the store phone number: ");
-//                    phone_number = scanner.nextLine();
-//                    if(!containsOnlyNumbers(phone_number) || phone_number.strip().equals("")){
-//                        System.out.print("Invalid input. ");
-//                    }
-//                    else{
-//                        isValid = true;
-//                    }
-//                }
-
-//                isValid = false;
-//                String store_contact_name = null;
-//                while (!isValid) {
-//                    System.out.println("Please enter the contact person name of the store: ");
-//                    store_contact_name = scanner.nextLine();
-//                    if(!store_contact_name.strip().equals("")){
-//                        isValid = true;
-//                    }
-//                    else {
-//                        System.out.print("Invalid input. ");
-//                    }
-//                }
-//                isValid = false;
-//                String manager_name = null;
-//                while (!isValid) {
-//                    System.out.println("Please enter the manager name of the store: ");
-//                    manager_name = scanner.nextLine();
-//                    if(!manager_name.strip().equals("")){
-//                        isValid = true;
-//                    }
-//                    else {
-//                        System.out.print("Invalid input. ");
-//                    }
-//                }
 
                 isValid = false;
                 String store_name = null;
@@ -452,42 +384,6 @@ public class transport_manager_UI {
                 }
             }
             if(site_type.equals("2")){
-//                isValid = false;
-//                String supplier_address = null;
-//                while(!isValid) {
-//                    System.out.println("Please enter the supplier address: ");
-//                    supplier_address = scanner.nextLine();
-//                    if(!supplier_address.strip().equals("")){
-//                        isValid = true;
-//                    }
-//                    else{
-//                        System.out.print("Invalid input. ");
-//                    }
-//                }
-//                String phone_number = null;
-//                isValid = false;
-//                while(!isValid) {
-//                    System.out.println("Please enter the supplier phone number: ");
-//                    phone_number = scanner.nextLine();
-//                    if(!containsOnlyNumbers(phone_number) || phone_number.strip().equals("")){
-//                        System.out.print("Invalid input. ");
-//                    }
-//                    else{
-//                        isValid = true;
-//                    }
-//                }
-//                isValid = false;
-//                String supplier_contact_name = null;
-//                while(!isValid) {
-//                    System.out.println("Please enter the contact person name of the supplier:");
-//                    supplier_contact_name = scanner.nextLine();
-//                    if(!supplier_contact_name.strip().equals("")){
-//                        isValid = true;
-//                    }
-//                    else {
-//                        System.out.print("Invalid input. ");
-//                    }
-//                }
                 isValid = false;
                 boolean chose_to_add = true;
                 String supplier_name = null;
@@ -706,7 +602,64 @@ public class transport_manager_UI {
         }
     }
 
+    public void create_supplier(){
+        boolean isValid = false;
+        String supplier_address = null;
+        while(!isValid) {
+            System.out.println("Please enter the supplier address: ");
+            supplier_address = scanner.nextLine();
+            if(!supplier_address.strip().equals("")){
+                isValid = true;
+            }
+            else{
+                System.out.print("Invalid input. ");
+            }
+        }
+        String phone_number = null;
+        isValid = false;
+        while(!isValid) {
+            System.out.println("Please enter the supplier phone number: ");
+            phone_number = scanner.nextLine();
+            if(!containsOnlyNumbers(phone_number) || phone_number.strip().equals("")){
+                System.out.print("Invalid input. ");
+            }
+            else{
+                isValid = true;
+            }
+        }
+        String supplier_name = "";
+        isValid = false;
+        while (isValid){
+            System.out.println("Please enter the name of the supplier:");
+            supplier_name = scanner.nextLine();
+            if(!supplier_name.strip().equals("")){
+                if (Suppliers_dao.getInstance().is_supplier_exist(supplier_name)){
+                    System.out.println("This supplier is already known to the system...");
+                    continue;
+                }
+            }
+            else {
+                System.out.println("Please enter a valid name.");
+                continue;
+            }
+            isValid = true;
+        }
 
+        isValid = false;
+        String supplier_contact_name = null;
+        while(!isValid) {
+            System.out.println("Please enter the contact person name of the supplier:");
+            supplier_contact_name = scanner.nextLine();
+            if(!supplier_contact_name.strip().equals("")){
+                isValid = true;
+            }
+            else {
+                System.out.print("Invalid input. ");
+            }
+
+        }
+        controller.add_supplier(supplier_address, phone_number, supplier_name, supplier_contact_name);
+    }
 
 
 }

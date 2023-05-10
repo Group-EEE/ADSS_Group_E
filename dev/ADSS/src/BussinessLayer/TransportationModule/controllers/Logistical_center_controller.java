@@ -303,4 +303,9 @@ public class Logistical_center_controller {
         return true;
     }
 
+    public void add_supplier(String address, String phone, String supplier_name, String contact_name){
+        Supplier supplier = new Supplier(address, phone, supplier_name, contact_name);
+        Suppliers_dao.getInstance().Insert(supplier);
+    }
+
 }
