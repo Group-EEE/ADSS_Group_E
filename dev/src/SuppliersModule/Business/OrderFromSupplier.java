@@ -102,6 +102,16 @@ public class OrderFromSupplier {
         priceBeforeTotalDiscount += orderedProduct.getFinalPrice();     //Calculate price before total discount
     }
 
+    public void setQuantityForProductInOrder(OrderedProduct orderedProduct, int quantity)
+    {
+        Quantity -= orderedProduct.getQuantity();
+        priceBeforeTotalDiscount -= orderedProduct.getFinalPrice();
+        orderedProduct.setQuantity(quantity);
+        Quantity += quantity;
+        priceBeforeTotalDiscount += orderedProduct.getFinalPrice();
+
+    }
+
     public OrderedProduct getOrderedProduct(String catalogNum){
         return ProductsInOrder.get(catalogNum);
     }

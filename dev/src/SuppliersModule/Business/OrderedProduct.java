@@ -9,7 +9,7 @@ public class OrderedProduct {
 
     //------------------------------------------ Attributes ---------------------------------------
     private int Quantity;
-    private final float FinalPrice;
+    private float FinalPrice;
     private float Discount;
     private int Id; // unique orderProduct ID
 
@@ -31,9 +31,6 @@ public class OrderedProduct {
     public float getFinalPrice() {return FinalPrice;}
     public int getQuantity() {return Quantity;}
 
-    public void setQuantity(int quantity) {
-        Quantity = quantity;
-    }
 
     public String toString() {return  MyProduct + ", quantity: " + Quantity + ", price: " + FinalPrice + ", price for unit: " + FinalPrice/Quantity + "\n";}
 
@@ -63,5 +60,12 @@ public class OrderedProduct {
 
     public int getId() {
         return Id;
+    }
+
+    public void setQuantity(int quantity)
+    {
+        Quantity = quantity;
+        Discount = MyProduct.getDiscountPercentages(quantity);
+        FinalPrice = quantity * MyProduct.getPrice() * ((100 - Discount)/ 100);
     }
 }

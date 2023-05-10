@@ -98,12 +98,13 @@ public class OrderController {
         superLiDB.insertOrderFromSupplier(curPeriodicOrder.getOrderFromSupplier());
     }
 
-    public boolean findPeriodicOrder(int id){
+    public boolean findPeriodicOrder(int barcode, int id){
         curPeriodicOrder = superLiDB.getPeriodicOrder(id);
         if(curPeriodicOrder == null)
             return false;
         curOrder = curPeriodicOrder.getOrderFromSupplier();
         curSupplier = curOrder.getMySupplier();
+        curSupplierProduct = curSupplier.getSupplierProductByBarcode(barcode);
         return true;
     }
 
@@ -125,12 +126,8 @@ public class OrderController {
         curOrder.removeOrderedProductByBarcode(barcode);
     }
 
-    public void setCurOrder(){
-        curOrder = curPeriodicOrder.getOrderFromSupplier();
-    }
-
     public void changeCurOrderedProductQuantity(int quantity){
-        curOrderedProduct.setQuantity(quantity);
+        curOrder.setQuantityForProductInOrder(curOrderedProduct, quantity);
     }
 
     public void cancelTimer()

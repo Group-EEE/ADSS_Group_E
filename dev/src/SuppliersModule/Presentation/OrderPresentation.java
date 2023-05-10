@@ -140,7 +140,6 @@ public class OrderPresentation {
     }
 
     private void editProductsList(){
-        orderController.setCurOrder();
         while (!Choose.equals("0")) {
 
             System.out.println("Please choose one of the options shown in the menu:");
@@ -193,7 +192,7 @@ public class OrderPresentation {
             return;
         }
 
-        orderController.addQuantityOfTheLastEnteredProduct(productQuantity);
+        orderController.changeCurOrderedProductQuantity(productQuantity);
     }
 
     public void DeleteProductFromTheList()
@@ -244,7 +243,7 @@ public class OrderPresentation {
         while (true)
         {
             barcodeAndId[1] = SupplierModulePresentation.CheckIntInputAndReturn("Enter Periodic Order id");
-            if (orderController.findPeriodicOrder(barcodeAndId[1]))
+            if (orderController.findPeriodicOrder(barcodeAndId[0], barcodeAndId[1]))
                 break;
             System.out.println("Wrong Periodic Order id");
         }
