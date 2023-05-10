@@ -37,7 +37,7 @@ public class ReportPresentation {
                     System.out.println("Do you want to send the order? yes/no");
                     String s = reader.nextLine();
                     if(s.equals("yes"))
-                        reportController.makeOrderForLastReport();
+                        System.out.println(reportController.makeOrderForLastReport());
                     break;
                 case "3": //Issue current supply
                     System.out.println("Please enter Issue's reporter's name:");

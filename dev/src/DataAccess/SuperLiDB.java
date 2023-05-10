@@ -231,7 +231,7 @@ public class SuperLiDB {
 
     //------------------------------------PeriodicOrderDAO-----------------------------------------------
 
-    public Map<Integer, PeriodicOrder> getAllPeriodicOrder()
+    public Map<List<Integer>, PeriodicOrder> getAllPeriodicOrder()
     {
         return periodicOrderDAO.getIdentifyMapPeriodicOrderByDay();
     }

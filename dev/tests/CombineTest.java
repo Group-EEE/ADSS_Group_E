@@ -17,9 +17,8 @@ public class CombineTest {
     ReportController reportController = ReportController.getInstance();
     OrderController orderController = OrderController.getInstance();
 
-    //adding new SuperLiProduct according to new GenericProduct
     @Test
-    public void Test1(){ //need to add generic product to the db
+    public void CheckObserverList(){
         int s = productController.getBarcodesOfNewProductsSize();
         supplierController.addSupplierProduct("Rollups", "Bad guys", 882288, "0001", 10,"111", 50);
         assertEquals(s+1, productController.getBarcodesOfNewProductsSize());
@@ -28,7 +27,7 @@ public class CombineTest {
     }
 
     @Test
-    public void Test2(){ //need to add generic product to the db
+    public void CreatAOrderDueToShortage(){
         SuperLiDB superLiDB = SuperLiDB.getInstance();
         int s = superLiDB.getSizeOfOrderFromSuppliers();
         reportController.createOrderReport("yoni");
@@ -37,7 +36,7 @@ public class CombineTest {
     }
 
     @Test
-    public void Test3(){ //need to add generic product to the db
+    public void AddToPeriodicOrder(){
         orderController.enterSupplier("0001");
         orderController.createPeriodicOrder();
         orderController.enterPermanentDay(1);
@@ -54,7 +53,7 @@ public class CombineTest {
     }
 
     @Test
-    public void Test4() { //need to add generic product to the db
+    public void ChangeOrderedProductQuantityInPeriodicOrder() {
         orderController.enterSupplier("0001");
         orderController.createPeriodicOrder();
         orderController.enterPermanentDay(1);

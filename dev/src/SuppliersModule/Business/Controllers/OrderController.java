@@ -55,7 +55,7 @@ public class OrderController {
 
     public void invitePeriodicOrders(int curDay){
         OrderFromSupplier orderFromSupplier;
-        for(Map.Entry<Integer, PeriodicOrder> pair : superLiDB.getAllPeriodicOrder().entrySet()){
+        for(Map.Entry<List<Integer>, PeriodicOrder> pair : superLiDB.getAllPeriodicOrder().entrySet()){
             if(pair.getValue().getDayForInvite() == curDay) {
                 orderFromSupplier = pair.getValue().invite();
                 superLiDB.insertOrderFromSupplier(orderFromSupplier);
@@ -141,7 +141,7 @@ public class OrderController {
         String dayForInvaite;
         int currId;
         List<String> RelevantList = new ArrayList<>();
-        for(Map.Entry<Integer, PeriodicOrder> pair : superLiDB.getAllPeriodicOrder().entrySet()){
+        for(Map.Entry<List<Integer>, PeriodicOrder> pair : superLiDB.getAllPeriodicOrder().entrySet()){
             if(pair.getValue().checkIfBarcodeExistInOrder(barcode))
             {
                 dayForInvaite = "day for invite " + pair.getValue().dayForInviteToString() + ", ";
@@ -158,7 +158,7 @@ public class OrderController {
         String dayForInvaite;
         int currId;
         List<String> RelevantList = new ArrayList<>();
-        for(Map.Entry<Integer, PeriodicOrder> pair : superLiDB.getAllPeriodicOrder().entrySet()){
+        for(Map.Entry<List<Integer>, PeriodicOrder> pair : superLiDB.getAllPeriodicOrder().entrySet()){
             if(pair.getValue().getOrderFromSupplier().getMySupplier().CheckIfSupplierCanSupplyByBarcode(barcode)
             && pair.getValue().getOrderFromSupplier().getOrderedProductByBarcode(barcode) == null)
             {
@@ -189,5 +189,10 @@ public class OrderController {
     public OrderedProduct getOrderedProduct()
     {
         return curOrderedProduct;
+    }
+
+    public PeriodicOrder getPeriodicOrder ()
+    {
+        return curPeriodicOrder;
     }
 }

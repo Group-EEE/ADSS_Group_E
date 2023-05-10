@@ -7,7 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PeriodicOrderDAO {
@@ -16,7 +18,7 @@ public class PeriodicOrderDAO {
     static PeriodicOrderDAO periodicOrderDAO;
     private Map<Integer, PeriodicOrder> IdentifyMapPeriodicOrder;
 
-    private Map<Integer, PeriodicOrder> IdentifyMapPeriodicOrderByDay;
+    private Map<List<Integer>, PeriodicOrder> IdentifyMapPeriodicOrderByDay;
     private OrderFromSupplierDAO orderFromSupplierDAO;
 
     private PeriodicOrderDAO(Connection conn) {
@@ -45,7 +47,10 @@ public class PeriodicOrderDAO {
                 PeriodicOrder currPeriodicOrder = new PeriodicOrder(currOrderFromSupplier, rs.getInt("DayForInvite"));
 
                 IdentifyMapPeriodicOrder.put(rs.getInt("Id"), currPeriodicOrder);
-                IdentifyMapPeriodicOrderByDay.put(rs.getInt("DayForInvite"), currPeriodicOrder);
+                List<Integer> key = new ArrayList<>();
+                key.add(rs.getInt("Id"));
+                key.add(rs.getInt("DayForInvite"));
+                IdentifyMapPeriodicOrderByDay.put(key, currPeriodicOrder);
             }
         }
         catch (SQLException e) {throw new RuntimeException(e);}
@@ -88,7 +93,7 @@ public class PeriodicOrderDAO {
         catch (SQLException e) {throw new RuntimeException(e);}
     }
 
-    public Map<Integer, PeriodicOrder> getIdentifyMapPeriodicOrderByDay()
+    public Map<List<Integer>, PeriodicOrder> getIdentifyMapPeriodicOrderByDay()
     {
         return IdentifyMapPeriodicOrderByDay;
     }
@@ -96,7 +101,10 @@ public class PeriodicOrderDAO {
     public void insert(PeriodicOrder periodicOrder)
     {
         IdentifyMapPeriodicOrder.put(periodicOrder.getId(), periodicOrder);
-        IdentifyMapPeriodicOrderByDay.put(periodicOrder.getDayForInvite(), periodicOrder);
+        List<Integer> key = new ArrayList<>();
+        key.add(periodicOrder.getId());
+        key.add(periodicOrder.getDayForInvite());
+        IdentifyMapPeriodicOrderByDay.put(key, periodicOrder);
     }
 
     public PeriodicOrder getById(int id)
@@ -107,6 +115,9 @@ public class PeriodicOrderDAO {
     public void delete(int id)
     {
         PeriodicOrder periodicOrder = IdentifyMapPeriodicOrder.remove(id);
-        IdentifyMapPeriodicOrderByDay.remove(periodicOrder.getDayForInvite());
+        List<Integer> key = new ArrayList<>();
+        key.add(id);
+        key.add(periodicOrder.getDayForInvite());
+        IdentifyMapPeriodicOrderByDay.remove(key);
     }
 }

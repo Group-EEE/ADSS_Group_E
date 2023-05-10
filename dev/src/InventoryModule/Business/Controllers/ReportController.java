@@ -48,8 +48,8 @@ public class ReportController {
         lastReport = r;
     }
 
-    public void makeOrderForLastReport(){
+    public String makeOrderForLastReport(){
         OrderReport r = (OrderReport) lastReport;
-        OrderGenerator.makeOrderFromOrderReport(r);
+        return OrderGenerator.makeOrderFromOrderReport(r);
     }
 }
