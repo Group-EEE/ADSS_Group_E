@@ -39,9 +39,9 @@ public class DiscountDAO {
             // -----------------------------------For each Supplier------------------------------------
             while (rs.next()) {
                 String s = rs.getString("Start");
-                LocalDateTime start = LocalDateTime.parse(s+"T00:00:00");
+                LocalDateTime start = LocalDateTime.parse(s);
                 String e = rs.getString("End");
-                LocalDateTime end = LocalDateTime.parse(e+"T00:00:00");
+                LocalDateTime end = LocalDateTime.parse(e);
                 Double dis = rs.getDouble("Discount");
                 Discount d = new Discount(start, end, dis);
                 List<String> alldis = new ArrayList<>();
@@ -82,10 +82,8 @@ public class DiscountDAO {
             stmt = conn.prepareStatement("Insert into Discount VALUES (?,?,?,?,?)");
             stmt.setInt(1, sp.getBarcode());
             stmt.setInt(2, sp.getSp_ID());
-            String s = d.getStart().toString().substring(0,11);
-            stmt.setObject(3, s);
-            String e = d.getEnd().toString().substring(0,11);
-            stmt.setObject(4, e);
+            stmt.setObject(3, d.getStart());
+            stmt.setObject(4, d.getEnd());
             stmt.setDouble(5, d.getDiscount());
             stmt.executeUpdate();
         }

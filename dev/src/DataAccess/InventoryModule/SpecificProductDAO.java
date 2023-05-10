@@ -46,10 +46,10 @@ public class SpecificProductDAO {
                 int sp =rs.getInt("Sp_ID");
                 Discount d = discountDAO.ReadDiscountToCache(rs.getInt("Barcode"), rs.getInt("Sp_ID"));
                 String exp = rs.getString("ExpDate");
-                LocalDateTime expdate = LocalDateTime.parse(exp+"T00:00:00");
+                LocalDateTime expdate = LocalDateTime.parse(exp);
                 SpecificProduct specificProduct = new SpecificProduct(rs.getDouble("Supplier_Price"), rs.getString("Supplier"), rs.getInt("Sp_ID"),rs.getInt("Barcode"), expdate, rs.getBoolean("Defective"), rs.getString("Defect_Report_By"), rs.getBoolean("InWarehouse"), rs.getString("Store_Branch"), rs.getInt("Location_in_Store"), d, rs.getString("DefectType"));
                 String arrival = rs.getString("arrivaldate");
-                LocalDateTime arrDate = LocalDateTime.parse(arrival+"T00:00:00");
+                LocalDateTime arrDate = LocalDateTime.parse(arrival);
                 specificProduct.setArrivaldate(arrDate);
                 spkey.add(sp);
                 spkey.add(barcode);
