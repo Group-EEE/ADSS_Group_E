@@ -6,9 +6,10 @@ import java.util.Scanner;
 
 public class CategoryPresentation {
     public CategoryController categoryController;
-    Scanner reader = null;
+    Scanner reader;
     public CategoryPresentation(){
         categoryController =CategoryController.getInstance();
+        reader = new Scanner(System.in);
     }
 
     public void ShowCategoryMenu(){

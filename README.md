@@ -1,13 +1,15 @@
 Group E - Inventory & Suppliers
+-
 
 The code development team:
 
-Sapir Tzaig - 206795429
-Liron Miriam Shemen - 209131952
-Alon Azran - 207219742
+Sapir Tzaig - 206795429\
+Liron Miriam Shemen - 209131952\
+Alon Azran - 207219742\
 Yehonatan Kidushim - 319068789
 
-****************************************** Instruction ***************************************************
+Instruction 
+-
 
 Hello dear costumer,
 Attached are clear operating instructions to facilitate your experience and use of the system.
@@ -88,7 +90,11 @@ You may return to the previous menu by selecting the exit option.
 4.To exit the system, select the exit option in the first menu that the system is activated.</font>
 
 
+**We have provided you data that is loaded into the system when it is activated.
+Details of the existing data are shown in the following tables:**
 
+Supplier table
+-
 | SupplierNum | Name  | BankAccount | PaymentTerm |
 |-------------|-------|-------------|-------------|
 | 0001        | Yoni  | 272893      | 1           |
@@ -99,4 +105,71 @@ You may return to the previous menu by selecting the exit option.
 | 0006        | Noam  | 829004      | 2           |
 | 0007        | Nir   | 884392      | 0           |
 | 0008        | Nevo  | 986203      | 2           |
+
+Contact table
+-
+| SupplierNum | Name    | PhoneNumber   |
+|-------------|---------|---------------|
+| 0001        | Ilan    | 0523742939    | 
+| 0001        | Sarit   | 0542872329    |
+| 0002        | Itay    | 0509382947    |
+| 0002        | Aliza   | 0532759266    |
+| 0003        | Adi     | 0502349978    |
+| 0004        | Ben     | 0538294728    |
+| 0005        | Adir    | 0502834922    |
+| 0005        | Erez    | 0532833945    |
+| 0006        | Dina    | 0527602983    |
+| 0006        | Ran     | 0548299126    |
+| 0007        | Oded    | 0502197825    |
+| 0007        | Or      | 0529388127    |
+| 0008        | Iris    | 0508399747    |
+
+Agreement table
+-
+| SupplierNum | HasPermanentDays  | IsSupplierBringProduct | Sunday | Monday | Tuesday | Wednesday | Thursday | Friday  | Saturday | NumberOfDayToSupply |
+|-------------|-------------------|------------------------|--------|--------|---------|-----------|----------|---------|----------|---------------------|
+| 0001        | 1                 | 1                      | 0      | 1      | 0       | 0         | 1        | 0       | 0        | -1                  |
+| 0002        | 0                 | 1                      | 0      | 0      | 0       | 0         | 0        | 0       | 0        | 6                   |
+| 0003        | 0                 | 1                      | 0      | 0      | 0       | 0         | 0        | 0       | 0        | 2                   |
+| 0004        | 0                 | 0                      | 0      | 0      | 0       | 0         | 0        | 0       | 0        | -1                  |
+| 0005        | 1                 | 1                      | 1      | 1      | 0       | 0         | 1        | 0       | 0        | -1                  |
+| 0006        | 1                 | 1                      | 0      | 0      | 1       | 0         | 0        | 0       | 0        | -1                  |
+| 0007        | 0                 | 0                      | 0      | 0      | 0       | 0         | 0        | 0       | 0        | -1                  |
+| 0008        | 0                 | 1                      | 0      | 0      | 0       | 0         | 0        | 0       | 0        | 3                   |
+
+GenericProduct table
+-
+| Name            | ManufacturerName   | Barcode |
+|-----------------|--------------------|---------|
+| Yellow cheese   | Tnuva              | 123456  | 
+| blue cheese     | gad                | 55555   |
+| Milk            | Tnuva              | 234567  |
+| Salmon          | Crownfish          | 888777  |
+| Butter          | Tara               | 789001  |
+| Sprite          | Coca cola          | 237899  |
+| Steak           | Adom adom          | 999911  |
+| Tuna            | Crownfish          | 777666  |
+| Fuze tea        | Coca cola          | 984325  |
+| Butter          | Tnuva              | 556677  |
+| Yogurt          | Tara               | 687239  |
+| Cola            | Coca cola          | 113366  |
+| Carrot          | Shavit farm        | 990006  |
+| Potato          | Shavit farm        | 990005  |
+| Tomato          | Shavit farm        | 990004  |
+| Orange          | Tzvika farm        | 990003  |
+| Banana          | Tzvika farm        | 990002  |
+| Apple           | Tzvika farm        | 990001  |
+
+Manufacturer
+-
+| Name              |
+|-------------------|
+| Tzvika farm       | 
+| Tnuva             |
+| Shavit farm       |
+| Adom adom         |
+| Tara              |
+| Coca cola         |
+| gad               |
+| Crownfish         |
 

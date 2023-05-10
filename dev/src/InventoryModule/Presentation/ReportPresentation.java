@@ -8,9 +8,10 @@ import java.util.Scanner;
 
 public class ReportPresentation {
     private ReportController reportController;
-    Scanner reader = null;
+    Scanner reader;
     public ReportPresentation(){
         reportController =ReportController.getInstance();
+        reader = new Scanner(System.in);
     }
 
     public void ShowReportMenu(){
