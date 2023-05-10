@@ -42,10 +42,6 @@ public class ReportController {
         ByCategoryReport byCategoryReport = new ByCategoryReport(reporter, cate);
     }
 
-
-
-
-
     //add report to the list of reports
     public static void addReport(Report r){
         AllReports.add(r);

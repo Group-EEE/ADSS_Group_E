@@ -93,6 +93,7 @@ You may return to the previous menu by selecting the exit option.
 **We have provided you data that is loaded into the system when it is activated.
 Details of the existing data are shown in the following tables:**
 
+
 Supplier table
 -
 | SupplierNum | Name  | BankAccount | PaymentTerm |
@@ -105,6 +106,7 @@ Supplier table
 | 0006        | Noam  | 829004      | 2           |
 | 0007        | Nir   | 884392      | 0           |
 | 0008        | Nevo  | 986203      | 2           |
+
 
 Contact table
 -
@@ -124,6 +126,7 @@ Contact table
 | 0007        | Or      | 0529388127    |
 | 0008        | Iris    | 0508399747    |
 
+
 Agreement table
 -
 | SupplierNum | HasPermanentDays  | IsSupplierBringProduct | Sunday | Monday | Tuesday | Wednesday | Thursday | Friday  | Saturday | NumberOfDayToSupply |
@@ -137,12 +140,12 @@ Agreement table
 | 0007        | 0                 | 0                      | 0      | 0      | 0       | 0         | 0        | 0       | 0        | -1                  |
 | 0008        | 0                 | 1                      | 0      | 0      | 0       | 0         | 0        | 0       | 0        | 3                   |
 
+
 GenericProduct table
 -
 | Name            | ManufacturerName   | Barcode |
 |-----------------|--------------------|---------|
-| Yellow cheese   | Tnuva              | 123456  | 
-| blue cheese     | gad                | 55555   |
+| Yellow cheese   | Tnuva              | 123456  |
 | Milk            | Tnuva              | 234567  |
 | Salmon          | Crownfish          | 888777  |
 | Butter          | Tara               | 789001  |
@@ -160,6 +163,7 @@ GenericProduct table
 | Banana          | Tzvika farm        | 990002  |
 | Apple           | Tzvika farm        | 990001  |
 
+
 Manufacturer
 -
 | Name              |
@@ -172,6 +176,7 @@ Manufacturer
 | Coca cola         |
 | gad               |
 | Crownfish         |
+
 
 OrderDiscount table
 -
@@ -190,22 +195,103 @@ OrderDiscount table
 | 0008        | p                 | 5000   | 40       |
 | 0008        | q                 | 100    | 30       |
 
+
 SupplierProduct table
 -
-| GenericProduct | Manufacturer | SupplierNum | Price | SupplierCatalog | Price |
-|----------------|--------------|-------------|-------|
-| 0001           | p            | 100         | 10    |
-| 0001           | q            | 100         | 30    |
-| 0002           | p            | 150         | 30    |
-| 0002           | q            | 60          | 40    |
-| 0003           | p            | 200         | 35    | 
-| 0003           | q            | 70          | 40    |
-| 0005           | p            | 300         | 25    |
-| 0006           | q            | 130         | 15    |
-| 0007           | p            | 2000        | 20    | 
-| 0007           | p            | 3000        | 25    |
-| 0008           | p            | 5000        | 40    |
-| 0008           | q            | 100         | 30    |
+| GenericProduct  | Manufacturer  | SupplierNum | Price | SupplierCatalog | Amount |
+|-----------------|---------------|-------------|-------|-----------------|--------|
+| Apple           | Tzvika farm   | 0001        | 4     | 001             | 400    |
+| Banana          | Tzvika farm   | 0001        | 2     | 002             | 400    |
+| Butter          | Tara          | 0004        | 6.5   | 072             | 700    |
+| Butter          | Tnuva         | 0004        | 6     | 120             | 1000   |
+| Carrot          | Shavit farm   | 0002        | 7     | 003             | 200    |
+| Carrot          | Shavit farm   | 0003        | 7     | 003             | 400    |
+| Cola            | Coca cola     | 0006        | 4     | 007             | 150    |
+| Cola            | Coca cola     | 0005        | 5     | 234             | 100    |
+| Fuze tea        | Coca cola     | 0005        | 6     | 382             | 900    |
+| Milk            | Tnuva         | 0004        | 7.5   | 014             | 200    |
+| Milk            | Tnuva         | 0006        | 6     | 042             | 200    |
+| Orange          | Tzvika farm   | 0002        | 4     | 004             | 500    |
+| Orange          | Tzvika farm   | 0001        | 8     | 003             | 400    |
+| Orange          | Tzvika farm   | 0003        | 2     | 012             | 300    |
+| Potato          | Shavit farm   | 0002        | 5     | 002             | 500    |
+| Salmon          | Crownfish     | 0007        | 110   | 445             | 350    |
+| Sprite          | Coca cola     | 0005        | 5.5   | 928             | 650    |
+| Steak           | Adom adom     | 0008        | 160   | 973             | 500    |
+| Steak           | Adom adom     | 0007        | 150   | 883             | 300    |
+| Tomato          | Shavit farm   | 0002        | 3.5   | 001             | 550    |
+| Tuna            | Crownfish     | 0007        | 70    | 873             | 860    |
+| Yellow cheese   | Tnuva         | 0006        | 18    | 231             | 90     |
+| Yellow cheese   | Tnuva         | 0004        | 17    | 020             | 80     |
+| Yogurt          | Tara          | 0006        | 5.5   | 128             | 140    |
+
+
+SupplierProductDiscount table
+-
+| SupplierNum | SupplierCatalog     | Amount | Discount |
+|-------------|---------------------|--------|----------|
+| 0001        | 001                 | 25     | 200      |
+| 0001        | 001                 | 50     | 300      |
+| 0001        | 002                 | 25     | 150      |
+| 0001        | 003                 | 20     | 100      |
+| 0002        | 001                 | 20     | 150      | 
+| 0002        | 001                 | 30     | 250      |
+| 0002        | 003                 | 20     | 90       |
+| 0003        | 003                 | 50     | 300      |
+| 0004        | 014                 | 30     | 100      | 
+| 0004        | 014                 | 40     | 150      |
+| 0004        | 020                 | 20     | 30       |
+| 0004        | 072                 | 60     | 500      |
+| 0005        | 234                 | 25     | 60       |
+| 0005        | 928                 | 10     | 110      |
+| 0005        | 928                 | 20     | 200      |
+| 0006        | 007                 | 30     | 90       |
+| 0006        | 042                 | 75     | 160      | 
+| 0006        | 128                 | 30     | 45       |
+| 0006        | 128                 | 55     | 60       |
+| 0006        | 231                 | 30     | 40       |
+| 0006        | 231                 | 35     | 50       | 
+| 0007        | 445                 | 20     | 120      |
+| 0007        | 883                 | 25     | 160      |
+| 0007        | 883                 | 40     | 200      |
+| 0008        | 973                 | 45     | 300      |
+
+
+SupplierCategories table
+-
+| SupplierNum | Category    |
+|-------------|-------------|
+| 0001        | Fruits      |
+| 0002        | Fruits      |
+| 0002        | Vegetables  |
+| 0003        | Fruits      |
+| 0004        | Dairy       |
+| 0005        | Drinks      |
+| 0006        | Dairy       |
+| 0006        | Drinks      |
+| 0007        | Fishs       |
+| 0007        | Meats       |
+| 0008        | Meats       |
+
+
+Supplier_Manufacturer table
+-
+| SupplierNum | Category    |
+|-------------|-------------|
+| 0001        | Tzvika farm |
+| 0002        | Shavit farm |
+| 0002        | Tzvika farm |
+| 0003        | Shavit farm |
+| 0003        | Tzvika farm |
+| 0004        | Tara        |
+| 0004        | Tnuva       |
+| 0005        | Coca cola   |
+| 0006        | Coca cola   |
+| 0006        | Tara        |
+| 0006        | Tnuva       |
+| 0007        | Adom adom   |
+| 0007        | Crownfish   |
+| 0008        | Adom adom   |
 
 SuperLiProduct table
 -

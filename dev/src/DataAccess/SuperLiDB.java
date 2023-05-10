@@ -311,6 +311,11 @@ public class SuperLiDB {
         return superLiProductDAO.getIdentifySuperLiProduct();
     }
 
+    public int getSizeOfOrderFromSuppliers()
+    {
+        return orderFromSupplierDAO.getSizeOfOrderFromSuppliers();
+    }
+
 
 
 

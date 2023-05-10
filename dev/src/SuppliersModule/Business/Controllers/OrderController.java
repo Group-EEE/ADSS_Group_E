@@ -180,4 +180,14 @@ public class OrderController {
     {
         curSupplierProduct = curSupplier.getSupplierProductByBarcode(barcode);
     }
+
+    public OrderFromSupplier getOrderFromSupplier()
+    {
+        return curOrder;
+    }
+
+    public OrderedProduct getOrderedProduct()
+    {
+        return curOrderedProduct;
+    }
 }

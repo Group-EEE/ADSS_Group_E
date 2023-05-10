@@ -134,4 +134,9 @@ public class OrderFromSupplierDAO {
             orderedProductDAO.insert(pair.getValue());
         }
     }
+
+    public int getSizeOfOrderFromSuppliers()
+    {
+        return IdentifyMapOrderFromSupplier.size();
+    }
 }
