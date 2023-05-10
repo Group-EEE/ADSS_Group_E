@@ -83,7 +83,7 @@ public class CategoryDAO {
     public void delete(Category c){
         IdentifyMapCategory.remove(c.getName());
         for(SubCategory subCategory : c.getSubCategories()){
-            subCategoryDAO.delete(subCategory);
+            subCategoryDAO.delete(c.getName(), subCategory);
         }
 
     }
