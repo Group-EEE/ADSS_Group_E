@@ -46,7 +46,6 @@ public class transport_manager_UI {
         isValid = false;
         while (true) {
             System.out.println("Hey Boss! what would you like to do?");
-            //System.out.println("0 - Hire a new driver");
             System.out.println("0 - register a supplier to the System");
             System.out.println("1 - See all the trucks with a cold level of your choice: \n\t 1- Freeze \n\t 2- Cold \n \t 3- Dry");
             System.out.println("2 - create a new transport");
@@ -74,8 +73,6 @@ public class transport_manager_UI {
             }
             isValid = false;
             switch (choice) {
-                // hire a new driver
-                //case 0 -> create_driver();
                 case 0 -> create_supplier();
 
                 // have all the trucks by a cold level

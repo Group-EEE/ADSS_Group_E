@@ -94,7 +94,7 @@ public class Logistical_center_controller {
         cold_level cool_level = get_cold_level_by_string(cold_lvl);
         Truck truck = null;
         for(Truck t : Trucks_dao.get_instance().getTrucks()){
-            if(t.getCold_level().getValue() <= cool_level.getValue() && Transport_dao.getInstance().check_if_truck_taken_that_date(planned_date, t.getRegistration_plate())) {
+            if(t.getCold_level().getValue() <= cool_level.getValue() && !Transport_dao.getInstance().check_if_truck_taken_that_date(planned_date, t.getRegistration_plate())) {
                 if(t.getCold_level().getValue() == cool_level.getValue()){
                     truck = t;
                     break;

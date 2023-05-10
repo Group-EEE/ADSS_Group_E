@@ -49,7 +49,7 @@ public class License_dao extends DAO {
         if (Licenses.containsKey(res.getInt(1))) {
             return Licenses.get(res.getInt(1));
         }
-        License license = new License(res.getInt(1), cold_level.fromString(res.getString(2)), res.getDouble(3));
+        License license = new License(res.getInt(1), res.getInt(2), cold_level.fromString(res.getString(3)), res.getDouble(4));
         Licenses.put(license.getL_ID(), license);
         return license;
     }

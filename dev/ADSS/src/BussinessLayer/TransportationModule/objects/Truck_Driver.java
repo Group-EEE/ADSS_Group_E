@@ -10,11 +10,11 @@ public class Truck_Driver extends Employee{
     private ArrayList<Site_Supply> sites_documents;
     private Truck current_truck = null;
 
-    public Truck_Driver(int employeeID, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment, String password, int license_id, cold_level level, double truck_weight) {
-        super(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployment, password);
-        this.license = new License(license_id, level, truck_weight);
-        sites_documents = new ArrayList<>();
-    }
+//    public Truck_Driver(int employeeID, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment, String password, int license_id, cold_level level, double truck_weight) {
+//        super(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployment, password);
+//        this.license = new License(license_id, level, truck_weight);
+//          sites_documents = new ArrayList<>();
+//    }
 
     public Truck_Driver(int employeeID, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment, String password, License D_license){
         super(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployment, password);
