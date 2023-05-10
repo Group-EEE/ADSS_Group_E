@@ -4,6 +4,8 @@ import SuppliersModule.Business.Controllers.OrderController;
 import SuppliersModule.Business.Generator.OrderGenerator;
 import SuppliersModule.Business.PaymentTerm;
 
+import java.util.List;
+
 public class OrderPresentation {
     private final OrderController orderController = OrderController.getInstance();
 
@@ -98,11 +100,19 @@ public class OrderPresentation {
                     editPeriodicOrder();
                     break;
                 case "2":
-                    orderController.deleteCurPeriodicOrder();
+                    deleteCurPeriodicOrder();
                     break;
             }
 
         }
+    }
+
+    public void deleteCurPeriodicOrder()
+    {
+        if(ChoosePeriodicOrderThatContainBarcode(0) == null)
+            return;
+
+        orderController.deleteCurPeriodicOrder();
     }
 
     private void editPeriodicOrder(){
@@ -116,8 +126,7 @@ public class OrderPresentation {
 
             switch (Choose) {
                 case "1":
-                    int day = checkValidDayAndReturn();
-                    orderController.changeDayForInviteForCurPeriodicOrder(day);
+                    ChangeTheDayForInvite();
                     break;
                 case "2":
                     editProductsList();
@@ -125,6 +134,15 @@ public class OrderPresentation {
             }
 
         }
+    }
+
+    public void ChangeTheDayForInvite()
+    {
+        if(ChoosePeriodicOrderThatContainBarcode() == null)
+            return;
+
+        int day = checkValidDayAndReturn();
+        orderController.changeDayForInviteForCurPeriodicOrder(day);
     }
 
     private void editProductsList(){
@@ -140,19 +158,35 @@ public class OrderPresentation {
 
             switch (Choose) {
                 case "1":
-                    buildProductsList();
+                    addProductToTheList();
                     break;
                 case "2":
-                    findOrderedProduct();
-                    int quantity = SupplierModulePresentation.CheckIntInputAndReturn("Enter the new desired quantity");
-                    orderController.changeCurOrderedProductQuantity(quantity);
+                    ChangeTheQuantityOfProductInTheList();
                     break;
                 case "3":
                     String catalogNum = findOrderedProduct();
                     orderController.deleteOrderedProduct(catalogNum);
             }
-
         }
+    }
+
+    public void addProductToTheList()
+    {
+        if(ChoosePeriodicOrderThatContainBarcode(1) == null)
+            return;
+        buildProductsList();
+    }
+
+    public void ChangeTheQuantityOfProductInTheList()
+    {
+        int[] BarcodeAndId = ChoosePeriodicOrderThatContainBarcode(0);
+        if(BarcodeAndId == null)
+            return;
+
+        orderController.findOrderedProduct(BarcodeAndId[0]);
+
+        int quantity = SupplierModulePresentation.CheckIntInputAndReturn("Enter the new desired quantity");
+        orderController.changeCurOrderedProductQuantity(quantity);
     }
 
 
@@ -180,5 +214,43 @@ public class OrderPresentation {
         } while (orderController.findOrderedProduct(catalogNum));
         orderController.findOrderedProduct(catalogNum);
         return catalogNum;
+    }
+
+    public int[] ChoosePeriodicOrderThatContainBarcode(int method)
+    {
+        int[] barcodeAndId = new int[2];
+
+        barcodeAndId[0] = SupplierModulePresentation.CheckIntInputAndReturn("Enter Barcode please");
+
+        List<String> relevantOrder;
+        if(method == 0)
+            relevantOrder = orderController.findAllPeriodicOrderThatContainThisBarcode(barcodeAndId[0]);
+        else
+            relevantOrder = orderController.findAllPeriodicOrderThatCanBeContainThisBarcode(barcodeAndId[0]);
+
+        if(relevantOrder.size() == 0)
+        {
+            System.out.println("There is no periodic order that contains the barcode");
+            return null;
+        }
+
+        for(String currOrderString : relevantOrder)
+            System.out.println(currOrderString);
+
+        while (true)
+        {
+            barcodeAndId[1] = SupplierModulePresentation.CheckIntInputAndReturn("Enter Periodic Order id");
+            if (orderController.findPeriodicOrder(barcodeAndId[1]))
+                break;
+            System.out.println("Wrong Periodic Order id");
+        }
+
+        if(orderController.checkInvalidDayForChange())
+        {
+            System.out.println("Periodic order cannot change in the day of ordering");
+            return null;
+        }
+
+        return barcodeAndId;
     }
 }

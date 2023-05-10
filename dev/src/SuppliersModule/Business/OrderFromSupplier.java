@@ -148,5 +148,25 @@ public class OrderFromSupplier {
     public Map<String, OrderedProduct> getProductsInOrder() {
         return ProductsInOrder;
     }
+
+    public boolean checkIfBarcodeExistInOrder(int barcode)
+    {
+        for (Map.Entry<String, OrderedProduct> pair : ProductsInOrder.entrySet())
+        {
+            if(barcode == pair.getValue().getMyProduct().getMyProduct().getBarcode())
+                return true;
+        }
+        return false;
+    }
+
+    public OrderedProduct getOrderedProductByBarcode(int barcode)
+    {
+        for (Map.Entry<String, OrderedProduct> pair : ProductsInOrder.entrySet())
+        {
+            if(barcode == pair.getValue().getMyProduct().getMyProduct().getBarcode())
+                return pair.getValue();
+        }
+        return null;
+    }
 }
 

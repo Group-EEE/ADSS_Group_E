@@ -42,5 +42,14 @@ public class PeriodicOrder {
         this.id = id;
     }
 
+    public boolean checkIfBarcodeExistInOrder(int barcode)
+    {
+        return orderFromSupplier.checkIfBarcodeExistInOrder(barcode);
+    }
 
+    public String dayForInviteToString()
+    {
+        String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        return days[dayForInvite];
+    }
 }

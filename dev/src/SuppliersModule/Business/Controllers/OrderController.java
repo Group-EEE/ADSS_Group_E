@@ -112,8 +112,8 @@ public class OrderController {
         curPeriodicOrder.setDayForInvite(day);
     }
 
-    public boolean findOrderedProduct(String catalogNum){
-        curOrderedProduct = curPeriodicOrder.getOrderFromSupplier().getOrderedProduct(catalogNum);
+    public boolean findOrderedProduct(int barcode){
+        curOrderedProduct = curPeriodicOrder.getOrderFromSupplier().getOrderedProductByBarcode(barcode);
         return curOrderedProduct != null;
     }
 
@@ -133,5 +133,39 @@ public class OrderController {
     {
         timer.cancel();
         superLiDB.WriteAllToDB();
+    }
+
+    public List<String> findAllPeriodicOrderThatContainThisBarcode(int barcode)
+    {
+        String dayForInvaite;
+        int currId;
+        List<String> RelevantList = new ArrayList<>();
+        for(Map.Entry<Integer, PeriodicOrder> pair : superLiDB.getAllPeriodicOrder().entrySet()){
+            if(pair.getValue().checkIfBarcodeExistInOrder(barcode))
+            {
+                dayForInvaite = "day for invite " + pair.getValue().dayForInviteToString() + ", ";
+                currId = pair.getValue().getId();
+                RelevantList.add(dayForInvaite + "Order Id " + currId);
+            }
+        }
+
+        return RelevantList;
+    }
+
+    public List <String> findAllPeriodicOrderThatCanBeContainThisBarcode(int barcode)
+    {
+        String dayForInvaite;
+        int currId;
+        List<String> RelevantList = new ArrayList<>();
+        for(Map.Entry<Integer, PeriodicOrder> pair : superLiDB.getAllPeriodicOrder().entrySet()){
+            if(pair.getValue().getOrderFromSupplier().getMySupplier().CheckIfSupplierCanSupplyByBarcode(barcode))
+            {
+                dayForInvaite = "day for invite " + pair.getValue().dayForInviteToString() + ", ";
+                currId = pair.getValue().getId();
+                RelevantList.add(dayForInvaite + "Order Id " + currId);
+            }
+        }
+
+        return RelevantList;
     }
 }

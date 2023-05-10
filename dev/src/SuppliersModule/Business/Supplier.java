@@ -236,4 +236,15 @@ public class Supplier {
     public void deletePeriodicOrder(int periodicOrderId){
         MyPeriodicOrders.remove(periodicOrderId);
     }
+
+    public Boolean CheckIfSupplierCanSupplyByBarcode(int barcode)
+    {
+        for (Map.Entry<String, SupplierProduct> pair : MyProducts.entrySet())
+        {
+            if(barcode == pair.getValue().getMyProduct().getBarcode())
+                return true;
+        }
+
+        return false;
+    }
 }
