@@ -13,6 +13,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 // singleton
 public class underway_transport_controller {
@@ -523,6 +525,7 @@ public class underway_transport_controller {
 
         transport.setEstimated_end_time(newTimeString);
 
+        // update dao.
         Transport_dao.getInstance().update_transport_estimated_end_time(transport_ID, newTimeString);
     }
 
@@ -541,5 +544,12 @@ public class underway_transport_controller {
         LocalTime current_time = LocalTime.now();
         LocalTime time = LocalTime.parse(Time, DateTimeFormatter.ofPattern("HH:mm:ss"));
         return time.isAfter(current_time);
+    }
+
+    public boolean isValidTimeString(String timeString) {
+        String pattern = "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$";
+        Pattern regex = Pattern.compile(pattern);
+        Matcher matcher = regex.matcher(timeString);
+        return matcher.matches();
     }
 }

@@ -90,32 +90,7 @@ public class underway_transport_UI {
                     System.out.println("We currently don't have any goods for " + controller.get_current_location_name(transport_ID) + " ,skip this store for now.");
                 }
             }
-            boolean isValidChoice = false;
-            while (!isValidChoice) {
-                System.out.println("The current estimated finish time is: " + controller.getEstimatedEndTime(transport_ID));
-                System.out.println("Do you want to update the estimated finish time of the transport? ");
-                System.out.println("1 - YES");
-                System.out.println("2 - NO");
-                while (true) {
-                    String ch = scanner.nextLine();
-                    if (ch.equals("1")) {
-                        System.out.println("What is the new estimated finish time? ");
-                        String newTime = scanner.nextLine();
-                        while(!controller.isValidTime(newTime)){
-                            System.out.println("Invalid input. try again: ");
-                        }
-                        controller.setEstimatedEndTime(transport_ID, newTime);
-                        break;
-                    } else if (ch.equals("2")) {
-                        isValidChoice = true;
-                        break;
-                    } else {
-                        System.out.println("You must enter 1 or 2.");
-                    }
-                }
-            }
-
-
+            check_for_estimated_finish_time_update(transport_ID);
             // driving to the next site.
             controller.drive_to_next_location(transport_ID);
         }
@@ -246,7 +221,6 @@ public class underway_transport_UI {
     }
 
 
-
     private boolean change_transport(int transport_ID){
         int choice = 0;
         System.out.println("The truck max weight is: " + controller.get_truck_weight(transport_ID, "m") + " but her current weight is " + controller.get_truck_weight(transport_ID, "c") + "!!!");
@@ -362,6 +336,29 @@ public class underway_transport_UI {
 
         }
         return true;
+    }
+
+    public void check_for_estimated_finish_time_update(int transport_ID){
+        System.out.println("The current Estimated finish time is: " + controller.getEstimatedEndTime(transport_ID) + " Would you like to update the estimated finish time of the transport? ");
+        System.out.println("1 - YES");
+        System.out.println("2 - NO");
+        while (true) {
+            String ch = scanner.nextLine();
+            if (ch.equals("1")) {
+                System.out.println("What is the new estimated finish time? (enter time in HH:mm:ss format");
+                String newTime = scanner.nextLine();
+                while(!controller.isValidTimeString(newTime)){
+                    System.out.println("Wrong input, try again. ");
+                    newTime = scanner.nextLine();
+                }
+                controller.setEstimatedEndTime(transport_ID, newTime);
+                break;
+            } else if (ch.equals("2")) {
+                break;
+            } else {
+                System.out.println("You must enter 1 or 2.");
+            }
+        }
     }
 
 
