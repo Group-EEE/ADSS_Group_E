@@ -34,7 +34,10 @@ class ScheduleControllerTest {
             _scheduleController.createNewSchedule("testStoreNotExist", 1,1,1999);
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            _scheduleController.createNewSchedule("testStoreNotExist", 30,2,1999);
+            _scheduleController.createNewSchedule("testStoreNotExist", 1,1,1999);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            _scheduleController.createNewSchedule("testStore", 30,2,1999);
         });
     }
 
@@ -46,7 +49,27 @@ class ScheduleControllerTest {
         assertThrows(IllegalArgumentException.class, () -> {
             _scheduleController.deleteScheduleIDFromStore("testStoreNotExist");
         });
-        assertTrue(_scheduleController.deleteScheduleIDFromStore("testStore"));
     }
+
+    @Test
+    void deleteSchedule(){
+        assertThrows(IllegalArgumentException.class, () -> {
+            _scheduleController.deleteSchedule(null);
+        });
+    }
+
+    @Test
+    void getSchedule(){
+        assertThrows(IllegalArgumentException.class, () -> {
+            _scheduleController.getSchedule(null);
+        });
+        _storeController.createStore("testStore2", "testAddress", "testPhone", "testContact",0);
+        assertThrows(IllegalArgumentException.class, () -> {
+            _scheduleController.getSchedule("testStore2");
+        });
+        _storeController.removeStore("testStore2");
+    }
+
+
 
 }

@@ -7,8 +7,13 @@
     <list default="true" id="2c8d970d-253e-4c97-84a8-09a636b67fbf" name="Changes" comment="created more tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SuperLi.db" beforeDir="false" afterPath="$PROJECT_DIR$/SuperLi.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BussinessLayer/TransportationModule/objects/Transport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BussinessLayer/TransportationModule/objects/Transport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/Transport/Drivers_dao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/Transport/Drivers_dao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test/HR/Controllers/ScheduleControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test/HR/Controllers/ScheduleControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS/BussinessLayer/TransportationModule/objects/Transport.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS/BussinessLayer/TransportationModule/objects/Transport.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS/DataAccessLayer/DAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS/DataAccessLayer/DAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS/DataAccessLayer/Transport/Drivers_dao.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS/DataAccessLayer/Transport/Drivers_dao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ADSS/DataAccessLayer/Transport/Transport_dao.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS/DataAccessLayer/Transport/Transport_dao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/ADSS/HR/Controllers/ScheduleControllerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/ADSS/HR/Controllers/ScheduleControllerTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/DAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccessLayer/Transport/Transport_dao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccessLayer/Transport/Transport_dao.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -93,7 +98,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HR.Controllers in ADSS" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ScheduleControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ADSS" />
       <extension name="coverage">
         <pattern>
@@ -102,12 +107,45 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="HR.Controllers" />
-      <option name="TEST_OBJECT" value="package" />
+      <option name="MAIN_CLASS_NAME" value="HR.Controllers.ScheduleControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HR.DAO in ADSS" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ScheduleControllerTest.createNewSchedule" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="HR.Controllers.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="HR.Controllers" />
+      <option name="MAIN_CLASS_NAME" value="HR.Controllers.ScheduleControllerTest" />
+      <option name="METHOD_NAME" value="createNewSchedule" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ScheduleControllerTest.deleteScheduleIDFromStore" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="HR.Controllers.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="HR.Controllers" />
+      <option name="MAIN_CLASS_NAME" value="HR.Controllers.ScheduleControllerTest" />
+      <option name="METHOD_NAME" value="deleteScheduleIDFromStore" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ScheduleDAOTest.addRoleToShift" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ADSS" />
       <extension name="coverage">
         <pattern>
@@ -116,57 +154,27 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="HR.DAO" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ScheduleControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ADSS" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="BussinessLayer.HRModule.Controllers.ScheduleController" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="HR.Controllers" />
-      <option name="MAIN_CLASS_NAME" value="HR.Controllers.ScheduleControllerTest" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="HR" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="ADSS" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="HR.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="HR" />
-      <option name="TEST_OBJECT" value="PACKAGE" />
-      <properties />
-      <listeners />
+      <option name="MAIN_CLASS_NAME" value="HR.DAO.ScheduleDAOTest" />
+      <option name="METHOD_NAME" value="addRoleToShift" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.HR.Controllers in ADSS" />
-      <item itemvalue="JUnit.HR.DAO in ADSS" />
+      <item itemvalue="JUnit.ScheduleControllerTest.createNewSchedule" />
+      <item itemvalue="JUnit.ScheduleControllerTest.deleteScheduleIDFromStore" />
+      <item itemvalue="JUnit.ScheduleDAOTest.addRoleToShift" />
       <item itemvalue="JUnit.ScheduleControllerTest" />
       <item itemvalue="JUnit.HR in ADSS" />
-      <item itemvalue="TestNG.HR" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.HR in ADSS" />
-        <item itemvalue="TestNG.HR" />
-        <item itemvalue="JUnit.HR.Controllers in ADSS" />
-        <item itemvalue="JUnit.HR.DAO in ADSS" />
+        <item itemvalue="JUnit.ScheduleDAOTest.addRoleToShift" />
         <item itemvalue="JUnit.ScheduleControllerTest" />
+        <item itemvalue="JUnit.ScheduleControllerTest.createNewSchedule" />
+        <item itemvalue="JUnit.ScheduleControllerTest.deleteScheduleIDFromStore" />
       </list>
     </recent_temporary>
   </component>
@@ -206,7 +214,7 @@
       <workItem from="1683544761333" duration="13356000" />
       <workItem from="1683634178664" duration="10680000" />
       <workItem from="1683649121760" duration="1102000" />
-      <workItem from="1683654137579" duration="5810000" />
+      <workItem from="1683654137579" duration="9277000" />
     </task>
     <task id="LOCAL-00001" summary="created .idea folder">
       <created>1682675006264</created>
@@ -587,7 +595,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/DataAccessLayer/DAO.java</url>
-          <line>189</line>
+          <line>188</line>
           <option name="timeStamp" value="252" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -601,19 +609,24 @@
           <option name="timeStamp" value="256" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Test/HR/Controllers/ScheduleControllerTest.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="263" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Test/HR/Controllers/StoreControllerTest.java</url>
           <line>78</line>
           <option name="timeStamp" value="269" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Test/HR/DAO/ScheduleDAOTest.java</url>
-          <line>23</line>
-          <option name="timeStamp" value="280" />
+          <line>36</line>
+          <option name="timeStamp" value="306" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java</url>
+          <line>102</line>
+          <option name="timeStamp" value="308" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/BussinessLayer/HRModule/Controllers/ScheduleController.java</url>
+          <line>92</line>
+          <option name="timeStamp" value="309" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -656,7 +669,7 @@
       <FILTER>HR.Objects.*</FILTER>
       <FILTER>BussinessLayer.HRModule.Objects.Store</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/ADSS$HR_in_ADSS.ic" NAME="HR in ADSS Coverage Results" MODIFIED="1683660713726" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/ADSS$HR_in_ADSS.ic" NAME="HR in ADSS Coverage Results" MODIFIED="1683665158000" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>BussinessLayer.*</FILTER>
       <FILTER>DataAccessLayer.*</FILTER>
       <FILTER>InterfaceLayer.*</FILTER>

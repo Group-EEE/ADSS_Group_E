@@ -338,7 +338,13 @@ public class Transport_dao extends DAO {
         }
     }
 
+<<<<<<< HEAD
+    public String get_end_time(Transport transport){
+        return ""; //TODO: FIX
+    }
+=======
 //    public String get_end_time(Transport transport){
 //
 //    }
+>>>>>>> 71acd27891dc72812658bd90ba06eb3d8b9243d9
 }
