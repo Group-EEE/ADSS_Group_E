@@ -1,12 +1,18 @@
 package DataAccessLayer.HRMoudle;
 
 import BussinessLayer.HRModule.Objects.RoleType;
+import BussinessLayer.TransportationModule.objects.License;
+import BussinessLayer.TransportationModule.objects.Truck_Driver;
+import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
 import BussinessLayer.HRModule.Objects.Employee;
+import DataAccessLayer.Transport.License_dao;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Function;
 
 public class EmployeesDAO extends DAO {
     //int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
@@ -25,9 +31,15 @@ public class EmployeesDAO extends DAO {
     private final String RoleTypeColumnName = "roleType";
     private int _HRmanagerID = -1;
 
+    //licenseDAO
+    private final String LicenseIDColumnName = "licenseID";
+    private final String cold_levelColumnName = "cold_level";
+    private final String truck_weightColumnName = "weight";
+
     private static EmployeesDAO _employeesDAO;
     private HashMap<Integer, Employee> employeesCache;
-    private HashMap<Integer, Driver> driverCache;
+    private HashMap<Integer, Truck_Driver> driverCache;
+    private HashMap<Integer, License> licenseCache;
 
     private EmployeesDAO() {
         super("Employees");
@@ -56,18 +68,60 @@ public class EmployeesDAO extends DAO {
         return delete(_tableName, makeList(EmployeeIDColumnName), makeList(employeeID));
     }
 
-    public List<Employee> SelectAllEmployees() {
-        return (List<Employee>) (List<?>) select();
+    public boolean deleteDriver(int employeeID){
+        if (driverCache.containsKey(employeeID)) {
+            driverCache.remove(employeeID);
+        }
+        deleteAllRolesFromEmployee(employeeID);
+        delete(_tableName, makeList(EmployeeIDColumnName), makeList(employeeID));
+        return delete("Drivers", makeList(EmployeeIDColumnName), makeList(employeeID));
     }
 
-    @Override
+    public List<Employee> SelectAllEmployees(){
+        List<Employee> employees = select();
+        for (Employee employee : employees) {
+            if (!employeesCache.containsKey(employee.getEmployeeID()))
+                employeesCache.put(employee.getEmployeeID(), employee);
+        }
+        return employees;
+    }
+
+    public List<Truck_Driver> getDrivers(){
+        //TODO:
+        return null;
+    }
+
+    public boolean existDriver(int employeeID){
+        //TODO:
+        return true;
+    }
+
+
+    public Truck_Driver convertDriver(ResultSet rs){
+        try {
+            int employeeID = rs.getInt(1);
+            if (driverCache.containsKey(employeeID))
+                return driverCache.get(employeeID);
+            License license = License_dao.getInstance().getLicense(employeeID);
+            Truck_Driver truckDriver = new Truck_Driver(employeeID, rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6), rs.getString(7), parseLocalDate(rs.getString(8)), rs.getString(9), license);
+            addRolesToEmployee(truckDriver);
+            driverCache.put(truckDriver.getEmployeeID(), truckDriver);
+            return truckDriver;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public Employee convertReaderToObject(ResultSet rs) throws SQLException {
-        if(employeesCache.containsKey(rs.getInt(1)))
-            return employeesCache.get(rs.getInt(1));
-        Employee employee = new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6), rs.getString(7), parseLocalDate(rs.getString(8)),rs.getString(9));
+        int employeeID = rs.getInt(1);
+        if (employeesCache.containsKey(employeeID))
+            return employeesCache.get(employeeID);
+        Employee employee;
+        employee = new Employee(employeeID, rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6), rs.getString(7), parseLocalDate(rs.getString(8)), rs.getString(9));
         addRolesToEmployee(employee);
         employeesCache.put(employee.getEmployeeID(), employee);
         return employee;
+
     }
 
     public boolean updateBankAccount(int employeeID, String bankAccount) {
@@ -90,30 +144,47 @@ public class EmployeesDAO extends DAO {
         return update(_tableName,FinishWorkingColumnName, finishWorking, makeList(EmployeeIDColumnName), makeList(employeeID));
     }
 
+    public boolean updatePassword(int employeeID, String password) {
+        return update(_tableName, PasswordColumnName, password, makeList(EmployeeIDColumnName), makeList(employeeID));
+    }
+
     public Employee getEmployee(int employeeID) {
         if (employeesCache.containsKey(employeeID)) //Employee in cache
             return employeesCache.get(employeeID);
-        List<Employee> result = select(_tableName,makeList(EmployeeIDColumnName), makeList(employeeID));
+        List<Employee> result = select(_tableName, makeList(EmployeeIDColumnName), makeList(employeeID));
         if (result.size() == 0)
-            return null;
+            throw new IllegalArgumentException("Employee ID doesn't exist");
         Employee employee = result.get(0);
         employeesCache.put(employeeID, employee);
         return employee;
-
     }
 
+    public Truck_Driver getDriver(int employeeID) {
+        if (driverCache.containsKey(employeeID)) //Employee in cache
+            return driverCache.get(employeeID);
+        List<Truck_Driver> result = select(_tableName, makeList(EmployeeIDColumnName), makeList(employeeID),this::convertDriver);
+        if (result.size() == 0)
+            throw new IllegalArgumentException("Employee ID doesn't exist");
+        Truck_Driver truckDriver = result.get(0);
+        driverCache.put(employeeID, truckDriver);
+        return truckDriver;
+    }
+
+
     public boolean existEmployee(int employeeID){
-        List employees = select(_tableName,makeList(EmployeeIDColumnName), makeList(employeeID));
-        return employees.size() != 0;
+        try{
+            getEmployee(employeeID);
+            return true;
+        }catch (IllegalArgumentException e){
+            return false;
+        }
     }
 
     public boolean checkPassword(int employeeID, String password){
         return selectT(_tableName,PasswordColumnName,makeList(EmployeeIDColumnName), makeList(employeeID),String.class).get(0).equals(password);
     }
 
-    public boolean updatePassword(int employeeID, String password) {
-        return update("Passwords", PasswordColumnName, password, makeList(EmployeeIDColumnName), makeList(employeeID));
-    }
+
 
     public boolean insertRoleToEmployee(int employeeID, String strRoleType) {
         if (strRoleType.equals("HRManager"))
@@ -139,6 +210,12 @@ public class EmployeesDAO extends DAO {
         return true;
     }
 
+    public boolean isDriver(int employeeID){
+        if (driverCache.containsKey(employeeID) || licenseCache.containsKey(employeeID))
+            return true;
+        return selectT("EmployeesToRoles",RoleTypeColumnName,makeList(EmployeeIDColumnName),makeList(employeeID),String.class).contains("Driver");
+    }
+
     public int getHRManagerID() {
         if (_HRmanagerID != -1)
             return _HRmanagerID;
@@ -155,7 +232,12 @@ public class EmployeesDAO extends DAO {
         }
         return true;
     }
+    //drivers
+    public boolean insertLicense(int employeeID, int licenseID, String cold_level, double truck_weight) {
+        return insert("Licenses", makeList(EmployeeIDColumnName,LicenseIDColumnName, cold_levelColumnName, truck_weightColumnName), makeList(employeeID,licenseID, cold_level, truck_weight));
+    }
 }
+
 
 
 

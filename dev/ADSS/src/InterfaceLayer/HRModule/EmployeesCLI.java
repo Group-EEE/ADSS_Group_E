@@ -61,6 +61,12 @@ public class EmployeesCLI {
      */
     public boolean employeeMenuSelectShifts() {
         String storeName = getStoreName();
+        if (storeName == null)
+            return false;
+        if (!_facade.checkIfEmployeeWorkInStore(storeName)){
+            System.out.println("You don't work in this store");
+            return false;
+        }
         try{
             System.out.println(_facade.getSchedule(storeName));
         }
@@ -71,15 +77,19 @@ public class EmployeesCLI {
         boolean valid=true;
         while (valid){
             System.out.println("Please select the shifts you ARE AVAILABLE to work at: ");
-            System.out.println("Enter 0 to exit");
+            System.out.println("Enter 'exit' to exit");
             try {
-                int shiftID = Integer.valueOf(scanner.nextLine());
+                String input = scanner.nextLine();
+                if (input.equals("exit")){
+                    valid=false;
+                    break;
+                }
+                int shiftID = Integer.valueOf(input);
                 try {
                     _facade.addEmployeeToShift(storeName, shiftID);
                     System.out.println("You asked to work at the shift " + shiftID+" successfully");
                 } catch (Exception e) {
                     System.out.println("Could not add employee to shift");
-                    System.out.println(e.getMessage());
                     valid = false;
                 }
             } catch (InputMismatchException e) {

@@ -1,22 +1,24 @@
 package BussinessLayer.TransportationModule.objects;
 
 public class License {
-    private int L_ID;
+    private int _licenseID;
+    private int _employeeID;
     private cold_level cold_level;
     private double weight;
 
-    public License(int ID, cold_level level, double truck_weight){
-        this.L_ID = ID;
+    public License(int employeeID, int licenseID, cold_level level, double truck_weight){
+        _employeeID = employeeID;
+        this._licenseID = licenseID;
         this.cold_level = level;
         this.weight = truck_weight;
     }
 
     public void setL_ID(int l_ID) {
-        L_ID = l_ID;
+        _licenseID = l_ID;
     }
 
     public int getL_ID() {
-        return L_ID;
+        return _licenseID;
     }
 
     public void setCold_level(cold_level cold_level) {

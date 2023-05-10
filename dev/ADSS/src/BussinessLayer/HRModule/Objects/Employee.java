@@ -6,17 +6,17 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class Employee{
-    private final List<RoleType> _roles = new ArrayList<RoleType>();
-    private final int _employeeID;
-    private String _firstName;
-    private String _lastName;
-    private int _age;
-    private String _bankAccount;
-    private int _salary;
-    private String _hiringCondition;
-    private LocalDate _startDateOfEmployement;
-    private boolean _finishWorking;
-    private String _password;
+    protected final List<RoleType> _roles = new ArrayList<RoleType>();
+    protected final int _employeeID;
+    protected String _firstName;
+    protected String _lastName;
+    protected int _age;
+    protected String _bankAccount;
+    protected int _salary;
+    protected String _hiringCondition;
+    protected LocalDate _startDateOfEmployement;
+    protected boolean _finishWorking;
+    protected String _password;
     public Employee(int employeeID, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment,String password) {
         this._employeeID = employeeID;
         this._firstName = firstName;
@@ -70,10 +70,16 @@ public class Employee{
         return true;
     }
 
+
+    public boolean setFinishedWorking(){
+        this._finishWorking = true;
+        return true;
+    }
+
     /**
      * @return the first name of the employee
      */
-    public String getFullNameName(){
+    public String getFullName(){
         return this._firstName+" "+this._lastName;
     }
 
@@ -157,10 +163,6 @@ public class Employee{
         return this._password;
     }
 
-    public boolean setFinishedWorking(){
-        this._finishWorking = true;
-        return true;
-    }
 
     public boolean hasRole(RoleType role){
         return this._roles.contains(role);

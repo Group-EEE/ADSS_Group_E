@@ -1,6 +1,7 @@
 package BussinessLayer.HRModule.Controllers;
 
 import BussinessLayer.HRModule.Objects.*;
+import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.HRMoudle.EmployeesDAO;
 
 import java.time.LocalDate;
@@ -93,10 +94,10 @@ public class Facade {
         return _employeeController.updatePassword(_loggedUser.getEmployeeID(), password);
     }
 
-    public boolean createEmployee(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployemen, String password, boolean isHRManager) {
+    public boolean createEmployee(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployement, String password, boolean isHRManager) {
         if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null)
             throw new IllegalArgumentException("Invalid arguments");
-        if (!_employeeController.createEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployemen, password))
+        if (!_employeeController.createEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployement, password))
             return false;
         if (isHRManager) {
             return addRoleToEmployee(employeeID, RoleType.HRManager);
@@ -120,15 +121,12 @@ public class Facade {
         return _employeeController.removeEmployee(employeeID);
     }
 
-    public boolean createDriver(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployemen, String password, boolean isHRManager) {
-        if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null)
+    public boolean createDriver(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployement, String password, int licenseID, cold_level level, double truck_weight) {
+        if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null|| licenseID < 0 || level == null || truck_weight < 0)
             throw new IllegalArgumentException("Invalid arguments");
-        if (!_employeeController.createEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployemen, password))
+        if (!_employeeController.createDriver(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployement, password, licenseID, level, truck_weight))
             return false;
-        if (isHRManager) {
-            return addRoleToEmployee(employeeID, RoleType.HRManager);
-        }
-        return true;
+        return addRoleToEmployee(employeeID, RoleType.Driver);
     }
 
 
@@ -158,9 +156,13 @@ public class Facade {
         return _scheduleController.createNewSchedule(StoreName, day, month, year);
     }
 
+    public boolean checkIfEmployeeWorkInStore(String storeName){
+        return _storeController.checkIfEmployeeWorkInStore(_loggedUser.getEmployeeID(), storeName);
+    }
+
     public boolean addEmployeeToShift(String storeName, int shiftID){
         //if employee not working in this store
-        if (!_storeController.checkIfEmployeeWorkInStore(_loggedUser.getEmployeeID(),storeName))
+        if (!checkIfEmployeeWorkInStore(storeName))
             throw new IllegalArgumentException("Employee not working in this store");
         return _scheduleController.addEmployeeToShift(_loggedUser, storeName, shiftID);
     }

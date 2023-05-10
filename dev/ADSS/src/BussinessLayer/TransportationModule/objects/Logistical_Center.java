@@ -58,7 +58,7 @@ public class Logistical_Center extends Site{
 
     public Truck_Driver get_driver_by_id(int id){
         for (Truck_Driver driver : drivers) {
-            if (driver.getID() == id)
+            if (driver.getEmployeeID() == id)
                 return driver;
         }
         return null;

@@ -77,14 +77,16 @@ public class Site_Supply_dao extends DAO {
             return site_supply_documents.get(res.getInt(1));
         }
         String store_name = res.getString(2);
-        Store store = StoresDAO.getInstance().getStore(store_name);
-        if (store != null) {
-            Site_Supply site_supply = new Site_Supply(res.getInt(1), store , res.getString(3));
-            //insert_products_to_site_supply(site_supply);
-            site_supply_documents.put(site_supply.getId(), site_supply);
-            return site_supply;
+        Store store;
+        try {
+            store = StoresDAO.getInstance().getStore(store_name);
+        } catch (Exception e) {
+            return null;
         }
-        return null;
+        Site_Supply site_supply = new Site_Supply(res.getInt(1), store , res.getString(3));
+        //insert_products_to_site_supply(site_supply);
+        site_supply_documents.put(site_supply.getId(), site_supply);
+        return site_supply;
     }
 
     public boolean check_if_site_supply_exists(int id){

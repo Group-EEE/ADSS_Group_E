@@ -2,26 +2,22 @@ package BussinessLayer.TransportationModule.objects;
 
 import BussinessLayer.HRModule.Objects.Employee;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Truck_Driver{
-    private int ID;
+public class Truck_Driver extends Employee{
     private License license;
-    private String name;
     private ArrayList<Site_Supply> sites_documents;
     private Truck current_truck = null;
 
-    public Truck_Driver(int driver_ID, String driver_name, int license_id, cold_level level, double truck_weight) {
-
-        this.ID = driver_ID;
-        this.name = driver_name;
+    public Truck_Driver(int employeeID, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment, String password, int license_id, cold_level level, double truck_weight) {
+        super(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployment, password);
         this.license = new License(license_id, level, truck_weight);
         sites_documents = new ArrayList<>();
     }
 
-    public Truck_Driver(int driver_ID, String driver_name, License D_license){
-        this.ID = driver_ID;
-        this.name = driver_name;
+    public Truck_Driver(int employeeID, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment, String password, License D_license){
+        super(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployment, password);
         this.license = D_license;
         sites_documents = new ArrayList<>();
     }
@@ -94,28 +90,12 @@ public class Truck_Driver{
 
 
 
-    public int getID() {
-        return ID;
-    }
-
     public License getLicense() {
         return license;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
     public void setLicense(License license) {
         this.license = license;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public boolean is_site_exist(String site){
@@ -128,12 +108,12 @@ public class Truck_Driver{
     }
 
     public boolean equals(Truck_Driver td) {
-        return (ID == td.getID());
+        return (_employeeID == td.getEmployeeID());
     }
 
 
     public boolean equals(int d_ID) {
-        return (ID == d_ID);
+        return (_employeeID == d_ID);
     }
 
 
@@ -141,8 +121,8 @@ public class Truck_Driver{
     // display
 
     public void driverDisplay(){
-        System.out.println("Driver ID Number - " + ID);
-        System.out.println("\t Driver Name: " + name);
+        System.out.println("Driver ID Number - " + this._employeeID);
+        System.out.println("\t Driver Name: " + this._firstName);
         System.out.println("\t License Details: ");
         license.licenseDisplay();
         if(current_truck != null) {

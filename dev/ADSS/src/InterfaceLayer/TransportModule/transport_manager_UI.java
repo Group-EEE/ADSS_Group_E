@@ -45,7 +45,7 @@ public class transport_manager_UI {
         isValid = false;
         while (true) {
             System.out.println("Hey Boss! what would you like to do?");
-            System.out.println("0 - Hire a new driver");
+            //System.out.println("0 - Hire a new driver");
             System.out.println("1 - See all the trucks with a cold level of your choice: \n\t 1- Freeze \n\t 2- Cold \n \t 3- Dry");
             System.out.println("2 - create a new transport");
             System.out.println("3 - send transports");
@@ -73,7 +73,7 @@ public class transport_manager_UI {
             isValid = false;
             switch (choice) {
                 // hire a new driver
-                case 0 -> create_driver();
+                //case 0 -> create_driver();
 
                 // have all the trucks by a cold level
                 case 1 -> display_trucks_by_cold_level();
@@ -116,145 +116,7 @@ public class transport_manager_UI {
         }
     }
 
-    /**
-     * a function that asks from the user all the details for a truck driver and then add it to the database.
-     */
-    private void create_driver(){
-        int ID = 0;
-        boolean isValid = false;
-        // getting the driver's ID
-        while (!isValid) {
-            System.out.println("Enter an ID (a 9 digit integer with no 0 at the beginning): ");
-            String input = scanner.nextLine();
-            if(input.startsWith("0")){
-                System.out.print("ID number cannot contain 0 at the beginning. ");
-                if(input.length() != 9){
-                    System.out.print("Input must be a 9 digit integer. ");
-                }
-            }
-            else {
-                try {
-                    ID = Integer.parseInt(input);
-                    // Check if the input is a 9 digit integer
-                    if (input.length() == 9) {
-                        isValid = true;
-                    } else {
-                        System.out.print("Input must be a 9 digit integer. ");
-                    }
-
-
-                } catch (NumberFormatException e) {
-                    System.out.print("Invalid input. ");
-                }
-                // check if the ID number is already exist in the system.
-                 if(controller.check_if_driver_Id_exist(ID)){
-                 isValid = false;
-                 System.out.println("The ID number - " + ID + " - is already belong to some driver in the transport system. Please enter a valid 9 digit integer: ");
-                 }
-            }
-        }
-        System.out.println("Please enter the driver's license details: ");
-        isValid = false;
-        int License_ID = 0;
-        // getting The driver's license ID
-        while (!isValid) {
-            System.out.println("Enter an license ID (a 5 digit integer): ");
-            String input = scanner.nextLine();
-            if(input.startsWith("0")){
-                System.out.print("License ID number cannot contain 0 at the beginning. ");
-                if(input.length() != 5){
-                    System.out.print("Input must be a 5 digit integer. ");
-                }
-            }
-            else {
-                try {
-                    License_ID = Integer.parseInt(input);
-
-                    // Check if the input is a 5 digit integer
-                    if (input.length() == 5) {
-
-                        isValid = true;
-                    } else {
-                        System.out.print("Input must be a 5 digit integer. ");
-                    }
-
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. Please enter a valid 5 digit integer.");
-                }
-                // check if the license ID number is already exist in the system.
-                 if(controller.check_if_license_id_exist(License_ID)){
-                 isValid = false;
-                 System.out.println("The license ID number - " + License_ID + " - is already belong to some driver in the transport system. Please enter a valid 5 digit integer: ");
-                }
-            }
-        }
-        isValid = false;
-        // getting the driver's license truck restrictions
-        cold_level level = null;
-        double weight = 0;
-        int level_ch;
-        while (!isValid) {
-            System.out.println("Enter the cold level of the truck the driver can drive in (1- Freeze, 2- Cold, 3- Dry),\n and the the Max weight of the truck he can drive in: ");
-            String input = scanner.nextLine();
-            String[] parts = input.split(" ");
-
-            try {
-                // Check if the input contains two parts
-                if (parts.length == 2) {
-                    level_ch = Integer.parseInt(parts[0]);
-                    weight = Double.parseDouble(parts[1]);
-
-                    // Check if the input numbers are positive
-                    if (level_ch > 3 || level_ch < 1){
-                        System.out.println("only the number 1-3 is valid for cold level.");
-                        continue;
-                    }
-                    else {
-                        switch (level_ch) {
-                            case 1 -> level = cold_level.Freeze;
-                            case 2 -> level = cold_level.Cold;
-                            case 3 -> level = cold_level.Dry;
-                        }
-                    }
-                    if (weight > 0) {
-                        isValid = true;
-                    } else {
-                        System.out.println("Weight must be positive.");
-                    }
-                } else {
-                    System.out.println("Input must contain two numbers - Int and then Double, separated by a space.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter two valid positive numbers, An integer and then double separated by a space.");
-            }
-        }
-        // getting the driver's name
-        isValid = false;
-        String Driver_name = "";
-        while (!isValid) {
-            System.out.println("Enter the driver's full name: ");
-            String input = scanner.nextLine();
-
-            // Check if the input only contains alphabetic letters
-            boolean isAlphabetic = true;
-            for (int i = 0; i < input.length(); i++) {
-                char c = input.charAt(i);
-                if (!Character.isLetter(c) && !Character.isWhitespace(c)) {
-                    isAlphabetic = false;
-                    break;
-                }
-            }
-
-            if (isAlphabetic) {
-                Driver_name = input;
-                isValid = true;
-            } else {
-                System.out.println("Input must contain only alphabetic letters.");
-            }
-        }
-        controller.add_driver(ID, Driver_name, License_ID, level, weight);
-
-    }
+    //create new driver moved to HRmanagerCLI
 
     /**
      * asking from the user details about the logistical center and create it in the controller.
@@ -428,8 +290,8 @@ public class transport_manager_UI {
         for(Truck_Driver driver: controller.getDrivers()){
             if(controller.truck_assigning(truck_number, planned_date)){
                 assigned = true;
-                driver_name = driver.getName();
-                driver_id = driver.getID();
+                driver_name = driver.getFullName();
+                driver_id = driver.getEmployeeID();
                 break;
             }
         }

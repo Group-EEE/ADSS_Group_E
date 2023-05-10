@@ -23,25 +23,8 @@ public class License_dao extends DAO {
     }
 
 
-    public boolean insert(Object licenseObj) {
-        License license = (License) licenseObj;
-        try {
-            String query = "INSERT INTO Licenses (ID, cold_level, weight) VALUES (?, ?, ?)";
-
-            // Prepare SQL statement with parameters
-            PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setInt(1, license.getL_ID());
-            pstmt.setString(2, license.getCold_level().toString());
-            pstmt.setDouble(3, license.getWeight());
-            // Execute SQL statement and print result
-            pstmt.executeUpdate();
-            Licenses.put(license.getL_ID(), license);
-            return true;
-        } catch (SQLException e) {
-            System.out.println("License already exist");
-            System.out.println(e.getMessage());
-        }
-        return false;
+    public boolean insert(int employeeID, int license_id, String level, double truck_weight) {
+        return insert(_tableName,makeList(employeeID, license_id, level, truck_weight),makeList("employeeID", "licenseID", "cold_Level", "weight"));
     }
 
 

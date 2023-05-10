@@ -2,7 +2,9 @@ package BussinessLayer.HRModule.Controllers;
 
 import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.RoleType;
+import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.HRMoudle.EmployeesDAO;
+import DataAccessLayer.Transport.License_dao;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,11 +13,13 @@ public class EmployeeController {
 
 
     private final EmployeesDAO _employeesDAO;
+    private License_dao _licenseDAO;
     private static EmployeeController _employeeController;
 
 
     private EmployeeController() {
         _employeesDAO = EmployeesDAO.getInstance();
+        _licenseDAO = License_dao.getInstance();
     }
 
     public static EmployeeController getInstance() {
@@ -39,6 +43,11 @@ public class EmployeeController {
         if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null)
             throw new IllegalArgumentException("Invalid arguments");
         return _employeesDAO.insertEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployement, password);
+    }
+
+    public boolean createDriver(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployement, String password, int license_id, cold_level level, double truck_weight) {
+        createEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployement, password);
+        return _licenseDAO.insert(employeeID,license_id,level.toString(),truck_weight);
     }
 
     /**
@@ -113,7 +122,7 @@ public class EmployeeController {
     public String getEmployeeFullNameById(int employeeID){
         if (employeeID < 0)
             return null;
-        return _employeesDAO.getEmployee(employeeID).getFullNameName();
+        return _employeesDAO.getEmployee(employeeID).getFullName();
     }
 
     /**

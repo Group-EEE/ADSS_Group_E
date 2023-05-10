@@ -86,8 +86,6 @@ public class ScheduleController {
             throw new IllegalArgumentException("Invalid store ID");
         int scheduleID = _storesDAO.getActiveSchedule(StoreName);
         Schedule schedule = _schedulesDAO.getSchedule(scheduleID);
-        if (schedule == null)
-            throw new IllegalArgumentException("Could not find schedule for this store");
         List<Shift> shifts = _shiftsDAO.getShiftsByScheduleID(scheduleID);
         for (Shift shift : shifts){
             for (String strRole : _shiftsDAO.getRequiredRoles(scheduleID,shift.getShiftID())){
@@ -139,8 +137,6 @@ public class ScheduleController {
         if (storeName == null )
             throw new IllegalArgumentException("Invalid store name");
         Schedule schedule = getSchedule(storeName);
-        if (schedule == null)
-            throw new IllegalArgumentException("Schedule not yet created");
         List<Shift> rejectedShifts = schedule.approveSchedule();
         for (Shift shift : schedule.getShifts()){
             for (HashMap.Entry<RoleType,Employee> entry : shift.getAssignedEmployees().entrySet())
@@ -175,8 +171,6 @@ public class ScheduleController {
         if (role == null)
             throw new IllegalArgumentException("Invalid role");
         Schedule schedule = getSchedule(storeName);
-        if (schedule == null)
-            throw new IllegalArgumentException("schedule not yet made");
         _shiftsDAO.insertRequiredRole(schedule.getScheduleID(),shiftID, role.toString());
         return schedule.addRequiredRoleToShift(shiftID, role);
     }
@@ -187,8 +181,6 @@ public class ScheduleController {
         if (role == null)
             throw new IllegalArgumentException("Invalid role");
         Schedule schedule = getSchedule(storeName);
-        if (schedule == null)
-            throw new IllegalArgumentException("schedule not yet made");
         if (!_shiftsDAO.removeRequiredRole(schedule.getScheduleID(),shiftID, role.toString()))
             return false;
         return schedule.removeRequiredRoleFromShift(shiftID, role);
@@ -199,8 +191,6 @@ public class ScheduleController {
         if (storeName == null )
             throw new IllegalArgumentException("Invalid store name");
         Schedule schedule = getSchedule(storeName);
-        if (schedule == null)
-            throw new IllegalArgumentException("schedule not yet made");
         if (!_shiftsDAO.insertInquiredEmployee(schedule.getScheduleID(),choice,employee.getEmployeeID()))
             return false;
         return schedule.addEmployeeToShift(employee,choice);
@@ -208,8 +198,6 @@ public class ScheduleController {
 
     public boolean hasWareHouse(String storeName, int storeID){
         Schedule schedule = getSchedule(storeName);
-        if (schedule == null)
-            throw new IllegalArgumentException("schedule not yet made");
         return schedule.getShift(storeID).hasFilledRole(RoleType.Warehouse);
     }
 }

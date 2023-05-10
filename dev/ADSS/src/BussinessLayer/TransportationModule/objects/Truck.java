@@ -139,7 +139,7 @@ public class Truck {
         System.out.println("\t Max Weight: " + max_weight);
         System.out.println("\t Cold Level: " + cold_level.name());
         if(current_driver != null) {
-            System.out.println("\t Truck Driver name: " + current_driver.getName());
+            System.out.println("\t Truck Driver name: " + current_driver.getFullName());
         }
         System.out.println("\t Current Weight: " + current_weight);
         // with no navigator and occupied

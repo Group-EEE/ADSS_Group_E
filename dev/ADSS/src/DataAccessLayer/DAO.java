@@ -9,13 +9,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 
 public abstract class DAO {
 
     protected final String _tableName;
     public static Connection connection;
-    protected final String url = "jdbc:sqlite:dev/ADSS/SuperLi.db";
+    protected final String url = "jdbc:sqlite:SuperLi.db";
     protected DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     //constructor
@@ -121,6 +122,26 @@ public abstract class DAO {
         return list;
     }
 
+    protected <T> List select(String tableName, Function<ResultSet,T> converter) {
+        List list = new ArrayList<>();
+        String sql = MessageFormat.format("SELECT * From {0}"
+                , _tableName);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                // Fetch each row from the result set
+                list.add(converter.apply(resultSet));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+        }
+        return list;
+    }
+
     protected List select(String tableName, List<Object> columnKeys, List keys) {
         List list = new ArrayList<>();
         String sql = MessageFormat.format("SELECT * From {0} WHERE" + keysQuery(columnKeys)
@@ -137,6 +158,29 @@ public abstract class DAO {
             while (resultSet.next())
                 list.add(convertReaderToObject(resultSet));
         } catch (SQLException | ParseException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+        }
+        return list;
+    }
+
+    protected <T> List<T> select(String tableName, List<Object> columnKeys, List keys, Function<ResultSet,T> converter) {
+        List<T> list = new ArrayList<>();
+        String sql = MessageFormat.format("SELECT * From {0} WHERE" + keysQuery(columnKeys)
+                , tableName);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            int i = 1;
+            for (Object key : keys)
+                if (key instanceof String)
+                    pstmt.setString(i++, (String) key);
+                else
+                    pstmt.setInt(i++, (int) key);
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next())
+                list.add(converter.apply(resultSet));
+        } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
             System.out.println(sql);

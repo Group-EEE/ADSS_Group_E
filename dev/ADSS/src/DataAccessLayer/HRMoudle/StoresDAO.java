@@ -1,5 +1,6 @@
 package DataAccessLayer.HRMoudle;
 
+import BussinessLayer.HRModule.Objects.Shift;
 import BussinessLayer.HRModule.Objects.Store;
 import DataAccessLayer.DAO;
 
@@ -47,19 +48,24 @@ public class StoresDAO extends DAO {
         return true;
     }
 
-    @Override
-    public Store convertReaderToObject(ResultSet rs) throws SQLException {
-        if(storesCache.containsKey(rs.getInt(1)))
+    public Store convertReaderToObject (ResultSet rs) throws SQLException{
+        if (storesCache.containsKey(rs.getInt(1)))
             return storesCache.get(rs.getInt(1));
         Store store = new Store(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
-        storesCache.put(store.getName(),store);
+        storesCache.put(store.getName(), store);
         return store;
     }
 
     public boolean existsStore(String storeName){
         if (storesCache.containsKey(storeName))
             return true;
-        return getStore(storeName) != null;
+        try{
+            getStore(storeName);
+            return true;
+        } catch (IllegalArgumentException e){
+            return false;
+        }
+
     }
 
     public Store getStore(String storeName) {
@@ -67,7 +73,7 @@ public class StoresDAO extends DAO {
             return storesCache.get(storeName);
         List<Store> result = select(_tableName,makeList(StoreNameColumnName), makeList(storeName));
         if (result.size() == 0)
-            return null;
+            throw new IllegalArgumentException("Store " + storeName + " doesn't exist");
         Store store = result.get(0);
         storesCache.put(store.getName(),store);
         return store;
@@ -75,16 +81,20 @@ public class StoresDAO extends DAO {
     }
 
     public List<Store> SelectAllStores() {
-        return (List<Store>)select();
+        List<Store> stores = select();
+        for (Store store : stores){
+            if (!storesCache.containsKey(store.getName()))
+                storesCache.put(store.getName(),store);
+        }
+        return stores;
     }
 
     public boolean isAnyStoreExist(){
         return select().size() > 0;
     }
 
-
     public boolean isStoreInArea(String storeName, int area){
-        return select(_tableName,makeList(StoreNameColumnName,AreaColumnName),makeList(storeName,area)).size() > 0;
+        return selectExists(_tableName,makeList(StoreNameColumnName,AreaColumnName),makeList(storeName,area));
     }
 
     public boolean insertActiveSchedule(String storeName, int scheduleID){
@@ -115,7 +125,7 @@ public class StoresDAO extends DAO {
     }
 
     public List<Integer> getEmployeesIDByStoreName(String storeName){
-        return selectT(EmployeeToStoreTable, StoreNameColumnName, makeList(storeName), makeList(EmployeeIDColumnName), Integer.class);
+        return selectT(EmployeeToStoreTable, EmployeeIDColumnName, makeList(StoreNameColumnName), makeList(storeName), Integer.class);
     }
 
     public List<String> getStoreNamesByEmployeeID(int employeeID){

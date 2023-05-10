@@ -2,7 +2,8 @@ package BussinessLayer.TransportationModule.controllers;
 
 import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.TransportationModule.objects.*;
-import DataAccessLayer.Transport.Drivers_dao;
+import DataAccessLayer.HRMoudle.EmployeesDAO;
+//import DataAccessLayer.Transport.Drivers_dao;
 import DataAccessLayer.Transport.Transport_dao;
 
 import java.util.ArrayList;
@@ -11,7 +12,8 @@ import java.util.ArrayList;
 public class underway_transport_controller {
     private static underway_transport_controller instance;
     private static Logistical_center_controller logistical_center_controller;
-
+    EmployeesDAO _employeesDAO;
+    
     public static underway_transport_controller getInstance() {
         if (instance == null) {
             instance = new underway_transport_controller();
@@ -21,6 +23,7 @@ public class underway_transport_controller {
 
     private underway_transport_controller() {
         logistical_center_controller = Logistical_center_controller.getInstance();
+        _employeesDAO = EmployeesDAO.getInstance();
     }
 
     public void add_site_document_to_driver(int transport_id, int site_supplier_ID, String store_name) {
@@ -48,7 +51,7 @@ public class underway_transport_controller {
 
     private Truck_Driver get_driver_by_transport_id(int transport_id){
         Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
-        return Drivers_dao.get_instance().getDriver(transport.getDriver_ID());
+        return _employeesDAO.getDriver(transport.getDriver_ID());
     }
 
     /**
@@ -149,7 +152,7 @@ public class underway_transport_controller {
 
     public boolean is_siteSupply_id_exist_in_current_transport(int transport_id, int siteSupply_ID){
         Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
-        Truck_Driver driver = Drivers_dao.get_instance().get_instance().getDriver(transport.getDriver_ID());
+        Truck_Driver driver = _employeesDAO.getDriver(transport.getDriver_ID());
         for(Site_Supply s : driver.getSites_documents()){
             if(s.getId() == siteSupply_ID){
                 return true;
@@ -290,7 +293,7 @@ public class underway_transport_controller {
             // transferring the goods and the documents
             Truck_Driver new_truck_driver = new_truck.getCurrent_driver();
             if (!new_truck_driver.equals(old_driver)) {
-                transport.setDriver_name(new_truck_driver.getName());
+                transport.setDriver_name(new_truck_driver.getFullName());
                 new_truck_driver.setSites_documents(old_driver.getSites_documents());
                 old_driver.setSites_documents(null);
                 old_driver.setCurrent_truck(null);

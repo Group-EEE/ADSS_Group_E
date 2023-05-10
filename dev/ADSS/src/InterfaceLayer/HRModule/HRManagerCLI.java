@@ -5,6 +5,7 @@ import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Shift;
 import BussinessLayer.HRModule.Objects.Store;
+import BussinessLayer.TransportationModule.objects.cold_level;
 
 import java.time.LocalDate;
 import java.util.InputMismatchException;
@@ -47,6 +48,7 @@ public class HRManagerCLI{
         System.out.println("15. print all employees");
         System.out.println("16. print all stores");
         System.out.println("17. print schedule");
+        System.out.println("18. create new driver");
         System.out.println("0. log out");
     }
 
@@ -106,6 +108,9 @@ public class HRManagerCLI{
                     break;
                 case "17":
                     HRMenuPrintSchedule();
+                    break;
+                case "18":
+                    HRMenuCreateDriver();
                     break;
                 case "0":
                     _facade.logout();
@@ -698,6 +703,133 @@ public class HRManagerCLI{
         }
         return true;
     }
+
+    public void HRMenuCreateDriver(){
+        boolean valid = false;
+        int age = 0;
+        String firstName = "";
+        String lastName = "";
+        int id = 0;
+        String bankAccount = "0";
+        String password = "";
+        int salary = 0;
+        String hiringCondition = "";
+        LocalDate startDateOfEmployment = null;
+        int License_ID = 0;
+        cold_level level = null;
+        double weight = 0;
+        int level_ch;
+        System.out.println("Welcome to the HR system!");
+        while(valid == false){
+            valid = true;
+            System.out.println("Please enter the following details:");
+            System.out.println("ID:");
+            try{
+                id = Integer.valueOf(scanner.nextLine());
+            }
+            catch (InputMismatchException e){
+                System.out.println("Invalid ID");
+                valid = false;
+                continue;
+            }
+            System.out.println("First name:");
+            firstName = scanner.nextLine();
+            System.out.println("Last name:");
+            lastName = scanner.nextLine();
+            System.out.println("Age:");
+            try{
+                age = Integer.valueOf(scanner.nextLine());
+            }
+            catch (NumberFormatException e){
+                System.out.println("Invalid age");
+                valid = false;
+                continue;
+            }
+
+            System.out.println("Bank account:");
+            bankAccount = scanner.nextLine();
+
+
+
+            System.out.println("salary:");
+            try{
+                salary = Integer.valueOf(scanner.nextLine());
+            }
+            catch (NumberFormatException e){
+                System.out.println("Invalid salary");
+                valid = false;
+                continue;
+            }
+
+            System.out.println("hiring condition:");
+            hiringCondition = scanner.nextLine();
+
+            int day = validInput("Please enter the start day of the employement","Please enter a valid integer for the day.",1,31);
+            int month = validInput("Please enter the start month of the employement","Please enter a valid integer for the month.",1,12);
+            int year = validInput("Please enter the start year of the employement","The year must start from 2020 to 2025",2020,2025);
+            try {
+                startDateOfEmployment = LocalDate.of(year, month, day);
+            } catch (Exception e){
+                System.out.println("Invalid date");
+                valid = false;
+                continue;
+            }
+            System.out.println("password:");
+            password = scanner.nextLine();
+            //license ID
+            System.out.println("Enter an license ID (a 5 digit integer): ");
+            String input = scanner.nextLine();
+            if(input.startsWith("0")){
+                System.out.print("License ID number cannot contain 0 at the beginning. ");
+                if(input.length() != 5){
+                    System.out.print("Input must be a 5 digit integer. ");
+                }
+                valid = false;
+                continue;
+            }
+            try {
+                License_ID = Integer.parseInt(input);
+                // Check if the input is a 5 digit integer
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid 5 digit integer.");
+            }
+            // TODO: check if the license ID number is already exist in the system.
+            System.out.println("Enter the cold level of the truck the driver can drive in (1- Freeze, 2- Cold, 3- Dry),\n and the the Max weight of the truck he can drive in: ");
+            input = scanner.nextLine();
+            String[] parts = input.split(" ");
+            try {
+                // Check if the input contains two parts
+                if (parts.length != 2) {
+                    System.out.println("Input must contain two numbers - Int and then Double, separated by a space.");
+                    continue;}
+                level_ch = Integer.parseInt(parts[0]);
+                weight = Double.parseDouble(parts[1]);
+
+                // Check if the input numbers are positive
+                if (level_ch > 3 || level_ch < 1){
+                    System.out.println("only the number 1-3 is valid for cold level.");
+                    continue;
+                }
+                switch (level_ch) {
+                    case 1 -> level = cold_level.Freeze;
+                    case 2 -> level = cold_level.Cold;
+                    case 3 -> level = cold_level.Dry;
+                }
+                if (weight < 0) {
+                    System.out.println("Weight must be positive.");
+                    valid = false;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter two valid positive numbers, An integer and then double separated by a space.");
+            }
+        }
+        try {
+            _facade.createDriver(id, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployment, password, License_ID, level, weight);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void printRoles() {
         System.out.println("Choose role: ");
         System.out.println("1. Cashier");

@@ -1,12 +1,14 @@
 package BussinessLayer.TransportationModule.controllers;
 
 import BussinessLayer.TransportationModule.objects.*;
+import DataAccessLayer.HRMoudle.EmployeesDAO;
 import DataAccessLayer.HRMoudle.StoresDAO;
 import DataAccessLayer.Transport.*;
 import BussinessLayer.HRModule.Objects.Store;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 // singleton
@@ -16,6 +18,8 @@ public class Logistical_center_controller {
 
     private static Logistical_center_controller instance;
     private Logistical_Center logistical_center;
+    EmployeesDAO _employeesDAO;
+    
     public static Logistical_center_controller getInstance(){
         if (instance == null){
             instance = new Logistical_center_controller();
@@ -23,7 +27,9 @@ public class Logistical_center_controller {
         return instance;
     }
     // singleton
-
+    private Logistical_center_controller(){
+        _employeesDAO = EmployeesDAO.getInstance();
+    }
 
     public void create_Logistical_Center(String address, String phone, String name, String site_contact_name){
         if (logistical_center == null){
@@ -35,11 +41,10 @@ public class Logistical_center_controller {
         return logistical_center;
     }
 
-    public void add_driver(int driver_ID, String driver_name, int license_id, cold_level level, double truck_weight){
-        Truck_Driver new_driver = new Truck_Driver(driver_ID, driver_name, license_id, level, truck_weight);
-        Drivers_dao.get_instance().Insert(new_driver);
-        Drivers_dao.get_instance().get_instance();
-    }
+//    public void add_driver(int driver_ID, String driver_name, int license_id, cold_level level, double truck_weight){
+//        Truck_Driver new_driver = new Truck_Driver(driver_ID, driver_name, license_id, level, truck_weight);
+//        _employeesDAO.insertDriver(new_driver);
+//    }
 
     public Transport get_transport_by_id(int transport_id){
         return Transport_dao.getInstance().getTransport(transport_id);
@@ -67,8 +72,8 @@ public class Logistical_center_controller {
         Truck truck = getTruckByNumber(new_truck_registration_plate);
         // checking if the given parameters are valid, and getting the diver and the truck if they exist.
 
-        for (Truck_Driver truck_driver  : Drivers_dao.get_instance().getDrivers()) {
-            if (truck_driver.getLicense().getWeight() >= truck.getMax_weight() && truck_driver.getLicense().getCold_level().getValue() <= truck.getCold_level().getValue() && !Transport_dao.getInstance().check_if_driver_taken_that_date(planned_date, truck_driver.getID())){
+        for (Truck_Driver truck_driver  : _employeesDAO.getDrivers()) {
+            if (truck_driver.getLicense().getWeight() >= truck.getMax_weight() && truck_driver.getLicense().getCold_level().getValue() <= truck.getCold_level().getValue() && !Transport_dao.getInstance().check_if_driver_taken_that_date(planned_date, truck_driver.getEmployeeID())){
                 driver = truck_driver;
                 truck.setCurrent_driver(truck_driver);
                 truck.setOccupied(true);
@@ -130,8 +135,8 @@ public class Logistical_center_controller {
         transport.insertToWeights(truck.getNet_weight());
     }
 
-    public ArrayList<Truck_Driver> getDrivers(){
-        return Drivers_dao.get_instance().getDrivers();
+    public List<Truck_Driver> getDrivers(){
+        return _employeesDAO.getDrivers();
     }
 
     public boolean check_if_site_exist_in_transport(String site_name, int transport_id){
@@ -146,7 +151,10 @@ public class Logistical_center_controller {
 
     public void insert_store_to_transport(int transport_id, String name){
         Transport transport = Transport_dao.getInstance().getTransport(transport_id);
-        transport.insertToDestinations(StoresDAO.getInstance().getStore(name));
+        try {
+            transport.insertToDestinations(StoresDAO.getInstance().getStore(name));
+        } catch (Exception e) {
+        }
     }
 
     public void insert_supplier_to_transport(int transport_id, String supplier_name){
@@ -202,12 +210,12 @@ public class Logistical_center_controller {
     }
 
     public void display_drivers(){
-        if(Drivers_dao.get_instance().getDrivers().size() == 0){
+        if(_employeesDAO.getDrivers().size() == 0){
             System.out.println("\nThere are no drivers in the system\n");
         }
         else {
             System.out.println("======================================= Drivers in the system =======================================");
-            for (Truck_Driver driver : Drivers_dao.get_instance().getDrivers()) {
+            for (Truck_Driver driver : _employeesDAO.getDrivers()) {
                 driver.driverDisplay();
             }
         }
@@ -225,7 +233,7 @@ public class Logistical_center_controller {
     }
 
     public boolean check_if_driver_Id_exist(int driver_ID){
-        return Drivers_dao.get_instance().check_if_driver_exists(driver_ID);
+        return _employeesDAO.existDriver(driver_ID);
     }
 
     public boolean check_if_license_id_exist(int license_ID){

@@ -77,8 +77,8 @@ class EmployeeTest {
     }
 
     @Test
-    void getFullNameName() {
-        assertEquals("daniel shapira", employee.getFullNameName());
+    void getFullName() {
+        assertEquals("daniel shapira", employee.getFullName());
     }
 
 

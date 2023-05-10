@@ -43,7 +43,7 @@ class StoreControllerTest {
     void getStore(){
         assertThrows(IllegalArgumentException.class,() -> _storeController.getStore(null));
         assertNotNull(_storeController.getStore("testName"));
-        assertNull(_storeController.getStore("testName2"));
+        assertThrows(IllegalArgumentException.class, () ->{_storeController.getStore("testName2");});
     }
 
     @Test

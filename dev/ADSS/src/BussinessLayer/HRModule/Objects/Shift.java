@@ -183,6 +183,8 @@ public class Shift{
         if (!removeRequiredRole(role) || !removeInquiredEmployee(employee)) {
             return false;
         }
+        if (_requiredRoles.contains(role))
+            _requiredRoles.remove(role);
         _assignedEmployees.put(role, employee);
         return _filledRoles.add(role);
     }
@@ -307,7 +309,7 @@ public class Shift{
             return output.toString();
         output.append(", Assigned employees: ");
         for (Map.Entry<RoleType,Employee> entry : _assignedEmployees.entrySet()){
-            output.append(entry.getKey()).append(": ").append(entry.getValue().getFullNameName()).append(", ");
+            output.append(entry.getKey()).append(": ").append(entry.getValue().getFullName()).append(", ");
         }
         return output.substring(0,output.length()-2);
     }
