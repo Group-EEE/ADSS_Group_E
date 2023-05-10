@@ -206,3 +206,130 @@ SupplierProduct table
 | 0007           | p            | 3000        | 25    |
 | 0008           | p            | 5000        | 40    |
 | 0008           | q            | 100         | 30    |
+
+SuperLiProduct table
+-
+| Barcode | Pname         | Costumer_Price | Shelf_amount | Warehouse_amount | Category   | SubCategory | SubSubCategory | Supply_Days | Manufacturer | Minimum_amount | SP_Counter |
+|---------|---------------|----------------|--------------|------------------|------------|-------------|----------------|-------------|--------------|----------------|------------|
+| 123456  | Yellow cheese | 20             | 1            | 1                | Dairy      | cheese      | 50g            | 1           | Tnuva        | 100            | 2          |
+| 234567  | Milk          | 6              | 2            | 0                | Dairy      | milk        | 3%             | 2           | Tnuva        | 300            | 2          |
+| 888777  | Salmon        | 100            | 1            | 0                | Fishs      | sea         | pink           | 3           | Crown Fish   | 300            | 1          |
+| 789001  | Butter        | 8              | 2            | 0                | Dairy      | salty       | 200g           | 4           | Tara         | 400            | 2          |
+| 237899  | Sprite        | 5              | 1            | 0                | Drinks     | sugar       | fuzzy          | 5           | Coca Cola    | 500            | 1          |
+| 999911  | Steak         | 130            | 2            | 1                | Meats      | cow         | blood          | 6           | Adom Adom    | 600            | 3          |
+| 777666  | Tuna          | 80             | 1            | 0                | Fishs      | sea         | pink           | 7           | Crown Fish   | 700            | 1          |
+| 984325  | Fuze tea      | 5              | 2            | 0                | Drinks     | sugar       | not-fuzzy      | 8           | Coca Cola    | 800            | 2          |
+| 556677  | Butter        | 8              | 1            | 0                | Dairy      | salty       | 200g           | 9           | Tnuva        | 900            | 1          |
+| 687239  | Yogurt        | 9              | 2            | 0                | Dairy      | sheep       | 50g            | 1           | Tara         | 100            | 2          |
+| 113366  | Cola          | 5              | 1            | 0                | Drinks     | sugar       | fuzzy          | 2           | Coca Cola    | 200            | 1          |
+| 990006  | Carrot        | 3              | 1            | 1                | Vegetables | green       | orange         | 3           | Shavit farm  | 500            | 2          |
+| 990005  | Potato        | 3              | 1            | 0                | Vegetables | green       | brown          | 4           | Shavit farm  | 400            | 1          |
+| 990004  | Tomato        | 3              | 1            | 0                | Vegetables | green       | red            | 5           | Shavit farm  | 500            | 1          |
+| 990003  | Orange        | 3              | 1            | 0                | Fruits     | green       | orange         | 6           | Tzvika farm  | 600            | 1          |
+| 990002  | Banana        | 8              | 1            | 0                | Fruits     | green       | yellow         | 7           | Tzvika farm  | 650            | 1          |
+| 990001  | Apple         | 15             | 1            | 0                | Fruits     | green       | red            | 8           | Tzvika farm  | 300            | 1          |
+
+SpecificProduct table
+-
+| SP_ID | Barcode | ExpDate             | Defect_Report_By | Defective | InWarehouse | Store_Branch | Location_In_Store | DefectType | Supplier | Supplier_Price | arrivaldate         |
+|-------|---------|---------------------|------------------|-----------|-------------|--------------|-------------------|------------|----------|----------------|---------------------|
+| 1     | 123456  | 2023-05-01T00:00:00 | sapir            | True      | True        | shufersal    | -1                | expired    | 0006     | 18             | 2023-04-01T00:00:00 |
+| 2     | 123456  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 1                 | null       | 0006     | 18             | 2023-04-02T00:00:00 |
+| 1     | 234567  | 2024-12-11T00:00:00 | null             | False     | False       | shufersal    | 2                 | null       | 0006     | 6              | 2023-04-03T00:00:00 |
+| 2     | 234567  | 2024-05-22T00:00:00 | null             | False     | False       | shufersal    | 3                 | null       | 0006     | 6              | 2023-04-04T00:00:00 |
+| 1     | 888777  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 4                 | null       | 0007     | 110            | 2023-04-05T00:00:00 |
+| 1     | 789001  | 2024-08-22T00:00:00 | null             | False     | False       | shufersal    | 5                 | null       | 0004     | 6.5            | 2023-04-06T00:00:00 |
+| 2     | 789001  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 6                 | null       | 0004     | 6.5            | 2023-04-07T00:00:00 |
+| 1     | 237899  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 7                 | null       | 0005     | 5.5            | 2023-04-08T00:00:00 |
+| 1     | 999911  | 2024-05-01T00:00:00 | liron            | True      | True        | shufersal    | -1                | expired    | 0008     | 160            | 2023-04-09T00:00:00 |
+| 2     | 999911  | 2024-05-12T00:00:00 | null             | False     | False       | shufersal    | 7                 | null       | 0008     | 160            | 2023-04-10T00:00:00 |
+| 3     | 999911  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 6                 | null       | 0008     | 160            | 2023-04-11T00:00:00 |
+| 1     | 777666  | 2024-06-11T00:00:00 | null             | False     | False       | shufersal    | 5                 | null       | 0007     | 70             | 2023-04-12T00:00:00 |
+| 1     | 984325  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 4                 | null       | 0005     | 6              | 2023-04-13T00:00:00 |
+| 2     | 984325  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 3                 | null       | 0005     | 6              | 2023-04-14T00:00:00 |
+| 1     | 556677  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 2                 | null       | 0004     | 6              | 2023-04-15T00:00:00 |
+| 1     | 687239  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 1                 | null       | 0006     | 5.5            | 2023-04-16T00:00:00 |
+| 2     | 687239  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 2                 | null       | 0006     | 5.5            | 2023-04-17T00:00:00 |
+| 1     | 113366  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 3                 | null       | 0006     | 4              | 2023-04-18T00:00:00 |
+| 1     | 990006  | 2024-10-01T00:00:00 | alon             | True      | True        | shufersal    | -1                | expired    | 0002     | 7              | 2023-04-19T00:00:00 |
+| 2     | 990006  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 2                 | null       | 0002     | 7              | 2023-04-20T00:00:00 |
+| 1     | 990005  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 3                 | null       | 0002     | 5              | 2023-04-21T00:00:00 |
+| 1     | 990004  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 4                 | null       | 0002     | 3.5            | 2023-04-22T00:00:00 |
+| 1     | 990003  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 5                 | null       | 0001     | 8              | 2023-04-23T00:00:00 |
+| 1     | 990002  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 6                 | null       | 0001     | 2              | 2023-04-24T00:00:00 |
+| 1     | 990001  | 2024-05-11T00:00:00 | null             | False     | False       | shufersal    | 4                 | null       | 0001     | 4              | 2023-04-25T00:00:00 |
+
+Category table
+-
+| Name       |
+|------------|
+| Dairy      |
+| Fishs      |
+| Drinks     |
+| Meats      |
+| Vegetables |
+| Fruits     |
+
+SubCategory table
+-
+| Name   | Category   |
+|--------|------------|
+| cheese | Dairy      |
+| milk   | Dairy      |
+| sea    | Fishs      |
+| salty  | Dairy      |
+| sugar  | Drinks     |
+| cow    | Meats      |
+| sheep  | Dairy      |
+| green  | Vegetables |
+| green  | Fruits     |
+
+SubSubCategory table
+-
+| Name      | Category   | SubCategory |
+|-----------|------------|-------------|
+| 50g       | Dairy      | cheese      |
+| 3%        | Dairy      | milk        |
+| pink      | Fishs      | sea         |
+| 200g      | Dairy      | salty       |
+| fuzzy     | Drinks     | sugar       |
+| blood     | Meats      | cow         |
+| not-fuzzy | Drinks     | sugar       |
+| 50g       | Dairy      | sheep       |
+| orange    | Vegetables | green       |
+| brown     | Vegetables | green       |
+| red       | Vegetables | green       |
+| orange    | Fruits     | green       |
+| yellow    | Fruits     | green       |
+| red       | Fruits     | green       |
+
+Discount table
+-
+| Barcode | SP_ID | StartDate           | EndDate             | Discount |
+|---------|-------|---------------------|---------------------|----------|
+| 123456  | 1     | 2023-04-01T00:00:00 | 2023-05-01T00:00:00 | 1        | 
+| 123456  | 2     | 2023-04-02T00:00:00 | 2024-05-11T00:00:00 | 2        |
+| 234567  | 1     | 2023-04-03T00:00:00 | 2024-12-11T00:00:00 | 3        |
+| 234567  | 2     | 2023-04-04T00:00:00 | 2024-05-22T00:00:00 | 4        |
+| 888777  | 1     | 2023-04-05T00:00:00 | 2024-05-11T00:00:00 | 5        |
+| 789001  | 1     | 2023-04-06T00:00:00 | 2024-08-22T00:00:00 | 6        |
+| 789001  | 2     | 2023-04-07T00:00:00 | 2024-05-11T00:00:00 | 7        |
+| 237899  | 1     | 2023-04-08T00:00:00 | 2024-05-11T00:00:00 | 1        |
+| 999911  | 1     | 2023-04-09T00:00:00 | 2024-05-01T00:00:00 | 2        |
+| 999911  | 2     | 2023-04-10T00:00:00 | 2024-05-12T00:00:00 | 3        |
+| 999911  | 3     | 2023-04-11T00:00:00 | 2024-05-11T00:00:00 | 4        |
+| 777666  | 1     | 2023-04-12T00:00:00 | 2024-06-11T00:00:00 | 5        |
+| 984325  | 1     | 2023-04-13T00:00:00 | 2024-05-11T00:00:00 | 6        |
+| 984325  | 2     | 2023-04-14T00:00:00 | 2024-05-11T00:00:00 | 7        |
+| 556677  | 1     | 2023-04-15T00:00:00 | 2024-05-11T00:00:00 | 1        |
+| 687239  | 1     | 2023-04-16T00:00:00 | 2024-05-11T00:00:00 | 2        |
+| 687239  | 2     | 2023-04-17T00:00:00 | 2024-05-11T00:00:00 | 3        |
+| 113366  | 1     | 2023-04-18T00:00:00 | 2024-05-11T00:00:00 | 4        |
+| 990006  | 1     | 2023-04-19T00:00:00 | 2024-10-01T00:00:00 | 5        |
+| 990006  | 2     | 2023-04-20T00:00:00 | 2024-05-11T00:00:00 | 6        |
+| 990005  | 1     | 2023-04-21T00:00:00 | 2024-05-11T00:00:00 | 7        |
+| 990004  | 1     | 2023-04-22T00:00:00 | 2024-05-11T00:00:00 | 1        |
+| 990003  | 1     | 2023-04-23T00:00:00 | 2024-05-11T00:00:00 | 2        |
+| 990002  | 1     | 2023-04-24T00:00:00 | 2024-05-11T00:00:00 | 3        |
+| 990001  | 1     | 2023-04-25T00:00:00 | 2024-05-11T00:00:00 | 4        |
+
