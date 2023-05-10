@@ -95,6 +95,8 @@ public class OrderFromSupplierDAO {
         }
         catch (SQLException e) {throw new RuntimeException(e);}
 
+        orderedProductDAO.deleteAllTable();
+
         for (Map.Entry<Integer, OrderFromSupplier> pair : IdentifyMapOrderFromSupplier.entrySet()) {
             try {
                 stmt = conn.prepareStatement("Insert into OrderFromSupplier VALUES (?,?,?,?)");
@@ -106,8 +108,7 @@ public class OrderFromSupplierDAO {
             }
             catch (SQLException e) {throw new RuntimeException(e);}
 
-            orderedProductDAO.deleteAllTable();
-            orderedProductDAO.WriteFromCacheToDB(pair.getValue().getId());
+            orderedProductDAO.WriteFromCacheToDB(pair.getValue());
         }
     }
 

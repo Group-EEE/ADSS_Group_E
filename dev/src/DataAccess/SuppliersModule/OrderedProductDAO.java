@@ -1,6 +1,7 @@
 package DataAccess.SuppliersModule;
 
 import SuppliersModule.Business.GenericProduct;
+import SuppliersModule.Business.OrderFromSupplier;
 import SuppliersModule.Business.OrderedProduct;
 import SuppliersModule.Business.SupplierProduct;
 
@@ -57,7 +58,7 @@ public class OrderedProductDAO {
         return orderedProductList;
     }
 
-    public void WriteFromCacheToDB(int Id) {
+    public void WriteFromCacheToDB(OrderFromSupplier order) {
         PreparedStatement stmt;
 
         try
@@ -69,11 +70,11 @@ public class OrderedProductDAO {
         }
         catch (SQLException e) {throw new RuntimeException(e);}
 
-        for (Map.Entry<Integer, OrderedProduct> pair : IdentifyMapOrderedProduct.entrySet()) {
+        for (Map.Entry<String, OrderedProduct> pair : order.getProductsInOrder().entrySet()) {
             try {
                 stmt = conn.prepareStatement("Insert into OrderedProduct VALUES (?,?,?,?,?,?,?)");
-                stmt.setInt(1,  pair.getKey());
-                stmt.setInt(2,  Id);
+                stmt.setInt(1,  pair.getValue().getId());
+                stmt.setInt(2,  order.getId());
                 stmt.setInt(3, pair.getValue().getQuantity());
                 stmt.setFloat(4, pair.getValue().getDiscount());
                 stmt.setFloat(5, pair.getValue().getFinalPrice());

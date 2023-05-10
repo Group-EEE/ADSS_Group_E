@@ -38,6 +38,7 @@ public class SupplierProductDiscountDAO {
             while (rs.next()) {
                 SupplierProductDiscount supplierProductDiscount = new SupplierProductDiscount(rs.getFloat("Percentages"), rs.getInt("MinimumAmount"));
                 IdentifyMapSupplierProductDiscount.put(createKey(supplierNum, supplierCatalog, rs.getInt("MinimumAmount")), supplierProductDiscount);
+                DiscountProducts.put(rs.getInt("MinimumAmount"), supplierProductDiscount);
             }
         }
         catch (SQLException e) {throw new RuntimeException(e);}
