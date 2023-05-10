@@ -100,7 +100,11 @@ public class OrderController {
 
     public boolean findPeriodicOrder(int id){
         curPeriodicOrder = superLiDB.getPeriodicOrder(id);
-        return curPeriodicOrder != null;
+        if(curPeriodicOrder == null)
+            return false;
+        curOrder = curPeriodicOrder.getOrderFromSupplier();
+        curSupplier = curOrder.getMySupplier();
+        return true;
     }
 
     public void deleteCurPeriodicOrder(){
@@ -113,12 +117,12 @@ public class OrderController {
     }
 
     public boolean findOrderedProduct(int barcode){
-        curOrderedProduct = curPeriodicOrder.getOrderFromSupplier().getOrderedProductByBarcode(barcode);
+        curOrderedProduct = curOrder.getOrderedProductByBarcode(barcode);
         return curOrderedProduct != null;
     }
 
-    public void deleteOrderedProduct(String catalogNum){
-        curOrder.removeOrderedProduct(catalogNum);
+    public void deleteOrderedProduct(int barcode){
+        curOrder.removeOrderedProductByBarcode(barcode);
     }
 
     public void setCurOrder(){
@@ -158,7 +162,8 @@ public class OrderController {
         int currId;
         List<String> RelevantList = new ArrayList<>();
         for(Map.Entry<Integer, PeriodicOrder> pair : superLiDB.getAllPeriodicOrder().entrySet()){
-            if(pair.getValue().getOrderFromSupplier().getMySupplier().CheckIfSupplierCanSupplyByBarcode(barcode))
+            if(pair.getValue().getOrderFromSupplier().getMySupplier().CheckIfSupplierCanSupplyByBarcode(barcode)
+            && pair.getValue().getOrderFromSupplier().getOrderedProductByBarcode(barcode) == null)
             {
                 dayForInvaite = "day for invite " + pair.getValue().dayForInviteToString() + ", ";
                 currId = pair.getValue().getId();
@@ -167,5 +172,15 @@ public class OrderController {
         }
 
         return RelevantList;
+    }
+
+    public boolean CheckIfSupplierCanSupplyThisQuantity(int quantity)
+    {
+        return quantity <= curSupplierProduct.getAmount();
+    }
+
+    public void addProductToTheListByBarcode(int barcode)
+    {
+        curSupplierProduct = curSupplier.getSupplierProductByBarcode(barcode);
     }
 }

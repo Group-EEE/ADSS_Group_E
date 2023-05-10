@@ -56,7 +56,7 @@ public class SupplierModulePresentation {
                     createSupplierPresentation.createNewSupplier();
                     break;
                 case "2":
-                    orderPresentation.createPeriodicOrder();
+                    orderPresentation.mainManu();
                     break;
                 case "3":
                     showSupplierOrdersHistory();

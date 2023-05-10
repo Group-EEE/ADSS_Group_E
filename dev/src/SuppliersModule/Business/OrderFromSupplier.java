@@ -110,6 +110,17 @@ public class OrderFromSupplier {
         ProductsInOrder.remove(catalogNum);
     }
 
+    public void removeOrderedProductByBarcode(int barcode)
+    {
+        for (Map.Entry<String, OrderedProduct> pair : ProductsInOrder.entrySet())
+        {
+            if(barcode == pair.getValue().getMyProduct().getMyProduct().getBarcode()) {
+                ProductsInOrder.remove(pair.getKey());
+                return;
+            }
+        }
+    }
+
     public int getId() {
         return Id;
     }

@@ -69,6 +69,10 @@ public class OrderPresentation {
                 continue;
 
             productQuantity = SupplierModulePresentation.CheckIntInputAndReturn("Enter the quantity of products you want to order:");
+            if(!orderController.CheckIfSupplierCanSupplyThisQuantity(productQuantity)) {
+                System.out.println("The supplier cannot supply the requested quantity");
+                continue;
+            }
             orderController.addQuantityOfTheLastEnteredProduct(productQuantity);
 
             SupplierModulePresentation.checkValidWithMessage("Do you want to insert another product? (y/n)");
@@ -78,17 +82,7 @@ public class OrderPresentation {
 
     public void editOrDeletePeriodicOrder() {
 
-        while (true) {
-            int id = SupplierModulePresentation.CheckIntInputAndReturn("Enter Periodic Order id");
-            if (orderController.findPeriodicOrder(id))
-                break;
-            System.out.println("Wrong Periodic Order id");
-        }
-        if(orderController.checkInvalidDayForChange())
-            System.out.println("Periodic order cannot change in the day of ordering");
-
         while (!Choose.equals("0")) {
-
             System.out.println("Please choose one of the options shown in the menu:");
             System.out.println("1. Edit Periodic Order details");
             System.out.println("2. Delete Periodic Order");
@@ -138,7 +132,7 @@ public class OrderPresentation {
 
     public void ChangeTheDayForInvite()
     {
-        if(ChoosePeriodicOrderThatContainBarcode() == null)
+        if(ChoosePeriodicOrderThatContainBarcode(0) == null)
             return;
 
         int day = checkValidDayAndReturn();
@@ -164,17 +158,25 @@ public class OrderPresentation {
                     ChangeTheQuantityOfProductInTheList();
                     break;
                 case "3":
-                    String catalogNum = findOrderedProduct();
-                    orderController.deleteOrderedProduct(catalogNum);
+                    DeleteProductFromTheList();
             }
         }
     }
 
     public void addProductToTheList()
     {
-        if(ChoosePeriodicOrderThatContainBarcode(1) == null)
+        int[] barcodeAndId = ChoosePeriodicOrderThatContainBarcode(1);
+        if(barcodeAndId == null)
             return;
-        buildProductsList();
+
+        orderController.addProductToTheListByBarcode(barcodeAndId[0]);
+        int productQuantity = SupplierModulePresentation.CheckIntInputAndReturn("Enter the quantity of products you want to order:");
+
+        if(!orderController.CheckIfSupplierCanSupplyThisQuantity(productQuantity)) {
+            System.out.println("The supplier cannot supply the requested quantity");
+            return;
+        }
+        orderController.addQuantityOfTheLastEnteredProduct(productQuantity);
     }
 
     public void ChangeTheQuantityOfProductInTheList()
@@ -184,9 +186,23 @@ public class OrderPresentation {
             return;
 
         orderController.findOrderedProduct(BarcodeAndId[0]);
+        int productQuantity = SupplierModulePresentation.CheckIntInputAndReturn("Enter the new desired quantity");
 
-        int quantity = SupplierModulePresentation.CheckIntInputAndReturn("Enter the new desired quantity");
-        orderController.changeCurOrderedProductQuantity(quantity);
+        if(!orderController.CheckIfSupplierCanSupplyThisQuantity(productQuantity)) {
+            System.out.println("The supplier cannot supply the requested quantity");
+            return;
+        }
+
+        orderController.addQuantityOfTheLastEnteredProduct(productQuantity);
+    }
+
+    public void DeleteProductFromTheList()
+    {
+        int[] BarcodeAndId = ChoosePeriodicOrderThatContainBarcode(0);
+        if(BarcodeAndId == null)
+            return;
+
+        orderController.deleteOrderedProduct(BarcodeAndId[0]);
     }
 
 
@@ -202,18 +218,6 @@ public class OrderPresentation {
             IsValid = true;
         }
         return yourDay;
-    }
-
-    public String findOrderedProduct(){
-        String catalogNum;
-        do {
-
-            System.out.println("Please enter the supplier's product catalog number: ");
-            catalogNum = SupplierModulePresentation.reader.nextLine();
-
-        } while (orderController.findOrderedProduct(catalogNum));
-        orderController.findOrderedProduct(catalogNum);
-        return catalogNum;
     }
 
     public int[] ChoosePeriodicOrderThatContainBarcode(int method)
