@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
-
 class NavigatorTest {
 
     Store store = new Store("Candy Factory","Hertzel 36, Tel Aviv", "0506489571", "Idan levinshtain", 1);
