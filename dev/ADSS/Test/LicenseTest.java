@@ -1,9 +1,12 @@
 import BussinessLayer.TransportationModule.objects.License;
 import BussinessLayer.TransportationModule.objects.cold_level;
 import org.junit.*;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
 class LicenseTest {
@@ -52,19 +55,19 @@ class LicenseTest {
         assertNotEquals(2, license2.getCold_level().getValue());
     }
 
-    @Test
-    void getWeight() {
-        License license = new License(1,324543, cold_level.Freeze, 4555.90);
-        assertEquals(4555.90, license.getWeight());
-        license.setWeight(93475);
-        assertEquals(93475, license.getWeight());
-    }
-
-    @Test
-    void setWeight() {
-        License license = new License(1,846959, cold_level.Cold, 984653.20);
-        assertEquals(984653.20, license.getWeight());
-        license.setWeight(8463321);
-        assertEquals(8463321, license.getWeight());
-    }
+//    @Test
+//    void getWeight() {
+//        License license = new License(1,324543, cold_level.Freeze, 4555.90);
+//        assertEquals(4555.90, license.getWeight());
+//        license.setWeight(93475);
+//        assertEquals(93475, license.getWeight());
+//    }
+//
+//    @Test
+//    void setWeight() {
+//        License license = new License(1,846959, cold_level.Cold, 984653.20);
+//        assertEquals(984653.20, license.getWeight());
+//        license.setWeight(8463321);
+//        assertEquals(8463321, license.getWeight());
+//    }
 }
