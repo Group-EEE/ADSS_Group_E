@@ -3,7 +3,6 @@ package DataAccessLayer.HRMoudle;
 import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.TransportationModule.objects.License;
 import BussinessLayer.TransportationModule.objects.Truck_Driver;
-import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
 import BussinessLayer.HRModule.Objects.Employee;
 import DataAccessLayer.Transport.License_dao;
@@ -12,7 +11,6 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.Function;
 
 public class EmployeesDAO extends DAO {
     //int id, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment) {
@@ -39,11 +37,11 @@ public class EmployeesDAO extends DAO {
     private static EmployeesDAO _employeesDAO;
     private HashMap<Integer, Employee> employeesCache;
     private HashMap<Integer, Truck_Driver> driverCache;
-    private HashMap<Integer, License> licenseCache;
 
     private EmployeesDAO() {
         super("Employees");
         employeesCache = new HashMap<>();
+        driverCache = new HashMap<>();
     }
     public static EmployeesDAO getInstance(){
         if (_employeesDAO == null)
@@ -73,8 +71,7 @@ public class EmployeesDAO extends DAO {
             driverCache.remove(employeeID);
         }
         deleteAllRolesFromEmployee(employeeID);
-        delete(_tableName, makeList(EmployeeIDColumnName), makeList(employeeID));
-        return delete("Drivers", makeList(EmployeeIDColumnName), makeList(employeeID));
+        return delete(_tableName, makeList(EmployeeIDColumnName), makeList(employeeID));
     }
 
     public List<Employee> SelectAllEmployees(){
@@ -87,8 +84,13 @@ public class EmployeesDAO extends DAO {
     }
 
     public List<Truck_Driver> getDrivers(){
-        //TODO:
-        return null;
+        //get list of all ids of drivers
+        List<Integer> driversIDs = select("EmployeesToRoles",makeList(EmployeeIDColumnName),makeList("Driver"));
+        List<Truck_Driver> drivers = selectIN(_tableName,EmployeeIDColumnName,driversIDs);
+        for (Truck_Driver driver : drivers)
+            if (!driverCache.containsKey(driver.getEmployeeID()))
+                driverCache.put(driver.getEmployeeID(), driver);
+        return drivers;
     }
 
     public boolean existDriver(int employeeID){
@@ -211,7 +213,7 @@ public class EmployeesDAO extends DAO {
     }
 
     public boolean isDriver(int employeeID){
-        if (driverCache.containsKey(employeeID) || licenseCache.containsKey(employeeID))
+        if (driverCache.containsKey(employeeID))
             return true;
         return selectT("EmployeesToRoles",RoleTypeColumnName,makeList(EmployeeIDColumnName),makeList(employeeID),String.class).contains("Driver");
     }

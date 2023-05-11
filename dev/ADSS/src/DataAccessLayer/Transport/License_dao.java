@@ -7,6 +7,7 @@ import DataAccessLayer.DAO;
 import java.sql.*;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.List;
 
 public class License_dao extends DAO {
     private HashMap<Integer, License> Licenses;
@@ -24,24 +25,15 @@ public class License_dao extends DAO {
 
 
     public boolean insert(int employeeID, int license_id, String level, double truck_weight) {
-        return insert(_tableName,makeList(employeeID, license_id, level, truck_weight),makeList("employeeID", "licenseID", "cold_Level", "weight"));
+        return insert(_tableName,makeList("employeeID", "licenseID", "cold_Level", "weight"),makeList(employeeID, license_id, level, truck_weight));
     }
 
 
-    public boolean Delete(Object Licenseobj) {
-        License license = (License) Licenseobj;
-        String query = "DELETE FROM Licenses WHERE ID = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(query);) {
-            pstmt.setInt(1, license.getL_ID());
-            pstmt.executeUpdate();
-            if (Licenses.containsKey(license.getL_ID())) {
-                Licenses.remove(license.getL_ID());
-            }
-            return true;
-        } catch (SQLException e) {
-            System.out.println("Exception thrown");
+    public boolean deleteLicense(int employeeID) {
+        if (Licenses.containsKey(employeeID)) {
+            Licenses.remove(employeeID);
         }
-        return false;
+        return delete(_tableName,makeList("employeeID"),makeList(employeeID));
     }
 
     @Override
@@ -58,19 +50,11 @@ public class License_dao extends DAO {
         if (Licenses.containsKey(id)) {
             return Licenses.get(id);
         }
-        String query = "SELECT * FROM Licenses WHERE ID = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(query);) {
-            pstmt.setInt(1, id);
-            ResultSet res = pstmt.executeQuery();
-            if (res.next()) {
-                return (License) convertReaderToObject(res);
-            }
-        } catch (SQLException e) {
-            System.out.println("Exception thrown");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
+        List<License> licenses = select(_tableName,makeList("employeeID"),makeList(id));
+        if (licenses.size() == 0)
+            return null;
+        Licenses.put(id, licenses.get(0));
+        return licenses.get(0);
     }
 
     public boolean check_if_license_exist(int license_id){

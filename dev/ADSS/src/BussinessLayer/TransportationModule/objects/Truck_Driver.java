@@ -130,6 +130,4 @@ public class Truck_Driver extends Employee{
         }
         System.out.println();
     }
-
-
 }

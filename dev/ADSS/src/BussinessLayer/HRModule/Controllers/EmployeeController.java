@@ -2,6 +2,7 @@ package BussinessLayer.HRModule.Controllers;
 
 import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.RoleType;
+import BussinessLayer.TransportationModule.objects.Truck_Driver;
 import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.HRMoudle.EmployeesDAO;
 import DataAccessLayer.Transport.License_dao;
@@ -115,6 +116,12 @@ public class EmployeeController {
         return _employeesDAO.getEmployee(employeeID);
     }
 
+    public Truck_Driver getDriver(int employeeID){
+        if (employeeID < 0)
+            throw new IllegalArgumentException("Illegal employee ID");
+        return _employeesDAO.getDriver(employeeID);
+    }
+
     /**
      * @param employeeID - the id of the employee
      * @return - the employee with the given id, null if the id is invalid
@@ -146,6 +153,12 @@ public class EmployeeController {
         if (employeeID <0)
             throw new IllegalArgumentException("Illegal employee ID");
         return _employeesDAO.deleteEmployee(employeeID);
+    }
+
+    public boolean removeDriver(int employeeID) {
+        if (employeeID <0)
+            throw new IllegalArgumentException("Illegal employee ID");
+        return _licenseDAO.deleteLicense(employeeID) && _employeesDAO.deleteDriver(employeeID);
     }
 
 

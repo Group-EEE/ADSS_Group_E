@@ -16,7 +16,7 @@ public abstract class DAO {
 
     protected final String _tableName;
     public static Connection connection;
-    protected final String url = "jdbc:sqlite:dev/ADSS/SuperLi.db";
+    protected final String url = "jdbc:sqlite:SuperLi.db";
     protected DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     //constructor
@@ -135,6 +135,26 @@ public abstract class DAO {
             }
 
         } catch (SQLException e) {
+            System.out.println("Got Exception:");
+            System.out.println(e.getMessage());
+            System.out.println(sql);
+        }
+        return list;
+    }
+
+    protected List selectIN(String tableName,String columnKey, List keys) {
+        List list = new ArrayList<>();
+        String sql = MessageFormat.format("SELECT * From {0} WHERE "+columnKey+" IN ("+String.join(",", keys)+")"
+                , _tableName);
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                // Fetch each row from the result set
+                list.add(convertReaderToObject(resultSet));
+            }
+
+        } catch (SQLException | ParseException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
             System.out.println(sql);
@@ -314,6 +334,8 @@ public abstract class DAO {
                     pstmt.setInt(i, (Integer) key);
                 else if (key instanceof Boolean)
                     pstmt.setBoolean(i, (Boolean) key);
+                else if (key instanceof Double)
+                    pstmt.setDouble(i, (Double) key);
                 else
                     pstmt.setNull(i, Types.INTEGER);
                 i++;

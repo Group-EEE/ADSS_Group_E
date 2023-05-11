@@ -257,4 +257,12 @@ public class Transport {
     public Map<String, Integer> getProducts(){
         return this.products;
     }
+
+    public String getEstimated_end_time() {
+        return Estimated_end_time;
+    }
+
+    public void setEstimated_end_time(String estimated_end_time) {
+        Estimated_end_time = estimated_end_time;
+    }
 }

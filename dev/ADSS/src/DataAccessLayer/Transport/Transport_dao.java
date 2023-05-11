@@ -306,7 +306,19 @@ public class Transport_dao extends DAO {
 
     }
 
-    public void mark_transport_as_finished(int transport_ID) {
+    public void update_transport_estimated_end_time(int transport_ID, String newTime){
+        String query = "UPDATE " + this._tableName + " SET Estimated_End_Time = ? WHERE ID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, newTime);
+            statement.setInt(2, transport_ID);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void mark_transport_as_finished(int transport_ID){
         String query = "UPDATE " + this._tableName + " SET Finished = ? WHERE ID = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
@@ -316,21 +328,5 @@ public class Transport_dao extends DAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void set_end_time(int time, int transport_ID) {
-        String query = "UPDATE " + this._tableName + " Estimated_End_Time = ? WHERE ID = ?";
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, time);
-            statement.setInt(2, transport_ID);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public String get_end_time(Transport transport) {
-        return ""; //TODO: FIX
     }
 }

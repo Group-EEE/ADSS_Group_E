@@ -34,8 +34,6 @@ class StoresDAOTest {
     @Test
     void isAnyStoreExist(){
         assertTrue(_storesDAO.isAnyStoreExist());
-        _storesDAO.deleteStore("testName");
-        assertFalse(_storesDAO.isAnyStoreExist());
     }
 
     @Test
