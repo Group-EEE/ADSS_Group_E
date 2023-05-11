@@ -1,6 +1,9 @@
 package HR.DAO;
 
+import BussinessLayer.HRModule.Controllers.EmployeeController;
 import BussinessLayer.HRModule.Controllers.Facade;
+import BussinessLayer.TransportationModule.objects.Truck_Driver;
+import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.HRMoudle.EmployeesDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -130,6 +133,17 @@ class EmployeesDAOTest {
     @Test
     void getHRManagerID(){
         assertTrue(_employeesDAO.getHRManagerID() > 0);
+    }
+
+    @Test
+    void getDrivers(){
+        EmployeeController.getInstance().createDriver(99991, "driverTestFirstName", "driverTestLastName", 30, "123456789", 10000, "Full time", LocalDate.now(),"passwordTest",99991, cold_level.Cold, 9999);
+        EmployeeController.getInstance().createDriver(99992, "driverTest2FirstName", "driverTest2LastName", 30, "123456789", 10000, "Full time", LocalDate.now(),"passwordTest",99992, cold_level.Cold, 9999);
+        for (Truck_Driver driver : _employeesDAO.getDrivers()){
+            assertNotNull(driver);
+        }
+        EmployeeController.getInstance().removeDriver(99991);
+        EmployeeController.getInstance().removeDriver(99992);
     }
 
 }

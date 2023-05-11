@@ -85,8 +85,8 @@ public class EmployeesDAO extends DAO {
 
     public List<Truck_Driver> getDrivers(){
         //get list of all ids of drivers
-        List<Integer> driversIDs = select("EmployeesToRoles",makeList(EmployeeIDColumnName),makeList("Driver"));
-        List<Truck_Driver> drivers = selectIN(_tableName,EmployeeIDColumnName,driversIDs);
+        List<Integer> driversIDs = selectT("EmployeesToRoles",EmployeeIDColumnName,makeList(RoleTypeColumnName),makeList("Driver"),Integer.class);
+        List<Truck_Driver> drivers = selectIN(_tableName,EmployeeIDColumnName,driversIDs,this::convertDriver);
         for (Truck_Driver driver : drivers)
             if (!driverCache.containsKey(driver.getEmployeeID()))
                 driverCache.put(driver.getEmployeeID(), driver);

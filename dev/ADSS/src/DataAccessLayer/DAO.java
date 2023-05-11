@@ -142,19 +142,23 @@ public abstract class DAO {
         return list;
     }
 
-    protected List selectIN(String tableName,String columnKey, List keys) {
-        List list = new ArrayList<>();
-        String sql = MessageFormat.format("SELECT * From {0} WHERE "+columnKey+" IN ("+String.join(",", keys)+")"
+    protected <T> List<T> selectIN(String tableName,String columnKey, List keys,Function<ResultSet,T> converter) {
+        List<T> list = new ArrayList<>();
+        String joinedString ="";
+        for (Object key : keys)
+            joinedString += String.valueOf(key)+",";
+        joinedString = joinedString.substring(0,joinedString.length()-1);
+        String sql = MessageFormat.format("SELECT * From {0} WHERE "+columnKey+" IN ("+joinedString+")"
                 , _tableName);
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             ResultSet resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
                 // Fetch each row from the result set
-                list.add(convertReaderToObject(resultSet));
+                list.add(converter.apply(resultSet));
             }
 
-        } catch (SQLException | ParseException e) {
+        } catch (SQLException e) {
             System.out.println("Got Exception:");
             System.out.println(e.getMessage());
             System.out.println(sql);
