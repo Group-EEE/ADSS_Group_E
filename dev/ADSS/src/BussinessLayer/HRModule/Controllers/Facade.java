@@ -150,10 +150,16 @@ public class Facade {
     }
 
     //_ScheduleController
-    public boolean createNewSchedule(String StoreName, int day, int month, int year){
+    public boolean createNewStoreSchedule(String StoreName, int day, int month, int year){
         if (!_storeController.existsStore(StoreName))
             throw new IllegalArgumentException("Store doesn't exist in order to create for it a schedule");
-        return _scheduleController.createNewSchedule(StoreName, day, month, year);
+        return _scheduleController.createNewStoreSchedule(StoreName, day, month, year);
+    }
+
+    public boolean createNewLogisiticsSchedule(String StoreName, int day, int month, int year){
+        if (!_storeController.existsStore(StoreName))
+            throw new IllegalArgumentException("Store doesn't exist in order to create for it a schedule");
+        return _scheduleController.createNewLogisticsSchedule(StoreName, day, month, year);
     }
 
     public boolean checkIfEmployeeWorkInStore(String storeName){

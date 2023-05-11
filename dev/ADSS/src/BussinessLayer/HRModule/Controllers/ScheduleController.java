@@ -4,6 +4,7 @@ import BussinessLayer.HRModule.Objects.*;
 import DataAccessLayer.HRMoudle.*;
 
 
+import javax.management.relation.Role;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +32,14 @@ public class ScheduleController {
         return _scheduleController;
     }
 
-    public boolean createNewSchedule(String storeName, int day, int month, int year){
+    public boolean createNewStoreSchedule(String storeName, int day, int month, int year){
+        return createNewSchedule(storeName,day,month,year, List.of(RoleType.Cashier, RoleType.ShiftManager, RoleType.General,RoleType.Warehouse));
+    }
+    public boolean createNewLogisticsSchedule(String storeName, int day, int month, int year){
+        return createNewSchedule(storeName,day,month,year, List.of(RoleType.Driver));
+    }
+
+    public boolean createNewSchedule(String storeName, int day, int month, int year,List<RoleType> requiredRoles){
         if (storeName == null)
             throw new IllegalArgumentException("Invalid store name");
         if(!_storesDAO.existsStore(storeName))
@@ -44,19 +52,21 @@ public class ScheduleController {
         }
         int scheduleID = _schedulesDAO.getScheduleMaxID();
         List<Shift> shifts = new ArrayList<>();
+        Shift shift;
         for (int i=0; i<14; i++){
             if (i % 2 == 0)
-                shifts.add(_shiftsDAO.insertShift(scheduleID,i, ShiftType.MORNING.toString(), 8 , 16,localDate.plusDays(i/2)));
+                shift = _shiftsDAO.insertShift(scheduleID,i, ShiftType.MORNING.toString(), 8 , 16,localDate.plusDays(i/2));
             else
-                shifts.add(_shiftsDAO.insertShift(scheduleID,i, ShiftType.NIGHT.toString(), 16 , 24,localDate.plusDays(i/2)));
-
+                shift =_shiftsDAO.insertShift(scheduleID,i, ShiftType.NIGHT.toString(), 16 , 24,localDate.plusDays(i/2));
+            shift.setRequiredRoles(requiredRoles);
+            for (RoleType role : shift.getRequiredRoles())
+                _shiftsDAO.insertRequiredRole(shift.getScheduleID(),shift.getShiftID(),role.toString());
         }
         _storesDAO.insertActiveSchedule(storeName, scheduleID);
         _schedulesDAO.insertSchedule(scheduleID, storeName,localDate);
         Schedule schedule = _schedulesDAO.getSchedule(scheduleID);
         return schedule.setShifts(shifts);
     }
-
     public boolean deleteScheduleIDFromStore(String storeName){
         if (storeName == null)
             throw new IllegalArgumentException("Invalid store ID");

@@ -23,8 +23,11 @@ class ScheduleTest {
     @Test
     void setShifts(){
         List<Shift> listShifts = new ArrayList<>();
-        for (int i=0; i<14; i++)
-            listShifts.add(new Shift(1, i, ShiftType.MORNING, 8, 16, LocalDate.of(1999,1,1)));
+        for (int i=0; i<14; i++) {
+            Shift shift = new Shift(1, i, ShiftType.MORNING, 8, 16, LocalDate.of(1999, 1, 1));
+            shift.setRequiredRoles(List.of(RoleType.Cashier, RoleType.ShiftManager, RoleType.General,RoleType.Warehouse));
+            listShifts.add(shift);
+        }
         assertTrue(schedule.setShifts(listShifts));
         assertFalse(schedule.setShifts(null));
     }

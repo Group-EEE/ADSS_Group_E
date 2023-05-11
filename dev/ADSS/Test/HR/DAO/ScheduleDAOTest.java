@@ -17,7 +17,7 @@ class ScheduleDAOTest {
     @BeforeEach
     void setUp() {
         _facade.createStore("testStore", "testAddress", "testPhone", "testContact", 1);
-        _facade.createNewSchedule("testStore", 11, 12, 2021);
+        _facade.createNewStoreSchedule("testStore", 11, 12, 2021);
     }
     @AfterEach
     void tearDown() {

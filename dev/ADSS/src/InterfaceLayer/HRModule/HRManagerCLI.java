@@ -49,6 +49,7 @@ public class HRManagerCLI{
         System.out.println("16. print all stores");
         System.out.println("17. print schedule");
         System.out.println("18. create new driver");
+        System.out.println("19. create new logistics schedule");
         System.out.println("0. log out");
     }
 
@@ -71,7 +72,7 @@ public class HRManagerCLI{
                     HRMenuAddRoleToEmployee(); //4. add role to employee
                     break;
                 case "5": //5. create new schedule
-                    HRMenuCreateNewSchedule();
+                    HRMenuCreateNewStoreSchedule();
                     break;
                 case "6": //6. approve schedule
                     HRMenuApproveSchedule();
@@ -112,6 +113,10 @@ public class HRManagerCLI{
                 case "18":
                     HRMenuCreateDriver();
                     break;
+                case "19":
+                    HRMenuCreateNewLogisiticSchedule();
+                    break;
+
                 case "0":
                     _facade.logout();
                     return;
@@ -368,7 +373,7 @@ public class HRManagerCLI{
      * @return true if the schedule was created successfully, false otherwise
      * //5. create new schedule
      */
-    public boolean HRMenuCreateNewSchedule(){
+    public boolean HRMenuCreateNewStoreSchedule(){
        String storeName = getStoreName();
        if (storeName == null)
            return false;
@@ -377,7 +382,7 @@ public class HRManagerCLI{
        int month = validInput("Please enter the month of the schedule","Please enter a valid integer for the month.",1,12);
        int year = validInput("Please enter the year of the schedule","The year must start from 2020 to 2025",2020,2025);
        try{
-           _facade.createNewSchedule(storeName, day, month, year);
+           _facade.createNewStoreSchedule(storeName, day, month, year);
            System.out.println("The schedule was created successfully for the store "+storeName);
        } catch (Exception e) {
            System.out.println(e.getMessage());
@@ -830,6 +835,20 @@ public class HRManagerCLI{
         }
     }
 
+    public boolean HRMenuCreateNewLogisiticSchedule(){
+        System.out.println("Please enter the start date of the schedule (dd/mm/yyyy):");
+        int day = validInput("Please enter the start day of the schedule","Please enter a valid integer for the day.",1,31);
+        int month = validInput("Please enter the month of the schedule","Please enter a valid integer for the month.",1,12);
+        int year = validInput("Please enter the year of the schedule","The year must start from 2020 to 2025",2020,2025);
+        try{
+            _facade.createNewLogisiticsSchedule("Logistics", day, month, year);
+            System.out.println("The schedule was created successfully for the store Logistics");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
     public void printRoles() {
         System.out.println("Choose role: ");
         System.out.println("1. Cashier");

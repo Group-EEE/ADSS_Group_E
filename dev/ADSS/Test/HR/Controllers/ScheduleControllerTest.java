@@ -16,7 +16,7 @@ class ScheduleControllerTest {
     @BeforeEach
     void setUp() {
         _storeController.createStore("testStore", "testAddress", "testPhone", "testContact",0);
-        _scheduleController.createNewSchedule("testStore", 1,1,1999);
+        _scheduleController.createNewStoreSchedule("testStore", 1,1,1999);
     }
 
     @AfterEach
@@ -28,16 +28,16 @@ class ScheduleControllerTest {
     @Test
     void createNewSchedule() {
         assertThrows(IllegalArgumentException.class, () -> {
-            _scheduleController.createNewSchedule(null, 1,1,1999);
+            _scheduleController.createNewStoreSchedule(null, 1,1,1999);
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            _scheduleController.createNewSchedule("testStoreNotExist", 1,1,1999);
+            _scheduleController.createNewStoreSchedule("testStoreNotExist", 1,1,1999);
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            _scheduleController.createNewSchedule("testStoreNotExist", 1,1,1999);
+            _scheduleController.createNewStoreSchedule("testStoreNotExist", 1,1,1999);
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            _scheduleController.createNewSchedule("testStore", 30,2,1999);
+            _scheduleController.createNewStoreSchedule("testStore", 30,2,1999);
         });
     }
 

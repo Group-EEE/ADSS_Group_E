@@ -42,8 +42,6 @@ public class ShiftsDAO extends DAO {
         insert(_tableName,makeList(ScheduleIDColumnName, ShiftIDColumnName, ShiftTypeColumnName, StartTimeColumnName, EndTimeColumnName, DateColumnName),
                 makeList(scheduleID, shiftID, strShiftType, startTime, endTime, date.format(formatters)));
         Shift shift = new Shift(scheduleID, shiftID, ShiftType.valueOf(strShiftType), startTime, endTime, date);
-        for (RoleType role : shift.getRequiredRoles())
-            insertRequiredRole(shift.getScheduleID(),shift.getShiftID(),role.toString());
         return shift;
     }
 

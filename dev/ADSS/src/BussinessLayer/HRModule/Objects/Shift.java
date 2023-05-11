@@ -36,10 +36,10 @@ public class Shift{
         this._endHour = endHour;
         this._shiftLength = endHour - startHour;
         this._date = date;
-        this._requiredRoles.add(RoleType.ShiftManager); //this has to be first, in order to be the first the be filled.
-        this._requiredRoles.add(RoleType.Cashier);
-        this._requiredRoles.add(RoleType.Warehouse);
-        this._requiredRoles.add(RoleType.General);
+//        this._requiredRoles.add(RoleType.ShiftManager); //this has to be first, in order to be the first the be filled.
+//        this._requiredRoles.add(RoleType.Cashier);
+//        this._requiredRoles.add(RoleType.Warehouse);
+//        this._requiredRoles.add(RoleType.General);
     }
 
     //setters
@@ -73,9 +73,10 @@ public class Shift{
     }
 
     public boolean setRequiredRoles(List<RoleType> roles){
+        _requiredRoles.clear();
         if (roles == null)
             throw new IllegalArgumentException("Invalid roles");
-        _requiredRoles = roles;
+        _requiredRoles.addAll(roles);
         return true;
     }
 
