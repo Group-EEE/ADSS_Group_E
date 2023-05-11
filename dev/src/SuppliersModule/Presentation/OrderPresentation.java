@@ -81,7 +81,7 @@ public class OrderPresentation {
     }
 
     public void editOrDeletePeriodicOrder() {
-
+        Choose = "";
         while (!Choose.equals("0")) {
             System.out.println("Please choose one of the options shown in the menu:");
             System.out.println("1. Edit Periodic Order details");

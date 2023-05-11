@@ -3,6 +3,7 @@ package InventoryModule.Presentation;
 import InventoryModule.Business.Controllers.CategoryController;
 import InventoryModule.Business.Controllers.ProductController;
 import InventoryModule.Business.Controllers.ReportController;
+import SuppliersModule.Presentation.OrderPresentation;
 
 import java.time.LocalDateTime;
 import java.util.Scanner;
@@ -18,6 +19,8 @@ public class InventoryModulePresentation {
     CategoryController categoryController; //create a category controller
     ReportController reportController; //create a report controller
 
+    OrderPresentation orderPresentation;
+
     SpecificProductPresentation specificProductPresentation;
     SuperLiProductPresentation superLiProductPresentation;
     ReportPresentation reportPresentation;
@@ -32,6 +35,7 @@ public class InventoryModulePresentation {
         superLiProductPresentation = new SuperLiProductPresentation();
         categoryPresentation = new CategoryPresentation();
         reportPresentation = new ReportPresentation();
+        orderPresentation = new OrderPresentation();
     }
 
     public void Start(){
@@ -49,6 +53,7 @@ public class InventoryModulePresentation {
             System.out.println("5. SubCategories");
             System.out.println("6. SubSubCategories");
             System.out.println("7. Discounts");
+            System.out.println("8. Update or Delete periodic order");
             System.out.println("0. Exit");
 
             c = option.nextLine();
@@ -73,6 +78,8 @@ public class InventoryModulePresentation {
                     break;
                 case "7": //Discounts
                     this.ShowDiscountMenu();
+                case "8": //Update or Delete periodic order
+                    orderPresentation.editOrDeletePeriodicOrder();
                     break;
             }
 
