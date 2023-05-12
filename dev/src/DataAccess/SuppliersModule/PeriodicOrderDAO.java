@@ -84,13 +84,16 @@ public class PeriodicOrderDAO {
     public void deleteBySupplier(String supplierNum)
     {
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT Id FROM PeriodicOrder WHERE SupplierNum = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM PeriodicOrder WHERE SupplierNum = ?");
             stmt.setString(1, supplierNum);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 IdentifyMapPeriodicOrder.remove(rs.getInt("Id"));
-                IdentifyMapPeriodicOrderByDay.remove(rs.getInt("DayForInvite"));
+                List<Integer> key = new ArrayList<>();
+                key.add(rs.getInt("Id"));
+                key.add(rs.getInt("DayForInvite"));
+                IdentifyMapPeriodicOrderByDay.remove(key);
             }
         }
         catch (SQLException e) {throw new RuntimeException(e);}
