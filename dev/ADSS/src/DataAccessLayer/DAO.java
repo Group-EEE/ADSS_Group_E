@@ -16,7 +16,7 @@ public abstract class DAO {
 
     protected final String _tableName;
     public static Connection connection;
-    protected final String url = "jdbc:sqlite:SuperLi.db";
+    protected final String url = "jdbc:sqlite:dev/ADSS/SuperLi.db";
     protected DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     //constructor
@@ -218,8 +218,7 @@ public abstract class DAO {
         /// keys is for tables that have more that one key
         String sql = MessageFormat.format("SELECT {0} From {1} WHERE" + keysQuery(Columnkeys),
                 ColumnName, tableName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             int i = 1;
             for (Object key : keys)
                 if (key instanceof String)

@@ -62,10 +62,10 @@ public class transport_manager_UI {
                     choice = Integer.parseInt(input);
 
                     // Check if the input is a 5 digit integer
-                    if (input.length() == 1 && choice >= 0 && choice < 10) {
+                    if (input.length() == 1 && choice >= 0 && choice < 11) {
                         isValid = true;
                     } else {
-                        System.out.println("Input must be an int between 0-9. ");
+                        System.out.println("Input must be an int between 0-11. ");
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("Invalid input. Please enter a valid int between 0-9. ");
@@ -95,7 +95,8 @@ public class transport_manager_UI {
                 case 6 -> controller.display_trucks();
                 case 7 -> controller.display_transport_doc();
                 case 8 -> controller.display_site_supply();
-                case 9 -> {
+                //case 9 -> controller.create_shifts();
+                case 10 -> {
                     return; //Connection moved to main
                 }
             }
