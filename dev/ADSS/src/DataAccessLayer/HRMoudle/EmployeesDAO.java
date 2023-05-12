@@ -3,6 +3,7 @@ package DataAccessLayer.HRMoudle;
 import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.TransportationModule.objects.License;
 import BussinessLayer.TransportationModule.objects.Truck_Driver;
+import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
 import BussinessLayer.HRModule.Objects.Employee;
 import DataAccessLayer.Transport.License_dao;
@@ -57,18 +58,18 @@ public class EmployeesDAO extends DAO {
         employeesCache.put(employeeID, new Employee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployment, password));
         return true;
     }
+    public boolean insertDriver(int employeeID, String firstName, String lastName, int age , String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployment, String password, int license_id, cold_level level, double truck_weight) {
+        if (driverCache.containsKey(employeeID))
+            throw new IllegalArgumentException("Employee already exists with this ID");
+        insert(_tableName, makeList(EmployeeIDColumnName, FirstNameColumnName, LastNameColumnName, AgeColumnName, BankAccountColumnName, SalaryColumnName, HiringConditionsColumnName, StartOfEmploymentColumnName, FinishWorkingColumnName, PasswordColumnName),
+                makeList(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployment.format(formatters), false, password));
+        driverCache.put(employeeID, new Truck_Driver(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployment, password,new License(employeeID,license_id, level, truck_weight)));
+        return true;
+    }
 
     public boolean deleteEmployee(int employeeID) {
         if (employeesCache.containsKey(employeeID)) {
             employeesCache.remove(employeeID);
-        }
-        deleteAllRolesFromEmployee(employeeID);
-        return delete(_tableName, makeList(EmployeeIDColumnName), makeList(employeeID));
-    }
-
-    public boolean deleteDriver(int employeeID){
-        if (driverCache.containsKey(employeeID)) {
-            driverCache.remove(employeeID);
         }
         deleteAllRolesFromEmployee(employeeID);
         return delete(_tableName, makeList(EmployeeIDColumnName), makeList(employeeID));
@@ -213,8 +214,6 @@ public class EmployeesDAO extends DAO {
     }
 
     public boolean isDriver(int employeeID){
-        if (driverCache.containsKey(employeeID))
-            return true;
         return selectT("EmployeesToRoles",RoleTypeColumnName,makeList(EmployeeIDColumnName),makeList(employeeID),String.class).contains("Driver");
     }
 
@@ -233,10 +232,6 @@ public class EmployeesDAO extends DAO {
             employee.addRole(RoleType.valueOf(strRole));
         }
         return true;
-    }
-    //drivers
-    public boolean insertLicense(int employeeID, int licenseID, String cold_level, double truck_weight) {
-        return insert("Licenses", makeList(EmployeeIDColumnName,LicenseIDColumnName, cold_levelColumnName, truck_weightColumnName), makeList(employeeID,licenseID, cold_level, truck_weight));
     }
 }
 

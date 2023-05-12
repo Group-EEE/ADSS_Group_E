@@ -26,8 +26,10 @@ class ShiftTest {
     @BeforeEach
     void setUp() {
         List<RoleType> roles = List.of(RoleType.Cashier, RoleType.ShiftManager, RoleType.General,RoleType.Warehouse);
+        List<RoleType> rolesHaveToBeFilled = List.of(RoleType.ShiftManager);
         shift = new Shift(1,1,ShiftType.MORNING, 8, 16, LocalDate.of(2017, 1, 13));
         shift.setRequiredRoles(roles);
+        shift.setRolesMustBeFilled(rolesHaveToBeFilled);
         employee1 = new Employee(1,"a", "b", 22,"a", 567853345,"c",LocalDate.of(2017, 1, 13),"passwordTest");
         employee2 = new Employee(2,"a", "b", 22,"a", 567853345,"c",LocalDate.of(2017, 1, 13),"passwordTest");
         employee3 = new Employee(3,"a", "b", 22,"a", 567853345,"c",LocalDate.of(2017, 1, 13),"passwordTest");

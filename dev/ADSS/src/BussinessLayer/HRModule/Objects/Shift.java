@@ -20,14 +20,17 @@ public class Shift{
     private List<Employee> _inquiredEmployees;
     private HashMap<RoleType,Employee> _assignedEmployees;
     private List<RoleType> _requiredRoles;
+    //roles the needs to be filled in the shift
     private final List<RoleType> _filledRoles;
-
+    private List<RoleType> _rolesMustBeFilled;
+    //if one of the roles inside aren't filled at the end of shift approval, the shift will be rejected.
     public Shift(int scheduleID, int shiftID, ShiftType shiftType, int startHour, int endHour, LocalDate date){
         this._scheduleID = scheduleID;
         this._shiftID = shiftID;
         this._assignedEmployees = new HashMap<>();
         this._inquiredEmployees = new ArrayList<>();
         this._requiredRoles = new ArrayList<>();
+        this._rolesMustBeFilled = new ArrayList<>();
         this._filledRoles = new ArrayList<>();
         this._approved = false;
         this._rejected = false;
@@ -36,10 +39,6 @@ public class Shift{
         this._endHour = endHour;
         this._shiftLength = endHour - startHour;
         this._date = date;
-//        this._requiredRoles.add(RoleType.ShiftManager); //this has to be first, in order to be the first the be filled.
-//        this._requiredRoles.add(RoleType.Cashier);
-//        this._requiredRoles.add(RoleType.Warehouse);
-//        this._requiredRoles.add(RoleType.General);
     }
 
     //setters
@@ -109,6 +108,14 @@ public class Shift{
         if (rejected)
             _approved = false;
         _rejected = rejected;
+        return true;
+    }
+
+    public boolean setRolesMustBeFilled(List<RoleType> roles){
+        _rolesMustBeFilled.clear();
+        if (roles == null)
+            throw new IllegalArgumentException("Invalid roles");
+        _rolesMustBeFilled.addAll(roles);
         return true;
     }
 
@@ -226,8 +233,10 @@ public class Shift{
         }
         if (_requiredRoles.size() == 0)
             return setApproved(true);
-        if (_requiredRoles.contains(RoleType.ShiftManager))
-            setRejected(true);
+        for(RoleType role : _requiredRoles){
+            if (_rolesMustBeFilled.contains(role))
+                setRejected(true);
+        }
         return false;
     }
 
@@ -281,6 +290,12 @@ public class Shift{
         if (_requiredRoles.contains(role))
             return false;
         return _requiredRoles.add(role);
+    }
+
+    public boolean addMustBeFilledRole(RoleType role){
+        if (role == null)
+            throw new IllegalArgumentException("Invalid role");
+        return _rolesMustBeFilled.add(role);
     }
 
     //removers

@@ -28,6 +28,7 @@ public class ShiftsDAO extends DAO {
     //RequiredRolesToEmployees table
     private final String RoleTypeColumnName = "roleType";
     private final String EmployeeIDColumnName = "employeeID";
+    private final String MustBeFilledColumnName = "mustBeFilled";
     private ShiftsDAO() {
         super("Shifts");
     }
@@ -41,24 +42,30 @@ public class ShiftsDAO extends DAO {
     public Shift insertShift(int scheduleID, int shiftID, String strShiftType, int startTime, int endTime, LocalDate date) {
         insert(_tableName,makeList(ScheduleIDColumnName, ShiftIDColumnName, ShiftTypeColumnName, StartTimeColumnName, EndTimeColumnName, DateColumnName),
                 makeList(scheduleID, shiftID, strShiftType, startTime, endTime, date.format(formatters)));
-        Shift shift = new Shift(scheduleID, shiftID, ShiftType.valueOf(strShiftType), startTime, endTime, date);
-        return shift;
+        return new Shift(scheduleID, shiftID, ShiftType.valueOf(strShiftType), startTime, endTime, date);
     }
 
     public boolean deleteShift(int scheduleID, int shiftID) {
-        if (!deleteRequiredRoles(scheduleID,shiftID))
-            return false;
-        if (!deleteInquiredEmployees(scheduleID,shiftID))
-            return false;
-        return delete(_tableName,makeList(ScheduleIDColumnName, ShiftIDColumnName),makeList(scheduleID, shiftID));
+        boolean res = deleteRequiredRoles(scheduleID,shiftID);
+        res = res && deleteInquiredEmployees(scheduleID,shiftID);
+        res = res && delete(_tableName,makeList(ScheduleIDColumnName, ShiftIDColumnName),makeList(scheduleID, shiftID));
+        return res;
     }
 
     public boolean deleteShifts(int scheduleID) {
-        if (!deleteRequiredRoles(scheduleID))
-            return false;
-        if (!deleteInquiredEmployees(scheduleID))
-            return false;
-        return delete(_tableName,makeList(ScheduleIDColumnName),makeList(scheduleID));
+        boolean res = deleteRequiredRoles(scheduleID);
+        res = res && deleteInquiredEmployees(scheduleID);
+        res = res && deleteRequiredRoles(scheduleID);
+        res = res && delete(_tableName,makeList(ScheduleIDColumnName),makeList(scheduleID));
+        return res;
+    }
+
+    public boolean updateRejected(int scheduleID, int shiftID, boolean rejected) {
+        return update(_tableName,RejectedColumnName,rejected,makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID));
+    }
+
+    public boolean updateApproved(int scheduleID, int shiftID, boolean rejected) {
+        return update(_tableName,ApprovedColumnName,rejected,makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID));
     }
 
     public boolean deleteRequiredRoles(int scheduleID){
@@ -68,6 +75,9 @@ public class ShiftsDAO extends DAO {
         return delete("RequiredRolesToEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID));
     }
 
+    public boolean deleteInquiredEmployee(int scheduleID,int shiftID,int employeeID){
+        return delete("InquiredEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName,EmployeeIDColumnName),makeList(scheduleID,shiftID,employeeID));
+    }
     public boolean deleteInquiredEmployees(int scheduleID){
         return delete("InquiredEmployees",makeList(ScheduleIDColumnName),makeList(scheduleID));
     }
@@ -96,6 +106,10 @@ public class ShiftsDAO extends DAO {
         return select(_tableName,makeList(ScheduleIDColumnName),makeList(scheduleID));
     }
 
+    public List<String> getMustBeFilledRole(int scheduleID,int shiftID){
+        return selectT("RequiredRolesToEmployees",RoleTypeColumnName,makeList(ScheduleIDColumnName,ShiftIDColumnName, MustBeFilledColumnName),makeList(scheduleID,shiftID,true),String.class);
+    }
+
     public List<Integer> getInquireEmployees(int scheduleID, int shiftID){
         return selectT("InquiredEmployees",EmployeeIDColumnName,makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID),Integer.class);
     }
@@ -104,8 +118,8 @@ public class ShiftsDAO extends DAO {
         return insert("InquiredEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName,EmployeeIDColumnName),makeList(scheduleID,shiftID,employeeID));
     }
 
-    public boolean insertRequiredRole(int scheduleID, int shiftID, String roleStr){
-        return insert("RequiredRolesToEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName,"roleType"),makeList(scheduleID,shiftID,roleStr));
+    public boolean insertRequiredRole(int scheduleID, int shiftID, String roleStr, Boolean mustBeFilled){
+        return insert("RequiredRolesToEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName,RoleTypeColumnName,MustBeFilledColumnName),makeList(scheduleID,shiftID,roleStr,mustBeFilled));
     }
 
     public List<String> getRequiredRoles(int scheduleID, int shiftID){
@@ -113,11 +127,17 @@ public class ShiftsDAO extends DAO {
     }
 
     public boolean removeRequiredRole(int scheduleID, int shiftID, String roleStr){
-        return delete("RequiredRolesToEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName,"roleType"),makeList(scheduleID,shiftID,roleStr));
+        return delete("RequiredRolesToEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName,RoleTypeColumnName),makeList(scheduleID,shiftID,roleStr));
     }
 
     public boolean insertAssignedEmployee(int scheduleID, int shiftID, String roleStr, int employeeID){
-        return insert("RequiredRolesToEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName,"roleType",EmployeeIDColumnName),makeList(scheduleID,shiftID,roleStr,employeeID));
+        if (selectExists("RequiredRolesToEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName,RoleTypeColumnName),makeList(scheduleID,shiftID,roleStr)))
+            return update("RequiredRolesToEmployees",EmployeeIDColumnName,employeeID,makeList(ScheduleIDColumnName,ShiftIDColumnName,RoleTypeColumnName),makeList(scheduleID,shiftID,roleStr));
+        return insert("RequiredRolesToEmployees",makeList(ScheduleIDColumnName,ShiftIDColumnName,RoleTypeColumnName,EmployeeIDColumnName),makeList(scheduleID,shiftID,roleStr,employeeID));
+    }
+
+    public boolean updateMustBeFilledRole(int scheduleID, int shiftID, String roleStr, boolean mustBeFilled){
+        return update("RequiredRolesToEmployees",MustBeFilledColumnName,mustBeFilled,makeList(ScheduleIDColumnName,ShiftIDColumnName,RoleTypeColumnName),makeList(scheduleID,shiftID,roleStr));
     }
 
     public HashMap<String,Integer> getAssignedEmployees(int scheduleID, int shiftID){
@@ -141,4 +161,5 @@ public class ShiftsDAO extends DAO {
         }
         return null;
     }
+
 }

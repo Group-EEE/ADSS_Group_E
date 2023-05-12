@@ -75,7 +75,7 @@ public class StoreController {
         if (storeName == null)
             throw new IllegalArgumentException("Invalid employee or store name");
         if (!checkIfEmployeeWorkInStore(employeeID,storeName))
-            throw new IllegalArgumentException("Employee not found in store");
+            throw new IllegalArgumentException("Employee not found in store to remove him");
         return _storesDAO.deleteEmployeeFromStore(employeeID,storeName);
     }
 
@@ -97,7 +97,7 @@ public class StoreController {
 
     public boolean checkIfEmployeeWorkInStore(int employeeID,String storeName){
         if (employeeID < 0)
-            throw new IllegalArgumentException("employee not found");
+            throw new IllegalArgumentException("invalid employee id");
         return _storesDAO.checkIfEmployeeInStore(employeeID,storeName);
     }
 

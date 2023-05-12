@@ -57,7 +57,7 @@ public class SchedulesDAO extends DAO {
         if (listMaxScheduleID.size() == 0)
             _scheduleIDcache = 0;
         else
-            _scheduleIDcache =Integer.valueOf(listMaxScheduleID.get(0));
+            _scheduleIDcache =Integer.valueOf(listMaxScheduleID.get(0))+1;
         return _scheduleIDcache++;
     }
 
@@ -85,7 +85,17 @@ public class SchedulesDAO extends DAO {
 
     }
 
+    public boolean hasScheduleInCache(int scheduleID){
+        return scheduleCache.containsKey(scheduleID);
+    }
 
+    /**
+     * for testing scheduleController. needs to check load a schedule without cache.
+     */
+    public boolean removeCache(){
+        scheduleCache.clear();
+        return true;
+    }
 
 //    public boolean loadSchedules(LocalDate localDate){
 //        String sql = "SELECT storeName, scheduleID FROM Schedules WHERE startDateOfWeek = ?";
