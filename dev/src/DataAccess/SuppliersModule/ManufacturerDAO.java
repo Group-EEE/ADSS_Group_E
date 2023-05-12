@@ -6,23 +6,39 @@ import SuppliersModule.Business.*;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Data access object class of Manufacturer.
+ */
 public class ManufacturerDAO {
 
+    //------------------------------------------ Attributes ---------------------------------------
     private Connection conn;
     static ManufacturerDAO manufacturerDAO;
     private Map<String, Manufacturer> IdentifyMapManufacturer;
 
+    // -----------------------------------------------------------------------------------------------------
+    /**
+     * Singleton constructor
+     */
     private ManufacturerDAO(Connection conn) {
         this.conn = conn;
         IdentifyMapManufacturer = new HashMap<>();
     }
 
+    /**
+     * Get instance
+     * @param conn - Object connection to DB
+     * @return - ManufacturerDAO
+     */
     public static ManufacturerDAO getInstance(Connection conn) {
         if (manufacturerDAO == null)
             manufacturerDAO = new ManufacturerDAO(conn);
         return manufacturerDAO;
     }
 
+    /**
+     * Read all the manufacturers from DB to cache
+     */
     public void ReadManufacturersToCache() {
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Manufacturer");
@@ -35,7 +51,12 @@ public class ManufacturerDAO {
         catch (SQLException e) {throw new RuntimeException(e);}
     }
 
-    public List<Manufacturer> getAll(String supplierNum) {
+    /**
+     * Get all manufacturers that belongs to the supplier
+     * @param supplierNum - number of the supplier.
+     * @return desired agreement.
+     */
+    public List<Manufacturer> getAllBySupplierNum(String supplierNum) {
         List<Manufacturer> manufacturerList = new ArrayList<>();
 
         try {
@@ -55,6 +76,9 @@ public class ManufacturerDAO {
         return manufacturerList;
     }
 
+    /**
+     * Write all the suppliers from cache to DB
+     */
     public void WriteFromCacheToDB()
     {
         PreparedStatement stmt;
@@ -77,7 +101,10 @@ public class ManufacturerDAO {
         writeAllToSupplierManufacturer();
     }
 
-    public void writeAllToSupplierManufacturer()
+    /**
+     * Write all the suppliers and Manufacturers to Supplier_Manufacturer table in DB
+     */
+    private void writeAllToSupplierManufacturer()
     {
         PreparedStatement stmt;
         try {
@@ -99,10 +126,20 @@ public class ManufacturerDAO {
         }
     }
 
-    public Manufacturer getManufacturer(String manufacturerName)
+    /**
+     * Get Manufacturer by manufacturerName
+     * @param manufacturerName - name of the manufacturer.
+     * @return desired manufacturer.
+     */
+    public Manufacturer getManufacturerByManufacturerName(String manufacturerName)
     {
         return IdentifyMapManufacturer.get(manufacturerName);
     }
+
+    /**
+     * Insert manufacturer to DB
+     * @param manufacturer - desired manufacturer.
+     */
 
     public void insert(Manufacturer manufacturer)
     {

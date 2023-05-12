@@ -20,6 +20,9 @@ public class OrderedProductDAO {
 
     private SupplierProductDAO supplierProductDAO;
 
+    /**
+     * Singleton constructor
+     */
     private OrderedProductDAO(Connection conn) {
         this.conn = conn;
         IdentifyMapOrderedProduct = new HashMap<>();
@@ -112,5 +115,18 @@ public class OrderedProductDAO {
     public void insert(OrderedProduct orderedProduct)
     {
         IdentifyMapOrderedProduct.put(orderedProduct.getId(), orderedProduct);
+    }
+
+    public void deleteByOrderFromSupplierId(int id)
+    {
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT Id FROM OrderedProduct WHERE OrderFromSupplierId = ?");
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next())
+                IdentifyMapOrderedProduct.remove(rs.getInt("Id"));
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
     }
 }

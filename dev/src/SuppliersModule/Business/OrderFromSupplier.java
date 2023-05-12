@@ -112,10 +112,6 @@ public class OrderFromSupplier {
 
     }
 
-    public OrderedProduct getOrderedProduct(String catalogNum){
-        return ProductsInOrder.get(catalogNum);
-    }
-
     public void removeOrderedProduct(String catalogNum){
         ProductsInOrder.remove(catalogNum);
     }
@@ -125,6 +121,7 @@ public class OrderFromSupplier {
         for (Map.Entry<String, OrderedProduct> pair : ProductsInOrder.entrySet())
         {
             if(barcode == pair.getValue().getMyProduct().getMyProduct().getBarcode()) {
+                setQuantityForProductInOrder(pair.getValue(), 0);
                 ProductsInOrder.remove(pair.getKey());
                 return;
             }

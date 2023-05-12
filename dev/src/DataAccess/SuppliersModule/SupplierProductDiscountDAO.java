@@ -15,6 +15,9 @@ public class SupplierProductDiscountDAO {
     static SupplierProductDiscountDAO supplierProductDiscountDAO;
     private Map<List<String>, SupplierProductDiscount> IdentifyMapSupplierProductDiscount;
 
+    /**
+     * Singleton constructor
+     */
     private SupplierProductDiscountDAO(Connection conn) {
         this.conn = conn;
         IdentifyMapSupplierProductDiscount = new HashMap<>();

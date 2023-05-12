@@ -73,7 +73,6 @@ public class Agreement {
     /**
      * finding if there is an order discount with the given details.
      * @param priceOrQuantity : Describes whether the discount is getting for minimum price or minimum quantity
-     * @param discountPercentages The amount of discount percentages the SuppliersModule.Business.OrderDiscount provided
      * @param minimumAmount the minimum quantity or price needed to get the discount
      * @return
      */

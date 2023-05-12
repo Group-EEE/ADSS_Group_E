@@ -101,8 +101,10 @@ public class OrderGenerator {
                     returnList.add(supplierProduct);
                 amountPerDay += curAmount;
             }
-            if(returnList.size() != 0)
+            if(returnList.size() != 0) {
+                ProductsQuantity.set(index,quantity);
                 return returnList;
+            }
             if(amountPerDay >= quantity)
                 return findSuppliersThatCanSupplyTheProduct(supplierProductList,quantity,index);
             addToMustBuyList(supplierProductList);

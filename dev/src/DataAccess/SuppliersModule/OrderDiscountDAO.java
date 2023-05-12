@@ -2,29 +2,47 @@ package DataAccess.SuppliersModule;
 
 import SuppliersModule.Business.Agreement;
 import SuppliersModule.Business.OrderDiscount;
-import SuppliersModule.Business.Supplier;
-import SuppliersModule.Business.SupplierProduct;
 
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Data access object class of OrderDiscount.
+ */
 public class OrderDiscountDAO {
 
+    //------------------------------------------ Attributes ---------------------------------------
     private Connection conn;
     private Map<List<String>, OrderDiscount> IdentifyMapOrderDiscount;
     static OrderDiscountDAO orderDiscountDAO;
 
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Singleton constructor
+     */
     private OrderDiscountDAO(Connection conn) {
         this.conn = conn;
         IdentifyMapOrderDiscount = new HashMap<>();
     }
 
+    /**
+     * Get instance
+     * @param conn - Object connection to DB
+     * @return - OrderDiscountDAO
+     */
     public static OrderDiscountDAO getInstance(Connection conn) {
         if (orderDiscountDAO == null)
             orderDiscountDAO = new OrderDiscountDAO(conn);
         return orderDiscountDAO;
     }
 
+    /**
+     * Get all orderDiscount that belongs to the agreement
+     * @param agreement - desired agreement.
+     * @param supplierNum - number of the supplier.
+     * @return List of all OrderDiscount.
+     */
     public List<OrderDiscount> getAll(Agreement agreement, String supplierNum)
     {
         List<OrderDiscount> orderDiscountList = new ArrayList<>();
@@ -49,15 +67,9 @@ public class OrderDiscountDAO {
         return orderDiscountList;
     }
 
-    public List<String> createKey(String supplierNum, String priceOrQuantity, int minimumAmount)
-    {
-        List<String> keyPair = new ArrayList<>();
-        keyPair.add(supplierNum);
-        keyPair.add(priceOrQuantity);
-        keyPair.add(String.valueOf(minimumAmount));
-        return keyPair;
-    }
-
+    /**
+     * Write all the orderDiscount from cache to DB
+     */
     public void WriteFromCacheToDB() {
         PreparedStatement stmt;
 
@@ -80,18 +92,34 @@ public class OrderDiscountDAO {
         }
     }
 
-    public boolean CheckIfOrderDiscountExist(String supplierNum, String priceOrQuantity, int amount)
+    /**
+     * Get orderDiscount by key
+     * @param supplierNum - number of supplier
+     * @param priceOrQuantity - price or Quantity
+     * @param amount - quantity
+     * @return desired orderDiscount
+     */
+    public OrderDiscount getOrderDiscountByKey(String supplierNum, String priceOrQuantity, int amount)
     {
         List<String> key = createKey(supplierNum, priceOrQuantity, amount);
-        return IdentifyMapOrderDiscount.containsKey(key);
+        return IdentifyMapOrderDiscount.get(key);
     }
 
+    /**
+     * Insert orderDiscount to DB
+     * @param supplierNum - number of supplier
+     * @param orderDiscount - desired orderDiscount
+     */
     public void insert(String supplierNum, OrderDiscount orderDiscount)
     {
         List<String> key = createKey(supplierNum, orderDiscount.getByPriceOrQuantity(), orderDiscount.getAmount());
         IdentifyMapOrderDiscount.put(key, orderDiscount);
     }
 
+    /**
+     * Delete orderDiscount from DB
+     * @param supplierNum - desired agreement that belongs to supplier.
+     */
     public void deleteByAgreement(String supplierNum)
     {
         Map<List<String>, OrderDiscount> copyMap = new HashMap<>(IdentifyMapOrderDiscount);
@@ -101,9 +129,30 @@ public class OrderDiscountDAO {
         }
     }
 
+    /**
+     * Delete orderDiscount from DB
+     * @param supplierNum - desired agreement that belongs to supplier.
+     * @param priceOrQuantity - price or Quantity
+     * @param minimumAmount - quantity
+     */
     public void delete(String supplierNum, String priceOrQuantity, int minimumAmount)
     {
         List<String> key = createKey(supplierNum, priceOrQuantity, minimumAmount);
         IdentifyMapOrderDiscount.remove(key);
+    }
+
+    /**
+     * @param supplierNum - desired agreement that belongs to supplier.
+     * @param priceOrQuantity - price or Quantity .
+     * @param minimumAmount - quantity.
+     * @return keyPair
+     */
+    private List<String> createKey(String supplierNum, String priceOrQuantity, int minimumAmount)
+    {
+        List<String> keyPair = new ArrayList<>();
+        keyPair.add(supplierNum);
+        keyPair.add(priceOrQuantity);
+        keyPair.add(String.valueOf(minimumAmount));
+        return keyPair;
     }
 }

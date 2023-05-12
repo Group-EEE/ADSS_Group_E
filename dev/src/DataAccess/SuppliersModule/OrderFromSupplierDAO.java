@@ -18,6 +18,9 @@ public class OrderFromSupplierDAO {
 
     private OrderedProductDAO orderedProductDAO;
 
+    /**
+     * Singleton constructor
+     */
     private OrderFromSupplierDAO(Connection conn) {
         this.conn = conn;
         IdentifyMapOrderFromSupplier = new HashMap<>();
@@ -138,5 +141,11 @@ public class OrderFromSupplierDAO {
     public int getSizeOfOrderFromSuppliers()
     {
         return IdentifyMapOrderFromSupplier.size();
+    }
+
+    public void deleteById(int id)
+    {
+        IdentifyMapOrderFromSupplier.remove(id);
+        orderedProductDAO.deleteByOrderFromSupplierId(id);
     }
 }

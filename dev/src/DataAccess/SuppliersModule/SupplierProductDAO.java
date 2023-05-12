@@ -21,6 +21,9 @@ public class SupplierProductDAO {
 
     private GenericProductDAO genericProductDAO;
 
+    /**
+     * Singleton constructor
+     */
     private SupplierProductDAO(Connection conn) {
         this.conn = conn;
         IdentifyMapSupplierProduct = new HashMap<>();

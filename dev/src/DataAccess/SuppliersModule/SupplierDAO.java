@@ -6,6 +6,9 @@ import java.sql.*;
 import java.util.*;
 
 
+/**
+ * Data access object class of Supplier.
+ */
 public class SupplierDAO {
 
     //------------------------------------------ Attributes ---------------------------------------
@@ -23,7 +26,9 @@ public class SupplierDAO {
 
     // -----------------------------------------------------------------------------------------------------
 
-
+    /**
+     * Singleton constructor
+     */
     private SupplierDAO(Connection conn) {
         this.conn = conn;
         IdentifyMapSupplier = new HashMap<>();
@@ -36,12 +41,20 @@ public class SupplierDAO {
         periodicOrderDAO = PeriodicOrderDAO.getInstance(this.conn);
     }
 
+    /**
+     * Get instance
+     * @param conn - Object connection to DB
+     * @return - SupplierDAO
+     */
     public static SupplierDAO getInstance(Connection conn) {
         if (supplierDAO == null)
             supplierDAO = new SupplierDAO(conn);
         return supplierDAO;
     }
 
+    /**
+     * Read all the suppliers from DB to cache
+     */
     public void ReadSuppliersToCache() {
         // -----------------------------------Create a query-----------------------------------------
         try {
@@ -53,16 +66,16 @@ public class SupplierDAO {
                 String supplierNum = rs.getString("SupplierNum");
 
                 // ---------------------Restore the Supplier, Agreement, Contacts and Categories---------------------------------
-                Agreement currAgreement = agreementDAO.getAgreement(supplierNum);
+                Agreement currAgreement = agreementDAO.getAgreementBySupplierNum(supplierNum);
 
                 Supplier supplier = new Supplier(rs.getString("Name"), supplierNum, rs.getString("BankAccount"), PaymentTerm.values()[rs.getInt("PaymentTerm")],
-                        contactDAO.getAll(supplierNum), getCategories(supplierNum), currAgreement.supplierHasPermanentDays(), currAgreement.isSupplierBringProduct(),
+                        contactDAO.getAllBySupplierNum(supplierNum), getCategories(supplierNum), currAgreement.supplierHasPermanentDays(), currAgreement.isSupplierBringProduct(),
                         currAgreement.getDeliveryDays(), currAgreement.getNumberOfDaysToSupply());
 
                 supplier.setMyAgreement(currAgreement);
 
                 // --------------------------------Restore the Manufacturer---------------------------------
-                for (Manufacturer manufacturer : manufacturerDAO.getAll(supplierNum))
+                for (Manufacturer manufacturer : manufacturerDAO.getAllBySupplierNum(supplierNum))
                     supplier.addManufacturer(manufacturer);
 
                 // --------------------------------Restore the SupplierProducts---------------------------------
@@ -83,7 +96,12 @@ public class SupplierDAO {
     }
 
 
-    public List<String> getCategories(String supplierNum) {
+    /**
+     * Get all categories that belongs to the supplier
+     * @param supplierNum - number of the supplier.
+     * @return List of all categories.
+     */
+    private List<String> getCategories(String supplierNum) {
         List<String> categories = new ArrayList<>();
 
         // -----------------------------------Create a query-----------------------------------------
@@ -102,10 +120,13 @@ public class SupplierDAO {
         return categories;
     }
 
+    /**
+     * Write all the suppliers from cache to DB
+     */
     public void WriteFromCacheToDB() {
         PreparedStatement stmt;
 
-        // ---------------------------------Delete all rows in the table-------------------------------------
+        // ---------------------------------Delete all records in the table-------------------------------------
         try {
             stmt = conn.prepareStatement("DELETE FROM Supplier");
             stmt.executeUpdate();
@@ -143,9 +164,13 @@ public class SupplierDAO {
         periodicOrderDAO.WriteFromCacheToDB();              //Insert All PeriodicOrders to the table
     }
 
-    public void WriteAllCategories() {
+    /**
+     * Write all the categories from cache to DB
+     */
+    private void WriteAllCategories() {
         PreparedStatement stmt;
 
+        // ---------------------------------Delete all records in the table-------------------------------------
         try {
             stmt = conn.prepareStatement("DELETE FROM Supplier_Categories");
             stmt.executeUpdate();
@@ -165,30 +190,48 @@ public class SupplierDAO {
         }
     }
 
+    /**
+     * Get supplier by supplierNum
+     * @param supplierNum - number of the supplier.
+     * @return desired supplier.
+     */
     public Supplier getSupplierBySupplierNumber(String supplierNum)
     {
         return IdentifyMapSupplier.get(supplierNum);
     }
 
+    /**
+     * Insert supplier to DB
+     * @param supplier - desired supplier.
+     */
     public void insert(Supplier supplier)
     {
         IdentifyMapSupplier.put(supplier.getSupplierNum(), supplier);
         agreementDAO.insert(supplier.getMyAgreement());
     }
 
-    public Map<String, Supplier> getIdentifyMapSupplier()
+    /**
+     * Get all Suppliers
+     * @return - All Suppliers
+     */
+    public Map<String, Supplier> getAllSuppliers()
     {
         return IdentifyMapSupplier;
     }
 
+    /**
+     * Delete supplier from DB
+     * @param supplierNum - desired supplier.
+     */
     public void delete(String supplierNum)
     {
 
-        agreementDAO.deleteBySupplier(supplierNum);
+        agreementDAO.delete(supplierNum);
         contactDAO.deleteBySupplier(supplierNum);
         supplierProductDAO.deleteBySupplier(supplierNum);
         orderFromSupplierDAO.deleteBySupplier(supplierNum);
         periodicOrderDAO.deleteBySupplier(supplierNum);
+        IdentifyMapSupplier.remove(supplierNum);
 
         try {
             PreparedStatement stmt = conn.prepareStatement("Delete FROM Supplier_Categories WHERE SupplierNum = ?");

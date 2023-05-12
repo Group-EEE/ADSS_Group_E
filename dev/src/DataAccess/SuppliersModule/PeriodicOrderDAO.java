@@ -21,6 +21,9 @@ public class PeriodicOrderDAO {
     private Map<List<Integer>, PeriodicOrder> IdentifyMapPeriodicOrderByDay;
     private OrderFromSupplierDAO orderFromSupplierDAO;
 
+    /**
+     * Singleton constructor
+     */
     private PeriodicOrderDAO(Connection conn) {
         this.conn = conn;
         IdentifyMapPeriodicOrder = new HashMap<>();
@@ -119,5 +122,6 @@ public class PeriodicOrderDAO {
         key.add(id);
         key.add(periodicOrder.getDayForInvite());
         IdentifyMapPeriodicOrderByDay.remove(key);
+        orderFromSupplierDAO.deleteById(id);
     }
 }

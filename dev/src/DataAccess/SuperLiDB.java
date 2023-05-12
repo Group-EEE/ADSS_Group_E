@@ -32,6 +32,9 @@ public class SuperLiDB {
     private SubSubCategoryDAO subSubCategoryDAO;
     private SuperLiProductDAO superLiProductDAO;
 
+    /**
+     * Singleton constructor
+     */
     private SuperLiDB() {
 
         //---------------------------------Try connect to DB-----------------------------------
@@ -111,7 +114,7 @@ public class SuperLiDB {
 
     public Map<String, Supplier> gatAllSuppliers()
     {
-        return supplierDAO.getIdentifyMapSupplier();
+        return supplierDAO.getAllSuppliers();
     }
 
     public void deleteSupplier(String supplierNum)
@@ -129,7 +132,7 @@ public class SuperLiDB {
 
     public Manufacturer getManufacturer(String manufacturerName)
     {
-        return manufacturerDAO.getManufacturer(manufacturerName);
+        return manufacturerDAO.getManufacturerByManufacturerName(manufacturerName);
     }
 
 
@@ -156,15 +159,7 @@ public class SuperLiDB {
         genericProductDAO.addToObserverBarcodeList(barcode);
     }
 
-    public void removeFromObserverBarcodeList(int barcode)
-    {
-        genericProductDAO.removeFromObserverBarcodeList(barcode);
-    }
 
-    public int getBarcodeFromObserverBarcodeList(int barcode)
-    {
-        return genericProductDAO.getBarcodeFromObserverBarcodeList(barcode);
-    }
 
     public List<Integer> getObserverBarcodeList()
     {
@@ -199,7 +194,7 @@ public class SuperLiDB {
 
     public boolean CheckIfOrderDiscountExist(String supplierNum, String priceOrQuantity, int amount)
     {
-        return orderDiscountDAO.CheckIfOrderDiscountExist(supplierNum, priceOrQuantity, amount);
+        return orderDiscountDAO.getOrderDiscountByKey(supplierNum, priceOrQuantity, amount) != null;
     }
 
     public void deleteOrderDiscount(String supplierNum, String priceOrQuantity, int minimumAmount)
@@ -221,7 +216,7 @@ public class SuperLiDB {
 
     public boolean CheckIfContactExist(String phoneNumber)
     {
-        return contactDAO.CheckIfContactExist(phoneNumber);
+        return contactDAO.getByPhoneNumber(phoneNumber) != null;
     }
 
     public void deleteContact(String phoneNumber)

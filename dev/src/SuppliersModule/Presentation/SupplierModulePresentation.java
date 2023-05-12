@@ -108,7 +108,6 @@ public class SupplierModulePresentation {
             supplierNum = reader.nextLine();
         } while (!supplierController.checkIfSupplierExist(supplierNum));
         checkValidWithMessage("Delete supplier: " + supplierNum + "\nAre you sure you want to delete? (y/n)");
-        yourChoice = reader.nextLine();
 
         if (yourChoice.equals("y"))
             supplierController.fireSupplier(supplierNum);
