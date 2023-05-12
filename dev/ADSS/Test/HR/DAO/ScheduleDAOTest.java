@@ -34,7 +34,7 @@ class ScheduleDAOTest {
 
     @Test
     void addRoleToShift(){
-        assertTrue(_facade.addRequiredRoleToShift("testStore", 0, RoleType.Cleaner));
+        assertTrue(_facade.addRequiredRoleToShift("testStore", 0, RoleType.Cleaner,false));
         assertTrue(_facade.removeRequiredRoleFromShift("testStore", 0, RoleType.Cleaner));
     }
 

@@ -62,8 +62,8 @@ public class Facade {
         return true;
     }
 
-    public List<RoleType> printEmployeeRoles(int employeeID){
-        return _employeeController.printEmployeeRoles(employeeID);
+    public List<RoleType> getEmployeeRoles(int employeeID){
+        return _employeeController.getEmployeeRoles(employeeID);
     }
 
     public boolean removeRoleFromEmployee(int employeeID, int roleIndex){ //the index needs to be -1 less
@@ -124,9 +124,7 @@ public class Facade {
     public boolean createDriver(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployement, String password, int licenseID, cold_level level, double truck_weight) {
         if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null|| licenseID < 0 || level == null || truck_weight < 0)
             throw new IllegalArgumentException("Invalid arguments");
-        if (!_employeeController.createDriver(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployement, password, licenseID, level, truck_weight))
-            return false;
-        return addRoleToEmployee(employeeID, RoleType.Driver);
+        return _employeeController.createDriver(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployement, password, licenseID, level, truck_weight);
     }
 
 
@@ -156,10 +154,8 @@ public class Facade {
         return _scheduleController.createNewStoreSchedule(StoreName, day, month, year);
     }
 
-    public boolean createNewLogisiticsSchedule(String StoreName, int day, int month, int year){
-        if (!_storeController.existsStore(StoreName))
-            throw new IllegalArgumentException("Store doesn't exist in order to create for it a schedule");
-        return _scheduleController.createNewLogisticsSchedule(StoreName, day, month, year);
+    public boolean createNewLogisiticsSchedule(int day, int month, int year){
+        return _scheduleController.createNewLogisticsSchedule(day, month, year);
     }
 
     public boolean checkIfEmployeeWorkInStore(String storeName){
@@ -189,8 +185,8 @@ public class Facade {
         return _scheduleController.changeShiftHours(storeName, newStartHour, newEndHour, shiftID);
     }
 
-    public boolean addRequiredRoleToShift(String storeName, int shiftID, RoleType role){
-        return _scheduleController.addRequiredRoleToShift(storeName, shiftID, role);
+    public boolean addRequiredRoleToShift(String storeName, int shiftID, RoleType role,boolean mustBeFilled){
+        return _scheduleController.addRequiredRoleToShift(storeName, shiftID, role, mustBeFilled);
     }
 
     public boolean removeRequiredRoleFromShift(String storeName, int shiftID, RoleType role){
@@ -209,7 +205,4 @@ public class Facade {
         return _scheduleController.deleteSchedule(storeName);
     }
 
-    public boolean hasWareHouse(String storeName, int shiftID){
-        return _scheduleController.hasWareHouse(storeName,shiftID);
-    }
 }

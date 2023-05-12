@@ -224,6 +224,10 @@ public abstract class DAO {
             for (Object key : keys)
                 if (key instanceof String)
                     pstmt.setString(i++, (String) key);
+                else if (key instanceof Boolean)
+                    pstmt.setBoolean(i++, (boolean) key);
+                else if (key instanceof Double)
+                    pstmt.setDouble(i++, (double) key);
                 else
                     pstmt.setInt(i++, (int) key);
             ResultSet resultSet = pstmt.executeQuery();

@@ -543,7 +543,7 @@ public class HRManagerCLI{
         System.out.println("Please select what role to remove from " + firstName);
         System.out.println("Please enter the role ID:");
         try {
-            for(RoleType role : _facade.printEmployeeRoles(employeeID))
+            for(RoleType role : _facade.getEmployeeRoles(employeeID))
                 System.out.println(role);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -636,14 +636,21 @@ public class HRManagerCLI{
                 System.out.println(e.getMessage());
                 return false;
             }
-            int shiftNum = validInput("Please enter the number of the shift you want to change the required roles","Please enter a valid integer", 0, 14);
+            int shiftNum = validInput("Please enter the number of the shift you want to add the required role","Please enter a valid integer", 0, 14);
             if (shiftNum == 0)
                 exit = true;
             RoleType newRole = getRoleByMenu();
             if (newRole == null)
                 exit = true;
+            System.out.println("Is this role must be filled?");
+            System.out.println("1. Yes");
+            System.out.println("2. No");
+            int choice = validInput("Please enter your choice","Please enter a valid integer", 1, 2);
             try {
-                _facade.addRequiredRoleToShift(storeName, shiftNum-1, newRole);
+                if (choice == 1)
+                    _facade.addRequiredRoleToShift(storeName, shiftNum-1, newRole, true);
+                else
+                    _facade.addRequiredRoleToShift(storeName, shiftNum-1, newRole, false);
             }catch (Exception e){
                 System.out.println(e.getMessage());
                 return false;
@@ -724,7 +731,6 @@ public class HRManagerCLI{
         cold_level level = null;
         double weight = 0;
         int level_ch;
-        System.out.println("Welcome to the HR system!");
         while(valid == false){
             valid = true;
             System.out.println("Please enter the following details:");
@@ -835,14 +841,17 @@ public class HRManagerCLI{
         }
     }
 
-    public boolean HRMenuCreateNewLogisiticSchedule(){
+    public boolean HRMenuCreateNewLogisiticSchedule(){ //TODO:create new schedule when existing
         System.out.println("Please enter the start date of the schedule (dd/mm/yyyy):");
         int day = validInput("Please enter the start day of the schedule","Please enter a valid integer for the day.",1,31);
         int month = validInput("Please enter the month of the schedule","Please enter a valid integer for the month.",1,12);
         int year = validInput("Please enter the year of the schedule","The year must start from 2020 to 2025",2020,2025);
         try{
-            _facade.createNewLogisiticsSchedule("Logistics", day, month, year);
-            System.out.println("The schedule was created successfully for the store Logistics");
+            boolean res = _facade.createNewLogisiticsSchedule(day, month, year);
+            if (res)
+                System.out.println("The schedule was created successfully for the store Logistics");
+            else
+                System.out.println("some error occured");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;

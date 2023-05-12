@@ -26,6 +26,7 @@ class ScheduleTest {
         for (int i=0; i<14; i++) {
             Shift shift = new Shift(1, i, ShiftType.MORNING, 8, 16, LocalDate.of(1999, 1, 1));
             shift.setRequiredRoles(List.of(RoleType.Cashier, RoleType.ShiftManager, RoleType.General,RoleType.Warehouse));
+            shift.setRolesMustBeFilled(List.of(RoleType.ShiftManager));
             listShifts.add(shift);
         }
         assertTrue(schedule.setShifts(listShifts));
