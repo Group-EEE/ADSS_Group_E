@@ -49,8 +49,16 @@ public class Store extends Site {
        return "Store Name: " + this._name + ", Store Address: " + this.address+ ", Store Phone: " + this.phone + ", Store Contact Name: " + this.site_contact_name+ ", Store Area: " + this._area;
     }
 
-
     public int get_area() {
         return _area;
+    }
+
+    public void storeDisplay() {
+        System.out.println("\t Store Name: " + site_name);
+        System.out.println("\t Store Address: " + address);
+        System.out.println("\t Store Phone Number: " + phone);
+        System.out.println("\t Contact Name: " + site_contact_name);
+        System.out.println("\t Store Area: " + _area);
+        System.out.println();
     }
 }

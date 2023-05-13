@@ -179,6 +179,7 @@ public class Logistical_center_controller {
             System.out.println("\nThere are no transports documents in the system\n");
         }
         else {
+            System.out.println("======================================= Transport Documents in the system =======================================");
             for (Map.Entry<Integer, Transport> entry : Transport_dao.getInstance().get_transports_map().entrySet()) {
                 int id = entry.getKey();
                 Transport transport = entry.getValue();
@@ -187,6 +188,23 @@ public class Logistical_center_controller {
             }
         }
     }
+
+    public void display_stores(){
+        if(StoresDAO.getInstance().SelectAllStores().size() == 0){
+            System.out.println("\nThere are no stores in the system\n");
+        }
+        else {
+            int store_num = 1;
+            System.out.println("======================================= Stores in the system =======================================");
+            for (Store store : StoresDAO.getInstance().SelectAllStores()) {
+                System.out.println("\t=========== Store - " + store_num + " - information ===========");
+                store.storeDisplay();
+                store_num++;
+            }
+        }
+    }
+
+
 
     public void display_trucks(){
         if(Trucks_dao.get_instance().getTrucks().size() == 0){
@@ -221,6 +239,7 @@ public class Logistical_center_controller {
             System.out.println("\nThere are no site supplies documents in the system\n");
         }
         else {
+            System.out.println("======================================= Site Supply in the system =======================================");
             for (Site_Supply siteSupply : Site_Supply_dao.getInstance().get_site_supply_documents()) {
                 siteSupply.sDisplay();
             }
@@ -307,4 +326,19 @@ public class Logistical_center_controller {
         Transport_dao.getInstance().insert_stores_and_suppliers_to_table(transport_ID, stores, suppliers);
     }
 
+
+    public void display_suppliers() {
+        if(Suppliers_dao.getInstance().SelectAllSuppliers().size() == 0){
+            System.out.println("\nThere are no suppliers in the system\n");
+        }
+        else {
+            int supplier_num = 1;
+            System.out.println("======================================= Suppliers in the system =======================================");
+            for (Supplier supplier : Suppliers_dao.getInstance().SelectAllSuppliers()) {
+                System.out.println("\t=========== Supplier - " + supplier_num + " - information ===========");
+                supplier.supplierDisplay();
+                supplier_num++;
+            }
+        }
+    }
 }

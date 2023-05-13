@@ -55,20 +55,22 @@ public class transport_manager_UI {
             System.out.println("6 - Display all trucks in the system");
             System.out.println("7 - Display all transport documents in the system");
             System.out.println("8 - Display all site supplies documents in the system");
-            System.out.println("9 - quit");
+            System.out.println("9 - Display all stores in the system");
+            System.out.println("10 - Display all suppliers in the system");
+            System.out.println("11 - quit");
             while (!isValid) {
                 try {
                     input = scanner.nextLine();
                     choice = Integer.parseInt(input);
 
                     // Check if the input is a 5 digit integer
-                    if (input.length() <= 2 && choice >= 0 && choice < 11) {
+                    if (input.length() <= 2 && choice >= 0 && choice < 12) {
                         isValid = true;
                     } else {
                         System.out.println("Input must be an int between 0-11. ");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. Please enter a valid int between 0-9. ");
+                    System.out.println("Invalid input. Please enter a valid int between 0-11. ");
                 }
             }
             isValid = false;
@@ -95,8 +97,9 @@ public class transport_manager_UI {
                 case 6 -> controller.display_trucks();
                 case 7 -> controller.display_transport_doc();
                 case 8 -> controller.display_site_supply();
-                //case 9 -> controller.create_shifts();
-                case 10 -> {
+                case 9 -> controller.display_stores();
+                case 10 -> controller.display_suppliers();
+                case 11 -> {
                     return; //Connection moved to main
                 }
             }
