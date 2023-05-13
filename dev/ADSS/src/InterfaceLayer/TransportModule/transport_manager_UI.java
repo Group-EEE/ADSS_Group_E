@@ -62,7 +62,7 @@ public class transport_manager_UI {
                     choice = Integer.parseInt(input);
 
                     // Check if the input is a 5 digit integer
-                    if (input.length() == 1 && choice >= 0 && choice < 11) {
+                    if (input.length() <= 2 && choice >= 0 && choice < 11) {
                         isValid = true;
                     } else {
                         System.out.println("Input must be an int between 0-11. ");
@@ -240,7 +240,7 @@ public class transport_manager_UI {
         boolean validInput = false;
         String planned_date = "";
         while (!validInput) {
-            System.out.print("Please enter the date you want to send the transport in the format dd/mm (please note that you can make transports for the current year only) : ");
+            System.out.print("Please enter the date you want to send the transport in the format dd/mm (please note that you can make transports for the next week only) : ");
             inputDate = scanner.nextLine();
             // Check if the input matches the expected format
             if (inputDate.matches("\\d{2}/\\d{2}")) {
@@ -289,7 +289,7 @@ public class transport_manager_UI {
         int driver_id = 0;
         boolean assigned = false;
         for(Truck_Driver driver: controller.getDrivers()){
-            if(controller.truck_assigning(truck_number, planned_date)){
+            if(controller.truck_assigning(truck_number, planned_date, driver)){
                 assigned = true;
                 driver_name = driver.getFullName();
                 driver_id = driver.getEmployeeID();
@@ -312,6 +312,8 @@ public class transport_manager_UI {
         boolean areaValid = false;
         int area = 0;
         System.out.println("Please enter the destinations for this current transport.");
+        String stores = "";
+        String suppliers = "";
         while(!stop_adding_destinations) {
             String site_type = null;
             isValid = false;
@@ -370,6 +372,7 @@ public class transport_manager_UI {
                             System.out.println("You've already added that store...");
                             continue;
                         }
+                        stores += store_name + ", ";
                         isValid = true;
                     }
                     else {
@@ -397,6 +400,7 @@ public class transport_manager_UI {
                         if (name_exist) {
                             System.out.println("You've already entered this supplier...");
                         }
+                        suppliers += supplier_name + ", ";
                         isValid = true;
                     }
                     else{
@@ -431,6 +435,7 @@ public class transport_manager_UI {
                 }
             }
         }
+        controller.insert_sites_names_to_transport(transport_Id, stores, suppliers);
     }
 
     /**

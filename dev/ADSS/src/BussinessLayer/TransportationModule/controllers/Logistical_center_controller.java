@@ -67,19 +67,14 @@ public class Logistical_center_controller {
     }
 
     ///// need to notify HR when the driver is needed to be in the weekly schedule
-    public boolean truck_assigning(String new_truck_registration_plate, String planned_date){
-        Truck_Driver driver;
+    public boolean truck_assigning(String new_truck_registration_plate, String planned_date, Truck_Driver driver){
         Truck truck = getTruckByNumber(new_truck_registration_plate);
         // checking if the given parameters are valid, and getting the diver and the truck if they exist.
 
-        for (Truck_Driver truck_driver  : _employeesDAO.getDrivers()) {
-            if (truck_driver.getLicense().getWeight() >= truck.getMax_weight() && truck_driver.getLicense().getCold_level().getValue() <= truck.getCold_level().getValue() && !Transport_dao.getInstance().check_if_driver_taken_that_date(planned_date, truck_driver.getEmployeeID())){
-                driver = truck_driver;
-                truck.setCurrent_driver(truck_driver);
-                truck.setOccupied(true);
-                driver.setCurrent_truck(truck);
-                return true;
-            }
+        if (driver.getLicense().getWeight() >= truck.getMax_weight() && driver.getLicense().getCold_level().getValue() <= truck.getCold_level().getValue() && !Transport_dao.getInstance().check_if_driver_taken_that_date(planned_date, driver.getEmployeeID())){
+            truck.setOccupied(true);
+           // driver.setCurrent_truck(truck);
+            return true;
         }
         return false;
     }
@@ -306,6 +301,10 @@ public class Logistical_center_controller {
     public void add_supplier(String address, String phone, String supplier_name, String contact_name){
         Supplier supplier = new Supplier(address, phone, supplier_name, contact_name);
         Suppliers_dao.getInstance().Insert(supplier);
+    }
+
+    public void insert_sites_names_to_transport(int transport_ID, String stores, String suppliers){
+        Transport_dao.getInstance().insert_stores_and_suppliers_to_table(transport_ID, stores, suppliers);
     }
 
 }

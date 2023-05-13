@@ -28,8 +28,9 @@ public class underway_transport_UI {
     // ===== Starting the transport =====
     public void start_transport(int transport_ID){
         boolean aborted = false;
+        // check_if_warehouse_worker_exist_in_all_stores(transport_ID) - need to implement the right functions with Chen
         if (!controller.check_if_warehouse_worker_exist_in_all_stores(transport_ID)){
-            System.out.println("Transport cancelled, there's no warehouse worker in all the stores.");
+            System.out.println("Transport cancelled, there's no warehouse worker in all of the stores.");
             return;
         }
         // ======================== Date And Time ======================== //
@@ -197,6 +198,7 @@ public class underway_transport_UI {
             }
             // ======================== Insert Items To Site Supply And Transport Documents ======================== //
             controller.insert_item_to_siteSupply(site_supplier_ID, transport_id, item_name, item_amount);
+            controller.insert_item_to_transport(transport_id, item_name, item_amount);
         }
         // ======================== Items Total Weight ======================== //
         isValid = false;

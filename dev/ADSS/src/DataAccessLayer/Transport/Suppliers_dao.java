@@ -65,12 +65,12 @@ public class Suppliers_dao extends DAO {
     }
 
     @Override
-    public Object convertReaderToObject(ResultSet res) throws SQLException, ParseException {
+    public Supplier convertReaderToObject(ResultSet res) throws SQLException, ParseException {
         if(Suppliers_map.containsKey(res.getString(3))){
             return Suppliers_map.get(res.getString(3));
         }
         Supplier supplier = new Supplier(res.getString(1), res.getString(2), res.getString(3), res.getString(4) );
-        return res;
+        return supplier;
     }
 
     public boolean is_any_supplier_exist(){
@@ -92,12 +92,12 @@ public class Suppliers_dao extends DAO {
     }
 
     public boolean is_supplier_exist(String supplier_name){
-        String query = "SELECT FROM " + _tableName + " WHERE Name = ?";
+        String query = "SELECT * FROM " + _tableName + " WHERE Name = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, supplier_name);
             ResultSet rs = statement.executeQuery();
-            if (rs.getString(3).equals(supplier_name)) {
+            if (rs.getString(3)!= null && rs.getString(3).equals(supplier_name)) {
                 return true;
             }
             return false;
@@ -116,7 +116,7 @@ public class Suppliers_dao extends DAO {
         try (PreparedStatement pstmt = connection.prepareStatement(query);) {
             pstmt.setString(1, supplier_name);
             ResultSet rs = pstmt.executeQuery();
-            Supplier supplier = (Supplier) convertReaderToObject(rs);
+            Supplier supplier = convertReaderToObject(rs);
             return supplier;
         } catch (SQLException ex) {
             System.out.println("We don't have these truck in the Database.");

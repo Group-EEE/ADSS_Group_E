@@ -57,6 +57,11 @@ public class underway_transport_controller {
         site_supply.insert_item(item_name, item_amount);
     }
 
+    public void insert_item_to_transport(int transport_id, String item_name, int item_amount){
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
+        transport.insertToProducts(item_name, item_amount);
+    }
+
     private Truck_Driver get_driver_by_transport_id(int transport_id){
         Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
         return _employeesDAO.getDriver(transport.getDriver_ID());
@@ -542,7 +547,12 @@ public class underway_transport_controller {
 
     public boolean isValidTime(String Time){
         LocalTime current_time = LocalTime.now();
-        LocalTime time = LocalTime.parse(Time, DateTimeFormatter.ofPattern("HH:mm:ss"));
+        LocalTime time;
+        try {
+            time = LocalTime.parse(Time, DateTimeFormatter.ofPattern("HH:mm:ss"));
+        } catch (Exception e) {
+            return false;
+        }
         return time.isAfter(current_time);
     }
 

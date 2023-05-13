@@ -329,4 +329,17 @@ public class Transport_dao extends DAO {
             throw new RuntimeException(e);
         }
     }
+
+    public void insert_stores_and_suppliers_to_table(int transport_ID, String stores, String suppliers){
+        String query = "UPDATE " + this._tableName + " SET Suppliers = ?, Stores = ? WHERE ID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, suppliers.substring(0, suppliers.length()-2));
+            statement.setString(2, stores.substring(0, suppliers.length()-2));
+            statement.setInt(3, transport_ID);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
