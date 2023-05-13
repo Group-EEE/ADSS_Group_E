@@ -184,15 +184,17 @@ public class Shift{
             throw new IllegalArgumentException("Invalid role");
         if (employee == null)
             throw new IllegalArgumentException("Invalid employee");
-        if (!_inquiredEmployees.contains(employee) || !_requiredRoles.contains(role))
+        if (_assignedEmployees.containsKey(role))
+            throw new IllegalArgumentException("Role already filled");
+        if (!_inquiredEmployees.contains(employee))
+            throw new IllegalArgumentException("Employee wasn't inquired");
+        if (!_requiredRoles.contains(role))
+            throw new IllegalArgumentException("The role isn't required for this shift");
+        if (!employee.hasRole(role))
+            throw new IllegalArgumentException("Employee doesn't have this role");
+        if (!removeRequiredRole(role) || !removeInquiredEmployee(employee))
             return false;
-        if (!employee.hasRole(role)) //cannot add employee which don't have this role
-            return false;
-        if (!removeRequiredRole(role) || !removeInquiredEmployee(employee)) {
-            return false;
-        }
-        if (_requiredRoles.contains(role))
-            _requiredRoles.remove(role);
+        _requiredRoles.remove(role);
         _assignedEmployees.put(role, employee);
         return _filledRoles.add(role);
     }

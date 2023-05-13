@@ -229,17 +229,18 @@ class ShiftTest {
         assertThrows(IllegalArgumentException.class, () -> {
             shift.addFilledRole(RoleType.Cleaner,null);
         });
-        assertThrows(IllegalArgumentException.class, () -> {
-            shift.addFilledRole(null,null);
-        });
-        assertFalse(shift.addFilledRole(RoleType.Cleaner,employee1));
-        assertFalse(shift.addFilledRole(RoleType.ShiftManager,employee1));
+        //employee wasn't inquired
+        assertThrows(IllegalArgumentException.class, () -> shift.addFilledRole(RoleType.Cleaner,employee1));
         shift.addInquiredEmployee(employee1);
-        assertFalse(shift.addFilledRole(RoleType.Cleaner,employee1));
-        assertFalse(shift.addFilledRole(RoleType.ShiftManager,employee1));
-        employee1.addRole(RoleType.ShiftManager);
-        assertTrue(shift.addFilledRole(RoleType.ShiftManager,employee1));
-        assertFalse(shift.addFilledRole(RoleType.Cashier,employee1));
+        //role wasn't required
+        assertThrows(IllegalArgumentException.class, () -> shift.addFilledRole(RoleType.ShiftManager,employee1));
+        shift.addRequiredRole(RoleType.Cleaner);
+        //employee don't have this role
+        assertThrows(IllegalArgumentException.class, () -> shift.addFilledRole(RoleType.Cleaner,employee1));
+        employee1.addRole(RoleType.Cleaner);
+        assertTrue(shift.addFilledRole(RoleType.Cleaner,employee1));
+        //role was already filled
+        assertThrows(IllegalArgumentException.class, () -> shift.addFilledRole(RoleType.Cleaner,employee1));
     }
 
     //removers
@@ -293,7 +294,7 @@ class ShiftTest {
         assertThrows(IllegalArgumentException.class, () -> {
             shift.hasFilledRole(null);
         });
-        assertTrue(shift.hasFilledRole(RoleType.ShiftManager));
+        assertTrue(shift.hasFilledRole(RoleType.Cleaner));
     }
 
     @Test

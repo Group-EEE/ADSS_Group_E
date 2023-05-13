@@ -4,8 +4,8 @@ import BussinessLayer.HRModule.Objects.*;
 import DataAccessLayer.HRMoudle.*;
 
 
-import javax.management.relation.Role;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,10 +15,10 @@ public class ScheduleController {
 
 
     private static ScheduleController _scheduleController = null;
-    private SchedulesDAO _schedulesDAO;
-    private ShiftsDAO _shiftsDAO;
-    private EmployeesDAO _employeesDAO;
-    private StoresDAO _storesDAO;
+    private final SchedulesDAO _schedulesDAO;
+    private final ShiftsDAO _shiftsDAO;
+    private final EmployeesDAO _employeesDAO;
+    private final StoresDAO _storesDAO;
 
     private ScheduleController(){
         _schedulesDAO = SchedulesDAO.getInstance();
@@ -188,6 +188,8 @@ public class ScheduleController {
             throw new IllegalArgumentException("Invalid store name");
         if (role == null)
             throw new IllegalArgumentException("Invalid role");
+        if (shiftID < 0 || shiftID >13 )
+            throw new IllegalArgumentException("Invalid shift ID");
         Schedule schedule = getSchedule(storeName);
         boolean res = _shiftsDAO.insertRequiredRole(schedule.getScheduleID(),shiftID, role.toString(),mustBeFilled);
         return res && schedule.addRequiredRoleToShift(shiftID, role);
@@ -203,8 +205,15 @@ public class ScheduleController {
         return res && schedule.removeRequiredRoleFromShift(shiftID, role);
     }
 
-    public boolean addDriverToLogisiticsShift(int employeeID, int shiftID){
-        return addFilledRoleToShift("Logistics",employeeID,shiftID,RoleType.Driver);
+    public boolean addDriverToLogisticsShift(int employeeID, int shiftID){
+        boolean res = addEmployeeToShift(_employeesDAO.getEmployee(employeeID),"Logistics",shiftID);
+        return res && addFilledRoleToShift("Logistics",employeeID,shiftID,RoleType.Driver);
+    }
+
+    public boolean addStandByDriverToLogisticsShift(int employeeID, int shiftID){
+        boolean res = addEmployeeToShift(_employeesDAO.getEmployee(employeeID),"Logistics",shiftID);
+        res = res && addRequiredRoleToShift("Logistics",shiftID,RoleType.DriverStandBy,false);
+        return res && addFilledRoleToShift("Logistics",employeeID,shiftID,RoleType.DriverStandBy);
     }
 
     public boolean addFilledRoleToShift(String storeName, int employeeID, int shiftID,RoleType role){
@@ -226,9 +235,44 @@ public class ScheduleController {
         return res && schedule.getShift(shiftID).addMustBeFilledRole(role);
     }
 
-    //TODO: shiftID getShiftIdByDate(String storeName, Date currentDate)
-    //TODO: bool isThereStandByDriverAndWareHouse(Store storeName,int shiftID)
+    //TODO: shiftID getShiftIdByDate(String storeName, Date currentDate,ShiftType shiftType
+    public int getShiftIDByDate(String storeName, LocalDate currentDate,ShiftType shiftType){
+        if (storeName == null )
+            throw new IllegalArgumentException("Invalid store name");
+        if (currentDate == null)
+            throw new IllegalArgumentException("Invalid date");
+        if (shiftType == null)
+            throw new IllegalArgumentException("Invalid shift type");
+        Schedule schedule = getSchedule(storeName);
+        long days = ChronoUnit.DAYS.between(schedule.getStartDateOfWeek(), currentDate);
+        if (days > 7)
+            throw new IllegalArgumentException("Invalid date");
+        if (shiftType == ShiftType.MORNING)
+            return (int)days*2;
+        else
+            return (int)days*2 + 1;
+    }
 
+
+    public boolean isThereStandByDriverAndWareHouse(String storeName,LocalDate localDate, ShiftType shiftType){
+        if (storeName == null )
+            throw new IllegalArgumentException("Invalid store name");
+        if (localDate == null)
+            throw new IllegalArgumentException("Invalid date");
+        if (shiftType == null)
+            throw new IllegalArgumentException("Invalid shift type");
+
+        int shiftIDStore = getShiftIDByDate(storeName,localDate,shiftType);
+        int shiftIDLogistics = getShiftIDByDate("Logistics",localDate,shiftType);
+
+        Schedule scheduleStore = getSchedule(storeName);
+        Schedule scheduleLogistics = getSchedule("Logistics");
+
+        Shift shiftStore = scheduleStore.getShift(shiftIDStore);
+        Shift shiftLogistics = scheduleLogistics.getShift(shiftIDLogistics);
+
+        return shiftLogistics.hasFilledRole(RoleType.DriverStandBy) && shiftStore.hasFilledRole(RoleType.Warehouse);
+    }
     public boolean addEmployeeToShift(Employee employee, String storeName, int shiftID){
         if (storeName == null )
             throw new IllegalArgumentException("Invalid store name");
