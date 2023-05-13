@@ -6,6 +6,7 @@ import BussinessLayer.HRModule.Controllers.StoreController;
 import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Schedule;
+import BussinessLayer.HRModule.Objects.ShiftType;
 import DataAccessLayer.HRMoudle.SchedulesDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,18 +43,10 @@ class ScheduleControllerTest {
 
     @Test
     void createNewSchedule() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            _scheduleController.createNewStoreSchedule(null, 1,1,1999);
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            _scheduleController.createNewStoreSchedule("testStoreNotExist", 1,1,1999);
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            _scheduleController.createNewStoreSchedule("testStoreNotExist", 1,1,1999);
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            _scheduleController.createNewStoreSchedule("testStore", 30,2,1999);
-        });
+        assertThrows(IllegalArgumentException.class, () -> _scheduleController.createNewStoreSchedule(null, 1,1,1999));
+        assertThrows(IllegalArgumentException.class, () -> _scheduleController.createNewStoreSchedule("testStoreNotExist", 1,1,1999));
+        assertThrows(IllegalArgumentException.class, () -> _scheduleController.createNewStoreSchedule("testStoreNotExist", 1,1,1999));
+        assertThrows(IllegalArgumentException.class, () -> _scheduleController.createNewStoreSchedule("testStore", 30,2,1999));
         _scheduleController.createNewStoreSchedule("testStore", 1,1,1999);
     }
 
@@ -69,12 +62,8 @@ class ScheduleControllerTest {
 
     @Test
     void deleteSchedule(){
-        assertThrows(IllegalArgumentException.class, () -> {
-            _scheduleController.deleteSchedule(null);
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            _scheduleController.deleteSchedule(-1);
-        });
+        assertThrows(IllegalArgumentException.class, () -> _scheduleController.deleteSchedule(null));
+        assertThrows(IllegalArgumentException.class, () -> _scheduleController.deleteSchedule(-1));
         _storeController.createStore("testStore2", "testAddress2", "testPhone2", "testContact2",0);
         _scheduleController.createNewStoreSchedule("testStore2", 1,1,1999);
         int scheduleID = _scheduleController.getSchedule("testStore2").getScheduleID();
@@ -84,6 +73,7 @@ class ScheduleControllerTest {
 
     @Test
     void getSchedule(){
+        assertThrows(IllegalArgumentException.class, () -> _scheduleController.getSchedule(null));
         _scheduleController.addRequiredRoleToShift("testStore", 1, RoleType.Driver,false);
         _scheduleController.addMustBeFilledRole("testStore", 1, RoleType.Driver);
         Employee employee = new Employee(9999, "John", "Doe", 30, "123456789", 10000, "Full time", null,"passwordTest");
@@ -91,7 +81,7 @@ class ScheduleControllerTest {
         assertNotNull(_scheduleController.getSchedule("testStore"));
     }
 
-    @Test //if the system is functional, it will replaces the active schedule!!
+    @Test //if the system is functional, it will replace the active schedule!!
     void createNewLogisticsSchedule(){
         assertTrue(_scheduleController.createNewLogisticsSchedule(1,1,1999));
         Schedule schedule = _scheduleController.getSchedule("Logistics");
@@ -100,7 +90,6 @@ class ScheduleControllerTest {
 
     @Test
     void getScheduleNoCache(){
-        Employee employee = _employeeController.getEmployee(9999);
         assertTrue(_employeeController.addRoleToEmployee(9999, RoleType.Cashier));
         assertTrue(_scheduleController.addFilledRoleToShift("testStore",9999, 0, RoleType.Cashier));
         assertTrue(SchedulesDAO.getInstance().removeCache());
@@ -147,6 +136,75 @@ class ScheduleControllerTest {
         assertEquals(_scheduleController.getEmployeeSchedule(_employeeController.getEmployee(9999)).size(), 2);
         assertTrue(_scheduleController.deleteSchedule("testStore2"));
         assertTrue(_storeController.removeStore("testStore2"));
+    }
+
+    @Test
+    void addRequiredRoleToShift(){
+        assertThrows(IllegalArgumentException.class, () -> { //invalid storeName
+            _scheduleController.addRequiredRoleToShift(null, 0, RoleType.Cashier, false);
+        });
+        assertThrows(IllegalArgumentException.class, () -> { //invalid shiftsID -1
+            _scheduleController.addRequiredRoleToShift("testStore", -1, RoleType.Cashier, false);
+        });
+        assertThrows(IllegalArgumentException.class, () -> { //invalid shiftsID 14
+            _scheduleController.addRequiredRoleToShift("testStore", 14, RoleType.Cashier, false);
+        });
+        assertThrows(IllegalArgumentException.class, () -> { //invalid roleType null
+            _scheduleController.addRequiredRoleToShift("testStore", 0, null, false);
+        });
+        _scheduleController.addRequiredRoleToShift("testStore", 1, RoleType.Driver,false);
+    }
+
+    @Test
+    void addDriverToLogisticsShift(){
+        assertTrue(_employeeController.addRoleToEmployee(9999, RoleType.Driver));
+        assertTrue(_scheduleController.createNewLogisticsSchedule(1,1,1999));
+        assertTrue(_scheduleController.addDriverToLogisticsShift(9999, 0));
+    }
+
+    @Test
+    void getShiftIDByDate(){
+        assertThrows(IllegalArgumentException.class, () -> { //invalid storeName
+            _scheduleController.getShiftIDByDate(null, LocalDate.of(1999, 1, 1), ShiftType.MORNING);
+        });
+        assertThrows(IllegalArgumentException.class, () -> { //invalid date null
+            _scheduleController.getShiftIDByDate("testStore", null, ShiftType.MORNING);
+        });
+        assertThrows(IllegalArgumentException.class, () -> { //invalid shiftType null
+            _scheduleController.getShiftIDByDate("testStore", LocalDate.of(1999, 1, 1), null);
+        });
+        assertEquals(_scheduleController.getShiftIDByDate("testStore", LocalDate.of(1999, 1, 1), ShiftType.MORNING), 0);
+        assertEquals(_scheduleController.getShiftIDByDate("testStore", LocalDate.of(1999, 1, 1), ShiftType.NIGHT), 1);
+        assertEquals(_scheduleController.getShiftIDByDate("testStore", LocalDate.of(1999, 1, 2), ShiftType.MORNING), 2);
+        assertEquals(_scheduleController.getShiftIDByDate("testStore", LocalDate.of(1999, 1, 2), ShiftType.NIGHT), 3);
+        assertThrows(IllegalArgumentException.class, () -> { //invalid date
+            _scheduleController.getShiftIDByDate("testStore", LocalDate.of(1999, 2, 1), ShiftType.MORNING);
+        });
+    }
+
+    @Test
+    void isThereStandByDriverAndWareHouseEmpty(){
+        assertThrows(IllegalArgumentException.class, () -> { //invalid storeName
+            _scheduleController.isThereStandByDriverAndWareHouse(null, LocalDate.of(1999, 1, 1), ShiftType.MORNING);
+        });
+        assertThrows(IllegalArgumentException.class, () -> { //invalid date null
+            _scheduleController.isThereStandByDriverAndWareHouse("testStore", null, ShiftType.MORNING);
+        });
+        assertThrows(IllegalArgumentException.class, () -> { //invalid shiftType null
+            _scheduleController.isThereStandByDriverAndWareHouse("testStore", LocalDate.of(1999, 1, 1), null);
+        });
+        assertFalse(_scheduleController.isThereStandByDriverAndWareHouse("testStore", LocalDate.of(1999, 1, 1), ShiftType.MORNING));
+    }
+
+    @Test
+    void isThereStandByDriverAndWareHouse(){
+        assertTrue(_employeeController.addRoleToEmployee(9999, RoleType.DriverStandBy));
+        assertTrue(_scheduleController.createNewLogisticsSchedule(1,1,1999));
+        assertTrue(_scheduleController.addStandByDriverToLogisticsShift(9999, 0));
+        assertTrue(_employeeController.addRoleToEmployee(312736,RoleType.Warehouse));
+        assertTrue(_scheduleController.addEmployeeToShift(_employeeController.getEmployee(312736), "testStore", 0));
+        assertTrue(_scheduleController.addFilledRoleToShift("testStore", 312736, 0, RoleType.Warehouse));
+        assertTrue(_scheduleController.isThereStandByDriverAndWareHouse("testStore", LocalDate.of(1999, 1, 1), ShiftType.MORNING));
     }
 
 }
