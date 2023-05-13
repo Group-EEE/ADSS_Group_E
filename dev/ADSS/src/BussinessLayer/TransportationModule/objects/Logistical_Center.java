@@ -9,15 +9,12 @@ public class Logistical_Center extends Site{
     private ArrayList<Truck> trucks;
 
     private ArrayList<Truck_Driver> drivers;
-    private Map<Integer, Transport> Transport_Log;
-    private Map<Store_to_delete, ArrayList<Site_Supply>> delivered_supplies_documents;
+
 
     public Logistical_Center(String address, String phone, String name, String site_contact_name) {
         super(address, phone, name, site_contact_name);
         trucks = new ArrayList<>();
         drivers = new ArrayList<>();
-        Transport_Log = new HashMap<>();
-        delivered_supplies_documents = new HashMap<>();
     }
 
     public ArrayList<Truck> getTrucks() {
@@ -36,25 +33,8 @@ public class Logistical_Center extends Site{
         this.drivers = drivers;
     }
 
-    public Map<Integer, Transport> getTransport_Log() {
-        return Transport_Log;
-    }
 
-    public void setTransport_Log(Map<Integer, Transport> transport_Log) {
-        Transport_Log = transport_Log;
-    }
 
-    public Map<Store_to_delete, ArrayList<Site_Supply>> getDelivered_supplies_documents() {
-        return delivered_supplies_documents;
-    }
-
-    public Transport get_transport_by_id(int id){
-        return Transport_Log.get(id);
-    }
-
-    public void add_transport(Transport transport){
-        Transport_Log.put(transport.getTransport_ID(), transport);
-    }
 
     public Truck_Driver get_driver_by_id(int id){
         for (Truck_Driver driver : drivers) {
@@ -64,9 +44,6 @@ public class Logistical_Center extends Site{
         return null;
     }
 
-    public void setDelivered_supplies_documents(Map<Store_to_delete, ArrayList<Site_Supply>> delivered_supplies_documents) {
-        this.delivered_supplies_documents = delivered_supplies_documents;
-    }
 
     public void add_driver(Truck_Driver driver){
         drivers.add(driver);
