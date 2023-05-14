@@ -5,7 +5,10 @@ import DataAccessLayer.HRMoudle.EmployeesDAO;
 import DataAccessLayer.HRMoudle.StoresDAO;
 import DataAccessLayer.Transport.*;
 import BussinessLayer.HRModule.Objects.Store;
+import BussinessLayer.HRModule.Controllers.ScheduleController;
+import BussinessLayer.HRModule.Objects.ShiftType;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -72,8 +75,10 @@ public class Logistical_center_controller {
         // checking if the given parameters are valid, and getting the diver and the truck if they exist.
 
         if (driver.getLicense().getWeight() >= truck.getMax_weight() && driver.getLicense().getCold_level().getValue() <= truck.getCold_level().getValue() && !Transport_dao.getInstance().check_if_driver_taken_that_date(planned_date, driver.getEmployeeID())){
-            truck.setOccupied(true);
-           // driver.setCurrent_truck(truck);
+            LocalDate date = LocalDate.parse(planned_date);
+            int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", date, ShiftType.MORNING);
+            ScheduleController.getInstance().addDriverToLogisticsShift(driver.getEmployeeID(), shift_id);
+            ScheduleController.getInstance().addDriverToLogisticsShift(driver.getEmployeeID(), shift_id+1);
             return true;
         }
         return false;

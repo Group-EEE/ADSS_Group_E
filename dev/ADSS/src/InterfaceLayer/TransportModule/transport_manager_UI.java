@@ -1,5 +1,7 @@
 package InterfaceLayer.TransportModule;
 
+import BussinessLayer.HRModule.Controllers.ScheduleController;
+import BussinessLayer.HRModule.Objects.ShiftType;
 import BussinessLayer.TransportationModule.controllers.Logistical_center_controller;
 import BussinessLayer.TransportationModule.objects.Transport;
 import BussinessLayer.TransportationModule.objects.Truck_Driver;
@@ -24,12 +26,14 @@ public class transport_manager_UI {
     // ===== attributes =====
     Logistical_center_controller controller;
     underway_transport_UI underway_transport_ui;
+    private DateTimeFormatter formatter;
 
     Scanner scanner;
     public transport_manager_UI() {
         this.controller = Logistical_center_controller.getInstance();
         this.underway_transport_ui = new underway_transport_UI();
         this.scanner = new Scanner(System.in);
+        formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     }
 
     /**
@@ -85,6 +89,7 @@ public class transport_manager_UI {
                 case 2 -> {
                     System.out.println("Hey Boss!");
                     create_transport_document();
+                    // addStandByDriverToLogisticsShift(driver id, shif id);
                 }
                 case 3 -> {
                     ArrayList<Integer> chosen_transports = choose_transport_to_send();
@@ -100,8 +105,9 @@ public class transport_manager_UI {
                 case 8 -> controller.display_site_supply();
                 case 9 -> controller.display_stores();
                 case 10 -> controller.display_suppliers();
-                case 11 ->
-                case 12 -> {
+                case 11 -> HRManagerCLI.getInstance().HRMenuCreateNewLogisiticSchedule();
+                case 12 -> HRManagerCLI.getInstance().HRMenuApproveSchedule(true); // can't do it twice!!!.
+                case 14 -> {
                     return; //Connection moved to main
                 }
             }
@@ -122,7 +128,6 @@ public class transport_manager_UI {
         }
     }
 
-    //create new driver moved to HRmanagerCLI
 
     /**
      * asking from the user details about the logistical center and create it in the controller.
@@ -244,14 +249,14 @@ public class transport_manager_UI {
         String inputDate = "";
         boolean validInput = false;
         String planned_date = "";
+        LocalDate date = null;
         while (!validInput) {
             System.out.print("Please enter the date you want to send the transport in the format dd/mm (please note that you can make transports for the next week only) : ");
             inputDate = scanner.nextLine();
             // Check if the input matches the expected format
             if (inputDate.matches("\\d{2}/\\d{2}")) {
                 planned_date = inputDate + "/" + currentYear;
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDate date = LocalDate.parse(planned_date, formatter);
+                date = LocalDate.parse(planned_date, formatter);
                 // Check if the parsed date is not before the current date and not more than one week from the current date
                 if (!date.isBefore(currentDate) && !date.isAfter(currentDate.plusWeeks(1))) {
                     validInput = true;
@@ -441,6 +446,11 @@ public class transport_manager_UI {
             }
         }
         controller.insert_sites_names_to_transport(transport_Id, stores, suppliers);
+        for (String store : stores.split(",")){
+            int shift_id = ScheduleController.getInstance().getShiftIDByDate(store, date, ShiftType.MORNING);
+            ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id);
+            ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id+1);
+        }
     }
 
     /**
