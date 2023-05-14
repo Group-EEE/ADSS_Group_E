@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The class SupplierPresentation creates a new supplier and adding it to the system.
- * We use this class when we meet with a new supplier, and we want to sign an agreement with him/her.
+ * The class CreateSupplierPresentation responsibility on create supplier process.
  */
 public class CreateSupplierPresentation {
     SupplierController supplierController;
@@ -24,7 +23,7 @@ public class CreateSupplierPresentation {
      * Creates a new supplier and adding it to the system.
      */
     public void createNewSupplier() {
-        System.out.println("\nWelcome to the SuppliersModule.Business.Supplier Generator.");
+        System.out.println("\nWelcome to the Supplier Generator.");
         supplierGenerator.reset();
 
         // **************************** Asking the user for attributes of the supplier *********************************
@@ -34,7 +33,7 @@ public class CreateSupplierPresentation {
         System.out.println("What is the supplier's number? ");
         String supplierNum = SupplierModulePresentation.reader.nextLine();
         if(supplierController.checkIfSupplierExist(supplierNum)){
-            System.out.println("SuppliersModule.Business.Supplier already exist");
+            System.out.println("Supplier already exist");
             return;
         }
 
@@ -85,7 +84,7 @@ public class CreateSupplierPresentation {
         while (SupplierModulePresentation.yourChoice.equals("y")) {
             System.out.println("Enter the supplier's category ");
             category.add(SupplierModulePresentation.reader.nextLine());
-            SupplierModulePresentation.checkValidWithMessage("Do you want to insert another domain? (y/n)");
+            SupplierModulePresentation.checkValidWithMessage("Do you want to insert another category? (y/n)");
         }
         return category;
     }

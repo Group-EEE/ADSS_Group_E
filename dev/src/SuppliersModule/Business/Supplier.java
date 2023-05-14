@@ -138,6 +138,14 @@ public class Supplier {
         for(OrderFromSupplier orderFromSupplier : myOrderFromSuppliers)
             stringOrdersHistory = stringOrdersHistory + orderFromSupplier.toString() + "\n";
 
+        if(MyPeriodicOrders.size() != 0)
+            stringOrdersHistory = stringOrdersHistory + "Periodic Order: \n";
+
+        for (Map.Entry<Integer,PeriodicOrder> pair : MyPeriodicOrders.entrySet()) {
+            stringOrdersHistory = stringOrdersHistory + "Day: " + pair.getValue().dayForInviteToString() + "\n";
+            stringOrdersHistory = stringOrdersHistory + pair.getValue().getOrderFromSupplier().toString() + "\n";
+        }
+
         return stringOrdersHistory;
     }
 

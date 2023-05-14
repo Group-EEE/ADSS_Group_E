@@ -2,20 +2,23 @@ package DataAccess;
 
 import DataAccess.InventoryModule.*;
 import DataAccess.SuppliersModule.*;
-import InventoryModule.Business.Category;
-import InventoryModule.Business.SubCategory;
-import InventoryModule.Business.SubSubCategory;
-import InventoryModule.Business.SuperLiProduct;
+import InventoryModule.Business.*;
 import SuppliersModule.Business.*;
 
 import java.sql.*;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Data access object class that through it all access to the DB.
+ */
 public class SuperLiDB {
 
+    //------------------------------------------ Attributes ---------------------------------------
     private static SuperLiDB superLiDB;
     private Connection conn;
+
+    // ------------------------------ References to another Suppliers DAO's------------------------------
     private SupplierDAO supplierDAO;                        // Data access object of suppliers
     private ManufacturerDAO manufacturerDAO;                // Data access object of manufacturers
     private GenericProductDAO genericProductDAO;            // Data access object of genericProducts
@@ -25,6 +28,8 @@ public class SuperLiDB {
     private ContactDAO contactDAO;
     private PeriodicOrderDAO periodicOrderDAO;
     private  OrderFromSupplierDAO orderFromSupplierDAO;
+
+    // ------------------------------ References to another Inventory DAO's------------------------------
     private CategoryDAO categoryDAO;
     private DiscountDAO discountDAO;
     private SpecificProductDAO specificProductDAO;
@@ -67,20 +72,29 @@ public class SuperLiDB {
 
     }
 
+    /**
+     * Get instance
+     * @return - SupplierDAO
+     */
     public static SuperLiDB getInstance() {
         if (superLiDB == null) {
             superLiDB = new SuperLiDB();
-            //superLiDB.WriteAllToDB();
             superLiDB.ReadAllToCache();
         }
         return superLiDB;
     }
 
+    /**
+     * Get connection
+     * @return connection object
+     */
     public Connection getConnection() {
         return conn;
     }
 
-
+    /**
+     * Read all data to cache
+     */
     public void ReadAllToCache()
     {
         manufacturerDAO.ReadManufacturersToCache();
@@ -90,6 +104,9 @@ public class SuperLiDB {
         superLiProductDAO.ReadSuperLiProductToCache();
     }
 
+    /**
+     * Write all data to DB
+     */
     public void WriteAllToDB(){
         manufacturerDAO.WriteFromCacheToDB();
         genericProductDAO.WriteFromCacheToDB();
@@ -253,6 +270,11 @@ public class SuperLiDB {
         orderFromSupplierDAO.insert(orderFromSupplier);
     }
 
+    public int getSizeOfOrderFromSuppliers()
+    {
+        return orderFromSupplierDAO.getSizeOfOrderFromSuppliers();
+    }
+
     //------------------------------------CategoryDAO-----------------------------------------------
     public void insertCategory(Category category)
     {
@@ -263,12 +285,14 @@ public class SuperLiDB {
         return categoryDAO.getIdentifyMapCategory();
     }
 
-    public Map<List<String>, SubCategory> getSubCategoriesMap(){
-        return subCategoryDAO.getIdentifyMapSubCategory();
+    public void removeCategory(Category c){
+        categoryDAO.delete(c);
     }
 
-    public Map<List<String>, SubSubCategory> getSubSubCategoriesMap(){
-        return subSubCategoryDAO.getIdentifyMapSubSubCategory();
+    //------------------------------------SubCategoryDAO-----------------------------------------------
+
+    public Map<List<String>, SubCategory> getSubCategoriesMap(){
+        return subCategoryDAO.getIdentifyMapSubCategory();
     }
 
     public void insertSubCategory(SubCategory subcategory, String catname)
@@ -276,28 +300,30 @@ public class SuperLiDB {
         subCategoryDAO.Insert(subcategory, catname);
     }
 
+    public void removeSubCategory(SubCategory sc, String category){
+        subCategoryDAO.delete(category, sc);
+    }
+
+
+    //------------------------------------SubSubCategoryDAO-----------------------------------------------
+
+    public Map<List<String>, SubSubCategory> getSubSubCategoriesMap(){
+        return subSubCategoryDAO.getIdentifyMapSubSubCategory();
+    }
+
     public void insertSubSubCategory(SubSubCategory subsubcategory, String subcat, String cat)
     {
         subSubCategoryDAO.Insert(subsubcategory, subcat, cat);
-    }
-
-    public void removeCategory(Category c){
-        categoryDAO.delete(c);
-    }
-
-    public void removeSubCategory(SubCategory sc, String category){
-        subCategoryDAO.delete(category, sc);
     }
 
     public void removeSubSubCategory(List<String> subsubkey){
         subSubCategoryDAO.delete(subsubkey.get(0), subsubkey.get(1), subsubkey.get(2));
     }
 
-    //------------------------------------ProductDAO-----------------------------------------------
+    //------------------------------------SuperLiProductDAO-----------------------------------------------
 
     public void insertSuperLiProduct(SuperLiProduct p)
     {
-
         superLiProductDAO.Insert(p);
     }
 
@@ -305,13 +331,4 @@ public class SuperLiDB {
 
         return superLiProductDAO.getIdentifySuperLiProduct();
     }
-
-    public int getSizeOfOrderFromSuppliers()
-    {
-        return orderFromSupplierDAO.getSizeOfOrderFromSuppliers();
-    }
-
-
-
-
 }

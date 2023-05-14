@@ -1,38 +1,19 @@
 package SuppliersModule.Presentation;
 
 import SuppliersModule.Business.Controllers.OrderController;
-import SuppliersModule.Business.Generator.OrderGenerator;
-import SuppliersModule.Business.PaymentTerm;
-
 import java.util.List;
 
+/**
+ * The class OrderPresentation responsibility on order menu
+ */
 public class OrderPresentation {
     private final OrderController orderController = OrderController.getInstance();
-
     private String Choose;
 
-    public void mainManu(){
-        System.out.println("\nWelcome to the PeriodicOrders system.");
-        Choose = "";
-        while (!Choose.equals("0")) {
 
-            System.out.println("Please choose one of the options shown in the menu:");
-            System.out.println("1. Create new Periodic Order");
-            System.out.println("2. Edit/delete existing Periodic Order");
-            System.out.println("0. Exit.");
-            Choose = SupplierModulePresentation.reader.nextLine();
-
-            switch (Choose) {
-                case "1":
-                    createPeriodicOrder();
-                    break;
-                case "2":
-                    editOrDeletePeriodicOrder();
-                    break;
-            }
-        }
-    }
-
+    /**
+     * Create periodic order
+     */
     public void createPeriodicOrder() {
         System.out.println("\nWelcome to the PeriodicOrder Generator.");
         while (true){
@@ -47,6 +28,9 @@ public class OrderPresentation {
         buildProductsList();
     }
 
+    /**
+     * Enter the permanent supply day
+     */
     public void enterThePermanentSupplyDay(){
         int yourDay = checkValidDayAndReturn();
         orderController.enterPermanentDay(yourDay);
@@ -80,6 +64,9 @@ public class OrderPresentation {
         orderController.savePeriodicOrder();
     }
 
+    /**
+     * Edit or delete periodic order - use by inventory
+     */
     public void editOrDeletePeriodicOrder() {
         Choose = "";
         while (!Choose.equals("0")) {
@@ -101,6 +88,9 @@ public class OrderPresentation {
         }
     }
 
+    /**
+     * Delete cur periodic order
+     */
     public void deleteCurPeriodicOrder()
     {
         if(ChoosePeriodicOrderThatContainBarcode(0) == null)
@@ -109,6 +99,9 @@ public class OrderPresentation {
         orderController.deleteCurPeriodicOrder();
     }
 
+    /**
+     * Edit periodic order
+     */
     private void editPeriodicOrder(){
         while (!Choose.equals("0")) {
 
@@ -130,6 +123,9 @@ public class OrderPresentation {
         }
     }
 
+    /**
+     * Change the day for invite
+     */
     public void ChangeTheDayForInvite()
     {
         if(ChoosePeriodicOrderThatContainBarcode(0) == null)
@@ -139,6 +135,9 @@ public class OrderPresentation {
         orderController.changeDayForInviteForCurPeriodicOrder(day);
     }
 
+    /**
+     * Edit products list
+     */
     private void editProductsList(){
         while (!Choose.equals("0")) {
 
@@ -162,6 +161,9 @@ public class OrderPresentation {
         }
     }
 
+    /**
+     * Add product to the list
+     */
     public void addProductToTheList()
     {
         int[] barcodeAndId = ChoosePeriodicOrderThatContainBarcode(1);
@@ -178,6 +180,9 @@ public class OrderPresentation {
         orderController.addQuantityOfTheLastEnteredProduct(productQuantity);
     }
 
+    /**
+     * Change the quantity of product in the list
+     */
     public void ChangeTheQuantityOfProductInTheList()
     {
         int[] BarcodeAndId = ChoosePeriodicOrderThatContainBarcode(0);
@@ -195,6 +200,9 @@ public class OrderPresentation {
         orderController.changeCurOrderedProductQuantity(productQuantity);
     }
 
+    /**
+     * Delete product from the list
+     */
     public void DeleteProductFromTheList()
     {
         int[] BarcodeAndId = ChoosePeriodicOrderThatContainBarcode(0);
@@ -205,6 +213,10 @@ public class OrderPresentation {
     }
 
 
+    /**
+     * Check valid day and return
+     * @return yourDay
+     */
     public int checkValidDayAndReturn(){
         boolean IsValid = false;
         int yourDay = 0;
@@ -219,6 +231,11 @@ public class OrderPresentation {
         return yourDay;
     }
 
+    /**
+     * Choose periodic order that contain barcode
+     * @param method - 0 contain, 1 - can be contain
+     * @return [barcode, periodic order id]
+     */
     public int[] ChoosePeriodicOrderThatContainBarcode(int method)
     {
         int[] barcodeAndId = new int[2];

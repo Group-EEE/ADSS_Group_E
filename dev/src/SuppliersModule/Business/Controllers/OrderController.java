@@ -2,11 +2,14 @@ package SuppliersModule.Business.Controllers;
 
 import DataAccess.SuperLiDB;
 import SuppliersModule.Business.*;
-
 import java.util.*;
 
+/**
+ * controller of all Orders.
+ */
 public class OrderController {
 
+    //------------------------------------------ Attributes ---------------------------------------
     static OrderController orderController;
     private OrderFromSupplier curOrder;
     private PeriodicOrder curPeriodicOrder;
@@ -17,12 +20,20 @@ public class OrderController {
     private SuperLiDB superLiDB;
     Timer timer;
 
+
+    /**
+     * Singleton constructor
+     */
     private OrderController(){
         superLiDB = SuperLiDB.getInstance();
         supplierController = SupplierController.getInstance();
         taskTimer();
     }
 
+    /**
+     * Get instance
+     * @return - OrderController
+     */
     public static OrderController getInstance(){
         if(orderController == null)
             orderController = new OrderController();
@@ -53,6 +64,10 @@ public class OrderController {
         timer.schedule(dailyTask, today.getTime(), 24 * 60 * 60 * 1000); // 24 * 60 * 60 * 1000 is the number of milliseconds a day
     }
 
+    /**
+     * The method that timer performs every 11:00
+     * @param curDay - yhe current day.
+     */
     public void invitePeriodicOrders(int curDay){
         OrderFromSupplier orderFromSupplier;
         for(Map.Entry<List<Integer>, PeriodicOrder> pair : superLiDB.getAllPeriodicOrder().entrySet()){
@@ -64,12 +79,21 @@ public class OrderController {
         }
     }
 
+    /**
+     * Check if a change can be made to the order
+     * @return boolean
+     */
     public boolean checkInvalidDayForChange(){
         Calendar.getInstance();
         int curDay = Calendar.DAY_OF_WEEK;
         return curDay == curPeriodicOrder.getDayForInvite();
     }
 
+    /**
+     * Enter supplier
+     * @param supplerNum - number of supplier
+     * @return bool if existed.
+     */
     public boolean enterSupplier(String supplerNum){
         curSupplier = supplierController.getSupplier(supplerNum);
         return curSupplier != null;
@@ -136,6 +160,11 @@ public class OrderController {
         superLiDB.WriteAllToDB();
     }
 
+    /**
+     * Find all periodic order that contain this barcode
+     * @param barcode - desired barcode
+     * @return All periodic order
+     */
     public List<String> findAllPeriodicOrderThatContainThisBarcode(int barcode)
     {
         String dayForInvaite;
@@ -153,6 +182,11 @@ public class OrderController {
         return RelevantList;
     }
 
+    /**
+     * Find all periodic order that can be contained in this barcode
+     * @param barcode - desired barcode
+     * @return All periodic order
+     */
     public List <String> findAllPeriodicOrderThatCanBeContainThisBarcode(int barcode)
     {
         String dayForInvaite;
