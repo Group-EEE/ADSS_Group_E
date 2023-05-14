@@ -8,6 +8,7 @@ import DataAccessLayer.DAO;
 import DataAccessLayer.HRMoudle.StoresDAO;
 import DataAccessLayer.Transport.Suppliers_dao;
 
+import InterfaceLayer.HRModule.HRManagerCLI;
 import java.sql.SQLException;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
@@ -99,7 +100,8 @@ public class transport_manager_UI {
                 case 8 -> controller.display_site_supply();
                 case 9 -> controller.display_stores();
                 case 10 -> controller.display_suppliers();
-                case 11 -> {
+                case 11 ->
+                case 12 -> {
                     return; //Connection moved to main
                 }
             }
