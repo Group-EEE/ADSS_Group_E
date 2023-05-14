@@ -195,6 +195,7 @@ public class SuperLiProduct {
         return Manufacturer;
     }
 
+    //this setter set the List of specificProducts for each SuperLiProduct when reading from the DB
     public void setSpecificProducts(List<SpecificProduct> specificProducts) {
         this.specificProducts = specificProducts;
     }

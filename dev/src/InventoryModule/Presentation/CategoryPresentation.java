@@ -3,7 +3,8 @@ package InventoryModule.Presentation;
 import InventoryModule.Business.Controllers.CategoryController;
 
 import java.util.Scanner;
-
+//this class represent the sub menu of Category - here the category, subCategory and subsubCategory
+//menus are shown.
 public class CategoryPresentation {
     public CategoryController categoryController;
     Scanner reader;
@@ -12,6 +13,7 @@ public class CategoryPresentation {
         reader = new Scanner(System.in);
     }
 
+    //print to the screen the Category menu
     public void ShowCategoryMenu(){
         String c4 ="";
         while (!c4.equals("0")) {
@@ -40,6 +42,7 @@ public class CategoryPresentation {
         }
     }
 
+    //print to the screen the subCategory menu
     public void ShowSubCategory(){
         String c5 ="";
         while (!c5.equals("0")) {
@@ -68,6 +71,7 @@ public class CategoryPresentation {
         }
     }
 
+    //print to the screen the subsubCategory menu
     public void ShowSubSubCategory(){
         String c6 ="";
         while (!c6.equals("0")) {

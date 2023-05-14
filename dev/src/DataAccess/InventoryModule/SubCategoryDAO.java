@@ -13,24 +13,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//this class connect between the DB and the SubCategory.
 public class SubCategoryDAO {
     private Connection conn;
     static SubCategoryDAO subCategoryDAO;
     private SubSubCategoryDAO subSubCategoryDAO;
     private Map<List<String>, SubCategory> IdentifyMapSubCategory;
 
+    //constructor
     private SubCategoryDAO(Connection conn) {
         this.conn = conn;
         subSubCategoryDAO = SubSubCategoryDAO.getInstance(this.conn);
         IdentifyMapSubCategory = new HashMap<>();
     }
 
+    //implementation of Singeltone Design Pattern
     public static SubCategoryDAO getInstance(Connection conn) {
         if (subCategoryDAO == null)
             subCategoryDAO = new SubCategoryDAO(conn);
         return subCategoryDAO;
     }
 
+    //this method is for upload all the information from the DB when opening the system
     public List<SubCategory> ReadAllSubCategoriesByCategoryName(String Category){
         List<SubCategory> sub = new ArrayList<>();
 
@@ -44,6 +48,7 @@ public class SubCategoryDAO {
                 List<String> subkey = new ArrayList<>();
                 String subCategory =rs.getString("Name");
                 SubCategory subcat = new SubCategory(subCategory);
+                //we will read all the subsubCategories for every subCategory we read
                 List<SubSubCategory> subsubcat = subSubCategoryDAO.ReadAllSubSubCategoriesBySubCategoryName(subCategory, Category);
                 subcat.setSubSubCategories(subsubcat);
                 subkey.add(Category);
@@ -66,10 +71,11 @@ public class SubCategoryDAO {
         }
         catch (SQLException e) {throw new RuntimeException(e);}
     }
+    //this method is for upload all the information to the DB before closing the system
     public void WriteFromCacheToDB(List <SubCategory> ls, String c){
         PreparedStatement stmt;
         try{
-            for(int i=0; i< ls.size(); i++){
+            for(int i=0; i< ls.size(); i++){ //the key of subCategory is its name and its Category name
                 stmt = conn.prepareStatement("Insert into SubCategory VALUES (?,?)");
                 stmt.setString(1, ls.get(i).getName());
                 stmt.setString(2, c);
@@ -81,6 +87,7 @@ public class SubCategoryDAO {
         }
     }
 
+    //insert new subcategory to the IdentifyMapSubCategory
     public void Insert(SubCategory sc, String catname){
         List<String> sublist = new ArrayList<>();
         sublist.add(catname);

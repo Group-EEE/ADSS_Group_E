@@ -10,13 +10,15 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 
 import static InventoryModule.Presentation.InventoryModulePresentation.reader;
-
+//this class represent the sub menu of specificProduct - here all the actions on
+//specificProduct are available - add, remove, find location in store etc.
 public class SpecificProductPresentation {
     private ProductController productController;
     public SpecificProductPresentation(){
 
         productController = ProductController.getInstance();
     }
+    //print to the screen the specificProduct menu
     public void ShowSpecificProductMenu(){
         String c2 = "";
         while (!c2.equals("0")) {
@@ -60,7 +62,11 @@ public class SpecificProductPresentation {
     }
 
     //---------------------------------------------Case Methods---------------------------------------------
+    //this method is used to add specific product to the store - we need all the details about
+    //the specific product
     public void addSpecificProduct() {
+        //we need an instance of supplierController to check if the product is supplied
+        //by known supplier
         SupplierController supplierController = SupplierController.getInstance();
         //get from the warehouse manager all the information needed to create new spec. product
         System.out.println("Please enter Barcode:");
@@ -126,13 +132,14 @@ public class SpecificProductPresentation {
             System.out.println("Wrong barcode entered!");
     }
 
+    //this method is used to remove specific product to the store
     public void removeSpecificProduct(){
         System.out.println("Please enter product's Barcode:");
         int barcode = Integer.parseInt(reader.nextLine());
         System.out.println("Please enter specific product id:");
         int spid = Integer.parseInt(reader.nextLine());
         SuperLiProduct np = productController.getProductByBarcode(barcode);
-        if(np!=null){ //general product found
+        if(np!=null){ // SuperLiProduct found
             np.removeSpecificProduct(spid);
         }
         else{//general product wasnt found
@@ -140,13 +147,14 @@ public class SpecificProductPresentation {
         }
     }
 
+    //this method is used to report specific product as defected from any reason
     public void reportDefectedSpecificProduct(){
         System.out.println("Please enter product's Barcode:");
         int barcode3 = Integer.parseInt(reader.nextLine());
         System.out.println("Please enter specific product id:");
         int spid3 = Integer.parseInt(reader.nextLine());
         SuperLiProduct np3 = productController.getProductByBarcode(barcode3);
-        if(np3!=null){
+        if(np3!=null){ //SuperLiProduct found
             System.out.println("Please enter defect reporter:");
             String dere = reader.nextLine();
             System.out.println("Please enter defect type:");
@@ -158,13 +166,14 @@ public class SpecificProductPresentation {
         }
     }
 
+    //this method is used to find specific product location in store
     public void getSpecificProductLocationInStore(){
         System.out.println("Please enter product's Barcode:");
         int barcode4 = Integer.parseInt(reader.nextLine());
         System.out.println("Please enter specific product id:");
         int spid4 = Integer.parseInt(reader.nextLine());
         SuperLiProduct np4 = productController.getProductByBarcode(barcode4);
-        if(np4!=null){
+        if(np4!=null){//SuperLiProduct found
             np4.getProductLocationInStore(spid4);
         }
         else{
@@ -172,6 +181,7 @@ public class SpecificProductPresentation {
         }
     }
 
+    //this method is used to change specific product location in store
     public void changeSpecificProductLocationInStore(){
         System.out.println("Please enter product's Barcode:");
         int barcode5 = Integer.parseInt(reader.nextLine());

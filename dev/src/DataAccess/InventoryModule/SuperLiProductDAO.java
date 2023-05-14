@@ -11,25 +11,29 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+//this class connect between the DB and the SuperLiProduct and SpecificProduct.
 public class SuperLiProductDAO {
     private Connection conn;
     static SuperLiProductDAO superLiProductDAO;
     private SpecificProductDAO specificProductDAO;
     private DiscountDAO discountDAO;
     private Map<Integer, SuperLiProduct> IdentifyMapSuperLiProduct;
+
+    //constructor
     private SuperLiProductDAO(Connection conn) {
         this.conn = conn;
         specificProductDAO = SpecificProductDAO.getInstance(this.conn);
         discountDAO = DiscountDAO.getInstance(this.conn);
         IdentifyMapSuperLiProduct = new HashMap<>();
     }
+    //implementation of Singeltone Design Pattern
     public static SuperLiProductDAO getInstance(Connection conn) {
         if (superLiProductDAO == null)
             superLiProductDAO = new SuperLiProductDAO(conn);
         return superLiProductDAO;
     }
 
+    //this method is for upload all the information from the DB when opening the system
     public void ReadSuperLiProductToCache(){
         // -----------------------------------Create a query-----------------------------------------
         try {
@@ -42,6 +46,7 @@ public class SuperLiProductDAO {
                 SuperLiProduct slp = new SuperLiProduct(rs.getInt("Barcode"), rs.getString("PName"), rs.getDouble("Costumer_Price"), rs.getString("Category"), rs.getString("SubCategory"),rs.getString("SubSubCategory"), rs.getInt("Supply_Days"), rs.getString("Manufacturer"), rs.getInt("Minimum_Amount"));
                 slp.setSp_counter(rs.getInt("SP_Counter"));
                 IdentifyMapSuperLiProduct.put(barcode, slp);
+                //each SuperLiProduct has list of al its SpecificProducts
                 List <SpecificProduct> allsp = specificProductDAO.ReadAllSpecificProductsByBarcode(barcode);
                 slp.setSpecificProducts(allsp);
             }
@@ -49,6 +54,7 @@ public class SuperLiProductDAO {
         catch (SQLException e) {throw new RuntimeException(e);}
     }
 
+    //this method is for upload all the information to the DB before closing the system
     public void WriteFromCacheToDB()
     {
         PreparedStatement stmt;
@@ -57,8 +63,11 @@ public class SuperLiProductDAO {
             stmt.executeUpdate();
         }
         catch (SQLException e) {throw new RuntimeException(e);}
+        //delete all the old information about the specificProducts and discount
+        //so we won't have inconsistency
         specificProductDAO.DeleteFromDB();
         discountDAO.DeleteFromDB();
+        //"break" every SuperLiProduct to its field to enter to the DB
         for (Map.Entry<Integer, SuperLiProduct> pair : IdentifyMapSuperLiProduct.entrySet()) {
             try{
                 stmt = conn.prepareStatement("Insert into SuperLiProduct VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");

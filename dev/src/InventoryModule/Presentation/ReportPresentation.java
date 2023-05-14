@@ -6,7 +6,7 @@ import SuppliersModule.Presentation.OrderPresentation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+//this class represent the sub menu of Reports. Here we can send Order due to shortage.
 public class ReportPresentation {
     private ReportController reportController;
     Scanner reader;
@@ -15,6 +15,7 @@ public class ReportPresentation {
         reader = new Scanner(System.in);
     }
 
+    //print to the screen the report menu
     public void ShowReportMenu(){
         String c3 ="";
         while (!c3.equals("0")) {

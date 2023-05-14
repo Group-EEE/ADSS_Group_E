@@ -25,6 +25,7 @@ public class Category {
         subCategories.add(sc);
     }
 
+    //this setter set the List of subCategories for each category when reading from the DB
     public void setSubCategories(List<SubCategory> subCategories) {
         this.subCategories = subCategories;
     }

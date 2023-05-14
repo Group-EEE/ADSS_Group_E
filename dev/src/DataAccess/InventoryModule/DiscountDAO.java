@@ -13,25 +13,29 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+//this class connect between the DB and the Discount.
 public class DiscountDAO {
     private Connection conn;
     static DiscountDAO discountDAO;
     private Map<List<String>, Discount> IdentifyMapDiscount;
 
+    //constructor
     private DiscountDAO(Connection conn) {
         this.conn = conn;
         IdentifyMapDiscount = new HashMap<>();
     }
 
+    //implementation of Singeltone Design Pattern
     public static DiscountDAO getInstance(Connection conn) {
         if (discountDAO == null)
             discountDAO = new DiscountDAO(conn);
         return discountDAO;
     }
 
+    //this method is for upload all the information from the DB when opening the system
     public Discount ReadDiscountToCache(int barcode, int sp_id){
         // -----------------------------------Create a query-----------------------------------------
-        try {
+        try { //we read discount by its specificProduct, so we need its barcode and id
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Discount WHERE Barcode = ? AND Sp_ID = ?");
             stmt.setInt(1, barcode);
             stmt.setInt(2, sp_id);
@@ -58,13 +62,6 @@ public class DiscountDAO {
         return null;
     }
 
-    /*public Discount getDiscountByParameters(String s, String e, String d){
-        List<String> para = new ArrayList<>();
-        para.add(s);
-        para.add(e);
-        para.add(d);
-        return IdentifyMapDiscount.get(para);
-    }*/
 
     public void DeleteFromDB(){
         PreparedStatement stmt;
@@ -76,6 +73,7 @@ public class DiscountDAO {
         catch (SQLException e) {throw new RuntimeException(e);}
     }
 
+    //this method is for upload all the information to the DB before closing the system
     public void WriteFromCacheToDB(SpecificProduct sp, Discount d){
         PreparedStatement stmt;
         try{

@@ -5,7 +5,8 @@ import InventoryModule.Business.Controllers.ProductController;
 import java.util.Scanner;
 
 import static InventoryModule.Presentation.InventoryModulePresentation.reader;
-
+//this class represnt the sub menu of the SuperLiProducts. Here we can do actions on SuperLiProducts:
+//add and show all barcodes
 public class SuperLiProductPresentation {
     private ProductController productController;
 
@@ -14,6 +15,7 @@ public class SuperLiProductPresentation {
         productController = ProductController.getInstance();
     }
 
+    //this method shows the sub menu to the screen
     public void ShowSuperLiProductMenu(){
         String c1 = "";
         while (!c1.equals("0")){
@@ -37,6 +39,7 @@ public class SuperLiProductPresentation {
     }
 
     //---------------------------------------Cases Methods-------------------------------------------------
+    //this method is used to add SuperLiProduct to the store - we need all the details about the product
     public void addProduct(){
         // get from the warehouse manager all the information needed to create new product
         boolean isBarcodeExist = false;
@@ -44,12 +47,14 @@ public class SuperLiProductPresentation {
         while(!isBarcodeExist){
             System.out.println("Please enter Barcode:");
             Barcode = Integer.parseInt(reader.nextLine());
+            //we add SuperLiProduct according to the BarcodesOfNewProducts List that the supplier module add
             if(!productController.BarcodesOfNewProducts.contains(Barcode)){
                 System.out.println("Wrong barcode!");
             }
             else
                 isBarcodeExist = true;
         }
+        //ask for all the other details we need to enter new SuperLiProduct to the system
         System.out.println("Please enter Name:");
         String Name = reader.nextLine();
         System.out.println("Please enter Costumer price:");

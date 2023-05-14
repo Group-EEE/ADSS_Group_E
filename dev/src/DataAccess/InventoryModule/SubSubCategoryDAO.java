@@ -12,16 +12,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//this class connect between the DB and the subSubCategory.
 public class SubSubCategoryDAO {
     private Connection conn;
     static SubSubCategoryDAO subSubCategoryDAO;
     private Map<List<String>, SubSubCategory> IdentifyMapSubSubCategory;
 
+    //constructor
     private SubSubCategoryDAO(Connection conn) {
         this.conn = conn;
         IdentifyMapSubSubCategory = new HashMap<>();
     }
 
+    //implementation of Singeltone Design Pattern
     public static SubSubCategoryDAO getInstance(Connection conn) {
         if (subSubCategoryDAO == null)
             subSubCategoryDAO = new SubSubCategoryDAO(conn);
@@ -29,6 +32,7 @@ public class SubSubCategoryDAO {
     }
 
 
+    //this method is for upload all the information from the DB when opening the system
     public List<SubSubCategory> ReadAllSubSubCategoriesBySubCategoryName(String subCategory, String Category) {
         List<SubSubCategory> subsub = new ArrayList<>();
         //-----------------------------------------Create a query-----------------------------------------
@@ -53,6 +57,7 @@ public class SubSubCategoryDAO {
         return subsub;
     }
 
+    //delete all from DB to prevent inconsistency when write back to DB
     public void DeleteFromDB(){
         PreparedStatement stmt;
 
@@ -63,9 +68,10 @@ public class SubSubCategoryDAO {
         catch (SQLException e) {throw new RuntimeException(e);}
     }
 
+    //this method is for upload all the information to the DB before closing the system
     public void WriteFromCacheToDB(List <SubSubCategory> ssl, String sub, String cat){
         PreparedStatement stmt;
-        try{
+        try{ //the key of subsubCategory is uts name, its subcategory name and its Category name
             for(int i=0; i< ssl.size(); i++){
                 stmt = conn.prepareStatement("Insert into SubSubCategory VALUES (?,?,?)");
                 stmt.setString(1, ssl.get(i).getName());
@@ -78,6 +84,8 @@ public class SubSubCategoryDAO {
         catch (SQLException e) {throw new RuntimeException(e);}
     }
 
+
+    //insert new category to the IdentifyMapCategory
     public void Insert(SubSubCategory ssc, String subcat, String cat){
         List<String> l = new ArrayList<>();
         l.add(cat);

@@ -14,29 +14,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+//this class connect between the DB and the SpecificProduct.
 public class SpecificProductDAO {
     private Connection conn;
     private DiscountDAO discountDAO;
     static SpecificProductDAO specificProductDAO;
     private Map<List<Integer>, SpecificProduct> IdentifyMapSpecificProduct;
 
+    //constructor
     private SpecificProductDAO(Connection conn) {
         this.conn = conn;
         discountDAO = DiscountDAO.getInstance(this.conn);
         IdentifyMapSpecificProduct = new HashMap<>();
     }
-
+    //implementation of Singeltone Design Pattern
     public static SpecificProductDAO getInstance(Connection conn) {
         if (specificProductDAO == null)
             specificProductDAO = new SpecificProductDAO(conn);
         return specificProductDAO;
     }
 
+    //this method is for upload all the information from the DB when opening the system
     public List<SpecificProduct> ReadAllSpecificProductsByBarcode(int barcode){
         List<SpecificProduct> allsp = new ArrayList<>();
         //-----------------------------------------Create a query-----------------------------------------
-        try {
+        try { //the specific products will be read by their SuperLiProduct
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SpecificProduct WHERE Barcode = ?");
             stmt.setInt(1, barcode);
             ResultSet rs = stmt.executeQuery();
@@ -73,7 +75,7 @@ public class SpecificProductDAO {
     public void WriteFromCacheToDB(List <SpecificProduct> lsp){
         PreparedStatement stmt;
         for (int i=0; i< lsp.size();i++) {
-            try{
+            try{ //"break" every SpecificProduct to its field to enter to the DB
                 stmt = conn.prepareStatement("Insert into SpecificProduct VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
                 stmt.setInt(1, lsp.get(i).getSp_ID());
                 stmt.setInt(2, lsp.get(i).getBarcode());

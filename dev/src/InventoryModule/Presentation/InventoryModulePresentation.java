@@ -26,6 +26,7 @@ public class InventoryModulePresentation {
     ReportPresentation reportPresentation;
     CategoryPresentation categoryPresentation;
 
+    //get the instances of all the controllers we take information from
     public InventoryModulePresentation() {
         reader = new Scanner(System.in);
         productController = ProductController.getInstance(); //create a product controller
@@ -38,8 +39,8 @@ public class InventoryModulePresentation {
         orderPresentation = new OrderPresentation();
     }
 
+    //this method will print the main menu of Inventory Module
     public void Start(){
-
         String c = "";
         if(productController.getBarcodesOfNewProductsSize() !=0)
             System.out.println("There are new products that are waiting to be added to the system!");
@@ -86,9 +87,9 @@ public class InventoryModulePresentation {
         }
     }
 
-    /** -------------------------------Case 7------------------------------------------------------
-     */
+    /** -------------------------------Case 7------------------------------------------------------**/
 
+    //the sub menu of all the discounts
     public void ShowDiscountMenu(){
         String c7 ="";
         while (!c7.equals("0")) {
