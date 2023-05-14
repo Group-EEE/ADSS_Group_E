@@ -44,6 +44,7 @@ public class transport_manager_UI {
         if (controller.getLogistical_center() == null) {
             create_logistical_center();
         }
+        boolean is_approved = false;
         int choice = 0;
         boolean isValid = false;
         Scanner scanner = new Scanner(System.in);
