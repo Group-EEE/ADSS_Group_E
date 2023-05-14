@@ -326,6 +326,7 @@ public class underway_transport_controller {
             return true;
         }
         return false;
+//        ScheduleController.getInstance().addStandByDriverToLogisticsShift();
     }
 
     /**

@@ -362,4 +362,20 @@ public class Logistical_center_controller {
             }
         }
     }
+
+    public void add_standby_driver_by_date(String planned_date) {
+        int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", LocalDate.parse(planned_date), ShiftType.MORNING);
+        LocalDate date = LocalDate.parse(planned_date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        HashMap<RoleType, Employee> employees = SchedulesDAO.getInstance().getSchedule(date, "Logistics").getShift(shift_id).getAssignedEmployees();
+        ArrayList<Employee> drivers_in_shift = new ArrayList<>(employees.values());
+        List<Truck_Driver> all_drivers = EmployeesDAO.getInstance().getDrivers();
+        Truck_Driver standby_driver = null;
+        for(Truck_Driver driver : all_drivers){
+            if(!Transport_dao.getInstance().check_if_driver_taken_that_date(planned_date, driver.getEmployeeID()) && !drivers_in_shift.contains(driver)){
+                standby_driver = driver;
+                break;
+            }
+        }
+        ScheduleController.getInstance().addStandByDriverToLogisticsShift(standby_driver.getEmployeeID(), shift_id);
+    }
 }

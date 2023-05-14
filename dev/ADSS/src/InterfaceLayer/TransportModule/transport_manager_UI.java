@@ -75,13 +75,13 @@ public class transport_manager_UI {
                     choice = Integer.parseInt(input);
 
                     // Check if the input is a 5 digit integer
-                    if (input.length() <= 2 && choice >= 0 && choice < 14) {
+                    if (input.length() <= 2 && choice >= 0 && choice < 15) {
                         isValid = true;
                     } else {
-                        System.out.println("Input must be an int between 0-11. ");
+                        System.out.println("Input must be an int between 0-14. ");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. Please enter a valid int between 0-13. ");
+                    System.out.println("Invalid input. Please enter a valid int between 0-14. ");
                 }
             }
             isValid = false;
@@ -115,7 +115,8 @@ public class transport_manager_UI {
                     if (!is_approved)is_approved = true;
                     else System.out.println("You have already approved this schedule");
                 }
-                case 13 -> {
+                case 13 -> add_standby_driver();
+                case 14 -> {
                     return;
                 }
             }
@@ -705,6 +706,29 @@ public class transport_manager_UI {
 
         }
         controller.add_supplier(supplier_address, phone_number, supplier_name, supplier_contact_name);
+    }
+
+    public void add_standby_driver(){
+        String input = scanner.nextLine();
+        LocalDate date = LocalDate.parse(input, formatter);
+        LocalDate currentDate = LocalDate.now();
+        LocalDate lastDate = currentDate.plusWeeks(1);
+        boolean isValidDate = false;
+        while(!isValidDate) {
+            System.out.print("Please enter a date between" + currentDate.plusDays(1) + " and " + lastDate + " only in dd/MM/yyyy format: (Press 0 for exit) ");
+            if(input.equals("0")){
+                return;
+            } else if (date.equals(LocalDate.now())) {
+                System.out.println("Invalid input. it is not possible to add standby driver in this day. ");
+            } else if (date.isBefore(currentDate)){
+                System.out.println("Invalid input. date can be only after the current date, try again. " );
+            } else if (date.isAfter(lastDate)) {
+                System.out.println("Invalid input. date can not be only after the last date in the schedule, try again. ");
+            } else {
+                controller.add_standby_driver_by_date(input);
+                isValidDate = true;
+            }
+        }
     }
 
 

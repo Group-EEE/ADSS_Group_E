@@ -846,7 +846,7 @@ public class HRManagerCLI{
         }
     }
 
-    public boolean HRMenuCreateNewLogisiticSchedule(){ //TODO:create new schedule when existing
+    public boolean HRMenuCreateNewLogisiticSchedule(){ // TODO:create new schedule when existing
         System.out.println("Please enter the start date of the schedule (dd/mm/yyyy):");
         int day = validInput("Please enter the start day of the schedule","Please enter a valid integer for the day.",1,31);
         int month = validInput("Please enter the month of the schedule","Please enter a valid integer for the month.",1,12);
@@ -856,7 +856,7 @@ public class HRManagerCLI{
             if (res)
                 System.out.println("The schedule was created successfully for the store Logistics");
             else
-                System.out.println("some error occured");
+                System.out.println("some error occurred");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
