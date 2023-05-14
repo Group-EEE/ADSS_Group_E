@@ -75,7 +75,7 @@ public class HRManagerCLI{
                     HRMenuCreateNewStoreSchedule();
                     break;
                 case "6": //6. approve schedule
-                    HRMenuApproveSchedule();
+                    HRMenuApproveSchedule(false);
                     break;
                 case "7": //7. update personal information
                     updateInformation();
@@ -395,8 +395,13 @@ public class HRManagerCLI{
      * @return true if the schedule was approved successfully, false otherwise
      * approve schedule
      */
-    public boolean HRMenuApproveSchedule() {
-        String storeName = getStoreName();
+    public boolean HRMenuApproveSchedule(boolean isLogistics) {
+        String storeName;
+        if (isLogistics)
+            storeName = "Logisitics";
+        else
+            storeName = getStoreName();
+
         if (storeName == null)
             return false;
         List<Shift> rejectShifts;
@@ -858,6 +863,7 @@ public class HRManagerCLI{
         }
         return true;
     }
+
     public void printRoles() {
         System.out.println("Choose role: ");
         System.out.println("1. Cashier");
