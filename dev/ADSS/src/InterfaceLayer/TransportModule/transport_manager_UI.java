@@ -67,7 +67,8 @@ public class transport_manager_UI {
             System.out.println("10 - Display all suppliers in the system");
             System.out.println("11 - Create New Schedule");
             System.out.println("12 - Approve Schedule");
-            System.out.println("13 - quit");
+            System.out.println("13 - Add standby driver to existing schedule by date.");
+            System.out.println("14 - quit");
             while (!isValid) {
                 try {
                     input = scanner.nextLine();
