@@ -62,20 +62,22 @@ public class transport_manager_UI {
             System.out.println("8 - Display all site supplies documents in the system");
             System.out.println("9 - Display all stores in the system");
             System.out.println("10 - Display all suppliers in the system");
-            System.out.println("11 - quit");
+            System.out.println("11 - Create New Schedule");
+            System.out.println("12 - Approve Schedule");
+            System.out.println("13 - quit");
             while (!isValid) {
                 try {
                     input = scanner.nextLine();
                     choice = Integer.parseInt(input);
 
                     // Check if the input is a 5 digit integer
-                    if (input.length() <= 2 && choice >= 0 && choice < 12) {
+                    if (input.length() <= 2 && choice >= 0 && choice < 14) {
                         isValid = true;
                     } else {
                         System.out.println("Input must be an int between 0-11. ");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. Please enter a valid int between 0-11. ");
+                    System.out.println("Invalid input. Please enter a valid int between 0-13. ");
                 }
             }
             isValid = false;
@@ -107,7 +109,7 @@ public class transport_manager_UI {
                 case 10 -> controller.display_suppliers();
                 case 11 -> HRManagerCLI.getInstance().HRMenuCreateNewLogisiticSchedule();
                 case 12 -> HRManagerCLI.getInstance().HRMenuApproveSchedule(true); // can't do it twice!!!.
-                case 14 -> {
+                case 13 -> {
                     return; //Connection moved to main
                 }
             }
