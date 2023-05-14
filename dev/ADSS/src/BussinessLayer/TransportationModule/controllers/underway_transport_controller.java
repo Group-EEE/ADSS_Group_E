@@ -292,26 +292,34 @@ public class underway_transport_controller {
                 }
             }
         }
-        // searching for a driver that can drive the new truck
-        if (logistical_center_controller.truck_assigning_drivers_in_shift(new_truck.getRegistration_plate(), transport.getPlanned_date())) {
-            // updating the current driver's truck and the opposite.
-            Truck_Driver old_driver = truck.getCurrent_driver();
+        Truck_Driver old_driver = truck.getCurrent_driver();
+        if(logistical_center_controller.truck_assigning(new_truck.getRegistration_plate(), transport.getPlanned_date() ,old_driver)){
             truck.setCurrent_driver(null);
             truck.setOccupied(false);
+            truck.setCurrent_driver(null);
+            new_truck.setCurrent_driver(old_driver);
             // updating the details in the transport document
             transport.setTruck_number(new_truck.getRegistration_plate());
+            // add the weight to the new truck.
             new_truck.setCurrent_weight(truck.getCurrent_weight());
-            // reset the weight of the old truck
+            // reset the weight of the old truck.
             truck.setCurrent_weight(truck.getNet_weight());
-            // transferring the goods and the documents
-            Truck_Driver new_truck_driver = new_truck.getCurrent_driver();
-            if (!new_truck_driver.equals(old_driver)) {
-                transport.setDriver_name(new_truck_driver.getFullName());
-                new_truck_driver.setSites_documents(old_driver.getSites_documents());
-                old_driver.setSites_documents(null);
-                old_driver.setCurrent_truck(null);
-            }
-            new_truck.setNavigator(truck.getNavigator().getRoute());
+            // reset the truck of the driver to be the new truck.
+            old_driver.setCurrent_truck(new_truck);
+
+            return true;
+        } else if (logistical_center_controller.truck_assigning_drivers_in_shift(new_truck.getRegistration_plate(), transport.getPlanned_date())) {
+            truck.setCurrent_driver(null);
+            truck.setOccupied(false);
+            truck.setCurrent_driver(null);
+            // updating the details in the transport document
+            transport.setTruck_number(new_truck.getRegistration_plate());
+            // add the weight to the new truck.
+            new_truck.setCurrent_weight(truck.getCurrent_weight());
+            // reset the weight of the old truck.
+            truck.setCurrent_weight(truck.getNet_weight());
+            // reset the truck of the driver to be the new truck.
+            old_driver.setCurrent_truck(null);
             return true;
         }
         return false;

@@ -1,18 +1,20 @@
 package BussinessLayer.TransportationModule.controllers;
 
+import BussinessLayer.HRModule.Objects.Employee;
+import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.TransportationModule.objects.*;
 import DataAccessLayer.HRMoudle.EmployeesDAO;
+import DataAccessLayer.HRMoudle.SchedulesDAO;
 import DataAccessLayer.HRMoudle.StoresDAO;
 import DataAccessLayer.Transport.*;
 import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.HRModule.Controllers.ScheduleController;
 import BussinessLayer.HRModule.Objects.ShiftType;
+import BussinessLayer.HRModule.Controllers.ScheduleController;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 // singleton
 public class Logistical_center_controller {
@@ -84,8 +86,22 @@ public class Logistical_center_controller {
         return false;
     }
 
-    // need to implent, I need to pull out the drivers that work today and check if they can drive this truck.
+
+
     public boolean truck_assigning_drivers_in_shift(String new_truck_registration_plate, String planned_date){
+        int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", LocalDate.parse(planned_date), ShiftType.MORNING);
+        LocalDate date = LocalDate.parse(planned_date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        HashMap<RoleType, Employee> employees = SchedulesDAO.getInstance().getSchedule(date, "Logistics").getShift(shift_id).getAssignedEmployees();
+        ArrayList<Employee> drivers = new ArrayList<>(employees.values());
+        for (Employee driver : drivers){
+            if(!Transport_dao.getInstance().check_if_driver_taken_that_date(planned_date, driver.getEmployeeID())){
+                if(truck_assigning(new_truck_registration_plate, planned_date, (Truck_Driver) driver)){
+                    Truck truck = getTruckByNumber(new_truck_registration_plate);
+                    truck.setCurrent_driver((Truck_Driver) driver);
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
