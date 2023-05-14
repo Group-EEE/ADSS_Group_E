@@ -33,7 +33,7 @@ public class Suppliers_dao extends DAO {
     public boolean Insert(Object obj) {
         Supplier supplier = (Supplier) obj;
         try {
-            String query = "INSERT INTO Suppliers (ID, Store_Name, Origin, Total_Weight) VALUES (?,?,?,?)";
+            String query = "INSERT INTO Suppliers (Address, Phone, Name, Contact_name) VALUES (?,?,?,?)";
 
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, supplier.getAddress());

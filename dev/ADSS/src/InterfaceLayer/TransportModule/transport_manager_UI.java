@@ -44,9 +44,9 @@ public class transport_manager_UI {
      */
     // ===== Main menu =====
     public void start() {
-        if (controller.getLogistical_center() == null) {
-            create_logistical_center();
-        }
+//        if (controller.getLogistical_center() == null) {
+//            create_logistical_center();
+//        }
         boolean is_approved = false;
         int choice = 0;
         boolean isValid = false;
@@ -267,20 +267,24 @@ public class transport_manager_UI {
             // Check if the input matches the expected format
             if (inputDate.matches("\\d{2}/\\d{2}")) {
                 planned_date = inputDate + "/" + currentYear;
-                date = LocalDate.parse(planned_date, formatter);
-                // Check if the parsed date is not before the current date and not more than one week from the current date
-                if (!date.isBefore(currentDate) && !date.isAfter(currentDate.plusWeeks(1))) {;
-                    if (currentDate.equals(date)){
-                        int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", date, ShiftType.MORNING);
-                        if (!SchedulesDAO.getInstance().getSchedule(currentDate, "Logistics").getShift(shift_id).isApproved() || !SchedulesDAO.getInstance().getSchedule(currentDate, "Logistics").getShift(shift_id+1).isApproved()){
-                            System.out.println("There's no shifts approved for the current date. ");
-                            return false;
+                try {
+                    date = LocalDate.parse(planned_date, formatter);
+                    // Check if the parsed date is not before the current date and not more than one week from the current date
+                    if (!date.isBefore(currentDate) && !date.isAfter(currentDate.plusWeeks(1))) {
+                        if (currentDate.equals(date)) {
+                            int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", date, ShiftType.MORNING);
+                            if (!SchedulesDAO.getInstance().getSchedule(currentDate, "Logistics").getShift(shift_id).isApproved() || !SchedulesDAO.getInstance().getSchedule(currentDate, "Logistics").getShift(shift_id + 1).isApproved()) {
+                                System.out.println("There's no shifts approved for the current date.");
+                                return false;
+                            }
+                            is_today = true;
                         }
-                        is_today = true;
+                        validInput = true;
+                    } else {
+                        System.out.println("Invalid input. The date must not be before the current date and not more than one week from the current date.");
                     }
-                    validInput = true;
-                } else {
-                    System.out.println("Invalid input. The date must not be before the current date and not more than one week from the current date.");
+                } catch (DateTimeParseException e) {
+                    System.out.println("Invalid input. Please enter a date in the format dd/mm.");
                 }
             } else {
                 System.out.println("Invalid input. Please enter a date in the format dd/mm.");
@@ -710,7 +714,7 @@ public class transport_manager_UI {
     }
 
     public void add_standby_driver(){
-        String input;
+        String input = "";
         LocalDate date = null;
         LocalDate currentDate = LocalDate.now();
         LocalDate lastDate = currentDate.plusWeeks(1);
@@ -740,4 +744,4 @@ public class transport_manager_UI {
     }
 
 
-}
+
