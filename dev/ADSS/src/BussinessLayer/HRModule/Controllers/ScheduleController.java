@@ -225,7 +225,7 @@ public class ScheduleController {
 
 
     public boolean addMustBeFilledWareHouse(String storeName, int shiftID){
-        return addMustBeFilledRole(storeName,shiftID,RoleType.Driver);
+        return addMustBeFilledRole(storeName,shiftID,RoleType.Warehouse);
     }
     public boolean addMustBeFilledRole(String storeName, int shiftID, RoleType role){
         if (storeName == null )
@@ -255,7 +255,7 @@ public class ScheduleController {
 
 
     public boolean isThereStandByDriverAndWareHouse(String storeName,LocalDate localDate, ShiftType shiftType){
-        if (storeName == null )
+        if (storeName == null)
             throw new IllegalArgumentException("Invalid store name");
         if (localDate == null)
             throw new IllegalArgumentException("Invalid date");
@@ -288,5 +288,10 @@ public class ScheduleController {
         }catch (IllegalArgumentException e){
             return false;
         }
+    }
+
+    public boolean hasWareHouse(String storeName, int storeID){
+        Schedule schedule = getSchedule(storeName);
+        return schedule.getShift(storeID).hasFilledRole(RoleType.Warehouse);
     }
 }
