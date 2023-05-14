@@ -1,5 +1,7 @@
 package BussinessLayer.TransportationModule.controllers;
 
+import BussinessLayer.HRModule.Controllers.ScheduleController;
+import BussinessLayer.HRModule.Objects.ShiftType;
 import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.TransportationModule.objects.*;
 import DataAccessLayer.HRMoudle.EmployeesDAO;
@@ -8,6 +10,7 @@ import DataAccessLayer.Transport.Transport_dao;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -502,18 +505,18 @@ public class underway_transport_controller {
      truck.setCurrent_driver(truck_driver);
     }
 
-    public boolean check_if_warehouse_worker_exist_in_all_stores(int transport_ID){
+    public boolean check_if_warehouse_worker_exist_in_all_stores(int transport_ID, LocalDate date){
         Transport transport = Transport_dao.getInstance().getTransport(transport_ID);
-        boolean exist = true;
         for (Site site: transport.getDestinations()){
             if (site.is_store()){
-                //if(boolean function that chen need to implement to check if there's warehouse worker in store){
-                // exist = false;
-                // break;
-                // }
+                Store current_store = (Store) site;
+                int shift_id = ScheduleController.getInstance().getShiftIDByDate(current_store.getName(), date, ShiftType.MORNING);
+                boolean shift1 = ScheduleController.getInstance().hasWareHouse(current_store.getName(), shift_id);
+                boolean shift2 = ScheduleController.getInstance().hasWareHouse(current_store.getName(), shift_id+1);
+                if (!shift1 || !shift2) return false;
             }
         }
-        return exist;
+        return true;
     }
 
 

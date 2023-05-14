@@ -94,7 +94,6 @@ public class transport_manager_UI {
                 case 2 -> {
                     System.out.println("Hey Boss!");
                     create_transport_document(is_approved);
-                    // addStandByDriverToLogisticsShift(driver id, shift id);
                 }
                 case 3 -> {
                     ArrayList<Integer> chosen_transports = choose_transport_to_send();
