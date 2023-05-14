@@ -710,7 +710,7 @@ public class transport_manager_UI {
     }
 
     public void add_standby_driver(){
-        String input;
+        String input = null;
         LocalDate date = null;
         LocalDate currentDate = LocalDate.now();
         LocalDate lastDate = currentDate.plusWeeks(1);
