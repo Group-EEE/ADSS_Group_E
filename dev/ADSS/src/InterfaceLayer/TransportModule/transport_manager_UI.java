@@ -1,5 +1,7 @@
 package InterfaceLayer.TransportModule;
 
+import BussinessLayer.HRModule.Controllers.ScheduleController;
+import BussinessLayer.HRModule.Objects.ShiftType;
 import BussinessLayer.TransportationModule.controllers.Logistical_center_controller;
 import BussinessLayer.TransportationModule.objects.Transport;
 import BussinessLayer.TransportationModule.objects.Truck_Driver;
@@ -8,6 +10,7 @@ import DataAccessLayer.DAO;
 import DataAccessLayer.HRMoudle.StoresDAO;
 import DataAccessLayer.Transport.Suppliers_dao;
 
+import InterfaceLayer.HRModule.HRManagerCLI;
 import java.sql.SQLException;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
@@ -23,12 +26,14 @@ public class transport_manager_UI {
     // ===== attributes =====
     Logistical_center_controller controller;
     underway_transport_UI underway_transport_ui;
+    private DateTimeFormatter formatter;
 
     Scanner scanner;
     public transport_manager_UI() {
         this.controller = Logistical_center_controller.getInstance();
         this.underway_transport_ui = new underway_transport_UI();
         this.scanner = new Scanner(System.in);
+        formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     }
 
     /**
@@ -39,6 +44,7 @@ public class transport_manager_UI {
         if (controller.getLogistical_center() == null) {
             create_logistical_center();
         }
+        boolean is_approved = false;
         int choice = 0;
         boolean isValid = false;
         Scanner scanner = new Scanner(System.in);
@@ -57,20 +63,22 @@ public class transport_manager_UI {
             System.out.println("8 - Display all site supplies documents in the system");
             System.out.println("9 - Display all stores in the system");
             System.out.println("10 - Display all suppliers in the system");
-            System.out.println("11 - quit");
+            System.out.println("11 - Create New Schedule");
+            System.out.println("12 - Approve Schedule");
+            System.out.println("13 - quit");
             while (!isValid) {
                 try {
                     input = scanner.nextLine();
                     choice = Integer.parseInt(input);
 
                     // Check if the input is a 5 digit integer
-                    if (input.length() <= 2 && choice >= 0 && choice < 12) {
+                    if (input.length() <= 2 && choice >= 0 && choice < 14) {
                         isValid = true;
                     } else {
                         System.out.println("Input must be an int between 0-11. ");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. Please enter a valid int between 0-11. ");
+                    System.out.println("Invalid input. Please enter a valid int between 0-13. ");
                 }
             }
             isValid = false;
@@ -84,6 +92,7 @@ public class transport_manager_UI {
                 case 2 -> {
                     System.out.println("Hey Boss!");
                     create_transport_document();
+                    // addStandByDriverToLogisticsShift(driver id, shif id);
                 }
                 case 3 -> {
                     ArrayList<Integer> chosen_transports = choose_transport_to_send();
@@ -99,8 +108,10 @@ public class transport_manager_UI {
                 case 8 -> controller.display_site_supply();
                 case 9 -> controller.display_stores();
                 case 10 -> controller.display_suppliers();
-                case 11 -> {
-                    return; //Connection moved to main
+                case 11 -> HRManagerCLI.getInstance().HRMenuCreateNewLogisiticSchedule();
+                case 12 -> {HRManagerCLI.getInstance().HRMenuApproveSchedule(true); if (!is_approved)is_approved = true;} // can't do it twice!!!.
+                case 13 -> {
+                    return;
                 }
             }
 
@@ -120,7 +131,6 @@ public class transport_manager_UI {
         }
     }
 
-    //create new driver moved to HRmanagerCLI
 
     /**
      * asking from the user details about the logistical center and create it in the controller.
@@ -242,14 +252,14 @@ public class transport_manager_UI {
         String inputDate = "";
         boolean validInput = false;
         String planned_date = "";
+        LocalDate date = null;
         while (!validInput) {
             System.out.print("Please enter the date you want to send the transport in the format dd/mm (please note that you can make transports for the next week only) : ");
             inputDate = scanner.nextLine();
             // Check if the input matches the expected format
             if (inputDate.matches("\\d{2}/\\d{2}")) {
                 planned_date = inputDate + "/" + currentYear;
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDate date = LocalDate.parse(planned_date, formatter);
+                date = LocalDate.parse(planned_date, formatter);
                 // Check if the parsed date is not before the current date and not more than one week from the current date
                 if (!date.isBefore(currentDate) && !date.isAfter(currentDate.plusWeeks(1))) {
                     validInput = true;
@@ -439,6 +449,11 @@ public class transport_manager_UI {
             }
         }
         controller.insert_sites_names_to_transport(transport_Id, stores, suppliers);
+        for (String store : stores.split(",")){
+            int shift_id = ScheduleController.getInstance().getShiftIDByDate(store, date, ShiftType.MORNING);
+            ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id);
+            ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id+1);
+        }
     }
 
     /**

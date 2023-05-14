@@ -239,7 +239,7 @@ public class Transport_dao extends DAO {
             while (res.next()) {
                 transport.insertToProducts(res.getString(2), res.getInt(3));
             }
-        } catch (SQLException e) {
+        } catch (SQLException e){
         }
     }
 
