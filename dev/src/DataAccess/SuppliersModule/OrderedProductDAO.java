@@ -1,6 +1,5 @@
 package DataAccess.SuppliersModule;
 
-import SuppliersModule.Business.GenericProduct;
 import SuppliersModule.Business.OrderFromSupplier;
 import SuppliersModule.Business.OrderedProduct;
 import SuppliersModule.Business.SupplierProduct;
@@ -12,13 +11,20 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Data access object class of OrderedProduct.
+ */
 public class OrderedProductDAO {
 
+    //------------------------------------------ Attributes ---------------------------------------
     private Connection conn;
     static OrderedProductDAO orderedProductDAO;
     private Map<Integer, OrderedProduct> IdentifyMapOrderedProduct;
 
+    // ------------------------------------- References to another DAO's--------------------------------
     private SupplierProductDAO supplierProductDAO;
+
+    // -----------------------------------------------------------------------------------------------------
 
     /**
      * Singleton constructor
@@ -29,13 +35,23 @@ public class OrderedProductDAO {
         supplierProductDAO = SupplierProductDAO.getInstance(this.conn);
     }
 
+    /**
+     * Get instance
+     * @param conn - Object connection to DB
+     * @return - OrderedProductDAO
+     */
     public static OrderedProductDAO getInstance(Connection conn) {
         if (orderedProductDAO == null)
             orderedProductDAO = new OrderedProductDAO(conn);
         return orderedProductDAO;
     }
 
-    public Map<String, OrderedProduct> getAll(int OrderFromSupplierId) {
+    /**
+     * Get all OrderedProducts that belongs to the OrderFromSupplier
+     * @param OrderFromSupplierId - desired OrderFromSupplier.
+     * @return Map of all OrderedProduct.
+     */
+    public Map<String, OrderedProduct> getAllByOrderFromSupplierId(int OrderFromSupplierId) {
 
         PreparedStatement stmt;
 
@@ -61,6 +77,10 @@ public class OrderedProductDAO {
         return orderedProductList;
     }
 
+    /**
+     * Write all the suppliers from cache to DB
+     * @param order - desired orderFromSupplier
+     */
     public void WriteFromCacheToDB(OrderFromSupplier order) {
         PreparedStatement stmt;
 
@@ -89,6 +109,9 @@ public class OrderedProductDAO {
         }
     }
 
+    /**
+     * Delete all the records in the table
+     */
     public void deleteAllTable()
     {
         PreparedStatement stmt;
@@ -99,6 +122,10 @@ public class OrderedProductDAO {
         catch (SQLException e) {throw new RuntimeException(e);}
     }
 
+    /**
+     * Delete All orderedProducts from DB that belongs to the supplier.
+     * @param supplierNum - supplierNum.
+     */
     public void deleteBySupplier(String supplierNum)
     {
         try {
@@ -112,11 +139,19 @@ public class OrderedProductDAO {
         catch (SQLException e) {throw new RuntimeException(e);}
     }
 
+    /**
+     * Insert contact to DB
+     * @param orderedProduct - desired orderedProduct.
+     */
     public void insert(OrderedProduct orderedProduct)
     {
         IdentifyMapOrderedProduct.put(orderedProduct.getId(), orderedProduct);
     }
 
+    /**
+     * Delete All orderedProducts from DB that belongs to the orderFromSupplier.
+     * @param id - OrderFromSupplier id.
+     */
     public void deleteByOrderFromSupplierId(int id)
     {
         try {

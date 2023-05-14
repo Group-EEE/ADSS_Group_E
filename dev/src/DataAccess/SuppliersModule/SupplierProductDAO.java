@@ -2,15 +2,12 @@ package DataAccess.SuppliersModule;
 
 import SuppliersModule.Business.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
+import java.util.*;
 
+/**
+ * Data access object class of SupplierProduct.
+ */
 public class SupplierProductDAO {
 
     private Connection conn;
@@ -31,6 +28,11 @@ public class SupplierProductDAO {
         supplierProductDiscountDAO = SupplierProductDiscountDAO.getInstance(this.conn);
     }
 
+    /**
+     * Get instance
+     * @param conn - Object connection to DB
+     * @return - SupplierProductDAO
+     */
     public static SupplierProductDAO getInstance(Connection conn) {
         if (supplierProductDAO == null)
             supplierProductDAO = new SupplierProductDAO(conn);

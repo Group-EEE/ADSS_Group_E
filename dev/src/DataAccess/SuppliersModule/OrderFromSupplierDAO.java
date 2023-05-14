@@ -2,21 +2,23 @@ package DataAccess.SuppliersModule;
 
 import SuppliersModule.Business.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
+import java.util.*;
 
+/**
+ * Data access object class of OrderFromSupplier.
+ */
 public class OrderFromSupplierDAO {
+
+    //------------------------------------------ Attributes ---------------------------------------
     private Connection conn;
     static OrderFromSupplierDAO orderFromSupplierDAO;
     private Map<Integer, OrderFromSupplier> IdentifyMapOrderFromSupplier;
 
+    // ------------------------------------- References to another DAO's--------------------------------
     private OrderedProductDAO orderedProductDAO;
+
+    // -----------------------------------------------------------------------------------------------------
 
     /**
      * Singleton constructor
@@ -27,13 +29,23 @@ public class OrderFromSupplierDAO {
         orderedProductDAO = OrderedProductDAO.getInstance(this.conn);
     }
 
+    /**
+     * Get instance
+     * @param conn - Object connection to DB
+     * @return - OrderFromSupplierDAO
+     */
     public static OrderFromSupplierDAO getInstance(Connection conn) {
         if (orderFromSupplierDAO == null)
             orderFromSupplierDAO = new OrderFromSupplierDAO(conn);
         return orderFromSupplierDAO;
     }
 
-    public List<OrderFromSupplier> getAll(Supplier supplier) {
+    /**
+     * Get all OrderFromSuppliers that belongs to the supplier
+     * @param supplier - desired supplier.
+     * @return List of all OrderFromSupplier.
+     */
+    public List<OrderFromSupplier> getAllBySupplier(Supplier supplier) {
         List<OrderFromSupplier> orderFromSupplierList = new ArrayList<>();
 
         PreparedStatement stmt;
@@ -48,7 +60,7 @@ public class OrderFromSupplierDAO {
                 orderFromSupplier.setId(rs.getInt("Id"));
                 orderFromSupplier.setQuantity(rs.getInt("Quantity"));
                 orderFromSupplier.setPriceBeforeTotalDiscount(rs.getFloat("PriceBeforeTotalDiscount"));
-                orderFromSupplier.setProductsInOrder(orderedProductDAO.getAll(rs.getInt("Id")));
+                orderFromSupplier.setProductsInOrder(orderedProductDAO.getAllByOrderFromSupplierId(rs.getInt("Id")));
 
                 PreparedStatement stmt2 = conn.prepareStatement("SELECT Id FROM PeriodicOrder WHERE Id = ?");
                 stmt2.setInt(1, rs.getInt("Id"));
@@ -75,11 +87,19 @@ public class OrderFromSupplierDAO {
         return orderFromSupplierList;
     }
 
-    public OrderFromSupplier getOrderFromSupplier(int Id)
+    /**
+     * Get supplier by supplierNum
+     * @param Id - number of the orderFromSupplier.
+     * @return desired orderFromSupplier.
+     */
+    public OrderFromSupplier getOrderFromSupplierById(int Id)
     {
         return IdentifyMapOrderFromSupplier.get(Id);
     }
 
+    /**
+     * Write all the categories from cache to DB
+     */
     public void WriteFromCacheToDB() {
         PreparedStatement stmt;
 
@@ -115,6 +135,11 @@ public class OrderFromSupplierDAO {
         }
     }
 
+
+    /**
+     * Delete All orderFromSuppliers from DB that belongs to the supplier.
+     * @param supplierNum - supplierNum.
+     */
     public void deleteBySupplier(String supplierNum)
     {
         try {
@@ -130,6 +155,10 @@ public class OrderFromSupplierDAO {
         orderedProductDAO.deleteBySupplier(supplierNum);
     }
 
+    /**
+     * Insert supplier to DB
+     * @param orderFromSupplier - desired orderFromSupplier.
+     */
     public void insert(OrderFromSupplier orderFromSupplier)
     {
         IdentifyMapOrderFromSupplier.put(orderFromSupplier.getId(), orderFromSupplier);
@@ -138,12 +167,20 @@ public class OrderFromSupplierDAO {
         }
     }
 
+    /**
+     * Get size of IdentifyMapOrderFromSupplier
+     * @return size of IdentifyMapOrderFromSupplier
+     */
     public int getSizeOfOrderFromSuppliers()
     {
         return IdentifyMapOrderFromSupplier.size();
     }
 
-    public void deleteById(int id)
+    /**
+     * Delete supplier from DB
+     * @param id - desired orderFromSupplier.
+     */
+    public void delete(int id)
     {
         IdentifyMapOrderFromSupplier.remove(id);
         orderedProductDAO.deleteByOrderFromSupplierId(id);

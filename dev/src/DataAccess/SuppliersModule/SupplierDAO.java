@@ -82,11 +82,11 @@ public class SupplierDAO {
                 supplierProductDAO.creatAllSupplierProductsBySupplier(supplier);
 
                 // --------------------------------Restore the OrderFromSuppliers---------------------------------
-                for (OrderFromSupplier orderFromSupplier : orderFromSupplierDAO.getAll(supplier))
+                for (OrderFromSupplier orderFromSupplier : orderFromSupplierDAO.getAllBySupplier(supplier))
                     orderFromSupplier.invite();
 
                 // --------------------------------Restore the PeriodicOrders---------------------------------
-                periodicOrderDAO.createAllPeriodicOrder(supplier.getSupplierNum());
+                periodicOrderDAO.GetAllBySupplierNum(supplier);
 
                 // ------------------------------------Save in cache-----------------------------------------
                 IdentifyMapSupplier.put(supplierNum, supplier);

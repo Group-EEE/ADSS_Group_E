@@ -9,6 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * Data access object class of SupplierProductDiscount.
+ */
 public class SupplierProductDiscountDAO {
 
     private Connection conn;
@@ -23,6 +26,11 @@ public class SupplierProductDiscountDAO {
         IdentifyMapSupplierProductDiscount = new HashMap<>();
     }
 
+    /**
+     * Get instance
+     * @param conn - Object connection to DB
+     * @return - SupplierProductDiscountDAO
+     */
     public static SupplierProductDiscountDAO getInstance(Connection conn) {
         if (supplierProductDiscountDAO == null)
             supplierProductDiscountDAO = new SupplierProductDiscountDAO(conn);
