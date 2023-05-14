@@ -107,9 +107,9 @@ public class transport_manager_UI {
                 case 9 -> controller.display_stores();
                 case 10 -> controller.display_suppliers();
                 case 11 -> HRManagerCLI.getInstance().HRMenuCreateNewLogisiticSchedule();
-                case 12 -> HRManagerCLI.getInstance().HRMenuApproveSchedule(true); // can't do it twice!!!.
-                case 14 -> {
-                    return; //Connection moved to main
+                case 12 -> {HRManagerCLI.getInstance().HRMenuApproveSchedule(true); if (!is_approved)is_approved = true;} // can't do it twice!!!.
+                case 13 -> {
+                    return;
                 }
             }
 
