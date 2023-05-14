@@ -14,9 +14,12 @@ import java.util.*;
  */
 public class SupplierProductDiscountDAO {
 
+    //------------------------------------------ Attributes ---------------------------------------
     private Connection conn;
     static SupplierProductDiscountDAO supplierProductDiscountDAO;
     private Map<List<String>, SupplierProductDiscount> IdentifyMapSupplierProductDiscount;
+
+    // -----------------------------------------------------------------------------------------------------
 
     /**
      * Singleton constructor
@@ -37,6 +40,12 @@ public class SupplierProductDiscountDAO {
         return supplierProductDiscountDAO;
     }
 
+    /**
+     * Get all SupplierProductDiscount that belongs to the supplier and supplierCatalog
+     * @param supplierNum - desired supplier.
+     * @param supplierCatalog - number of supplierProduct
+     * @return TreeMap of all SupplierProducts.
+     */
     public TreeMap<Integer, SupplierProductDiscount> getAll(String supplierNum, String supplierCatalog)
     {
         TreeMap<Integer, SupplierProductDiscount> DiscountProducts = new TreeMap<>();
@@ -57,6 +66,13 @@ public class SupplierProductDiscountDAO {
         return DiscountProducts;
     }
 
+    /**
+     * Create key
+     * @param supplierNum - number of supplier
+     * @param supplierCatalog - number of supplierProduct
+     * @param minimumAmount - amount of supplierCatalog.
+     * @return keyPair
+     */
     public List<String> createKey(String supplierNum, String supplierCatalog, int minimumAmount)
     {
         List<String> keyPair = new ArrayList<>();
@@ -66,6 +82,9 @@ public class SupplierProductDiscountDAO {
         return keyPair;
     }
 
+    /**
+     * Write all the supplierProductDiscounts from cache to DB
+     */
     public void WriteFromCacheToDB() {
         PreparedStatement stmt;
 
@@ -88,12 +107,21 @@ public class SupplierProductDiscountDAO {
         }
     }
 
+    /**
+     * Insert supplierProduct to DB
+     * @param supplierProduct - desired supplierProduct.
+     * @param supplierProductDiscount - desired SupplierProductDiscount
+     */
     public void insert(SupplierProduct supplierProduct, SupplierProductDiscount supplierProductDiscount)
     {
         List<String> key = createKey(supplierProduct.getMySupplier().getSupplierNum(), supplierProduct.getSupplierCatalog(), supplierProductDiscount.getMinimumAmount());
         IdentifyMapSupplierProductDiscount.put(key, supplierProductDiscount);
     }
 
+    /**
+     * Delete All supplierProductDiscounts from DB that belongs to the supplier.
+     * @param supplierNum - supplierNum.
+     */
     public void deleteBySupplier(String supplierNum)
     {
         Map<List<String>, SupplierProductDiscount> copyMap = new HashMap<>(IdentifyMapSupplierProductDiscount);
@@ -103,6 +131,12 @@ public class SupplierProductDiscountDAO {
         }
     }
 
+    /**
+     * Delete supplierProduct from DB
+     * @param supplierNum - number of supplier
+     * @param supplierCatalog - number of supplierProduct
+     * @param amount - amount of supplierCatalog.
+     */
     public void delete(String supplierNum, String supplierCatalog, int amount)
     {
         List<String> key = createKey(supplierNum, supplierCatalog, amount);

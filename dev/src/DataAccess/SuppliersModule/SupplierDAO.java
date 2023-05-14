@@ -79,7 +79,7 @@ public class SupplierDAO {
                     supplier.addManufacturer(manufacturer);
 
                 // --------------------------------Restore the SupplierProducts---------------------------------
-                supplierProductDAO.creatAllSupplierProductsBySupplier(supplier);
+                supplierProductDAO.GetAllSupplierProductsBySupplier(supplier);
 
                 // --------------------------------Restore the OrderFromSuppliers---------------------------------
                 for (OrderFromSupplier orderFromSupplier : orderFromSupplierDAO.getAllBySupplier(supplier))

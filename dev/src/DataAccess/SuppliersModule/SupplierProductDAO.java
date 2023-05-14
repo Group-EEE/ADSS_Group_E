@@ -10,13 +10,16 @@ import java.util.*;
  */
 public class SupplierProductDAO {
 
+    //------------------------------------------ Attributes ---------------------------------------
     private Connection conn;
     static SupplierProductDAO supplierProductDAO;
     private Map<List<String>, SupplierProduct> IdentifyMapSupplierProduct;
 
+    // ------------------------------------- References to another DAO's--------------------------------
     private SupplierProductDiscountDAO supplierProductDiscountDAO;
-
     private GenericProductDAO genericProductDAO;
+
+    // -----------------------------------------------------------------------------------------------------
 
     /**
      * Singleton constructor
@@ -39,7 +42,12 @@ public class SupplierProductDAO {
         return supplierProductDAO;
     }
 
-    public void creatAllSupplierProductsBySupplier(Supplier supplier)
+    /**
+     * Get all SupplierProducts that belongs to the supplier
+     * @param supplier - desired supplier.
+     * @return List of all SupplierProducts.
+     */
+    public void GetAllSupplierProductsBySupplier(Supplier supplier)
     {
         try{
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SupplierProduct WHERE SupplierNum = ?");
@@ -62,6 +70,12 @@ public class SupplierProductDAO {
         catch (SQLException e) {throw new RuntimeException(e);}
     }
 
+    /**
+     * Create key
+     * @param supplierNum - number of supplier
+     * @param supplierCatalog - number of supplierProduct
+     * @return keyPair
+     */
     public List<String> createKey(String supplierNum, String supplierCatalog)
     {
         List<String> keyPair = new ArrayList<>();
@@ -70,11 +84,19 @@ public class SupplierProductDAO {
         return keyPair;
     }
 
+    /**
+     * Get SupplierProduct by supplierNum and supplierCatalog
+     * @param supplierNum - number of supplier
+     * @param supplierCatalog - number of supplierProduct
+     */
     public SupplierProduct getSupplierProduct(String supplierNum, String supplierCatalog)
     {
         return IdentifyMapSupplierProduct.get(createKey(supplierNum, supplierCatalog));
     }
 
+    /**
+     * Write all the supplierProduct from cache to DB
+     */
     public void WriteFromCacheToDB() {
         PreparedStatement stmt;
 
@@ -102,18 +124,30 @@ public class SupplierProductDAO {
         supplierProductDiscountDAO.WriteFromCacheToDB();
     }
 
+    /**
+     * Insert supplierProduct to DB
+     * @param supplierProduct - desired supplierProduct.
+     */
     public void insert(SupplierProduct supplierProduct)
     {
         List<String> key = createKey(supplierProduct.getMySupplier().getSupplierNum(),supplierProduct.getSupplierCatalog());
         IdentifyMapSupplierProduct.put(key, supplierProduct);
     }
 
+    /**
+     * Delete supplierProduct from DB
+     * @param supplierProduct - desired supplierProduct.
+     */
     public void delete(SupplierProduct supplierProduct)
     {
         List<String> key = createKey(supplierProduct.getMySupplier().getSupplierNum(),supplierProduct.getSupplierCatalog());
         IdentifyMapSupplierProduct.remove(key);
     }
 
+    /**
+     * Delete All supplierProducts from DB that belongs to the supplier.
+     * @param supplierNum - supplierNum.
+     */
     public void deleteBySupplier(String supplierNum)
     {
         Map<List<String>, SupplierProduct> copyMap = new HashMap<>(IdentifyMapSupplierProduct);
