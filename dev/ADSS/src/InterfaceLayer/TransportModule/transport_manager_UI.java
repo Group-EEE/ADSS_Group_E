@@ -44,6 +44,7 @@ public class transport_manager_UI {
         if (controller.getLogistical_center() == null) {
             create_logistical_center();
         }
+        boolean is_approved = false;
         int choice = 0;
         boolean isValid = false;
         Scanner scanner = new Scanner(System.in);
@@ -108,9 +109,9 @@ public class transport_manager_UI {
                 case 9 -> controller.display_stores();
                 case 10 -> controller.display_suppliers();
                 case 11 -> HRManagerCLI.getInstance().HRMenuCreateNewLogisiticSchedule();
-                case 12 -> HRManagerCLI.getInstance().HRMenuApproveSchedule(true); // can't do it twice!!!.
+                case 12 -> {HRManagerCLI.getInstance().HRMenuApproveSchedule(true); if (!is_approved)is_approved = true;} // can't do it twice!!!.
                 case 13 -> {
-                    return; //Connection moved to main
+                    return;
                 }
             }
 
