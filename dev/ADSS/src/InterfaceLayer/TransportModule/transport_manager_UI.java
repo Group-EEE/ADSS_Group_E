@@ -718,14 +718,15 @@ public class transport_manager_UI {
         while(!isValidDate) {
             System.out.print("Please enter a date between" + currentDate.plusDays(1) + " and " + lastDate + " only in dd/MM/yyyy format: (Press 0 for exit) ");
             input = scanner.nextLine();
+            if(input.equals("0")) {
+                return;
+            }
             try {
                 date = LocalDate.parse(input, formatter);
             } catch (DateTimeParseException e) {
                 System.out.println("Invalid input. try again. ");
             }
-            if(input.equals("0")){
-                return;
-            } else if (date.equals(LocalDate.now())) {
+            } if (date.equals(LocalDate.now())) {
                 System.out.println("Invalid input. it is not possible to add standby driver in this day. ");
             } else if (date.isBefore(currentDate)){
                 System.out.println("Invalid input. date can be only after the current date, try again. " );
