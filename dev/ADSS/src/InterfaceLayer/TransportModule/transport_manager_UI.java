@@ -714,13 +714,13 @@ public class transport_manager_UI {
     }
 
     public void add_standby_driver(){
-        String input;
+        String input = "";
         LocalDate date = null;
         LocalDate currentDate = LocalDate.now();
         LocalDate lastDate = currentDate.plusWeeks(1);
         boolean isValidDate = false;
         while(!isValidDate) {
-            System.out.print("Please enter a date between" + currentDate.plusDays(1) + " and " + lastDate + " only in dd/MM/yyyy format: (Press 0 for exit) ");
+            System.out.println("Please enter a date between " + currentDate.plusDays(1) + " and " + lastDate + " only in dd/MM/yyyy format: (Press 0 for exit) ");
             input = scanner.nextLine();
             if(input.equals("0")) {
                 return;
@@ -730,7 +730,7 @@ public class transport_manager_UI {
             } catch (DateTimeParseException e) {
                 System.out.println("Invalid input. try again. ");
             }
-            } if (date.equals(LocalDate.now())) {
+            if (date.equals(LocalDate.now())) {
                 System.out.println("Invalid input. it is not possible to add standby driver in this day. ");
             } else if (date.isBefore(currentDate)){
                 System.out.println("Invalid input. date can be only after the current date, try again. " );
@@ -742,6 +742,7 @@ public class transport_manager_UI {
             }
         }
     }
+}
 
 
 
