@@ -77,15 +77,18 @@ public class Logistical_center_controller {
         if (driver.getLicense().getWeight() >= truck.getMax_weight() && driver.getLicense().getCold_level().getValue() <= truck.getCold_level().getValue() && !Transport_dao.getInstance().check_if_driver_taken_that_date(planned_date, driver.getEmployeeID())){
             LocalDate date = LocalDate.parse(planned_date);
             int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", date, ShiftType.MORNING);
-            ScheduleController.getInstance().addDriverToLogisticsShift(driver.getEmployeeID(), shift_id);
-            ScheduleController.getInstance().addDriverToLogisticsShift(driver.getEmployeeID(), shift_id+1);
+                ScheduleController.getInstance().addDriverToLogisticsShift(driver.getEmployeeID(), shift_id);
+                ScheduleController.getInstance().addDriverToLogisticsShift(driver.getEmployeeID(), shift_id + 1);
+
             return true;
         }
         return false;
     }
 
+
     // need to implent, I need to pull out the drivers that work today and check if they can drive this truck.
     public boolean truck_assigning_drivers_in_shift(String new_truck_registration_plate, String planned_date){
+
         return false;
     }
 

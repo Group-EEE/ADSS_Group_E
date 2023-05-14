@@ -7,6 +7,8 @@ import BussinessLayer.TransportationModule.objects.Transport;
 import BussinessLayer.TransportationModule.objects.Truck_Driver;
 import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.DAO;
+import DataAccessLayer.HRMoudle.SchedulesDAO;
+import DataAccessLayer.HRMoudle.ShiftsDAO;
 import DataAccessLayer.HRMoudle.StoresDAO;
 import DataAccessLayer.Transport.Suppliers_dao;
 
@@ -91,8 +93,8 @@ public class transport_manager_UI {
                 // creating a new transport
                 case 2 -> {
                     System.out.println("Hey Boss!");
-                    create_transport_document();
-                    // addStandByDriverToLogisticsShift(driver id, shif id);
+                    create_transport_document(is_approved);
+                    // addStandByDriverToLogisticsShift(driver id, shift id);
                 }
                 case 3 -> {
                     ArrayList<Integer> chosen_transports = choose_transport_to_send();
@@ -207,15 +209,16 @@ public class transport_manager_UI {
     /**
      * creates transport document getting the details from the manager
      */
-    private void create_transport_document(){
+    private boolean create_transport_document(boolean is_shifts_approved){
         if (!StoresDAO.getInstance().isAnyStoreExist()){
             System.out.println("There's no stores in the Database!");
-            return;
+            return false;
         }
         if (!Suppliers_dao.getInstance().is_any_supplier_exist()){
             System.out.println("There's no suppliers in the Database!");
-            return;
+            return false;
         }
+        boolean is_today = false;
         String input = null;
         // ======================== Transport ID ======================== //
         int transport_Id = 0;
@@ -261,7 +264,15 @@ public class transport_manager_UI {
                 planned_date = inputDate + "/" + currentYear;
                 date = LocalDate.parse(planned_date, formatter);
                 // Check if the parsed date is not before the current date and not more than one week from the current date
-                if (!date.isBefore(currentDate) && !date.isAfter(currentDate.plusWeeks(1))) {
+                if (!date.isBefore(currentDate) && !date.isAfter(currentDate.plusWeeks(1))) {;
+                    if (currentDate.equals(date)){
+                        int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", date, ShiftType.MORNING);
+                        if (!SchedulesDAO.getInstance().getSchedule(currentDate, "Logistics").getShift(shift_id).isApproved() || !SchedulesDAO.getInstance().getSchedule(currentDate, "Logistics").getShift(shift_id+1).isApproved()){
+                            System.out.println("There's no shifts approved for the current date. ");
+                            return false;
+                        }
+                        is_today = true;
+                    }
                     validInput = true;
                 } else {
                     System.out.println("Invalid input. The date must not be before the current date and not more than one week from the current date.");
@@ -294,7 +305,7 @@ public class transport_manager_UI {
         }
         if (!controller.check_if_truck_exist_by_cold_level(cool_level, planned_date)){
             System.out.println("there's no Truck fit to this transport.");
-            return;
+            return false;
         }
         String truck_number = controller.get_truck_number_by_cold_level(cool_level, planned_date);
         // ======================== Truck Driver ======================== //
@@ -302,16 +313,26 @@ public class transport_manager_UI {
         int driver_id = 0;
         boolean assigned = false;
         for(Truck_Driver driver: controller.getDrivers()){
-            if(controller.truck_assigning(truck_number, planned_date, driver)){
-                assigned = true;
-                driver_name = driver.getFullName();
-                driver_id = driver.getEmployeeID();
-                break;
+            if (is_today) {
+                if(controller.truck_assigning_drivers_in_shift(truck_number, planned_date)){
+                    assigned = true;
+                    driver_name = driver.getFullName();
+                    driver_id = driver.getEmployeeID();
+                    break;
+                }
+            }
+            else {
+                if (controller.truck_assigning(truck_number, planned_date, driver)) {
+                    assigned = true;
+                    driver_name = driver.getFullName();
+                    driver_id = driver.getEmployeeID();
+                    break;
+                }
             }
         }
         if (!assigned){
             System.out.println("there's no driver fit to this transport.");
-            return;
+            return false;
         }
 
         // ======================== Create Transport Document ======================== //
@@ -454,6 +475,7 @@ public class transport_manager_UI {
             ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id);
             ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id+1);
         }
+        return true;
     }
 
     /**
