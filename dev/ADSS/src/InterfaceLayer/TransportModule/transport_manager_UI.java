@@ -32,6 +32,7 @@ public class transport_manager_UI {
     private DateTimeFormatter formatter;
 
     Scanner scanner;
+
     public transport_manager_UI() {
         this.controller = Logistical_center_controller.getInstance();
         this.underway_transport_ui = new underway_transport_UI();
@@ -112,8 +113,9 @@ public class transport_manager_UI {
                 case 9 -> controller.display_stores();
                 case 10 -> controller.display_suppliers();
                 case 11 -> HRManagerCLI.getInstance().HRMenuCreateNewLogisiticSchedule();
-                case 12 -> {HRManagerCLI.getInstance().HRMenuApproveSchedule(true);
-                    if (!is_approved)is_approved = true;
+                case 12 -> {
+                    HRManagerCLI.getInstance().HRMenuApproveSchedule(true);
+                    if (!is_approved) is_approved = true;
                     else System.out.println("You have already approved this schedule");
                 }
                 case 13 -> add_standby_driver();
@@ -129,7 +131,7 @@ public class transport_manager_UI {
      * @param str some string
      * @return is the string contains numbers only
      */
-    public boolean containsOnlyNumbers (String str){
+    public boolean containsOnlyNumbers(String str) {
         try {
             Integer.parseInt(str);
             return true;
@@ -187,7 +189,7 @@ public class transport_manager_UI {
     /**
      * display trucks by cold level that the user choose
      */
-    private void display_trucks_by_cold_level(){
+    private void display_trucks_by_cold_level() {
         String cool_level = null;
         boolean isValid2 = false;
         String input = "";
@@ -214,12 +216,12 @@ public class transport_manager_UI {
     /**
      * creates transport document getting the details from the manager
      */
-    private boolean create_transport_document(boolean is_shifts_approved){
-        if (!StoresDAO.getInstance().isAnyStoreExist()){
+    private boolean create_transport_document(boolean is_shifts_approved) {
+        if (!StoresDAO.getInstance().isAnyStoreExist()) {
             System.out.println("There's no stores in the Database!");
             return false;
         }
-        if (!Suppliers_dao.getInstance().is_any_supplier_exist()){
+        if (!Suppliers_dao.getInstance().is_any_supplier_exist()) {
             System.out.println("There's no suppliers in the Database!");
             return false;
         }
@@ -232,10 +234,9 @@ public class transport_manager_UI {
         while (!isValid) {
             System.out.println("Please enter transport ID number (5 digits, only with the digits 0-9): ");
             input = scanner.nextLine();
-            if(input.strip().equals("")){
+            if (input.strip().equals("")) {
                 System.out.print("Invalid input. ");
-            }
-            else {
+            } else {
                 try {
                     transport_Id = Integer.parseInt(input);
                     // Check if the input is a 5 digit integer
@@ -247,9 +248,9 @@ public class transport_manager_UI {
                 } catch (NumberFormatException e) {
                     System.out.print("Invalid input. ");
                 }
-                 if(controller.check_if_transport_id_exist(transport_Id)){
-                 isValid = false;
-                 System.out.println("The transport ID number is already exist in the transport system. ");
+                if (controller.check_if_transport_id_exist(transport_Id)) {
+                    isValid = false;
+                    System.out.println("The transport ID number is already exist in the transport system. ");
                 }
             }
         }
@@ -269,10 +270,11 @@ public class transport_manager_UI {
                 planned_date = inputDate + "/" + currentYear;
                 date = LocalDate.parse(planned_date, formatter);
                 // Check if the parsed date is not before the current date and not more than one week from the current date
-                if (!date.isBefore(currentDate) && !date.isAfter(currentDate.plusWeeks(1))) {;
-                    if (currentDate.equals(date)){
+                if (!date.isBefore(currentDate) && !date.isAfter(currentDate.plusWeeks(1))) {
+                    ;
+                    if (currentDate.equals(date)) {
                         int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", date, ShiftType.MORNING);
-                        if (!SchedulesDAO.getInstance().getSchedule(currentDate, "Logistics").getShift(shift_id).isApproved() || !SchedulesDAO.getInstance().getSchedule(currentDate, "Logistics").getShift(shift_id+1).isApproved()){
+                        if (!SchedulesDAO.getInstance().getSchedule(currentDate, "Logistics").getShift(shift_id).isApproved() || !SchedulesDAO.getInstance().getSchedule(currentDate, "Logistics").getShift(shift_id + 1).isApproved()) {
                             System.out.println("There's no shifts approved for the current date. ");
                             return false;
                         }
@@ -290,16 +292,15 @@ public class transport_manager_UI {
         // ======================== Truck ======================== //
         String cool_level = null;
         isValid = false;
-        while(!isValid){
+        while (!isValid) {
             System.out.println("Please enter the required cold level of the truck (press 1, 2 or 3 only): ");
             System.out.println("\t 1 - Freeze");
             System.out.println("\t 2 - Cold");
             System.out.println("\t 3 -  Dry");
             input = scanner.nextLine();
-            if(input.equals("1") || input.equals("2") || input.equals("3")){
+            if (input.equals("1") || input.equals("2") || input.equals("3")) {
                 isValid = true;
-            }
-            else{
+            } else {
                 System.out.print("Invalid input. ");
             }
         }
@@ -308,7 +309,7 @@ public class transport_manager_UI {
             case "2" -> cool_level = "Cold";
             case "3" -> cool_level = "Dry";
         }
-        if (!controller.check_if_truck_exist_by_cold_level(cool_level, planned_date)){
+        if (!controller.check_if_truck_exist_by_cold_level(cool_level, planned_date)) {
             System.out.println("there's no Truck fit to this transport.");
             return false;
         }
@@ -317,16 +318,15 @@ public class transport_manager_UI {
         String driver_name = null;
         int driver_id = 0;
         boolean assigned = false;
-        for(Truck_Driver driver: controller.getDrivers()){
+        for (Truck_Driver driver : controller.getDrivers()) {
             if (is_today) {
-                if(controller.truck_assigning_drivers_in_shift(truck_number, planned_date)){
+                if (controller.truck_assigning_drivers_in_shift(truck_number, planned_date)) {
                     assigned = true;
                     driver_name = driver.getFullName();
                     driver_id = driver.getEmployeeID();
                     break;
                 }
-            }
-            else {
+            } else {
                 if (controller.truck_assigning(truck_number, planned_date, driver)) {
                     assigned = true;
                     driver_name = driver.getFullName();
@@ -335,13 +335,13 @@ public class transport_manager_UI {
                 }
             }
         }
-        if (!assigned){
+        if (!assigned) {
             System.out.println("there's no driver fit to this transport.");
             return false;
         }
 
         // ======================== Create Transport Document ======================== //
-        controller.add_transport(transport_Id, truck_number, driver_name,  cool_level, planned_date , driver_id);
+        controller.add_transport(transport_Id, truck_number, driver_name, cool_level, planned_date, driver_id);
         // ======================== Update Weight - Add Net Weight Of The Truck To Transport Weight List ======================== //
         controller.insert_weight_to_transport(transport_Id, truck_number);
         // ======================== Add Destinations ======================== //
@@ -353,7 +353,7 @@ public class transport_manager_UI {
         System.out.println("Please enter the destinations for this current transport.");
         String stores = "";
         String suppliers = "";
-        while(!stop_adding_destinations) {
+        while (!stop_adding_destinations) {
             String site_type = null;
             isValid = false;
             while (!isValid) {
@@ -367,8 +367,8 @@ public class transport_manager_UI {
                     isValid = true;
                 }
             }
-            if(site_type.equals("1")){
-                if(!areaValid) {
+            if (site_type.equals("1")) {
+                if (!areaValid) {
                     isValid = false;
                     while (!isValid) {
                         try {
@@ -394,15 +394,18 @@ public class transport_manager_UI {
                 while (!isValid) {
                     System.out.println("Please enter the name of the store (if you don't want to add more press 0) :");
                     store_name = scanner.nextLine();
-                    if (store_name.equals("0")){chose_to_add = false; break;}
-                    if(!store_name.strip().equals("")){
+                    if (store_name.equals("0")) {
+                        chose_to_add = false;
+                        break;
+                    }
+                    if (!store_name.strip().equals("")) {
                         boolean store_exist = StoresDAO.getInstance().existsStore(store_name);
-                        if (!store_exist){
+                        if (!store_exist) {
                             System.out.println("The store is not known to the system...");
                             continue;
                         }
 
-                        if (!StoresDAO.getInstance().isStoreInArea(store_name, area)){
+                        if (!StoresDAO.getInstance().isStoreInArea(store_name, area)) {
                             System.out.println("This store is not in the area of this transport...");
                         }
 
@@ -413,26 +416,28 @@ public class transport_manager_UI {
                         }
                         stores += store_name + ", ";
                         isValid = true;
-                    }
-                    else {
+                    } else {
                         System.out.print("Invalid input. ");
                     }
                 }
                 if (chose_to_add) {
-                    controller.insert_store_to_transport(transport_Id,  store_name);
+                    controller.insert_store_to_transport(transport_Id, store_name);
                     at_least_one_store = true;
                 }
             }
-            if(site_type.equals("2")){
+            if (site_type.equals("2")) {
                 isValid = false;
                 boolean chose_to_add = true;
                 String supplier_name = null;
-                while(!isValid) {
+                while (!isValid) {
                     System.out.println("Please enter the name of the supplier (if you don't want to add more press 0) : ");
                     supplier_name = scanner.nextLine();
-                    if (supplier_name.equals("0")){chose_to_add = false; break;}
-                    if(!supplier_name.strip().equals("")){
-                        if (!Suppliers_dao.getInstance().is_supplier_exist(supplier_name)){
+                    if (supplier_name.equals("0")) {
+                        chose_to_add = false;
+                        break;
+                    }
+                    if (!supplier_name.strip().equals("")) {
+                        if (!Suppliers_dao.getInstance().is_supplier_exist(supplier_name)) {
                             System.out.println("This supplier is not known to the system...");
                         }
                         boolean name_exist = controller.check_if_site_exist_in_transport(supplier_name, transport_Id);
@@ -441,8 +446,7 @@ public class transport_manager_UI {
                         }
                         suppliers += supplier_name + ", ";
                         isValid = true;
-                    }
-                    else{
+                    } else {
                         System.out.print("Invalid input. ");
                     }
                 }
@@ -454,31 +458,29 @@ public class transport_manager_UI {
             System.out.println("Do you want to add another destination (Store / Supplier)? (press 1 or 2 only) ");
             String choice = null;
             isValid = false;
-            while(!isValid) {
+            while (!isValid) {
                 System.out.println("\t 1 - YES");
                 System.out.println("\t 2 - NO");
                 choice = scanner.nextLine();
-                if(!choice.equals("1") && !choice.equals("2")){
+                if (!choice.equals("1") && !choice.equals("2")) {
                     System.out.println("Invalid input. Please enter a valid choice:");
-                }
-                else{
+                } else {
                     isValid = true;
                 }
             }
-            if(choice.equals("2")){
+            if (choice.equals("2")) {
                 if (at_least_one_store && at_least_one_supplier) {
                     stop_adding_destinations = true;
-                }
-                else {
+                } else {
                     System.out.println("You must add at least one supplier and at least one store.");
                 }
             }
         }
         controller.insert_sites_names_to_transport(transport_Id, stores, suppliers);
-        for (String store : stores.split(",")){
+        for (String store : stores.split(",")) {
             int shift_id = ScheduleController.getInstance().getShiftIDByDate(store, date, ShiftType.MORNING);
             ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id);
-            ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id+1);
+            ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id + 1);
         }
         return true;
     }
@@ -488,7 +490,7 @@ public class transport_manager_UI {
      */
 
     ///////////////// need to make sure when the manager can send!!!
-    public ArrayList<Integer> choose_transport_to_send(){
+    public ArrayList<Integer> choose_transport_to_send() {
         String manager_choice;
         ArrayList<Integer> transport_IDS = new ArrayList<>();
         boolean choosing = false;
@@ -555,33 +557,30 @@ public class transport_manager_UI {
     }
 
 
-
     /**
      * a function that asks from the user all the details for a new truck and then add it to the database.
      */
-    public void create_truck(){
+    public void create_truck() {
         Scanner scanner = new Scanner(System.in);
         String input = null;
         boolean isValid = false;
         // ======================== Registration Number ======================== //
         String registration_number = null;
-        while(!isValid){
+        while (!isValid) {
             System.out.println("Please enter the registration number of the truck (8 digits, only with the digits 0-9): ");
             input = scanner.nextLine();
-            if(!containsOnlyNumbers(input)){
+            if (!containsOnlyNumbers(input)) {
                 System.out.println("Invalid input. ");
                 continue;
-            }
-            else if (input.length() != 8) {
+            } else if (input.length() != 8) {
                 System.out.println("Input must be a 8 digit integer. ");
                 continue;
             }
             // checking if the truck already exist in the system
-            if(!controller.is_truck_exist(input)){
+            if (!controller.is_truck_exist(input)) {
                 registration_number = input;
                 isValid = true;
-            }
-            else{
+            } else {
                 System.out.println("The Truck is already exist in the system! ");
                 break;
             }
@@ -596,10 +595,9 @@ public class transport_manager_UI {
                 input = scanner.nextLine();
                 try {
                     truck_net_weight = Double.parseDouble(input);
-                    if (truck_net_weight > 0){
+                    if (truck_net_weight > 0) {
                         valid_net_weight = true;
-                    }
-                    else {
+                    } else {
                         System.out.println("The weight should be positive...");
                     }
                 } catch (NumberFormatException e) {
@@ -614,10 +612,9 @@ public class transport_manager_UI {
                 input = scanner.nextLine();
                 try {
                     truck_max_weight = Double.parseDouble(input);
-                    if (truck_max_weight <= truck_net_weight){
+                    if (truck_max_weight <= truck_net_weight) {
                         System.out.println("Max weight must be above the net weight.");
-                    }
-                    else {
+                    } else {
                         valid_max_weight = true;
                     }
                 } catch (NumberFormatException e) {
@@ -627,16 +624,15 @@ public class transport_manager_UI {
             // ======================== Truck Cold Level ======================== //
             cold_level cool_level = null;
             isValid = false;
-            while(!isValid){
+            while (!isValid) {
                 System.out.println("Please enter the cold level of the truck (press 1, 2 or 3 only): ");
                 System.out.println("\t 1 - Freeze");
                 System.out.println("\t 2 - Cold");
                 System.out.println("\t 3 -  Dry");
                 input = scanner.nextLine();
-                if(input.equals("1") || input.equals("2") || input.equals("3")){
+                if (input.equals("1") || input.equals("2") || input.equals("3")) {
                     isValid = true;
-                }
-                else{
+                } else {
                     System.out.print("Invalid input. ");
                 }
             }
@@ -646,47 +642,44 @@ public class transport_manager_UI {
                 case "3" -> cool_level = cold_level.Dry;
             }
             // ======================== Create And Adding The New Truck  ======================== //
-            controller.add_truck(registration_number, truck_model, truck_net_weight, truck_max_weight, cool_level ,truck_net_weight);
+            controller.add_truck(registration_number, truck_model, truck_net_weight, truck_max_weight, cool_level, truck_net_weight);
         }
     }
 
-    public void create_supplier(){
+    public void create_supplier() {
         boolean isValid = false;
         String supplier_address = null;
-        while(!isValid) {
+        while (!isValid) {
             System.out.println("Please enter the supplier address: ");
             supplier_address = scanner.nextLine();
-            if(!supplier_address.strip().equals("")){
+            if (!supplier_address.strip().equals("")) {
                 isValid = true;
-            }
-            else{
+            } else {
                 System.out.print("Invalid input. ");
             }
         }
         String phone_number = null;
         isValid = false;
-        while(!isValid) {
+        while (!isValid) {
             System.out.println("Please enter the supplier phone number: ");
             phone_number = scanner.nextLine();
-            if(!containsOnlyNumbers(phone_number) || phone_number.strip().equals("")){
+            if (!containsOnlyNumbers(phone_number) || phone_number.strip().equals("")) {
                 System.out.print("Invalid input. ");
-            }
-            else{
+            } else {
                 isValid = true;
             }
         }
         String supplier_name = "";
         isValid = false;
-        while (isValid){
+        while (isValid) {
             System.out.println("Please enter the name of the supplier:");
             supplier_name = scanner.nextLine();
-            if(!supplier_name.strip().equals("")){
-                if (Suppliers_dao.getInstance().is_supplier_exist(supplier_name)){
+            if (!supplier_name.strip().equals("")) {
+                if (Suppliers_dao.getInstance().is_supplier_exist(supplier_name)) {
                     System.out.println("This supplier is already known to the system...");
                     continue;
                 }
-            }
-            else {
+            } else {
                 System.out.println("Please enter a valid name.");
                 continue;
             }
@@ -695,13 +688,12 @@ public class transport_manager_UI {
 
         isValid = false;
         String supplier_contact_name = null;
-        while(!isValid) {
+        while (!isValid) {
             System.out.println("Please enter the contact person name of the supplier:");
             supplier_contact_name = scanner.nextLine();
-            if(!supplier_contact_name.strip().equals("")){
+            if (!supplier_contact_name.strip().equals("")) {
                 isValid = true;
-            }
-            else {
+            } else {
                 System.out.print("Invalid input. ");
             }
 
@@ -709,16 +701,16 @@ public class transport_manager_UI {
         controller.add_supplier(supplier_address, phone_number, supplier_name, supplier_contact_name);
     }
 
-    public void add_standby_driver(){
+    public void add_standby_driver() {
         String input = null;
         LocalDate date = null;
         LocalDate currentDate = LocalDate.now();
         LocalDate lastDate = currentDate.plusWeeks(1);
         boolean isValidDate = false;
-        while(!isValidDate) {
-            System.out.print("Please enter a date between" + currentDate.plusDays(1) + " and " + lastDate + " only in dd/MM/yyyy format: (Press 0 for exit) ");
+        while (!isValidDate) {
+            System.out.print("Please enter a date between " + currentDate.plusDays(1) + " and " + lastDate + " only in dd/MM/yyyy format: (Press 0 for exit) ");
             input = scanner.nextLine();
-            if(input.equals("0")) {
+            if (input.equals("0")) {
                 return;
             }
             try {
@@ -726,18 +718,16 @@ public class transport_manager_UI {
             } catch (DateTimeParseException e) {
                 System.out.println("Invalid input. try again. ");
             }
-            } if (date.equals(LocalDate.now())) {
+            if (date.equals(LocalDate.now())) {
                 System.out.println("Invalid input. it is not possible to add standby driver in this day. ");
-            } else if (date.isBefore(currentDate)){
-                System.out.println("Invalid input. date can be only after the current date, try again. " );
+            } else if (date.isBefore(currentDate)) {
+                System.out.println("Invalid input. date can be only after the current date, try again. ");
             } else if (date.isAfter(lastDate)) {
                 System.out.println("Invalid input. date can not be only after the last date in the schedule, try again. ");
             } else {
-                controller.add_standby_driver_by_date(input);
+                controller.add_standby_driver_by_date(date);
                 isValidDate = true;
             }
         }
     }
-
-
 }
