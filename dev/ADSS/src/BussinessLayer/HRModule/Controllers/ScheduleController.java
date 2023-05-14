@@ -289,4 +289,9 @@ public class ScheduleController {
             return false;
         }
     }
+
+    public boolean hasWareHouse(String storeName, int storeID){
+        Schedule schedule = getSchedule(storeName);
+        return schedule.getShift(storeID).hasFilledRole(RoleType.Warehouse);
+    }
 }
