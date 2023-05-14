@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
@@ -709,13 +710,19 @@ public class transport_manager_UI {
     }
 
     public void add_standby_driver(){
-        String input = scanner.nextLine();
-        LocalDate date = LocalDate.parse(input, formatter);
+        String input;
+        LocalDate date = null;
         LocalDate currentDate = LocalDate.now();
         LocalDate lastDate = currentDate.plusWeeks(1);
         boolean isValidDate = false;
         while(!isValidDate) {
             System.out.print("Please enter a date between" + currentDate.plusDays(1) + " and " + lastDate + " only in dd/MM/yyyy format: (Press 0 for exit) ");
+            input = scanner.nextLine();
+            try {
+                date = LocalDate.parse(input, formatter);
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid input. try again. ");
+            }
             if(input.equals("0")){
                 return;
             } else if (date.equals(LocalDate.now())) {
