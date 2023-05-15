@@ -274,14 +274,14 @@ public class transport_manager_UI {
                     date = LocalDate.parse(planned_date, formatter);
                     // Check if the parsed date is not before the current date and not more than one week from the current date
                     if (!date.isBefore(currentDate) && !date.isAfter(currentDate.plusWeeks(1))) {
-                        if (currentDate.equals(date)) {
-                            int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", date, ShiftType.MORNING);
-                            if (!SchedulesDAO.getInstance().getSchedule(currentDate, "Logistics").getShift(shift_id).isApproved() || !SchedulesDAO.getInstance().getSchedule(currentDate, "Logistics").getShift(shift_id + 1).isApproved()) {
-                                System.out.println("There's no shifts approved for the current date.");
-                                return false;
-                            }
-                            is_today = true;
-                        }
+//                        if (currentDate.equals(date)) {
+//                            int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", date, ShiftType.MORNING);
+//                            if (!SchedulesDAO.getInstance().getSchedule(currentDate, "Logistics").getShift(shift_id).isApproved() || !SchedulesDAO.getInstance().getSchedule(currentDate, "Logistics").getShift(shift_id + 1).isApproved()) {
+//                                System.out.println("There's no shifts approved for the current date.");
+//                                return false;
+//                            }
+//                            is_today = true;
+//                        }
                         validInput = true;
                     } else {
                         System.out.println("Invalid input. The date must not be before the current date and not more than one week from the current date.");
