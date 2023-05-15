@@ -129,7 +129,7 @@ public class transport_manager_UI {
      * @param str some string
      * @return is the string contains numbers only
      */
-    public boolean containsOnlyNumbers (String str){
+    public boolean containsOnlyNumbers(String str) {
         try {
             Integer.parseInt(str);
             return true;
@@ -714,13 +714,13 @@ public class transport_manager_UI {
     }
 
     public void add_standby_driver(){
-        String input = "";
+        String input = null;
         LocalDate date = null;
         LocalDate currentDate = LocalDate.now();
         LocalDate lastDate = currentDate.plusWeeks(1);
         boolean isValidDate = false;
         while(!isValidDate) {
-            System.out.println("Please enter a date between " + currentDate.plusDays(1) + " and " + lastDate + " only in dd/MM/yyyy format: (Press 0 for exit) ");
+            System.out.print("Please enter a date between" + currentDate.plusDays(1) + " and " + lastDate + " only in dd/MM/yyyy format: (Press 0 for exit) ");
             input = scanner.nextLine();
             if(input.equals("0")) {
                 return;
@@ -732,17 +732,16 @@ public class transport_manager_UI {
             }
             if (date.equals(LocalDate.now())) {
                 System.out.println("Invalid input. it is not possible to add standby driver in this day. ");
-            } else if (date.isBefore(currentDate)){
-                System.out.println("Invalid input. date can be only after the current date, try again. " );
+            } else if (date.isBefore(currentDate)) {
+                System.out.println("Invalid input. date can be only after the current date, try again. ");
             } else if (date.isAfter(lastDate)) {
                 System.out.println("Invalid input. date can not be only after the last date in the schedule, try again. ");
             } else {
-                controller.add_standby_driver_by_date(input);
+                controller.add_standby_driver_by_date(date);
                 isValidDate = true;
             }
         }
     }
+
+
 }
-
-
-
