@@ -77,6 +77,10 @@ public class OrderController {
         return targetMillis - currentMillis;
     }
 
+    /**
+     * Get current day of the week
+     * @return day in int
+     */
     private int getCurDayOfTheWeek(){
         LocalDate currentDate = LocalDate.now();
         DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
