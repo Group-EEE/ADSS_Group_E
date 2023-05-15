@@ -67,7 +67,7 @@ public class Logistical_center_controller {
 
     public void add_transport(int transport_id, String truck_number, String driver_name, String cold_lvl, String planned_date, int driver_id){
         cold_level cool_level = get_cold_level_by_string(cold_lvl);
-        Transport transport = new Transport(transport_id, "TBD", "TBD", truck_number, driver_name, this.logistical_center.getSite_name(), cool_level, planned_date, driver_id );
+        Transport transport = new Transport(transport_id, "TBD", "TBD", truck_number, driver_name, "Logistics", cool_level, planned_date, driver_id );
         Transport_dao.getInstance().Insert(transport);
     }
 
@@ -77,7 +77,8 @@ public class Logistical_center_controller {
         // checking if the given parameters are valid, and getting the diver and the truck if they exist.
 
         if (driver.getLicense().getWeight() >= truck.getMax_weight() && driver.getLicense().getCold_level().getValue() <= truck.getCold_level().getValue() && !Transport_dao.getInstance().check_if_driver_taken_that_date(planned_date, driver.getEmployeeID())){
-            LocalDate date = LocalDate.parse(planned_date);
+
+            LocalDate date = LocalDate.parse(planned_date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", date, ShiftType.MORNING);
             ScheduleController.getInstance().addDriverToLogisticsShift(driver.getEmployeeID(), shift_id);
             ScheduleController.getInstance().addDriverToLogisticsShift(driver.getEmployeeID(), shift_id+1);

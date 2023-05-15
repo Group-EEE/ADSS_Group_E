@@ -64,8 +64,7 @@ public abstract class DAO {
         boolean res = true;
         String sql = MessageFormat.format("DELETE FROM {0}", _tableName);
 
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Got Exception:");
@@ -83,8 +82,7 @@ public abstract class DAO {
         keysString = new StringBuilder(keysString.substring(0, keysString.length() - 2));
         String sql = MessageFormat.format("DELETE FROM {0} WHERE" + keysQuery(columnKeys)
                 , tableName, keysString.toString());
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             int i = 1;
             for (Object key : keys)
                 if (key instanceof String)
@@ -106,8 +104,7 @@ public abstract class DAO {
         List list = new ArrayList<>();
         String sql = MessageFormat.format("SELECT * From {0}"
                 , _tableName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             ResultSet resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
                 // Fetch each row from the result set
@@ -126,8 +123,7 @@ public abstract class DAO {
         List list = new ArrayList<>();
         String sql = MessageFormat.format("SELECT * From {0}"
                 , _tableName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             ResultSet resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
                 // Fetch each row from the result set
@@ -150,8 +146,7 @@ public abstract class DAO {
         joinedString = joinedString.substring(0,joinedString.length()-1);
         String sql = MessageFormat.format("SELECT * From {0} WHERE "+columnKey+" IN ("+joinedString+")"
                 , _tableName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             ResultSet resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
                 // Fetch each row from the result set
@@ -170,8 +165,7 @@ public abstract class DAO {
         List list = new ArrayList<>();
         String sql = MessageFormat.format("SELECT * From {0} WHERE" + keysQuery(columnKeys)
                 , tableName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             int i = 1;
             for (Object key : keys)
                 if (key instanceof String)
@@ -193,8 +187,7 @@ public abstract class DAO {
         List<T> list = new ArrayList<>();
         String sql = MessageFormat.format("SELECT * From {0} WHERE" + keysQuery(columnKeys)
                 , tableName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             int i = 1;
             for (Object key : keys)
                 if (key instanceof String)
@@ -247,8 +240,7 @@ public abstract class DAO {
     protected boolean selectExists(String tableName, List<Object> columnKeys, List keys) {
         String sql = MessageFormat.format("SELECT * From {0} WHERE" + keysQuery(columnKeys)
                 , tableName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             int i = 1;
             for (Object key : keys)
                 if (key instanceof String)
@@ -274,8 +266,7 @@ public abstract class DAO {
         else
             sql = MessageFormat.format("SELECT MAX({0}) From {1} WHERE" + keysQuery(Columnkeys),
                     ColumnName, tableName);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             if (!(Columnkeys == null && keys == null)) {
                 int i = 1;
                 for (String key : keys) {
@@ -302,8 +293,7 @@ public abstract class DAO {
         String keysString = String.join(", ", columnKeys);
         String sql = MessageFormat.format("UPDATE {0} SET {1} = ? WHERE" + keysQuery(columnKeys)
                 , tableName, columnName,keysString);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             if (value instanceof String)
                 pstmt.setString(1, (String) value);
             else
@@ -331,8 +321,7 @@ public abstract class DAO {
         String keysString = String.join(", ", columnKeys); // Combine columnKeys into a comma-separated string
         String sql =  "INSERT INTO {0} ("+String.join(",",columnKeys)+") VALUES ("+"?,".repeat(columnKeys.size()-1)+"?)";
         sql = MessageFormat.format(sql, tableName,keysString);
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             int i = 1;
             for (Object key : keys) {
                 if (key instanceof String)

@@ -206,6 +206,7 @@ public class ScheduleController {
     }
 
     public boolean addDriverToLogisticsShift(int employeeID, int shiftID){
+        //boolean res = addRequiredRoleToShift("Logistics",shiftID,RoleType.Driver,true);
         boolean res = addEmployeeToShift(_employeesDAO.getEmployee(employeeID),"Logistics",shiftID);
         return res && addFilledRoleToShift("Logistics",employeeID,shiftID,RoleType.Driver);
     }

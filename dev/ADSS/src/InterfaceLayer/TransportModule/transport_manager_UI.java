@@ -66,10 +66,10 @@ public class transport_manager_UI {
             System.out.println("8 - Display all site supplies documents in the system");
             System.out.println("9 - Display all stores in the system");
             System.out.println("10 - Display all suppliers in the system");
-            System.out.println("11 - Create New Schedule");
-            System.out.println("12 - Approve Schedule");
-            System.out.println("13 - Add standby driver to existing schedule by date.");
-            System.out.println("14 - quit");
+//            System.out.println("11 - Create New Schedule");
+            System.out.println("11 - Approve Schedule");
+            System.out.println("12 - Add standby driver to existing schedule by date.");
+            System.out.println("13 - quit");
             while (!isValid) {
                 try {
                     input = scanner.nextLine();
@@ -98,9 +98,14 @@ public class transport_manager_UI {
                     create_transport_document(is_approved);
                 }
                 case 3 -> {
-                    ArrayList<Integer> chosen_transports = choose_transport_to_send();
-                    for (int key : chosen_transports) {
-                        underway_transport_ui.start_transport(key);
+                    if (ScheduleController.getInstance().hasSchedule("Logistics")) {
+                        ArrayList<Integer> chosen_transports = choose_transport_to_send();
+                        for (int key : chosen_transports) {
+                            underway_transport_ui.start_transport(key);
+                        }
+                    }
+                    else {
+                        // write here we can't
                     }
                 }
                 // add a new truck to the system.
@@ -111,13 +116,13 @@ public class transport_manager_UI {
                 case 8 -> controller.display_site_supply();
                 case 9 -> controller.display_stores();
                 case 10 -> controller.display_suppliers();
-                case 11 -> HRManagerCLI.getInstance().HRMenuCreateNewLogisiticSchedule();
-                case 12 -> {HRManagerCLI.getInstance().HRMenuApproveSchedule(true);
+                //case 11 -> HRManagerCLI.getInstance().HRMenuCreateNewLogisiticSchedule();
+                case 11 -> {HRManagerCLI.getInstance().HRMenuApproveSchedule(true);
                     if (!is_approved)is_approved = true;
                     else System.out.println("You have already approved this schedule");
                 }
-                case 13 -> add_standby_driver();
-                case 14 -> {
+                case 12 -> add_standby_driver();
+                case 13 -> {
                     return;
                 }
             }
@@ -415,7 +420,7 @@ public class transport_manager_UI {
                             System.out.println("You've already added that store...");
                             continue;
                         }
-                        stores += store_name + ", ";
+                        stores += store_name + ",";
                         isValid = true;
                     }
                     else {
@@ -443,7 +448,7 @@ public class transport_manager_UI {
                         if (name_exist) {
                             System.out.println("You've already entered this supplier...");
                         }
-                        suppliers += supplier_name + ", ";
+                        suppliers += supplier_name + ",";
                         isValid = true;
                     }
                     else{
