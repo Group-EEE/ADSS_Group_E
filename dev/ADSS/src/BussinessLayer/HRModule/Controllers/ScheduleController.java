@@ -290,8 +290,13 @@ public class ScheduleController {
         }
     }
 
-    public boolean hasWareHouse(String storeName, int storeID){
+    public boolean hasWareHouse(String storeName, int shiftID){
         Schedule schedule = getSchedule(storeName);
-        return schedule.getShift(storeID).hasFilledRole(RoleType.Warehouse);
+        return schedule.getShift(shiftID).hasFilledRole(RoleType.Warehouse);
+    }
+
+    public boolean hasStandByDriver(String storeName, int shiftID){
+        Schedule schedule = getSchedule(storeName);
+        return schedule.getShift(shiftID).hasFilledRole(RoleType.DriverStandBy);
     }
 }
