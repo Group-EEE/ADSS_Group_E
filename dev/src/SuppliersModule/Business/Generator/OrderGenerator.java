@@ -60,11 +60,14 @@ public class OrderGenerator {
 
     public static String stringOrder() {
         String s = "";
-        s += "\nThe order has been committed\n";
-        for (Map.Entry<Supplier, OrderFromSupplier> pair : bestSuppliersCombination.entrySet())
-            s += pair.getValue().toString();
+        s += "\nThe order has been committed\n\n";
+        for (Map.Entry<Supplier, OrderFromSupplier> pair : bestSuppliersCombination.entrySet()) {
+            s += "\n***************************************************************************\n\n";
+            s += pair.getValue().toString() + "\n";
+            s += "\n***************************************************************************\n\n";
+        }
 
-        s += "Final price: " + cheapestCombination;
+        s += "\nFinal price: " + cheapestCombination + "\n\n";
         return s;
     }
 

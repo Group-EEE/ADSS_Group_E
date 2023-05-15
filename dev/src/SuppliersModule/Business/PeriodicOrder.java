@@ -52,4 +52,12 @@ public class PeriodicOrder {
         String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
         return days[dayForInvite];
     }
+
+    public String toString()
+    {
+        String details = "";
+        details += "Day: " + dayForInviteToString() + "\n";
+        details += getOrderFromSupplier().toString() + "\n";
+        return details;
+    }
 }

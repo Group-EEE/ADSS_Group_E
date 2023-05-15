@@ -72,8 +72,8 @@ public class OrderFromSupplier {
 
     public String toString()
     {
-        String details = "\n";
-        details += "Order number " + Id + " from supplier " + MySupplier.getName() + ", supplier number: " + MySupplier.getSupplierNum() + "\n";
+        String details = "";
+        details += "Order number " + Id + " from supplier " + MySupplier.getName() + ", supplier number: " + MySupplier.getSupplierNum() + ":\n\n";
         for ( Map.Entry<String, OrderedProduct> pair : ProductsInOrder.entrySet())
             details += pair.getValue();
         details += "\nTotal order price after discount: " + getTotalPriceAfterDiscount() + "\n";

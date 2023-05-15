@@ -135,15 +135,19 @@ public class Supplier {
     public String StringOrdersHistory()
     {
         String stringOrdersHistory = "";
-        for(OrderFromSupplier orderFromSupplier : myOrderFromSuppliers)
+        for(OrderFromSupplier orderFromSupplier : myOrderFromSuppliers) {
+            stringOrdersHistory += "\n***************************************************************************\n\n";
             stringOrdersHistory = stringOrdersHistory + orderFromSupplier.toString() + "\n";
+            stringOrdersHistory += "\n***************************************************************************\n\n";
+        }
 
         if(MyPeriodicOrders.size() != 0)
-            stringOrdersHistory = stringOrdersHistory + "Periodic Order: \n";
+            stringOrdersHistory = stringOrdersHistory + "Periodic Orders: \n\n";
 
         for (Map.Entry<Integer,PeriodicOrder> pair : MyPeriodicOrders.entrySet()) {
-            stringOrdersHistory = stringOrdersHistory + "Day: " + pair.getValue().dayForInviteToString() + "\n";
-            stringOrdersHistory = stringOrdersHistory + pair.getValue().getOrderFromSupplier().toString() + "\n";
+            stringOrdersHistory += "\n***************************************************************************\n\n";
+            stringOrdersHistory += pair.getValue();
+            stringOrdersHistory += "\n***************************************************************************\n\n";
         }
 
         return stringOrdersHistory;
