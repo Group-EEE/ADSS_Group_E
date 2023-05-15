@@ -720,7 +720,7 @@ public class transport_manager_UI {
         LocalDate lastDate = currentDate.plusWeeks(1);
         boolean isValidDate = false;
         while(!isValidDate) {
-            System.out.print("Please enter a date between" + currentDate.plusDays(1) + " and " + lastDate + " only in dd/MM/yyyy format: (Press 0 for exit) ");
+            System.out.print("Please enter a date between " + currentDate.plusDays(1) + " and " + lastDate + " only in dd/MM/yyyy format: (Press 0 for exit) ");
             input = scanner.nextLine();
             if(input.equals("0")) {
                 return;
