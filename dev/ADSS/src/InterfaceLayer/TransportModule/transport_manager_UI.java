@@ -106,6 +106,7 @@ public class transport_manager_UI {
                     }
                     else {
                         // write here we can't
+                        System.out.println("Currently the HR manager haven't built a schedule for the drivers.");
                     }
                 }
                 // add a new truck to the system.
@@ -121,7 +122,14 @@ public class transport_manager_UI {
                     if (!is_approved)is_approved = true;
                     else System.out.println("You have already approved this schedule");
                 }
-                case 12 -> add_standby_driver();
+                case 12 -> {
+                    if (ScheduleController.getInstance().hasSchedule("Logistics")) {
+                        add_standby_driver();
+                    }
+                    else {
+                        System.out.println("Currently the HR manager haven't built a schedule for the drivers.");
+                    }
+                }
                 case 13 -> {
                     return;
                 }

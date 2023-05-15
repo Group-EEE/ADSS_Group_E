@@ -398,7 +398,7 @@ public class HRManagerCLI{
     public boolean HRMenuApproveSchedule(boolean isLogistics) {
         String storeName;
         if (isLogistics)
-            storeName = "Logisitics";
+            storeName = "Logistics";
         else
             storeName = getStoreName();
 
