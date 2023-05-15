@@ -723,8 +723,8 @@ public class transport_manager_UI {
         String input = null;
         LocalDate date = null;
         LocalDate currentDate = LocalDate.now();
-        LocalDate fisrt_day_in_week = currentDate.plusDays(1);
-        String firstDate_str = fisrt_day_in_week.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate first_day_in_week = currentDate.plusDays(1);
+        String firstDate_str = first_day_in_week.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         LocalDate lastDate = currentDate.plusWeeks(1);
         String lastDate_str = lastDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         boolean isValidDate = false;
