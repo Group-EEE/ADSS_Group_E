@@ -166,7 +166,19 @@ public class OrderController {
     }
 
     public void changeDayForInviteForCurPeriodicOrder(int day){
+        int oldDay = curPeriodicOrder.getDayForInvite();
         curPeriodicOrder.setDayForInvite(day);
+
+        Map<List<Integer>, PeriodicOrder> allPeriodicOrder =  superLiDB.getAllPeriodicOrder();
+        List<Integer> key = new ArrayList<>();
+        key.add(curPeriodicOrder.getId());
+        key.add(oldDay);
+        PeriodicOrder periodicOrder = allPeriodicOrder.remove(key);
+
+        key = new ArrayList<>();
+        key.add(curPeriodicOrder.getId());
+        key.add(curPeriodicOrder.getDayForInvite());
+        allPeriodicOrder.put(key, periodicOrder);
     }
 
     public boolean findOrderedProduct(int barcode){
