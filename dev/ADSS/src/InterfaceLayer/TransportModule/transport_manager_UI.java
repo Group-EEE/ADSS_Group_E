@@ -45,10 +45,6 @@ public class transport_manager_UI {
      */
     // ===== Main menu =====
     public void start() {
-//        if (controller.getLogistical_center() == null) {
-//            create_logistical_center();
-//        }
-        boolean is_approved = false;
         int choice = 0;
         boolean isValid = false;
         Scanner scanner = new Scanner(System.in);
@@ -67,17 +63,15 @@ public class transport_manager_UI {
             System.out.println("8 - Display all site supplies documents in the system");
             System.out.println("9 - Display all stores in the system");
             System.out.println("10 - Display all suppliers in the system");
-//            System.out.println("11 - Create New Schedule");
-            System.out.println("11 - Approve Schedule");
-            System.out.println("12 - Add standby driver to existing schedule by date.");
-            System.out.println("13 - quit");
+            System.out.println("11 - Add standby driver to existing schedule by date.");
+            System.out.println("12 - quit");
             while (!isValid) {
                 try {
                     input = scanner.nextLine();
                     choice = Integer.parseInt(input);
 
                     // Check if the input is a 5 digit integer
-                    if (input.length() <= 2 && choice >= 0 && choice < 15) {
+                    if (input.length() <= 2 && choice >= 0 && choice < 13) {
                         isValid = true;
                     } else {
                         System.out.println("Input must be an int between 0-14. ");
@@ -96,7 +90,7 @@ public class transport_manager_UI {
                 // creating a new transport
                 case 2 -> {
                     System.out.println("Hey Boss!");
-                    create_transport_document(is_approved);
+                    create_transport_document();
                 }
                 case 3 -> {
                     if (ScheduleController.getInstance().hasSchedule("Logistics")) {
@@ -118,12 +112,7 @@ public class transport_manager_UI {
                 case 8 -> controller.display_site_supply();
                 case 9 -> controller.display_stores();
                 case 10 -> controller.display_suppliers();
-                //case 11 -> HRManagerCLI.getInstance().HRMenuCreateNewLogisiticSchedule();
-                case 11 -> {HRManagerCLI.getInstance().HRMenuApproveSchedule(true);
-                    if (!is_approved)is_approved = true;
-                    else System.out.println("You have already approved this schedule");
-                }
-                case 12 -> {
+                case 11 -> {
                     if (ScheduleController.getInstance().hasSchedule("Logistics")) {
                         add_standby_driver();
                     }
@@ -131,7 +120,7 @@ public class transport_manager_UI {
                         System.out.println("Currently the HR manager haven't built a schedule for the drivers.");
                     }
                 }
-                case 13 -> {
+                case 12 -> {
                     return;
                 }
             }
@@ -228,7 +217,7 @@ public class transport_manager_UI {
     /**
      * creates transport document getting the details from the manager
      */
-    private boolean create_transport_document(boolean is_shifts_approved){
+    private boolean create_transport_document(){
         if (!StoresDAO.getInstance().isAnyStoreExist()){
             System.out.println("There's no stores in the Database!");
             return false;

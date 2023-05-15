@@ -1,3 +1,5 @@
+package TransportModule;
+
 import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.TransportationModule.objects.Site_Supply;
 import org.junit.jupiter.api.Test;
@@ -81,14 +83,14 @@ class Site_SupplyTest {
     @Test
     void setProducts_total_weight() {
         siteSupply.setProducts_total_weight(8746);
-        assertEquals(8746, siteSupply.getProducts_total_weight());
+        assertEquals(8746, siteSupply.getProducts_total_weight(), 0);
         siteSupply.setProducts_total_weight(546.23);
-        assertEquals(546.23, siteSupply.getProducts_total_weight());
+        assertEquals(546.23, siteSupply.getProducts_total_weight(), 0);
     }
 
     @Test
     void getProducts_total_weight() {
         siteSupply.setProducts_total_weight(8746);
-        assertEquals(8746, siteSupply.getProducts_total_weight());
+        assertEquals(8746, siteSupply.getProducts_total_weight(), 0);
     }
 }
