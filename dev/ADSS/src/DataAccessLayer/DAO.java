@@ -16,7 +16,7 @@ public abstract class DAO {
 
     protected final String _tableName;
     public static Connection connection;
-    protected final String url = "jdbc:sqlite:dev/ADSS/SuperLi.db";
+    protected final String url = "jdbc:sqlite:res/SuperLi.db";
     protected DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     //constructor
@@ -26,6 +26,16 @@ public abstract class DAO {
             try {
                 connection = DriverManager.getConnection(url);
             } catch (SQLException e) {
+                try{
+                    connection = DriverManager.getConnection("jdbc:sqlite:dev/ADSS/res/SuperLi.db");
+                } catch (SQLException ex) {
+                    try{
+                        connection = DriverManager.getConnection("jdbc:sqlite::resource:SuperLi.db");
+                    } catch (SQLException ex2) {
+                        throw new RuntimeException(ex2);
+                    }
+                }
+
                 System.out.println("Got Exception:");
                 System.out.println(e.getMessage());
             }
