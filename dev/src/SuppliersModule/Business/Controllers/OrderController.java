@@ -2,6 +2,10 @@ package SuppliersModule.Business.Controllers;
 
 import DataAccess.SuperLiDB;
 import SuppliersModule.Business.*;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -41,27 +45,45 @@ public class OrderController {
     }
 
     /**
-     * This function scheduale a task to execute every day in 11 AM
+     * This function schedule a task to execute every day in 11 AM
      */
     public void taskTimer() {
         timer = new Timer();
         TimerTask dailyTask = new TimerTask() {
             @Override
             public void run() {
-                Calendar.getInstance();
-                int curDay = Calendar.DAY_OF_WEEK;
+                int curDay = getCurDayOfTheWeek();
                 invitePeriodicOrders(curDay);
             }
         };
 
-        // Set the time to start executing the task
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 11);
-        today.set(Calendar.MINUTE, 0);
-        today.set(Calendar.SECOND, 0);
+        LocalTime currentTime = LocalTime.now();
 
-        // Schedule the task to run every day at 11 AM
-        timer.schedule(dailyTask, today.getTime(), 24 * 60 * 60 * 1000); // 24 * 60 * 60 * 1000 is the number of milliseconds a day
+        LocalTime targetTime = LocalTime.of(11, 0);
+        long delay = calculateDelay(currentTime, targetTime);
+
+        timer.schedule(dailyTask, delay);
+    }
+
+    private static long calculateDelay(LocalTime currentTime, LocalTime targetTime) {
+        long currentMillis = currentTime.toNanoOfDay() / 1_000_000;
+        long targetMillis = targetTime.toNanoOfDay() / 1_000_000;
+
+        // If the current time is already past the target time, move to the next day
+        if (currentMillis > targetMillis) {
+            targetMillis += 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        }
+
+        return targetMillis - currentMillis;
+    }
+
+    private int getCurDayOfTheWeek(){
+        LocalDate currentDate = LocalDate.now();
+        DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
+        int dayOfWeekValue = dayOfWeek.getValue();
+        if(dayOfWeekValue == 7)
+            dayOfWeekValue = 0;
+        return dayOfWeekValue;
     }
 
     /**
@@ -74,6 +96,8 @@ public class OrderController {
             if(pair.getValue().getDayForInvite() == curDay) {
                 orderFromSupplier = pair.getValue().invite();
                 superLiDB.insertOrderFromSupplier(orderFromSupplier);
+                System.out.println("\n***************************************************************************\n");
+                System.out.println("Periodic order has been committed. Order Details:\n");
                 System.out.println(orderFromSupplier);
             }
         }
@@ -157,6 +181,7 @@ public class OrderController {
     public void cancelTimer()
     {
         timer.cancel();
+
         superLiDB.WriteAllToDB();
     }
 
@@ -215,6 +240,7 @@ public class OrderController {
         curSupplierProduct = curSupplier.getSupplierProductByBarcode(barcode);
     }
 
+    //------------------------------------------ Getters ----------------------------------------------------
     public OrderFromSupplier getOrderFromSupplier()
     {
         return curOrder;

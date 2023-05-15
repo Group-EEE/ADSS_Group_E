@@ -200,7 +200,7 @@ public class CreateSupplierPresentation {
 
             float discountPercentage = SupplierModulePresentation.CheckFloatInputAndReturn("How many percent off? ");
 
-            supplierController.addProductDiscount(supplierCatalog, discountPercentage, minimumQuantity, supplierNum);
+            supplierController.addSupplierProductDiscount(supplierCatalog, discountPercentage, minimumQuantity, supplierNum);
             SupplierModulePresentation.checkValidWithMessage("Do the supplier provide another discounts for this product? (y/n)");
         }
     }

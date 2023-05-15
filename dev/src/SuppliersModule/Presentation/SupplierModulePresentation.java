@@ -4,8 +4,6 @@ import SuppliersModule.Business.Controllers.SupplierController;
 import SuppliersModule.Business.PaymentTerm;
 import SuppliersModule.Business.Supplier;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
 
 
@@ -231,7 +229,7 @@ public class SupplierModulePresentation {
         String supplierCatalog = reader.nextLine();
         if(supplierController.checkIfSupplierSupplyProduct(supplierCatalog, supplierNum)){
             int minimumAmount = CheckIntInputAndReturn("Enter the minimum amount:");
-            supplierController.deleteDiscountProduct(supplierNum, supplierCatalog, minimumAmount);
+            supplierController.deleteSupplierProductDiscount(supplierNum, supplierCatalog, minimumAmount);
         }
         else
             System.out.println("The product is not supply by the supplier");
