@@ -26,7 +26,8 @@ public class HRModuleCLI {
             _hrManagerCLI.HRMenuCreateEmployee(true); //create HR manager
         }
         while (_facade.hasLoggedUser() == false) {
-            LoginUser();
+            if(!LoginUser())
+                return;
             if (_facade.isLoggedUserIsHRManager()) {
                 System.out.println("Welcome to the HR system!");
                 _hrManagerCLI.HRMenu();
@@ -44,7 +45,7 @@ public class HRModuleCLI {
             try {
                 id = Integer.valueOf(scanner.nextLine());
                 if (id == 0) {
-                    exit(0);
+                    return false;
                 }
             }
             catch (Exception e){

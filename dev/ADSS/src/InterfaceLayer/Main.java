@@ -13,33 +13,34 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        System.out.println("Welcome to Super-Lee System !\n");
-        System.out.println("Please select the required module:");
-        System.out.println("1. HR Module");
-        System.out.println("2. Transport Module");
-        System.out.println("0. Exit");
-        int menuChoice = 0;
-        try {
-            menuChoice = scanner.nextInt();
-        }catch (Exception e){
-            System.out.println("Goodbye!");
-            exit(0);
-        }
-        if (menuChoice == 1)
-            mainHR();
-        else if (menuChoice == 2)
-            mainTransport();
-        else if (menuChoice == 0) {
+        int menuChoice = -1;
+        while (true) {
+            System.out.println("Welcome to Super-Lee System !\n");
+            System.out.println("Please select the required module:");
+            System.out.println("1. HR Module");
+            System.out.println("2. Transport Module");
+            System.out.println("0. Exit");
             try {
-                DAO.connection.close();
-                DAO.connection = null;
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+                menuChoice = scanner.nextInt();
+            } catch (Exception e) {
+                System.out.println("Goodbye!");
+                exit(0);
             }
-            exit(0);
+            if (menuChoice == 1)
+                mainHR();
+            else if (menuChoice == 2)
+                mainTransport();
+            else if (menuChoice == 0) {
+                try {
+                    DAO.connection.close();
+                    DAO.connection = null;
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                exit(0);
+            } else
+                System.out.println("Invalid input");
         }
-        else
-            System.out.println("Invalid input");
 
     }
 
