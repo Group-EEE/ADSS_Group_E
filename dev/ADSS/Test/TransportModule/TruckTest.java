@@ -1,3 +1,5 @@
+package TransportModule;
+
 import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.TransportationModule.objects.*;
 import org.junit.jupiter.api.Test;
@@ -38,7 +40,7 @@ class TruckTest {
         License license = new License(1,65432, cold_level.Freeze, 90000);
         Truck_Driver truck_driver = new Truck_Driver(209876676, "daniel", "shapira", 26, "234657",10, "a", LocalDate.of(2023,4, 23),"test", license);
         truck.setCurrent_driver(truck_driver);
-        assertEquals("Israel israeli", truck.getCurrent_driver().getFullName());
+        assertEquals("daniel shapira", truck.getCurrent_driver().getFullName());
     }
 
 
@@ -68,7 +70,7 @@ class TruckTest {
         License license = new License(1,65432, cold_level.Freeze, 90000);
         Truck_Driver truck_driver = new Truck_Driver(209876676, "daniel", "shapira", 26, "234657",10, "a", LocalDate.of(2023,4, 23),"test", license);
         truck.setCurrent_driver(truck_driver);
-        assertEquals("Israel israeli", truck.getCurrent_driver().getFullName());
+        assertEquals("daniel shapira", truck.getCurrent_driver().getFullName());
         truck.delete_driver();
         assertNull(truck.getCurrent_driver());
 
