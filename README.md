@@ -66,6 +66,7 @@ You may return to the previous menu by selecting the exit option.
 5.SubCategories\
 6.SubSubCategories\
 7.Discounts\
+8.Update or Delete periodic order\
 0.Exit</font>
 
 You must choose which actions you want in a inventory system.\
