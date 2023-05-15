@@ -163,7 +163,8 @@ public class ScheduleController {
                 _shiftsDAO.updateApproved(shift.getScheduleID(),shift.getShiftID(),true);
             for (HashMap.Entry<RoleType,Employee> entry : shift.getAssignedEmployees().entrySet()) {
                 _shiftsDAO.insertAssignedEmployee(schedule.getScheduleID(), shift.getShiftID(), entry.getKey().toString(), entry.getValue().getEmployeeID());
-                _shiftsDAO.removeRequiredRole(schedule.getScheduleID(), shift.getShiftID(), entry.getKey().toString());
+
+                //_shiftsDAO.removeRequiredRole(schedule.getScheduleID(), shift.getShiftID(), entry.getKey().toString());
                 _shiftsDAO.deleteInquiredEmployee(schedule.getScheduleID(), shift.getShiftID(), entry.getValue().getEmployeeID());
             }
         }
@@ -277,6 +278,8 @@ public class ScheduleController {
     public boolean addEmployeeToShift(Employee employee, String storeName, int shiftID){
         if (storeName == null )
             throw new IllegalArgumentException("Invalid store name");
+        if (shiftID < 0 || shiftID >13 )
+            throw new IllegalArgumentException("Invalid shift ID");
         Schedule schedule = getSchedule(storeName);
         boolean res = _shiftsDAO.insertInquiredEmployee(schedule.getScheduleID(),shiftID,employee.getEmployeeID());
         return res && schedule.addEmployeeToShift(employee,shiftID);

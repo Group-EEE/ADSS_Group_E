@@ -139,7 +139,9 @@ public class Facade {
 
     public boolean addEmployeeToStore(int employeeID, String storeName){
         if (!_employeeController.existsEmployee(employeeID))
-            return false;
+            throw new IllegalArgumentException("Employee doesn't exist");
+        if (!_storeController.existsStore(storeName))
+            throw new IllegalArgumentException("Store doesn't exist");
         return _storeController.addEmployeeToStore(employeeID, storeName);
     }
 
