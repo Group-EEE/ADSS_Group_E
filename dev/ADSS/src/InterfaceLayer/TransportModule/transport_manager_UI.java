@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -722,10 +723,13 @@ public class transport_manager_UI {
         String input = null;
         LocalDate date = null;
         LocalDate currentDate = LocalDate.now();
+        LocalDate fisrt_day_in_week = currentDate.plusDays(1);
+        String firstDate_str = fisrt_day_in_week.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         LocalDate lastDate = currentDate.plusWeeks(1);
+        String lastDate_str = lastDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         boolean isValidDate = false;
         while(!isValidDate) {
-            System.out.print("Please enter a date between " + currentDate.plusDays(1) + " and " + lastDate + " only in dd/MM/yyyy format: (Press 0 for exit) ");
+            System.out.print("Please enter a date between " + firstDate_str + " and " + lastDate_str + " only in dd/MM/yyyy format: (Press 0 for exit) ");
             input = scanner.nextLine();
             if(input.equals("0")) {
                 return;
