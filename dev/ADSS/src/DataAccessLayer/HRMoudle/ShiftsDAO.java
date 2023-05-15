@@ -68,6 +68,23 @@ public class ShiftsDAO extends DAO {
         return update(_tableName,ApprovedColumnName,rejected,makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID));
     }
 
+    public boolean getApproved(int scheduleID, int shiftID) {
+        List<Integer> boolList = selectT(_tableName,ApprovedColumnName,makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID),Integer.class);
+        if (boolList == null || boolList.size() == 0)
+            return false;
+        if (boolList.get(0) == 1)
+            return true;
+        return false;
+    }
+    public boolean getRejected(int scheduleID, int shiftID) {
+        List<Integer> boolList = selectT(_tableName,ApprovedColumnName,makeList(ScheduleIDColumnName,ShiftIDColumnName),makeList(scheduleID,shiftID),Integer.class);
+        if (boolList == null || boolList.size() == 0)
+            return false;
+        if (boolList.get(0) == 1)
+            return true;
+        return false;
+    }
+
     public boolean deleteRequiredRoles(int scheduleID){
         return delete("RequiredRolesToEmployees",makeList(ScheduleIDColumnName),makeList(scheduleID));
     }

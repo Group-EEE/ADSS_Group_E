@@ -117,6 +117,8 @@ public class ScheduleController {
             for (Map.Entry<String, Integer> entry : _shiftsDAO.getAssignedEmployees(shift.getScheduleID(),shift.getShiftID()).entrySet()){
                 shift.addFilledRole(RoleType.valueOf(entry.getKey()), _employeesDAO.getEmployee(entry.getValue()));
             }
+            shift.setRejected(_shiftsDAO.getRejected(shift.getScheduleID(),shift.getShiftID()));
+            shift.setApproved(_shiftsDAO.getApproved(shift.getScheduleID(),shift.getShiftID()));
         }
         schedule.setShifts(shifts);
         return schedule;
@@ -163,9 +165,8 @@ public class ScheduleController {
                 _shiftsDAO.updateApproved(shift.getScheduleID(),shift.getShiftID(),true);
             for (HashMap.Entry<RoleType,Employee> entry : shift.getAssignedEmployees().entrySet()) {
                 _shiftsDAO.insertAssignedEmployee(schedule.getScheduleID(), shift.getShiftID(), entry.getKey().toString(), entry.getValue().getEmployeeID());
-
                 //_shiftsDAO.removeRequiredRole(schedule.getScheduleID(), shift.getShiftID(), entry.getKey().toString());
-                _shiftsDAO.deleteInquiredEmployee(schedule.getScheduleID(), shift.getShiftID(), entry.getValue().getEmployeeID());
+                //_shiftsDAO.deleteInquiredEmployee(schedule.getScheduleID(), shift.getShiftID(), entry.getValue().getEmployeeID());
             }
         }
         return rejectedShifts;
@@ -303,4 +304,6 @@ public class ScheduleController {
         Schedule schedule = getSchedule(storeName);
         return schedule.getShift(shiftID).hasFilledRole(RoleType.DriverStandBy);
     }
+
+
 }
