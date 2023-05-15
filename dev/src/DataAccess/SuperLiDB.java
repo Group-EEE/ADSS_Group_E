@@ -51,7 +51,6 @@ public class SuperLiDB {
             catch (SQLException ex) {throw new RuntimeException(ex);}
         }
 
-
         //------------------------------------Initialization--------------------------------------
         supplierDAO = SupplierDAO.getInstance(conn);
         manufacturerDAO = ManufacturerDAO.getInstance(conn);
@@ -69,7 +68,6 @@ public class SuperLiDB {
         subCategoryDAO = SubCategoryDAO.getInstance(conn);
         subSubCategoryDAO = SubSubCategoryDAO.getInstance(conn);
         superLiProductDAO = SuperLiProductDAO.getInstance(conn);
-
     }
 
     /**

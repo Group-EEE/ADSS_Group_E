@@ -90,7 +90,9 @@ You may return to the previous menu by selecting the exit option.
 4.To exit the system, select the exit option in the first menu that the system is activated.</font>
 
 Libraries we used in the system:\
-java.util,java.sql
+java.util\
+java.sql\
+sqlite-jdbc-3.41.2.1.jar
 
 **We have provided you data that is loaded into the system when it is activated.
 Details of the existing data are shown in the following tables:**
