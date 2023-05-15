@@ -50,6 +50,7 @@ public class EmployeeController {
     public boolean createDriver(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployement, String password, int license_id, cold_level level, double truck_weight) {
         boolean res = _employeesDAO.insertDriver(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployement, password,license_id, level, truck_weight);
         res = res && _employeesDAO.insertRoleToEmployee(employeeID, RoleType.Driver.toString());
+        res = res && _employeesDAO.insertRoleToEmployee(employeeID, RoleType.DriverStandBy.toString());
         res = res && _licenseDAO.insert(employeeID,license_id,level.toString(),truck_weight);
         return res;
     }
