@@ -27,7 +27,7 @@ public class SuperLiDB {
     private OrderDiscountDAO orderDiscountDAO;
     private ContactDAO contactDAO;
     private PeriodicOrderDAO periodicOrderDAO;
-    private  OrderFromSupplierDAO orderFromSupplierDAO;
+    private OrderFromSupplierDAO orderFromSupplierDAO;
 
     // ------------------------------ References to another Inventory DAO's------------------------------
     private CategoryDAO categoryDAO;
