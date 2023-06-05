@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="ADSS_Group_E:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f33882d7-f771-4425-8cfa-724d5990ad65" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="JUnit5 Test Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2PYBJRne7wh1eAVQggJDaFhhSMW" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;ignore.preview.features.used&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/Documents/GitHub/ADSS_Group_E&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\user\Documents\GitHub\ADSS_Group_E\dev" />
+      <recent name="C:\Users\user\Documents\GitHub\ADSS_Group_E\dev\src" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="SuppliersModule.Business" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.All in ADSS_Group_E">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="ADSS_Group_E" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in ADSS_Group_E" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS_Group_E" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CombineTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS_Group_E" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="CombineTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PeriodicOrderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS_Group_E" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value=".*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="PeriodicOrderTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PeriodicOrderTest.CreatPeriodicOrder" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS_Group_E" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value=".*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="PeriodicOrderTest" />
+      <option name="METHOD_NAME" value="CreatPeriodicOrder" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.All in ADSS_Group_E" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.CombineTest" />
+        <item itemvalue="JUnit.PeriodicOrderTest.CreatPeriodicOrder" />
+        <item itemvalue="JUnit.PeriodicOrderTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f33882d7-f771-4425-8cfa-724d5990ad65" name="Changes" comment="" />
+      <created>1683624067082</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1683624067082</updated>
+      <workItem from="1683624068369" duration="15000" />
+      <workItem from="1683624115361" duration="1072000" />
+      <workItem from="1683625267542" duration="11000" />
+      <workItem from="1683629646747" duration="97000" />
+      <workItem from="1683629780133" duration="171000" />
+      <workItem from="1683630091197" duration="75000" />
+      <workItem from="1683630184074" duration="795000" />
+      <workItem from="1683630999444" duration="43000" />
+      <workItem from="1683634796439" duration="862000" />
+      <workItem from="1683637955046" duration="64000" />
+      <workItem from="1683638051939" duration="1420000" />
+      <workItem from="1683639602231" duration="1658000" />
+      <workItem from="1683641607213" duration="2898000" />
+      <workItem from="1683644618336" duration="3038000" />
+      <workItem from="1683651267429" duration="917000" />
+      <workItem from="1683652524062" duration="1895000" />
+      <workItem from="1683654534890" duration="293000" />
+      <workItem from="1683671139712" duration="808000" />
+      <workItem from="1683711247856" duration="3648000" />
+      <workItem from="1683720846263" duration="2000" />
+      <workItem from="1683720901710" duration="3759000" />
+      <workItem from="1683724936119" duration="7550000" />
+      <workItem from="1683732611514" duration="6571000" />
+      <workItem from="1683739242376" duration="33000" />
+      <workItem from="1683741464219" duration="799000" />
+      <workItem from="1683742280736" duration="788000" />
+      <workItem from="1683743796084" duration="5024000" />
+      <workItem from="1683748846502" duration="11000" />
+      <workItem from="1683752123845" duration="4401000" />
+      <workItem from="1683797028242" duration="597000" />
+      <workItem from="1683809481143" duration="373000" />
+      <workItem from="1683811173382" duration="389000" />
+      <workItem from="1683816665505" duration="779000" />
+      <workItem from="1683824535209" duration="6000" />
+      <workItem from="1683824579017" duration="43000" />
+      <workItem from="1683901721469" duration="100000" />
+      <workItem from="1683918237401" duration="9944000" />
+      <workItem from="1683929925106" duration="5000" />
+      <workItem from="1683930338849" duration="33000" />
+      <workItem from="1683930416274" duration="5000" />
+      <workItem from="1683930479077" duration="65000" />
+      <workItem from="1683930689314" duration="267000" />
+      <workItem from="1683931186190" duration="24000" />
+      <workItem from="1683931235323" duration="25000" />
+      <workItem from="1684020518472" duration="2000" />
+      <workItem from="1684032542766" duration="2170000" />
+      <workItem from="1684040781409" duration="3690000" />
+      <workItem from="1684044600021" duration="24000" />
+      <workItem from="1684075858856" duration="1319000" />
+      <workItem from="1684078335175" duration="83000" />
+      <workItem from="1684101586286" duration="2417000" />
+      <workItem from="1684131228644" duration="340000" />
+      <workItem from="1684131652448" duration="2818000" />
+      <workItem from="1684136231875" duration="4775000" />
+      <workItem from="1684141081619" duration="46000" />
+      <workItem from="1684144197899" duration="621000" />
+      <workItem from="1684145443244" duration="102000" />
+      <workItem from="1684145715116" duration="1003000" />
+      <workItem from="1684155075458" duration="881000" />
+      <workItem from="1684156009051" duration="1073000" />
+      <workItem from="1684157345252" duration="741000" />
+      <workItem from="1684158293095" duration="583000" />
+      <workItem from="1684159071811" duration="81000" />
+      <workItem from="1684159324844" duration="1190000" />
+      <workItem from="1684177790925" duration="154000" />
+      <workItem from="1684181178040" duration="25000" />
+      <workItem from="1684181866896" duration="859000" />
+      <workItem from="1684183748144" duration="79000" />
+      <workItem from="1684242309900" duration="88000" />
+      <workItem from="1684246239462" duration="989000" />
+      <workItem from="1684253124615" duration="3316000" />
+      <workItem from="1684434435236" duration="130000" />
+      <workItem from="1684437371539" duration="2000" />
+      <workItem from="1684874094414" duration="4000" />
+      <workItem from="1684874107022" duration="145000" />
+      <workItem from="1684874261350" duration="2000" />
+      <workItem from="1684875897617" duration="47000" />
+      <workItem from="1684875972565" duration="13000" />
+      <workItem from="1684881388618" duration="24000" />
+      <workItem from="1684930538020" duration="861000" />
+      <workItem from="1684931451303" duration="326000" />
+      <workItem from="1684937576695" duration="37000" />
+      <workItem from="1685730711006" duration="34000" />
+      <workItem from="1685739542351" duration="102000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="Id" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>
