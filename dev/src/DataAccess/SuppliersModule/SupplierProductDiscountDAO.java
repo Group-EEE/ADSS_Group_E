@@ -1,0 +1,145 @@
+package DataAccess.SuppliersModule;
+
+import SuppliersModule.Business.SupplierProduct;
+import SuppliersModule.Business.SupplierProductDiscount;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+
+/**
+ * Data access object class of SupplierProductDiscount.
+ */
+public class SupplierProductDiscountDAO {
+
+    //------------------------------------------ Attributes ---------------------------------------
+    private Connection conn;
+    static SupplierProductDiscountDAO supplierProductDiscountDAO;
+    private Map<List<String>, SupplierProductDiscount> IdentifyMapSupplierProductDiscount;
+
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Singleton constructor
+     */
+    private SupplierProductDiscountDAO(Connection conn) {
+        this.conn = conn;
+        IdentifyMapSupplierProductDiscount = new HashMap<>();
+    }
+
+    /**
+     * Get instance
+     * @param conn - Object connection to DB
+     * @return - SupplierProductDiscountDAO
+     */
+    public static SupplierProductDiscountDAO getInstance(Connection conn) {
+        if (supplierProductDiscountDAO == null)
+            supplierProductDiscountDAO = new SupplierProductDiscountDAO(conn);
+        return supplierProductDiscountDAO;
+    }
+
+    /**
+     * Get all SupplierProductDiscount that belongs to the supplier and supplierCatalog
+     * @param supplierNum - desired supplier.
+     * @param supplierCatalog - number of supplierProduct
+     * @return TreeMap of all SupplierProducts.
+     */
+    public TreeMap<Integer, SupplierProductDiscount> getAll(String supplierNum, String supplierCatalog)
+    {
+        TreeMap<Integer, SupplierProductDiscount> DiscountProducts = new TreeMap<>();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SupplierProductDiscount WHERE SupplierNum = ? AND SupplierCatalog = ?");
+            stmt.setString(1, supplierNum);
+            stmt.setString(2, supplierCatalog);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                SupplierProductDiscount supplierProductDiscount = new SupplierProductDiscount(rs.getFloat("Percentages"), rs.getInt("MinimumAmount"));
+                IdentifyMapSupplierProductDiscount.put(createKey(supplierNum, supplierCatalog, rs.getInt("MinimumAmount")), supplierProductDiscount);
+                DiscountProducts.put(rs.getInt("MinimumAmount"), supplierProductDiscount);
+            }
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
+        return DiscountProducts;
+    }
+
+    /**
+     * Create key
+     * @param supplierNum - number of supplier
+     * @param supplierCatalog - number of supplierProduct
+     * @param minimumAmount - amount of supplierCatalog.
+     * @return keyPair
+     */
+    public List<String> createKey(String supplierNum, String supplierCatalog, int minimumAmount)
+    {
+        List<String> keyPair = new ArrayList<>();
+        keyPair.add(supplierNum);
+        keyPair.add(supplierCatalog);
+        keyPair.add(String.valueOf(minimumAmount));
+        return keyPair;
+    }
+
+    /**
+     * Write all the supplierProductDiscounts from cache to DB
+     */
+    public void WriteFromCacheToDB() {
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("DELETE FROM SupplierProductDiscount");
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {throw new RuntimeException(e);}
+
+        for (Map.Entry<List<String>, SupplierProductDiscount> pair : IdentifyMapSupplierProductDiscount.entrySet()) {
+            try {
+                stmt = conn.prepareStatement("Insert into SupplierProductDiscount VALUES (?,?,?,?)");
+                stmt.setString(1, pair.getKey().get(0));
+                stmt.setString(2,pair.getKey().get(1));
+                stmt.setFloat(3, pair.getValue().getPercentages());
+                stmt.setInt(4, Integer.parseInt(pair.getKey().get(2)));
+                stmt.executeUpdate();
+            }
+            catch (SQLException e) {throw new RuntimeException(e);}
+        }
+    }
+
+    /**
+     * Insert supplierProduct to DB
+     * @param supplierProduct - desired supplierProduct.
+     * @param supplierProductDiscount - desired SupplierProductDiscount
+     */
+    public void insert(SupplierProduct supplierProduct, SupplierProductDiscount supplierProductDiscount)
+    {
+        List<String> key = createKey(supplierProduct.getMySupplier().getSupplierNum(), supplierProduct.getSupplierCatalog(), supplierProductDiscount.getMinimumAmount());
+        IdentifyMapSupplierProductDiscount.put(key, supplierProductDiscount);
+    }
+
+    /**
+     * Delete All supplierProductDiscounts from DB that belongs to the supplier.
+     * @param supplierNum - supplierNum.
+     */
+    public void deleteBySupplier(String supplierNum)
+    {
+        Map<List<String>, SupplierProductDiscount> copyMap = new HashMap<>(IdentifyMapSupplierProductDiscount);
+        for (Map.Entry<List<String>, SupplierProductDiscount> pair : copyMap.entrySet()) {
+            if (pair.getKey().get(0).equals(supplierNum))
+                IdentifyMapSupplierProductDiscount.remove(pair.getKey());
+        }
+    }
+
+    /**
+     * Delete supplierProduct from DB
+     * @param supplierNum - number of supplier
+     * @param supplierCatalog - number of supplierProduct
+     * @param amount - amount of supplierCatalog.
+     */
+    public void delete(String supplierNum, String supplierCatalog, int amount)
+    {
+        List<String> key = createKey(supplierNum, supplierCatalog, amount);
+        IdentifyMapSupplierProductDiscount.remove(key);
+    }
+}
