@@ -161,8 +161,7 @@ public class ShiftsDAO extends DAO {
         String sql = MessageFormat.format("SELECT roleType, employeeID FROM {0} WHERE {1} = ? AND {2} = ? AND employeeID IS NOT NULL"
                 , "RequiredRolesToEmployees", "scheduleID", "shiftID"
         );
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, scheduleID);
             pstmt.setInt(2, shiftID);
             ResultSet rs = pstmt.executeQuery();

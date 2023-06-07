@@ -36,8 +36,6 @@ public abstract class DAO {
                     }
                 }
 
-                System.out.println("Got Exception:");
-                System.out.println(e.getMessage());
             }
         }
     }

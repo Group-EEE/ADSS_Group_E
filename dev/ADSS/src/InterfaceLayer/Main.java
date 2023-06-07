@@ -35,7 +35,6 @@ public class Main {
                     DAO.connection.close();
                     DAO.connection = null;
                 } catch (SQLException e) {
-                    throw new RuntimeException(e);
                 }
                 exit(0);
             } else
