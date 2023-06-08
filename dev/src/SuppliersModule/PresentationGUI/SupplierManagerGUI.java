@@ -42,6 +42,7 @@ public class SupplierManagerGUI {
 
         // ------------------------------------- Add action listener to buttons ------------------------------
 
+        opt1.addActionListener(new opt1Click(frame));
         opt3.addActionListener(new opt3Click(frame));
         opt4.addActionListener(new opt4Click(frame));
         opt7.addActionListener(new opt7Click(frame));
@@ -61,6 +62,25 @@ public class SupplierManagerGUI {
     }
     // -------------------------------------------------------------------------------------------------
 
+    private static class opt1Click implements ActionListener {
+        private JFrame thisFrame;
+
+        /**
+         * Constructor
+         * @param thisFrame - This frame.
+         */
+        public opt1Click(JFrame thisFrame) {
+            this.thisFrame = thisFrame;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            thisFrame.setVisible(false);
+            CreateSupplierGUI.powerOn(supplierController, thisFrame);
+        }
+    }
+
+    // --------------------------------------------------------------------------------------------------
     private static class opt3Click implements ActionListener {
         private JFrame thisFrame;
 
