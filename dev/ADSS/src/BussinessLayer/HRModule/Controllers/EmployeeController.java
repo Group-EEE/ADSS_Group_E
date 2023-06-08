@@ -42,7 +42,7 @@ public class EmployeeController {
      * @return - true if the employee was created successfully, false otherwise
      */
     public boolean createEmployee(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployement, String password) {
-        if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null)
+        if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null || firstName == "" || lastName == "" || bankAccount == "")
             throw new IllegalArgumentException("Invalid arguments");
         return _employeesDAO.insertEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployement, password);
     }
