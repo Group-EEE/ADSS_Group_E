@@ -1,16 +1,11 @@
 package InventoryModule.Business.Controllers;
 
 import DataAccess.SuperLiDB;
-import InventoryModule.Business.Category;
 import InventoryModule.Business.Discount;
-import InventoryModule.Business.SpecificProduct;
 import InventoryModule.Business.SuperLiProduct;
-import SuppliersModule.Business.Controllers.SupplierController;
 
 import java.time.LocalDateTime;
 import java.util.*;
-
-import static InventoryModule.Presentation.InventoryModulePresentation.reader;
 
 //this class saves all the information about the products in the store
 public class ProductController {

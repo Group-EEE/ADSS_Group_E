@@ -3,7 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/ADSS_Group_E_jar</output-path>
     <root id="archive" name="adss2023_v02.jar">
       <element id="module-output" name="ADSS_Group_E" />
-      <element id="extracted-dir" path="$USER_HOME$/Downloads/sqlite-jdbc-3.41.2.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/dev/res/sqlite-jdbc-3.41.2.1.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

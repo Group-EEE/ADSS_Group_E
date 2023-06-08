@@ -179,7 +179,6 @@ Manufacturer
 | Adom adom         |
 | Tara              |
 | Coca cola         |
-| gad               |
 | Crownfish         |
 
 
