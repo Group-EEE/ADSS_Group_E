@@ -771,6 +771,7 @@ public class CreateSupplierGUI {
 
                 AddSuccess.setVisible(true);
                 NextButton.setVisible(true);
+                
                 ProductNameField.setText("");
                 ManufacturerNameField.setText("");
                 BarcodeField.setText("");
