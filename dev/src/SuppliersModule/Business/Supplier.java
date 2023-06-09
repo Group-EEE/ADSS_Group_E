@@ -79,13 +79,13 @@ public class Supplier {
     }
     public Contact getContact(String phoneNumber){return MyContacts.get(phoneNumber);}
 
-    public void addContact(String name, String phoneNumber) {
+    public boolean addContact(String name, String phoneNumber) {
         if(getContact(phoneNumber) != null)
-            System.out.println("This phone is already exist");
+            return false;
         else
             this.MyContacts.put(phoneNumber,new Contact(name, phoneNumber));
+        return true;
     }
-
     public void deleteContact(String phoneNumber){
         if(getContact(phoneNumber) == null)
             System.out.println("This phone is not exist");

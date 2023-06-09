@@ -280,22 +280,22 @@ SupplierCategories table
 
 Supplier_Manufacturer table
 -
-| SupplierNum | Category    |
-|-------------|-------------|
-| 0001        | Tzvika farm |
-| 0002        | Shavit farm |
-| 0002        | Tzvika farm |
-| 0003        | Shavit farm |
-| 0003        | Tzvika farm |
-| 0004        | Tara        |
-| 0004        | Tnuva       |
-| 0005        | Coca cola   |
-| 0006        | Coca cola   |
-| 0006        | Tara        |
-| 0006        | Tnuva       |
-| 0007        | Adom adom   |
-| 0007        | Crownfish   |
-| 0008        | Adom adom   |
+| SupplierNum | Manufacturer |
+|-------------|--------------|
+| 0001        | Tzvika farm  |
+| 0002        | Shavit farm  |
+| 0002        | Tzvika farm  |
+| 0003        | Shavit farm  |
+| 0003        | Tzvika farm  |
+| 0004        | Tara         |
+| 0004        | Tnuva        |
+| 0005        | Coca cola    |
+| 0006        | Coca cola    |
+| 0006        | Tara         |
+| 0006        | Tnuva        |
+| 0007        | Adom adom    |
+| 0007        | Crownfish    |
+| 0008        | Adom adom    |
 
 SuperLiProduct table
 -

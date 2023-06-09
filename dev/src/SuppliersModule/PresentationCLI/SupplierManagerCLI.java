@@ -340,7 +340,8 @@ public class SupplierManagerCLI {
             System.out.println("Enter the contact's phone number: ");
             String phoneNumber = reader.nextLine();
 
-            supplierController.addContactToSupplier(supplierNum, name,phoneNumber);
+            if(!supplierController.addContactToSupplier(supplierNum, name, phoneNumber))
+                System.out.println("This phone is already exist");
 
             checkValidWithMessage("Do you want to insert another contact? (y/n)");
         }while (yourChoice.equals("y"));

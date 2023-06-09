@@ -165,13 +165,15 @@ public class SupplierController {
     //------------------------------------------ Contact ---------------------------------------
 
 
-    public void addContactToSupplier(String supplierNum, String name, String phoneNumber)
+    public boolean addContactToSupplier(String supplierNum, String name, String phoneNumber)
     {
         Supplier supplier = getSupplier(supplierNum);
-        supplier.addContact(name, phoneNumber);
-        superLiDB.insertContact(supplier.getContact(phoneNumber));
+        if(supplier.addContact(name, phoneNumber)) {
+            superLiDB.insertContact(supplier.getContact(phoneNumber));
+            return true;
+        }
+        return false;
     }
-
     public boolean checkIfContactExist(String phoneNumber)
     {
         return superLiDB.CheckIfContactExist(phoneNumber);
