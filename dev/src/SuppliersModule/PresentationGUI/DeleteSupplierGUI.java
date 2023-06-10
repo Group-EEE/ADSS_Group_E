@@ -14,9 +14,9 @@ public class DeleteSupplierGUI {
 
     static SupplierController supplierController;
     static JFrame OldFrame;
-    public static void powerOn(SupplierController suppController, JFrame oldFrame)
+    public static void powerOn(JFrame oldFrame)
     {
-        supplierController = suppController;
+        supplierController = SupplierController.getInstance();;
         OldFrame = oldFrame;
 
         //------------------------------------- Create new frame -------------------------------------------
@@ -52,9 +52,8 @@ public class DeleteSupplierGUI {
 
         List <String> comboBoxItems = new ArrayList<>();
         comboBoxItems.add("");
-        Map<String, Supplier> allSuppliers = supplierController.returnAllSuppliers();
 
-        for (Map.Entry<String, Supplier> pair : allSuppliers.entrySet())
+        for (Map.Entry<String, Supplier> pair : supplierController.returnAllSuppliers().entrySet())
             comboBoxItems.add(pair.getKey());
 
         for (String item : comboBoxItems)

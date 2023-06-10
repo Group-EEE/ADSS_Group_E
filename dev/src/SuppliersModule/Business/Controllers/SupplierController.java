@@ -122,6 +122,12 @@ public class SupplierController {
         superLiDB.deleteSupplierProduct(currSupplierProduct);
     }
 
+    public Map<String, SupplierProduct> returnAllProductOfSupplier(String Supplier){
+        Supplier supplier = getSupplier(Supplier);
+        return supplier.getMyProducts();
+    }
+
+
     //------------------------------------------ SupplierProductDiscount ---------------------------------------
 
     public boolean addSupplierProductDiscount(String supplierCatalog, float discountPercentage, int minimumQuantity, String supplierNum) {

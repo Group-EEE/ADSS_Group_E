@@ -14,9 +14,9 @@ public class SupplierDetailsGUI {
 
     static SupplierController supplierController;
     static JFrame OldFrame;
-    public static void powerOn(SupplierController suppController, JFrame oldFrame)
+    public static void powerOn(JFrame oldFrame)
     {
-        supplierController = suppController;
+        supplierController = SupplierController.getInstance();
         OldFrame = oldFrame;
 
         //------------------------------------- Create new frame -------------------------------------------

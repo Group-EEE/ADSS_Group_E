@@ -12,26 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CreateSupplierGUI {
-
     static SupplierController supplierController;
     static SupplierGenerator supplierGenerator;
     static JFrame OldFrame;
-
-    static String supplierName;
     static String supplierNum;
-    static String bankAccount;
-    static PaymentTerm paymentTerm;
-    static List<String> categories;
 
-    static List<String> productsAdd;
-
-
-    public static void powerOn(SupplierController suppController, JFrame oldFrame)
+    public static void powerOn(JFrame oldFrame)
     {
-        supplierController = suppController;
+        supplierController = SupplierController.getInstance();
         supplierGenerator = SupplierGenerator.getInstance();
         OldFrame = oldFrame;
-        categories = new ArrayList<>();
 
         //------------------------------------- Create new frame -------------------------------------------
 
@@ -39,110 +29,105 @@ public class CreateSupplierGUI {
         page1Frame.setSize(500, 500);
         page1Frame.setLayout(null);
 
-        //---------------------------------------- Name  -------------------------------------------------
+        //----------------------------------------- Create JLabel ----------------------------------------
+
         JLabel nameLabel = new JLabel("Name");
-        nameLabel.setBounds(10, 10, 100,20);
-
-        JTextField nameField = new JTextField();
-        nameField.setBounds(150, 10, 80,20);
-
         JLabel checkNameLabel = createCheckLabel("Empty", 250,10,150,20);
 
+        JLabel supplierNumLabel = new JLabel("SupplierNum");
+        JLabel checkSupplierNumLabel = createCheckLabel("SupplierNum exist", 250,50,150,20);
+
+        JLabel bankAccountLabel = new JLabel("bankAccount");
+        JLabel checkBankAccountLabel = createCheckLabel("Empty", 250,80,150,20);
+
+        JLabel PaymentTermLabel = new JLabel("PaymentTerm");
+        JLabel checkPaymentTermLabel = createCheckLabel("Empty", 250,110,150,20);
+
+        JLabel contactLabel = new JLabel("Contacts");
+        JLabel checkContactsLabel = createCheckLabel("At least one", 370,157,150,20);
+
+        JLabel categoryLabel = new JLabel("Categories");
+        JLabel checkCategoriesLabel = createCheckLabel("At least one", 270,257,150,20);
+
+        //----------------------------------------- Create JTextField ----------------------------------------
+
+        JTextField nameField = new JTextField();
+        JTextField supplierNumField = new JTextField();
+        JTextField bankAccountField = new JTextField();
+
+        //----------------------------------------- Create JComboBox ----------------------------------------
+
+        JComboBox<String> comboBoxPaymentTerm = new JComboBox<>(new String[]{"", "Net", "Net 30 days", "Net 60 days"});
+
+        //--------------------------------------- Create JTable ---------------------------------------
+
+        String[][] dataContact = {{"",""},{"",""},{"",""},{"",""}};
+        String[] columnsContact = {"Name", "PhoneNumber"};
+        JTable jTableContacts= new JTable(dataContact, columnsContact);
+        JScrollPane jScrollContacts = new JScrollPane(jTableContacts);
+
+        //*************************************************************
+
+        String[][] dataCategory = {{""},{""},{""}, {""}};
+        String[] columnsCategory = {"Category"};
+        JTable jTableCategories= new JTable(dataCategory, columnsCategory);
+        JScrollPane jScrollCategories = new JScrollPane(jTableCategories);
+
+        //----------------------------------------- Create JButton ----------------------------------------
+
+        JButton nextButton = new JButton("Next");
+
+        //-------------------------------------- Set bounds ---------------------------------------------
+        nameLabel.setBounds(10, 10, 100,20);
+        nameField.setBounds(150, 10, 80,20);
+
+        supplierNumLabel.setBounds(10, 50, 100,20);
+        supplierNumField.setBounds(150, 50, 80,20);
+
+        bankAccountLabel.setBounds(10, 80, 100,20);
+        bankAccountField.setBounds(150, 80, 80,20);
+
+        PaymentTermLabel.setBounds(10, 110, 100,20);
+        comboBoxPaymentTerm.setBounds(150,110,80,20);
+
+        contactLabel.setBounds(10, 140, 100,20);
+        jTableContacts.setBounds(150, 140, 200, 87);
+        jScrollContacts.setBounds(150, 140, 200, 87);
+
+        categoryLabel.setBounds(10, 240, 100,20);
+        jTableCategories.setBounds(150, 240, 200, 87);
+        jScrollCategories.setBounds(150, 240, 100, 87);
+
+        nextButton.setBounds(200,370,100,30);
+        //------------------------------------ Add to currFrame -------------------------------------
         page1Frame.add(nameLabel);
         page1Frame.add(nameField);
         page1Frame.add(checkNameLabel);
-
-        //----------------------------------- SupplierNum  ------------------------------------------
-
-        JLabel supplierNumLabel = new JLabel("SupplierNum");
-        supplierNumLabel.setBounds(10, 50, 100,20);
-
-        JTextField supplierNumField = new JTextField();
-        supplierNumField.setBounds(150, 50, 80,20);
-
-        JLabel checkSupplierNumLabel = createCheckLabel("SupplierNum exist", 250,50,150,20);
 
         page1Frame.add(supplierNumLabel);
         page1Frame.add(supplierNumField);
         page1Frame.add(checkSupplierNumLabel);
 
-        //------------------------------------ bankAccount  ----------------------------------------
-
-        JLabel bankAccountLabel = new JLabel("bankAccount");
-        bankAccountLabel.setBounds(10, 80, 100,20);
-
-        JTextField bankAccountField = new JTextField();
-        bankAccountField.setBounds(150, 80, 80,20);
-
-        JLabel checkBankAccountLabel = createCheckLabel("Empty", 250,80,150,20);
-
         page1Frame.add(bankAccountLabel);
         page1Frame.add(bankAccountField);
         page1Frame.add(checkBankAccountLabel);
-
-        //------------------------------------ PaymentTerm  ----------------------------------------
-
-        JLabel PaymentTermLabel = new JLabel("PaymentTerm");
-        PaymentTermLabel.setBounds(10, 110, 100,20);
-
-        JComboBox<String> comboBoxPaymentTerm = new JComboBox<>();
-        comboBoxPaymentTerm.setBounds(150,110,80,20);
-        comboBoxPaymentTerm.addItem("");
-        comboBoxPaymentTerm.addItem("Net");
-        comboBoxPaymentTerm.addItem("Net 30 days");
-        comboBoxPaymentTerm.addItem("Net 60 days");
-
-        JLabel checkPaymentTermLabel = createCheckLabel("Empty", 250,110,150,20);
 
         page1Frame.add(PaymentTermLabel);
         page1Frame.add(comboBoxPaymentTerm);
         page1Frame.add(checkPaymentTermLabel);
 
-        //-------------------------------- Contacts --------------------------------------
-
-        JLabel ContactLabel = new JLabel("Contacts");
-        ContactLabel.setBounds(10, 140, 100,20);
-
-        String[][] dataContact = {{"",""},{"",""},{"",""},{"",""}};
-        String[] columnsContact = {"Name", "PhoneNumber"};
-
-        JTable jTableContacts= new JTable(dataContact, columnsContact);
-        jTableContacts.setBounds(150, 140, 200, 87);
-
-        JScrollPane jScrollPane1 = new JScrollPane(jTableContacts);
-        jScrollPane1.setBounds(150, 140, 200, 87);
-
-        JLabel checkContactsLabel = createCheckLabel("At least one", 370,157,150,20);
-
-        page1Frame.add(ContactLabel);
-        page1Frame.add(jScrollPane1);
+        page1Frame.add(contactLabel);
+        page1Frame.add(jScrollContacts);
         page1Frame.add(checkContactsLabel);
 
-        //-------------------------------- Contact table and label --------------------------------------
-
-        JLabel CategoryLabel = new JLabel("Categories");
-        CategoryLabel.setBounds(10, 240, 100,20);
-
-        String[][] dataCategory = {{""},{""},{""}, {""}};
-        String[] columnsCategory = {"Category"};
-
-        JTable jTableCategories= new JTable(dataCategory, columnsCategory);
-        jTableCategories.setBounds(150, 240, 200, 87);
-
-        JScrollPane jScrollPane2 = new JScrollPane(jTableCategories);
-        jScrollPane2.setBounds(150, 240, 100, 87);
-
-        JLabel checkCategoriesLabel = createCheckLabel("At least one", 270,257,150,20);
-
-        page1Frame.add(CategoryLabel);
-        page1Frame.add(jScrollPane2);
+        page1Frame.add(categoryLabel);
+        page1Frame.add(jScrollCategories);
         page1Frame.add(checkCategoriesLabel);
 
-        //------------------------------------ Create nextButton -------------------------------------
-
-        JButton nextButton = new JButton("Next");
-        nextButton.setBounds(200,370,100,30);
         page1Frame.add(nextButton);
+
+        // ------------------------------------- Add action listener to JObjects ------------------------------
+
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -160,7 +145,6 @@ public class CreateSupplierGUI {
                 if(comboBoxPaymentTerm.getSelectedItem().equals("")) {checkPaymentTermLabel.setVisible(true); isValid = false;}
                 else checkPaymentTermLabel.setVisible(false);
 
-
                 if(jTableContacts.getValueAt(0, 0).equals("") || jTableContacts.getValueAt(0, 1).equals("")) {checkContactsLabel.setVisible(true); isValid = false;}
                 else checkContactsLabel.setVisible(false);
 
@@ -169,6 +153,8 @@ public class CreateSupplierGUI {
 
                 if(isValid) {
                     supplierGenerator.reset();
+                    List<String> categories = new ArrayList<>();
+
                     String contactName = ""; String phoneNumber = ""; String categoryName = "";
 
                     for (int i = 0; i < jTableContacts.getRowCount(); i++)
@@ -188,13 +174,10 @@ public class CreateSupplierGUI {
                         categories.add(categoryName);
                     }
 
-                    supplierName = nameField.getText();
                     supplierNum = supplierNumField.getText();
-                    bankAccount = bankAccountField.getText();
-                    paymentTerm = PaymentTerm.values()[comboBoxPaymentTerm.getSelectedIndex()-1];
 
                     page1Frame.dispose();
-                    Page2();
+                    Page2(nameField.getText(), bankAccountField.getText(), PaymentTerm.values()[comboBoxPaymentTerm.getSelectedIndex()-1], categories);
                 }
             }});
 
@@ -202,7 +185,7 @@ public class CreateSupplierGUI {
     }
 
     //------------------------------------- Page 2 -------------------------------------------------------
-    public static void Page2()
+    public static void Page2(String supplierName, String bankAccount, PaymentTerm paymentTerm, List<String> categories)
     {
 
         //------------------------------------- Create new frame -------------------------------------------
@@ -211,35 +194,18 @@ public class CreateSupplierGUI {
         page2Frame.setSize(500, 500);
         page2Frame.setLayout(null);
 
-        //------------------------------------ Create nextButton -------------------------------------
-
-        JButton nextButton = new JButton("Next");
-        nextButton.setBounds(200,410,100,30);
-        page2Frame.add(nextButton);
-        nextButton.setVisible(false);
-
-        //------------------------------------ daysToSupply label and field ----------------------------------------
+        //----------------------------------------- Create JLabel ----------------------------------------
         JLabel daysToSupplyLabel = new JLabel("How many days to deliver the products?");
-        daysToSupplyLabel.setBounds(10, 360, 250,20);
-        daysToSupplyLabel.setVisible(false);
-
-        JTextField daysToSupplyField = new JTextField();
-        daysToSupplyField.setBounds(280, 360, 80,20);
-        daysToSupplyField.setVisible(false);
-
         JLabel checkDaysToSupplyLabel = createCheckLabel("Empty", 380, 360, 50,20);
 
-        page2Frame.add(daysToSupplyLabel);
-        page2Frame.add(daysToSupplyField);
-        page2Frame.add(checkDaysToSupplyLabel);
-
-        //------------------------------------ deliveryDays label and checkBox ----------------------------------------
-
         JLabel deliveryDaysLabel = new JLabel("Choose days");
-        deliveryDaysLabel.setBounds(100, 100, 200,20);
-        deliveryDaysLabel.setVisible(false);
-
         JLabel checkDeliveryDaysLabel = createCheckLabel("At least one", 350, 100, 100,20);
+
+        JLabel hasPermanentDaysLabel = new JLabel("Does he have permanent days that he comes?");
+
+        JLabel bringProductLabel = new JLabel("Does the supplier transport his products himself?");
+
+        //----------------------------------------- Create JCheckBox ----------------------------------------
 
         JCheckBox[] checkBoxesDeliveryDays = new JCheckBox[7];
         String[] daysName = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
@@ -250,30 +216,97 @@ public class CreateSupplierGUI {
             checkBoxesDeliveryDays[i].setVisible(false);
             page2Frame.add(checkBoxesDeliveryDays[i]);
         }
-        page2Frame.add(deliveryDaysLabel);
-        page2Frame.add(checkDeliveryDaysLabel);
 
-        //------------------------------------ hasPermanentDays label and comboBox ----------------------------------------
+        //----------------------------------------- Create JComboBox ----------------------------------------
 
-        JLabel hasPermanentDaysLabel = new JLabel("Does he have permanent days that he comes?");
+        JComboBox<String> comboBoxBring = new JComboBox<>(new String[]{"", "Yes", "No"});
+        JComboBox<String> hasPermanentDaysComboBox = new JComboBox<>(new String[]{"", "Yes", "No"});
+
+        //----------------------------------------- Create JTextField ----------------------------------------
+
+        JTextField daysToSupplyField = new JTextField();
+
+        //------------------------------------ Create JButton -------------------------------------
+
+        JButton nextButton = new JButton("Next");
+
+        //-------------------------------------- Set bounds ---------------------------------------------
+
+        bringProductLabel.setBounds(10, 10, 300,20);
+        comboBoxBring.setBounds(350,10,50,20);
+
         hasPermanentDaysLabel.setBounds(10, 50, 300,20);
-        hasPermanentDaysLabel.setVisible(false);
-
-        JComboBox<String> hasPermanentDaysComboBox = new JComboBox<>();
-
         hasPermanentDaysComboBox.setBounds(350,50,50,20);
-        hasPermanentDaysComboBox.addItem("");
-        hasPermanentDaysComboBox.addItem("Yes");
-        hasPermanentDaysComboBox.addItem("No");
+
+        deliveryDaysLabel.setBounds(100, 100, 200,20);
+
+        daysToSupplyField.setBounds(280, 360, 80,20);
+
+        nextButton.setBounds(200,410,100,30);
+
+        //-------------------------------------- Set not visible ---------------------------------------------
+
+        hasPermanentDaysLabel.setVisible(false);
         hasPermanentDaysComboBox.setVisible(false);
+
+        deliveryDaysLabel.setVisible(false);
+
+        daysToSupplyLabel.setVisible(false);
+        daysToSupplyField.setVisible(false);
+        nextButton.setVisible(false);
+
+
+
+        //------------------------------------ Add to currFrame -------------------------------------
+
+        page2Frame.add(bringProductLabel);
+        page2Frame.add(comboBoxBring);
 
         page2Frame.add(hasPermanentDaysLabel);
         page2Frame.add(hasPermanentDaysComboBox);
 
+        page2Frame.add(deliveryDaysLabel);
+        page2Frame.add(checkDeliveryDaysLabel);
+
+        page2Frame.add(daysToSupplyLabel);
+        page2Frame.add(daysToSupplyField);
+        page2Frame.add(checkDaysToSupplyLabel);
+
+        page2Frame.add(nextButton);
+
+        // ------------------------------------- Add action listener to JObjects ------------------------------
+
+        comboBoxBring.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<String> combo = (JComboBox<String>) e.getSource();
+                String yesORno = (String) combo.getSelectedItem();
+
+                if(yesORno.equals("Yes")) {
+                    hasPermanentDaysLabel.setVisible(true);
+                    hasPermanentDaysComboBox.setVisible(true);
+                    nextButton.setVisible(false);
+                }
+
+                else if(yesORno.equals("No")) {
+                    hasPermanentDaysLabel.setVisible(false);
+                    hasPermanentDaysComboBox.setVisible(false);
+                    hasPermanentDaysComboBox.setSelectedItem("");
+                    nextButton.setVisible(true);
+                }
+
+                else {
+                    hasPermanentDaysLabel.setVisible(false);
+                    hasPermanentDaysComboBox.setVisible(false);
+                    nextButton.setVisible(false);
+                }
+            }});
+
+        //********************************************************************
+
         hasPermanentDaysComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 JComboBox<String> combo = (JComboBox<String>) e.getSource();
                 String yesORno = (String) combo.getSelectedItem();
 
@@ -294,7 +327,6 @@ public class CreateSupplierGUI {
                     for(int i=0 ; i<7 ; i++)
                         checkBoxesDeliveryDays[i].setVisible(false);
 
-
                     daysToSupplyLabel.setVisible(true);
                     daysToSupplyField.setVisible(true);
                     nextButton.setVisible(true);
@@ -311,54 +343,8 @@ public class CreateSupplierGUI {
                     for (int i = 0; i < 7; i++)
                         checkBoxesDeliveryDays[i].setVisible(false);
                 }
-
             }});
-
-        //------------------------------------ isSupplierBringProduct label and comboBox ----------------------------------------
-
-        JLabel BringProductLabel = new JLabel("Does the supplier transport his products himself?");
-        BringProductLabel.setBounds(10, 10, 300,20);
-
-        JComboBox<String> comboBoxBring = new JComboBox<>();
-        comboBoxBring.setBounds(350,10,50,20);
-        comboBoxBring.addItem("");
-        comboBoxBring.addItem("Yes");
-        comboBoxBring.addItem("No");
-
-        page2Frame.add(BringProductLabel);
-        page2Frame.add(comboBoxBring);
-
-        comboBoxBring.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                JComboBox<String> combo = (JComboBox<String>) e.getSource();
-                String yesORno = (String) combo.getSelectedItem();
-
-                if(yesORno.equals("Yes")) {
-                    hasPermanentDaysLabel.setVisible(true);
-                    hasPermanentDaysComboBox.setVisible(true);
-                    nextButton.setVisible(false);
-
-                }
-
-                else if(yesORno.equals("No"))
-                {
-                    hasPermanentDaysLabel.setVisible(false);
-                    hasPermanentDaysComboBox.setVisible(false);
-                    hasPermanentDaysComboBox.setSelectedItem("");
-                    nextButton.setVisible(true);
-                }
-
-                else
-                {
-                    hasPermanentDaysLabel.setVisible(false);
-                    hasPermanentDaysComboBox.setVisible(false);
-                    nextButton.setVisible(false);
-                }
-            }});
-
-        //-------------------------------------------------------------------------
+        //*************************************************************************
 
         nextButton.addActionListener(new ActionListener() {
             @Override
@@ -403,7 +389,7 @@ public class CreateSupplierGUI {
 
     public static void Page3() {
 
-        productsAdd = new ArrayList<>();
+        List<String> productsAdd = new ArrayList<>();
 
         //------------------------------------- Create new frame -------------------------------------------
 
@@ -411,110 +397,107 @@ public class CreateSupplierGUI {
         page3Frame.setSize(500, 500);
         page3Frame.setLayout(null);
 
-        //------------------------------------- product name ---------------------------------------------
-
+        //----------------------------------------- Create JLabel ----------------------------------------
         JLabel productNameLabel = new JLabel("Enter the product name");
-        productNameLabel.setBounds(10, 10, 290, 20);
+        JLabel checkProdNameLabel = createCheckLabel("Empty", 370, 10, 100, 20);
+
+        JLabel manufacturerNameLabel = new JLabel("Enter the manufacturer name");
+        JLabel checkManuNameLabel = createCheckLabel("Empty", 370, 40, 100, 20);
+
+        JLabel barcodeLabel = new JLabel("Enter barcode: (If unknown enter: 99)");
+        JLabel checkBarcodeLabel = createCheckLabel("Must be positive", 370, 70, 100, 20);
+
+        JLabel supplierCatalogLabel = new JLabel("Enter supplier catalog");
+        JLabel checkCatalogLabel = createCheckLabel("Empty or Exist", 370, 100, 100, 20);
+
+        JLabel priceLabel = new JLabel("Enter price per unit");
+        JLabel checkPriceLabel = createCheckLabel("Must be positive", 370, 130, 100, 20);
+
+        JLabel quantityLabel = new JLabel("Enter the quantity of products you can supply");
+        JLabel checkQuantityLabel =createCheckLabel("Must be positive", 370, 160, 100, 20);
+
+
+        //----------------------------------------- Create JTextField ----------------------------------------
 
         JTextField productNameField = new JTextField();
+        JTextField manufacturerNameField = new JTextField();
+        JTextField barcodeField = new JTextField();
+        JTextField supplierCatalogField = new JTextField();
+        JTextField priceField = new JTextField();
+        JTextField quantityField = new JTextField();
+
+        //------------------------------------ Create nextButton -------------------------------------
+
+        JButton addProductButton = new JButton("Add Product");
+        JButton nextButton = new JButton("Next");
+
+        //-------------------------------------- Set bounds ---------------------------------------------
+
+        productNameLabel.setBounds(10, 10, 290, 20);
         productNameField.setBounds(300, 10, 50, 20);
 
-        JLabel checkProdNameLabel = createCheckLabel("Empty", 370, 10, 100, 20);
+        manufacturerNameLabel.setBounds(10, 40, 290, 20);
+        manufacturerNameField.setBounds(300, 40, 50, 20);
+
+        barcodeLabel.setBounds(10, 70, 290, 20);
+        barcodeField.setBounds(300, 70, 50, 20);
+
+        supplierCatalogLabel.setBounds(10, 100, 290, 20);
+        supplierCatalogField.setBounds(300, 100, 50, 20);
+
+        priceLabel.setBounds(10, 130, 290, 20);
+        priceField.setBounds(300, 130, 50, 20);
+
+        quantityLabel.setBounds(10, 160, 290, 20);
+        quantityField.setBounds(300, 160, 50, 20);
+
+        addProductButton.setBounds(210,410,150,30);
+        nextButton.setBounds(100,410,100,30);
+
+        //-------------------------------------- Set not visible ---------------------------------------------
+
+        nextButton.setVisible(false);
+
+        //------------------------------------ Add to currFrame -------------------------------------
 
         page3Frame.add(productNameLabel);
         page3Frame.add(productNameField);
         page3Frame.add(checkProdNameLabel);
 
-        //------------------------------------ Manufacturer name -----------------------------------------
-
-        JLabel manufacturerNameLabel = new JLabel("Enter the manufacturer name");
-        manufacturerNameLabel.setBounds(10, 40, 290, 20);
-
-        JTextField manufacturerNameField = new JTextField();
-        manufacturerNameField.setBounds(300, 40, 50, 20);
-
-        JLabel checkManuNameLabel = createCheckLabel("Empty", 370, 40, 100, 20);
-
         page3Frame.add(manufacturerNameLabel);
         page3Frame.add(manufacturerNameField);
         page3Frame.add(checkManuNameLabel);
-
-        //------------------------------------ Barcode -----------------------------------------
-
-        JLabel barcodeLabel = new JLabel("Enter barcode: (If unknown enter: 99)");
-        barcodeLabel.setBounds(10, 70, 290, 20);
-
-        JTextField barcodeField = new JTextField();
-        barcodeField.setBounds(300, 70, 50, 20);
-
-        JLabel checkBarcodeLabel = createCheckLabel("Must be positive", 370, 70, 100, 20);
 
         page3Frame.add(barcodeLabel);
         page3Frame.add(barcodeField);
         page3Frame.add(checkBarcodeLabel);
 
-        //------------------------------------ Supplier catalog -----------------------------------------
-
-        JLabel supplierCatalogLabel = new JLabel("Enter supplier catalog");
-        supplierCatalogLabel.setBounds(10, 100, 290, 20);
-
-        JTextField supplierCatalogField = new JTextField();
-        supplierCatalogField.setBounds(300, 100, 50, 20);
-
-        JLabel checkCatalogLabel = createCheckLabel("Empty or Exist", 370, 100, 100, 20);
-
         page3Frame.add(supplierCatalogLabel);
         page3Frame.add(supplierCatalogField);
         page3Frame.add(checkCatalogLabel);
-
-        //------------------------------------ Price -----------------------------------------
-
-        JLabel priceLabel = new JLabel("Enter price per unit");
-        priceLabel.setBounds(10, 130, 290, 20);
-
-        JTextField priceField = new JTextField();
-        priceField.setBounds(300, 130, 50, 20);
-
-        JLabel checkPriceLabel = createCheckLabel("Must be positive", 370, 130, 100, 20);
 
         page3Frame.add(priceLabel);
         page3Frame.add(priceField);
         page3Frame.add(checkPriceLabel);
 
-        //------------------------------------ Quantity -----------------------------------------
-
-        JLabel quantityLabel = new JLabel("Enter the quantity of products you can supply");
-        quantityLabel.setBounds(10, 160, 290, 20);
-
-        JTextField quantityField = new JTextField();
-        quantityField.setBounds(300, 160, 50, 20);
-
-        JLabel checkQuantityLabel =createCheckLabel("Must be positive", 370, 160, 100, 20);
-
         page3Frame.add(quantityLabel);
         page3Frame.add(quantityField);
         page3Frame.add(checkQuantityLabel);
 
-        //------------------------------------ Create nextButton -------------------------------------
-
-        JButton nextButton = new JButton("Next");
-        nextButton.setBounds(100,410,100,30);
         page3Frame.add(nextButton);
-        nextButton.setVisible(false);
+        page3Frame.add(addProductButton);
+
+        // ------------------------------------- Add action listener to JObjects ------------------------------
 
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 page3Frame.dispose();
-                Page4();
+                Page4(productsAdd);
             }
         });
 
-        //------------------------------------ Create addProductButton -------------------------------------
-
-        JButton addProductButton = new JButton("Add Product");
-        addProductButton.setBounds(210,410,150,30);
-        page3Frame.add(addProductButton);
+        //*****************************************************************************
         addProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -561,8 +544,7 @@ public class CreateSupplierGUI {
         page3Frame.setVisible(true);
     }
 
-
-    public static void Page4() {
+    public static void Page4(List<String> productsAdd) {
 
         //------------------------------------- Create new frame -------------------------------------------
 
@@ -570,64 +552,83 @@ public class CreateSupplierGUI {
         page4Frame.setSize(500, 500);
         page4Frame.setLayout(null);
 
-        //------------------------------------- minimum Quantity -----------------------------------
+        //----------------------------------------- Create JLabel ----------------------------------------
+
+        JLabel discountProductLabel = new JLabel("Choose product that supplier provide any discounts?");
 
         JLabel minimumQuantityLabel = new JLabel("Minimum quantity for discount?");
-        minimumQuantityLabel.setBounds(10, 100, 200, 20);
-        minimumQuantityLabel.setVisible(false);
+        JLabel checkMinimumQuantityLabel = createCheckLabel("Not Valid or Exist", 300, 100, 100, 20);
+
+        JLabel percentLabel = new JLabel("How many percent off?");
+        JLabel checkPercentLabel = createCheckLabel("Not Valid", 300, 140, 80, 20);
+
+
+        //----------------------------------------- Create JTextField ----------------------------------------
 
         JTextField minimumQuantityField = new JTextField();
+        JTextField PercentField = new JTextField();
+
+        //----------------------------------------- Create JComboBox ----------------------------------------
+
+        JComboBox<String> comboBoxProductAdd = new JComboBox<>();
+        comboBoxProductAdd.addItem("");
+        for (int i = 0; i < productsAdd.size(); i++)
+            comboBoxProductAdd.addItem(productsAdd.get(i));
+
+        //----------------------------------------- Create JButton ----------------------------------------
+
+        JButton addProductButton = new JButton("Add Product");
+        JButton nextButton = new JButton("Next");
+
+
+        //-------------------------------------- Set bounds ---------------------------------------------
+
+        discountProductLabel.setBounds(50, 10, 350, 20);
+        comboBoxProductAdd.setBounds(225, 40, 50, 20);
+
+
+        minimumQuantityLabel.setBounds(10, 100, 200, 20);
         minimumQuantityField.setBounds(240, 100, 50, 20);
+
+        percentLabel.setBounds(10, 140, 200, 20);
+        PercentField.setBounds(240, 140, 50, 20);
+
+        addProductButton.setBounds(210,410,150,30);
+        nextButton.setBounds(100,410,100,30);
+
+        //-------------------------------------- Set not visible ---------------------------------------------
+        minimumQuantityLabel.setVisible(false);
         minimumQuantityField.setVisible(false);
 
-        JLabel checkMinimumQuantityLabel = createCheckLabel("Not Valid or Exist", 300, 100, 100, 20);
+        percentLabel.setVisible(false);
+        PercentField.setVisible(false);
+
+        //------------------------------------ Add to currFrame -------------------------------------
+
+        page4Frame.add(discountProductLabel);
+        page4Frame.add(comboBoxProductAdd);
 
         page4Frame.add(minimumQuantityLabel);
         page4Frame.add(minimumQuantityField);
         page4Frame.add(checkMinimumQuantityLabel);
 
-        //------------------------------------- Percent -----------------------------------
-
-        JLabel PercentLabel = new JLabel("How many percent off?");
-        PercentLabel.setBounds(10, 140, 200, 20);
-        PercentLabel.setVisible(false);
-
-        JTextField PercentField = new JTextField();
-        PercentField.setBounds(240, 140, 50, 20);
-        PercentField.setVisible(false);
-
-        JLabel checkPercentLabel = createCheckLabel("Not Valid", 300, 140, 80, 20);
-
-        page4Frame.add(PercentLabel);
+        page4Frame.add(percentLabel);
         page4Frame.add(PercentField);
         page4Frame.add(checkPercentLabel);
 
+        page4Frame.add(addProductButton);
+        page4Frame.add(nextButton);
 
-        //------------------------------------- comboBoxProductAdd -----------------------------------
-
-        JLabel discountProductLabel = new JLabel("Choose product that supplier provide any discounts?");
-        discountProductLabel.setBounds(50, 10, 350, 20);
-
-        JComboBox<String> comboBoxProductAdd = new JComboBox<>();
-        comboBoxProductAdd.setBounds(225, 40, 50, 20);
-
-        comboBoxProductAdd.addItem("");
-        for (int i = 0; i < productsAdd.size(); i++)
-            comboBoxProductAdd.addItem(productsAdd.get(i));
-
-        page4Frame.add(discountProductLabel);
-        page4Frame.add(comboBoxProductAdd);
+        // ------------------------------------- Add action listener to JObjects ------------------------------
 
         comboBoxProductAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 JComboBox<String> combo = (JComboBox<String>) e.getSource();
                 String choose = (String) combo.getSelectedItem();
 
-                if(choose.equals(""))
-                {
-                    PercentLabel.setVisible(false);
+                if(choose.equals("")) {
+                    percentLabel.setVisible(false);
                     PercentField.setVisible(false);
                     checkPercentLabel.setVisible(false);
                     minimumQuantityLabel.setVisible(false);
@@ -635,23 +636,18 @@ public class CreateSupplierGUI {
                     checkMinimumQuantityLabel.setVisible(false);
                 }
 
-                else
-                {
-                    PercentLabel.setVisible(true);
+                else {
+                    percentLabel.setVisible(true);
                     PercentField.setVisible(true);
-                    checkPercentLabel.setVisible(false);
                     minimumQuantityLabel.setVisible(true);
                     minimumQuantityField.setVisible(true);
                     checkMinimumQuantityLabel.setVisible(false);
+                    checkPercentLabel.setVisible(false);
                 }
-            }
-        });
+            }});
 
-        //------------------------------------ Create addProductButton -------------------------------------
+        //********************************************************************8
 
-        JButton addProductButton = new JButton("Add Product");
-        addProductButton.setBounds(210,410,150,30);
-        page4Frame.add(addProductButton);
         addProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -667,29 +663,23 @@ public class CreateSupplierGUI {
                 if(isValid) {
                     if (!supplierController.addSupplierProductDiscount(comboBoxProductAdd.getSelectedItem().toString(), Float.parseFloat(PercentField.getText()), Integer.parseInt(minimumQuantityField.getText()), supplierNum))
                         checkMinimumQuantityLabel.setVisible(true);
-                    else
-                    {
+
+                    else {
                         ShowAddSuccess();
                         PercentField.setText("");
                         minimumQuantityField.setText("");
                     }
                 }
-            }
-        });
+            }});
 
-        //------------------------------------ Create nextButton -------------------------------------
-
-        JButton nextButton = new JButton("Next");
-        nextButton.setBounds(100,410,100,30);
-        page4Frame.add(nextButton);
+        //****************************************************************8
 
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 page4Frame.dispose();
                 Page5();
-            }
-        });
+            }});
 
         page4Frame.setVisible(true);
     }
@@ -703,47 +693,138 @@ public class CreateSupplierGUI {
         page5Frame.setSize(500, 500);
         page5Frame.setLayout(null);
 
-        //------------------------------------- minimum Quantity -----------------------------------
+        //----------------------------------------- Create JLabel ----------------------------------------
+
+        JLabel discountOrderLabel = new JLabel("Do the supplier supply any discounts for order?");
+
+        JLabel PorQLabel = new JLabel("Do the discount is for minimum price or for minimum quantity? (p/q)");
 
         JLabel minimumLabel = new JLabel("Minimum quantity/price for discount?");
-        minimumLabel.setBounds(10, 130, 250, 20);
-        minimumLabel.setVisible(false);
+        JLabel checkMinimumLabel = createCheckLabel("Not Valid or Exist", 350, 100, 100, 20);
+
+        JLabel PercentLabel = new JLabel("How many percent off?");
+        JLabel checkPercentLabel = createCheckLabel("Not Valid", 350, 100, 100, 20);
+
+
+        //----------------------------------------- Create JTextField ----------------------------------------
 
         JTextField minimumField = new JTextField();
+        JTextField PercentField = new JTextField();
+
+        //----------------------------------------- Create JComboBox ----------------------------------------
+
+        JComboBox<String> comboBoxDiscountOrder = new JComboBox<>(new String[]{"", "Yes"});
+        JComboBox<String> comboBoxPorQ = new JComboBox<>(new String[]{"", "p", "q"});
+
+        //----------------------------------------- Create JButton ----------------------------------------
+
+        JButton addDiscountButton = new JButton("Add Discount");
+        JButton finishButton = new JButton("Finish");
+
+        //-------------------------------------- Set bounds ---------------------------------------------
+
+        discountOrderLabel.setBounds(50, 10, 350, 20);
+        comboBoxDiscountOrder.setBounds(225, 40, 50, 20);
+
+        PorQLabel.setBounds(10, 70, 400, 20);
+        comboBoxPorQ.setBounds(430, 70, 50, 20);
+
+        minimumLabel.setBounds(10, 130, 250, 20);
         minimumField.setBounds(290, 130, 50, 20);
+
+        PercentLabel.setBounds(10, 100, 250, 20);
+        PercentField.setBounds(290, 100, 50, 20);
+
+        addDiscountButton.setBounds(210,410,150,30);
+        finishButton.setBounds(100,410,100,30);
+
+
+        //-------------------------------------- Set not visible ---------------------------------------------
+
+        PorQLabel.setVisible(false);
+        comboBoxPorQ.setVisible(false);
+
+        minimumLabel.setVisible(false);
         minimumField.setVisible(false);
 
-        JLabel checkMinimumLabel = createCheckLabel("Not Valid or Exist", 350, 100, 100, 20);
+        PercentLabel.setVisible(false);
+        PercentField.setVisible(false);
+
+
+        //------------------------------------ Add to currFrame -------------------------------------
+
+        page5Frame.add(discountOrderLabel);
+        page5Frame.add(comboBoxDiscountOrder);
+
+        page5Frame.add(PorQLabel);
+        page5Frame.add(comboBoxPorQ);
 
         page5Frame.add(minimumLabel);
         page5Frame.add(minimumField);
         page5Frame.add(checkMinimumLabel);
 
-        //------------------------------------- Percent -----------------------------------
-
-        JLabel PercentLabel = new JLabel("How many percent off?");
-        PercentLabel.setBounds(10, 100, 250, 20);
-        PercentLabel.setVisible(false);
-
-        JTextField PercentField = new JTextField();
-        PercentField.setBounds(290, 100, 50, 20);
-        PercentField.setVisible(false);
-
-        JLabel checkPercentLabel = createCheckLabel("Not Valid", 350, 100, 100, 20);
-
         page5Frame.add(PercentLabel);
         page5Frame.add(PercentField);
         page5Frame.add(checkPercentLabel);
 
-        //------------------------------------ Create DiscountButton -------------------------------------
-
-        JComboBox<String> comboBoxPorQ = new JComboBox<>();
-        JComboBox<String> comboBoxDiscountOrder = new JComboBox<>();
-
-
-        JButton addDiscountButton = new JButton("Add Discount");
-        addDiscountButton.setBounds(210,410,150,30);
         page5Frame.add(addDiscountButton);
+        page5Frame.add(finishButton);
+
+        // ------------------------------------- Add action listener to JObjects ------------------------------
+
+        comboBoxDiscountOrder.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<String> combo = (JComboBox<String>) e.getSource();
+                String choose = (String) combo.getSelectedItem();
+
+                if(choose.equals("")) {
+                    comboBoxPorQ.setSelectedItem("");
+                    comboBoxPorQ.setVisible(false);
+                    PorQLabel.setVisible(false);
+                    addDiscountButton.setVisible(true);
+                }
+
+                else {
+                    comboBoxPorQ.setVisible(true);
+                    PorQLabel.setVisible(true);
+                    addDiscountButton.setVisible(false);
+                }
+            }});
+
+        //*********************************************************************
+
+        comboBoxPorQ.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<String> combo = (JComboBox<String>) e.getSource();
+                String choose = (String) combo.getSelectedItem();
+
+                if(choose.equals("")) {
+                    PercentLabel.setVisible(false);
+                    PercentField.setVisible(false);
+                    checkPercentLabel.setVisible(false);
+                    minimumLabel.setVisible(false);
+                    minimumField.setVisible(false);
+                    checkMinimumLabel.setVisible(false);
+                    addDiscountButton.setVisible(false);
+                }
+
+                else {
+                    PercentLabel.setVisible(true);
+                    PercentField.setVisible(true);
+                    minimumLabel.setVisible(true);
+                    minimumField.setVisible(true);
+                    addDiscountButton.setVisible(true);
+
+                    checkMinimumLabel.setVisible(false);
+                    checkPercentLabel.setVisible(false);
+                }
+            }
+        });
+
+        //*****************************************************************************
+
         addDiscountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -761,108 +842,27 @@ public class CreateSupplierGUI {
                     ShowAddSuccess();
                     comboBoxDiscountOrder.setSelectedItem("");
                 }
-            }
-        });
+            }});
 
-        //------------------------------------- comboBoxPorQLabel -----------------------------------
-
-        JLabel PorQLabel = new JLabel("Do the discount is for minimum price or for minimum quantity? (p/q)");
-        PorQLabel.setBounds(10, 70, 400, 20);
-        PorQLabel.setVisible(false);
-
-        comboBoxPorQ.setBounds(430, 70, 50, 20);
-        comboBoxPorQ.setVisible(false);
-
-        comboBoxPorQ.addItem("");
-        comboBoxPorQ.addItem("p");
-        comboBoxPorQ.addItem("q");
-
-        page5Frame.add(PorQLabel);
-        page5Frame.add(comboBoxPorQ);
-
-        comboBoxPorQ.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                JComboBox<String> combo = (JComboBox<String>) e.getSource();
-                String choose = (String) combo.getSelectedItem();
-
-                if(choose.equals(""))
-                {
-                    PercentLabel.setVisible(false);
-                    PercentField.setVisible(false);
-                    checkPercentLabel.setVisible(false);
-                    minimumLabel.setVisible(false);
-                    minimumField.setVisible(false);
-                    checkMinimumLabel.setVisible(false);
-                    addDiscountButton.setVisible(false);
-                }
-                else
-                {
-                    PercentLabel.setVisible(true);
-                    PercentField.setVisible(true);
-                    checkPercentLabel.setVisible(false);
-                    minimumLabel.setVisible(true);
-                    minimumField.setVisible(true);
-                    checkMinimumLabel.setVisible(false);
-                    addDiscountButton.setVisible(true);
-                }
-            }
-        });
-
-        //------------------------------------- comboBoxProductAdd -----------------------------------
-
-        JLabel discountOrderLabel = new JLabel("Do the supplier supply any discounts for order?");
-        discountOrderLabel.setBounds(50, 10, 350, 20);
-
-        comboBoxDiscountOrder.setBounds(225, 40, 50, 20);
-
-        comboBoxDiscountOrder.addItem("");
-        comboBoxDiscountOrder.addItem("Yes");
-
-        page5Frame.add(discountOrderLabel);
-        page5Frame.add(comboBoxDiscountOrder);
-
-        comboBoxDiscountOrder.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                JComboBox<String> combo = (JComboBox<String>) e.getSource();
-                String choose = (String) combo.getSelectedItem();
-
-                if(choose.equals(""))
-                {
-                    comboBoxPorQ.setSelectedItem("");
-                    comboBoxPorQ.setVisible(false);
-                    PorQLabel.setVisible(false);
-                    addDiscountButton.setVisible(true);
-                }
-                else
-                {
-                    comboBoxPorQ.setVisible(true);
-                    PorQLabel.setVisible(true);
-                    addDiscountButton.setVisible(false);
-                }
-            }
-        });
-
-        //------------------------------------ Create nextButton -------------------------------------
-
-        JButton finishButton = new JButton("Finish");
-        finishButton.setBounds(100,410,100,30);
-        page5Frame.add(finishButton);
+        //******************************************************************************
 
         finishButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 page5Frame.dispose();
+                ShowProcessSuccessfully();
                 OldFrame.setVisible(true);
-            }
-        });
+            }});
 
         page5Frame.setVisible(true);
     }
+    //------------------------------------- Helper function ----------------------------------------
 
+    /**
+     * Check if value is valid integer
+     * @param value - value
+     * @return true - if valid, false - else
+     */
     public static boolean CheckIntInput(String value)
     {
         int num;
@@ -870,6 +870,12 @@ public class CreateSupplierGUI {
         catch (NumberFormatException error) {return false;}
         return num > 0;
     }
+
+    /**
+     * Check if value is valid float
+     * @param value - value
+     * @return true - if valid, false - else
+     */
     public static boolean CheckFloatInput(String value)
     {
         float num;
@@ -878,6 +884,15 @@ public class CreateSupplierGUI {
         return !(num <= 0);
     }
 
+    /**
+     * This method create label which functions as a check label
+     * @param message - A message that the label will display
+     * @param x - coordinate x
+     * @param y - coordinate y
+     * @param width - width
+     * @param height - height
+     * @return JLabel
+     */
     public static JLabel createCheckLabel(String message, int x, int y, int width, int height)
     {
         JLabel checkLabel = new JLabel(message);
@@ -887,6 +902,9 @@ public class CreateSupplierGUI {
         return checkLabel;
     }
 
+    /**
+     * This method create an "AddSuccess" frame.
+     */
     public static void ShowAddSuccess()
     {
         JFrame AddSuccessFrame = new JFrame("Add success");
@@ -906,6 +924,30 @@ public class CreateSupplierGUI {
         });
 
         AddSuccessFrame.setVisible(true);
+    }
+
+    /**
+     * This method create an "ProcessSuccessfully" frame.
+     */
+    public static void ShowProcessSuccessfully()
+    {
+        JFrame ProcessSuccessfullyFrame = new JFrame("The process ended successfully");
+        ProcessSuccessfullyFrame.setSize(300, 300);
+        ProcessSuccessfullyFrame.setLayout(null);
+
+        JLabel addSuccessLabel = new JLabel("The process ended successfully");
+        addSuccessLabel.setBounds(50, 50, 250, 20);
+        ProcessSuccessfullyFrame.add(addSuccessLabel);
+
+        JButton okButton = new JButton("OK");
+        okButton.setBounds(100, 100, 80, 20);
+        ProcessSuccessfullyFrame.add(okButton);
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {ProcessSuccessfullyFrame.dispose();}
+        });
+
+        ProcessSuccessfullyFrame.setVisible(true);
     }
 }
 
