@@ -124,11 +124,14 @@ public class SupplierController {
 
     //------------------------------------------ SupplierProductDiscount ---------------------------------------
 
-    public void addSupplierProductDiscount(String supplierCatalog, float discountPercentage, int minimumQuantity, String supplierNum){
+    public boolean addSupplierProductDiscount(String supplierCatalog, float discountPercentage, int minimumQuantity, String supplierNum) {
         Supplier supplier = getSupplier(supplierNum);
         SupplierProduct supplierProduct = supplier.getSupplierProduct(supplierCatalog);
-        supplierProduct.addProductDiscount(discountPercentage, minimumQuantity);
-        superLiDB.insertSupplierProductDiscount(supplierProduct, supplierProduct.getSupplierProductDiscount(minimumQuantity));
+        if (supplierProduct.addProductDiscount(discountPercentage, minimumQuantity)) {
+            superLiDB.insertSupplierProductDiscount(supplierProduct, supplierProduct.getSupplierProductDiscount(minimumQuantity));
+            return true;
+        }
+        return false;
     }
 
     public void deleteSupplierProductDiscount(String supplierNum, String supplierCatalog, int amount)

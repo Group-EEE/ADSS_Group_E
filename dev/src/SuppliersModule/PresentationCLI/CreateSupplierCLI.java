@@ -200,7 +200,9 @@ public class CreateSupplierCLI {
 
             float discountPercentage = SupplierManagerCLI.CheckFloatInputAndReturn("How many percent off? ");
 
-            supplierController.addSupplierProductDiscount(supplierCatalog, discountPercentage, minimumQuantity, supplierNum);
+            if(!supplierController.addSupplierProductDiscount(supplierCatalog, discountPercentage, minimumQuantity, supplierNum))
+                System.out.println("The minimum Amount is exist");
+
             SupplierManagerCLI.checkValidWithMessage("Do the supplier provide another discounts for this product? (y/n)");
         }
     }
@@ -210,7 +212,7 @@ public class CreateSupplierCLI {
      * (means discount given for the final order. Can be for minimum price or minimum quantity)
      */
     public void addOrderDiscount(String supplierNum) {
-        SupplierManagerCLI.checkValidWithMessage("Do the supplier supply any discounts for order ? (y/n)");
+        SupplierManagerCLI.checkValidWithMessage("Do the supplier supply any discounts for order? (y/n)");
 
         while (SupplierManagerCLI.yourChoice.equals("y")) {
             String priceOrQuantity;

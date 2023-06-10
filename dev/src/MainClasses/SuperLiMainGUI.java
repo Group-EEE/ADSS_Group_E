@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 public class SuperLiMainGUI {
 
-    private static SupplierManagerGUI supplierManagerGUI;
     private static StoreKeeperPresentationCLI storeKeeperPresentationCLI;
     private static OrderController orderController;
 
@@ -33,7 +32,6 @@ public class SuperLiMainGUI {
 
         //----------------------------------------------------------------------------------------------
 
-        supplierManagerGUI = new SupplierManagerGUI();
         storeKeeperPresentationCLI = new StoreKeeperPresentationCLI();
         orderController = OrderController.getInstance();
 

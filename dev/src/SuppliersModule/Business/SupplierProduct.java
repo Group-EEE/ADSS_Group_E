@@ -68,14 +68,15 @@ public class SupplierProduct {
 
     // --------------------------------- Methods related to ProductDiscount ------------------------------
 
-    public void addProductDiscount(float discountPercentages, int minimumAmount){
+    public boolean addProductDiscount(float discountPercentages, int minimumAmount){
 
         SupplierProductDiscount discountProduct = new SupplierProductDiscount(discountPercentages,minimumAmount);
 
         if(DiscountProducts.containsKey(minimumAmount))
-            System.out.println("The minimum Amount is exist");
+            return false;
         else
             DiscountProducts.put(minimumAmount, discountProduct);
+        return true;
     }
 
     /**
