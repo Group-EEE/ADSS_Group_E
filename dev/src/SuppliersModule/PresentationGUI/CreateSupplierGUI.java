@@ -25,9 +25,7 @@ public class CreateSupplierGUI {
 
         //------------------------------------- Create new frame -------------------------------------------
 
-        JFrame page1Frame = new JFrame("Create new Supplier");
-        page1Frame.setSize(500, 500);
-        page1Frame.setLayout(null);
+        JFrame page1Frame = HelperFunctionGUI.createNewFrame("Create new Supplier");
 
         //----------------------------------------- Create JLabel ----------------------------------------
 
@@ -100,31 +98,16 @@ public class CreateSupplierGUI {
 
         nextButton.setBounds(200,370,100,30);
         //------------------------------------ Add to currFrame -------------------------------------
-        page1Frame.add(nameLabel);
-        page1Frame.add(nameField);
-        page1Frame.add(checkNameLabel);
 
-        page1Frame.add(supplierNumLabel);
-        page1Frame.add(supplierNumField);
-        page1Frame.add(checkSupplierNumLabel);
+        JComponent [] components = {nameLabel,nameField, checkNameLabel,
+                supplierNumLabel, supplierNumField, checkSupplierNumLabel,
+                bankAccountLabel, bankAccountField, checkBankAccountLabel,
+                PaymentTermLabel, comboBoxPaymentTerm, checkPaymentTermLabel,
+                contactLabel, jScrollContacts, checkContactsLabel,
+                categoryLabel, jScrollCategories, checkCategoriesLabel, nextButton};
 
-        page1Frame.add(bankAccountLabel);
-        page1Frame.add(bankAccountField);
-        page1Frame.add(checkBankAccountLabel);
+        HelperFunctionGUI.addComponentsToFrame(page1Frame,components);
 
-        page1Frame.add(PaymentTermLabel);
-        page1Frame.add(comboBoxPaymentTerm);
-        page1Frame.add(checkPaymentTermLabel);
-
-        page1Frame.add(contactLabel);
-        page1Frame.add(jScrollContacts);
-        page1Frame.add(checkContactsLabel);
-
-        page1Frame.add(categoryLabel);
-        page1Frame.add(jScrollCategories);
-        page1Frame.add(checkCategoriesLabel);
-
-        page1Frame.add(nextButton);
 
         // ------------------------------------- Add action listener to JObjects ------------------------------
 
@@ -190,9 +173,7 @@ public class CreateSupplierGUI {
 
         //------------------------------------- Create new frame -------------------------------------------
 
-        JFrame page2Frame = new JFrame("Create new Supplier");
-        page2Frame.setSize(500, 500);
-        page2Frame.setLayout(null);
+        JFrame page2Frame = HelperFunctionGUI.createNewFrame("Create new Supplier");
 
         //----------------------------------------- Create JLabel ----------------------------------------
         JLabel daysToSupplyLabel = new JLabel("How many days to deliver the products?");
@@ -240,39 +221,27 @@ public class CreateSupplierGUI {
 
         deliveryDaysLabel.setBounds(100, 100, 200,20);
 
+        daysToSupplyLabel.setBounds(10, 360, 200, 20);
         daysToSupplyField.setBounds(280, 360, 80,20);
+        checkDaysToSupplyLabel.setBounds(390, 360, 80, 20);
 
         nextButton.setBounds(200,410,100,30);
 
         //-------------------------------------- Set not visible ---------------------------------------------
 
-        hasPermanentDaysLabel.setVisible(false);
-        hasPermanentDaysComboBox.setVisible(false);
+        JComponent [] hiddenComponents = {hasPermanentDaysLabel, hasPermanentDaysComboBox,
+                deliveryDaysLabel, daysToSupplyLabel, daysToSupplyField, nextButton};
 
-        deliveryDaysLabel.setVisible(false);
-
-        daysToSupplyLabel.setVisible(false);
-        daysToSupplyField.setVisible(false);
-        nextButton.setVisible(false);
-
-
+        HelperFunctionGUI.hideComponents(hiddenComponents);
 
         //------------------------------------ Add to currFrame -------------------------------------
 
-        page2Frame.add(bringProductLabel);
-        page2Frame.add(comboBoxBring);
+        JComponent [] components = {bringProductLabel, comboBoxBring,
+                hasPermanentDaysLabel, hasPermanentDaysComboBox,
+                deliveryDaysLabel, checkDeliveryDaysLabel,
+                daysToSupplyLabel, daysToSupplyField, checkDaysToSupplyLabel, nextButton};
 
-        page2Frame.add(hasPermanentDaysLabel);
-        page2Frame.add(hasPermanentDaysComboBox);
-
-        page2Frame.add(deliveryDaysLabel);
-        page2Frame.add(checkDeliveryDaysLabel);
-
-        page2Frame.add(daysToSupplyLabel);
-        page2Frame.add(daysToSupplyField);
-        page2Frame.add(checkDaysToSupplyLabel);
-
-        page2Frame.add(nextButton);
+        HelperFunctionGUI.addComponentsToFrame(page2Frame, components);
 
         // ------------------------------------- Add action listener to JObjects ------------------------------
 
@@ -528,7 +497,7 @@ public class CreateSupplierGUI {
 
                     productsAdd.add(supplierCatalogField.getText());
 
-                    ShowAddSuccess();
+                    HelperFunctionGUI.ShowAddSuccess();
 
                     nextButton.setVisible(true);
 
@@ -665,7 +634,7 @@ public class CreateSupplierGUI {
                         checkMinimumQuantityLabel.setVisible(true);
 
                     else {
-                        ShowAddSuccess();
+                        HelperFunctionGUI.ShowAddSuccess();
                         PercentField.setText("");
                         minimumQuantityField.setText("");
                     }
@@ -839,7 +808,7 @@ public class CreateSupplierGUI {
 
                 if(isValid) {
                     supplierController.addOrderDiscount(supplierNum, comboBoxPorQ.getSelectedItem().toString(), Integer.parseInt(minimumField.getText()), Float.parseFloat(PercentField.getText()));
-                    ShowAddSuccess();
+                    HelperFunctionGUI.ShowAddSuccess();
                     comboBoxDiscountOrder.setSelectedItem("");
                 }
             }});
@@ -850,7 +819,7 @@ public class CreateSupplierGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 page5Frame.dispose();
-                ShowProcessSuccessfully();
+                HelperFunctionGUI.ShowProcessSuccessfully();
                 OldFrame.setVisible(true);
             }});
 
@@ -897,57 +866,9 @@ public class CreateSupplierGUI {
     {
         JLabel checkLabel = new JLabel(message);
         checkLabel.setForeground(Color.RED);
-        checkLabel.setBounds(x, y, width,height);
+        checkLabel.setBounds(x, y, width, height);
         checkLabel.setVisible(false);
         return checkLabel;
-    }
-
-    /**
-     * This method create an "AddSuccess" frame.
-     */
-    public static void ShowAddSuccess()
-    {
-        JFrame AddSuccessFrame = new JFrame("Add success");
-        AddSuccessFrame.setSize(200, 200);
-        AddSuccessFrame.setLayout(null);
-
-        JLabel addSuccessLabel = new JLabel("Add success");
-        addSuccessLabel.setBounds(50, 50, 150, 20);
-        AddSuccessFrame.add(addSuccessLabel);
-
-        JButton okButton = new JButton("OK");
-        okButton.setBounds(50, 100, 80, 20);
-        AddSuccessFrame.add(okButton);
-        okButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {AddSuccessFrame.dispose();}
-        });
-
-        AddSuccessFrame.setVisible(true);
-    }
-
-    /**
-     * This method create an "ProcessSuccessfully" frame.
-     */
-    public static void ShowProcessSuccessfully()
-    {
-        JFrame ProcessSuccessfullyFrame = new JFrame("The process ended successfully");
-        ProcessSuccessfullyFrame.setSize(300, 300);
-        ProcessSuccessfullyFrame.setLayout(null);
-
-        JLabel addSuccessLabel = new JLabel("The process ended successfully");
-        addSuccessLabel.setBounds(50, 50, 250, 20);
-        ProcessSuccessfullyFrame.add(addSuccessLabel);
-
-        JButton okButton = new JButton("OK");
-        okButton.setBounds(100, 100, 80, 20);
-        ProcessSuccessfullyFrame.add(okButton);
-        okButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {ProcessSuccessfullyFrame.dispose();}
-        });
-
-        ProcessSuccessfullyFrame.setVisible(true);
     }
 }
 

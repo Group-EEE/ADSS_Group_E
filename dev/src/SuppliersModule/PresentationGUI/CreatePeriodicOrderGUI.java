@@ -238,7 +238,7 @@ public class CreatePeriodicOrderGUI {
                 }
 
                 if(isValid) {
-                    CreateSupplierGUI.ShowAddSuccess();
+                    HelperFunctionGUI.ShowAddSuccess();
                     orderController.addProductToTheList(desiredCatalog);
                     orderController.addQuantityOfTheLastEnteredProduct(desiredQuantity);
 
@@ -258,7 +258,7 @@ public class CreatePeriodicOrderGUI {
                 orderController.savePeriodicOrder();
                 page2Frame.dispose();
                 OldFrame.setVisible(true);
-                CreateSupplierGUI.ShowProcessSuccessfully();
+                HelperFunctionGUI.ShowProcessSuccessfully();
             }});
 
         page2Frame.setVisible(true);

@@ -1,0 +1,133 @@
+package SuppliersModule.PresentationGUI;
+
+import SuppliersModule.Business.Controllers.SupplierController;
+import SuppliersModule.Business.Manufacturer;
+import SuppliersModule.Business.Supplier;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+
+public class HelperFunctionGUI {
+
+    static SupplierController supplierController = SupplierController.getInstance();
+
+    public static void addComponentsToFrame(JFrame frame, JComponent[] components){
+        for(JComponent component : components)
+            frame.add(component);
+    }
+
+    public static void hideComponents(JComponent[] components){
+        for(JComponent component : components)
+            component.setVisible(false);
+    }
+
+    public static void showComponents(JComponent[] components){
+        for(JComponent component : components)
+            component.setVisible(true);
+    }
+
+    public static JComboBox<String> createComboBoxSupplierNum()
+    {
+        JComboBox<String> comboBoxSupplierNum = new JComboBox<>();
+        List<String> comboBoxSupplierNumItems = new ArrayList<>();
+        comboBoxSupplierNumItems.add("");
+        Map<String, Supplier> allSuppliers = supplierController.returnAllSuppliers();
+        for (Map.Entry<String, Supplier> pair : allSuppliers.entrySet())
+            comboBoxSupplierNumItems.add(pair.getKey());
+
+        for (String item : comboBoxSupplierNumItems)
+            comboBoxSupplierNum.addItem(item);
+
+        return comboBoxSupplierNum;
+    }
+
+    public static JComboBox<String> createComboBoxManufacturer(JComboBox<String> comboBox, String supplierNum)
+    {
+        comboBox.removeAllItems();
+
+        List<String> comboBoxSupplierNumItems = new ArrayList<>();
+        comboBoxSupplierNumItems.add("");
+        Map<String, Manufacturer> allManufacturers = supplierController.getSupplier(supplierNum).getMyManufacturers();
+        for (Map.Entry<String, Manufacturer> pair : allManufacturers.entrySet())
+            comboBoxSupplierNumItems.add(pair.getKey());
+
+        for (String item : comboBoxSupplierNumItems)
+            comboBox.addItem(item);
+
+        return comboBox;
+    }
+
+    /**
+     * This method create an "ProcessSuccessfully" frame.
+     */
+    public static void ShowProcessSuccessfully()
+    {
+        JFrame ProcessSuccessfullyFrame = new JFrame("The process ended successfully");
+        ProcessSuccessfullyFrame.setSize(300, 300);
+        ProcessSuccessfullyFrame.setLayout(null);
+
+        JLabel addSuccessLabel = new JLabel("The process ended successfully");
+        addSuccessLabel.setBounds(50, 50, 250, 20);
+        ProcessSuccessfullyFrame.add(addSuccessLabel);
+
+        JButton okButton = new JButton("OK");
+        okButton.setBounds(100, 100, 80, 20);
+        ProcessSuccessfullyFrame.add(okButton);
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {ProcessSuccessfullyFrame.dispose();}
+        });
+
+        ProcessSuccessfullyFrame.setVisible(true);
+    }
+
+
+    /**
+     * This method create an "AddSuccess" frame.
+     */
+    public static void ShowAddSuccess()
+    {
+        JFrame AddSuccessFrame = new JFrame("Add success");
+        AddSuccessFrame.setSize(200, 200);
+        AddSuccessFrame.setLayout(null);
+
+        JLabel addSuccessLabel = new JLabel("Add success");
+        addSuccessLabel.setBounds(50, 50, 150, 20);
+        AddSuccessFrame.add(addSuccessLabel);
+
+        JButton okButton = new JButton("OK");
+        okButton.setBounds(50, 100, 80, 20);
+        AddSuccessFrame.add(okButton);
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {AddSuccessFrame.dispose();}
+        });
+
+        AddSuccessFrame.setVisible(true);
+    }
+
+    public static JFrame createNewFrame(String title){
+        JFrame page1Frame = new JFrame(title);
+        page1Frame.setSize(500, 500);
+        page1Frame.setLayout(null);
+        return page1Frame;
+    }
+
+    public static JButton createExitButton(JFrame currFrame, JFrame oldFrame){
+        JButton exitButton = new JButton("Exit");
+        exitButton.setBounds(200, 410, 100, 40);
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currFrame.dispose();
+                oldFrame.setVisible(true);
+            }});
+
+        return exitButton;
+    }
+}

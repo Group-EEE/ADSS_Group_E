@@ -1,6 +1,5 @@
 package SuppliersModule.PresentationGUI;
 import MainClasses.SuperLiMainGUI;
-import SuppliersModule.Business.Controllers.SupplierController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -40,6 +39,7 @@ public class SupplierManagerGUI {
 
         // ------------------------------------- Add action listener to buttons ------------------------------
 
+
         opt1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,11 +72,20 @@ public class SupplierManagerGUI {
             }
         });
 
+        opt6.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuFrame.setVisible(false);
+                ChangeSupplierDetailsGUI.powerOn(menuFrame);
+            }
+        });
+
+
         opt7.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 menuFrame.setVisible(false);
-                SupplierDetailsGUI.powerOn(menuFrame);
+                PrintSupplierDetailsGUI.powerOn(menuFrame);
             }
         });
 
