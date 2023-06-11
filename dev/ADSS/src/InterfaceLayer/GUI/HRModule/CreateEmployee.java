@@ -53,31 +53,46 @@ public class CreateEmployee extends JFrame {
         createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int ID = Integer.parseInt(textFields[0].getText());
+                int ID = -1;
+                int age = -1;
+                int salary = -1;
+                LocalDate startDateOfEmployment = null;
+                try{
+                    ID = Integer.parseInt(textFields[0].getText());
+                    age = Integer.parseInt(textFields[3].getText());
+                    salary = Integer.parseInt(textFields[5].getText());
+                    startDateOfEmployment = LocalDate.of(
+                            Integer.parseInt(textFields[9].getText()),
+                            Integer.parseInt(textFields[8].getText()),
+                            Integer.parseInt(textFields[7].getText())
+                    );
+                }
+                catch(Exception ex){
+                    JOptionPane.showMessageDialog(null, "ID,age,salary and date parts must be numbers", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 String first_name = textFields[1].getText();
                 String last_name = textFields[2].getText();
-                int age = Integer.parseInt(textFields[3].getText());
+
                 String bank_account = textFields[4].getText();
-                int salary = Integer.parseInt(textFields[5].getText());
+
                 String hiring_condition = textFields[6].getText();
-                LocalDate startDateOfEmployment = LocalDate.of(
-                        Integer.parseInt(textFields[9].getText()),
-                        Integer.parseInt(textFields[8].getText()),
-                        Integer.parseInt(textFields[7].getText())
-                );
+
                 String password = textFields[10].getText();
 
                 // Call your createEmployee function and display a message
                 if (_facade.createEmployee(ID, first_name, last_name, age, bank_account, salary, hiring_condition, startDateOfEmployment, password, false)) {
                     JOptionPane.showMessageDialog(null, "Employee created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    // Return to the HRmenu screen
+                    HRmenu hrmenu = new HRmenu();
+                    hrmenu.setVisible(true);
+                    dispose();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error creating employee.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "invalid input", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
-                // Return to the HRmenu screen
-                HRmenu hrmenu = new HRmenu();
-                hrmenu.setVisible(true);
-                dispose();
+
             }
         });
 

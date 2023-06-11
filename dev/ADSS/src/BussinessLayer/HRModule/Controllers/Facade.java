@@ -95,8 +95,10 @@ public class Facade {
     }
 
     public boolean createEmployee(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployement, String password, boolean isHRManager) {
-        if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null)
-            throw new IllegalArgumentException("Invalid arguments");
+        if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null){
+            System.out.println("Invalid arguments");
+            return false;
+        }
         try{
             _employeeController.createEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployement, password);
         }
