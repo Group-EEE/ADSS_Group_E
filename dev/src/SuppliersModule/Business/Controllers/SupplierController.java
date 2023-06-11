@@ -140,12 +140,18 @@ public class SupplierController {
         return false;
     }
 
-    public void deleteSupplierProductDiscount(String supplierNum, String supplierCatalog, int amount)
+    public boolean deleteSupplierProductDiscount(String supplierNum, String supplierCatalog, int amount)
     {
         Supplier supplier = getSupplier(supplierNum);
         SupplierProduct supplierProduct = supplier.getSupplierProduct(supplierCatalog);
-        supplierProduct.deleteDiscountProduct(amount);
-        superLiDB.deleteSupplierProductDiscount(supplierNum, supplierCatalog, amount);
+        if(supplierProduct.deleteDiscountProduct(amount))
+        {
+            superLiDB.deleteSupplierProductDiscount(supplierNum, supplierCatalog, amount);
+            return true;
+        }
+        return false;
+
+
     }
     //------------------------------------------ OrderDiscount ---------------------------------------
 

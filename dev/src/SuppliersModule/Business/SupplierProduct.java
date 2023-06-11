@@ -92,12 +92,9 @@ public class SupplierProduct {
     /**
      * delete the discount with the given minimumAmount
      */
-    public void deleteDiscountProduct(int minimumAmount)
+    public boolean deleteDiscountProduct(int minimumAmount)
     {
-        if(DiscountProducts.remove(minimumAmount) == null)
-            System.out.println("The discount is not exist\n");
-        else
-            System.out.println("The discount has been deleted\n");
+        return DiscountProducts.remove(minimumAmount) != null;
     }
 
     public void setDiscountProducts(TreeMap<Integer,SupplierProductDiscount> discountProducts) {

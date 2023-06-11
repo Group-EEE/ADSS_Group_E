@@ -80,7 +80,7 @@ public class UpdateSupplierAgreementGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 page1Frame.setVisible(false);
-                UpdateDeliveryDetailsButtonPage(comboBoxSupplierNum.getSelectedItem().toString(), page1Frame);
+                UpdateDeliveryDetailsPage(comboBoxSupplierNum.getSelectedItem().toString(), page1Frame);
             }
         });
 
@@ -103,7 +103,7 @@ public class UpdateSupplierAgreementGUI {
         });
     }
 
-    public static void UpdateDeliveryDetailsButtonPage(String supplierNum, JFrame backFrame)
+    public static void UpdateDeliveryDetailsPage(String supplierNum, JFrame backFrame)
     {
         //------------------------------------- Create new frame -------------------------------------------
 
@@ -677,4 +677,10 @@ public class UpdateSupplierAgreementGUI {
 
         page4Frame.setVisible(true);
     }
+
+    public static void AddDeleteOrderDiscountPage(String supplierNum, JFrame backFrame)
+    {
+
+    }
+
 }
