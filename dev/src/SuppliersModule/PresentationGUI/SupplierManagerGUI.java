@@ -72,6 +72,14 @@ public class SupplierManagerGUI {
             }
         });
 
+        opt5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuFrame.setVisible(false);
+                UpdateSupplierAgreementGUI.powerOn(menuFrame);
+            }
+        });
+
         opt6.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

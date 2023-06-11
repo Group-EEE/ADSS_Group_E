@@ -4,6 +4,8 @@ import InventoryModule.Business.Controllers.ProductController;
 import SuppliersModule.Business.Controllers.SupplierController;
 import SuppliersModule.Business.Manufacturer;
 import SuppliersModule.Business.Supplier;
+import SuppliersModule.Business.SupplierProduct;
+import SuppliersModule.Business.SupplierProductDiscount;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 
 public class HelperFunctionGUI {
@@ -55,13 +58,47 @@ public class HelperFunctionGUI {
         List<String> comboBoxSupplierNumItems = new ArrayList<>();
         comboBoxSupplierNumItems.add("");
         Map<String, Manufacturer> allManufacturers = supplierController.getSupplier(supplierNum).getMyManufacturers();
+
         for (Map.Entry<String, Manufacturer> pair : allManufacturers.entrySet())
             comboBoxSupplierNumItems.add(pair.getKey());
 
         for (String item : comboBoxSupplierNumItems)
             comboBox.addItem(item);
+    }
+
+    public static void createComboBoxSupplierProductDiscount(JComboBox<String> comboBox, String supplierNum, String catalog)
+    {
+        comboBox.removeAllItems();
+
+        List<String> comboBoxProductDiscountItems = new ArrayList<>();
+        comboBoxProductDiscountItems.add("");
+
+        Map<Integer, SupplierProductDiscount> discountTreeMap = supplierController.getSupplier(supplierNum).getMyProducts().get(catalog).getDiscountProducts();
+
+        for (Map.Entry<Integer, SupplierProductDiscount> pair : discountTreeMap.entrySet())
+            comboBoxProductDiscountItems.add(String.valueOf(pair.getKey()));
+
+        for (String item : comboBoxProductDiscountItems)
+            comboBox.addItem(item);
 
     }
+
+    public static JComboBox<String>  createComboBoxSupplierProduct(String supplierNum)
+    {
+        JComboBox<String> comboBoxSupplierProduct= new JComboBox<>();
+        List<String> comboBoxSupplierProductItems = new ArrayList<>();
+
+        comboBoxSupplierProductItems.add("");
+        Map<String, SupplierProduct> allManufacturers = supplierController.getSupplier(supplierNum).getMyProducts();
+        for (Map.Entry<String, SupplierProduct> pair : allManufacturers.entrySet())
+            comboBoxSupplierProductItems.add(pair.getKey());
+
+        for (String item : comboBoxSupplierProductItems)
+            comboBoxSupplierProduct.addItem(item);
+
+        return comboBoxSupplierProduct;
+    }
+
 
     public static JComboBox<String> createComboBoxNewProductsBarcodes()
     {

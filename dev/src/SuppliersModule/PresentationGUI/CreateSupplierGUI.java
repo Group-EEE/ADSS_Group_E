@@ -221,7 +221,7 @@ public class CreateSupplierGUI {
 
         deliveryDaysLabel.setBounds(100, 100, 200,20);
 
-        daysToSupplyLabel.setBounds(10, 360, 200, 20);
+        daysToSupplyLabel.setBounds(10, 360, 250, 20);
         daysToSupplyField.setBounds(280, 360, 80,20);
         checkDaysToSupplyLabel.setBounds(390, 360, 80, 20);
 
@@ -267,6 +267,7 @@ public class CreateSupplierGUI {
                 else {
                     hasPermanentDaysLabel.setVisible(false);
                     hasPermanentDaysComboBox.setVisible(false);
+                    hasPermanentDaysComboBox.setSelectedItem("");
                     nextButton.setVisible(false);
                 }
             }});
@@ -430,6 +431,7 @@ public class CreateSupplierGUI {
         JComponent [] components = {productNameLabel, productNameField, checkProdNameLabel,
                 manufacturerNameLabel, manufacturerNameField, checkManuNameLabel,
                 barcodeLabel, barcodeField, checkBarcodeLabel,
+                supplierCatalogLabel, supplierCatalogField, checkCatalogLabel,
                 priceLabel, priceField, checkPriceLabel,
                 quantityLabel, quantityField, checkQuantityLabel, nextButton, addProductButton};
 
@@ -504,7 +506,7 @@ public class CreateSupplierGUI {
         JLabel discountProductLabel = new JLabel("Choose product that supplier provide any discounts?");
 
         JLabel minimumQuantityLabel = new JLabel("Minimum quantity for discount?");
-        JLabel checkMinimumQuantityLabel = HelperFunctionGUI.createCheckLabel("Not Valid or Exist", 300, 100, 100, 20);
+        JLabel checkMinimumQuantityLabel = HelperFunctionGUI.createCheckLabel("Not Valid or Exist", 300, 100, 120, 20);
 
         JLabel percentLabel = new JLabel("How many percent off?");
         JLabel checkPercentLabel = HelperFunctionGUI.createCheckLabel("Not Valid", 300, 140, 80, 20);
@@ -524,7 +526,7 @@ public class CreateSupplierGUI {
 
         //----------------------------------------- Create JButton ----------------------------------------
 
-        JButton addProductButton = new JButton("Add Product");
+        JButton addProductDiscountButton = new JButton("Add Product Discount");
         JButton nextButton = new JButton("Next");
 
 
@@ -540,7 +542,7 @@ public class CreateSupplierGUI {
         percentLabel.setBounds(10, 140, 200, 20);
         PercentField.setBounds(240, 140, 50, 20);
 
-        addProductButton.setBounds(210,410,150,30);
+        addProductDiscountButton.setBounds(210,410,200,30);
         nextButton.setBounds(100,410,100,30);
 
         //-------------------------------------- Set not visible ---------------------------------------------
@@ -550,12 +552,14 @@ public class CreateSupplierGUI {
         percentLabel.setVisible(false);
         PercentField.setVisible(false);
 
+        addProductDiscountButton.setVisible(false);
+
         //------------------------------------ Add to currFrame -------------------------------------
 
         JComponent [] components = {discountProductLabel, comboBoxProductAdd,
                 minimumQuantityLabel, minimumQuantityField, checkMinimumQuantityLabel,
                 percentLabel, PercentField, checkPercentLabel,
-                addProductButton, nextButton};
+                addProductDiscountButton, nextButton};
 
         HelperFunctionGUI.addComponentsToFrame(page4Frame, components);
 
@@ -574,6 +578,7 @@ public class CreateSupplierGUI {
                     minimumQuantityLabel.setVisible(false);
                     minimumQuantityField.setVisible(false);
                     checkMinimumQuantityLabel.setVisible(false);
+                    addProductDiscountButton.setVisible(false);
                 }
 
                 else {
@@ -583,12 +588,13 @@ public class CreateSupplierGUI {
                     minimumQuantityField.setVisible(true);
                     checkMinimumQuantityLabel.setVisible(false);
                     checkPercentLabel.setVisible(false);
+                    addProductDiscountButton.setVisible(true);
                 }
             }});
 
         //********************************************************************8
 
-        addProductButton.addActionListener(new ActionListener() {
+        addProductDiscountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 

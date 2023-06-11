@@ -134,4 +134,8 @@ public class SupplierProduct {
     {
         return DiscountProducts.get(amount);
     }
+
+    public TreeMap<Integer, SupplierProductDiscount> getDiscountProducts() {
+        return DiscountProducts;
+    }
 }

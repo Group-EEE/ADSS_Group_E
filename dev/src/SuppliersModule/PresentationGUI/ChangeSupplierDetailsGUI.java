@@ -88,7 +88,6 @@ public class ChangeSupplierDetailsGUI {
 
         HelperFunctionGUI.addComponentsToFrame(page1Frame, addComponents);
 
-
         // ------------------------------------- Add action listener to JObjects -------------------------------------
 
         comboBoxSupplierNum.addActionListener(new ActionListener() {
