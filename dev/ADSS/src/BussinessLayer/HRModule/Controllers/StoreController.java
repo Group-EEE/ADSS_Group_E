@@ -25,13 +25,13 @@ public class StoreController {
      * @return - true if the store was created successfully, false otherwise
      */
     public boolean createStore(String storeName, String storeAddress, String phone, String siteContactName, int area) {
-        if (storeName == null)
+        if (storeName == null || storeName == "")
             throw new IllegalArgumentException("Invalid store name");
-        if (storeAddress == null)
+        if (storeAddress == null || storeAddress == "")
             throw new IllegalArgumentException("Invalid store address");
-        if (phone == null)
+        if (phone == null || phone == "")
             throw new IllegalArgumentException("Invalid store phone");
-        if (siteContactName == null)
+        if (siteContactName == null || siteContactName == "")
             throw new IllegalArgumentException("Invalid store contact name");
         if (area <0)
             throw new IllegalArgumentException("Invalid store area");
