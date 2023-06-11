@@ -1,0 +1,102 @@
+package InterfaceLayer.GUI.HRModule;
+
+import BussinessLayer.HRModule.Controllers.Facade;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+
+public class CreateEmployee extends JFrame {
+    private final Facade _facade = Facade.getInstance();
+
+    public CreateEmployee() {
+        // Set the size and layout of the frame
+        setSize(400, 300);
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        // Create 10 JLabel and JTextField pairs
+        JLabel[] labels = new JLabel[11];
+        labels[0] = new JLabel("ID:");
+        labels[1] = new JLabel("First Name:");
+        labels[2] = new JLabel("Last Name:");
+        labels[3] = new JLabel("Age:");
+        labels[4] = new JLabel("Bank account:");
+        labels[5] = new JLabel("Salary:");
+        labels[6] = new JLabel("Hiring condition:");
+        labels[7] = new JLabel("Day:");
+        labels[8] = new JLabel("Month:");
+        labels[9] = new JLabel("Year:");
+        labels[10] = new JLabel("Password:");
+
+        JTextField[] textFields = new JTextField[11];
+        for (int i = 0; i < textFields.length; i++) {
+            textFields[i] = new JTextField(10);
+        }
+
+        // Add labels and text fields to the frame
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        for (int i = 0; i < labels.length; i++) {
+            gbc.gridx = 0;
+            gbc.gridy = i;
+            getContentPane().add(labels[i], gbc);
+
+            gbc.gridx = 1;
+            getContentPane().add(textFields[i], gbc);
+        }
+
+        // Create a "Create" button and add an ActionListener
+        JButton createButton = new JButton("Create");
+        createButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int ID = Integer.parseInt(textFields[0].getText());
+                String first_name = textFields[1].getText();
+                String last_name = textFields[2].getText();
+                int age = Integer.parseInt(textFields[3].getText());
+                String bank_account = textFields[4].getText();
+                int salary = Integer.parseInt(textFields[5].getText());
+                String hiring_condition = textFields[6].getText();
+                LocalDate startDateOfEmployment = LocalDate.of(
+                        Integer.parseInt(textFields[9].getText()),
+                        Integer.parseInt(textFields[8].getText()),
+                        Integer.parseInt(textFields[7].getText())
+                );
+                String password = textFields[10].getText();
+
+                // Call your createEmployee function and display a message
+                if (_facade.createEmployee(ID, first_name, last_name, age, bank_account, salary, hiring_condition, startDateOfEmployment, password, false)) {
+                    JOptionPane.showMessageDialog(null, "Employee created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error creating employee.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+                // Return to the HRmenu screen
+                HRmenu hrmenu = new HRmenu();
+                hrmenu.setVisible(true);
+                dispose();
+            }
+        });
+
+        // Add the "Create" button to the frame
+        gbc.gridx = 1;
+        gbc.gridy = labels.length;
+        gbc.anchor = GridBagConstraints.CENTER;
+        getContentPane().add(createButton, gbc);
+
+        // Set the frame to be visible
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new CreateEmployee();
+            }
+        });
+    }
+}
