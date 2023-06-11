@@ -1,10 +1,12 @@
 package SuppliersModule.PresentationGUI;
 
+import InventoryModule.Business.Controllers.ProductController;
 import SuppliersModule.Business.Controllers.SupplierController;
 import SuppliersModule.Business.Manufacturer;
 import SuppliersModule.Business.Supplier;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ public class HelperFunctionGUI {
         return comboBoxSupplierNum;
     }
 
-    public static JComboBox<String> createComboBoxManufacturer(JComboBox<String> comboBox, String supplierNum)
+    public static void createComboBoxManufacturer(JComboBox<String> comboBox, String supplierNum)
     {
         comboBox.removeAllItems();
 
@@ -59,7 +61,20 @@ public class HelperFunctionGUI {
         for (String item : comboBoxSupplierNumItems)
             comboBox.addItem(item);
 
-        return comboBox;
+    }
+
+    public static JComboBox<String> createComboBoxNewProductsBarcodes()
+    {
+        JComboBox<String> comboBoxSupplierNum = new JComboBox<>();
+        List<String> comboBoxSupplierNumItems = new ArrayList<>();
+        comboBoxSupplierNumItems.add("");
+        for (int barcode : ProductController.BarcodesOfNewProducts)
+            comboBoxSupplierNumItems.add(String.valueOf(barcode));
+
+        for (String item : comboBoxSupplierNumItems)
+            comboBoxSupplierNum.addItem(item);
+
+        return comboBoxSupplierNum;
     }
 
     /**
@@ -130,4 +145,52 @@ public class HelperFunctionGUI {
 
         return exitButton;
     }
+
+    /**
+     * This method create label which functions as a check label
+     * @param message - A message that the label will display
+     * @param x - coordinate x
+     * @param y - coordinate y
+     * @param width - width
+     * @param height - height
+     * @return JLabel
+     */
+    public static JLabel createCheckLabel(String message, int x, int y, int width, int height)
+    {
+        JLabel checkLabel = new JLabel(message);
+        checkLabel.setForeground(Color.RED);
+        checkLabel.setBounds(x, y, width, height);
+        checkLabel.setVisible(false);
+        return checkLabel;
+    }
+
+    //------------------------------------- Check functions ----------------------------------------
+
+    /**
+     * Check if value is valid integer
+     * @param value - value
+     * @return true - if valid, false - else
+     */
+    public static boolean CheckIntInput(String value)
+    {
+        int num;
+        try {num = Integer.parseInt(value);}
+        catch (NumberFormatException error) {return false;}
+        return num > 0;
+    }
+
+    /**
+     * Check if value is valid float
+     * @param value - value
+     * @return true - if valid, false - else
+     */
+    public static boolean CheckFloatInput(String value)
+    {
+        float num;
+        try {num = Float.parseFloat(value);}
+        catch (NumberFormatException error) {return false;}
+        return !(num <= 0);
+    }
+
+
 }

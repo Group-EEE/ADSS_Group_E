@@ -30,22 +30,22 @@ public class CreateSupplierGUI {
         //----------------------------------------- Create JLabel ----------------------------------------
 
         JLabel nameLabel = new JLabel("Name");
-        JLabel checkNameLabel = createCheckLabel("Empty", 250,10,150,20);
+        JLabel checkNameLabel = HelperFunctionGUI.createCheckLabel("Empty", 250,10,150,20);
 
         JLabel supplierNumLabel = new JLabel("SupplierNum");
-        JLabel checkSupplierNumLabel = createCheckLabel("SupplierNum exist", 250,50,150,20);
+        JLabel checkSupplierNumLabel = HelperFunctionGUI.createCheckLabel("SupplierNum exist", 250,50,150,20);
 
         JLabel bankAccountLabel = new JLabel("bankAccount");
-        JLabel checkBankAccountLabel = createCheckLabel("Empty", 250,80,150,20);
+        JLabel checkBankAccountLabel = HelperFunctionGUI.createCheckLabel("Empty", 250,80,150,20);
 
         JLabel PaymentTermLabel = new JLabel("PaymentTerm");
-        JLabel checkPaymentTermLabel = createCheckLabel("Empty", 250,110,150,20);
+        JLabel checkPaymentTermLabel = HelperFunctionGUI.createCheckLabel("Empty", 250,110,150,20);
 
         JLabel contactLabel = new JLabel("Contacts");
-        JLabel checkContactsLabel = createCheckLabel("At least one", 370,157,150,20);
+        JLabel checkContactsLabel = HelperFunctionGUI.createCheckLabel("At least one", 370,157,150,20);
 
         JLabel categoryLabel = new JLabel("Categories");
-        JLabel checkCategoriesLabel = createCheckLabel("At least one", 270,257,150,20);
+        JLabel checkCategoriesLabel = HelperFunctionGUI.createCheckLabel("At least one", 270,257,150,20);
 
         //----------------------------------------- Create JTextField ----------------------------------------
 
@@ -177,10 +177,10 @@ public class CreateSupplierGUI {
 
         //----------------------------------------- Create JLabel ----------------------------------------
         JLabel daysToSupplyLabel = new JLabel("How many days to deliver the products?");
-        JLabel checkDaysToSupplyLabel = createCheckLabel("Empty", 380, 360, 50,20);
+        JLabel checkDaysToSupplyLabel = HelperFunctionGUI.createCheckLabel("Empty", 380, 360, 50,20);
 
         JLabel deliveryDaysLabel = new JLabel("Choose days");
-        JLabel checkDeliveryDaysLabel = createCheckLabel("At least one", 350, 100, 100,20);
+        JLabel checkDeliveryDaysLabel = HelperFunctionGUI.createCheckLabel("At least one", 350, 100, 100,20);
 
         JLabel hasPermanentDaysLabel = new JLabel("Does he have permanent days that he comes?");
 
@@ -362,28 +362,26 @@ public class CreateSupplierGUI {
 
         //------------------------------------- Create new frame -------------------------------------------
 
-        JFrame page3Frame = new JFrame("Create new Supplier");
-        page3Frame.setSize(500, 500);
-        page3Frame.setLayout(null);
+        JFrame page3Frame = HelperFunctionGUI.createNewFrame("Create new Supplier");
 
         //----------------------------------------- Create JLabel ----------------------------------------
         JLabel productNameLabel = new JLabel("Enter the product name");
-        JLabel checkProdNameLabel = createCheckLabel("Empty", 370, 10, 100, 20);
+        JLabel checkProdNameLabel = HelperFunctionGUI.createCheckLabel("Empty", 370, 10, 100, 20);
 
         JLabel manufacturerNameLabel = new JLabel("Enter the manufacturer name");
-        JLabel checkManuNameLabel = createCheckLabel("Empty", 370, 40, 100, 20);
+        JLabel checkManuNameLabel = HelperFunctionGUI.createCheckLabel("Empty", 370, 40, 100, 20);
 
         JLabel barcodeLabel = new JLabel("Enter barcode: (If unknown enter: 99)");
-        JLabel checkBarcodeLabel = createCheckLabel("Must be positive", 370, 70, 100, 20);
+        JLabel checkBarcodeLabel = HelperFunctionGUI.createCheckLabel("Must be positive", 370, 70, 100, 20);
 
         JLabel supplierCatalogLabel = new JLabel("Enter supplier catalog");
-        JLabel checkCatalogLabel = createCheckLabel("Empty or Exist", 370, 100, 100, 20);
+        JLabel checkCatalogLabel = HelperFunctionGUI.createCheckLabel("Empty or Exist", 370, 100, 100, 20);
 
         JLabel priceLabel = new JLabel("Enter price per unit");
-        JLabel checkPriceLabel = createCheckLabel("Must be positive", 370, 130, 100, 20);
+        JLabel checkPriceLabel = HelperFunctionGUI.createCheckLabel("Must be positive", 370, 130, 100, 20);
 
         JLabel quantityLabel = new JLabel("Enter the quantity of products you can supply");
-        JLabel checkQuantityLabel =createCheckLabel("Must be positive", 370, 160, 100, 20);
+        JLabel checkQuantityLabel = HelperFunctionGUI.createCheckLabel("Must be positive", 370, 160, 100, 20);
 
 
         //----------------------------------------- Create JTextField ----------------------------------------
@@ -429,32 +427,14 @@ public class CreateSupplierGUI {
 
         //------------------------------------ Add to currFrame -------------------------------------
 
-        page3Frame.add(productNameLabel);
-        page3Frame.add(productNameField);
-        page3Frame.add(checkProdNameLabel);
+        JComponent [] components = {productNameLabel, productNameField, checkProdNameLabel,
+                manufacturerNameLabel, manufacturerNameField, checkManuNameLabel,
+                barcodeLabel, barcodeField, checkBarcodeLabel,
+                priceLabel, priceField, checkPriceLabel,
+                quantityLabel, quantityField, checkQuantityLabel, nextButton, addProductButton};
 
-        page3Frame.add(manufacturerNameLabel);
-        page3Frame.add(manufacturerNameField);
-        page3Frame.add(checkManuNameLabel);
+        HelperFunctionGUI.addComponentsToFrame(page3Frame ,components);
 
-        page3Frame.add(barcodeLabel);
-        page3Frame.add(barcodeField);
-        page3Frame.add(checkBarcodeLabel);
-
-        page3Frame.add(supplierCatalogLabel);
-        page3Frame.add(supplierCatalogField);
-        page3Frame.add(checkCatalogLabel);
-
-        page3Frame.add(priceLabel);
-        page3Frame.add(priceField);
-        page3Frame.add(checkPriceLabel);
-
-        page3Frame.add(quantityLabel);
-        page3Frame.add(quantityField);
-        page3Frame.add(checkQuantityLabel);
-
-        page3Frame.add(nextButton);
-        page3Frame.add(addProductButton);
 
         // ------------------------------------- Add action listener to JObjects ------------------------------
 
@@ -479,16 +459,16 @@ public class CreateSupplierGUI {
                 if(manufacturerNameField.getText().equals("")) {checkManuNameLabel.setVisible(true); isValid = false;}
                 else checkManuNameLabel.setVisible(false);
 
-                if(!CheckIntInput(barcodeField.getText())) {checkBarcodeLabel.setVisible(true); isValid = false;}
+                if(!HelperFunctionGUI.CheckIntInput(barcodeField.getText())) {checkBarcodeLabel.setVisible(true); isValid = false;}
                 else checkBarcodeLabel.setVisible(false);
 
                 if(supplierCatalogField.getText().equals("") || supplierController.checkIfSupplierSupplyProduct(supplierCatalogField.getText(), supplierNum)) {checkCatalogLabel.setVisible(true);isValid = false;}
                 else checkCatalogLabel.setVisible(false);
 
-                if(!CheckFloatInput(priceField.getText())) {checkPriceLabel.setVisible(true); isValid = false;}
+                if(!HelperFunctionGUI.CheckFloatInput(priceField.getText())) {checkPriceLabel.setVisible(true); isValid = false;}
                 else checkPriceLabel.setVisible(false);
 
-                if(!CheckIntInput(quantityField.getText())) {checkQuantityLabel.setVisible(true); isValid = false;}
+                if(!HelperFunctionGUI.CheckIntInput(quantityField.getText())) {checkQuantityLabel.setVisible(true); isValid = false;}
                 else checkQuantityLabel.setVisible(false);
 
                 if(isValid) {
@@ -517,19 +497,17 @@ public class CreateSupplierGUI {
 
         //------------------------------------- Create new frame -------------------------------------------
 
-        JFrame page4Frame = new JFrame("Create new Supplier");
-        page4Frame.setSize(500, 500);
-        page4Frame.setLayout(null);
+        JFrame page4Frame = HelperFunctionGUI.createNewFrame("Create new Supplier");
 
         //----------------------------------------- Create JLabel ----------------------------------------
 
         JLabel discountProductLabel = new JLabel("Choose product that supplier provide any discounts?");
 
         JLabel minimumQuantityLabel = new JLabel("Minimum quantity for discount?");
-        JLabel checkMinimumQuantityLabel = createCheckLabel("Not Valid or Exist", 300, 100, 100, 20);
+        JLabel checkMinimumQuantityLabel = HelperFunctionGUI.createCheckLabel("Not Valid or Exist", 300, 100, 100, 20);
 
         JLabel percentLabel = new JLabel("How many percent off?");
-        JLabel checkPercentLabel = createCheckLabel("Not Valid", 300, 140, 80, 20);
+        JLabel checkPercentLabel = HelperFunctionGUI.createCheckLabel("Not Valid", 300, 140, 80, 20);
 
 
         //----------------------------------------- Create JTextField ----------------------------------------
@@ -574,19 +552,12 @@ public class CreateSupplierGUI {
 
         //------------------------------------ Add to currFrame -------------------------------------
 
-        page4Frame.add(discountProductLabel);
-        page4Frame.add(comboBoxProductAdd);
+        JComponent [] components = {discountProductLabel, comboBoxProductAdd,
+                minimumQuantityLabel, minimumQuantityField, checkMinimumQuantityLabel,
+                percentLabel, PercentField, checkPercentLabel,
+                addProductButton, nextButton};
 
-        page4Frame.add(minimumQuantityLabel);
-        page4Frame.add(minimumQuantityField);
-        page4Frame.add(checkMinimumQuantityLabel);
-
-        page4Frame.add(percentLabel);
-        page4Frame.add(PercentField);
-        page4Frame.add(checkPercentLabel);
-
-        page4Frame.add(addProductButton);
-        page4Frame.add(nextButton);
+        HelperFunctionGUI.addComponentsToFrame(page4Frame, components);
 
         // ------------------------------------- Add action listener to JObjects ------------------------------
 
@@ -623,10 +594,10 @@ public class CreateSupplierGUI {
 
                 boolean isValid = true;
 
-                if(!CheckIntInput(minimumQuantityField.getText())) { checkMinimumQuantityLabel.setVisible(true); isValid = false;}
+                if(!HelperFunctionGUI.CheckIntInput(minimumQuantityField.getText())) { checkMinimumQuantityLabel.setVisible(true); isValid = false;}
                 else checkMinimumQuantityLabel.setVisible(false);
 
-                if(!CheckFloatInput(PercentField.getText())) { checkPercentLabel.setVisible(true); isValid = false;}
+                if(!HelperFunctionGUI.CheckFloatInput(PercentField.getText())) { checkPercentLabel.setVisible(true); isValid = false;}
                 else checkPercentLabel.setVisible(false);
 
                 if(isValid) {
@@ -658,9 +629,7 @@ public class CreateSupplierGUI {
 
         //------------------------------------- Create new frame -------------------------------------------
 
-        JFrame page5Frame = new JFrame("Create new Supplier");
-        page5Frame.setSize(500, 500);
-        page5Frame.setLayout(null);
+        JFrame page5Frame = HelperFunctionGUI.createNewFrame("Create new Supplier");
 
         //----------------------------------------- Create JLabel ----------------------------------------
 
@@ -669,10 +638,10 @@ public class CreateSupplierGUI {
         JLabel PorQLabel = new JLabel("Do the discount is for minimum price or for minimum quantity? (p/q)");
 
         JLabel minimumLabel = new JLabel("Minimum quantity/price for discount?");
-        JLabel checkMinimumLabel = createCheckLabel("Not Valid or Exist", 350, 100, 100, 20);
+        JLabel checkMinimumLabel = HelperFunctionGUI.createCheckLabel("Not Valid or Exist", 350, 100, 100, 20);
 
         JLabel PercentLabel = new JLabel("How many percent off?");
-        JLabel checkPercentLabel = createCheckLabel("Not Valid", 350, 100, 100, 20);
+        JLabel checkPercentLabel = HelperFunctionGUI.createCheckLabel("Not Valid", 350, 100, 100, 20);
 
 
         //----------------------------------------- Create JTextField ----------------------------------------
@@ -722,22 +691,13 @@ public class CreateSupplierGUI {
 
         //------------------------------------ Add to currFrame -------------------------------------
 
-        page5Frame.add(discountOrderLabel);
-        page5Frame.add(comboBoxDiscountOrder);
+        JComponent [] components = {discountOrderLabel, comboBoxDiscountOrder,
+                PorQLabel, comboBoxPorQ,
+                minimumLabel, minimumField, checkMinimumLabel,
+                PercentLabel, PercentField, checkPercentLabel,
+                addDiscountButton, finishButton};
 
-        page5Frame.add(PorQLabel);
-        page5Frame.add(comboBoxPorQ);
-
-        page5Frame.add(minimumLabel);
-        page5Frame.add(minimumField);
-        page5Frame.add(checkMinimumLabel);
-
-        page5Frame.add(PercentLabel);
-        page5Frame.add(PercentField);
-        page5Frame.add(checkPercentLabel);
-
-        page5Frame.add(addDiscountButton);
-        page5Frame.add(finishButton);
+        HelperFunctionGUI.addComponentsToFrame(page5Frame, components);
 
         // ------------------------------------- Add action listener to JObjects ------------------------------
 
@@ -800,10 +760,10 @@ public class CreateSupplierGUI {
 
                 boolean isValid = true;
 
-                if(!CheckIntInput(minimumField.getText()) || supplierController.CheckIfExistOrderDiscount(supplierNum, comboBoxPorQ.getSelectedItem().toString(), Integer.parseInt(minimumField.getText()))) { checkMinimumLabel.setVisible(true); isValid = false;}
+                if(!HelperFunctionGUI.CheckIntInput(minimumField.getText()) || supplierController.CheckIfExistOrderDiscount(supplierNum, comboBoxPorQ.getSelectedItem().toString(), Integer.parseInt(minimumField.getText()))) { checkMinimumLabel.setVisible(true); isValid = false;}
                 else checkMinimumLabel.setVisible(false);
 
-                if(!CheckFloatInput(PercentField.getText())) { checkPercentLabel.setVisible(true); isValid = false;}
+                if(!HelperFunctionGUI.CheckFloatInput(PercentField.getText())) { checkPercentLabel.setVisible(true); isValid = false;}
                 else checkPercentLabel.setVisible(false);
 
                 if(isValid) {
@@ -825,50 +785,6 @@ public class CreateSupplierGUI {
 
         page5Frame.setVisible(true);
     }
-    //------------------------------------- Helper function ----------------------------------------
 
-    /**
-     * Check if value is valid integer
-     * @param value - value
-     * @return true - if valid, false - else
-     */
-    public static boolean CheckIntInput(String value)
-    {
-        int num;
-        try {num = Integer.parseInt(value);}
-        catch (NumberFormatException error) {return false;}
-        return num > 0;
-    }
-
-    /**
-     * Check if value is valid float
-     * @param value - value
-     * @return true - if valid, false - else
-     */
-    public static boolean CheckFloatInput(String value)
-    {
-        float num;
-        try {num = Float.parseFloat(value);}
-        catch (NumberFormatException error) {return false;}
-        return !(num <= 0);
-    }
-
-    /**
-     * This method create label which functions as a check label
-     * @param message - A message that the label will display
-     * @param x - coordinate x
-     * @param y - coordinate y
-     * @param width - width
-     * @param height - height
-     * @return JLabel
-     */
-    public static JLabel createCheckLabel(String message, int x, int y, int width, int height)
-    {
-        JLabel checkLabel = new JLabel(message);
-        checkLabel.setForeground(Color.RED);
-        checkLabel.setBounds(x, y, width, height);
-        checkLabel.setVisible(false);
-        return checkLabel;
-    }
 }
 

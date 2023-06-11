@@ -44,15 +44,7 @@ public class CreatePeriodicOrderGUI {
 
         //************************************************************************
 
-        JComboBox<String> comboBoxSupplierNum = new JComboBox<>();
-        List<String> comboBoxSupplierNumItems = new ArrayList<>();
-        comboBoxSupplierNumItems.add("");
-        Map<String, Supplier> allSuppliers = supplierController.returnAllSuppliers();
-        for (Map.Entry<String, Supplier> pair : allSuppliers.entrySet())
-            comboBoxSupplierNumItems.add(pair.getKey());
-
-        for (String item : comboBoxSupplierNumItems)
-            comboBoxSupplierNum.addItem(item);
+        JComboBox<String> comboBoxSupplierNum = HelperFunctionGUI.createComboBoxSupplierNum();
 
         //----------------------------------------- Create JButton ----------------------------------------
         JButton nextButton = new JButton("Next");
@@ -141,7 +133,7 @@ public class CreatePeriodicOrderGUI {
         //----------------------------------------- Create JLabel ----------------------------------------
         JLabel productCatalogLabel = new JLabel("Choose the supplier's product catalog number");
         JLabel quantityLabel = new JLabel("Enter the quantity of products");
-        JLabel checkQuantityLabel = CreateSupplierGUI.createCheckLabel("",320,50, 150, 20);
+        JLabel checkQuantityLabel = HelperFunctionGUI.createCheckLabel("",320,50, 150, 20);
 
         //----------------------------------------- Create JTextField ----------------------------------------
         JTextField quantityField = new JTextField();
@@ -218,7 +210,7 @@ public class CreatePeriodicOrderGUI {
                 String desiredCatalog = "";
                 int desiredQuantity = 0;
 
-                if(!CreateSupplierGUI.CheckIntInput(quantityField.getText())) {
+                if(!HelperFunctionGUI.CheckIntInput(quantityField.getText())) {
                     checkQuantityLabel.setText("Must be positive");
                     checkQuantityLabel.setVisible(true);
                     isValid = false;

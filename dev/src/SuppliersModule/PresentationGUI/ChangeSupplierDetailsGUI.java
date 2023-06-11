@@ -22,16 +22,14 @@ public class ChangeSupplierDetailsGUI {
 
         //------------------------------------- Create new frame -------------------------------------------
 
-        JFrame page1Frame = new JFrame("Change supplier details");
-        page1Frame.setSize(500, 500);
-        page1Frame.setLayout(null);
+        JFrame page1Frame = HelperFunctionGUI.createNewFrame("Change supplier details");
 
         //----------------------------------------- Create JLabel ----------------------------------------
 
         JLabel supplierNumLabel = new JLabel("Choose supplier");
 
         JLabel bankLabel = new JLabel("Update supplier bank account");
-        JLabel checkBankLabel = CreateSupplierGUI.createCheckLabel("empty", 420, 50, 60, 20);
+        JLabel checkBankLabel = HelperFunctionGUI.createCheckLabel("empty", 420, 50, 60, 20);
 
         JLabel paymentTermLabel = new JLabel("Update supplier payment term");
 
@@ -155,9 +153,9 @@ public class ChangeSupplierDetailsGUI {
 
         //------------------------------------- Create new frame -------------------------------------------
 
-        JFrame page2Frame = new JFrame("Change supplier details");
-        page2Frame.setSize(500, 500);
-        page2Frame.setLayout(null);
+        JFrame page2Frame = HelperFunctionGUI.createNewFrame("Change supplier details");
+
+
 
         page2Frame.setVisible(true);
     }

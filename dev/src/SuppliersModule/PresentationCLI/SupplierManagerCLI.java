@@ -121,8 +121,8 @@ public class SupplierManagerCLI {
 
             System.out.println("Please choose one of the options shown in the menu:");
             System.out.println("1. Update delivery details");
-            System.out.println("2. Update/Add new product to the SuppliersModule.Business.Agreement");
-            System.out.println("3. Delete product from the SuppliersModule.Business.Agreement");
+            System.out.println("2. Update/Add new product to the Agreement");
+            System.out.println("3. Delete product from the Agreement");
             System.out.println("4. Update discounts");
             System.out.println("0. Exit.");
             Choose = reader.nextLine();
