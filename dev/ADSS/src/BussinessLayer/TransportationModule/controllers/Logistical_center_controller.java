@@ -24,7 +24,7 @@ public class Logistical_center_controller {
     private static Logistical_center_controller instance;
     private Logistical_Center logistical_center;
     EmployeesDAO _employeesDAO;
-    
+
     public static Logistical_center_controller getInstance(){
         if (instance == null){
             instance = new Logistical_center_controller();
@@ -85,6 +85,17 @@ public class Logistical_center_controller {
             return true;
         }
         return false;
+    }
+
+    public ArrayList<Truck_Driver> get_possible_drivers_for_truck(String truck_number, String planned_date){
+        Truck truck = getTruckByNumber(truck_number);
+        ArrayList<Truck_Driver> drivers = new ArrayList<>();
+        for (Truck_Driver driver : EmployeesDAO.getInstance().getDrivers()){
+            if(driver.getLicense().getWeight() >= truck.getMax_weight() && driver.getLicense().getCold_level().getValue() <= truck.getCold_level().getValue() && !Transport_dao.getInstance().check_if_driver_taken_that_date(planned_date, driver.getEmployeeID())){
+                drivers.add(driver);
+            }
+        }
+        return drivers;
     }
 
 
@@ -288,6 +299,17 @@ public class Logistical_center_controller {
                 t.truckDisplay();
             }
         }
+    }
+
+    public ArrayList<String> get_trucks_by_cold_level(String cold_lvl){
+        cold_level cool_level = get_cold_level_by_string(cold_lvl);
+        ArrayList<String> trucks_ids = new ArrayList<>();
+        for (Truck t : Trucks_dao.get_instance().getTrucks()) {
+            if (t.getCold_level().getValue() == cool_level.getValue()) {
+                trucks_ids.add(t.getRegistration_plate());
+            }
+        }
+        return trucks_ids;
     }
 
     private cold_level get_cold_level_by_string(String cold_lvl){

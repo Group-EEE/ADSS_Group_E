@@ -96,7 +96,7 @@ public class transport_manager_UI {
                     if (ScheduleController.getInstance().hasSchedule("Logistics")) {
                         ArrayList<Integer> chosen_transports = choose_transport_to_send();
                         for (int key : chosen_transports) {
-                            underway_transport_ui.start_transport(key);
+                            underway_transport_ui.start_transport(key,  null);
                         }
                     }
                     else {
@@ -250,9 +250,9 @@ public class transport_manager_UI {
                 } catch (NumberFormatException e) {
                     System.out.print("Invalid input. ");
                 }
-                 if(controller.check_if_transport_id_exist(transport_Id)){
-                 isValid = false;
-                 System.out.println("The transport ID number is already exist in the transport system. ");
+                if(controller.check_if_transport_id_exist(transport_Id)){
+                    isValid = false;
+                    System.out.println("The transport ID number is already exist in the transport system. ");
                 }
             }
         }
