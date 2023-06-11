@@ -92,18 +92,17 @@ public class Agreement {
      * finding the discount with the given details and delete it (Only for OrderDiscounts not for product discounts)
      */
 
-    public void deleteOrderDiscount(String priceOrQuantity,int minimumAmount)
+    public boolean deleteOrderDiscount(String priceOrQuantity,int minimumAmount)
     {
         for(OrderDiscount orderDiscount : DiscountOnOrder)
         {
             if(orderDiscount.getAmount() == minimumAmount
                     && orderDiscount.getByPriceOrQuantity().equals(priceOrQuantity)) {
                 DiscountOnOrder.remove(orderDiscount);
-                System.out.println("The discount has been deleted\n");
-                return;
+                return true;
             }
         }
-        System.out.println("The discount is not exist\n");
+        return false;
     }
 
     public Map<String, SupplierProduct> getProductInAgreement() {return ProductInAgreement;}
@@ -142,6 +141,13 @@ public class Agreement {
         }
         return null;
     }
+    public List<OrderDiscount> getAllOrderDiscount()
+    {
+        return DiscountOnOrder;
+    }
+
+
 }
+
 
 

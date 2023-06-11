@@ -101,6 +101,14 @@ public class UpdateSupplierAgreementGUI {
                 AddDeleteProductDiscountPage(comboBoxSupplierNum.getSelectedItem().toString(), page1Frame);
             }
         });
+
+        AddDeleteOrderDiscountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                page1Frame.setVisible(false);
+                AddDeleteOrderDiscountPage(comboBoxSupplierNum.getSelectedItem().toString(), page1Frame);
+            }
+        });
     }
 
     public static void UpdateDeliveryDetailsPage(String supplierNum, JFrame backFrame)
@@ -642,7 +650,6 @@ public class UpdateSupplierAgreementGUI {
                         backFrame.setVisible(true);
                         HelperFunctionGUI.ShowProcessSuccessfully();
                     }
-
                 }
             }});
 
@@ -678,9 +685,147 @@ public class UpdateSupplierAgreementGUI {
         page4Frame.setVisible(true);
     }
 
-    public static void AddDeleteOrderDiscountPage(String supplierNum, JFrame backFrame)
-    {
+    public static void AddDeleteOrderDiscountPage(String supplierNum, JFrame backFrame) {
+        //------------------------------------- Create new frame -------------------------------------------
 
+        JFrame page5Frame = HelperFunctionGUI.createNewFrame("Update Supplier Agreement");
+
+        //----------------------------------------- Create JLabel ----------------------------------------
+
+        JLabel PorQLabel = new JLabel("Do the discount is for minimum price or for minimum quantity? (p/q)");
+
+        JLabel minimumLabel = new JLabel("Minimum quantity/price for discount?");
+        JLabel checkMinimumLabel = HelperFunctionGUI.createCheckLabel("Not Valid or Exist", 350, 50, 130, 20);
+
+        JLabel PercentLabel = new JLabel("How many percent off?");
+        JLabel checkPercentLabel = HelperFunctionGUI.createCheckLabel("Not Valid", 350, 80, 100, 20);
+
+        JLabel buffer = new JLabel("-------------------------------------------------------------------------------------------------------------------------------------------");
+        JLabel deleteOrderDiscountLabel = new JLabel("Choose a p/q and amount to delete");
+
+        //----------------------------------------- Create JTextField ----------------------------------------
+
+        JTextField minimumField = new JTextField();
+        JTextField PercentField = new JTextField();
+
+        //----------------------------------------- Create JComboBox ----------------------------------------
+
+        JComboBox<String> comboBoxPorQ = new JComboBox<>(new String[]{"", "p", "q"});
+        JComboBox<String> comboBoxOrderDiscount = HelperFunctionGUI.createComboBoxOrderDiscount(supplierNum);
+
+        //----------------------------------------- Create JButton ----------------------------------------
+
+        JButton addDiscountButton = new JButton("Add Discount");
+        JButton deleteOrderDiscountButton = new JButton("DeleteDiscount");
+
+        //-------------------------------------- Set bounds ---------------------------------------------
+
+        PorQLabel.setBounds(10, 10, 400, 20);
+        comboBoxPorQ.setBounds(430, 10, 50, 20);
+
+        minimumLabel.setBounds(10, 50, 250, 20);
+        minimumField.setBounds(290, 50, 50, 20);
+
+        PercentLabel.setBounds(10, 80, 250, 20);
+        PercentField.setBounds(290, 80, 50, 20);
+
+        addDiscountButton.setBounds(210, 120, 150, 30);
+
+        buffer.setBounds(0,180, 500, 10);
+        deleteOrderDiscountLabel.setBounds(10, 210, 230, 20);
+        comboBoxOrderDiscount.setBounds(240, 210, 70, 20);
+        deleteOrderDiscountButton.setBounds(340, 210, 130, 30);
+
+
+        //-------------------------------------- Set not visible ---------------------------------------------
+
+        minimumLabel.setVisible(false);
+        minimumField.setVisible(false);
+
+        PercentLabel.setVisible(false);
+        PercentField.setVisible(false);
+
+        addDiscountButton.setVisible(false);
+
+
+        //------------------------------------ Add to currFrame -------------------------------------
+
+        JComponent[] components = {PorQLabel, comboBoxPorQ,
+                minimumLabel, minimumField, checkMinimumLabel,
+                PercentLabel, PercentField, checkPercentLabel,
+                addDiscountButton, buffer, deleteOrderDiscountLabel, comboBoxOrderDiscount, deleteOrderDiscountButton};
+
+        HelperFunctionGUI.addComponentsToFrame(page5Frame, components);
+
+        // ------------------------------------- Add action listener to JObjects ------------------------------
+        comboBoxPorQ.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String choose = comboBoxPorQ.getSelectedItem().toString();
+
+                if (choose.equals("")) {
+                    PercentLabel.setVisible(false);
+                    PercentField.setVisible(false);
+                    checkPercentLabel.setVisible(false);
+                    minimumLabel.setVisible(false);
+                    minimumField.setVisible(false);
+                    checkMinimumLabel.setVisible(false);
+                    addDiscountButton.setVisible(false);
+                } else {
+                    PercentLabel.setVisible(true);
+                    PercentField.setVisible(true);
+                    minimumLabel.setVisible(true);
+                    minimumField.setVisible(true);
+                    addDiscountButton.setVisible(true);
+
+                    checkMinimumLabel.setVisible(false);
+                    checkPercentLabel.setVisible(false);
+                }
+            }
+        });
+
+        //*****************************************************************************
+
+        addDiscountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                boolean isValid = true;
+
+                if (!HelperFunctionGUI.CheckIntInput(minimumField.getText()) || supplierController.CheckIfExistOrderDiscount(supplierNum, comboBoxPorQ.getSelectedItem().toString(), Integer.parseInt(minimumField.getText()))) {
+                    checkMinimumLabel.setVisible(true);
+                    isValid = false;
+                } else checkMinimumLabel.setVisible(false);
+
+                if (!HelperFunctionGUI.CheckFloatInput(PercentField.getText())) {
+                    checkPercentLabel.setVisible(true);
+                    isValid = false;
+                } else checkPercentLabel.setVisible(false);
+
+                if (isValid) {
+                    supplierController.addOrderDiscount(supplierNum, comboBoxPorQ.getSelectedItem().toString(), Integer.parseInt(minimumField.getText()), Float.parseFloat(PercentField.getText()));
+                    page5Frame.dispose();
+                    HelperFunctionGUI.ShowProcessSuccessfully();
+                    backFrame.setVisible(true);
+                }
+            }
+        });
+
+        deleteOrderDiscountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String discount = comboBoxOrderDiscount.getSelectedItem().toString();
+                if(!comboBoxOrderDiscount.getSelectedItem().equals("")) {
+                    String[] QorPAndAmount = discount.split(",");
+
+                    supplierController.deleteOrderDiscount(supplierNum, QorPAndAmount[0], Integer.parseInt(QorPAndAmount[1]));
+                    page5Frame.dispose();
+                    backFrame.setVisible(true);
+                    HelperFunctionGUI.ShowProcessSuccessfully();
+                }
+            }
+        });
+
+        page5Frame.setVisible(true);
     }
-
 }

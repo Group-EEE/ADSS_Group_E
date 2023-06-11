@@ -644,7 +644,7 @@ public class CreateSupplierGUI {
         JLabel PorQLabel = new JLabel("Do the discount is for minimum price or for minimum quantity? (p/q)");
 
         JLabel minimumLabel = new JLabel("Minimum quantity/price for discount?");
-        JLabel checkMinimumLabel = HelperFunctionGUI.createCheckLabel("Not Valid or Exist", 350, 100, 100, 20);
+        JLabel checkMinimumLabel = HelperFunctionGUI.createCheckLabel("Not Valid or Exist", 350, 130, 130, 20);
 
         JLabel PercentLabel = new JLabel("How many percent off?");
         JLabel checkPercentLabel = HelperFunctionGUI.createCheckLabel("Not Valid", 350, 100, 100, 20);
@@ -693,6 +693,8 @@ public class CreateSupplierGUI {
 
         PercentLabel.setVisible(false);
         PercentField.setVisible(false);
+
+        addDiscountButton.setVisible(false);
 
 
         //------------------------------------ Add to currFrame -------------------------------------

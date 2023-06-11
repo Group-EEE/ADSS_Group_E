@@ -169,12 +169,16 @@ public class SupplierController {
     }
 
 
-    public void deleteOrderDiscount(String supplierNum, String priceOrQuantity, int minimumAmount)
+    public boolean deleteOrderDiscount(String supplierNum, String priceOrQuantity, int minimumAmount)
     {
         Supplier supplier = getSupplier(supplierNum);
         Agreement agreement = supplier.getMyAgreement();
-        agreement.deleteOrderDiscount(priceOrQuantity, minimumAmount);
-        superLiDB.deleteOrderDiscount(supplierNum, priceOrQuantity, minimumAmount);
+        if(agreement.deleteOrderDiscount(priceOrQuantity, minimumAmount))
+        {
+            superLiDB.deleteOrderDiscount(supplierNum, priceOrQuantity, minimumAmount);
+            return true;
+        }
+        return false;
     }
 
     //------------------------------------------ Contact ---------------------------------------

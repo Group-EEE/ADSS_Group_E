@@ -1,11 +1,8 @@
 package SuppliersModule.PresentationGUI;
 
 import InventoryModule.Business.Controllers.ProductController;
+import SuppliersModule.Business.*;
 import SuppliersModule.Business.Controllers.SupplierController;
-import SuppliersModule.Business.Manufacturer;
-import SuppliersModule.Business.Supplier;
-import SuppliersModule.Business.SupplierProduct;
-import SuppliersModule.Business.SupplierProductDiscount;
 
 import javax.swing.*;
 import java.awt.*;
@@ -92,6 +89,23 @@ public class HelperFunctionGUI {
         Map<String, SupplierProduct> allManufacturers = supplierController.getSupplier(supplierNum).getMyProducts();
         for (Map.Entry<String, SupplierProduct> pair : allManufacturers.entrySet())
             comboBoxSupplierProductItems.add(pair.getKey());
+
+        for (String item : comboBoxSupplierProductItems)
+            comboBoxSupplierProduct.addItem(item);
+
+        return comboBoxSupplierProduct;
+    }
+
+    public static JComboBox<String>  createComboBoxOrderDiscount(String supplierNum)
+    {
+        JComboBox<String> comboBoxSupplierProduct= new JComboBox<>();
+        List<String> comboBoxSupplierProductItems = new ArrayList<>();
+
+        comboBoxSupplierProductItems.add("");
+        List<OrderDiscount> allOrderDiscount = supplierController.getSupplier(supplierNum).getMyAgreement().getAllOrderDiscount();
+
+        for (OrderDiscount orderDiscount : allOrderDiscount)
+            comboBoxSupplierProductItems.add(orderDiscount.getByPriceOrQuantity() + "," + orderDiscount.getAmount());
 
         for (String item : comboBoxSupplierProductItems)
             comboBoxSupplierProduct.addItem(item);

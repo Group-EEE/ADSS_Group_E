@@ -249,7 +249,10 @@ public class SupplierManagerCLI {
         } while (!priceOrQuantity.equals("p") && !priceOrQuantity.equals("q"));
 
         int minimumAmount = CheckIntInputAndReturn("Enter the minimum amount:");
-        supplierController.deleteOrderDiscount(supplierNum, priceOrQuantity, minimumAmount);
+        if(supplierController.deleteOrderDiscount(supplierNum, priceOrQuantity, minimumAmount))
+            System.out.println("The discount has been deleted\n");
+        else
+            System.out.println("The discount is not exist\n");
     }
 
     //---------------------------------------Case 6----------------------------------------------
