@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="InterfaceLayer.TransportModule.GUI.Transport_main">
+  <grid id="27dc6" binding="panelMain" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="649" height="139"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="ac809" class="javax.swing.JLabel" binding="label1">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="choose option"/>
+        </properties>
+      </component>
+      <vspacer id="91be4">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <component id="ae560" class="javax.swing.JButton" binding="startButton" default-binding="true">
+        <constraints>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="start"/>
+        </properties>
+      </component>
+      <component id="c1227" class="javax.swing.JComboBox" binding="menuOptions">
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <model>
+            <item value="1. register a supplier"/>
+            <item value="2. see all the trucks by cold level"/>
+            <item value="3. create a new transport"/>
+            <item value="4. send transports"/>
+            <item value="5. Add a new truck"/>
+            <item value="6. Display all drivers"/>
+            <item value="7. Display all trucks"/>
+            <item value="8. Display site supllier documents"/>
+            <item value="9. Display all stores"/>
+            <item value="10. Add standby driver"/>
+          </model>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

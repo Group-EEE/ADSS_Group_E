@@ -146,4 +146,8 @@ public class Truck {
         System.out.println();
     }
 
+    public String details(){
+        return "Truck Registration plate number - " + registration_plate + "\n" + "\t model: " + model + "\n" + "\t Net Weight: " + net_weight + "\n" + "\t Max Weight: " + max_weight + "\n" + "\t Cold Level: " + cold_level.name() + "\n" + "\t Current Weight: " + current_weight;
+    }
+
 }

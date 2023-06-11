@@ -207,11 +207,31 @@ public class Transport {
         return store;
     }
 
+    public ArrayList<Store> getStores(){
+        ArrayList<Store> stores = new ArrayList<>();
+        for(Site site : destinations){
+            if(site.is_store()){
+                stores.add((Store) site);
+            }
+        }
+        return stores;
+    }
+
     public void delete_last_Weight(){
         weighing.remove(weighing.size()-1);
     }
 
-    // display
+    public String details(){
+        return "Transport ID: " + transport_ID +
+                "\n Date: " + date +
+                "\n Departure Time: " + departure_time +
+                "\n Truck Number: " + truck_number +
+                "\n Driver Name: " + driver_name +
+                "\n Origin Details: " + origin +
+                "\n Cold Level: " + required_level.name() +
+                "\n Destinations: " + destinations.size() +
+                "\n Products: " + products.size();
+    }
 
     public void transportDisplay(){
         System.out.println("\t Transport ID: " + transport_ID);
