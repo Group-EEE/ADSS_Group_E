@@ -6,8 +6,6 @@ import SuppliersModule.Business.Supplier;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class OrderHistoryGUI {
@@ -22,9 +20,7 @@ public class OrderHistoryGUI {
 
         //------------------------------------- Create new frame -------------------------------------------
 
-        JFrame currFrame = new JFrame("Order History");
-        currFrame.setSize(500,500);
-        currFrame.setLayout(null);
+        JFrame currFrame = HelperFunctionGUI.createNewFrame("Order History");
 
         //----------------------------------------- Create JLabel ----------------------------------------
 
@@ -38,39 +34,29 @@ public class OrderHistoryGUI {
 
         //----------------------------------------- Create JComboBox ----------------------------------------
 
-        JComboBox<String> comboBoxAllSuppliers = new JComboBox<>(new String[]{"","ALL"});
-        List<String> comboBoxAllSuppliersItems = new ArrayList<>();
-        Map<String, Supplier> allSuppliers = supplierController.returnAllSuppliers();
-
-        for (Map.Entry<String, Supplier> pair : allSuppliers.entrySet())
-            comboBoxAllSuppliersItems.add(pair.getKey());
-
-        for (String item : comboBoxAllSuppliersItems)
-            comboBoxAllSuppliers.addItem(item);
+        JComboBox<String> comboBoxAllSuppliers = HelperFunctionGUI.createComboBoxSupplierNum();
+        comboBoxAllSuppliers.addItem("ALL");
 
         //----------------------------------------- Create JButton ----------------------------------------
 
-        JButton backButton = new JButton("Back");
+        JButton exitButton = HelperFunctionGUI.createExitButton(currFrame, oldFrame);
 
         //-------------------------------------- Set bounds ---------------------------------------------
         supplierNumLabel.setBounds(70,10,360,30);
         scrollPaneHistory.setBounds(10, 90, 480,300);
         comboBoxAllSuppliers.setBounds(100,50,300,30);
-        backButton.setBounds(200,400,100,30);
 
         //------------------------------------ Add to currFrame -------------------------------------
-        currFrame.add(supplierNumLabel);
-        currFrame.add(scrollPaneHistory);
-        currFrame.add(comboBoxAllSuppliers);
-        currFrame.add(backButton);
+
+        HelperFunctionGUI.addComponentsToFrame(currFrame, new JComponent[]{supplierNumLabel,
+                scrollPaneHistory, comboBoxAllSuppliers, exitButton});
 
         // ------------------------------------- Add action listener to JObjects ------------------------------
 
         comboBoxAllSuppliers.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JComboBox<String> combo = (JComboBox<String>) e.getSource();
-                String supplierNum = (String) combo.getSelectedItem();
+                String supplierNum = comboBoxAllSuppliers.getSelectedItem().toString();
 
                 if(!supplierNum.equals("") && !(supplierNum.equals("ALL"))) {
                     String ordersHistory = supplierController.getSupplier(supplierNum).StringOrdersHistory();
@@ -89,15 +75,6 @@ public class OrderHistoryGUI {
 
                     textAreaHistory.setText(allOrders);
                 }
-            }});
-
-        //**********************************************************************
-
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                currFrame.dispose();
-                OldFrame.setVisible(true);
             }});
 
         currFrame.setVisible(true);

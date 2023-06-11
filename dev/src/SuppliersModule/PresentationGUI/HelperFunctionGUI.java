@@ -86,8 +86,8 @@ public class HelperFunctionGUI {
         List<String> comboBoxSupplierProductItems = new ArrayList<>();
 
         comboBoxSupplierProductItems.add("");
-        Map<String, SupplierProduct> allManufacturers = supplierController.getSupplier(supplierNum).getMyProducts();
-        for (Map.Entry<String, SupplierProduct> pair : allManufacturers.entrySet())
+        Map<String, SupplierProduct> allSupplierProduct = supplierController.returnAllProductOfSupplier(supplierNum);
+        for (Map.Entry<String, SupplierProduct> pair : allSupplierProduct.entrySet())
             comboBoxSupplierProductItems.add(pair.getKey());
 
         for (String item : comboBoxSupplierProductItems)

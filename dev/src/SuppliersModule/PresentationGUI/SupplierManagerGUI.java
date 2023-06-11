@@ -11,11 +11,9 @@ public class SupplierManagerGUI {
     {
         //------------------------------------- Create new frame -------------------------------------------
 
-        JFrame menuFrame = new JFrame("Supplier Manager Menu");
-        menuFrame.setSize(500,500);
-        menuFrame.setLayout(null);
+        JFrame menuFrame = HelperFunctionGUI.createNewFrame("Supplier Manager Menu");
 
-        //------------------------------------ Create buttons -------------------------------------------
+        //------------------------------------ Create JButtons -------------------------------------------
 
         JButton opt1 = new JButton("Insert a new supplier");
         JButton opt2 = new JButton("Create a new periodic order");
@@ -26,19 +24,17 @@ public class SupplierManagerGUI {
         JButton opt7 = new JButton("Print supplier details");
         JButton opt8 = new JButton("Exit");
 
-        //-------------------------------------- Set bounds ---------------------------------------------
+        //-------------------------------------- Set JButton ---------------------------------------------
 
-        opt1.setBounds(150,20,200,30);
-        opt2.setBounds(150,60,200,30);
-        opt3.setBounds(150,100,200,30);
-        opt4.setBounds(150,140,200,30);
-        opt5.setBounds(150,180,200,30);
-        opt6.setBounds(150,220,200,30);
-        opt7.setBounds(150,260,200,30);
-        opt8.setBounds(150,300,200,30);
+        JButton[] buttons = {opt1, opt2, opt3, opt4, opt5, opt6, opt7, opt8};
+
+        for(int i=0 ; i < 8 ; i++)
+        {
+            buttons[i].setBounds(150, i*50, 200, 40);
+            menuFrame.add(buttons[i]);
+        }
 
         // ------------------------------------- Add action listener to buttons ------------------------------
-
 
         opt1.addActionListener(new ActionListener() {
             @Override
@@ -88,7 +84,6 @@ public class SupplierManagerGUI {
             }
         });
 
-
         opt7.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -105,15 +100,6 @@ public class SupplierManagerGUI {
             }
         });
 
-        // ------------------------------------------- Add buttons to frame ------------------------------------
-        menuFrame.add(opt1);
-        menuFrame.add(opt2);
-        menuFrame.add(opt3);
-        menuFrame.add(opt4);
-        menuFrame.add(opt5);
-        menuFrame.add(opt6);
-        menuFrame.add(opt7);
-        menuFrame.add(opt8);
 
         menuFrame.setVisible(true);
     }

@@ -5,7 +5,6 @@ import SuppliersModule.Business.Generator.SupplierGenerator;
 import SuppliersModule.Business.PaymentTerm;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class CreateSupplierGUI {
         JLabel checkNameLabel = HelperFunctionGUI.createCheckLabel("Empty", 250,10,150,20);
 
         JLabel supplierNumLabel = new JLabel("SupplierNum");
-        JLabel checkSupplierNumLabel = HelperFunctionGUI.createCheckLabel("SupplierNum exist", 250,50,150,20);
+        JLabel checkSupplierNumLabel = HelperFunctionGUI.createCheckLabel("Empty or Exist", 250,50,150,20);
 
         JLabel bankAccountLabel = new JLabel("bankAccount");
         JLabel checkBankAccountLabel = HelperFunctionGUI.createCheckLabel("Empty", 250,80,150,20);
@@ -170,12 +169,12 @@ public class CreateSupplierGUI {
     //------------------------------------- Page 2 -------------------------------------------------------
     public static void Page2(String supplierName, String bankAccount, PaymentTerm paymentTerm, List<String> categories)
     {
-
         //------------------------------------- Create new frame -------------------------------------------
 
         JFrame page2Frame = HelperFunctionGUI.createNewFrame("Create new Supplier");
 
         //----------------------------------------- Create JLabel ----------------------------------------
+
         JLabel daysToSupplyLabel = new JLabel("How many days to deliver the products?");
         JLabel checkDaysToSupplyLabel = HelperFunctionGUI.createCheckLabel("Empty", 380, 360, 50,20);
 
@@ -229,10 +228,9 @@ public class CreateSupplierGUI {
 
         //-------------------------------------- Set not visible ---------------------------------------------
 
-        JComponent [] hiddenComponents = {hasPermanentDaysLabel, hasPermanentDaysComboBox,
-                deliveryDaysLabel, daysToSupplyLabel, daysToSupplyField, nextButton};
 
-        HelperFunctionGUI.hideComponents(hiddenComponents);
+        HelperFunctionGUI.hideComponents(new JComponent[] {hasPermanentDaysLabel, hasPermanentDaysComboBox,
+                deliveryDaysLabel, daysToSupplyLabel, daysToSupplyField, nextButton});
 
         //------------------------------------ Add to currFrame -------------------------------------
 
@@ -248,8 +246,7 @@ public class CreateSupplierGUI {
         comboBoxBring.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JComboBox<String> combo = (JComboBox<String>) e.getSource();
-                String yesORno = (String) combo.getSelectedItem();
+                String yesORno = comboBoxBring.getSelectedItem().toString();
 
                 if(yesORno.equals("Yes")) {
                     hasPermanentDaysLabel.setVisible(true);
@@ -277,8 +274,7 @@ public class CreateSupplierGUI {
         hasPermanentDaysComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JComboBox<String> combo = (JComboBox<String>) e.getSource();
-                String yesORno = (String) combo.getSelectedItem();
+                String yesORno = hasPermanentDaysComboBox.getSelectedItem().toString();
 
                 if(yesORno.equals("Yes")) {
                     deliveryDaysLabel.setVisible(true);
@@ -479,8 +475,6 @@ public class CreateSupplierGUI {
 
                     productsAdd.add(supplierCatalogField.getText());
 
-                    HelperFunctionGUI.ShowAddSuccess();
-
                     nextButton.setVisible(true);
 
                     productNameField.setText("");
@@ -489,6 +483,8 @@ public class CreateSupplierGUI {
                     supplierCatalogField.setText("");
                     priceField.setText("");
                     quantityField.setText("");
+
+                    HelperFunctionGUI.ShowAddSuccess();
                 }
         }});
 
@@ -546,13 +542,9 @@ public class CreateSupplierGUI {
         nextButton.setBounds(100,410,100,30);
 
         //-------------------------------------- Set not visible ---------------------------------------------
-        minimumQuantityLabel.setVisible(false);
-        minimumQuantityField.setVisible(false);
 
-        percentLabel.setVisible(false);
-        PercentField.setVisible(false);
-
-        addProductDiscountButton.setVisible(false);
+        HelperFunctionGUI.hideComponents(new JComponent[] {minimumQuantityLabel, minimumQuantityField,
+                percentLabel, PercentField, addProductDiscountButton});
 
         //------------------------------------ Add to currFrame -------------------------------------
 
@@ -568,27 +560,21 @@ public class CreateSupplierGUI {
         comboBoxProductAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JComboBox<String> combo = (JComboBox<String>) e.getSource();
-                String choose = (String) combo.getSelectedItem();
+                String choose = comboBoxProductAdd.getSelectedItem().toString();
 
                 if(choose.equals("")) {
-                    percentLabel.setVisible(false);
-                    PercentField.setVisible(false);
-                    checkPercentLabel.setVisible(false);
-                    minimumQuantityLabel.setVisible(false);
-                    minimumQuantityField.setVisible(false);
-                    checkMinimumQuantityLabel.setVisible(false);
-                    addProductDiscountButton.setVisible(false);
+                    HelperFunctionGUI.hideComponents(new JComponent[] {percentLabel,
+                            PercentField, checkPercentLabel, minimumQuantityLabel,
+                            minimumQuantityField, checkMinimumQuantityLabel, addProductDiscountButton});
                 }
 
                 else {
-                    percentLabel.setVisible(true);
-                    PercentField.setVisible(true);
-                    minimumQuantityLabel.setVisible(true);
-                    minimumQuantityField.setVisible(true);
+                    HelperFunctionGUI.showComponents(new JComponent[] {percentLabel,
+                            PercentField, minimumQuantityLabel, minimumQuantityField,
+                            addProductDiscountButton});
+
                     checkMinimumQuantityLabel.setVisible(false);
                     checkPercentLabel.setVisible(false);
-                    addProductDiscountButton.setVisible(true);
                 }
             }});
 
@@ -611,9 +597,9 @@ public class CreateSupplierGUI {
                         checkMinimumQuantityLabel.setVisible(true);
 
                     else {
-                        HelperFunctionGUI.ShowAddSuccess();
                         PercentField.setText("");
                         minimumQuantityField.setText("");
+                        HelperFunctionGUI.ShowAddSuccess();
                     }
                 }
             }});
@@ -685,17 +671,8 @@ public class CreateSupplierGUI {
 
         //-------------------------------------- Set not visible ---------------------------------------------
 
-        PorQLabel.setVisible(false);
-        comboBoxPorQ.setVisible(false);
-
-        minimumLabel.setVisible(false);
-        minimumField.setVisible(false);
-
-        PercentLabel.setVisible(false);
-        PercentField.setVisible(false);
-
-        addDiscountButton.setVisible(false);
-
+        HelperFunctionGUI.hideComponents(new JComponent[] {PorQLabel, comboBoxPorQ, minimumLabel,
+                minimumField, PercentLabel, PercentField, addDiscountButton});
 
         //------------------------------------ Add to currFrame -------------------------------------
 
@@ -712,14 +689,15 @@ public class CreateSupplierGUI {
         comboBoxDiscountOrder.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JComboBox<String> combo = (JComboBox<String>) e.getSource();
-                String choose = (String) combo.getSelectedItem();
+                String choose = comboBoxDiscountOrder.getSelectedItem().toString();
 
                 if(choose.equals("")) {
                     comboBoxPorQ.setSelectedItem("");
                     comboBoxPorQ.setVisible(false);
                     PorQLabel.setVisible(false);
                     addDiscountButton.setVisible(true);
+                    minimumField.setText("");
+                    PercentField.setText("");
                 }
 
                 else {
@@ -734,25 +712,18 @@ public class CreateSupplierGUI {
         comboBoxPorQ.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JComboBox<String> combo = (JComboBox<String>) e.getSource();
-                String choose = (String) combo.getSelectedItem();
+                String choose = comboBoxPorQ.getSelectedItem().toString();
 
                 if(choose.equals("")) {
-                    PercentLabel.setVisible(false);
-                    PercentField.setVisible(false);
-                    checkPercentLabel.setVisible(false);
-                    minimumLabel.setVisible(false);
-                    minimumField.setVisible(false);
-                    checkMinimumLabel.setVisible(false);
-                    addDiscountButton.setVisible(false);
+                    HelperFunctionGUI.hideComponents(new JComponent[] {PercentLabel,
+                            PercentField, checkPercentLabel, minimumLabel,
+                            minimumField, checkMinimumLabel, addDiscountButton});
                 }
 
                 else {
-                    PercentLabel.setVisible(true);
-                    PercentField.setVisible(true);
-                    minimumLabel.setVisible(true);
-                    minimumField.setVisible(true);
-                    addDiscountButton.setVisible(true);
+                    HelperFunctionGUI.showComponents(new JComponent[] {PercentLabel,
+                            PercentField, minimumLabel, minimumField,
+                            addDiscountButton});
 
                     checkMinimumLabel.setVisible(false);
                     checkPercentLabel.setVisible(false);
@@ -776,8 +747,8 @@ public class CreateSupplierGUI {
 
                 if(isValid) {
                     supplierController.addOrderDiscount(supplierNum, comboBoxPorQ.getSelectedItem().toString(), Integer.parseInt(minimumField.getText()), Float.parseFloat(PercentField.getText()));
-                    HelperFunctionGUI.ShowAddSuccess();
                     comboBoxDiscountOrder.setSelectedItem("");
+                    HelperFunctionGUI.ShowAddSuccess();
                 }
             }});
 
@@ -787,8 +758,8 @@ public class CreateSupplierGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 page5Frame.dispose();
-                HelperFunctionGUI.ShowProcessSuccessfully();
                 OldFrame.setVisible(true);
+                HelperFunctionGUI.ShowProcessSuccessfully();
             }});
 
         page5Frame.setVisible(true);

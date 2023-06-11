@@ -21,94 +21,50 @@ public class DeleteSupplierGUI {
 
         //------------------------------------- Create new frame -------------------------------------------
 
-        JFrame currFrame = new JFrame("Delete Supplier");
-        currFrame.setSize(500,500);
-        currFrame.setLayout(null);
+        JFrame currFrame = HelperFunctionGUI.createNewFrame("Delete Supplier");
 
-        //----------------------------------------- Create new label ----------------------------------------
+        //----------------------------------------- Create JLabel ----------------------------------------
 
-        JLabel label = new JLabel("Enter supplier number that you want delete");
-        label.setBounds(100,10,300,30);
-        currFrame.add(label);
+        JLabel supplierNumLabel = new JLabel("Enter supplier number that you want delete");
 
         //---------------------------------------- Create new textField ----------------------------------
 
-        JTextField textField = new JTextField();
-        textField.setBounds(150,200,200,30);
-        currFrame.add(textField);
+        JTextField deleteField = new JTextField();
 
-        //------------------------------------ Create backButton -------------------------------------
+        //------------------------------------ Create JButton -------------------------------------
 
-        JButton backButton = new JButton("Back");
-        backButton.setBounds(200,370,100,30);
-        backButton.addActionListener(new backClick(currFrame));
-        currFrame.add(backButton);
+        JButton exitButton = HelperFunctionGUI.createExitButton(currFrame, oldFrame);
 
-        //------------------------------------ Create new comboBox -------------------------------------
+        //------------------------------------ Create JComboBox -------------------------------------
 
-        JComboBox<String> comboBox = new JComboBox<>();
-        comboBox.setBounds(100,50,300,30);
-        comboBox.addActionListener(new MyComboBoxActionListener(textField));
+        JComboBox<String> comboBoxSupplierNum = HelperFunctionGUI.createComboBoxSupplierNum();
 
-        List <String> comboBoxItems = new ArrayList<>();
-        comboBoxItems.add("");
+        //-------------------------------------- Set bounds ---------------------------------------------
 
-        for (Map.Entry<String, Supplier> pair : supplierController.returnAllSuppliers().entrySet())
-            comboBoxItems.add(pair.getKey());
+        supplierNumLabel.setBounds(100,10,300,30);
+        comboBoxSupplierNum.setBounds(100,50,300,30);
+        deleteField.setBounds(150,200,200,30);
 
-        for (String item : comboBoxItems)
-            comboBox.addItem(item);
+        //------------------------------------ Add to currFrame -------------------------------------
 
-        currFrame.add(comboBox);
+        HelperFunctionGUI.addComponentsToFrame(currFrame, new JComponent[] {supplierNumLabel,
+                comboBoxSupplierNum, deleteField, exitButton});
 
-        // ---------------------------------------------------------------------------------------------
+        // ------------------------------------- Add action listener to JObjects ------------------------------
+
+        comboBoxSupplierNum.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String supplierNum = comboBoxSupplierNum.getSelectedItem().toString();
+
+                if(!supplierNum.equals("")) {
+                    supplierController.fireSupplier(supplierNum);
+                    deleteField.setText("Supplier " + supplierNum + " has been deleted");
+                }
+                else
+                    deleteField.setText("");
+            }});
 
         currFrame.setVisible(true);
-    }
-
-    private static class MyComboBoxActionListener implements ActionListener {
-        JTextField textField;
-
-        /**
-         * Constructor
-         * @param textField - Text field in currFrame.
-         */
-        public MyComboBoxActionListener(JTextField textField) {
-            this.textField = textField;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JComboBox<String> combo = (JComboBox<String>) e.getSource();
-            String supplierNum = (String) combo.getSelectedItem();
-
-            if(!supplierNum.equals("")) {
-                supplierController.fireSupplier(supplierNum);
-                textField.setText("Supplier " + supplierNum + " has been deleted");
-            }
-            else
-                textField.setText("");
-        }
-    }
-
-    /** class that implements ActionListener.
-     * actionPerformed when click on Back
-     */
-    private static class backClick implements ActionListener {
-        private JFrame thisFrame;
-
-        /**
-         * Constructor
-         * @param thisFrame - Current frame
-         */
-        public backClick(JFrame thisFrame) {
-            this.thisFrame = thisFrame;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            thisFrame.dispose();
-            OldFrame.setVisible(true);
-        }
     }
 }

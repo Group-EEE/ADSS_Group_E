@@ -18,7 +18,7 @@ public class UpdateSupplierAgreementGUI {
 
         //------------------------------------- Create new frame -------------------------------------------
 
-        JFrame page1Frame = HelperFunctionGUI.createNewFrame("Update Supplier Agreement");
+        JFrame subMenuAgreement = HelperFunctionGUI.createNewFrame("Update Supplier Agreement");
 
         //----------------------------------------- Create JLabel ----------------------------------------
 
@@ -34,7 +34,7 @@ public class UpdateSupplierAgreementGUI {
         JButton UpdateAddDeleteProductButton = new JButton("Update/Add/Delete Product");
         JButton AddDeleteProductDiscountButton = new JButton("Add/Delete product discount");
         JButton AddDeleteOrderDiscountButton = new JButton("Add/Delete order discount");
-        JButton ExitButton = HelperFunctionGUI.createExitButton(page1Frame, oldFrame);
+        JButton ExitButton = HelperFunctionGUI.createExitButton(subMenuAgreement, oldFrame);
 
         //-------------------------------------- Set bounds ---------------------------------------------
 
@@ -58,7 +58,7 @@ public class UpdateSupplierAgreementGUI {
         JComponent[] addComponents = {supplierNumLabel, comboBoxSupplierNum, UpdateDeliveryDetailsButton,
                 UpdateAddDeleteProductButton, AddDeleteProductDiscountButton, AddDeleteOrderDiscountButton, ExitButton};
 
-        HelperFunctionGUI.addComponentsToFrame(page1Frame, addComponents);
+        HelperFunctionGUI.addComponentsToFrame(subMenuAgreement, addComponents);
 
         // ------------------------------------- Add action listener to JObjects -------------------------------------
 
@@ -79,34 +79,34 @@ public class UpdateSupplierAgreementGUI {
         UpdateDeliveryDetailsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                page1Frame.setVisible(false);
-                UpdateDeliveryDetailsPage(comboBoxSupplierNum.getSelectedItem().toString(), page1Frame);
+                subMenuAgreement.setVisible(false);
+                UpdateDeliveryDetailsPage(comboBoxSupplierNum.getSelectedItem().toString(), subMenuAgreement);
             }
         });
 
         UpdateAddDeleteProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                page1Frame.setVisible(false);
-                UpdateAddDeleteProductPage(comboBoxSupplierNum.getSelectedItem().toString(), page1Frame);
+                subMenuAgreement.setVisible(false);
+                UpdateAddDeleteProductPage(comboBoxSupplierNum.getSelectedItem().toString(), subMenuAgreement);
             }
         });
 
-        page1Frame.setVisible(true);
+        subMenuAgreement.setVisible(true);
 
         AddDeleteProductDiscountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                page1Frame.setVisible(false);
-                AddDeleteProductDiscountPage(comboBoxSupplierNum.getSelectedItem().toString(), page1Frame);
+                subMenuAgreement.setVisible(false);
+                AddDeleteProductDiscountPage(comboBoxSupplierNum.getSelectedItem().toString(), subMenuAgreement);
             }
         });
 
         AddDeleteOrderDiscountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                page1Frame.setVisible(false);
-                AddDeleteOrderDiscountPage(comboBoxSupplierNum.getSelectedItem().toString(), page1Frame);
+                subMenuAgreement.setVisible(false);
+                AddDeleteOrderDiscountPage(comboBoxSupplierNum.getSelectedItem().toString(), subMenuAgreement);
             }
         });
     }
@@ -115,7 +115,7 @@ public class UpdateSupplierAgreementGUI {
     {
         //------------------------------------- Create new frame -------------------------------------------
 
-        JFrame page2Frame = HelperFunctionGUI.createNewFrame("Update Supplier Agreement");
+        JFrame page1Frame = HelperFunctionGUI.createNewFrame("Update Supplier Agreement");
 
         //----------------------------------------- Create JLabel ----------------------------------------
 
@@ -138,7 +138,7 @@ public class UpdateSupplierAgreementGUI {
             checkBoxesDeliveryDays[i] = new JCheckBox(daysName[i]);
             checkBoxesDeliveryDays[i].setBounds(200, 130 + i*30, 100, 20);
             checkBoxesDeliveryDays[i].setVisible(false);
-            page2Frame.add(checkBoxesDeliveryDays[i]);
+            page1Frame.add(checkBoxesDeliveryDays[i]);
         }
 
         //----------------------------------------- Create JComboBox ----------------------------------------
@@ -184,7 +184,7 @@ public class UpdateSupplierAgreementGUI {
                 deliveryDaysLabel, checkDeliveryDaysLabel,
                 daysToSupplyLabel, daysToSupplyField, checkDaysToSupplyLabel, applyButton};
 
-        HelperFunctionGUI.addComponentsToFrame(page2Frame, components);
+        HelperFunctionGUI.addComponentsToFrame(page1Frame, components);
 
         // ------------------------------------- Add action listener to JObjects ------------------------------
 
@@ -293,12 +293,12 @@ public class UpdateSupplierAgreementGUI {
                 }
 
                 supplierController.editAgreement(supplierNum, hasPermanentDays, isSupplierBringProduct, deliveryDays, daysToSupply);
-                page2Frame.dispose();
+                page1Frame.dispose();
                 backFrame.setVisible(true);
                 HelperFunctionGUI.ShowProcessSuccessfully();
             }});
 
-        page2Frame.setVisible(true);
+        page1Frame.setVisible(true);
     }
 
     public static void UpdateAddDeleteProductPage(String supplierNum, JFrame backFrame)
@@ -805,8 +805,8 @@ public class UpdateSupplierAgreementGUI {
                 if (isValid) {
                     supplierController.addOrderDiscount(supplierNum, comboBoxPorQ.getSelectedItem().toString(), Integer.parseInt(minimumField.getText()), Float.parseFloat(PercentField.getText()));
                     page5Frame.dispose();
-                    HelperFunctionGUI.ShowProcessSuccessfully();
                     backFrame.setVisible(true);
+                    HelperFunctionGUI.ShowProcessSuccessfully();
                 }
             }
         });

@@ -2,7 +2,6 @@ package SuppliersModule.PresentationGUI;
 
 import SuppliersModule.Business.Controllers.OrderController;
 import SuppliersModule.Business.Controllers.SupplierController;
-import SuppliersModule.Business.Supplier;
 import SuppliersModule.Business.SupplierProduct;
 
 import javax.swing.*;
@@ -26,9 +25,7 @@ public class CreatePeriodicOrderGUI {
 
         //------------------------------------- Create new frame -------------------------------------------
 
-        JFrame page1Frame = new JFrame("Create a new periodic order");
-        page1Frame.setSize(500,500);
-        page1Frame.setLayout(null);
+        JFrame page1Frame = HelperFunctionGUI.createNewFrame("Create a new periodic order");
 
         //----------------------------------------- Create JLabel ----------------------------------------
         JLabel welcomeLabel = new JLabel("Welcome to the PeriodicOrder Generator");
@@ -36,17 +33,12 @@ public class CreatePeriodicOrderGUI {
         JLabel supplierNumLabel = new JLabel("Enter supplier number");
 
         //----------------------------------------- Create JComboBox ----------------------------------------
-        JComboBox<String> comboBoxPermanentSupplyDay = new JComboBox<>();
-        String[] daysName = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-        comboBoxPermanentSupplyDay.addItem("");
-        for(String day: daysName)
-            comboBoxPermanentSupplyDay.addItem(day);
 
-        //************************************************************************
-
+        JComboBox<String> comboBoxPermanentSupplyDay = new JComboBox<>(new String[]{"","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"});
         JComboBox<String> comboBoxSupplierNum = HelperFunctionGUI.createComboBoxSupplierNum();
 
         //----------------------------------------- Create JButton ----------------------------------------
+
         JButton nextButton = new JButton("Next");
 
         //-------------------------------------- Set bounds ---------------------------------------------
@@ -63,18 +55,12 @@ public class CreatePeriodicOrderGUI {
 
         //-------------------------------------- Set not visible ---------------------------------------------
 
-        nextButton.setVisible(false);
-        PermanentSupplyDayLabel.setVisible(false);
-        comboBoxPermanentSupplyDay.setVisible(false);
-
+        HelperFunctionGUI.hideComponents(new JComponent[]{nextButton, PermanentSupplyDayLabel, comboBoxPermanentSupplyDay});
 
         //------------------------------------ Add to currFrame -------------------------------------
-        page1Frame.add(welcomeLabel);
-        page1Frame.add(supplierNumLabel);
-        page1Frame.add(comboBoxSupplierNum);
-        page1Frame.add(PermanentSupplyDayLabel);
-        page1Frame.add(comboBoxPermanentSupplyDay);
-        page1Frame.add(nextButton);
+
+        HelperFunctionGUI.addComponentsToFrame(page1Frame, new JComponent[]{welcomeLabel, supplierNumLabel,
+                comboBoxSupplierNum, PermanentSupplyDayLabel, comboBoxPermanentSupplyDay, nextButton});
 
         // ------------------------------------- Add action listener to JObjects ------------------------------
 
@@ -122,13 +108,11 @@ public class CreatePeriodicOrderGUI {
     }
 
     //------------------------------------- Page 2 -------------------------------------------------------
-    public static void Page2(String supplierName)
+    public static void Page2(String supplierNum)
     {
         //------------------------------------- Create new frame -------------------------------------------
 
-        JFrame page2Frame = new JFrame("Create a new periodic order");
-        page2Frame.setSize(500, 500);
-        page2Frame.setLayout(null);
+        JFrame page2Frame = HelperFunctionGUI.createNewFrame("Create a new periodic order");
 
         //----------------------------------------- Create JLabel ----------------------------------------
         JLabel productCatalogLabel = new JLabel("Choose the supplier's product catalog number");
@@ -143,17 +127,11 @@ public class CreatePeriodicOrderGUI {
         JButton finishButton = new JButton("Finish");
 
         //----------------------------------------- Create JComboBox ----------------------------------------
-        JComboBox<String> comboBoxCatalogNumbers = new JComboBox<>();
-        List <String> comboBoxCatalogNumbersItems = new ArrayList<>();
-        comboBoxCatalogNumbersItems.add("");
-        Map<String, SupplierProduct> allCatalog = supplierController.returnAllProductOfSupplier(supplierName);
-        for (Map.Entry<String, SupplierProduct> pair : allCatalog.entrySet())
-            comboBoxCatalogNumbersItems.add(pair.getKey());
 
-        for (String CatalogNumber : comboBoxCatalogNumbersItems)
-            comboBoxCatalogNumbers.addItem(CatalogNumber);
+        JComboBox<String> comboBoxCatalogNumbers = HelperFunctionGUI.createComboBoxSupplierProduct(supplierNum);
 
         //-------------------------------------- Set bounds ---------------------------------------------
+
         productCatalogLabel.setBounds(10, 10, 300, 20);
         comboBoxCatalogNumbers.setBounds(350, 10, 80, 20);
 
@@ -164,19 +142,14 @@ public class CreatePeriodicOrderGUI {
         finishButton.setBounds(100,410,100,30);
 
         //-------------------------------------- Set not visible ---------------------------------------------
-        addButton.setVisible(false);
-        finishButton.setVisible(false);
-        quantityLabel.setVisible(false);
-        quantityField.setVisible(false);
+
+        HelperFunctionGUI.hideComponents(new JComponent[]{addButton, finishButton, quantityLabel, quantityField});
 
         //------------------------------------ Add to currFrame -------------------------------------
-        page2Frame.add(productCatalogLabel);
-        page2Frame.add(comboBoxCatalogNumbers);
-        page2Frame.add(quantityLabel);
-        page2Frame.add(quantityField);
-        page2Frame.add(checkQuantityLabel);
-        page2Frame.add(addButton);
-        page2Frame.add(finishButton);
+
+        HelperFunctionGUI.addComponentsToFrame(page2Frame, new JComponent[]{productCatalogLabel,
+                comboBoxCatalogNumbers, quantityLabel, quantityField, checkQuantityLabel,
+                addButton, finishButton});
 
         // ------------------------------------- Add action listener to JObjects ------------------------------
 
@@ -188,17 +161,11 @@ public class CreatePeriodicOrderGUI {
 
                 if(catalogNumber.equals(""))
                 {
-                    addButton.setVisible(false);
-                    quantityLabel.setVisible(false);
-                    quantityField.setVisible(false);
-                    checkQuantityLabel.setVisible(false);
+                    HelperFunctionGUI.hideComponents(new JComponent[]{addButton, quantityLabel,
+                            quantityField, checkQuantityLabel});
                 }
                 else
-                {
-                    quantityLabel.setVisible(true);
-                    quantityField.setVisible(true);
-                    addButton.setVisible(true);
-                }
+                    HelperFunctionGUI.showComponents(new JComponent[]{quantityLabel, quantityField, addButton});
             }});
 
         //*****************************************************************8
@@ -219,7 +186,7 @@ public class CreatePeriodicOrderGUI {
                 {
                     desiredQuantity = Integer.parseInt(quantityField.getText());
                     desiredCatalog = comboBoxCatalogNumbers.getSelectedItem().toString();
-                    int MaximumQuantity = allCatalog.get(desiredCatalog).getAmount();
+                    int MaximumQuantity = supplierController.returnAllProductOfSupplier(supplierNum).get(desiredCatalog).getAmount();
 
                     if(desiredQuantity > MaximumQuantity)
                     {

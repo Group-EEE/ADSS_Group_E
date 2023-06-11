@@ -6,10 +6,6 @@ import SuppliersModule.Business.Supplier;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 public class PrintSupplierDetailsGUI {
 
     static SupplierController supplierController;
@@ -21,95 +17,48 @@ public class PrintSupplierDetailsGUI {
 
         //------------------------------------- Create new frame -------------------------------------------
 
-        JFrame currFrame = new JFrame("supplier details");
-        currFrame.setSize(500,500);
-        currFrame.setLayout(null);
+        JFrame currFrame = HelperFunctionGUI.createNewFrame("supplier details");
 
-        //--------------------------------- Create textArea and scrollPane ------------------------------
+        //------------------------------------ Create JTextArea ---------------------------------------
 
         JTextArea textArea = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setBounds(50, 50, 400,300);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        currFrame.add(scrollPane);
 
-        //------------------------------------ Create new comboBox -------------------------------------
+        //------------------------------------ Create JComboBox -------------------------------------
 
-        JComboBox<String> comboBox = new JComboBox<>();
-        comboBox.setBounds(100,10,300,30);
-        comboBox.addActionListener(new MyComboBoxActionListener(textArea));
+        JComboBox<String> comboBoxAllSuppliers = HelperFunctionGUI.createComboBoxSupplierNum();
 
-        List<String> comboBoxItems = new ArrayList<>();
-        comboBoxItems.add("");
-        Map<String, Supplier> allSuppliers = supplierController.returnAllSuppliers();
+        //----------------------------------------- Create JButton ----------------------------------------
 
-        for (Map.Entry<String, Supplier> pair : allSuppliers.entrySet())
-            comboBoxItems.add(pair.getKey());
+        JButton exitButton = HelperFunctionGUI.createExitButton(currFrame, oldFrame);
 
-        for (String item : comboBoxItems)
-            comboBox.addItem(item);
+        //-------------------------------------- Set bounds ---------------------------------------------
 
-        currFrame.add(comboBox);
+        comboBoxAllSuppliers.setBounds(100,10,300,30);
+        scrollPane.setBounds(50, 50, 400,300);;
 
-        //------------------------------------ Create backButton -------------------------------------
+        //------------------------------------ Add to currFrame -------------------------------------
 
-        JButton backButton = new JButton("Back");
-        backButton.setBounds(200,370,100,30);
-        backButton.addActionListener(new backClick(currFrame));
-        currFrame.add(backButton);
+        HelperFunctionGUI.addComponentsToFrame(currFrame, new JComponent[] {scrollPane,
+                comboBoxAllSuppliers ,exitButton});
 
-        //--------------------------------------------------------------------------------------------
+        // ------------------------------------- Add action listener to JObjects ------------------------------
+
+        comboBoxAllSuppliers.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String supplierNum = comboBoxAllSuppliers.getSelectedItem().toString();
+
+                if(!supplierNum.equals("")) {
+                    String details = supplierController.StringSupplierDetails(supplierNum);
+                    textArea.setText(details);
+                }
+                else
+                    textArea.setText("");
+            }});
+
 
         currFrame.setVisible(true);
-    }
-
-    /** class that implements ActionListener.
-     * actionPerformed when set ComboBox
-     */
-    private static class MyComboBoxActionListener implements ActionListener {
-        JTextArea textArea;
-
-        /**
-         * Constructor
-         * @param textArea - Text area in currFrame.
-         */
-        public MyComboBoxActionListener(JTextArea textArea) {
-            this.textArea = textArea;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JComboBox<String> combo = (JComboBox<String>) e.getSource();
-            String supplierNum = (String) combo.getSelectedItem();
-
-            if(!supplierNum.equals("")) {
-                String details = supplierController.StringSupplierDetails(supplierNum);
-                textArea.setText(details);
-            }
-            else
-                textArea.setText("");
-
-        }
-    }
-
-    /** class that implements ActionListener.
-     * actionPerformed when click on Back
-     */
-    private static class backClick implements ActionListener {
-        private JFrame thisFrame;
-
-        /**
-         * Constructor
-         * @param thisFrame - Current frame
-         */
-        public backClick(JFrame thisFrame) {
-            this.thisFrame = thisFrame;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            thisFrame.dispose();
-            OldFrame.setVisible(true);
-        }
     }
 }
