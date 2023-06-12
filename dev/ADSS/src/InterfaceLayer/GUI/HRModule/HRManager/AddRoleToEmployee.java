@@ -1,17 +1,17 @@
-package InterfaceLayer.GUI.HRModule;
+package InterfaceLayer.GUI.HRModule.HRManager;
 
 import BussinessLayer.HRModule.Controllers.Facade;
+import BussinessLayer.HRModule.Objects.RoleType;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 
-public class AddEmployeeToStore extends JFrame {
+public class AddRoleToEmployee extends JFrame {
     private final Facade _facade = Facade.getInstance();
 
-    public AddEmployeeToStore() {
+    public AddRoleToEmployee() {
         // Set the size and layout of the frame
         setSize(400, 300);
         setLayout(new GridBagLayout());
@@ -20,7 +20,7 @@ public class AddEmployeeToStore extends JFrame {
         // Create 10 JLabel and JTextField pairs
         JLabel[] labels = new JLabel[2];
         labels[0] = new JLabel("Employee ID:");
-        labels[1] = new JLabel("Role:");
+        labels[1] = new JLabel("role:");
 
 
 
@@ -50,19 +50,25 @@ public class AddEmployeeToStore extends JFrame {
                 int id = -1;
 
                 try{
-                    id = Integer.parseInt(textFields[1].getText());
+                    id = Integer.parseInt(textFields[0].getText());
                 }
                 catch(Exception ex){
                     JOptionPane.showMessageDialog(null, "id must be numbers", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                String store_name = textFields[0].getText();
+                RoleType role = null;
+                try {
+                    role = RoleType.valueOf(textFields[1].getText());
+                }catch (Exception exp){
+                    JOptionPane.showMessageDialog(null, "no such role", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
 
 
                 // Call your createEmployee function and display a message
-                if (_facade.addEmployeeToStore(id,store_name)) {
-                    JOptionPane.showMessageDialog(null, "Employee Added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                if (_facade.addRoleToEmployee(id,role)) {
+                    JOptionPane.showMessageDialog(null, "role" + role.toString() + "Added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     // Return to the HRmenu screen
                     HRmenu hrmenu = new HRmenu();
                     hrmenu.setVisible(true);
@@ -89,7 +95,7 @@ public class AddEmployeeToStore extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new AddEmployeeToStore();
+                new AddRoleToEmployee();
             }
         });
     }

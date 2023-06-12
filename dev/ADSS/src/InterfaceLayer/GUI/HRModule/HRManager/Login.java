@@ -1,4 +1,4 @@
-package InterfaceLayer.GUI.HRModule;
+package InterfaceLayer.GUI.HRModule.HRManager;
 import BussinessLayer.HRModule.Controllers.Facade;
 
 import javax.swing.*;

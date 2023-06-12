@@ -1,4 +1,4 @@
-package InterfaceLayer.GUI.HRModule;
+package InterfaceLayer.GUI.HRModule.HRManager;
 
 import BussinessLayer.HRModule.Controllers.Facade;
 
@@ -6,28 +6,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 
-public class CreateSchedual extends JFrame {
+public class CreateStore extends JFrame {
     private final Facade _facade = Facade.getInstance();
 
-    public CreateSchedual() {
+    public CreateStore() {
         // Set the size and layout of the frame
         setSize(400, 300);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
         // Create 10 JLabel and JTextField pairs
-        JLabel[] labels = new JLabel[4];
+        JLabel[] labels = new JLabel[5];
         labels[0] = new JLabel("Store name:");
-        labels[1] = new JLabel("start day:");
-        labels[2] = new JLabel("start month:");
-        labels[3] = new JLabel("start year:");
+        labels[1] = new JLabel("Adress:");
+        labels[2] = new JLabel("Phone Number:");
+        labels[3] = new JLabel("contact name:");
+        labels[4] = new JLabel("area:");
 
 
 
-
-        JTextField[] textFields = new JTextField[4];
+        JTextField[] textFields = new JTextField[5];
         for (int i = 0; i < textFields.length; i++) {
             textFields[i] = new JTextField(10);
         }
@@ -49,35 +48,25 @@ public class CreateSchedual extends JFrame {
         createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int day = -1;
-                int month = -1;
-                int year = -1;
+                int area = -1;
 
                 try{
-                    day = Integer.parseInt(textFields[1].getText());
-                    month = Integer.parseInt(textFields[2].getText());
-                    year = Integer.parseInt(textFields[3].getText());
+                    area = Integer.parseInt(textFields[4].getText());
                 }
                 catch(Exception ex){
-                    JOptionPane.showMessageDialog(null, "date parts must be numbers", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "area must be numbers", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 String name = textFields[0].getText();
-                if(day < 1 || day > 31){
-                    JOptionPane.showMessageDialog(null, "day must be between 1 to 31", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                if (month < 1 || month > 12){
-                    JOptionPane.showMessageDialog(null, "month must be between 1 to 12", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                if (year < 2020 || year > 2025){
-                    JOptionPane.showMessageDialog(null, "year must be between 2020 to 2025", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                String address = textFields[1].getText();
+                String phone_number = textFields[2].getText();
 
+                String contact_name = textFields[3].getText();
 
 
                 // Call your createEmployee function and display a message
-                if (_facade.createNewStoreSchedule(name, day, month, year)) {
-                    JOptionPane.showMessageDialog(null, "Schedual created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                if (_facade.createStore(name,address,phone_number, contact_name, area)) {
+                    JOptionPane.showMessageDialog(null, "Store created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     // Return to the HRmenu screen
                     HRmenu hrmenu = new HRmenu();
                     hrmenu.setVisible(true);
@@ -104,7 +93,7 @@ public class CreateSchedual extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new CreateSchedual();
+                new CreateStore();
             }
         });
     }
