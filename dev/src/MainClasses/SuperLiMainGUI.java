@@ -2,6 +2,7 @@ package MainClasses;
 
 import InventoryModule.PresentationCLI.ReportPresentation;
 import InventoryModule.PresentationCLI.StoreKeeperPresentationCLI;
+import InventoryModule.PresentationGUI.StoreKeeperGUI;
 import SuppliersModule.Business.Controllers.OrderController;
 import SuppliersModule.PresentationGUI.SupplierManagerGUI;
 
@@ -24,7 +25,7 @@ public class SuperLiMainGUI {
 
         //----------------------------------- Check If args[0] is valid -----------------------------------
 
-        if(!args[0].equals("StoreManager") && !args[0].equals("SupplierManager") && !args[0].equals("Storekeeper"))
+        if(!args[0].equals("StoreManager") && !args[0].equals("SupplierManager") && !args[0].equals("StoreKeeper"))
         {
             System.out.println("The second argument must be StoreManager or SupplierManager or Storekeeper");
             return;
@@ -44,8 +45,8 @@ public class SuperLiMainGUI {
                 SupplierManagerGUI.powerOn();
                 break;
 
-            case "Storekeeper":
-                storeKeeperPresentationCLI.Start();
+            case "StoreKeeper":
+                StoreKeeperGUI.powerOn();
                 break;
         }
     }
@@ -72,7 +73,7 @@ public class SuperLiMainGUI {
                     //supplierManagerPresentationCLI.PrintSupplierDetails();
                     break;
                 case "3":
-                    reportPresentation.ShowReportMenu();
+                    //reportPresentation.ShowReportMenu();
                     break;
             }
         }

@@ -53,4 +53,14 @@ public class OrderReport extends Report{
         return amount;
     }
 
+    @Override
+    public String toString()
+    {
+        String details = "";
+        details = details + "***** Products Order Report *****" + "\n";
+        details = details + "Report Date: "+ this.getDate().toLocalDate() + "\n";
+
+        return details;
+    }
+
 }

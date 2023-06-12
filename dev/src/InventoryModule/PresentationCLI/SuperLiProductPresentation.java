@@ -32,7 +32,7 @@ public class SuperLiProductPresentation {
                     break;
                 case "2":
                     //call the function that print all products barcodes
-                    productController.GetAllProductBarcode();
+                    System.out.println(productController.GetAllProductBarcode());
                     break;
             }
         }

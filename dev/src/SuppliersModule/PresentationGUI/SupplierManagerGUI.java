@@ -52,6 +52,7 @@ public class SupplierManagerGUI {
             }
         });
 
+
         opt3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -91,6 +92,8 @@ public class SupplierManagerGUI {
                 PrintSupplierDetailsGUI.powerOn(menuFrame);
             }
         });
+
+
 
         opt8.addActionListener(new ActionListener() {
             @Override

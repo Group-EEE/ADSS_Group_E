@@ -115,7 +115,7 @@ public class StoreKeeperPresentationCLI {
                     String category4 = reader.nextLine();
                     System.out.println("Please enter discount amount:");
                     double discount4 = Double.parseDouble(reader.nextLine());
-                    System.out.println("Please enter Exp Date yyyy-MM-dd:");
+                    System.out.println("Please enter Start Date yyyy-MM-dd:");
                     String start4 = reader.nextLine();
                     LocalDateTime start44 = LocalDateTime.parse(start4+"T00:00:00");
                     System.out.println("Please enter Exp Date yyyy-MM-dd:");

@@ -1,5 +1,7 @@
 package SuppliersModule.PresentationGUI;
 
+import InventoryModule.Business.Category;
+import InventoryModule.Business.Controllers.CategoryController;
 import InventoryModule.Business.Controllers.ProductController;
 import SuppliersModule.Business.*;
 import SuppliersModule.Business.Controllers.SupplierController;
@@ -17,6 +19,7 @@ import java.util.TreeMap;
 public class HelperFunctionGUI {
 
     static SupplierController supplierController = SupplierController.getInstance();
+    static CategoryController categoryController = CategoryController.getInstance();
 
     public static void addComponentsToFrame(JFrame frame, JComponent[] components){
         for(JComponent component : components)
@@ -258,6 +261,37 @@ public class HelperFunctionGUI {
         try {num = Float.parseFloat(value);}
         catch (NumberFormatException error) {return false;}
         return !(num <= 0);
+    }
+
+    /**
+     * Check if value is valid float
+     * @param value - value
+     * @return true - if valid, false - else
+     */
+    public static boolean CheckDoubleInput(String value)
+    {
+        double num;
+        try {num = Double.parseDouble(value);}
+        catch (NumberFormatException error) {return false;}
+        return !(num <= 0);
+    }
+
+
+    public static JComboBox<String> createComboBoxCategories()
+    {
+        JComboBox<String> comboBoxCategories = new JComboBox<>();
+
+        List<String> comboBoxCategoriesItems = new ArrayList<>();
+        comboBoxCategoriesItems.add("");
+
+        List<Category> allCategories = categoryController.getCategories();
+        for(Category category : allCategories)
+            comboBoxCategoriesItems.add(category.getName());
+
+        for (String item : comboBoxCategoriesItems)
+            comboBoxCategories.addItem(item);
+
+        return comboBoxCategories;
     }
 
 

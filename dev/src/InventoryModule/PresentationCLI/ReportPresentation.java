@@ -1,6 +1,7 @@
 package InventoryModule.PresentationCLI;
 
 import InventoryModule.Business.Controllers.ReportController;
+import InventoryModule.Business.OrderReport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,8 @@ public class ReportPresentation {
                 case "2": //Issue order products report
                     System.out.println("Please enter Issue's reporter's name:");
                     String r = reader.nextLine();
-                    reportController.createOrderReport(r);
+                    OrderReport orderReport = reportController.createOrderReport(r);
+                    System.out.println(orderReport);
                     break;
                 case "3": //Issue current supply
                     System.out.println("Please enter Issue's reporter's name:");

@@ -83,11 +83,14 @@ public class ProductController {
         }
     }
 
-    public void GetAllProductBarcode(){ //print all the barcodes that exist in the store
-        System.out.println("******Store Products Barcodes******");
+    public String GetAllProductBarcode(){ //print all the barcodes that exist in the store
+        String details  = "";
+        details = details + "******Store Products Barcodes******" +"\n";
         for (Map.Entry<Integer, SuperLiProduct> pair : superLiDB.getSuperLiProductMap().entrySet()){
-            System.out.println(pair.getValue().getPName() + ": " +pair.getValue().getBarcode());
+            details = details + pair.getValue().getPName() + ": " +pair.getValue().getBarcode() + "\n";
         }
+
+        return details;
     }
 
     //function that get barcode and return a product

@@ -21,9 +21,9 @@ public class MainChooseCLIorGUI {
 
         //----------------------------------- Check If args[1] is valid -----------------------------------
 
-        if(!args[1].equals("StoreManager") && !args[1].equals("SupplierManager") && !args[1].equals("Storekeeper"))
+        if(!args[1].equals("StoreManager") && !args[1].equals("SupplierManager") && !args[1].equals("StoreKeeper"))
         {
-            System.out.println("The second argument must be StoreManager or SupplierManager or Storekeeper");
+            System.out.println("The second argument must be StoreManager or SupplierManager or StoreKeeper");
             return;
         }
 
