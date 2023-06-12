@@ -84,7 +84,6 @@ public class OrderCLI {
                     deleteCurPeriodicOrder();
                     break;
             }
-
         }
     }
 
