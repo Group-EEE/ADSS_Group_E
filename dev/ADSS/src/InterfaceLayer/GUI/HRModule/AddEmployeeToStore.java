@@ -8,26 +8,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
-public class CreateStore extends JFrame {
+public class AddEmployeeToStore extends JFrame {
     private final Facade _facade = Facade.getInstance();
 
-    public CreateStore() {
+    public AddEmployeeToStore() {
         // Set the size and layout of the frame
         setSize(400, 300);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
         // Create 10 JLabel and JTextField pairs
-        JLabel[] labels = new JLabel[5];
-        labels[0] = new JLabel("Store name:");
-        labels[1] = new JLabel("Adress:");
-        labels[2] = new JLabel("Phone Number:");
-        labels[3] = new JLabel("contact name:");
-        labels[4] = new JLabel("area:");
+        JLabel[] labels = new JLabel[2];
+        labels[0] = new JLabel("Employee ID:");
+        labels[1] = new JLabel("Role:");
 
 
 
-        JTextField[] textFields = new JTextField[5];
+
+        JTextField[] textFields = new JTextField[2];
         for (int i = 0; i < textFields.length; i++) {
             textFields[i] = new JTextField(10);
         }
@@ -45,29 +43,26 @@ public class CreateStore extends JFrame {
         }
 
         // Create a "Create" button and add an ActionListener
-        JButton createButton = new JButton("Create");
+        JButton createButton = new JButton("Add");
         createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int area = -1;
+                int id = -1;
 
                 try{
-                    area = Integer.parseInt(textFields[4].getText());
+                    id = Integer.parseInt(textFields[1].getText());
                 }
                 catch(Exception ex){
-                    JOptionPane.showMessageDialog(null, "area must be numbers", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "id must be numbers", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                String name = textFields[0].getText();
-                String address = textFields[1].getText();
-                String phone_number = textFields[2].getText();
+                String store_name = textFields[0].getText();
 
-                String contact_name = textFields[3].getText();
 
 
                 // Call your createEmployee function and display a message
-                if (_facade.createStore(name,address,phone_number, contact_name, area)) {
-                    JOptionPane.showMessageDialog(null, "Store created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                if (_facade.addEmployeeToStore(id,store_name)) {
+                    JOptionPane.showMessageDialog(null, "Employee Added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     // Return to the HRmenu screen
                     HRmenu hrmenu = new HRmenu();
                     hrmenu.setVisible(true);
@@ -94,7 +89,7 @@ public class CreateStore extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new CreateStore();
+                new AddEmployeeToStore();
             }
         });
     }
