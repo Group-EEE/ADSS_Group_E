@@ -1,13 +1,13 @@
 package SuppliersModule.PresentationGUI;
 
+import SuppliersModule.Business.Contact;
 import SuppliersModule.Business.Controllers.SupplierController;
 import SuppliersModule.Business.Supplier;
+import SuppliersModule.Business.SupplierProduct;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class ChangeSupplierDetailsGUI {
@@ -73,8 +73,6 @@ public class ChangeSupplierDetailsGUI {
 
         updateContactsButton.setBounds(10, 350, 390, 40);
 
-
-
         //-------------------------------------- Set not visible -------------------------------------------------------------
 
         JComponent[] hiddenComponents = {bankLabel, bankField, bankApplyButton, paymentTermLabel
@@ -103,7 +101,6 @@ public class ChangeSupplierDetailsGUI {
                 else {
                     HelperFunctionGUI.showComponents(hiddenComponents);
                     HelperFunctionGUI.createComboBoxManufacturer(comboBoxManufacturer, supplierNum);
-
                 }
             }
         });
@@ -142,20 +139,132 @@ public class ChangeSupplierDetailsGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 page1Frame.setVisible(false);
-                UpdateContactsFrame();
+                UpdateContactsFrame(comboBoxSupplierNum.getSelectedItem().toString(), page1Frame);
             }});
 
         page1Frame.setVisible(true);
     }
 
-    public static void UpdateContactsFrame() {
+    public static void UpdateContactsFrame(String supplierNum, JFrame backFrame) {
 
         //------------------------------------- Create new frame -------------------------------------------
 
         JFrame page2Frame = HelperFunctionGUI.createNewFrame("Change supplier details");
 
+        //------------------------------------- Create JLabel -------------------------------------------
+        JLabel addContactLabel = new JLabel("Add contact");
 
+        JLabel contactNameLabel = new JLabel("Enter name");
+        JLabel checkContactNameLabel = HelperFunctionGUI.createCheckLabel("Empty",250,40,100,20);
 
+        JLabel contactPhoneLabel = new JLabel("Enter phone number");
+        JLabel checkContactPhoneLabel = HelperFunctionGUI.createCheckLabel("Empty or Exist",250,80,100,20);
+
+        JLabel buffer = new JLabel("-------------------------------------------------------------------------------------------------------------------------------------------");
+
+        JLabel updateContactLabel = new JLabel("Update contact phone number");
+
+        JLabel chooseUpdateContactLabel = new JLabel("Choose contact");
+        JLabel contactNewPhoneLabel = new JLabel("Enter new phone number");
+        JLabel checkContactNewPhoneLabel = HelperFunctionGUI.createCheckLabel("Empty or Exist",285,220,100,20);
+
+        JLabel buffer2 = new JLabel("-------------------------------------------------------------------------------------------------------------------------------------------");
+
+        JLabel deleteContactLabel = new JLabel("Delete contact");
+
+        JLabel chooseDeleteContactLabel = new JLabel("Choose contact");
+
+        //----------------------------------------- Create JTextField ----------------------------------------
+
+        JTextField contactNameField = new JTextField();
+
+        JTextField contactPhoneField = new JTextField();
+
+        JTextField contactNewPhoneField = new JTextField();
+
+        //----------------------------------------- Create JComboBox ----------------------------------------
+
+        JComboBox<String> comboBoxUpdateContact = HelperFunctionGUI.createComboBoxContact(supplierNum);
+
+        JComboBox<String> comboBoxDeleteContact = HelperFunctionGUI.createComboBoxContact(supplierNum);
+
+        //----------------------------------------- Create JButton ----------------------------------------
+
+        JButton addButton = new JButton("Add");
+
+        JButton updateButton = new JButton("Update");
+
+        JButton deleteButton = new JButton("Delete");
+
+        JButton exitButton = HelperFunctionGUI.createExitButton(page2Frame, backFrame);
+
+        //-------------------------------------- Set bounds ---------------------------------------------
+
+        addContactLabel.setBounds(200, 10, 100, 20);
+        contactNameLabel.setBounds(10, 40, 150, 20);
+        contactNameField.setBounds(150, 40, 80, 20);
+
+        contactPhoneLabel.setBounds(10, 80, 150, 20);
+        contactPhoneField.setBounds(150,80,80,20);
+
+        addButton.setBounds(380, 50, 80, 40);
+        buffer.setBounds(0, 120, 500, 10);
+
+        updateContactLabel.setBounds(150, 130, 200, 20);
+
+        chooseUpdateContactLabel.setBounds(10, 180, 160, 20);
+        comboBoxUpdateContact.setBounds(170, 180,110,20);
+
+        contactNewPhoneLabel.setBounds(10, 220, 160, 20);
+        contactNewPhoneField.setBounds(170,220,110,20);
+
+        updateButton.setBounds(380, 210, 80, 40);
+        buffer2.setBounds(0,270,500,10);
+
+        deleteContactLabel.setBounds(200, 280, 100, 20);
+
+        chooseDeleteContactLabel.setBounds(10, 320, 100, 20);
+        comboBoxDeleteContact.setBounds(130, 320,110,20);
+
+        deleteButton.setBounds(380, 310, 80, 40);
+
+        //------------------------------------ Add to currFrame -------------------------------------
+
+        HelperFunctionGUI.addComponentsToFrame(page2Frame, new JComponent[]{addContactLabel,
+                contactNameLabel, contactNameField, checkContactNameLabel, contactPhoneLabel,
+                contactPhoneField, checkContactPhoneLabel, addButton, buffer, exitButton});
+
+        HelperFunctionGUI.addComponentsToFrame(page2Frame, new JComponent[]{updateContactLabel, chooseUpdateContactLabel,
+                comboBoxUpdateContact, contactNewPhoneLabel, contactNewPhoneField, checkContactNewPhoneLabel,
+                buffer2, updateButton});
+
+        HelperFunctionGUI.addComponentsToFrame(page2Frame, new JComponent[]{deleteContactLabel,
+        chooseDeleteContactLabel, comboBoxDeleteContact, deleteButton});
+
+        // ------------------------------------- Add action listener to JObjects ------------------------------
+
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean isValid = true;
+
+                if(contactNameField.getText().equals("")){checkContactNameLabel.setVisible(true); isValid = false;}
+                else checkContactNameLabel.setVisible(false);
+
+                if(contactPhoneField.getText().equals("") || supplierController.checkIfContactExist(contactPhoneLabel.getText())){checkContactPhoneLabel.setVisible(true); isValid = false;}
+                else checkContactPhoneLabel.setVisible(false);
+
+                if(isValid)
+                {
+                    supplierController.addContactToSupplier(supplierNum, contactNameField.getText(), contactPhoneField.getText());
+                    page2Frame.dispose();
+                    backFrame.setVisible(true);
+                    HelperFunctionGUI.ShowProcessSuccessfully();
+                }
+            }
+        });
+
+        
         page2Frame.setVisible(true);
     }
 }
