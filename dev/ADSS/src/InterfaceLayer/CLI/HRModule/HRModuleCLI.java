@@ -1,11 +1,9 @@
-package InterfaceLayer.HRModule;
+package InterfaceLayer.CLI.HRModule;
 
 
 import BussinessLayer.HRModule.Controllers.Facade;
 
 import java.util.Scanner;
-
-import static java.lang.System.exit;
 
 
 public class HRModuleCLI {

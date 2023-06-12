@@ -40,7 +40,7 @@ public class ScheduleController {
     }
 
     public boolean createNewSchedule(String storeName, int day, int month, int year,List<RoleType> requiredRoles,List<RoleType> rolesMustBeFilled){
-        if (storeName == null)
+        if (storeName == null || storeName.equals(""))
             throw new IllegalArgumentException("Invalid store name");
         if(!_storesDAO.existsStore(storeName))
             throw new IllegalArgumentException("Store does not exist");

@@ -1,4 +1,4 @@
-package InterfaceLayer.HRModule;
+package InterfaceLayer.CLI.HRModule;
 
 import BussinessLayer.HRModule.Controllers.Facade;
 

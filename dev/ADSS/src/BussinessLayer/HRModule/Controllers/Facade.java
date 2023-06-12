@@ -95,8 +95,10 @@ public class Facade {
     }
 
     public boolean createEmployee(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployement, String password, boolean isHRManager) {
-        if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null)
-            throw new IllegalArgumentException("Invalid arguments");
+        if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null){
+            System.out.println("Invalid arguments");
+            return false;
+        }
         try{
             _employeeController.createEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployement, password);
         }
@@ -142,10 +144,14 @@ public class Facade {
     }
 
     public boolean addEmployeeToStore(int employeeID, String storeName){
-        if (!_employeeController.existsEmployee(employeeID))
-            throw new IllegalArgumentException("Employee doesn't exist");
-        if (!_storeController.existsStore(storeName))
-            throw new IllegalArgumentException("Store doesn't exist");
+        if (!_employeeController.existsEmployee(employeeID)){
+            System.out.println("Employee doesn't exist");
+            return false;
+        }
+        if (!_storeController.existsStore(storeName)){
+            System.out.println("Store doesn't exist");
+            return false;
+        }
         return _storeController.addEmployeeToStore(employeeID, storeName);
     }
 
@@ -155,8 +161,10 @@ public class Facade {
 
     //_ScheduleController
     public boolean createNewStoreSchedule(String StoreName, int day, int month, int year){
-        if (!_storeController.existsStore(StoreName))
-            throw new IllegalArgumentException("Store doesn't exist in order to create for it a schedule");
+        if (!_storeController.existsStore(StoreName)) {
+            System.out.println("Store doesn't exist in order to create for it a schedule");
+            return false;
+        }
         return _scheduleController.createNewStoreSchedule(StoreName, day, month, year);
     }
 

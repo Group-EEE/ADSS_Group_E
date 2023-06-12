@@ -1,7 +1,7 @@
 package InterfaceLayer;
 
 import DataAccessLayer.DAO;
-import InterfaceLayer.HRModule.HRModuleCLI;
+import InterfaceLayer.CLI.HRModule.HRModuleCLI;
 import InterfaceLayer.TransportModule.transport_manager_UI;
 
 import java.sql.SQLException;
