@@ -1,5 +1,6 @@
 package InventoryModule.PresentationGUI;
 
+import MainClasses.SuperLiMainGUI;
 import SuppliersModule.PresentationGUI.HelperFunctionGUI;
 import SuppliersModule.PresentationGUI.OrderHistoryGUI;
 
@@ -37,6 +38,7 @@ public class StoreKeeperGUI {
             menuFrame.add(buttons[i]);
         }
 
+        // ------------------------------------- Add action listener to buttons ------------------------------
 
         opt7.addActionListener(new ActionListener() {
             @Override
@@ -46,6 +48,13 @@ public class StoreKeeperGUI {
             }
         });
 
+        opt9.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuFrame.dispose();
+                SuperLiMainGUI.closeProgram();
+            }
+        });
 
         menuFrame.setVisible(true);
     }

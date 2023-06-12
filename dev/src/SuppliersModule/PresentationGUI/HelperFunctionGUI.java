@@ -106,8 +106,9 @@ public class HelperFunctionGUI {
 
         comboBoxSupplierProductItems.add("");
         Map<String, Contact> allSupplierProduct = supplierController.getSupplier(supplierNum).getMyContacts();
-        for (Map.Entry<String, Contact> contact : allSupplierProduct.entrySet())
+        for (Map.Entry<String, Contact> contact : allSupplierProduct.entrySet()) {
             comboBoxSupplierProductItems.add(contact.getValue().getName() + "," + contact.getKey());
+        }
 
         for (String item : comboBoxSupplierProductItems)
             comboBoxContact.addItem(item);

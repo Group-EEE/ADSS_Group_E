@@ -202,7 +202,8 @@ public class SupplierController {
     {
         Supplier supplier = getSupplier(supplierNum);
         Contact contact = supplier.getContact(OldPhone);
-        contact.setPhoneNumber(NewPhone);
+        deleteContactFromSupplier(supplierNum, OldPhone);
+        addContactToSupplier(supplierNum, contact.getName(), NewPhone);
     }
 
     public void deleteContactFromSupplier(String supplierNum, String phoneNumber)

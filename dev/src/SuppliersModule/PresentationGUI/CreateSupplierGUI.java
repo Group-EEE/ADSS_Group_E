@@ -127,7 +127,7 @@ public class CreateSupplierGUI {
                 if(comboBoxPaymentTerm.getSelectedItem().equals("")) {checkPaymentTermLabel.setVisible(true); isValid = false;}
                 else checkPaymentTermLabel.setVisible(false);
 
-                if(jTableContacts.getValueAt(0, 0).equals("") || jTableContacts.getValueAt(0, 1).equals("")) {checkContactsLabel.setVisible(true); isValid = false;}
+                if(jTableContacts.getValueAt(0, 0).equals("") || jTableContacts.getValueAt(0, 1).equals("") || supplierController.checkIfContactExist(jTableContacts.getValueAt(0, 1).toString())) {checkContactsLabel.setVisible(true); isValid = false;}
                 else checkContactsLabel.setVisible(false);
 
                 if(jTableCategories.getValueAt(0, 0).toString().equals("")) {checkCategoriesLabel.setVisible(true); isValid = false;}

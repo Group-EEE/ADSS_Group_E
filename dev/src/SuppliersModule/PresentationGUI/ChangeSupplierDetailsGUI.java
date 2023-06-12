@@ -251,7 +251,7 @@ public class ChangeSupplierDetailsGUI {
                 if(contactNameField.getText().equals("")){checkContactNameLabel.setVisible(true); isValid = false;}
                 else checkContactNameLabel.setVisible(false);
 
-                if(contactPhoneField.getText().equals("") || supplierController.checkIfContactExist(contactPhoneLabel.getText())){checkContactPhoneLabel.setVisible(true); isValid = false;}
+                if(contactPhoneField.getText().equals("") || supplierController.checkIfContactExist(contactPhoneField.getText())){checkContactPhoneLabel.setVisible(true); isValid = false;}
                 else checkContactPhoneLabel.setVisible(false);
 
                 if(isValid)
@@ -264,7 +264,42 @@ public class ChangeSupplierDetailsGUI {
             }
         });
 
-        
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean isValid = true;
+
+                if(comboBoxUpdateContact.getSelectedItem().toString().equals("")) isValid = false;
+
+                if(contactNewPhoneField.getText().equals("")){checkContactNewPhoneLabel.setVisible(true); isValid = false;}
+                else checkContactNewPhoneLabel.setVisible(true);
+
+                if(isValid)
+                {
+                    String[] contact = comboBoxUpdateContact.getSelectedItem().toString().split(",");
+                    supplierController.setNewContactPhone(supplierNum, contactNewPhoneField.getText(), contact[1]);
+                    page2Frame.dispose();
+                    backFrame.setVisible(true);
+                    HelperFunctionGUI.ShowProcessSuccessfully();
+                }
+            }
+        });
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(!comboBoxDeleteContact.getSelectedItem().toString().equals(""))
+                {
+                    String[] contact = comboBoxDeleteContact.getSelectedItem().toString().split(",");
+                    supplierController.deleteContactFromSupplier(supplierNum, contact[1]);
+                    page2Frame.dispose();
+                    backFrame.setVisible(true);
+                    HelperFunctionGUI.ShowProcessSuccessfully();
+                }
+            }
+        });
+
         page2Frame.setVisible(true);
     }
 }
