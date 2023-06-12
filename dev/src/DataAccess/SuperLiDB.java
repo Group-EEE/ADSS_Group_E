@@ -174,6 +174,10 @@ public class SuperLiDB {
         genericProductDAO.addToObserverBarcodeList(barcode);
     }
 
+    public Map<Integer, GenericProduct> getAllGenericProduct()
+    {
+        return genericProductDAO.getAllGenericProduct();
+    }
 
 
     public List<Integer> getObserverBarcodeList()

@@ -186,6 +186,11 @@ public class GenericProductDAO {
         return observerBarocdeList;
     }
 
+    public Map<Integer, GenericProduct> getAllGenericProduct()
+    {
+        return IdentifyMapGenericProductByBarcode;
+    }
+
     /**
      * @param productName - name of genericProduct
      * @param manufacturerName - name of manufacturerName

@@ -331,7 +331,6 @@ public class SupplierManagerCLI {
                     deleteContact(supplierNum);
                     break;
             }
-
         }
     }
 

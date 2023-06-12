@@ -134,18 +134,21 @@ public class HelperFunctionGUI {
     }
 
 
-    public static JComboBox<String> createComboBoxNewProductsBarcodes()
+    public static JComboBox<String> createComboBoxBarcodes()
     {
-        JComboBox<String> comboBoxSupplierNum = new JComboBox<>();
-        List<String> comboBoxSupplierNumItems = new ArrayList<>();
-        comboBoxSupplierNumItems.add("");
-        for (int barcode : ProductController.BarcodesOfNewProducts)
-            comboBoxSupplierNumItems.add(String.valueOf(barcode));
+        JComboBox<String> comboBoxGenericProduct= new JComboBox<>();
+        List<String> comboBoxGenericProductItems = new ArrayList<>();
+        comboBoxGenericProductItems.add("");
+        Map<Integer, GenericProduct> genericProductMap = supplierController.getAllGenericProduct();
 
-        for (String item : comboBoxSupplierNumItems)
-            comboBoxSupplierNum.addItem(item);
+        for (Map.Entry<Integer, GenericProduct> genericProduct : genericProductMap.entrySet()) {
+            comboBoxGenericProductItems.add(String.valueOf(genericProduct.getKey()));
+        }
 
-        return comboBoxSupplierNum;
+        for (String item : comboBoxGenericProductItems)
+            comboBoxGenericProduct.addItem(item);
+
+        return comboBoxGenericProduct;
     }
 
     /**

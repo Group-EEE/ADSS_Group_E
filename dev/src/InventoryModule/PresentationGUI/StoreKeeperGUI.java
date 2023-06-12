@@ -48,6 +48,14 @@ public class StoreKeeperGUI {
             }
         });
 
+        opt8.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuFrame.setVisible(false);
+                UpdateDeletePeriodicOrderGUI.powerOn(menuFrame);
+            }
+        });
+
         opt9.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

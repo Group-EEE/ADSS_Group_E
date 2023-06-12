@@ -217,4 +217,10 @@ public class SupplierController {
     public GenericProduct findGenericProductByBarcode(int barcode){
         return superLiDB.getGenericProductByBarcode(barcode);
     }
+
+    public Map<Integer, GenericProduct> getAllGenericProduct()
+    {
+        return superLiDB.getAllGenericProduct();
+    }
+
 }
