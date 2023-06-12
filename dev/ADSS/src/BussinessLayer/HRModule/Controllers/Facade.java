@@ -161,8 +161,10 @@ public class Facade {
 
     //_ScheduleController
     public boolean createNewStoreSchedule(String StoreName, int day, int month, int year){
-        if (!_storeController.existsStore(StoreName))
-            throw new IllegalArgumentException("Store doesn't exist in order to create for it a schedule");
+        if (!_storeController.existsStore(StoreName)) {
+            System.out.println("Store doesn't exist in order to create for it a schedule");
+            return false;
+        }
         return _scheduleController.createNewStoreSchedule(StoreName, day, month, year);
     }
 
