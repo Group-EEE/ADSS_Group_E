@@ -2,6 +2,7 @@ package InventoryModule.Business.Controllers;
 
 import DataAccess.SuperLiDB;
 import InventoryModule.Business.Discount;
+import InventoryModule.Business.SpecificProduct;
 import InventoryModule.Business.SuperLiProduct;
 
 import java.time.LocalDateTime;
@@ -122,10 +123,19 @@ public class ProductController {
 
     public static List<SuperLiProduct> getProducts(){
         List<SuperLiProduct> slp = new ArrayList<>();
-        for (Map.Entry<Integer, SuperLiProduct> pair : superLiDB.getSuperLiProductMap().entrySet()) {//search the given barcode in the controller's list
+        for (Map.Entry<Integer, SuperLiProduct> pair : superLiDB.getSuperLiProductMap().entrySet()) {
             slp.add(pair.getValue());
         }
         return slp;
     }
 
+    public static List<SpecificProduct> getSpecificProductsByProductName(String pname){
+        List<SpecificProduct> slp = new ArrayList<>();
+        for (Map.Entry<Integer, SuperLiProduct> pair : superLiDB.getSuperLiProductMap().entrySet()) {
+            if(pair.getValue().getPName().equals(pname)){
+                slp = pair.getValue().getSpecificProducts();
+            }
+        }
+        return slp;
+        }
 }

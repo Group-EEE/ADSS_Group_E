@@ -3,6 +3,7 @@ package SuppliersModule.PresentationGUI;
 import InventoryModule.Business.Category;
 import InventoryModule.Business.Controllers.CategoryController;
 import InventoryModule.Business.Controllers.ProductController;
+import InventoryModule.Business.SpecificProduct;
 import InventoryModule.Business.SuperLiProduct;
 import SuppliersModule.Business.*;
 import SuppliersModule.Business.Controllers.SupplierController;
@@ -315,13 +316,18 @@ public class HelperFunctionGUI {
         return comboBoxProductName;
     }
 
-    public static JComboBox<String> createSpecificProductIds(){
+    public static JComboBox<String> createSpecificProductIds(String ProductName){
         JComboBox<String> comboBoxProductID = new JComboBox<>();
         List<String> comboBoxSpecificProductItems = new ArrayList<>();
         comboBoxSpecificProductItems.add("");
 
-        return comboBoxProductID;
+        List<SpecificProduct> allSpecificProducts = ProductController.getSpecificProductsByProductName(ProductName);
+        for(SpecificProduct slp : allSpecificProducts)
+            comboBoxSpecificProductItems.add(Integer.toString(slp.getSp_ID()));
+        for (String item : comboBoxSpecificProductItems)
+            comboBoxProductID.addItem(item);
 
+        return comboBoxProductID;
     }
 
 
