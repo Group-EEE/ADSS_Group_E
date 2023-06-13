@@ -30,9 +30,13 @@ public class Transport_main extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 action = menuOptions.getSelectedItem().toString();
-                int choice = Integer.parseInt(action.substring(0,1));
+                int choice;
+                if (action.length() >= 2 && Character.isDigit(action.charAt(0)) && Character.isDigit(action.charAt(1))) {
+                    choice = Integer.parseInt(action.substring(0, 2));
+                } else {
+                    choice = Integer.parseInt(action.substring(0, 1));
+                }
                 open_frame(choice);
-
             }
 
         });
@@ -73,6 +77,36 @@ public class Transport_main extends JFrame{
                 send_transport.setVisible(true);
                 setVisible(false);
                 break;
+            case 5:
+                Add_truck new_truck = new Add_truck(this);
+                new_truck.setVisible(true);
+                setVisible(false);
+                break;
+            case 6:
+                Drivers_Displayer drivers = new Drivers_Displayer(this);
+                drivers.setVisible(true);
+                setVisible(false);
+                break;
+            case 7:
+                Truck_Display trucks = new Truck_Display(this);
+                trucks.setVisible(true);
+                setVisible(false);
+                break;
+            case 8:
+                Site_Supply_Display site_supply_dis = new Site_Supply_Display(this);
+                site_supply_dis.setVisible(true);
+                setVisible(false);
+                break;
+            case 9:
+                Store_Display stores = new Store_Display(this);
+                stores.setVisible(true);
+                setVisible(false);
+                break;
+            case 10:
+                Add_Standby_driver sd = new Add_Standby_driver(this);
+                sd.setVisible(true);
+                setVisible(false);
+                break;
         }
     }
     public void set_cold_level(String level){
@@ -83,7 +117,7 @@ public class Transport_main extends JFrame{
         Transport_main transportMain = new Transport_main();
         transportMain.setContentPane(transportMain.panelMain);
         transportMain.setTitle("Transport Manager");
-        transportMain.setSize(300, 300);
+        transportMain.setSize(500, 300);
         transportMain.setVisible(true);
         transportMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
