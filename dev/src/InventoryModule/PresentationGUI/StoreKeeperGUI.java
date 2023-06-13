@@ -40,6 +40,13 @@ public class StoreKeeperGUI {
 
         // ------------------------------------- Add action listener to buttons ------------------------------
 
+        opt1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuFrame.setVisible(false);
+                SuperLiProductGUI.powerOn(menuFrame);
+            }
+        });
         opt7.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
