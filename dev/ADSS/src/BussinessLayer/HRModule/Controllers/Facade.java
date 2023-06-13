@@ -196,7 +196,13 @@ public class Facade {
     }
 
     public boolean changeHoursShift(String storeName, int newStartHour, int newEndHour, int shiftID){
-        return _scheduleController.changeShiftHours(storeName, newStartHour, newEndHour, shiftID);
+        try{
+            _scheduleController.changeShiftHours(storeName, newStartHour, newEndHour, shiftID);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
     }
 
     public boolean addRequiredRoleToShift(String storeName, int shiftID, RoleType role,boolean mustBeFilled){

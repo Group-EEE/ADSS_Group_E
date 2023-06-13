@@ -140,12 +140,18 @@ public class ScheduleController {
     }
 
     public boolean changeShiftHours(String storeName, int newStartHour, int newEndHour, int shiftID){
-        if (storeName == null )
-            throw new IllegalArgumentException("Invalid store name");
-        if (shiftID < 0 || shiftID >13 )
-            throw new IllegalArgumentException("Invalid shift ID");
-        if (newStartHour < 0 || newStartHour > 24 || newEndHour < 0 || newEndHour > 24)
-            throw new IllegalArgumentException("Invalid hours");
+        if (storeName == null || storeName.equals("")) {
+            System.out.println("Invalid store name");
+            return false;
+        }
+        if (shiftID < 0 || shiftID >13 ){
+            System.out.println("Invalid shift ID");
+            return false;
+        }
+        if (newStartHour < 0 || newStartHour > 24 || newEndHour < 0 || newEndHour > 24){
+            System.out.println("Invalid hours");
+            return false;
+        }
         Schedule schedule = getSchedule(storeName);
         boolean res = schedule.changeHoursShift(shiftID, newStartHour, newEndHour);
         res = res && _shiftsDAO.setStartTime(schedule.getScheduleID(),shiftID, newStartHour);
