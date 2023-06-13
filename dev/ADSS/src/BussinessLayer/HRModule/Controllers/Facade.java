@@ -156,7 +156,12 @@ public class Facade {
     }
 
     public boolean removeEmployeeFromStore(int employeeID, String storeName){
-        return _storeController.removeEmployeeFromStore( employeeID,storeName);
+        try {
+            _storeController.removeEmployeeFromStore(employeeID, storeName);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     //_ScheduleController

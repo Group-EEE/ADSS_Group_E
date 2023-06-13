@@ -7,10 +7,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AddEmployeeToStore extends JFrame {
+public class RemoveEmployeeFromStore extends JFrame {
     private final Facade _facade = Facade.getInstance();
 
-    public AddEmployeeToStore() {
+    public RemoveEmployeeFromStore() {
         // Set the size and layout of the frame
         setSize(400, 300);
         setLayout(new GridBagLayout());
@@ -42,7 +42,7 @@ public class AddEmployeeToStore extends JFrame {
         }
 
         // Create a "Create" button and add an ActionListener
-        JButton createButton = new JButton("Add");
+        JButton createButton = new JButton("remove");
         createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -60,8 +60,8 @@ public class AddEmployeeToStore extends JFrame {
 
 
                 // Call your createEmployee function and display a message
-                if (_facade.addEmployeeToStore(id,store_name)) {
-                    JOptionPane.showMessageDialog(null, "Employee Added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                if (_facade.removeEmployeeFromStore(id,store_name)) {
+                    JOptionPane.showMessageDialog(null, "Employee removed successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     // Return to the HRmenu screen
                     HRmenu hrmenu = new HRmenu();
                     hrmenu.setVisible(true);
@@ -88,7 +88,7 @@ public class AddEmployeeToStore extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new AddEmployeeToStore();
+                new RemoveEmployeeFromStore();
             }
         });
     }
