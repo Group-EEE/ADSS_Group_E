@@ -330,5 +330,17 @@ public class HelperFunctionGUI {
         return comboBoxProductID;
     }
 
+    public static JComboBox<String> createComboBoxProductBarcode(){
+        JComboBox<String> comboBoxProductBarcode = new JComboBox<>();
+        List<String> comboBoxProductItems = new ArrayList<>();
+        comboBoxProductItems.add("");
 
+        List<SuperLiProduct> allProducts = ProductController.getProducts();
+        for(SuperLiProduct slp : allProducts)
+            comboBoxProductItems.add(Integer.toString(slp.getBarcode()));
+        for (String item : comboBoxProductItems)
+            comboBoxProductBarcode.addItem(item);
+
+        return comboBoxProductBarcode;
+    }
 }

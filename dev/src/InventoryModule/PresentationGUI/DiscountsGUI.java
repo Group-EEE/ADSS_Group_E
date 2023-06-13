@@ -1,5 +1,6 @@
 package InventoryModule.PresentationGUI;
 
+import InventoryModule.Business.Controllers.ProductController;
 import SuppliersModule.PresentationGUI.HelperFunctionGUI;
 
 import javax.swing.*;
@@ -49,6 +50,10 @@ public class DiscountsGUI {
         JLabel checkDiscountLabel3 = HelperFunctionGUI.createCheckLabel("Invalid value", 250, 100, 100, 20);
         JLabel checkDateLabel3 = HelperFunctionGUI.createCheckLabel("Invalid ExpDate", 380, 160, 100, 20);
 
+        //option 4 - Update store price
+        JLabel productsBarcode4 = new JLabel("Choose Product's Barcode");
+        JLabel newPrice = new JLabel("Enter Product's new price");
+        JLabel checkDiscountLabel4 = HelperFunctionGUI.createCheckLabel("Invalid value", 180, 100, 100, 20);
         //----------------------------------------- Create JTextField ----------------------------------------
 
         //option 1 - Update discount for category in store
@@ -60,7 +65,8 @@ public class DiscountsGUI {
         //option 3 - Update discount for specific product in store
         JTextField discountField3 = new JTextField();
 
-
+        //option 4 - Update store price
+        JTextField discountField4 = new JTextField();
         //----------------------------------------- Create JComboBox ----------------------------------------
 
         //option 1
@@ -160,9 +166,7 @@ public class DiscountsGUI {
 
         //option 3
         JComboBox<String> productNameComboBox3 = HelperFunctionGUI.createComboBoxProductName();
-
-        JComboBox<String> productIDComboBox3 = HelperFunctionGUI.createSpecificProductIds(productsName3.getText());
-
+        JComboBox<String> productIDComboBox3 = new JComboBox<>();
         JComboBox<String> dayComboBoxStart3 = new JComboBox<>();
         JComboBox<String> dayComboBoxExp3 = new JComboBox<>();
 
@@ -203,6 +207,10 @@ public class DiscountsGUI {
             yearComboBoxStart3.addItem(String.valueOf(i));
             yearComboBoxExp3.addItem(String.valueOf(i));
         }
+
+        //option 4
+        JComboBox<String> productBarcodeComboBox = HelperFunctionGUI.createComboBoxProductBarcode();
+
         //----------------------------------------- Create JButton ----------------------------------------
 
         //option 1
@@ -213,6 +221,9 @@ public class DiscountsGUI {
 
         //option 3
         JButton addDiscountToSpecificProduct = new JButton("Submit");
+
+        //option 4
+        JButton changeProductPrice = new JButton("Submit");
 
         JButton exitButton = HelperFunctionGUI.createExitButton(discountFrame, OldFrame);
 
@@ -283,6 +294,13 @@ public class DiscountsGUI {
 
         addDiscountToSpecificProduct.setBounds(200, 360, 100, 40);
 
+        //option 4
+        productsBarcode4.setBounds(10, 40, 150, 20);
+        productBarcodeComboBox.setBounds(180, 40, 150, 20);
+
+        newPrice.setBounds(10, 100, 150, 20);
+        discountField4.setBounds(180, 100, 50, 20);
+
         //-------------------------------------- Set not visible ---------------------------------------------
 
         //option 1
@@ -306,6 +324,10 @@ public class DiscountsGUI {
                 addDiscountToSpecificProduct, dayComboBoxStart3,
                 monthComboBoxStart3, yearComboBoxStart3, dayComboBoxExp3, monthComboBoxExp3, yearComboBoxExp3};
 
+        //option 4
+        JComponent[] JComponentUpdateProductPrice = new JComponent[]{productsBarcode4, productBarcodeComboBox,
+                newPrice, discountField4, changeProductPrice};
+
         HelperFunctionGUI.hideComponents(JComponentUpdateSpecificProduct);
 
         //------------------------------------ Add to currFrame -------------------------------------
@@ -321,7 +343,8 @@ public class DiscountsGUI {
                 discountLabel3, expDateLabel3, startDateLabel3,checkDiscountLabel3, checkDateLabel3,
                 addDiscountToSpecificProduct, dayComboBoxStart3, monthComboBoxStart3, yearComboBoxStart3,
                 dayComboBoxExp3, monthComboBoxExp3, yearComboBoxExp3, productIDComboBox3, productNameComboBox3,
-                checkDiscountLabel3, checkDateLabel3});
+                checkDiscountLabel3, checkDateLabel3, productsBarcode4, productBarcodeComboBox,
+                newPrice, discountField4, changeProductPrice, checkDiscountLabel4 });
 
         // ------------------------------------- Add action listener to JObjects ------------------------------
 
@@ -338,9 +361,12 @@ public class DiscountsGUI {
                     checkDateLabel2.setVisible(false);
                     checkDiscountLabel3.setVisible(false);
                     checkDateLabel3.setVisible(false);
+                    checkDiscountLabel4.setVisible(false);
                     HelperFunctionGUI.hideComponents(JComponentsUpdateCategory);
                     HelperFunctionGUI.hideComponents(JComponentUpdateProduct);
-                    HelperFunctionGUI.hideComponents(JComponentUpdateSpecificProduct);
+                    HelperFunctionGUI.hideComponents(JComponentUpdateSpecificProduct);                    HelperFunctionGUI.hideComponents(JComponentUpdateSpecificProduct);
+                    HelperFunctionGUI.hideComponents(JComponentUpdateProductPrice);
+
                 }
                 //
                 if (choose.equals("Update discount for category in store")) {
@@ -350,9 +376,12 @@ public class DiscountsGUI {
                     checkDateLabel2.setVisible(false);
                     checkDiscountLabel3.setVisible(false);
                     checkDateLabel3.setVisible(false);
+                    checkDiscountLabel4.setVisible(false);
                     HelperFunctionGUI.showComponents(JComponentsUpdateCategory);
                     HelperFunctionGUI.hideComponents(JComponentUpdateProduct);
                     HelperFunctionGUI.hideComponents(JComponentUpdateSpecificProduct);
+                    HelperFunctionGUI.hideComponents(JComponentUpdateProductPrice);
+
                 }
                 if (choose.equals("Update discount for product in store")) {
                     checkDiscountLabel.setVisible(false);
@@ -361,9 +390,12 @@ public class DiscountsGUI {
                     checkDateLabel2.setVisible(false);
                     checkDiscountLabel3.setVisible(false);
                     checkDateLabel3.setVisible(false);
+                    checkDiscountLabel4.setVisible(false);
                     HelperFunctionGUI.showComponents(JComponentUpdateProduct);
                     HelperFunctionGUI.hideComponents(JComponentsUpdateCategory);
                     HelperFunctionGUI.hideComponents(JComponentUpdateSpecificProduct);
+                    HelperFunctionGUI.hideComponents(JComponentUpdateProductPrice);
+
                 }
                 if (choose.equals("Update discount for specific product in store")) {
                     checkDiscountLabel.setVisible(false);
@@ -372,7 +404,22 @@ public class DiscountsGUI {
                     checkDateLabel2.setVisible(false);
                     checkDiscountLabel3.setVisible(false);
                     checkDateLabel3.setVisible(false);
+                    checkDiscountLabel4.setVisible(false);
                     HelperFunctionGUI.showComponents(JComponentUpdateSpecificProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsUpdateCategory);
+                    HelperFunctionGUI.hideComponents(JComponentUpdateProduct);
+                    HelperFunctionGUI.hideComponents(JComponentUpdateProductPrice);
+                }
+                if(choose.equals("Update store price")){
+                    checkDiscountLabel.setVisible(false);
+                    checkDateLabel.setVisible(false);
+                    checkDiscountLabel2.setVisible(false);
+                    checkDateLabel2.setVisible(false);
+                    checkDiscountLabel3.setVisible(false);
+                    checkDateLabel3.setVisible(false);
+                    checkDiscountLabel4.setVisible(false);
+                    HelperFunctionGUI.showComponents(JComponentUpdateProductPrice);
+                    HelperFunctionGUI.hideComponents(JComponentUpdateSpecificProduct);
                     HelperFunctionGUI.hideComponents(JComponentsUpdateCategory);
                     HelperFunctionGUI.hideComponents(JComponentUpdateProduct);
                 }
@@ -501,6 +548,16 @@ public class DiscountsGUI {
         });
 
         //option 3
+        productNameComboBox3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String choose = chooseComboBox.getSelectedItem().toString();
+                if (!choose.equals("")) {
+                    JComboBox<String> productIDComboBox3 = HelperFunctionGUI.createSpecificProductIds(productNameComboBox3.getSelectedItem().toString());
+                }
+            }
+        });
+
         addDiscountToSpecificProduct.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -554,6 +611,32 @@ public class DiscountsGUI {
 
                 if (isValid) {
                     update_discount_byspecificproduct(productName ,Integer.parseInt(productID) , startDate, ExpDate, discount);
+                    discountFrame.dispose();
+                    OldFrame.setVisible(true);
+                    HelperFunctionGUI.ShowProcessSuccessfully();
+                }
+            }
+        });
+
+        changeProductPrice.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean isValid = true;
+                String productBarcode = productBarcodeComboBox.getSelectedItem().toString();
+                double discount = 0;
+
+                if (productBarcode.equals(""))
+                    isValid = false;
+
+                if (!HelperFunctionGUI.CheckDoubleInput(discountField4.getText())) {
+                    checkDiscountLabel2.setVisible(true);
+                    isValid = false;
+                } else {
+                    checkDiscountLabel2.setVisible(false);
+                    discount = Double.parseDouble(discountField2.getText());
+                }
+                if (isValid) {
+                    ProductController.getInstance().getProductByBarcode(Integer.parseInt(productBarcode)).setCostumer_Price(discount);
                     discountFrame.dispose();
                     OldFrame.setVisible(true);
                     HelperFunctionGUI.ShowProcessSuccessfully();
