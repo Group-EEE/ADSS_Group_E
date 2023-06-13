@@ -3,6 +3,7 @@ package SuppliersModule.PresentationGUI;
 import InventoryModule.Business.Category;
 import InventoryModule.Business.Controllers.CategoryController;
 import InventoryModule.Business.Controllers.ProductController;
+import InventoryModule.Business.SuperLiProduct;
 import SuppliersModule.Business.*;
 import SuppliersModule.Business.Controllers.SupplierController;
 
@@ -20,6 +21,7 @@ public class HelperFunctionGUI {
 
     static SupplierController supplierController = SupplierController.getInstance();
     static CategoryController categoryController = CategoryController.getInstance();
+    static ProductController productController = ProductController.getInstance();
 
     public static void addComponentsToFrame(JFrame frame, JComponent[] components){
         for(JComponent component : components)
@@ -296,6 +298,30 @@ public class HelperFunctionGUI {
             comboBoxCategories.addItem(item);
 
         return comboBoxCategories;
+    }
+
+    public static JComboBox<String> createComboBoxProductName(){
+        JComboBox<String> comboBoxProductName = new JComboBox<>();
+        List<String> comboBoxProductsItems = new ArrayList<>();
+        comboBoxProductsItems.add("");
+
+        List<SuperLiProduct> allProducts = ProductController.getProducts();
+        for(SuperLiProduct slp : allProducts)
+            comboBoxProductsItems.add(slp.getPName());
+
+        for (String item : comboBoxProductsItems)
+            comboBoxProductName.addItem(item);
+
+        return comboBoxProductName;
+    }
+
+    public static JComboBox<String> createSpecificProductIds(){
+        JComboBox<String> comboBoxProductID = new JComboBox<>();
+        List<String> comboBoxSpecificProductItems = new ArrayList<>();
+        comboBoxSpecificProductItems.add("");
+
+        return comboBoxProductID;
+
     }
 
 

@@ -139,7 +139,7 @@ public class StoreKeeperPresentationCLI {
                 case "3": //Update discount for specific product in store
                     System.out.println("Please enter Product's name:");
                     String nam6 = reader.nextLine();
-                    System.out.println("Please enter Product's name:");
+                    System.out.println("Please enter Product's Barcode:");
                     int pid66 = Integer.parseInt(reader.nextLine());
                     System.out.println("Please enter discount amount:");
                     double discount6 = Double.parseDouble(reader.nextLine());
