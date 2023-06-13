@@ -71,8 +71,8 @@ public class DiscountsGUI {
         //----------------------------------------- Create JComboBox ----------------------------------------
 
         //option 1
-        JComboBox<String> chooseComboBox = new JComboBox<>(new String[]{"", "Update discount for category in store",
-                "Update discount for product in store", "Update discount for specific product in store"
+        JComboBox<String> chooseComboBox = new JComboBox<>(new String[]{"", "Add new product to the store",
+                "Get all products' barcode", "Update discount for specific product in store"
                 , "Update store price"});
 
 
@@ -374,7 +374,6 @@ public class DiscountsGUI {
                     HelperFunctionGUI.hideComponents(JComponentUpdateProductPrice);
 
                 }
-                //
                 if (choose.equals("Update discount for category in store")) {
                     checkDiscountLabel.setVisible(false);
                     checkDateLabel.setVisible(false);

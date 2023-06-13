@@ -342,4 +342,23 @@ public class HelperFunctionGUI {
 
         return comboBoxProductBarcode;
     }
+    public static void setProductNameField(String choose, JTextField productNameField){
+        productNameField.removeAll();
+        String name = productController.getProductByBarcode(Integer.parseInt(choose)).getPName();
+        productNameField.setText(name);
+    }
+
+    public static JComboBox<String> createComboBoxofnewProductBarcode(){
+        JComboBox<String> comboBoxProductBarcode = new JComboBox<>();
+        List<String> comboBoxProductItems = new ArrayList<>();
+        comboBoxProductItems.add("");
+
+        List<Integer> allProducts = ProductController.returnListofneProductsBarcode();
+        for(Integer barcode : allProducts)
+            comboBoxProductItems.add(Integer.toString(barcode));
+        for (String item : comboBoxProductItems)
+            comboBoxProductBarcode.addItem(item);
+        return comboBoxProductBarcode;
+    }
+
 }

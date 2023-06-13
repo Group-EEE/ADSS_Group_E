@@ -138,4 +138,8 @@ public class ProductController {
         }
         return slp;
         }
+
+        public static List<Integer> returnListofneProductsBarcode(){
+            return BarcodesOfNewProducts;
+        }
 }
