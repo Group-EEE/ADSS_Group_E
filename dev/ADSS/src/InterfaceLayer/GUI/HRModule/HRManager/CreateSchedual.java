@@ -51,7 +51,6 @@ public class CreateSchedual extends JFrame {
                 int day = -1;
                 int month = -1;
                 int year = -1;
-
                 try{
                     day = Integer.parseInt(textFields[1].getText());
                     month = Integer.parseInt(textFields[2].getText());

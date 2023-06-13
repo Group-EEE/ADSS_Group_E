@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.print.DocFlavor;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,6 +23,7 @@ class FacadeTest {
     @BeforeEach
     void setUp() {
         _facade.createEmployee(9999, "John", "Doe", 30, "123456789", 10000, "Full time", LocalDate.now(),"passwordTest",false);
+
     }
 
     @AfterEach
@@ -42,4 +44,12 @@ class FacadeTest {
         assertTrue(Facade.getInstance().logout());
     }
 
+    @Test
+    void createAndFillSchedule(){
+        _facade.createStore("testName", "testAddress", "testPhone", "testContactName",0);
+        assertTrue(_facade.createAndFillSchedule("testName", LocalDate.now().getDayOfMonth(), LocalDate.now().getMonthValue(), LocalDate.now().getYear()));
+        _facade.deleteSchedule("testName");
+        _facade.removeStore("testName");
+        _facade.deleteSchedule("Logistics");
+    }
 }
