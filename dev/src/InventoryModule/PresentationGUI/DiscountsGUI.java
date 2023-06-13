@@ -6,6 +6,7 @@ import SuppliersModule.PresentationGUI.HelperFunctionGUI;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.time.LocalDateTime;
 
 import static InventoryModule.Business.Discount.*;
@@ -53,7 +54,7 @@ public class DiscountsGUI {
         //option 4 - Update store price
         JLabel productsBarcode4 = new JLabel("Choose Product's Barcode");
         JLabel newPrice = new JLabel("Enter Product's new price");
-        JLabel checkDiscountLabel4 = HelperFunctionGUI.createCheckLabel("Invalid value", 180, 100, 100, 20);
+        JLabel checkDiscountLabel4 = HelperFunctionGUI.createCheckLabel("Invalid value", 250, 70, 100, 20);
         //----------------------------------------- Create JTextField ----------------------------------------
 
         //option 1 - Update discount for category in store
@@ -295,11 +296,13 @@ public class DiscountsGUI {
         addDiscountToSpecificProduct.setBounds(200, 360, 100, 40);
 
         //option 4
-        productsBarcode4.setBounds(10, 40, 150, 20);
+        productsBarcode4.setBounds(10, 40, 160, 20);
         productBarcodeComboBox.setBounds(180, 40, 150, 20);
 
-        newPrice.setBounds(10, 100, 150, 20);
-        discountField4.setBounds(180, 100, 50, 20);
+        newPrice.setBounds(10, 70, 150, 20);
+        discountField4.setBounds(180, 70, 50, 20);
+
+        changeProductPrice.setBounds(200, 360, 100, 40);
 
         //-------------------------------------- Set not visible ---------------------------------------------
 
@@ -324,11 +327,14 @@ public class DiscountsGUI {
                 addDiscountToSpecificProduct, dayComboBoxStart3,
                 monthComboBoxStart3, yearComboBoxStart3, dayComboBoxExp3, monthComboBoxExp3, yearComboBoxExp3};
 
+        HelperFunctionGUI.hideComponents(JComponentUpdateSpecificProduct);
+
         //option 4
         JComponent[] JComponentUpdateProductPrice = new JComponent[]{productsBarcode4, productBarcodeComboBox,
                 newPrice, discountField4, changeProductPrice};
 
-        HelperFunctionGUI.hideComponents(JComponentUpdateSpecificProduct);
+        HelperFunctionGUI.hideComponents(JComponentUpdateProductPrice);
+
 
         //------------------------------------ Add to currFrame -------------------------------------
 
@@ -551,10 +557,8 @@ public class DiscountsGUI {
         productNameComboBox3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String choose = chooseComboBox.getSelectedItem().toString();
-                if (!choose.equals("")) {
-                    JComboBox<String> productIDComboBox3 = HelperFunctionGUI.createSpecificProductIds(productNameComboBox3.getSelectedItem().toString());
-                }
+                String choose = productNameComboBox3.getSelectedItem().toString();
+                HelperFunctionGUI.createSpecificProductIds(choose,productIDComboBox3);
             }
         });
 
@@ -629,11 +633,11 @@ public class DiscountsGUI {
                     isValid = false;
 
                 if (!HelperFunctionGUI.CheckDoubleInput(discountField4.getText())) {
-                    checkDiscountLabel2.setVisible(true);
+                    checkDiscountLabel4.setVisible(true);
                     isValid = false;
                 } else {
-                    checkDiscountLabel2.setVisible(false);
-                    discount = Double.parseDouble(discountField2.getText());
+                    checkDiscountLabel4.setVisible(false);
+                    discount = Double.parseDouble(discountField4.getText());
                 }
                 if (isValid) {
                     ProductController.getInstance().getProductByBarcode(Integer.parseInt(productBarcode)).setCostumer_Price(discount);

@@ -132,7 +132,7 @@ public class ProductController {
     public static List<SpecificProduct> getSpecificProductsByProductName(String pname){
         List<SpecificProduct> slp = new ArrayList<>();
         for (Map.Entry<Integer, SuperLiProduct> pair : superLiDB.getSuperLiProductMap().entrySet()) {
-            if(pair.getValue().getPName().equals(pname)){
+            if(pair.getValue().getPName().compareTo(pname)==0){
                 slp = pair.getValue().getSpecificProducts();
             }
         }

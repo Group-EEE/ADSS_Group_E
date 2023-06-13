@@ -316,8 +316,8 @@ public class HelperFunctionGUI {
         return comboBoxProductName;
     }
 
-    public static JComboBox<String> createSpecificProductIds(String ProductName){
-        JComboBox<String> comboBoxProductID = new JComboBox<>();
+    public static void createSpecificProductIds(String ProductName, JComboBox<String> comboBoxProductID){
+        comboBoxProductID.removeAllItems();
         List<String> comboBoxSpecificProductItems = new ArrayList<>();
         comboBoxSpecificProductItems.add("");
 
@@ -326,8 +326,7 @@ public class HelperFunctionGUI {
             comboBoxSpecificProductItems.add(Integer.toString(slp.getSp_ID()));
         for (String item : comboBoxSpecificProductItems)
             comboBoxProductID.addItem(item);
-
-        return comboBoxProductID;
+        comboBoxProductID.setSelectedItem(comboBoxProductID);
     }
 
     public static JComboBox<String> createComboBoxProductBarcode(){
