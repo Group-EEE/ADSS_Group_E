@@ -219,4 +219,16 @@ public class Facade {
         return _scheduleController.deleteSchedule(storeName);
     }
 
+    public boolean createAndFillSchedule(String storeName, int day, int month, int year){
+        createNewStoreSchedule(storeName, day, month, year);
+        createNewLogisiticsSchedule(day, month, year);
+        List<Employee> employees = _employeeController.getAllEmployees();
+        for (Employee employee : employees) {
+            for (int i = 0; i < 14; i++) {
+                _scheduleController.addEmployeeToShift(employee, storeName, i);
+            }
+        }
+        return approveSchedule(storeName).size() == 0;
+    }
+
 }
