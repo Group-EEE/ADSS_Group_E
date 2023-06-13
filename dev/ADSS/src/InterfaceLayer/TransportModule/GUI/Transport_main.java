@@ -30,7 +30,12 @@ public class Transport_main extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 action = menuOptions.getSelectedItem().toString();
-                int choice = Integer.parseInt(action.substring(0,1));
+                int choice;
+                if (action.length() >= 2 && Character.isDigit(action.charAt(0)) && Character.isDigit(action.charAt(1))) {
+                    choice = Integer.parseInt(action.substring(0, 2));
+                } else {
+                    choice = Integer.parseInt(action.substring(0, 1));
+                }
                 open_frame(choice);
             }
 
@@ -95,6 +100,11 @@ public class Transport_main extends JFrame{
             case 9:
                 Store_Display stores = new Store_Display(this);
                 stores.setVisible(true);
+                setVisible(false);
+                break;
+            case 10:
+                Add_Standby_driver sd = new Add_Standby_driver(this);
+                sd.setVisible(true);
                 setVisible(false);
                 break;
         }

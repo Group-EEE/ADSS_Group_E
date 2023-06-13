@@ -19,6 +19,7 @@ public class Drivers_Displayer extends JFrame {
     private List<Truck_Driver> drivers = Logistical_center_controller.getInstance().getDrivers();
     private DefaultTableModel tableModel;
 
+
     public Drivers_Displayer(Transport_main transportMain) {
         this.main_frame = transportMain;
         setTitle("Drivers Display");

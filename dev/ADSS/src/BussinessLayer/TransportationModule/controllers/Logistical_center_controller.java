@@ -386,13 +386,13 @@ public class Logistical_center_controller {
         }
     }
 
-    public void add_standby_driver_by_date(LocalDate date) {
+    public boolean add_standby_driver_by_date(LocalDate date) {
         int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", date, ShiftType.MORNING);
         HashMap<RoleType, Employee> employees = ScheduleController.getInstance().getSchedule("Logistics").getShift(shift_id).getAssignedEmployees();
         ArrayList<Employee> drivers_in_shift = new ArrayList<>(employees.values());
         List<Truck_Driver> all_drivers = EmployeesDAO.getInstance().getDrivers();
         Truck_Driver standby_driver = null;
-        if(ScheduleController.getInstance().hasStandByDriver("Logistics", shift_id)){
+        if(ScheduleController.getInstance().hasStandByDriver("Logistics", shift_id )){
             System.out.println("\nThis shift already had standby truck driver. \n");
         }
         else {
@@ -402,7 +402,11 @@ public class Logistical_center_controller {
                     break;
                 }
             }
-            ScheduleController.getInstance().addStandByDriverToLogisticsShift(standby_driver.getEmployeeID(), shift_id);
+            if(standby_driver != null) {
+                ScheduleController.getInstance().addStandByDriverToLogisticsShift(standby_driver.getEmployeeID(), shift_id);
+                return true;
+            }
         }
+        return false;
     }
 }
