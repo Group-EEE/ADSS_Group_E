@@ -239,6 +239,7 @@ public class Supplier_goods extends JFrame{
                 if(itemWeight.getText().isEmpty()){
                     return;
                 }
+                //TODO: check if we can turn into double.
                 if (!containsOnlyNumbers(itemWeight.getText())){
                     JOptionPane.showMessageDialog(null, "Please put a valid weight with digits only (can be with floating point).");
                     itemWeight.setText("");
