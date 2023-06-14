@@ -1,11 +1,8 @@
 package SuppliersModule.PresentationGUI;
 
-import InventoryModule.Business.Category;
+import InventoryModule.Business.*;
 import InventoryModule.Business.Controllers.CategoryController;
 import InventoryModule.Business.Controllers.ProductController;
-import InventoryModule.Business.SpecificProduct;
-import InventoryModule.Business.SubCategory;
-import InventoryModule.Business.SuperLiProduct;
 import SuppliersModule.Business.*;
 import SuppliersModule.Business.Controllers.SupplierController;
 
@@ -437,6 +434,33 @@ public class HelperFunctionGUI {
             }
         }
         return exist;
+    }
+    public static boolean canRemoveSubSubCategory(String SubSubCategoryName) {
+        //if exist is true - cant remove
+        boolean exist = false; //if there is a product that belongs to this subcategory- will be true
+        if (categoryController.check_if_exist_subsubcat(SubSubCategoryName)) {
+            for (int j = 0; j < ProductController.getProducts().size(); j++) {
+                //check for every product in ths store if its subcategory is the given subcategory
+                if (ProductController.getProducts().get(j).getSubSubCategory().compareTo(SubSubCategoryName) == 0) {
+                    exist = true;
+                }
+            }
+        }
+        return exist;
+    }
+    public static void setSubSubCategoriesComboBoxField(String Mainchoose,String Subchoose, JComboBox<String> SubSubCategoriesComboBox) {
+        SubSubCategoriesComboBox.removeAllItems();
+
+        List<String> comboBoxSubCategoriesItems = new ArrayList<>();
+        comboBoxSubCategoriesItems.add("");
+
+        List<SubSubCategory> allCategories = categoryController.getAllSubSubByMainandSub(Mainchoose,Subchoose);
+        for (SubSubCategory subCategory : allCategories)
+            comboBoxSubCategoriesItems.add(subCategory.getName());
+
+        for (String item : comboBoxSubCategoriesItems)
+            SubSubCategoriesComboBox.addItem(item);
+
     }
 }
 

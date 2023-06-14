@@ -218,4 +218,19 @@ public class CategoryController {
         }
         return allSub;
     }
+    public List<SubSubCategory> getAllSubSubByMainandSub(String MainCategory, String subCategory) {
+        List<SubSubCategory> allSub = new ArrayList<>();
+        for (Map.Entry<String, Category> pair : superLiDB.getCategoriesMap().entrySet()) {
+            if (pair.getValue().getName().compareTo(MainCategory) == 0) {
+                for (int i = 0; i < pair.getValue().getSubCategories().size(); i++) {
+                    if(pair.getValue().getSubCategories().get(i).getName().equals(subCategory)){
+                        List<SubSubCategory> mySub = pair.getValue().getSubCategories().get(i).getSubSubCategories();
+                        for(int j=0 ; j< mySub.size(); j++)
+                            allSub.add(mySub.get(j));
+                    }
+                }
+            }
+        }
+        return allSub;
+    }
 }
