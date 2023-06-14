@@ -1,5 +1,6 @@
 package InventoryModule.PresentationGUI;
 
+import InventoryModule.Business.Controllers.ProductController;
 import InventoryModule.Business.SuperLiProduct;
 import SuppliersModule.Business.Controllers.SupplierController;
 import SuppliersModule.PresentationGUI.HelperFunctionGUI;
@@ -35,12 +36,17 @@ public class SpecificProductGUI {
         JLabel ProductShelfNumberLabel  = new JLabel("Enter product Shelf number");
         JLabel discountAmountLabel = new JLabel("Enter discount amount");
         JLabel startDateDiscountLabel = new JLabel("Select discount start Date"); //combo and what about null
-        JLabel endDateDiscountLabel = new JLabel("Select discount and Date"); //combo and what about null
+        JLabel endDateDiscountLabel = new JLabel("Select discount end Date"); //combo and what about null
+        JLabel doesProducthasDiscount = new JLabel("Has Discount");
 
-        JLabel checkDiscountLabel = HelperFunctionGUI.createCheckLabel("Invalid Value",220, 333, 50,20);
-        JLabel checkDateLabel = HelperFunctionGUI.createCheckLabel("Invalid Value", 380,390, 50,20);
-        JLabel checkDefectedLabel = HelperFunctionGUI.createCheckLabel("Invalid Value", 220, 183, 50,20);
-        JLabel checkSelectedBranch = HelperFunctionGUI.createCheckLabel("Select Value", 220, 273, 50,20);
+        JLabel checkDiscountLabel = HelperFunctionGUI.createCheckLabel("Invalid Value",260, 333, 90,20);
+        JLabel checkDateLabel = HelperFunctionGUI.createCheckLabel("Invalid Value", 390,390, 90,20);
+        JLabel checkDefectedLabel = HelperFunctionGUI.createCheckLabel("Invalid Value", 260, 183, 90,20);
+        JLabel checkSelectedBranch = HelperFunctionGUI.createCheckLabel("Select Value", 260, 273, 90,20);
+        JLabel checkLocationInStoreLabel = HelperFunctionGUI.createCheckLabel("Invalid Value", 260, 303, 90,20);
+        JLabel checkSupplierLabel = HelperFunctionGUI.createCheckLabel("Select Value",300, 65, 270, 20);
+        JLabel checkSupplierPriceLabel = HelperFunctionGUI.createCheckLabel("Invalid Value",260, 93, 90,20);
+
         //----------------------------------------- Create JTextField ----------------------------------------
         //option 1
         JTextField supplierPriceField = new JTextField();
@@ -107,7 +113,7 @@ public class SpecificProductGUI {
         productBarcodeComboBox.setBounds(190,35,270,20);
 
         supplierLabel.setBounds(10, 63, 150,20);
-        SupplierNameComboBox.setBounds(190, 65, 270, 20);
+        SupplierNameComboBox.setBounds(190, 65, 100, 20);
 
         supplierPriceLable.setBounds(10, 93, 160,20);
         supplierPriceField.setBounds(190, 93, 50,20);
@@ -149,6 +155,7 @@ public class SpecificProductGUI {
         endDateYearDiscountComboBox.setBounds(320,390, 50,20);
         AddNewProduct.setBounds(310, 410, 100, 40);
 
+
         //-------------------------------------- Set not visible ---------------------------------------------
 
         //option 1
@@ -162,7 +169,7 @@ public class SpecificProductGUI {
                 defectiveproductComboBox,StoredProductComboBox,StoreBrunchComboBox,
                 startDateDayDiscountComboBox,startDateMonthDiscountComboBox,
                 startDateYearDiscountComboBox, endDateDayDiscountComboBox,
-                endDateMonthDiscountComboBox,endDateYearDiscountComboBox, AddNewProduct};
+                endDateMonthDiscountComboBox,endDateYearDiscountComboBox, AddNewProduct };
         HelperFunctionGUI.hideComponents(JComponentsAddProduct);
 
         //------------------------------------ Add to currFrame -------------------------------------
@@ -178,7 +185,8 @@ public class SpecificProductGUI {
                 startDateDayDiscountComboBox,startDateMonthDiscountComboBox,
                 startDateYearDiscountComboBox, endDateDayDiscountComboBox,
                 endDateMonthDiscountComboBox,endDateYearDiscountComboBox, AddNewProduct, exitButton,
-                checkDiscountLabel, checkDateLabel, checkDefectedLabel
+                checkDiscountLabel, checkDateLabel, checkDefectedLabel,checkLocationInStoreLabel,
+                checkSelectedBranch,checkSupplierLabel,checkSupplierPriceLabel
         });
 
         // ------------------------------------- Add action listener to JObjects ------------------------------
@@ -230,12 +238,19 @@ public class SpecificProductGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean isValid = true;
-                double discount = 0;
                 if (!productBarcodeComboBox.getSelectedItem().toString().equals("")) {
+                    String suppliernum ="";
+                    if(SupplierNameComboBox.getSelectedItem().equals("")) {
+                        checkSupplierLabel.setVisible(true);
+                        isValid = false;
+                    }else{
+                        checkSupplierLabel.setVisible(false);
+                        suppliernum = SupplierNameComboBox.getSelectedItem().toString();
+                    }
+
                     int Barcode = Integer.parseInt(productBarcodeComboBox.getSelectedItem().toString());
-                    LocalDateTime startDate;
-                    LocalDateTime endDate;
-                    LocalDateTime ExpDate;
+
+                    double discount = 0;
                     if (!HelperFunctionGUI.CheckDoubleInput(discountAmountField.getText())) {
                         checkDiscountLabel.setVisible(true);
                         isValid = false;
@@ -244,42 +259,65 @@ public class SpecificProductGUI {
                         discount = Double.parseDouble(discountAmountField.getText());
                     }
 
+                    double supplierPrice =0;
+                    if(!HelperFunctionGUI.CheckDoubleInput(supplierPriceField.getText())){
+                        checkSupplierPriceLabel.setVisible(true);
+                        isValid = false;
+                    }
+                    else{
+                        checkSupplierPriceLabel.setVisible(false);
+                        supplierPrice = Double.parseDouble(supplierPriceField.getText());
+                    }
+
+                    LocalDateTime startDate;
+                    LocalDateTime endDate;
+                    LocalDateTime ExpDate;
                     if (startDateDayDiscountComboBox.getSelectedItem().toString().equals("") ||
                             startDateMonthDiscountComboBox.getSelectedItem().toString().equals("") ||
                             startDateYearDiscountComboBox.getSelectedItem().toString().equals("")) {
+                        checkDateLabel.setVisible(true);
                         isValid = false;
                         return;
-                    } else
+                    } else {
                         startDate = LocalDateTime.parse(startDateYearDiscountComboBox.getSelectedItem().toString() + "-" +
                                 startDateMonthDiscountComboBox.getSelectedItem().toString() + "-" +
                                 startDateDayDiscountComboBox.getSelectedItem().toString() + "T00:00:00");
-
+                        checkDateLabel.setVisible(false);
+                    }
 
                     if (endDateDayDiscountComboBox.getSelectedItem().toString().equals("") ||
-                            endDateMonthDiscountComboBox.getSelectedItem().toString().equals("") ||
-                            endDateYearDiscountComboBox.getSelectedItem().toString().equals("")) {
+                        endDateMonthDiscountComboBox.getSelectedItem().toString().equals("") ||
+                        endDateYearDiscountComboBox.getSelectedItem().toString().equals("")) {
                         isValid = false;
+                        checkDateLabel.setVisible(true);
                         return;
-                    } else
+                    }
+                    else {
                         endDate = LocalDateTime.parse(endDateYearDiscountComboBox.getSelectedItem().toString() + "-" +
                                 endDateMonthDiscountComboBox.getSelectedItem().toString() + "-" +
                                 endDateDayDiscountComboBox.getSelectedItem().toString() + "T00:00:00");
+                        checkDateLabel.setVisible(false);
+                    }
 
                     if (EXPDayComboBox.getSelectedItem().toString().equals("") ||
-                            EXPMonthComboBox.getSelectedItem().toString().equals("") ||
-                            EXPYearComboBox.getSelectedItem().toString().equals("")) {
+                        EXPMonthComboBox.getSelectedItem().toString().equals("") ||
+                        EXPYearComboBox.getSelectedItem().toString().equals("")) {
                         isValid = false;
+                        checkDateLabel.setVisible(true);
                         return;
-                    } else
+                    }
+                    else {
                         ExpDate = LocalDateTime.parse(EXPYearComboBox.getSelectedItem().toString() + "-" +
                                 EXPMonthComboBox.getSelectedItem().toString() + "-" +
                                 EXPDayComboBox.getSelectedItem().toString() + "T00:00:00");
-
+                        checkDateLabel.setVisible(false);
+                    }
                     if (endDate.isBefore(startDate) || ExpDate.isAfter(endDate) || ExpDate.isAfter(startDate)) {
                         checkDateLabel.setVisible(true);
                         isValid = false;
-                    } else
+                    } else {
                         checkDateLabel.setVisible(false);
+                    }
                     boolean aDefective = Boolean.parseBoolean(defectiveproductComboBox.getSelectedItem().toString());
                     String aDefect_report_by = defectReporterNameLabel.getText();
                     if (aDefective == true && aDefect_report_by == null) {
@@ -291,15 +329,36 @@ public class SpecificProductGUI {
                     String defectype = defectTypeField.getText();
                     boolean aInWarehouse = Boolean.parseBoolean(StoredProductComboBox.getSelectedItem().toString());
                     String aStoreBranch = StoreBrunchComboBox.getSelectedItem().toString();
-                    if(aStoreBranch.equals("")){
+                    if (aStoreBranch.equals("")) {
                         checkSelectedBranch.setVisible(true);
                         isValid = false;
                     } else
                         checkSelectedBranch.setVisible(false);
 
-                    int aLocationInStore;
-                }
+                    int aLocationInStore =0;
+                    if (!HelperFunctionGUI.CheckIntInput(ProductShelfNumberField.getText())) {
+                        checkLocationInStoreLabel.setVisible(true);
+                        isValid = false;
+                    } else {
+                        checkLocationInStoreLabel.setVisible(false);
+                        aLocationInStore = Integer.parseInt(ProductShelfNumberField.getText());
+                    }
+                    if (discount == 0) {
+                        startDate = LocalDateTime.parse("1111-11-11T00:00:00");
+                        endDate = LocalDateTime.parse("1111-11-11T00:00:00");
+                    }
+                    if(aInWarehouse){
+                        aLocationInStore = -1;
+                    }
+                    if (isValid) {
+                        ProductController.getInstance().addspecificproduct(suppliernum, supplierPrice, Barcode, ExpDate, aDefective, aDefect_report_by,
+                                aInWarehouse, aStoreBranch, aLocationInStore, startDate, endDate, discount, defectype);
+                        SpecificProductFrame.dispose();
+                        OldFrame.setVisible(true);
+                        HelperFunctionGUI.ShowProcessSuccessfully();
+                    }
             }
+        }
         });
     }
 

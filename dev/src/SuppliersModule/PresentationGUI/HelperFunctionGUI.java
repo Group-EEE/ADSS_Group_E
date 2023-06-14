@@ -401,8 +401,7 @@ public class HelperFunctionGUI {
     public static void setSupplierComboBoxField(String choose, JComboBox<String> SupplierNameComboBox) {
         SupplierNameComboBox.removeAllItems();
         List<String> SupplierNameItems = supplierController.returnSuppliersaccordingtoBarcode(Integer.parseInt(choose));
-        SupplierNameItems.add("");
-
+        SupplierNameComboBox.addItem("");
         for (String supplier : SupplierNameItems) {
             SupplierNameComboBox.addItem(supplier);
         }
