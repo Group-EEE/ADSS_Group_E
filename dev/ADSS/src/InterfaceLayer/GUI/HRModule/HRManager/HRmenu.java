@@ -1,5 +1,7 @@
 package InterfaceLayer.GUI.HRModule.HRManager;
 
+import InterfaceLayer.GUI.HRModule.Login;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -60,102 +62,102 @@ public class HRmenu extends JFrame {
                     case "create new employee":
                         CreateEmployee createEmployeeScreen = new CreateEmployee();
                         createEmployeeScreen.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "create new store":
                         CreateStore createStore = new CreateStore();
                         createStore.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "add employee to store":
                         AddEmployeeToStore addEmployeeToStore = new AddEmployeeToStore();
                         addEmployeeToStore.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "add role to employee":
                         AddRoleToEmployee addRoleToEmployee = new AddRoleToEmployee();
                         addRoleToEmployee.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "create new schedule":
                         CreateSchedual createSchedual = new CreateSchedual();
                         createSchedual.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "approve shifts":
                         ApproveSchedule approveSchedule = new ApproveSchedule();
                         approveSchedule.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "update personal information":
                         UpdatePersonalInformation updatePersonalInformation = new UpdatePersonalInformation();
                         updatePersonalInformation.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "change schedule hours":
                         ChangeSchedualHours changeSchedualHours = new ChangeSchedualHours();
                         changeSchedualHours.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "remove role from employee":
                         RemoveRoleFromEmployee removeRoleFromEmployee = new RemoveRoleFromEmployee();
                         removeRoleFromEmployee.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "remove employee from store":
                         RemoveEmployeeFromStore removeEmployeeFromStore = new RemoveEmployeeFromStore();
                         removeEmployeeFromStore.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "remove employee from system":
                         RemoveEmployeeFromSystem removeEmployeeFromSystem = new RemoveEmployeeFromSystem();
                         removeEmployeeFromSystem.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "remove store from system":
                         RemoveStoreFromSystem removeStoreFromSystem = new RemoveStoreFromSystem();
                         removeStoreFromSystem.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "select required roles from a shift":
                         SelectRequiredRolesFromShift selectRequiredRolesFromShift = new SelectRequiredRolesFromShift();
                         selectRequiredRolesFromShift.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "remove required roles from a shift":
                         RemoveRequiredRolesFromShift removeRequiredRolesFromShift = new RemoveRequiredRolesFromShift();
                         removeRequiredRolesFromShift.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "print all employees":
                         PrintEmployees printEmployees = new PrintEmployees();
                         printEmployees.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "print all stores":
                         PrintStores printStores = new PrintStores();
                         printStores.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "print schedule":
                         PrintSchedule printSchedule = new PrintSchedule();
                         printSchedule.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "create new driver":
                         CreateDriver createDriver = new CreateDriver();
                         createDriver.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "create new logistics schedule":
                         CreateNewLogisticSchedule createNewLogisticSchedule = new CreateNewLogisticSchedule();
                         createNewLogisticSchedule.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                     case "log out":
                         Login login = new Login();
                         login.setVisible(true);
-                        setVisible(false);
+                        frame.dispose();
                         break;
                 }
             });
@@ -163,11 +165,6 @@ public class HRmenu extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new HRmenu();
-            }
-        });
+        SwingUtilities.invokeLater(HRmenu::new);
     }
 }
