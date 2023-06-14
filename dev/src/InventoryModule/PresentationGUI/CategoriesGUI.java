@@ -28,9 +28,10 @@ public class CategoriesGUI {
 
         //option 3- remove category
         JLabel removeCategoryLabel = new JLabel("Choose category to remove:");
-        //----------------------------------------- Create JLabel ----------------------------------------
-        JTextField addCategoryField = new JTextField();
+        JLabel cantRemoveLabel = HelperFunctionGUI.createCheckLabel("Can't remove category", 250, 250, 150, 20);
 
+        //----------------------------------------- Create JTextField ----------------------------------------
+        JTextField addCategoryField = new JTextField();
 
         //----------------------------------------- Create JComboBox ----------------------------------------
         JComboBox<String> chooseOptionComboBox = new JComboBox<>(new String[]{"", "Get all category names",
@@ -59,22 +60,22 @@ public class CategoriesGUI {
         chooseOptionComboBox.setBounds(180, 40, 250, 20);
 
         //option 1
-        showAllCategories.setBounds(40, 40, 150, 20);
+        showAllCategories.setBounds(40, 60, 150, 20);
         scrollPane.setBounds(40, 80, 400,300);
 
         //option 2
-        newCategoryLabel.setBounds(40, 40, 150, 20);
-        AddCategoryJButton.setBounds(325, 40, 115, 25);
-        addCategoryField.setBounds(200, 40, 115, 25);
+        newCategoryLabel.setBounds(40, 100, 150, 20);
+        AddCategoryJButton.setBounds(325, 100, 115, 25);
+        addCategoryField.setBounds(175, 100, 145, 25);
 
         //option 3
-        chooseCategoryToRemove.setBounds(200, 40, 250, 20);
-        removeCategoryLabel.setBounds(20, 40, 200, 20);
-        RemoveCategoryJButton.setBounds(175, 100, 150, 25);
+        chooseCategoryToRemove.setBounds(200, 100, 250, 20);
+        removeCategoryLabel.setBounds(20, 100, 200, 20);
+        RemoveCategoryJButton.setBounds(175, 200, 150, 25);
 
         //------------------------------------ Add to currFrame -------------------------------------
 
-        HelperFunctionGUI.addComponentsToFrame(categoriesFrame, new JComponent[] {exitButton,addCategoryField,RemoveCategoryJButton ,removeCategoryLabel,chooseCategoryToRemove,chooseOptionComboBox, chooseLabel, scrollPane,AddCategoryJButton, showAllCategories, newCategoryLabel});
+        HelperFunctionGUI.addComponentsToFrame(categoriesFrame, new JComponent[] {exitButton,cantRemoveLabel,addCategoryField,RemoveCategoryJButton ,removeCategoryLabel,chooseCategoryToRemove,chooseOptionComboBox, chooseLabel, scrollPane,AddCategoryJButton, showAllCategories, newCategoryLabel});
 
         //-------------------------------------- Set not visible ---------------------------------------------
         //option 1
@@ -101,16 +102,16 @@ public class CategoriesGUI {
                     HelperFunctionGUI.hideComponents(JComponentsShowAllCategories);
                 }
                 if(choose.equals("Get all category names")){
-                    chooseLabel.setVisible(false);
-                    chooseOptionComboBox.setVisible(false);
+                    //chooseLabel.setVisible(false);
+                    //chooseOptionComboBox.setVisible(false);
                     String details = HelperFunctionGUI.createTextAreaCategories();
                     textAreaCategories.setText(details);
                     HelperFunctionGUI.hideComponents(JComponentsNewCategory);
                     HelperFunctionGUI.showComponents(JComponentsShowAllCategories);
                 }
                 if(choose.equals("Add new category")){
-                    chooseLabel.setVisible(false);
-                    chooseOptionComboBox.setVisible(false);
+                   // chooseLabel.setVisible(false);
+                    //chooseOptionComboBox.setVisible(false);
                     HelperFunctionGUI.hideComponents(JComponentsShowAllCategories);
                     HelperFunctionGUI.hideComponents(JComponentsRemoveCategory);
                     HelperFunctionGUI.showComponents(JComponentsNewCategory);
@@ -127,8 +128,8 @@ public class CategoriesGUI {
 
                 }
                 if(choose.equals("Remove category")){
-                    chooseLabel.setVisible(false);
-                    chooseOptionComboBox.setVisible(false);
+                    //chooseLabel.setVisible(false);
+                    //chooseOptionComboBox.setVisible(false);
                     HelperFunctionGUI.hideComponents(JComponentsShowAllCategories);
                     HelperFunctionGUI.hideComponents(JComponentsNewCategory);
                     HelperFunctionGUI.showComponents(JComponentsRemoveCategory);
@@ -139,10 +140,11 @@ public class CategoriesGUI {
                             boolean canRemove = HelperFunctionGUI.canRemoveCategory(categoryToRemoveString);
                             if(canRemove){
                                 //show label cannot remove
-
+                                cantRemoveLabel.setVisible(true);
                             }
                             else{
-                                //sent do remove method + success wondow
+                                HelperFunctionGUI.ShowProcessSuccessfully();
+                                categoryController.removeCategory(categoryToRemoveString);
                             }
                         }
                     });
