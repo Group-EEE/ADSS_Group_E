@@ -277,6 +277,9 @@ public class Create_transport extends JFrame {
                 }
                 JOptionPane.showMessageDialog(null, "The transport was created successfully");
                 reset_fields();
+                plannedDate.setText("");
+                transportID.setText("");
+
             }
         });
         goBack.addActionListener(new ActionListener() {
@@ -407,8 +410,8 @@ public class Create_transport extends JFrame {
         selected_suppliers_text.setText("");
         areas.setSelectedIndex(0);
         Suppliers.setSelectedIndex(0);
-        plannedDate.setText("");
-        transportID.setText("");
+        //plannedDate.setText("");
+        //transportID.setText("");
         isFinished = true;
     }
 

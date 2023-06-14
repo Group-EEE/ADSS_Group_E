@@ -24,7 +24,7 @@ public class underway_transport_controller {
     private static underway_transport_controller instance;
     private static Logistical_center_controller logistical_center_controller;
     EmployeesDAO _employeesDAO;
-    
+
     public static underway_transport_controller getInstance() {
         if (instance == null) {
             instance = new underway_transport_controller();
@@ -129,7 +129,7 @@ public class underway_transport_controller {
      * @return the truck that has the registration plate
      */
     public Truck get_truck_by_registration_plate(String registration_plate){
-       return logistical_center_controller.getTruckByNumber(registration_plate);
+        return logistical_center_controller.getTruckByNumber(registration_plate);
     }
 
     /**
@@ -163,7 +163,7 @@ public class underway_transport_controller {
         transport.setDeparture_time(Time);
         //I'm here in the check start transport
         // need to create :
-         Transport_dao.getInstance().getInstance().update_transport_date_and_time(transport_ID, Date, Time);
+        Transport_dao.getInstance().getInstance().update_transport_date_and_time(transport_ID, Date, Time);
     }
 
     public boolean is_siteSupply_id_exist_in_current_transport(int transport_id, int siteSupply_ID){
@@ -432,7 +432,7 @@ public class underway_transport_controller {
             if (site_supply.getStore().getSite_name().equals(site_name)) {
                 for (String product : site_supply.getItems().keySet()) {
                     transport.deleteProducts(product, site_supply.getItems().get(product));
-                    System.out.println("We dropped " + site_supply.getItems().get(product) + " of the product - " + product);
+                    //System.out.println("We dropped " + site_supply.getItems().get(product) + " of the product - " + product);
                 }
                 truck.addWeight(-1 * site_supply.getProducts_total_weight());
             }
@@ -473,6 +473,15 @@ public class underway_transport_controller {
         return is_store_exist_in_route;
     }
 
+    public ArrayList<String> get_all_stores_with_goods(int transport_id){
+        ArrayList<String> stores_with_goods = new ArrayList<>();
+        Truck_Driver driver = get_driver_by_transport_id(transport_id);
+        for (Site_Supply site_supply : driver.getSites_documents()) {
+            stores_with_goods.add(site_supply.getStore().getSite_name());
+        }
+        return stores_with_goods;
+    }
+
     /**
      * @param transport_ID transport ID
      *                     the function adds the site to the route and all the stores that he
@@ -500,10 +509,10 @@ public class underway_transport_controller {
     }
 
     public void match_driver_and_truck(int transport_ID){
-     Truck_Driver truck_driver = get_driver_by_transport_id(transport_ID);
-     Truck truck = get_truck_by_registration_plate(get_truck_number(transport_ID));
-     truck_driver.setCurrent_truck(truck);
-     truck.setCurrent_driver(truck_driver);
+        Truck_Driver truck_driver = get_driver_by_transport_id(transport_ID);
+        Truck truck = get_truck_by_registration_plate(get_truck_number(transport_ID));
+        truck_driver.setCurrent_truck(truck);
+        truck.setCurrent_driver(truck_driver);
     }
 
     public boolean check_if_warehouse_worker_exist_in_all_stores(int transport_ID, LocalDate date){

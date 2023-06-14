@@ -301,12 +301,21 @@ public class Logistical_center_controller {
         }
     }
 
-    public ArrayList<String> get_trucks_by_cold_level(String cold_lvl){
+    public ArrayList<String> get_trucks_by_cold_level(String cold_lvl, boolean including_colder_trucks){
         cold_level cool_level = get_cold_level_by_string(cold_lvl);
         ArrayList<String> trucks_ids = new ArrayList<>();
-        for (Truck t : Trucks_dao.get_instance().getTrucks()) {
-            if (t.getCold_level().getValue() == cool_level.getValue()) {
-                trucks_ids.add(t.getRegistration_plate());
+        if (!including_colder_trucks) {
+            for (Truck t : Trucks_dao.get_instance().getTrucks()) {
+                if (t.getCold_level().getValue() == cool_level.getValue()) {
+                    trucks_ids.add(t.getRegistration_plate());
+                }
+            }
+        }
+        else {
+            for (Truck t : Trucks_dao.get_instance().getTrucks()) {
+                if (t.getCold_level().getValue() <= cool_level.getValue()) {
+                    trucks_ids.add(t.getRegistration_plate());
+                }
             }
         }
         return trucks_ids;
@@ -408,14 +417,5 @@ public class Logistical_center_controller {
             }
         }
         return false;
-    }
-    public boolean deleteTransports(LocalDate date){
-        List<Transport> transports = Transport_dao.getInstance().get_transports();
-        for (Transport transport : transports){
-            if (LocalDate.parse(transport.getDate()).isAfter(date)){
-                Transport_dao.getInstance().Delete(transport);
-            }
-        }
-        return true;
     }
 }

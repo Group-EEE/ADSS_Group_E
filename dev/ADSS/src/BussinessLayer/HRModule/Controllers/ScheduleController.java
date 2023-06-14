@@ -37,7 +37,7 @@ public class ScheduleController {
         //per gal's request, delete all transport for the past week
         if (hasSchedule(storeName,day,month,year)){
             //first get list of transports
-            Logistical_center_controller.getInstance().deleteTransports(LocalDate.of(day,month,year).minus(7, ChronoUnit.DAYS));
+            //Logistical_center_controller.getInstance().deleteTransports(LocalDate.of(day,month,year).minus(7, ChronoUnit.DAYS));
         }
         return createNewSchedule(storeName,day,month,year, List.of(RoleType.ShiftManager, RoleType.Cashier, RoleType.General,RoleType.Warehouse),List.of(RoleType.ShiftManager));
     }
@@ -329,7 +329,7 @@ public class ScheduleController {
     public boolean hasSchedule(String storeName, int day, int month, int year){
         for (int i = 0; i < 7; i++) {
             try{
-                _schedulesDAO.getSchedule(LocalDate.of(day,month,year).minus(i,ChronoUnit.DAYS),storeName);
+                _schedulesDAO.getSchedule(LocalDate.of(year,month,day).minus(i,ChronoUnit.DAYS),storeName);
                 return true;
             }catch (IllegalArgumentException e){
                continue;
