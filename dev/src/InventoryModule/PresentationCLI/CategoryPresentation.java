@@ -54,7 +54,7 @@ public class CategoryPresentation {
             c5 = option5.nextLine();
             switch (c5) {
                 case "1": //Add new subcategory
-                    System.out.println("Please enter new Category name:");
+                    System.out.println("Please enter Category name:");
                     String cat = reader.nextLine();
                     System.out.println("Please enter new SubCategory name:");
                     String subcat = reader.nextLine();

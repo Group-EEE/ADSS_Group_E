@@ -54,6 +54,14 @@ public class StoreKeeperGUI {
                 CategoriesGUI.powerOn(menuFrame);
             }
         });
+
+        opt5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuFrame.setVisible(false);
+                SubCategoryGUI.powerOn(menuFrame);
+            }
+        });
         opt7.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
