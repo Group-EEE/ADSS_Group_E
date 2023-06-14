@@ -47,6 +47,16 @@ public class StoreKeeperGUI {
                 SuperLiProductGUI.powerOn(menuFrame);
             }
         });
+
+        opt2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuFrame.setVisible(false);
+                SpecificProductGUI.powerOn(menuFrame);
+            }
+        });
+
+
         opt4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

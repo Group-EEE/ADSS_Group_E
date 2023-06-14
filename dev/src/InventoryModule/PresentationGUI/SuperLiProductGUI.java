@@ -88,14 +88,14 @@ public class SuperLiProductGUI {
         SubSubCategoryLabel.setBounds(10, 190, 150, 20);
         SubSubCategoryField.setBounds(170, 190, 150, 20);
 
-        SupplyDaysLabel.setBounds(10, 210, 150, 20);
-        SupplyDaysField.setBounds(170, 210, 150, 20);
+        SupplyDaysLabel.setBounds(10, 220, 150, 20);
+        SupplyDaysField.setBounds(170, 220, 150, 20);
 
-        ManufacturerLabel.setBounds(10, 240, 150, 20);
-        ManufacturerField.setBounds(170, 240, 150, 20);
+        ManufacturerLabel.setBounds(10, 250, 150, 20);
+        ManufacturerField.setBounds(170, 250, 150, 20);
 
-        MinimumAmountLabel.setBounds(10, 270, 150, 20);
-        MinimumAmountField.setBounds(170, 270, 150, 20);
+        MinimumAmountLabel.setBounds(10, 280, 150, 20);
+        MinimumAmountField.setBounds(170, 280, 150, 20);
 
         AddNewProduct.setBounds(200, 360, 100, 40);
 
