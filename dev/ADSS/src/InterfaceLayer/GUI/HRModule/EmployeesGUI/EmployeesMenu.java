@@ -1,6 +1,7 @@
 package InterfaceLayer.GUI.HRModule.EmployeesGUI;
 
 import BussinessLayer.HRModule.Controllers.Facade;
+import InterfaceLayer.GUI.HRModule.Login;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,21 +38,27 @@ public class EmployeesMenu extends JFrame {
         selectShiftsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openNewFrame("Select Shifts for This Week");
+                SelectShifts selectShifts = new SelectShifts();
+                selectShifts.setVisible(true);
+                dispose();
             }
         });
 
         updateInfoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openNewFrame("Update Personal Information");
+                UpdateInformation updateInformation = new UpdateInformation();
+                updateInformation.setVisible(true);
+                dispose();
             }
         });
 
         printScheduleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openNewFrame("Print Your Schedule");
+                PrintEmployeeScheduleForm printEmployeeScheduleForm = new PrintEmployeeScheduleForm();
+                printEmployeeScheduleForm.setVisible(true);
+                dispose();
             }
         });
 
@@ -63,6 +70,9 @@ public class EmployeesMenu extends JFrame {
                 } catch (Exception ex){
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
+                Login login = new Login();
+                login.setVisible(true);
+                dispose();
             }
         });
 
@@ -80,23 +90,6 @@ public class EmployeesMenu extends JFrame {
 
         // Set the frame visible
         setVisible(true);
-    }
-
-    private void openNewFrame(String option) {
-        JFrame newFrame = new JFrame(option);
-        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        newFrame.setSize(400, 200);
-
-        // Create a panel for the new frame
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel("This is the " + option + " frame.");
-        panel.add(label);
-
-        // Add the panel to the new frame
-        newFrame.getContentPane().add(panel);
-
-        // Set the new frame visible
-        newFrame.setVisible(true);
     }
 
     public static void main(String[] args) {

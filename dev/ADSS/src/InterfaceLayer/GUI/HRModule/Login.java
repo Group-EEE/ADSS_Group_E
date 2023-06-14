@@ -1,5 +1,7 @@
-package InterfaceLayer.GUI.HRModule.HRManager;
+package InterfaceLayer.GUI.HRModule;
 import BussinessLayer.HRModule.Controllers.Facade;
+import InterfaceLayer.GUI.HRModule.EmployeesGUI.EmployeesMenu;
+import InterfaceLayer.GUI.HRModule.HRManager.HRmenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
-public class Login extends JFrame {
+public class Login extends JFrame{
     private JTextField idTextField;
     private JPasswordField passwordField;
     private JButton loginButton;
@@ -62,14 +64,25 @@ public class Login extends JFrame {
 
                 String password = new String(passwordField.getPassword());
 
-                if (_facade.login(id, password)) {
-                    // Open the HRmenu screen
-                    HRmenu hrMenu = new HRmenu();
-                    hrMenu.setVisible(true);
-                    frame.setVisible(false);
-                }else {
-                    // Show an error message if the login is incorrect
-                    JOptionPane.showMessageDialog(null, "Invalid ID or password", "Error", JOptionPane.ERROR_MESSAGE);
+                try {
+                    if (_facade.login(id, password)) {
+                        if (_facade.isLoggedUserIsHRManager()) {
+                            HRmenu hrMenu = new HRmenu();
+                            hrMenu.setVisible(true);
+                            frame.setVisible(false);
+                        } else {
+                            EmployeesMenu employeesMenu = new EmployeesMenu();
+                            employeesMenu.setVisible(true);
+                            frame.setVisible(false);
+                        }
+                        // Open the HRmenu screen
+
+                    } else {
+                        // Show an error message if the login is incorrect
+                        JOptionPane.showMessageDialog(null, "Invalid ID or password", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception exception) {
+                    JOptionPane.showMessageDialog(null, exception.getMessage());
                 }
             }
         });
