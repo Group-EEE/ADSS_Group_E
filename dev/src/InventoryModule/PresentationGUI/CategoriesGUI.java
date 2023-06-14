@@ -28,7 +28,8 @@ public class CategoriesGUI {
 
         //option 3- remove category
         JLabel removeCategoryLabel = new JLabel("Choose category to remove:");
-        JLabel cantRemoveLabel = HelperFunctionGUI.createCheckLabel("Can't remove category", 250, 250, 150, 20);
+        JLabel cantRemoveLabel = HelperFunctionGUI.createCheckLabel("Can't remove category", 175, 150, 150, 20);
+        JLabel categoryExist = HelperFunctionGUI.createCheckLabel("Category already exist", 175, 150, 150, 20);
 
         //----------------------------------------- Create JTextField ----------------------------------------
         JTextField addCategoryField = new JTextField();
@@ -75,7 +76,7 @@ public class CategoriesGUI {
 
         //------------------------------------ Add to currFrame -------------------------------------
 
-        HelperFunctionGUI.addComponentsToFrame(categoriesFrame, new JComponent[] {exitButton,cantRemoveLabel,addCategoryField,RemoveCategoryJButton ,removeCategoryLabel,chooseCategoryToRemove,chooseOptionComboBox, chooseLabel, scrollPane,AddCategoryJButton, showAllCategories, newCategoryLabel});
+        HelperFunctionGUI.addComponentsToFrame(categoriesFrame, new JComponent[] {exitButton,categoryExist,cantRemoveLabel,addCategoryField,RemoveCategoryJButton ,removeCategoryLabel,chooseCategoryToRemove,chooseOptionComboBox, chooseLabel, scrollPane,AddCategoryJButton, showAllCategories, newCategoryLabel});
 
         //-------------------------------------- Set not visible ---------------------------------------------
         //option 1
@@ -97,42 +98,53 @@ public class CategoriesGUI {
             public void actionPerformed(ActionEvent e) {
                 String choose = chooseOptionComboBox.getSelectedItem().toString();
                 if (choose.equals("")) {
-
+                    categoryExist.setVisible(false);
+                    cantRemoveLabel.setVisible(false);
                     HelperFunctionGUI.hideComponents(JComponentsNewCategory);
+                    HelperFunctionGUI.hideComponents(JComponentsRemoveCategory);
                     HelperFunctionGUI.hideComponents(JComponentsShowAllCategories);
                 }
                 if(choose.equals("Get all category names")){
-                    //chooseLabel.setVisible(false);
-                    //chooseOptionComboBox.setVisible(false);
+                    cantRemoveLabel.setVisible(false);
+                    categoryExist.setVisible(false);
                     String details = HelperFunctionGUI.createTextAreaCategories();
                     textAreaCategories.setText(details);
                     HelperFunctionGUI.hideComponents(JComponentsNewCategory);
                     HelperFunctionGUI.showComponents(JComponentsShowAllCategories);
                 }
                 if(choose.equals("Add new category")){
-                   // chooseLabel.setVisible(false);
-                    //chooseOptionComboBox.setVisible(false);
+                    categoryExist.setVisible(false);
+                    cantRemoveLabel.setVisible(false);
                     HelperFunctionGUI.hideComponents(JComponentsShowAllCategories);
                     HelperFunctionGUI.hideComponents(JComponentsRemoveCategory);
                     HelperFunctionGUI.showComponents(JComponentsNewCategory);
                     AddCategoryJButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            if(addCategoryField.getText()!=null){
+                            if(!(addCategoryField.getText().equals("")) && !(categoryController.check_if_exist_cat(addCategoryField.getText()))){
+                                categoryExist.setVisible(false);
                                 HelperFunctionGUI.ShowProcessSuccessfully();
                                 CategoryController.addCategory(addCategoryField.getText());
                             }
-
+                            else if(categoryController.check_if_exist_cat(addCategoryField.getText()))
+                                categoryExist.setVisible(true);
                         }
                     });
 
                 }
                 if(choose.equals("Remove category")){
-                    //chooseLabel.setVisible(false);
-                    //chooseOptionComboBox.setVisible(false);
+                    cantRemoveLabel.setVisible(false);
+                    categoryExist.setVisible(false);
                     HelperFunctionGUI.hideComponents(JComponentsShowAllCategories);
                     HelperFunctionGUI.hideComponents(JComponentsNewCategory);
                     HelperFunctionGUI.showComponents(JComponentsRemoveCategory);
+
+                    chooseCategoryToRemove.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            cantRemoveLabel.setVisible(false);
+                        }
+                    });
                     RemoveCategoryJButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -145,6 +157,7 @@ public class CategoriesGUI {
                             else{
                                 HelperFunctionGUI.ShowProcessSuccessfully();
                                 categoryController.removeCategory(categoryToRemoveString);
+                                cantRemoveLabel.setVisible(false);
                             }
                         }
                     });
