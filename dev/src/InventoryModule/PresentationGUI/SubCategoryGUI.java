@@ -27,6 +27,7 @@ public class SubCategoryGUI {
         //option 2
         JLabel CategoryLabel2 = new JLabel("Category name:");
         JLabel SubCategoryLabel2 = new JLabel("Subcategory name:");
+        JLabel cantRemoveSub = HelperFunctionGUI.createCheckLabel("Can't remove subcategory", 170, 200, 175, 20);
 
         //----------------------------------------- Create JTextField ----------------------------------------
 
@@ -38,6 +39,7 @@ public class SubCategoryGUI {
 
         //option 2
         JComboBox<String> chooseMainCategoryComboBox2 = HelperFunctionGUI.createComboBoxCategories();
+        JComboBox<String> choosesubCategoryComboBox2 = new JComboBox<>();
 
         //----------------------------------------- Create JButton ----------------------------------------
 
@@ -45,6 +47,10 @@ public class SubCategoryGUI {
 
         //option 1
         JButton AddSubcategoryJButton = new JButton("Add subcategory");
+
+        //option 2
+        JButton RemoveSubcategoryJButton = new JButton("Remove subcategory");
+
 
         //----------------------------------------- Create JTextField ----------------------------------------
         JTextField addSubCategoryField = new JTextField();
@@ -65,18 +71,20 @@ public class SubCategoryGUI {
         CategoryLabel2.setBounds(50, 100, 150, 20);
         SubCategoryLabel2.setBounds(50, 150, 150, 20);
         chooseMainCategoryComboBox2.setBounds(160, 100, 250, 20);
+        choosesubCategoryComboBox2.setBounds(170, 150, 240, 20);
+        RemoveSubcategoryJButton.setBounds(170, 250, 160, 25);
 
         //-------------------------------------- Set not visible ---------------------------------------------
-
+        cantRemoveSub.setVisible(false);
         //------------------------------------ Add to currFrame -------------------------------------
-        HelperFunctionGUI.addComponentsToFrame(SubCategoryFrame, new JComponent[] {chooseMainCategoryComboBox2,SubCategoryLabel2,CategoryLabel2,AddSubcategoryJButton,exitButton,addSubCategoryField,addSubCategoryField,CategoryLabel,chooseMainCategoryComboBox,newSubCategoryLabel,chooseLabel, chooseOptionComboBox});
+        HelperFunctionGUI.addComponentsToFrame(SubCategoryFrame, new JComponent[] {cantRemoveSub,RemoveSubcategoryJButton, choosesubCategoryComboBox2,chooseMainCategoryComboBox2,SubCategoryLabel2,CategoryLabel2,AddSubcategoryJButton,exitButton,addSubCategoryField,addSubCategoryField,CategoryLabel,chooseMainCategoryComboBox,newSubCategoryLabel,chooseLabel, chooseOptionComboBox});
 
         //option 1
         JComponent[] JComponentsNewCategory = new JComponent[]{AddSubcategoryJButton,addSubCategoryField,CategoryLabel,newSubCategoryLabel, chooseMainCategoryComboBox};
         HelperFunctionGUI.hideComponents(JComponentsNewCategory);
 
         //option 2
-        JComponent[] JComponentsRemoveSubCategory = new JComponent[]{chooseMainCategoryComboBox2, SubCategoryLabel2, CategoryLabel2};
+        JComponent[] JComponentsRemoveSubCategory = new JComponent[]{RemoveSubcategoryJButton, choosesubCategoryComboBox2,chooseMainCategoryComboBox2, SubCategoryLabel2, CategoryLabel2};
         HelperFunctionGUI.hideComponents(JComponentsRemoveSubCategory);
 
         // ------------------------------------- Add action listener to JObjects ------------------------------
@@ -90,6 +98,7 @@ public class SubCategoryGUI {
                 }
                 if(choose.equals("Add new subcategory")){
                     HelperFunctionGUI.showComponents(JComponentsNewCategory);
+                    HelperFunctionGUI.hideComponents(JComponentsRemoveSubCategory);
                     AddSubcategoryJButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -107,6 +116,34 @@ public class SubCategoryGUI {
                 if(choose.equals("Remove subcategory")){
                     HelperFunctionGUI.showComponents(JComponentsRemoveSubCategory);
                     HelperFunctionGUI.hideComponents(JComponentsNewCategory);
+                    chooseMainCategoryComboBox2.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            String choose = chooseMainCategoryComboBox2.getSelectedItem().toString();
+                            HelperFunctionGUI.setSubCategoriesComboBoxField(choose, choosesubCategoryComboBox2);
+                        }
+                    });
+                    RemoveSubcategoryJButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            String choose = chooseMainCategoryComboBox2.getSelectedItem().toString();
+                            String chooseSub = "";
+                            if(!choose.equals("")){
+                                chooseSub = choosesubCategoryComboBox2.getSelectedItem().toString();
+                            }
+
+                            if(choose.equals("") && chooseSub.equals("")){
+
+                            }
+                            else if(HelperFunctionGUI.canRemoveSubCategory(choose, chooseSub) && !chooseSub.equals("")){
+                                cantRemoveSub.setVisible(true);
+                            }
+                            else if (!HelperFunctionGUI.canRemoveSubCategory(choose, chooseSub)&& !chooseSub.equals("")){
+                                categoryController.removeSubCategory(chooseSub, choose);
+                                HelperFunctionGUI.ShowProcessSuccessfully();
+                            }
+                        }
+                    });
                 }
             }
         });

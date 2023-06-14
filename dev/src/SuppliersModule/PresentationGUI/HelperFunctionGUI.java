@@ -4,6 +4,7 @@ import InventoryModule.Business.Category;
 import InventoryModule.Business.Controllers.CategoryController;
 import InventoryModule.Business.Controllers.ProductController;
 import InventoryModule.Business.SpecificProduct;
+import InventoryModule.Business.SubCategory;
 import InventoryModule.Business.SuperLiProduct;
 import SuppliersModule.Business.*;
 import SuppliersModule.Business.Controllers.SupplierController;
@@ -15,7 +16,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 
 public class HelperFunctionGUI {
@@ -24,23 +24,22 @@ public class HelperFunctionGUI {
     static CategoryController categoryController = CategoryController.getInstance();
     static ProductController productController = ProductController.getInstance();
 
-    public static void addComponentsToFrame(JFrame frame, JComponent[] components){
-        for(JComponent component : components)
+    public static void addComponentsToFrame(JFrame frame, JComponent[] components) {
+        for (JComponent component : components)
             frame.add(component);
     }
 
-    public static void hideComponents(JComponent[] components){
-        for(JComponent component : components)
+    public static void hideComponents(JComponent[] components) {
+        for (JComponent component : components)
             component.setVisible(false);
     }
 
-    public static void showComponents(JComponent[] components){
-        for(JComponent component : components)
+    public static void showComponents(JComponent[] components) {
+        for (JComponent component : components)
             component.setVisible(true);
     }
 
-    public static JComboBox<String> createComboBoxSupplierNum()
-    {
+    public static JComboBox<String> createComboBoxSupplierNum() {
         JComboBox<String> comboBoxSupplierNum = new JComboBox<>();
         List<String> comboBoxSupplierNumItems = new ArrayList<>();
         comboBoxSupplierNumItems.add("");
@@ -54,8 +53,7 @@ public class HelperFunctionGUI {
         return comboBoxSupplierNum;
     }
 
-    public static void createComboBoxManufacturer(JComboBox<String> comboBox, String supplierNum)
-    {
+    public static void createComboBoxManufacturer(JComboBox<String> comboBox, String supplierNum) {
         comboBox.removeAllItems();
 
         List<String> comboBoxSupplierNumItems = new ArrayList<>();
@@ -69,8 +67,7 @@ public class HelperFunctionGUI {
             comboBox.addItem(item);
     }
 
-    public static void createComboBoxSupplierProductDiscount(JComboBox<String> comboBox, String supplierNum, String catalog)
-    {
+    public static void createComboBoxSupplierProductDiscount(JComboBox<String> comboBox, String supplierNum, String catalog) {
         comboBox.removeAllItems();
 
         List<String> comboBoxProductDiscountItems = new ArrayList<>();
@@ -86,9 +83,8 @@ public class HelperFunctionGUI {
 
     }
 
-    public static JComboBox<String>  createComboBoxSupplierProduct(String supplierNum)
-    {
-        JComboBox<String> comboBoxSupplierProduct= new JComboBox<>();
+    public static JComboBox<String> createComboBoxSupplierProduct(String supplierNum) {
+        JComboBox<String> comboBoxSupplierProduct = new JComboBox<>();
         List<String> comboBoxSupplierProductItems = new ArrayList<>();
 
         comboBoxSupplierProductItems.add("");
@@ -102,9 +98,8 @@ public class HelperFunctionGUI {
         return comboBoxSupplierProduct;
     }
 
-    public static JComboBox<String>  createComboBoxContact(String supplierNum)
-    {
-        JComboBox<String> comboBoxContact= new JComboBox<>();
+    public static JComboBox<String> createComboBoxContact(String supplierNum) {
+        JComboBox<String> comboBoxContact = new JComboBox<>();
         List<String> comboBoxSupplierProductItems = new ArrayList<>();
 
         comboBoxSupplierProductItems.add("");
@@ -119,9 +114,8 @@ public class HelperFunctionGUI {
         return comboBoxContact;
     }
 
-    public static JComboBox<String>  createComboBoxOrderDiscount(String supplierNum)
-    {
-        JComboBox<String> comboBoxSupplierProduct= new JComboBox<>();
+    public static JComboBox<String> createComboBoxOrderDiscount(String supplierNum) {
+        JComboBox<String> comboBoxSupplierProduct = new JComboBox<>();
         List<String> comboBoxSupplierProductItems = new ArrayList<>();
 
         comboBoxSupplierProductItems.add("");
@@ -137,9 +131,8 @@ public class HelperFunctionGUI {
     }
 
 
-    public static JComboBox<String> createComboBoxBarcodes()
-    {
-        JComboBox<String> comboBoxGenericProduct= new JComboBox<>();
+    public static JComboBox<String> createComboBoxBarcodes() {
+        JComboBox<String> comboBoxGenericProduct = new JComboBox<>();
         List<String> comboBoxGenericProductItems = new ArrayList<>();
         comboBoxGenericProductItems.add("");
         Map<Integer, GenericProduct> genericProductMap = supplierController.getAllGenericProduct();
@@ -157,8 +150,7 @@ public class HelperFunctionGUI {
     /**
      * This method create an "ProcessSuccessfully" frame.
      */
-    public static void ShowProcessSuccessfully()
-    {
+    public static void ShowProcessSuccessfully() {
         JFrame ProcessSuccessfullyFrame = new JFrame("The process ended successfully");
         ProcessSuccessfullyFrame.setSize(300, 300);
         ProcessSuccessfullyFrame.setLayout(null);
@@ -172,7 +164,9 @@ public class HelperFunctionGUI {
         ProcessSuccessfullyFrame.add(okButton);
         okButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {ProcessSuccessfullyFrame.dispose();}
+            public void actionPerformed(ActionEvent e) {
+                ProcessSuccessfullyFrame.dispose();
+            }
         });
 
         ProcessSuccessfullyFrame.setVisible(true);
@@ -182,8 +176,7 @@ public class HelperFunctionGUI {
     /**
      * This method create an "AddSuccess" frame.
      */
-    public static void ShowAddSuccess()
-    {
+    public static void ShowAddSuccess() {
         JFrame AddSuccessFrame = new JFrame("Add success");
         AddSuccessFrame.setSize(200, 200);
         AddSuccessFrame.setLayout(null);
@@ -197,20 +190,22 @@ public class HelperFunctionGUI {
         AddSuccessFrame.add(okButton);
         okButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {AddSuccessFrame.dispose();}
+            public void actionPerformed(ActionEvent e) {
+                AddSuccessFrame.dispose();
+            }
         });
 
         AddSuccessFrame.setVisible(true);
     }
 
-    public static JFrame createNewFrame(String title){
+    public static JFrame createNewFrame(String title) {
         JFrame page1Frame = new JFrame(title);
         page1Frame.setSize(500, 500);
         page1Frame.setLayout(null);
         return page1Frame;
     }
 
-    public static JButton createExitButton(JFrame currFrame, JFrame oldFrame){
+    public static JButton createExitButton(JFrame currFrame, JFrame oldFrame) {
         JButton exitButton = new JButton("Exit");
         exitButton.setBounds(200, 410, 100, 40);
         exitButton.addActionListener(new ActionListener() {
@@ -218,7 +213,8 @@ public class HelperFunctionGUI {
             public void actionPerformed(ActionEvent e) {
                 currFrame.dispose();
                 oldFrame.setVisible(true);
-            }});
+            }
+        });
 
         currFrame.add(exitButton);
         return exitButton;
@@ -226,15 +222,15 @@ public class HelperFunctionGUI {
 
     /**
      * This method create label which functions as a check label
+     *
      * @param message - A message that the label will display
-     * @param x - coordinate x
-     * @param y - coordinate y
-     * @param width - width
-     * @param height - height
+     * @param x       - coordinate x
+     * @param y       - coordinate y
+     * @param width   - width
+     * @param height  - height
      * @return JLabel
      */
-    public static JLabel createCheckLabel(String message, int x, int y, int width, int height)
-    {
+    public static JLabel createCheckLabel(String message, int x, int y, int width, int height) {
         JLabel checkLabel = new JLabel(message);
         checkLabel.setForeground(Color.RED);
         checkLabel.setBounds(x, y, width, height);
@@ -246,53 +242,61 @@ public class HelperFunctionGUI {
 
     /**
      * Check if value is valid integer
+     *
      * @param value - value
      * @return true - if valid, false - else
      */
-    public static boolean CheckIntInput(String value)
-    {
+    public static boolean CheckIntInput(String value) {
         int num;
-        try {num = Integer.parseInt(value);}
-        catch (NumberFormatException error) {return false;}
+        try {
+            num = Integer.parseInt(value);
+        } catch (NumberFormatException error) {
+            return false;
+        }
         return num > 0;
     }
 
     /**
      * Check if value is valid float
+     *
      * @param value - value
      * @return true - if valid, false - else
      */
-    public static boolean CheckFloatInput(String value)
-    {
+    public static boolean CheckFloatInput(String value) {
         float num;
-        try {num = Float.parseFloat(value);}
-        catch (NumberFormatException error) {return false;}
+        try {
+            num = Float.parseFloat(value);
+        } catch (NumberFormatException error) {
+            return false;
+        }
         return !(num <= 0);
     }
 
     /**
      * Check if value is valid float
+     *
      * @param value - value
      * @return true - if valid, false - else
      */
-    public static boolean CheckDoubleInput(String value)
-    {
+    public static boolean CheckDoubleInput(String value) {
         double num;
-        try {num = Double.parseDouble(value);}
-        catch (NumberFormatException error) {return false;}
+        try {
+            num = Double.parseDouble(value);
+        } catch (NumberFormatException error) {
+            return false;
+        }
         return !(num <= 0);
     }
 
 
-    public static JComboBox<String> createComboBoxCategories()
-    {
+    public static JComboBox<String> createComboBoxCategories() {
         JComboBox<String> comboBoxCategories = new JComboBox<>();
 
         List<String> comboBoxCategoriesItems = new ArrayList<>();
         comboBoxCategoriesItems.add("");
 
         List<Category> allCategories = categoryController.getCategories();
-        for(Category category : allCategories)
+        for (Category category : allCategories)
             comboBoxCategoriesItems.add(category.getName());
 
         for (String item : comboBoxCategoriesItems)
@@ -301,13 +305,13 @@ public class HelperFunctionGUI {
         return comboBoxCategories;
     }
 
-    public static JComboBox<String> createComboBoxProductName(){
+    public static JComboBox<String> createComboBoxProductName() {
         JComboBox<String> comboBoxProductName = new JComboBox<>();
         List<String> comboBoxProductsItems = new ArrayList<>();
         comboBoxProductsItems.add("");
 
         List<SuperLiProduct> allProducts = ProductController.getProducts();
-        for(SuperLiProduct slp : allProducts)
+        for (SuperLiProduct slp : allProducts)
             comboBoxProductsItems.add(slp.getPName());
 
         for (String item : comboBoxProductsItems)
@@ -316,91 +320,123 @@ public class HelperFunctionGUI {
         return comboBoxProductName;
     }
 
-    public static void createSpecificProductIds(String ProductName, JComboBox<String> comboBoxProductID){
+    public static void createSpecificProductIds(String ProductName, JComboBox<String> comboBoxProductID) {
         comboBoxProductID.removeAllItems();
         List<String> comboBoxSpecificProductItems = new ArrayList<>();
         comboBoxSpecificProductItems.add("");
 
         List<SpecificProduct> allSpecificProducts = ProductController.getSpecificProductsByProductName(ProductName);
-        for(SpecificProduct slp : allSpecificProducts)
+        for (SpecificProduct slp : allSpecificProducts)
             comboBoxSpecificProductItems.add(Integer.toString(slp.getSp_ID()));
         for (String item : comboBoxSpecificProductItems)
             comboBoxProductID.addItem(item);
         comboBoxProductID.setSelectedItem(comboBoxProductID);
     }
 
-    public static JComboBox<String> createComboBoxProductBarcode(){
+    public static JComboBox<String> createComboBoxProductBarcode() {
         JComboBox<String> comboBoxProductBarcode = new JComboBox<>();
         List<String> comboBoxProductItems = new ArrayList<>();
         comboBoxProductItems.add("");
 
         List<SuperLiProduct> allProducts = ProductController.getProducts();
-        for(SuperLiProduct slp : allProducts)
+        for (SuperLiProduct slp : allProducts)
             comboBoxProductItems.add(Integer.toString(slp.getBarcode()));
         for (String item : comboBoxProductItems)
             comboBoxProductBarcode.addItem(item);
 
         return comboBoxProductBarcode;
     }
-    public static void setProductNameField(String choose, JTextField productNameField){
+
+    public static void setProductNameField(String choose, JTextField productNameField) {
         productNameField.removeAll();
         String name = productController.getProductByBarcode(Integer.parseInt(choose)).getPName();
         productNameField.setText(name);
     }
 
-    public static JComboBox<String> createComboBoxofnewProductBarcode(){
+    public static JComboBox<String> createComboBoxofnewProductBarcode() {
         JComboBox<String> comboBoxProductBarcode = new JComboBox<>();
         List<String> comboBoxProductItems = new ArrayList<>();
         comboBoxProductItems.add("");
 
         List<Integer> allProducts = ProductController.returnListofneProductsBarcode();
-        for(Integer barcode : allProducts)
+        for (Integer barcode : allProducts)
             comboBoxProductItems.add(Integer.toString(barcode));
         for (String item : comboBoxProductItems)
             comboBoxProductBarcode.addItem(item);
         return comboBoxProductBarcode;
     }
 
-    public static void settextAreaAllBarcodes(JTextArea textAreaAllBarcodes){
+    public static void settextAreaAllBarcodes(JTextArea textAreaAllBarcodes) {
         String barcodes = ProductController.getInstance().GetAllProductBarcode();
         textAreaAllBarcodes.setText(barcodes);
     }
-    public static String createTextAreaCategories()
-    {
+
+    public static String createTextAreaCategories() {
         List<String> CategoryNames = new ArrayList<>();
         String willBeReturned = "";
         List<Category> allCategories = categoryController.getCategories();
-        for(Category category : allCategories)
+        for (Category category : allCategories)
             CategoryNames.add(category.getName());
-        for(String categoryName : CategoryNames){
-            willBeReturned = willBeReturned + categoryName +"\n";
+        for (String categoryName : CategoryNames) {
+            willBeReturned = willBeReturned + categoryName + "\n";
         }
 
         return willBeReturned;
     }
-    public static boolean canRemoveCategory(String categoryName){
+
+    public static boolean canRemoveCategory(String categoryName) {
         //if true cannot remove category
         boolean exist = false; //if there is a product that belongs to this category- will be true
         Category c = null;
-        if(categoryController.check_if_exist_cat(categoryName)){
-                for(int j=0; j< ProductController.getProducts().size(); j++){
-                    //check for every product in ths store if its category is the given category
-                    if(ProductController.getProducts().get(j).getCategory().compareTo(categoryName)==0){
-                        exist = true;
-                    }
+        if (categoryController.check_if_exist_cat(categoryName)) {
+            for (int j = 0; j < ProductController.getProducts().size(); j++) {
+                //check for every product in ths store if its category is the given category
+                if (ProductController.getProducts().get(j).getCategory().compareTo(categoryName) == 0) {
+                    exist = true;
                 }
             }
+        }
         return exist;
     }
 
-    public static void setSupplierComboBoxField(String choose, JComboBox<String> SupplierNameComboBox){
+    public static void setSupplierComboBoxField(String choose, JComboBox<String> SupplierNameComboBox) {
         SupplierNameComboBox.removeAllItems();
         List<String> SupplierNameItems = supplierController.returnSuppliersaccordingtoBarcode(Integer.parseInt(choose));
         SupplierNameItems.add("");
 
-        for(String supplier: SupplierNameItems) {
+        for (String supplier : SupplierNameItems) {
             SupplierNameComboBox.addItem(supplier);
         }
     }
 
+
+    public static void setSubCategoriesComboBoxField(String choose, JComboBox<String> SubCategoriesComboBox) {
+        SubCategoriesComboBox.removeAllItems();
+
+        List<String> comboBoxSubCategoriesItems = new ArrayList<>();
+        comboBoxSubCategoriesItems.add("");
+
+        List<SubCategory> allCategories = categoryController.getAllSubByMain(choose);
+        for (SubCategory subCategory : allCategories)
+            comboBoxSubCategoriesItems.add(subCategory.getName());
+
+        for (String item : comboBoxSubCategoriesItems)
+            SubCategoriesComboBox.addItem(item);
+
+    }
+
+    public static boolean canRemoveSubCategory(String categoryName, String SubCategoryName) {
+        //if exist is true - cant remove
+        boolean exist = false; //if there is a product that belongs to this subcategory- will be true
+        if (categoryController.check_if_exist_subcat(SubCategoryName)) {
+            for (int j = 0; j < ProductController.getProducts().size(); j++) {
+                //check for every product in ths store if its subcategory is the given subcategory
+                if (ProductController.getProducts().get(j).getSubCategory().compareTo(SubCategoryName) == 0) {
+                    exist = true;
+                }
+            }
+        }
+        return exist;
+    }
 }
+
