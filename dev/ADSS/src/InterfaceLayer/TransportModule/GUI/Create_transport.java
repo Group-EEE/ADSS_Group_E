@@ -44,6 +44,7 @@ public class Create_transport extends JFrame {
     private boolean isFinished = true;
     private Set<String> selected_stores;
     private Set<String> selected_suppliers;
+    private String current_planned_date;
 
     public Create_transport(Transport_main transportMain) {
         this.main_frame = transportMain;
@@ -83,15 +84,13 @@ public class Create_transport extends JFrame {
             @Override
             public void focusLost(FocusEvent e) {
                 super.focusLost(e);
+                if (!plannedDate.getText().equals(current_planned_date)){
+                    reset_fields();
+                }
                 if (!plannedDate.getText().isEmpty()) {
                     validate_planned_date();
                 }
-            }
-
-            @Override
-            public void focusGained(FocusEvent e) {
-                super.focusGained(e);
-                reset_fields();
+                current_planned_date = plannedDate.getText();
             }
         });
 
@@ -114,7 +113,7 @@ public class Create_transport extends JFrame {
                 if (Trucks.getSelectedItem() != null){
                     Trucks.removeAllItems();
                 }
-                ArrayList<String> trucks_IDs = Logistical_center_controller.getInstance().get_trucks_by_cold_level((String) coldLevel.getSelectedItem());
+                ArrayList<String> trucks_IDs = Logistical_center_controller.getInstance().get_trucks_by_cold_level((String) coldLevel.getSelectedItem(), true);
                 if (trucks_IDs.isEmpty()) {
                     // Handle the empty drivers list, e.g., show a message or set a default driver
                     JOptionPane.showMessageDialog(null, "No trucks found for that cold level.");
@@ -306,6 +305,9 @@ public class Create_transport extends JFrame {
         Suppliers.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(!isFinished){
+                    return;
+                }
                 int size = selected_suppliers.size();
                 selected_suppliers.add(Suppliers.getSelectedItem().toString());
                 if (size + 1 == selected_suppliers.size()){
@@ -389,6 +391,7 @@ public class Create_transport extends JFrame {
     }
 
     private void reset_fields() {
+        isFinished = false;
         if (Trucks.getSelectedItem() != null) {
             Trucks.removeAllItems();
         }
@@ -402,9 +405,10 @@ public class Create_transport extends JFrame {
         selected_stores.clear();
         selected_stores_text.setText("");
         selected_suppliers_text.setText("");
-        isFinished = false;
         areas.setSelectedIndex(0);
         Suppliers.setSelectedIndex(0);
+        plannedDate.setText("");
+        transportID.setText("");
         isFinished = true;
     }
 

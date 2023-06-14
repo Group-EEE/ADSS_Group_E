@@ -59,12 +59,13 @@ public Cold_level_choice(Transport_main transportMain, int scene) {
     private void open_frame(int choice){
         switch (choice){
             case 1:
-                ArrayList<String> trucks_IDs = Logistical_center_controller.getInstance().get_trucks_by_cold_level(cold_level);
+                ArrayList<String> trucks_IDs = Logistical_center_controller.getInstance().get_trucks_by_cold_level(cold_level, false);
                 if (trucks_IDs.size() == 0){
                     JOptionPane.showMessageDialog(null, "Currently we don't have any trucks with this cold level.");
                     goBack();
+                    break;
                 }
-                Trucks_presentation trucks_presentation = new Trucks_presentation(trucks_IDs, main_frame);
+                Trucks_presentation trucks_presentation = new Trucks_presentation(trucks_IDs, this);
                 trucks_presentation.setVisible(true);
                 setVisible(false);
                 break;

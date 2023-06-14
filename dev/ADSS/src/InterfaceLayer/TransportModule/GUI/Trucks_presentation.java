@@ -16,9 +16,9 @@ public class Trucks_presentation extends JFrame{
     private JPanel trucksPresentation;
     private JButton present;
     private ArrayList<String> trucks_IDs;
-    Transport_main main_frame;
-    public Trucks_presentation(ArrayList<String> trucks_IDs, Transport_main main_frame) {
-        this.main_frame = main_frame;
+    Cold_level_choice parent_frame;
+    public Trucks_presentation(ArrayList<String> trucks_IDs, Cold_level_choice parent_frame) {
+        this.parent_frame = parent_frame;
         this.trucks_IDs = trucks_IDs;
         for (String truckID : trucks_IDs) {
             trucks.addItem(truckID);
@@ -54,7 +54,7 @@ public class Trucks_presentation extends JFrame{
     }
 
     private void goBack() {
-        main_frame.setVisible(true);
+        parent_frame.setVisible(true);
         dispose();
     }
 }

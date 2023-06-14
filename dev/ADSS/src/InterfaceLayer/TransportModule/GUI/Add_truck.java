@@ -84,7 +84,7 @@ public class Add_truck extends JFrame {
         cool_level.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    cool_level_string = cool_level.getSelectedItem().toString();
+                cool_level_string = cool_level.getSelectedItem().toString();
             }
         });
 

@@ -1,5 +1,7 @@
 package InterfaceLayer.TransportModule.GUI;
 
+import BussinessLayer.TransportationModule.controllers.Logistical_center_controller;
+import BussinessLayer.TransportationModule.objects.Transport;
 import DataAccessLayer.HRMoudle.StoresDAO;
 import DataAccessLayer.Transport.Suppliers_dao;
 import DataAccessLayer.Transport.Transport_dao;
@@ -7,6 +9,10 @@ import DataAccessLayer.Transport.Transport_dao;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class Transport_main extends JFrame{
     private JButton startButton;
@@ -69,11 +75,23 @@ public class Transport_main extends JFrame{
                 setVisible(false);
                 break;
             case 4:
-                if (Transport_dao.getInstance().get_transports().size() == 0){
-                    JOptionPane.showMessageDialog(null, "There's no transports in the Database!");
+                ArrayList<Integer> transport_ids = new ArrayList<>();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                // Get the current date
+                LocalDate currentDate = LocalDate.now();
+                String date_today = currentDate.format(formatter);
+                for (Map.Entry<Integer, Transport> entry : Logistical_center_controller.getInstance().getTransport_Log().entrySet()) {
+                    if (!entry.getValue().Started() && entry.getValue().getPlanned_date().equals(date_today)) {
+                        transport_ids.add(entry.getKey());
+                    }
+                }
+
+
+                if (transport_ids.size() == 0){
+                    JOptionPane.showMessageDialog(null, "There's no transports planned for today!");
                     break;
                 }
-                Send_transport send_transport = new Send_transport(this);
+                Send_transport send_transport = new Send_transport(this, transport_ids);
                 send_transport.setVisible(true);
                 setVisible(false);
                 break;
