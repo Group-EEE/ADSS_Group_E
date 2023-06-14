@@ -1,6 +1,7 @@
 package InterfaceLayer.GUI.HRModule.HRManager;
 
 import BussinessLayer.HRModule.Controllers.Facade;
+import BussinessLayer.HRModule.Controllers.StoreController;
 import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Shift;
 
@@ -78,7 +79,17 @@ public class ApproveSchedule extends JFrame {
         }
 
         String storeName = storeNameField.getText();
-        rejectedShifts = _facade.approveSchedule(storeName);
+        try{
+            _facade.getAllStores().contains(StoreController.getInstance().getStore(storeName));
+        }catch (Exception ex){
+
+            JOptionPane.showMessageDialog(ApproveSchedule.this, "store dosent exist", "Missing Information", JOptionPane.ERROR_MESSAGE);
+        }
+        try{
+            rejectedShifts = _facade.approveSchedule(storeName);
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(ApproveSchedule.this, "the store dosent have a schedual", "Missing Information", JOptionPane.ERROR_MESSAGE);
+        }
         if (currentIndex < rejectedShifts.size()) {
             Shift shift = rejectedShifts.get(currentIndex);
             StringBuilder message = new StringBuilder("Shift ID: " + shift.getShiftID() + "\n");

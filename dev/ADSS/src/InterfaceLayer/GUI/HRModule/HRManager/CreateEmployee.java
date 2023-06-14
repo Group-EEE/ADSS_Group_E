@@ -89,7 +89,7 @@ public class CreateEmployee extends JFrame {
                     hrmenu.setVisible(true);
                     dispose();
                 } else {
-                    JOptionPane.showMessageDialog(null, "invalid input", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "one or more detail is wrong", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
 

@@ -56,7 +56,11 @@ public class Login extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 int id = -1;
                 if(onlyDigits(idTextField.getText(),idTextField.getText().length())){
-                    id = Integer.parseInt(idTextField.getText());
+                    try {
+                        id = Integer.parseInt(idTextField.getText());
+                    }catch(Exception ex){
+                        JOptionPane.showMessageDialog(null, "ID must contain numbers only", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "ID must contain numbers only", "Error", JOptionPane.ERROR_MESSAGE);

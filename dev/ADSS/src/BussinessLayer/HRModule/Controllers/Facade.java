@@ -95,7 +95,7 @@ public class Facade {
     }
 
     public boolean createEmployee(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployement, String password, boolean isHRManager) {
-        if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null){
+        if (firstName == null || firstName.equals("") || lastName == null || lastName.equals("") || age < 0 || employeeID < 0 || bankAccount == null || bankAccount.equals("") || hiringCondition == null|| hiringCondition.equals("") || password == null || password.equals("")){
             System.out.println("Invalid arguments");
             return false;
         }
@@ -136,6 +136,10 @@ public class Facade {
 
     //_storeController
     public boolean createStore(String storeName, String storeAddress, String phone, String siteContactName, int area){
+        if(storeName == null || storeName.equals("") || storeAddress == null || storeAddress.equals("") || phone == null || phone.equals("") ||siteContactName == null || siteContactName.equals("") || area<0){
+            System.out.println("invalid argument");
+            return false;
+        }
         return _storeController.createStore(storeName, storeAddress,phone,siteContactName,area);
     }
 
@@ -152,7 +156,16 @@ public class Facade {
             System.out.println("Store doesn't exist");
             return false;
         }
-        return _storeController.addEmployeeToStore(employeeID, storeName);
+        if(storeName == null || storeName.equals("")){
+            System.out.println("Store doesn't exist");
+            return false;
+        }
+        if(_storeController.addEmployeeToStore(employeeID, storeName)){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public boolean removeEmployeeFromStore(int employeeID, String storeName){
@@ -167,6 +180,10 @@ public class Facade {
     //_ScheduleController
     public boolean createNewStoreSchedule(String StoreName, int day, int month, int year){
         if (!_storeController.existsStore(StoreName)) {
+            System.out.println("Store doesn't exist in order to create for it a schedule");
+            return false;
+        }
+        if (StoreName == null || StoreName.equals("")){
             System.out.println("Store doesn't exist in order to create for it a schedule");
             return false;
         }

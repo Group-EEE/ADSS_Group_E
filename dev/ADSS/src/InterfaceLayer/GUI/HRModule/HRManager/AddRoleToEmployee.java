@@ -2,11 +2,12 @@ package InterfaceLayer.GUI.HRModule.HRManager;
 
 import BussinessLayer.HRModule.Controllers.Facade;
 import BussinessLayer.HRModule.Objects.RoleType;
-
+//todo: find out how to make only one pop massage
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class AddRoleToEmployee extends JFrame {
     private final Facade _facade = Facade.getInstance();
@@ -20,72 +21,74 @@ public class AddRoleToEmployee extends JFrame {
         // Create 10 JLabel and JTextField pairs
         JLabel[] labels = new JLabel[2];
         labels[0] = new JLabel("Employee ID:");
-        labels[1] = new JLabel("role:");
+        labels[1] = new JLabel("Role:");
 
-
-
-
-        JTextField[] textFields = new JTextField[2];
+        JTextField[] textFields = new JTextField[1];
         for (int i = 0; i < textFields.length; i++) {
             textFields[i] = new JTextField(10);
         }
 
-        // Add labels and text fields to the frame
+        // Create a combo box for the roles
+        JComboBox<RoleType> roleComboBox = new JComboBox<>(RoleType.values());
+
+        // Add labels, text fields, and combo box to the frame
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.insets = new Insets(5, 5, 5, 5);
-        for (int i = 0; i < labels.length; i++) {
-            gbc.gridx = 0;
-            gbc.gridy = i;
-            getContentPane().add(labels[i], gbc);
 
-            gbc.gridx = 1;
-            getContentPane().add(textFields[i], gbc);
-        }
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        getContentPane().add(labels[0], gbc);
 
-        // Create a "Create" button and add an ActionListener
-        JButton createButton = new JButton("Add");
-        createButton.addActionListener(new ActionListener() {
+        gbc.gridx = 1;
+        getContentPane().add(textFields[0], gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        getContentPane().add(labels[1], gbc);
+
+        gbc.gridx = 1;
+        getContentPane().add(roleComboBox, gbc);
+
+        // Create an "Add" button and add an ActionListener
+        JButton addButton = new JButton("Add");
+        addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int id = -1;
 
-                try{
-                    id = Integer.parseInt(textFields[0].getText());
-                }
-                catch(Exception ex){
-                    JOptionPane.showMessageDialog(null, "id must be numbers", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                RoleType role = null;
                 try {
-                    role = RoleType.valueOf(textFields[1].getText());
-                }catch (Exception exp){
-                    JOptionPane.showMessageDialog(null, "no such role", "Error", JOptionPane.ERROR_MESSAGE);
+                    id = Integer.parseInt(textFields[0].getText());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "ID must be a number", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
+                RoleType role = (RoleType) roleComboBox.getSelectedItem();
+                List<RoleType> employeeroles = _facade.getEmployeeRoles(id);
+                for(int i = 0; i < employeeroles.size(); i++){
+                    if(role.equals(employeeroles.get(i))){
+                        JOptionPane.showMessageDialog(null, _facade.getEmployeeFullNameById(id) + " already have " + role.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
 
-
-                // Call your createEmployee function and display a message
-                if (_facade.addRoleToEmployee(id,role)) {
-                    JOptionPane.showMessageDialog(null, "role" + role.toString() + "Added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                // Call your addRoleToEmployee function and display a message
+                if (_facade.addRoleToEmployee(id, role)) {
+                    JOptionPane.showMessageDialog(null, "Role " + role.toString() + " added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     // Return to the HRmenu screen
                     HRmenu hrmenu = new HRmenu();
                     hrmenu.setVisible(true);
                     dispose();
                 } else {
-                    JOptionPane.showMessageDialog(null, "invalid input", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Invalid input", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
-
             }
         });
 
-        // Add the "Create" button to the frame
+        // Add the "Add" button to the frame
         gbc.gridx = 1;
-        gbc.gridy = labels.length;
+        gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        getContentPane().add(createButton, gbc);
+        getContentPane().add(addButton, gbc);
 
         // Set the frame to be visible
         setVisible(true);
@@ -100,4 +103,3 @@ public class AddRoleToEmployee extends JFrame {
         });
     }
 }
-
