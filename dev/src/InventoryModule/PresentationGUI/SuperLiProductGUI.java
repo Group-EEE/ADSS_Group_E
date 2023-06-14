@@ -4,12 +4,8 @@ import InventoryModule.Business.Controllers.ProductController;
 import SuppliersModule.PresentationGUI.HelperFunctionGUI;
 
 import javax.swing.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import static InventoryModule.Business.Discount.update_discount_bycategory;
-import static InventoryModule.PresentationCLI.StoreKeeperPresentationCLI.reader;
 
 public class SuperLiProductGUI {
     static JFrame OldFrame;
@@ -18,6 +14,11 @@ public class SuperLiProductGUI {
         OldFrame = oldFrame;
         //------------------------------------- Create new frame -------------------------------------------
         JFrame SuperLiProductFrame = HelperFunctionGUI.createNewFrame("SuperLiProduct");
+        //----------------------------------------- Create JTextArea ----------------------------------------
+
+        JTextArea textAreaAllBarcodes = new JTextArea();
+        JScrollPane scrollPane = new JScrollPane(textAreaAllBarcodes);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         //----------------------------------------- Create JLabel ----------------------------------------
         JLabel chooseLabel = new JLabel("Please choose an option");
 
@@ -35,6 +36,8 @@ public class SuperLiProductGUI {
         JLabel checkSupplyDaysLabel = HelperFunctionGUI.createCheckLabel("Invalid Value",350, 210, 150, 20);
         JLabel checkMinimumAmountLabel = HelperFunctionGUI.createCheckLabel("Invalid Value",350,280,150,20);
 
+        //option 2
+        JLabel productBarcodeinStoreLabel = new JLabel("All Product In Store:");
         //----------------------------------------- Create JTextField ----------------------------------------
 
         //option 1 - Add new product to the store
@@ -59,9 +62,6 @@ public class SuperLiProductGUI {
 
         //option 1
         JButton AddNewProduct = new JButton("Submit");
-
-        //option 2
-        JButton ShowBarcodes = new JButton("Show Barcodes");
 
         //exit
         JButton exitButton = HelperFunctionGUI.createExitButton(SuperLiProductFrame, OldFrame);
@@ -101,6 +101,10 @@ public class SuperLiProductGUI {
 
         AddNewProduct.setBounds(200, 360, 100, 40);
 
+        //option2
+        productBarcodeinStoreLabel.setBounds(10, 40, 150, 20);
+        scrollPane.setBounds(10, 90, 450,300);
+
         //-------------------------------------- Set not visible ---------------------------------------------
 
         //option 1
@@ -112,6 +116,13 @@ public class SuperLiProductGUI {
 
         HelperFunctionGUI.hideComponents(JComponentsAddProduct);
 
+        //option 1
+        JComponent[] JComponentsAllProducts = new JComponent[]{scrollPane,
+                productBarcodeinStoreLabel};
+
+        HelperFunctionGUI.hideComponents(JComponentsAllProducts);
+
+
         //------------------------------------ Add to currFrame -------------------------------------
         HelperFunctionGUI.addComponentsToFrame(SuperLiProductFrame, new JComponent[]{chooseLabel,
                 chooseComboBox, productBarcodeLabel,productNameLabel
@@ -119,14 +130,22 @@ public class SuperLiProductGUI {
                 ,ManufacturerLabel,MinimumAmountLabel, productNameField,CostumerPriceField,
                 CategoryField,SubCategoryField,SubSubCategoryField ,SupplyDaysField,
                 ManufacturerField,MinimumAmountField, productBarcodeComboBox, AddNewProduct, checkCostumerPriceLabel,
-                checkSupplyDaysLabel, checkMinimumAmountLabel});
+                checkSupplyDaysLabel, checkMinimumAmountLabel, scrollPane,
+                productBarcodeinStoreLabel,exitButton});
 
         // ------------------------------------- Add action listener to JObjects ------------------------------
-        productNameField.addActionListener(new ActionListener() {
+        productBarcodeComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String choose = productBarcodeComboBox.getSelectedItem().toString();
-                HelperFunctionGUI.setProductNameField(choose, productNameField);
+                if(!choose.equals(""))
+                    HelperFunctionGUI.setProductNameField(choose, productNameField);
+                else{
+                    productNameField.setText("");
+                    checkSupplyDaysLabel.setVisible(false);
+                    checkMinimumAmountLabel.setVisible(false);
+                    checkCostumerPriceLabel.setVisible(false);
+                }
             }
         });
 
@@ -140,18 +159,22 @@ public class SuperLiProductGUI {
                     checkMinimumAmountLabel.setVisible(false);
                     checkCostumerPriceLabel.setVisible(false);
                     HelperFunctionGUI.hideComponents(JComponentsAddProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsAllProducts);
                 }
                 if (choose.equals("Add new product to the store")) {
                     checkSupplyDaysLabel.setVisible(false);
                     checkMinimumAmountLabel.setVisible(false);
                     checkCostumerPriceLabel.setVisible(false);
                     HelperFunctionGUI.showComponents(JComponentsAddProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsAllProducts);
                 }
                 if (choose.equals("Get all products' barcode")) {
                     checkSupplyDaysLabel.setVisible(false);
                     checkMinimumAmountLabel.setVisible(false);
                     checkCostumerPriceLabel.setVisible(false);
+                    HelperFunctionGUI.showComponents(JComponentsAllProducts);
                     HelperFunctionGUI.hideComponents(JComponentsAddProduct);
+                    HelperFunctionGUI.settextAreaAllBarcodes(textAreaAllBarcodes);
                 }
             }
         });
@@ -160,45 +183,47 @@ public class SuperLiProductGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean isValid = true;
-                int Barcode = Integer.parseInt(productBarcodeComboBox.getSelectedItem().toString());
-                String Pname = productNameField.getText();
-                Double CostumerPrice = 0.0;
-                if (!HelperFunctionGUI.CheckDoubleInput(CostumerPriceField.getText())) {
-                    checkCostumerPriceLabel.setVisible(true);
-                    isValid = false;
-                } else {
-                    checkCostumerPriceLabel.setVisible(false);
-                    CostumerPrice = Double.parseDouble(CostumerPriceField.getText());
-                }
+                if(!productBarcodeComboBox.getSelectedItem().toString().equals("")){
+                    int Barcode = Integer.parseInt(productBarcodeComboBox.getSelectedItem().toString());
+                    String Pname = productNameField.getText();
+                    Double CostumerPrice = 0.0;
+                    if (!HelperFunctionGUI.CheckDoubleInput(CostumerPriceField.getText())) {
+                        checkCostumerPriceLabel.setVisible(true);
+                        isValid = false;
+                    } else {
+                        checkCostumerPriceLabel.setVisible(false);
+                        CostumerPrice = Double.parseDouble(CostumerPriceField.getText());
+                    }
 
-                String Category = CategoryField.getText();
-                String SubCategory = SubCategoryField.getText();
-                String SubSubCategory = SubSubCategoryField.getText();
-                int SupplyDays = 0;
-                if (!HelperFunctionGUI.CheckIntInput(SupplyDaysField.getText())) {
-                    checkSupplyDaysLabel.setVisible(true);
-                    isValid = false;
-                } else {
-                    checkSupplyDaysLabel.setVisible(false);
-                    SupplyDays = Integer.parseInt(SupplyDaysField.getText());
-                }
+                    String Category = CategoryField.getText();
+                    String SubCategory = SubCategoryField.getText();
+                    String SubSubCategory = SubSubCategoryField.getText();
+                    int SupplyDays = 0;
+                    if (!HelperFunctionGUI.CheckIntInput(SupplyDaysField.getText())) {
+                        checkSupplyDaysLabel.setVisible(true);
+                        isValid = false;
+                    } else {
+                        checkSupplyDaysLabel.setVisible(false);
+                        SupplyDays = Integer.parseInt(SupplyDaysField.getText());
+                    }
 
-                String Manufacturer = ManufacturerField.getText();
-                int MinimumAmount = 0;
+                    String Manufacturer = ManufacturerField.getText();
+                    int MinimumAmount = 0;
 
-                if (!HelperFunctionGUI.CheckIntInput(MinimumAmountField.getText())) {
-                    checkMinimumAmountLabel.setVisible(true);
-                    isValid = false;
-                } else {
-                    checkMinimumAmountLabel.setVisible(false);
-                    MinimumAmount = Integer.parseInt(MinimumAmountField.getText());
-                }
-                if (isValid) {
-                    ProductController.getInstance().addProduct(Barcode, Pname, CostumerPrice, Category,SubCategory,
-                            SubSubCategory, SupplyDays, Manufacturer, MinimumAmount);
-                    SuperLiProductFrame.dispose();
-                    OldFrame.setVisible(true);
-                    HelperFunctionGUI.ShowProcessSuccessfully();
+                    if (!HelperFunctionGUI.CheckIntInput(MinimumAmountField.getText())) {
+                        checkMinimumAmountLabel.setVisible(true);
+                        isValid = false;
+                    } else {
+                        checkMinimumAmountLabel.setVisible(false);
+                        MinimumAmount = Integer.parseInt(MinimumAmountField.getText());
+                    }
+                    if (isValid) {
+                        ProductController.getInstance().addProduct(Barcode, Pname, CostumerPrice, Category,SubCategory,
+                                SubSubCategory, SupplyDays, Manufacturer, MinimumAmount);
+                        SuperLiProductFrame.dispose();
+                        OldFrame.setVisible(true);
+                        HelperFunctionGUI.ShowProcessSuccessfully();
+                    }
                 }
             }
         });

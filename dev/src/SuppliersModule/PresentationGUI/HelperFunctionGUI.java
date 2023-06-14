@@ -361,4 +361,9 @@ public class HelperFunctionGUI {
         return comboBoxProductBarcode;
     }
 
+    public static void settextAreaAllBarcodes(JTextArea textAreaAllBarcodes){
+        String barcodes = ProductController.getInstance().GetAllProductBarcode();
+        textAreaAllBarcodes.setText(barcodes);
+    }
+
 }
