@@ -365,5 +365,32 @@ public class HelperFunctionGUI {
         String barcodes = ProductController.getInstance().GetAllProductBarcode();
         textAreaAllBarcodes.setText(barcodes);
     }
+    public static String createTextAreaCategories()
+    {
+        List<String> CategoryNames = new ArrayList<>();
+        String willBeReturned = "";
+        List<Category> allCategories = categoryController.getCategories();
+        for(Category category : allCategories)
+            CategoryNames.add(category.getName());
+        for(String categoryName : CategoryNames){
+            willBeReturned = willBeReturned + categoryName +"\n";
+        }
+
+        return willBeReturned;
+    }
+    public static boolean canRemoveCategory(String categoryName){
+        //if true cannot remove category
+        boolean exist = false; //if there is a product that belongs to this category- will be true
+        Category c = null;
+        if(categoryController.check_if_exist_cat(categoryName)){
+                for(int j=0; j< ProductController.getProducts().size(); j++){
+                    //check for every product in ths store if its category is the given category
+                    if(ProductController.getProducts().get(j).getCategory().compareTo(categoryName)==0){
+                        exist = true;
+                    }
+                }
+            }
+        return exist;
+    }
 
 }
