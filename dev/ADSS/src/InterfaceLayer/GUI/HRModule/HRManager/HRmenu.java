@@ -55,51 +55,107 @@ public class HRmenu extends JFrame {
 
             startButton.addActionListener(e -> {
                 String selectedAction = (String) actionComboBox.getSelectedItem();
-                int choice = Integer.parseInt(selectedAction);
 
-                switch (choice) {
-                    case 1:
-                        // Open screen for Action 1
+                switch (selectedAction) {
+                    case "create new employee":
+                        CreateEmployee createEmployeeScreen = new CreateEmployee();
+                        createEmployeeScreen.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 2:
-                        // Open screen for Action 2
+                    case "create new store":
+                        CreateStore createStore = new CreateStore();
+                        createStore.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 3:
-                        // Open screen for Action 3
+                    case "add employee to store":
+                        AddEmployeeToStore addEmployeeToStore = new AddEmployeeToStore();
+                        addEmployeeToStore.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 4:
+                    case "add role to employee":
+                        AddRoleToEmployee addRoleToEmployee = new AddRoleToEmployee();
+                        addRoleToEmployee.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 5:
+                    case "create new schedule":
+                        CreateSchedual createSchedual = new CreateSchedual();
+                        createSchedual.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 6:
+                    case "approve shifts":
+                        ApproveSchedule approveSchedule = new ApproveSchedule();
+                        approveSchedule.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 7:
+                    case "update personal information":
+                        UpdatePersonalInformation updatePersonalInformation = new UpdatePersonalInformation();
+                        updatePersonalInformation.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 8:
+                    case "change schedule hours":
+                        ChangeSchedualHours changeSchedualHours = new ChangeSchedualHours();
+                        changeSchedualHours.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 9:
+                    case "remove role from employee":
+                        RemoveRoleFromEmployee removeRoleFromEmployee = new RemoveRoleFromEmployee();
+                        removeRoleFromEmployee.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 10:
+                    case "remove employee from store":
+                        RemoveEmployeeFromStore removeEmployeeFromStore = new RemoveEmployeeFromStore();
+                        removeEmployeeFromStore.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 11:
+                    case "remove employee from system":
+                        RemoveEmployeeFromSystem removeEmployeeFromSystem = new RemoveEmployeeFromSystem();
+                        removeEmployeeFromSystem.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 12:
+                    case "remove store from system":
+                        RemoveStoreFromSystem removeStoreFromSystem = new RemoveStoreFromSystem();
+                        removeStoreFromSystem.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 13:
+                    case "select required roles from a shift":
+                        SelectRequiredRolesFromShift selectRequiredRolesFromShift = new SelectRequiredRolesFromShift();
+                        selectRequiredRolesFromShift.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 14:
+                    case "remove required roles from a shift":
+                        RemoveRequiredRolesFromShift removeRequiredRolesFromShift = new RemoveRequiredRolesFromShift();
+                        removeRequiredRolesFromShift.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 15:
+                    case "print all employees":
+                        PrintEmployees printEmployees = new PrintEmployees();
+                        printEmployees.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 16:
+                    case "print all stores":
+                        PrintStores printStores = new PrintStores();
+                        printStores.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 17:
+                    case "print schedule":
+                        PrintSchedule printSchedule = new PrintSchedule();
+                        printSchedule.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 18:
+                    case "create new driver":
+                        CreateDriver createDriver = new CreateDriver();
+                        createDriver.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 19:
+                    case "create new logistics schedule":
+                        CreateNewLogisticSchedule createNewLogisticSchedule = new CreateNewLogisticSchedule();
+                        createNewLogisticSchedule.setVisible(true);
+                        setVisible(false);
                         break;
-                    case 20:
+                    case "log out":
+                        Login login = new Login();
+                        login.setVisible(true);
+                        setVisible(false);
                         break;
                 }
             });

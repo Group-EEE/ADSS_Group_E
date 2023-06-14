@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
-public class Login {
+public class Login extends JFrame {
     private JTextField idTextField;
     private JPasswordField passwordField;
     private JButton loginButton;
