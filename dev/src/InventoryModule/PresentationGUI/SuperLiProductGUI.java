@@ -56,8 +56,6 @@ public class SuperLiProductGUI {
                 "Get all products' barcode"});
 
         JComboBox<String> productBarcodeComboBox = HelperFunctionGUI.createComboBoxofnewProductBarcode();
-        //JComboBox<String> productBarcodeComboBox = HelperFunctionGUI.createComboBoxProductBarcode();
-
         //----------------------------------------- Create JButton ----------------------------------------
 
         //option 1
