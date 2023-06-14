@@ -409,4 +409,13 @@ public class Logistical_center_controller {
         }
         return false;
     }
+    public boolean deleteTransports(LocalDate date){
+        List<Transport> transports = Transport_dao.getInstance().get_transports();
+        for (Transport transport : transports){
+            if (LocalDate.parse(transport.getDate()).isAfter(date)){
+                Transport_dao.getInstance().Delete(transport);
+            }
+        }
+        return true;
+    }
 }

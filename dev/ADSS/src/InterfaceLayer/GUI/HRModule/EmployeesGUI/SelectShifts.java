@@ -108,7 +108,12 @@ public class SelectShifts extends JFrame {
             if (checkbox.isSelected()) {
                 String text = checkbox.getText();
                 String shiftID = text.substring(checkbox.getText().indexOf(":")+2, text.indexOf(","));
-                _facade.addEmployeeToShift(storeName, Integer.parseInt(shiftID));
+                try {
+                    _facade.addEmployeeToShift(storeName, Integer.parseInt(shiftID));
+                }
+                catch (IllegalArgumentException e){
+                    JOptionPane.showMessageDialog(this, e.getMessage());
+                }
             }
         }
 

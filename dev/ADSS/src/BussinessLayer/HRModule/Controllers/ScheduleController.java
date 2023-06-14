@@ -1,6 +1,7 @@
 package BussinessLayer.HRModule.Controllers;
 
 import BussinessLayer.HRModule.Objects.*;
+import BussinessLayer.TransportationModule.controllers.Logistical_center_controller;
 import DataAccessLayer.HRMoudle.*;
 
 
@@ -33,6 +34,11 @@ public class ScheduleController {
     }
 
     public boolean createNewStoreSchedule(String storeName, int day, int month, int year){
+        //per gal's request, delete all transport for the past week
+        if (hasSchedule(storeName,day,month,year)){
+            //first get list of transports
+            Logistical_center_controller.getInstance().deleteTransports(LocalDate.of(day,month,year).minus(7, ChronoUnit.DAYS));
+        }
         return createNewSchedule(storeName,day,month,year, List.of(RoleType.ShiftManager, RoleType.Cashier, RoleType.General,RoleType.Warehouse),List.of(RoleType.ShiftManager));
     }
     public boolean createNewLogisticsSchedule(int day, int month, int year){
@@ -44,6 +50,7 @@ public class ScheduleController {
             throw new IllegalArgumentException("Invalid store name");
         if(!_storesDAO.existsStore(storeName))
             throw new IllegalArgumentException("Store does not exist");
+
         LocalDate localDate;
         try {
             localDate = LocalDate.of(year, month, day);
@@ -309,6 +316,26 @@ public class ScheduleController {
     public boolean hasStandByDriver(String storeName, int shiftID){
         Schedule schedule = getSchedule(storeName);
         return schedule.getShift(shiftID).hasFilledRole(RoleType.DriverStandBy);
+    }
+
+    /**
+     * iterates between 7 past days and checks if there is a schedule for the store in one of them
+     * @param storeName
+     * @param day
+     * @param month
+     * @param year
+     * @return
+     */
+    public boolean hasSchedule(String storeName, int day, int month, int year){
+        for (int i = 0; i < 7; i++) {
+            try{
+                _schedulesDAO.getSchedule(LocalDate.of(day,month,year).minus(i,ChronoUnit.DAYS),storeName);
+                return true;
+            }catch (IllegalArgumentException e){
+               continue;
+            }
+        }
+        return false;
     }
 
 

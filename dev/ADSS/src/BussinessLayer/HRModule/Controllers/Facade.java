@@ -242,4 +242,7 @@ public class Facade {
         return approveSchedule(storeName).size() == 0;
     }
 
+    public boolean hasSchedule(String storeName, int day, int month, int year){
+        return _scheduleController.hasSchedule(storeName, day, month, year);
+    }
 }
