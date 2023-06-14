@@ -3,6 +3,7 @@ package SuppliersModule.PresentationGUI;
 import InventoryModule.Business.*;
 import InventoryModule.Business.Controllers.CategoryController;
 import InventoryModule.Business.Controllers.ProductController;
+import InventoryModule.Business.Controllers.ReportController;
 import SuppliersModule.Business.*;
 import SuppliersModule.Business.Controllers.SupplierController;
 
@@ -20,6 +21,7 @@ public class HelperFunctionGUI {
     static SupplierController supplierController = SupplierController.getInstance();
     static CategoryController categoryController = CategoryController.getInstance();
     static ProductController productController = ProductController.getInstance();
+    static ReportController reportController = ReportController.getInstance();
 
     public static void addComponentsToFrame(JFrame frame, JComponent[] components) {
         for (JComponent component : components)
@@ -461,6 +463,9 @@ public class HelperFunctionGUI {
         for (String item : comboBoxSubCategoriesItems)
             SubSubCategoriesComboBox.addItem(item);
 
+    }
+    public static String createTextAreaOrderReport(String reporter){
+        return reportController.createOrderReport(reporter).toString();
     }
 }
 
