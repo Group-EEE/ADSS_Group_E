@@ -12,7 +12,34 @@ import static java.lang.System.exit;
 public class Main {
     static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
+        if (args.length != 1) {
+            System.out.println("Invalid input");
+            exit(0);
+        }
+        try {
+            if (args[0].equals("CLI")) {
+                mainCLI();
+            } else if (args[0].equals("GUI")) {
+                mainGUI();
+            } else {
+                System.out.println("Invalid input");
+                exit(0);
+            }
+        } catch (Exception e) {
+            System.out.println("Goodbye!");
+        }
+        finally {
+            try{
+                if (DAO.connection != null)
+                    DAO.connection.close();
+                DAO.connection = null;
+            }
+            catch (SQLException e){}
+            exit(0);
+        }
+    }
+    public static void mainCLI(){
         int menuChoice = -1;
         while (true) {
             System.out.println("Welcome to Super-Lee System !\n");
@@ -27,29 +54,28 @@ public class Main {
                 exit(0);
             }
             if (menuChoice == 1)
-                mainHR();
+                mainCLIHR();
             else if (menuChoice == 2)
-                mainTransport();
+                mainCLITransport();
             else if (menuChoice == 0) {
-                try {
-                    DAO.connection.close();
-                    DAO.connection = null;
-                } catch (SQLException e) {
-                }
-                exit(0);
+                return;
             } else
                 System.out.println("Invalid input");
         }
-
     }
 
-    public static void mainTransport() {
+    public static void mainCLITransport() {
         transport_manager_UI transport_manager_ui = new transport_manager_UI();
         transport_manager_ui.start();
     }
 
-    public static void mainHR(){
+    public static void mainCLIHR(){
         HRModuleCLI _HRModule = new HRModuleCLI();
         _HRModule.start();
     }
+
+    public static void mainGUI(){
+
+    }
+
 }
