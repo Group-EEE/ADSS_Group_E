@@ -92,6 +92,10 @@ public class StoreController {
     public boolean removeStore(String storeName) {
         if (storeName == null)
             throw new IllegalArgumentException("Invalid store name");
+        if(this.getStore(storeName) == null){
+            System.out.println("no such store");
+            return false;
+        }
         return _storesDAO.deleteStore(storeName);
     }
 

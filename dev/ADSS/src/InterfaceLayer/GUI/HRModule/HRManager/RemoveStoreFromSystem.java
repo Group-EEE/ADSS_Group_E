@@ -49,9 +49,9 @@ public class RemoveStoreFromSystem extends JFrame {
 
 
 
-                // Call your createEmployee function and display a message
+                // Call your removeStore function and display a message
                 if (_facade.removeStore(storename)) {
-                    JOptionPane.showMessageDialog(null, "Employee removed successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Store removed successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     // Return to the HRmenu screen
                     HRmenu hrmenu = new HRmenu();
                     hrmenu.setVisible(true);

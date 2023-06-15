@@ -144,7 +144,16 @@ public class Facade {
     }
 
     public boolean removeStore(String storeName){
-        return _storeController.removeStore(storeName);
+        if(storeName == null || storeName.equals("")){
+            System.out.println("no input");
+            return false;
+        }
+        try {
+            _storeController.removeStore(storeName);
+            return true;
+        }catch (Exception ex){
+            return false;
+        }
     }
 
     public boolean addEmployeeToStore(int employeeID, String storeName){
@@ -206,7 +215,12 @@ public class Facade {
     }
 
     public Schedule getSchedule(String storeName){
-        return _scheduleController.getSchedule(storeName);
+        try{
+            Schedule schedule = _scheduleController.getSchedule(storeName);
+            return schedule;
+        }catch (Exception e){
+            return null;
+        }
     }
 
     public List<Shift> printEmployeeSchedule(){
@@ -218,6 +232,10 @@ public class Facade {
     }
 
     public boolean changeHoursShift(String storeName, int newStartHour, int newEndHour, int shiftID){
+        if (storeName == null || storeName.equals("")){
+            System.out.println("no input");
+            return false;
+        }
         try{
             _scheduleController.changeShiftHours(storeName, newStartHour, newEndHour, shiftID);
             return true;
