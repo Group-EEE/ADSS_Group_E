@@ -124,7 +124,6 @@ public class Change_transport extends JFrame {
     private boolean check_supplier(){
         boolean moreThanOne = controller.is_there_more_than_one(transport_id, "supplier");
         if (!moreThanOne){
-            JOptionPane.showMessageDialog(null,"Sorry Boss, this is the only supplier left for today...");
             return false;
         }
         return true;

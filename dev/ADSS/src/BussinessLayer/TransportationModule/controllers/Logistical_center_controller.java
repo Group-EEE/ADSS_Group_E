@@ -1,15 +1,13 @@
 package BussinessLayer.TransportationModule.controllers;
 
-import BussinessLayer.HRModule.Objects.Employee;
-import BussinessLayer.HRModule.Objects.RoleType;
+import BussinessLayer.HRModule.Objects.*;
 import BussinessLayer.TransportationModule.objects.*;
 import DataAccessLayer.HRMoudle.EmployeesDAO;
 import DataAccessLayer.HRMoudle.SchedulesDAO;
+import DataAccessLayer.HRMoudle.ShiftsDAO;
 import DataAccessLayer.HRMoudle.StoresDAO;
 import DataAccessLayer.Transport.*;
-import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.HRModule.Controllers.ScheduleController;
-import BussinessLayer.HRModule.Objects.ShiftType;
 import BussinessLayer.HRModule.Controllers.ScheduleController;
 
 import java.time.LocalDate;
@@ -104,7 +102,16 @@ public class Logistical_center_controller {
         LocalDate date = LocalDate.parse(planned_date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", date, ShiftType.MORNING);
         // TODO: check with chen that he gives us a function that get the schedule by any day that in that schedule. not only the exact day that is starts.
-        HashMap<RoleType, Employee> employees = SchedulesDAO.getInstance().getSchedule(date, "Logistics").getShift(shift_id).getAssignedEmployees();
+        int schedule_id = SchedulesDAO.getInstance().getSchedule(date, "Logistics").getScheduleID();
+        List<Shift> all_shifts = ShiftsDAO.getInstance().getShiftsByScheduleID(schedule_id);
+        Shift current_shift = null;
+        for (Shift shift : all_shifts){
+            if(shift.getShiftID() == shift_id){
+                current_shift = shift;
+                break;
+            }
+        }
+        HashMap<RoleType, Employee> employees = current_shift.getAssignedEmployees();
         ArrayList<Employee> drivers = new ArrayList<>(employees.values());
         for (Employee driver : drivers){
             if(!Transport_dao.getInstance().check_if_driver_taken_that_date(planned_date, driver.getEmployeeID())){

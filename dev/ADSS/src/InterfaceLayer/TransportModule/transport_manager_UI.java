@@ -318,22 +318,22 @@ public class transport_manager_UI {
         int driver_id = 0;
         boolean assigned = false;
         for(Truck_Driver driver: controller.getDrivers()){
-            if (is_today) {
-                if(controller.truck_assigning_drivers_in_shift(truck_number, planned_date)){
-                    assigned = true;
-                    driver_name = driver.getFullName();
-                    driver_id = driver.getEmployeeID();
-                    break;
-                }
-            }
-            else {
+//            if (is_today) {
+//                if(controller.truck_assigning_drivers_in_shift(truck_number, planned_date)){
+//                    assigned = true;
+//                    driver_name = driver.getFullName();
+//                    driver_id = driver.getEmployeeID();
+//                    break;
+//                }
+//            }
+            //else {
                 if (controller.truck_assigning(truck_number, planned_date, driver)) {
                     assigned = true;
                     driver_name = driver.getFullName();
                     driver_id = driver.getEmployeeID();
                     break;
                 }
-            }
+            //}
         }
         if (!assigned){
             System.out.println("there's no driver fit to this transport.");

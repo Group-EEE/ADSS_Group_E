@@ -380,6 +380,9 @@ public class underway_transport_controller {
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         if (type.equals("supplier")) {
             int supplier_count = 0;
+            if (truck.get_current_location().is_supplier()){
+                supplier_count++;
+            }
             for (Site site : truck.getNavigator().getRoute()) {
                 if (site.is_supplier()) {
                     supplier_count++;
