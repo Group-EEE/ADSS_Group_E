@@ -45,7 +45,7 @@ public class PrintSchedule extends JFrame {
                     Schedule schedule = _facade.getSchedule(storeName);
                     scheduleInfoArea.setText(schedule.toString());
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(PrintSchedule.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(PrintSchedule.this, "there is no such store", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

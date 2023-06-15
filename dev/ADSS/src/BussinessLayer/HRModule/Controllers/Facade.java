@@ -99,6 +99,9 @@ public class Facade {
             System.out.println("Invalid arguments");
             return false;
         }
+        if(this.getEmployeeFullNameById(employeeID)!=null){
+            throw new IllegalArgumentException("id already exist");
+        }
         try{
             _employeeController.createEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployement, password);
         }

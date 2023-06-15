@@ -80,16 +80,21 @@ public class CreateEmployee extends JFrame {
                 String hiring_condition = textFields[6].getText();
 
                 String password = textFields[10].getText();
+//                if(_facade.getEmployeeFullNameById(ID)!=null){
+//                    JOptionPane.showMessageDialog(null, "id already exists", "Error", JOptionPane.ERROR_MESSAGE);
+//                }
 
                 // Call your createEmployee function and display a message
-                if (_facade.createEmployee(ID, first_name, last_name, age, bank_account, salary, hiring_condition, startDateOfEmployment, password, false)) {
+                try{
+                    _facade.createEmployee(ID, first_name, last_name, age, bank_account, salary, hiring_condition, startDateOfEmployment, password, false);
                     JOptionPane.showMessageDialog(null, "Employee created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     // Return to the HRmenu screen
                     HRmenu hrmenu = new HRmenu();
                     hrmenu.setVisible(true);
                     dispose();
-                } else {
-                    JOptionPane.showMessageDialog(null, "one or more detail is wrong", "Error", JOptionPane.ERROR_MESSAGE);
+                }catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
                 }
 
 

@@ -88,10 +88,15 @@ public class RemoveRequiredRolesFromShift extends JFrame {
 
     private void populateShiftComboBox() {
         String storeName = storeNameField.getText();
-        List<Shift> shifts = _facade.getSchedule(storeName).getShifts();
+        List<Shift> shifts = null;
+        try{
+            shifts = _facade.getSchedule(storeName).getShifts();
+        }catch (Exception ex){}
         shiftComboBox.removeAllItems();
-        for (Shift shift : shifts) {
-            shiftComboBox.addItem(shift);
+        if (shifts != null) {
+            for (Shift shift : shifts) {
+                shiftComboBox.addItem(shift);
+            }
         }
     }
 
