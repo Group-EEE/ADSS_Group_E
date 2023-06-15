@@ -1,0 +1,62 @@
+package MainClasses;
+
+import InventoryModule.PresentationGUI.StoreKeeperGUI;
+import SuppliersModule.PresentationGUI.*;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class StoreManagerGUI {
+
+    public static void powerOn()
+    {
+        //------------------------------------- Create new frame -------------------------------------------
+
+        JFrame menuFrame = HelperFunctionGUI.createNewFrame("Supplier Manager Menu");
+
+        //------------------------------------ Create JButtons -------------------------------------------
+
+        JButton opt1 = new JButton("SupplierManager menu");
+        JButton opt2 = new JButton("Storekeeper menu");
+        JButton opt3 = new JButton("Exit");
+
+        //-------------------------------------- Set JButton ---------------------------------------------
+
+        JButton[] buttons = {opt1, opt2, opt3};
+
+        for(int i=0 ; i < 3 ; i++)
+        {
+            buttons[i].setBounds(150, (i+1)*100, 200, 80);
+            menuFrame.add(buttons[i]);
+        }
+
+        // ------------------------------------- Add action listener to buttons ------------------------------
+
+        opt1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuFrame.dispose();
+                SupplierManagerGUI.powerOn(menuFrame);
+            }
+        });
+
+        opt2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuFrame.dispose();
+                StoreKeeperGUI.powerOn(menuFrame);
+            }
+        });
+
+        opt3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuFrame.dispose();
+                SuperLiMainGUI.closeProgram();
+            }
+        });
+
+        menuFrame.setVisible(true);
+    }
+}

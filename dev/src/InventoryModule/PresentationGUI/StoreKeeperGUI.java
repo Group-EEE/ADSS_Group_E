@@ -10,8 +10,11 @@ import java.awt.event.ActionListener;
 
 public class StoreKeeperGUI {
 
-    public static void powerOn()
+    static JFrame OldFrame;
+    public static void powerOn(JFrame oldFrame)
     {
+        OldFrame = oldFrame;
+
         //------------------------------------- Create new frame -------------------------------------------
 
         JFrame menuFrame = HelperFunctionGUI.createNewFrame("Store keeper Menu");
@@ -103,9 +106,17 @@ public class StoreKeeperGUI {
 
         opt9.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                menuFrame.dispose();
-                SuperLiMainGUI.closeProgram();
+            public void actionPerformed(ActionEvent e){
+                if(OldFrame == null)
+                {
+                    menuFrame.dispose();
+                    SuperLiMainGUI.closeProgram();
+                }
+                else
+                {
+                    menuFrame.dispose();
+                    OldFrame.setVisible(true);
+                }
             }
         });
 

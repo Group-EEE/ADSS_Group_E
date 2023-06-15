@@ -1,7 +1,6 @@
 package MainClasses;
 
 import InventoryModule.PresentationCLI.StoreKeeperPresentationCLI;
-import InventoryModule.PresentationCLI.ReportPresentation;
 import SuppliersModule.Business.Controllers.OrderController;
 import SuppliersModule.PresentationCLI.SupplierManagerCLI;
 
@@ -57,27 +56,22 @@ public class SuperLiMainCLI {
     // ---------------------------------------- StoreManagerMenu ---------------------------------------
     private static void StoreManagerMenu()
     {
-        ReportPresentation reportPresentation = new ReportPresentation();
         String yourChoice = "";
         Scanner reader = new Scanner(System.in);
 
         while (!yourChoice.equals("0")) {
             System.out.println("\nPlease choose one of the options shown in the menu:\n");
-            System.out.println("1. Show suppliers' order history");
-            System.out.println("2. Print supplier details");
-            System.out.println("3. Show inventory report menu");
+            System.out.println("1. SupplierManager menu");
+            System.out.println("2. Storekeeper menu");
             System.out.println("0. Exit");
 
             yourChoice = reader.nextLine();
             switch (yourChoice) {
                 case "1":
-                    supplierManagerCLI.showSupplierOrdersHistory();
+                    supplierManagerCLI.PowerOn();
                     break;
                 case "2":
-                    supplierManagerCLI.PrintSupplierDetails();
-                    break;
-                case "3":
-                    reportPresentation.ShowReportMenu();
+                    storeKeeperPresentationCLI.Start();
                     break;
             }
         }

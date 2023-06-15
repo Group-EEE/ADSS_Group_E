@@ -1,17 +1,13 @@
 package MainClasses;
 
-import InventoryModule.PresentationCLI.ReportPresentation;
-import InventoryModule.PresentationCLI.StoreKeeperPresentationCLI;
 import InventoryModule.PresentationGUI.StoreKeeperGUI;
 import SuppliersModule.Business.Controllers.OrderController;
 import SuppliersModule.PresentationGUI.SupplierManagerGUI;
 
-import java.util.Scanner;
-
 public class SuperLiMainGUI {
 
-    private static StoreKeeperPresentationCLI storeKeeperPresentationCLI;
     private static OrderController orderController;
+
 
     public static void main(String[] args)
     {
@@ -33,49 +29,20 @@ public class SuperLiMainGUI {
 
         //----------------------------------------------------------------------------------------------
 
-        storeKeeperPresentationCLI = new StoreKeeperPresentationCLI();
         orderController = OrderController.getInstance();
 
         switch (args[0]) {
             case "StoreManager":
-                StoreManagerMenu();
+                StoreManagerGUI.powerOn();
                 break;
 
             case "SupplierManager":
-                SupplierManagerGUI.powerOn();
+                SupplierManagerGUI.powerOn(null);
                 break;
 
             case "StoreKeeper":
-                StoreKeeperGUI.powerOn();
+                StoreKeeperGUI.powerOn(null);
                 break;
-        }
-    }
-
-    private static void StoreManagerMenu()
-    {
-        ReportPresentation reportPresentation = new ReportPresentation();
-        String yourChoice = "";
-        Scanner reader = new Scanner(System.in);
-
-        while (!yourChoice.equals("0")) {
-            System.out.println("\nPlease choose one of the options shown in the menu:\n");
-            System.out.println("1. Show suppliers' order history");
-            System.out.println("2. Print supplier details");
-            System.out.println("3. Show inventory report menu");
-            System.out.println("0. Exit");
-
-            yourChoice = reader.nextLine();
-            switch (yourChoice) {
-                case "1":
-                    //supplierManagerPresentationCLI.showSupplierOrdersHistory();
-                    break;
-                case "2":
-                    //supplierManagerPresentationCLI.PrintSupplierDetails();
-                    break;
-                case "3":
-                    //reportPresentation.ShowReportMenu();
-                    break;
-            }
         }
     }
 

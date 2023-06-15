@@ -201,6 +201,11 @@ public class HelperFunctionGUI {
         JFrame page1Frame = new JFrame(title);
         page1Frame.setSize(500, 500);
         page1Frame.setLayout(null);
+        ImageIcon backgroundImage = new ImageIcon(HelperFunctionGUI.class.getResource("/SuperMarketImage.jpg"));
+        JLabel backgroundLabel = new JLabel(backgroundImage);
+        page1Frame.setLayout(new BorderLayout());
+        page1Frame.setContentPane(backgroundLabel);
+
         return page1Frame;
     }
 

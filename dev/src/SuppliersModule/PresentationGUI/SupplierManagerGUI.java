@@ -7,8 +7,11 @@ import java.awt.event.ActionListener;
 
 public class SupplierManagerGUI {
 
-    public static void powerOn()
+    static JFrame OldFrame;
+    public static void powerOn(JFrame oldFrame)
     {
+        OldFrame = oldFrame;
+
         //------------------------------------- Create new frame -------------------------------------------
 
         JFrame menuFrame = HelperFunctionGUI.createNewFrame("Supplier Manager Menu");
@@ -99,7 +102,12 @@ public class SupplierManagerGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 menuFrame.dispose();
-                SuperLiMainGUI.closeProgram();
+
+                if(OldFrame == null)
+                    SuperLiMainGUI.closeProgram();
+
+                else
+                    OldFrame.setVisible(true);
             }
         });
 
