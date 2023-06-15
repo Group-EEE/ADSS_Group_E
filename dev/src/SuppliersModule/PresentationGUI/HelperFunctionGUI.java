@@ -201,11 +201,11 @@ public class HelperFunctionGUI {
         JFrame page1Frame = new JFrame(title);
         page1Frame.setSize(500, 500);
         page1Frame.setLayout(null);
-        ImageIcon backgroundImage = new ImageIcon(HelperFunctionGUI.class.getResource("/SuperMarketImage.jpg"));
+        /*ImageIcon backgroundImage = new ImageIcon(HelperFunctionGUI.class.getResource("/SuperMarketImage.jpg"));
         JLabel backgroundLabel = new JLabel(backgroundImage);
         page1Frame.setLayout(new BorderLayout());
         page1Frame.setContentPane(backgroundLabel);
-
+        */
         return page1Frame;
     }
 
@@ -470,6 +470,19 @@ public class HelperFunctionGUI {
     }
     public static String createTextAreaOrderReport(String reporter){
         return reportController.createOrderReport(reporter).toString();
+    }
+
+    public static void setSpecifcProductIDComboBoxField(String choose, JComboBox<String>specificProductID2ComboBox){
+        specificProductID2ComboBox.removeAllItems();
+        List<String> comboBoxSpecificProductItems = new ArrayList<>();
+        comboBoxSpecificProductItems.add("");
+
+        SuperLiProduct superliproduct = ProductController.getInstance().getProductByBarcode(Integer.parseInt(choose));
+        List<SpecificProduct> allSpecificProducts = superliproduct.getSpecificProducts();
+        for (SpecificProduct spl : allSpecificProducts)
+            comboBoxSpecificProductItems.add(Integer.toString(spl.getSp_ID()));
+        for (String item : comboBoxSpecificProductItems)
+            specificProductID2ComboBox.addItem(item);
     }
 }
 
