@@ -22,6 +22,8 @@ public class PrintEmployees extends JFrame {
         employeeInfoArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(employeeInfoArea);
 
+
+
         // Add the text area to the frame
         add(scrollPane, BorderLayout.CENTER);
 
@@ -42,9 +44,14 @@ public class PrintEmployees extends JFrame {
         closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+                        HRmenu hrmenu = new HRmenu();
+                        // Hide this frame
+                        setVisible(false);
+
+                        // Show the main menu
+                        hrmenu.setVisible(true);
+                    }
+                });
 
         // Add the "Close" button to the frame
         add(closeButton, BorderLayout.SOUTH);

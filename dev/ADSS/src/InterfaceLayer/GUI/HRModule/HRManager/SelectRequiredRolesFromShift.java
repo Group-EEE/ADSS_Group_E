@@ -56,6 +56,23 @@ public class SelectRequiredRolesFromShift extends JFrame {
 
         // Create an "Add" button and add an ActionListener
         JButton addButton = new JButton("Add");
+
+        // Create a button to go back to the main menu
+        JButton backToMenuButton = new JButton("Back to Main Menu");
+        getContentPane().add(backToMenuButton);
+
+        // Add an ActionListener to the backToMenuButton
+        backToMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HRmenu hrmenu = new HRmenu();
+                // Hide this frame
+                setVisible(false);
+
+                // Show the main menu
+                hrmenu.setVisible(true);
+            }
+        });
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

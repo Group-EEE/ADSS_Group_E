@@ -31,6 +31,23 @@ public class AddRoleToEmployee extends JFrame {
         // Create a combo box for the roles
         JComboBox<RoleType> roleComboBox = new JComboBox<>(RoleType.values());
 
+        // Create a button to go back to the main menu
+        JButton backToMenuButton = new JButton("Back to Main Menu");
+        getContentPane().add(backToMenuButton);
+
+        // Add an ActionListener to the backToMenuButton
+        backToMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HRmenu hrmenu = new HRmenu();
+                // Hide this frame
+                setVisible(false);
+
+                // Show the main menu
+                hrmenu.setVisible(true);
+            }
+        });
+
         // Add labels, text fields, and combo box to the frame
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.insets = new Insets(5, 5, 5, 5);
