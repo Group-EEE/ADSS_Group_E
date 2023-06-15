@@ -8,12 +8,12 @@ import SuppliersModule.Business.Controllers.SupplierController;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-import static InventoryModule.PresentationCLI.StoreKeeperPresentationCLI.reader;
+import static InventoryModule.PresentationCLI.StoreKeeperCLI.reader;
 //this class represent the sub menu of specificProduct - here all the actions on
 //specificProduct are available - add, remove, find location in store etc.
-public class SpecificProductPresentation {
+public class SpecificProductCLI {
     private ProductController productController;
-    public SpecificProductPresentation(){
+    public SpecificProductCLI(){
 
         productController = ProductController.getInstance();
     }

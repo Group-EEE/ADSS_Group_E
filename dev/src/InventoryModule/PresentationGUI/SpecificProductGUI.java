@@ -1,17 +1,12 @@
 package InventoryModule.PresentationGUI;
 
 import InventoryModule.Business.Controllers.ProductController;
-import InventoryModule.Business.SuperLiProduct;
-import SuppliersModule.Business.Controllers.SupplierController;
 import SuppliersModule.PresentationGUI.HelperFunctionGUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
-import java.util.Scanner;
-
-import static InventoryModule.PresentationCLI.StoreKeeperPresentationCLI.reader;
 
 public class SpecificProductGUI {
     static JFrame OldFrame;

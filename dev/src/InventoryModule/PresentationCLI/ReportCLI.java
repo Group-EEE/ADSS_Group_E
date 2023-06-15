@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 //this class represent the sub menu of Reports. Here we can send Order due to shortage.
-public class ReportPresentation {
+public class ReportCLI {
     private ReportController reportController;
     Scanner reader;
-    public ReportPresentation(){
+    public ReportCLI(){
         reportController =ReportController.getInstance();
         reader = new Scanner(System.in);
     }

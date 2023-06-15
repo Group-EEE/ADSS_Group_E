@@ -12,7 +12,7 @@ import static InventoryModule.Business.Discount.*;
 
 //the main represents the "SuperLi" supply system. it is a UI that helps the employee gets information
 //of all the products, reports, discounts etc to help him control the supply in store
-public class StoreKeeperPresentationCLI {
+public class StoreKeeperCLI {
     public static Scanner reader;
 
     ProductController productController; //create a product controller
@@ -21,21 +21,21 @@ public class StoreKeeperPresentationCLI {
 
     OrderCLI orderCLI;
 
-    SpecificProductPresentation specificProductPresentation;
-    SuperLiProductPresentation superLiProductPresentation;
-    ReportPresentation reportPresentation;
-    CategoryPresentation categoryPresentation;
+    SpecificProductCLI specificProductCLI;
+    SuperLiProductCLI superLiProductCLI;
+    ReportCLI reportCLI;
+    CategoryCLI categoryCLI;
 
     //get the instances of all the controllers we take information from
-    public StoreKeeperPresentationCLI() {
+    public StoreKeeperCLI() {
         reader = new Scanner(System.in);
         productController = ProductController.getInstance(); //create a product controller
         categoryController = CategoryController.getInstance(); //create a category controller
         reportController = ReportController.getInstance(); //create a report controller
-        specificProductPresentation = new SpecificProductPresentation();
-        superLiProductPresentation = new SuperLiProductPresentation();
-        categoryPresentation = new CategoryPresentation();
-        reportPresentation = new ReportPresentation();
+        specificProductCLI = new SpecificProductCLI();
+        superLiProductCLI = new SuperLiProductCLI();
+        categoryCLI = new CategoryCLI();
+        reportCLI = new ReportCLI();
         orderCLI = new OrderCLI();
     }
 
@@ -60,10 +60,10 @@ public class StoreKeeperPresentationCLI {
             c = option.nextLine();
             switch (c) {
                 case "1": //sub menu - everything about products
-                    superLiProductPresentation.ShowSuperLiProductMenu();
+                    superLiProductCLI.ShowSuperLiProductMenu();
                     break;
                 case "2": //sub menu - everything about Specific Products
-                    specificProductPresentation.ShowSpecificProductMenu();
+                    specificProductCLI.ShowSpecificProductMenu();
                     break;
 
                 case "3": //Reports
@@ -77,13 +77,13 @@ public class StoreKeeperPresentationCLI {
                     break;
 
                 case "4": //Categories
-                    categoryPresentation.ShowCategoryMenu();
+                    categoryCLI.ShowCategoryMenu();
                     break;
                 case "5": //SubCategories
-                    categoryPresentation.ShowSubCategory();
+                    categoryCLI.ShowSubCategory();
                     break;
                 case "6": //SubSubCategories
-                    categoryPresentation.ShowSubSubCategory();
+                    categoryCLI.ShowSubSubCategory();
                     break;
                 case "7": //Discounts
                     this.ShowDiscountMenu();

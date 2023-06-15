@@ -4,13 +4,13 @@ import InventoryModule.Business.Controllers.ProductController;
 
 import java.util.Scanner;
 
-import static InventoryModule.PresentationCLI.StoreKeeperPresentationCLI.reader;
+import static InventoryModule.PresentationCLI.StoreKeeperCLI.reader;
 //this class represent the sub menu of the SuperLiProducts. Here we can do actions on SuperLiProducts:
 //add and show all barcodes
-public class SuperLiProductPresentation {
+public class SuperLiProductCLI {
     private ProductController productController;
 
-    public SuperLiProductPresentation(){
+    public SuperLiProductCLI(){
 
         productController = ProductController.getInstance();
     }

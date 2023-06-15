@@ -1,6 +1,6 @@
 package MainClasses;
 
-import InventoryModule.PresentationCLI.StoreKeeperPresentationCLI;
+import InventoryModule.PresentationCLI.StoreKeeperCLI;
 import SuppliersModule.Business.Controllers.OrderController;
 import SuppliersModule.PresentationCLI.SupplierManagerCLI;
 
@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class SuperLiMainCLI {
 
     private static SupplierManagerCLI supplierManagerCLI;
-    private static StoreKeeperPresentationCLI storeKeeperPresentationCLI;
+    private static StoreKeeperCLI storeKeeperCLI;
     private static OrderController orderController;
 
     public static void main(String[] args)
@@ -33,7 +33,7 @@ public class SuperLiMainCLI {
         //----------------------------------------------------------------------------------------------
 
         supplierManagerCLI = new SupplierManagerCLI();
-        storeKeeperPresentationCLI = new StoreKeeperPresentationCLI();
+        storeKeeperCLI = new StoreKeeperCLI();
         orderController = OrderController.getInstance();
 
         switch (args[0]) {
@@ -46,7 +46,7 @@ public class SuperLiMainCLI {
                 break;
 
             case "Storekeeper":
-                storeKeeperPresentationCLI.Start();
+                storeKeeperCLI.Start();
                 break;
         }
 
@@ -71,7 +71,7 @@ public class SuperLiMainCLI {
                     supplierManagerCLI.PowerOn();
                     break;
                 case "2":
-                    storeKeeperPresentationCLI.Start();
+                    storeKeeperCLI.Start();
                     break;
             }
         }

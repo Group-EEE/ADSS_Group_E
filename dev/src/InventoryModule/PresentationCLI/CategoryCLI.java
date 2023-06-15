@@ -5,10 +5,10 @@ import InventoryModule.Business.Controllers.CategoryController;
 import java.util.Scanner;
 //this class represent the sub menu of Category - here the category, subCategory and subsubCategory
 //menus are shown.
-public class CategoryPresentation {
+public class CategoryCLI {
     public CategoryController categoryController;
     Scanner reader;
-    public CategoryPresentation(){
+    public CategoryCLI(){
         categoryController =CategoryController.getInstance();
         reader = new Scanner(System.in);
     }
