@@ -2,7 +2,6 @@ package InventoryModule.PresentationGUI;
 
 import MainClasses.SuperLiMainGUI;
 import SuppliersModule.PresentationGUI.HelperFunctionGUI;
-import SuppliersModule.PresentationGUI.OrderHistoryGUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -23,7 +22,7 @@ public class StoreKeeperGUI {
 
         JButton opt1 = new JButton("Products");
         JButton opt2 = new JButton("Specific Products");
-        JButton opt3 = new JButton("Show order report");
+        JButton opt3 = new JButton("Reports");
         JButton opt4 = new JButton("Categories");
         JButton opt5 = new JButton("SubCategories");
         JButton opt6 = new JButton("SubSubCategories");
@@ -54,7 +53,7 @@ public class StoreKeeperGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 menuFrame.setVisible(false);
-                ShowOrderReportToKeeperGUI.powerOn(menuFrame);
+                ReportsGUI.powerOn(menuFrame);
             }
         });
         opt2.addActionListener(new ActionListener() {

@@ -21,25 +21,30 @@ public class ReportController {
             reportController = new ReportController();
         return reportController;
     }
-    public void GetAllIssuedReports(){ //function that return the id and type of every issued report
-        System.out.println("*****Reports Issued In System*****");
+    public String GetAllIssuedReports(){ //function that return the id and type of every issued report
+        String details = "*****Reports Issued In System*****"+"\n";
         for(int i=0; i< AllReports.size(); i++){
-            System.out.println(AllReports.get(i).getID()+ ": "+ AllReports.get(i).getReportType());
+            details= details+ AllReports.get(i).getID();
+            details+=": ";
+            details+=AllReports.get(i).getReportType();
         }
-
+        return details;
     }
     public OrderReport createOrderReport(String reporter){
         OrderReport orderReport = new OrderReport(reporter);
         return orderReport;
     }
-    public void createCurrSupplyReport(String reporter){
+    public CurrSupplyReport createCurrSupplyReport(String reporter){
         CurrSupplyReport currSupplyReport = new CurrSupplyReport(reporter);
+        return currSupplyReport;
     }
-    public void createExpOrDefectReport(String reporter){
+    public ExpOrDefectReport createExpOrDefectReport(String reporter){
         ExpOrDefectReport expOrDefectReport = new ExpOrDefectReport(reporter);
+        return expOrDefectReport;
     }
-    public void createByCategoryReport(String reporter, List<String> cate){
+    public ByCategoryReport createByCategoryReport(String reporter, List<String> cate){
         ByCategoryReport byCategoryReport = new ByCategoryReport(reporter, cate);
+        return byCategoryReport;
     }
 
     //add report to the list of reports

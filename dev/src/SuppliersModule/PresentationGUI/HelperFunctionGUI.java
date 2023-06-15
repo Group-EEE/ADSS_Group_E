@@ -471,6 +471,19 @@ public class HelperFunctionGUI {
     public static String createTextAreaOrderReport(String reporter){
         return reportController.createOrderReport(reporter).toString();
     }
+    public static String createTextAreaCurrSupplyReport(String reporter){
+        return reportController.createCurrSupplyReport(reporter).toString();
+    }
+    public static String createTextAreaCreateExpOrDefectReport(String reporter){
+        return reportController.createExpOrDefectReport(reporter).toString();
+    }
+    public static String createTextAreaCreateByCategoryReport(String reporter, List<String>categories){
+        return reportController.createCurrSupplyReport(reporter).toString();
+    }
+    public static String createTextAreaALLReports(){
+        return reportController.GetAllIssuedReports();
+    }
+
 
     public static void setSpecifcProductIDComboBoxField(String choose, JComboBox<String>specificProductID2ComboBox){
         specificProductID2ComboBox.removeAllItems();

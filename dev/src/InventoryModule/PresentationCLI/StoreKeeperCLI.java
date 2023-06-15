@@ -49,7 +49,7 @@ public class StoreKeeperCLI {
             System.out.println("Please choose an option");
             System.out.println("1. Products");
             System.out.println("2. Specific Products");
-            System.out.println("3. Show order report");
+            System.out.println("3. Reports");
             System.out.println("4. Categories");
             System.out.println("5. SubCategories");
             System.out.println("6. SubSubCategories");
@@ -67,13 +67,7 @@ public class StoreKeeperCLI {
                     break;
 
                 case "3": //Reports
-                    System.out.println("Please enter Issue's reporter's name:");
-                    String r = reader.nextLine();
-                    reportController.createOrderReport(r);
-                    System.out.println("Do you want to send the order? yes/no");
-                    String s = reader.nextLine();
-                    if(s.equals("yes"))
-                        System.out.println(reportController.makeOrderForLastReport());
+                    reportCLI.ShowReportMenu();
                     break;
 
                 case "4": //Categories
