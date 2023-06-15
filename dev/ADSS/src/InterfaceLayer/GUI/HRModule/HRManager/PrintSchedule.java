@@ -15,23 +15,52 @@ public class PrintSchedule extends JFrame {
 
     public PrintSchedule() {
         // Set the size and layout of the frame
-        setSize(400, 300);
+        setSize(500, 400);
         setLayout(new BorderLayout());
 
-        // Create a panel for the store name input
+        // Create a panel for the store name input and buttons
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new FlowLayout());
+        inputPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5,5,5,5); // margin
 
         // Create a label and text field for the store name
         JLabel storeNameLabel = new JLabel("Store Name:");
         storeNameField = new JTextField(20);
 
-        // Add the label and text field to the input panel
-        inputPanel.add(storeNameLabel);
-        inputPanel.add(storeNameField);
-
         // Create a button for printing the schedule
         JButton printButton = new JButton("Print Schedule");
+        printButton.setPreferredSize(new Dimension(150, 25)); // You can modify the dimensions as per your requirements
+
+        // Create a button to go back to the main menu
+        JButton backToMenuButton = new JButton("Back to Main Menu");
+        backToMenuButton.setPreferredSize(new Dimension(150, 25)); // You can modify the dimensions as per your requirements
+
+        // Add components to inputPanel with GridBagLayout
+        gbc.gridx = 0; gbc.gridy = 0;
+        inputPanel.add(storeNameLabel, gbc);
+        gbc.gridx = 1; gbc.gridy = 0;
+        inputPanel.add(storeNameField, gbc);
+        gbc.gridx = 0; gbc.gridy = 1;
+        inputPanel.add(printButton, gbc);
+        gbc.gridx = 1; gbc.gridy = 1;
+        inputPanel.add(backToMenuButton, gbc);
+
+        // Create a scroll pane for the schedule information
+        JScrollPane scrollPane = new JScrollPane();
+        scheduleInfoArea = new JTextArea();
+        scheduleInfoArea.setEditable(false);
+        scrollPane.setViewportView(scheduleInfoArea);
+
+        // Add the input panel and scroll pane to the frame
+        add(inputPanel, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
+
+        // Set the frame to be visible
+        setVisible(true);
+
+        // Button listeners
         printButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -45,24 +74,22 @@ public class PrintSchedule extends JFrame {
                     Schedule schedule = _facade.getSchedule(storeName);
                     scheduleInfoArea.setText(schedule.toString());
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(PrintSchedule.this, "there is no such store", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(PrintSchedule.this, "There is no such store.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
 
-        // Create a scroll pane for the schedule information
-        JScrollPane scrollPane = new JScrollPane();
-        scheduleInfoArea = new JTextArea();
-        scheduleInfoArea.setEditable(false);
-        scrollPane.setViewportView(scheduleInfoArea);
+        backToMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HRmenu hrmenu = new HRmenu();
+                // Hide this frame
+                setVisible(false);
 
-        // Add the input panel, print button, and scroll pane to the frame
-        add(inputPanel, BorderLayout.NORTH);
-        add(printButton, BorderLayout.CENTER);
-        add(scrollPane, BorderLayout.SOUTH);
-
-        // Set the frame to be visible
-        setVisible(true);
+                // Show the main menu
+                hrmenu.setVisible(true);
+            }
+        });
     }
 
     public static void main(String[] args) {

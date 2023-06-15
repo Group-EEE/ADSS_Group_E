@@ -2,7 +2,7 @@ package InterfaceLayer.GUI.HRModule.HRManager;
 
 import BussinessLayer.HRModule.Controllers.Facade;
 import BussinessLayer.HRModule.Objects.RoleType;
-//todo: find out how to make only one pop massage
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,29 +13,32 @@ public class AddRoleToEmployee extends JFrame {
     private final Facade _facade = Facade.getInstance();
 
     public AddRoleToEmployee() {
-        // Set the size and layout of the frame
+        // Set the size of the frame
         setSize(400, 300);
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
 
-        // Create 10 JLabel and JTextField pairs
-        JLabel[] labels = new JLabel[2];
-        labels[0] = new JLabel("Employee ID:");
-        labels[1] = new JLabel("Role:");
+        // Create a main panel with a BoxLayout
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        getContentPane().add(mainPanel);
 
-        JTextField[] textFields = new JTextField[1];
-        for (int i = 0; i < textFields.length; i++) {
-            textFields[i] = new JTextField(10);
-        }
+        // Create a panel for the employee ID
+        JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        idPanel.add(new JLabel("Employee ID:"));
+        JTextField employeeIdField = new JTextField(10);
+        idPanel.add(employeeIdField);
 
-        // Create a combo box for the roles
+        // Create a panel for the role
+        JPanel rolePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        rolePanel.add(new JLabel("Role:"));
         JComboBox<RoleType> roleComboBox = new JComboBox<>(RoleType.values());
+        rolePanel.add(roleComboBox);
+
+        // Add the panels to the main panel
+        mainPanel.add(idPanel);
+        mainPanel.add(rolePanel);
 
         // Create a button to go back to the main menu
         JButton backToMenuButton = new JButton("Back to Main Menu");
-        getContentPane().add(backToMenuButton);
-
-        // Add an ActionListener to the backToMenuButton
         backToMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,24 +51,6 @@ public class AddRoleToEmployee extends JFrame {
             }
         });
 
-        // Add labels, text fields, and combo box to the frame
-        gbc.anchor = GridBagConstraints.LINE_START;
-        gbc.insets = new Insets(5, 5, 5, 5);
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        getContentPane().add(labels[0], gbc);
-
-        gbc.gridx = 1;
-        getContentPane().add(textFields[0], gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        getContentPane().add(labels[1], gbc);
-
-        gbc.gridx = 1;
-        getContentPane().add(roleComboBox, gbc);
-
         // Create an "Add" button and add an ActionListener
         JButton addButton = new JButton("Add");
         addButton.addActionListener(new ActionListener() {
@@ -74,17 +59,18 @@ public class AddRoleToEmployee extends JFrame {
                 int id = -1;
 
                 try {
-                    id = Integer.parseInt(textFields[0].getText());
+                    id = Integer.parseInt(employeeIdField.getText());
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "ID must be a number", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 RoleType role = (RoleType) roleComboBox.getSelectedItem();
-                List<RoleType> employeeroles = _facade.getEmployeeRoles(id);
-                for(int i = 0; i < employeeroles.size(); i++){
-                    if(role.equals(employeeroles.get(i))){
+                List<RoleType> employeeRoles = _facade.getEmployeeRoles(id);
+                for(int i = 0; i < employeeRoles.size(); i++){
+                    if(role.equals(employeeRoles.get(i))){
                         JOptionPane.showMessageDialog(null, _facade.getEmployeeFullNameById(id) + " already have " + role.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
                 }
 
@@ -101,11 +87,9 @@ public class AddRoleToEmployee extends JFrame {
             }
         });
 
-        // Add the "Add" button to the frame
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        getContentPane().add(addButton, gbc);
+        // Add the "Add" and "Back to Main Menu" buttons to the main panel
+        mainPanel.add(addButton);
+        mainPanel.add(backToMenuButton);
 
         // Set the frame to be visible
         setVisible(true);
