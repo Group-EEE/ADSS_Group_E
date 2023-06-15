@@ -54,6 +54,10 @@ public class Truck {
         return navigator;
     }
 
+    public void set_ready_navigator(Navigator navigator){
+        this.navigator = navigator;
+    }
+
     public double getCurrent_weight() {
         return current_weight;
     }

@@ -102,6 +102,7 @@ public class Send_transport extends JFrame{
         controller.set_navigator_for_transport(transport_id);
         send_message("Transport - " + transport_id + " started.");
         // driving to the first supplier
+        setVisible(false);
         controller.drive_to_next_location(transport_id);
 
         JOptionPane.showMessageDialog(null,"GPS: You have arrived to " + controller.get_current_location_name(transport_id));

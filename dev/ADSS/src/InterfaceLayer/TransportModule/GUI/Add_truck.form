@@ -62,7 +62,6 @@
         </constraints>
         <properties>
           <model>
-            <item value=""/>
             <item value="Dry"/>
             <item value="Cold"/>
             <item value="Freeze"/>

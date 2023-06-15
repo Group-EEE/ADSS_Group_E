@@ -63,10 +63,12 @@ public class Transport_main extends JFrame{
             case 3:
                 if (!StoresDAO.getInstance().isAnyStoreExist()){
                     JOptionPane.showMessageDialog(null, "There's no stores in the Database!");
+                    setVisible(true);
                     break;
                 }
                 if (!Suppliers_dao.getInstance().is_any_supplier_exist()){
                     JOptionPane.showMessageDialog(null, "There's no suppliers in the Database!");
+                    setVisible(true);
                     break;
                 }
                 Create_transport create_transport = new Create_transport(this);
@@ -88,7 +90,8 @@ public class Transport_main extends JFrame{
 
 
                 if (transport_ids.size() == 0){
-                    JOptionPane.showMessageDialog(null, "There's no transports planned for today!");
+                    JOptionPane.showMessageDialog(this, "There's no transports planned for today!");
+                    setVisible(true);
                     break;
                 }
                 Send_transport send_transport = new Send_transport(this, transport_ids);

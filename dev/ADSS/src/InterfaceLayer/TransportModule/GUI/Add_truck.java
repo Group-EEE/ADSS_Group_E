@@ -153,7 +153,11 @@ public class Add_truck extends JFrame {
                     Logistical_center_controller.getInstance().add_truck(registration_number_str, truck_model_string, truck_net_weight_double, truck_max_weight_double, cold_level.fromString(cool_level_string), truck_net_weight_double);
                     JOptionPane.showMessageDialog(null, "Truck:" + registration_number_str +"has been added to the system successfully");
                 }
-
+                registration_number.setText("");
+                truck_model.setText("");
+                truck_net_weight.setText("");
+                truck_max_weight.setText("");
+                cool_level.setSelectedIndex(0);
             }
         });
 

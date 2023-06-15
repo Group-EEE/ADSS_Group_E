@@ -101,8 +101,9 @@ public class Logistical_center_controller {
 
 
     public boolean truck_assigning_drivers_in_shift(String new_truck_registration_plate, String planned_date){
-        int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", LocalDate.parse(planned_date), ShiftType.MORNING);
         LocalDate date = LocalDate.parse(planned_date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", date, ShiftType.MORNING);
+        // TODO: check with chen that he gives us a function that get the schedule by any day that in that schedule. not only the exact day that is starts.
         HashMap<RoleType, Employee> employees = SchedulesDAO.getInstance().getSchedule(date, "Logistics").getShift(shift_id).getAssignedEmployees();
         ArrayList<Employee> drivers = new ArrayList<>(employees.values());
         for (Employee driver : drivers){

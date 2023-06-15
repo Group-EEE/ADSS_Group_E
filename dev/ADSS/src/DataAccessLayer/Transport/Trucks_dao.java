@@ -129,5 +129,6 @@ public class Trucks_dao extends DAO {
             System.out.println("Exception thrown");
         }
     }
+
 }
 

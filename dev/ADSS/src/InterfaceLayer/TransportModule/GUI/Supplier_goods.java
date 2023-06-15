@@ -9,6 +9,9 @@ import DataAccessLayer.Transport.Transport_dao;
 import javax.swing.*;
 import javax.swing.JOptionPane;
 import java.awt.event.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 public class Supplier_goods extends JFrame{
@@ -208,6 +211,7 @@ public class Supplier_goods extends JFrame{
                 itemName.setText("");
                 Amount.setText("");
                 totalWeight.setText("0");
+                total_weight = 0;
             }
         });
         backButton.addActionListener(new ActionListener() {
@@ -239,8 +243,11 @@ public class Supplier_goods extends JFrame{
                 if(itemWeight.getText().isEmpty()){
                     return;
                 }
-                //TODO: check if we can turn into double.
-                if (!containsOnlyNumbers(itemWeight.getText())){
+
+                try {
+                    Double.parseDouble(itemWeight.getText());
+                }
+                catch (NumberFormatException ex){
                     JOptionPane.showMessageDialog(null, "Please put a valid weight with digits only (can be with floating point).");
                     itemWeight.setText("");
                 }
@@ -310,9 +317,34 @@ public class Supplier_goods extends JFrame{
 
         if (choice == 0) {
             String newTime = JOptionPane.showInputDialog(null, "What is the new estimated finish time? (enter time in HH:mm:ss format)");
-            while (!underway_transport_controller.getInstance().isValidTime(newTime)) {
-                newTime = JOptionPane.showInputDialog(null, "Wrong input, try again. Enter time in HH:mm:ss format.");
+            while (!isValidTime(newTime) || isBeforeEstimatedTime(newTime, estimatedFinishTime)) {
+                newTime = JOptionPane.showInputDialog(null, "Invalid input or time is before the current estimated finish time. Enter a valid time in HH:mm:ss format.");
             }
+            controller.setEstimatedEndTime(transport_id, newTime);
+        }
+    }
+
+    private boolean isValidTime(String time) {
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+        format.setLenient(false);
+
+        try {
+            format.parse(time);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    private boolean isBeforeEstimatedTime(String newTime, String estimatedFinishTime) {
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+
+        try {
+            Date newDate = format.parse(newTime);
+            Date estimatedDate = format.parse(estimatedFinishTime);
+            return newDate.before(estimatedDate);
+        } catch (ParseException e) {
+            return true;  // Treat parse exception as time being before estimated time
         }
     }
 

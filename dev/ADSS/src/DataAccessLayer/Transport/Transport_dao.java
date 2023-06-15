@@ -282,7 +282,7 @@ public class Transport_dao extends DAO {
             statement.setString(1, planned_date);
             ResultSet res = statement.executeQuery();
             while (res.next()) {
-                if (res.getInt(12) == driver_ID) {
+                if (res.getInt(12) == driver_ID && res.getInt(11) == 0) {
                     return true;
                 }
             }

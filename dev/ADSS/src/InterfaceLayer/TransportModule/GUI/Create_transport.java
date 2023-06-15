@@ -4,6 +4,7 @@ import BussinessLayer.HRModule.Controllers.ScheduleController;
 import BussinessLayer.HRModule.Objects.ShiftType;
 import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.TransportationModule.controllers.Logistical_center_controller;
+import BussinessLayer.TransportationModule.controllers.underway_transport_controller;
 import BussinessLayer.TransportationModule.objects.Supplier;
 import BussinessLayer.TransportationModule.objects.Truck_Driver;
 import DataAccessLayer.HRMoudle.StoresDAO;
@@ -124,6 +125,9 @@ public class Create_transport extends JFrame {
                 }
 
                 for (String truckID : trucks_IDs) {
+                    if (underway_transport_controller.getInstance().is_truck_taken_that_day(truckID, current_planned_date, false, 0)){
+                        continue;
+                    }
                     Trucks.addItem(truckID);
                 }
                 update_drivers_list();
@@ -189,7 +193,6 @@ public class Create_transport extends JFrame {
                 isFinished = true;
             }
         });
-        // TODO its not working
         areas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -247,7 +247,7 @@ public class underway_transport_UI {
         System.out.println("The truck max weight is: " + controller.get_truck_weight(transport_ID, "m") + " but her current weight is " + controller.get_truck_weight(transport_ID, "c") + "!!!");
         while (choice != 5) {
             System.out.println("Hey boss, You need to update the current Transport. please choose one of this following options:");
-            System.out.println("1: I want to cancel shipping to a certain store.");
+            System.out.println("1: I want to cancel shipments I currently haveto a certain store.");
             System.out.println("2: I want to change the truck to complete the transport.");
             System.out.println("3: I want to get the goods from the current supplier later / skip this supplier goods for today.");
             System.out.println("4: I want to cancel all the shipping, I tried all, currently we don't have other option!");
