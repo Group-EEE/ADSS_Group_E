@@ -42,17 +42,18 @@ public class OrderReport extends Report{
     public String toString()
     {
         String details = "";
-        details = details + "***** Products Order Report *****" + "\n";
+        details = details + "***** Products Order Report *****" + "\n\n";
         details = details + "Report Date: "+ this.getDate().toLocalDate() + "\n";
-        details += "Reporter : "+ Reporter;
+        details += "Reporter : "+ Reporter + "\n\n";
+
         for(int i = 0; i< ProductController.getProducts().size(); i++){
             //check for all of its specific products if the amount of not defected products
             //(on shelf and in warehouse) is equal or less than the minimum amount
             if(ProductController.getProducts().get(i).getSpecificProducts().size() <= ProductController.getProducts().get(i).getMinimum_Amount()){
                 details += "Product's Barcode: " +ProductController.getProducts().get(i).getBarcode() + "\n";
                 details += "Product's Name: " + ProductController.getProducts().get(i).getPName() + "\n";
-                details += " Product's Amount: " + ProductController.getProducts().get(i).getSpecificProducts().size() + "\n";
-                details += " Product's Manufacturer: " + ProductController.getProducts().get(i).getManufacturer() + "\n";
+                details += "Product's Amount: " + ProductController.getProducts().get(i).getSpecificProducts().size() + "\n";
+                details += "Product's Manufacturer: " + ProductController.getProducts().get(i).getManufacturer() + "\n\n";
                 barcodes.add(ProductController.getProducts().get(i).getBarcode());
                 amount.add((ProductController.getProducts().get(i).getMinimum_Amount()+20)-ProductController.getProducts().get(i).getSpecificProducts().size());
             }

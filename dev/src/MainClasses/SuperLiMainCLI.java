@@ -24,7 +24,7 @@ public class SuperLiMainCLI {
 
         //----------------------------------- Check If args[0] is valid -----------------------------------
 
-        if(!args[0].equals("StoreManager") && !args[0].equals("SupplierManager") && !args[0].equals("Storekeeper"))
+        if(!args[0].equals("StoreManager") && !args[0].equals("SupplierManager") && !args[0].equals("StoreKeeper"))
         {
             System.out.println("The second argument must be StoreManager or SupplierManager or Storekeeper");
             return;
@@ -38,42 +38,18 @@ public class SuperLiMainCLI {
 
         switch (args[0]) {
             case "StoreManager":
-                StoreManagerMenu();
+                StoreManagerCLI.PowerOn(supplierManagerCLI, storeKeeperCLI);
                 break;
 
             case "SupplierManager":
                 supplierManagerCLI.PowerOn();
                 break;
 
-            case "Storekeeper":
+            case "StoreKeeper":
                 storeKeeperCLI.Start();
                 break;
         }
 
         orderController.cancelTimer();
-    }
-
-    // ---------------------------------------- StoreManagerMenu ---------------------------------------
-    private static void StoreManagerMenu()
-    {
-        String yourChoice = "";
-        Scanner reader = new Scanner(System.in);
-
-        while (!yourChoice.equals("0")) {
-            System.out.println("\nPlease choose one of the options shown in the menu:\n");
-            System.out.println("1. SupplierManager menu");
-            System.out.println("2. Storekeeper menu");
-            System.out.println("0. Exit");
-
-            yourChoice = reader.nextLine();
-            switch (yourChoice) {
-                case "1":
-                    supplierManagerCLI.PowerOn();
-                    break;
-                case "2":
-                    storeKeeperCLI.Start();
-                    break;
-            }
-        }
     }
 }

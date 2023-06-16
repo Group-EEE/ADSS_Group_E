@@ -37,6 +37,10 @@ public class ReportCLI {
                     String r = reader.nextLine();
                     OrderReport orderReport = reportController.createOrderReport(r);
                     System.out.println(orderReport);
+                    System.out.println("Do you want to send the order? yes/no");
+                    String s = reader.nextLine();
+                    if(s.equals("yes"))
+                        System.out.println(reportController.makeOrderForLastReport());
                     break;
                 case "3": //Issue current supply
                     System.out.println("Please enter Issue's reporter's name:");
