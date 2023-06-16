@@ -28,7 +28,7 @@ public class ExpOrDefectReport extends Report{
         String details = "";
         details = details + "***** Exp/Defected Products Report *****" + "\n";
         details = details + "Report Date: "+ this.getDate().toLocalDate() + "\n";
-        details += "Reporter : "+ reporter;
+        details += "Reporter : "+ reporter + "\n";
         for (int i = 0; i < ProductController.getProducts().size(); i++) { //for every product in the store
             //for every specific product of this general product
             for (int j = 0; j < ProductController.getProducts().get(i).getSpecificProducts().size(); j++) {

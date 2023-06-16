@@ -27,6 +27,7 @@ public class ReportController {
             details= details+ AllReports.get(i).getID();
             details+=": ";
             details+=AllReports.get(i).getReportType();
+            details+="\n";
         }
         return details;
     }
