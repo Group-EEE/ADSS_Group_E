@@ -46,8 +46,9 @@ public class ProductController {
 
     //this function removes specific product from shelf in store to the warehouse
     //and from warehouse to the store
-    public void change_Shelf_Warehouse(int sp_id, int p_id) {
+    public String change_Shelf_Warehouse(int sp_id, int p_id) {
         boolean found = false; //if true- the product was found
+        String s = "";
         //check if the product exist in the controller
         for (Map.Entry<Integer, SuperLiProduct> pair : superLiDB.getSuperLiProductMap().entrySet()){
             if (pair.getValue().getBarcode() == p_id) {
@@ -65,7 +66,7 @@ public class ProductController {
                     pair.getValue().setWarehouse_amount(pair.getValue().getWarehouse_amount()-1);
                     //change the number of spec. product that on the shelf for this main product
                     pair.getValue().setShelf_amount(pair.getValue().getShelf_amount()+1);
-                    System.out.println("Product transfer to store in shelf number " + rand);
+                    s ="Product transfer to store in shelf number " + rand;
                 } else {  //if the product is in store
                     ////change the field to true - in the warehouse
                     pair.getValue().getSpecificProduct(sp_id).setInWarehouse(true);
@@ -75,13 +76,14 @@ public class ProductController {
                     pair.getValue().setShelf_amount( pair.getValue().getShelf_amount()-1);
                     //change the number of spec. product that on the shelf for this main product
                     pair.getValue().setWarehouse_amount( pair.getValue().getWarehouse_amount()+1);
-                    System.out.println("Product transfer to warehouse!");
+                    s ="Product transfer to warehouse!";
                 }
             }
         }
         if(found==false){
-            System.out.println("Product wasn't found!");
+            s ="Product wasn't found!";
         }
+        return s;
     }
 
     public String GetAllProductBarcode(){ //print all the barcodes that exist in the store

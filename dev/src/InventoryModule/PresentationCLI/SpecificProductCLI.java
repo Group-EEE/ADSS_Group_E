@@ -54,7 +54,7 @@ public class SpecificProductCLI {
                     Scanner sp6 = new Scanner(System.in);
                     System.out.println("Please enter specific product id:");
                     int spid6 = sp6.nextInt();
-                    productController.change_Shelf_Warehouse(spid6, barcode6);
+                    System.out.println(productController.change_Shelf_Warehouse(spid6, barcode6));
                     break;
             }
         }
@@ -173,7 +173,7 @@ public class SpecificProductCLI {
         int spid4 = Integer.parseInt(reader.nextLine());
         SuperLiProduct np4 = productController.getProductByBarcode(barcode4);
         if(np4!=null){//SuperLiProduct found
-            np4.getProductLocationInStore(spid4);
+            System.out.println(np4.getProductLocationInStore(spid4));
         }
         else{
             System.out.println("Product wasn't found!");

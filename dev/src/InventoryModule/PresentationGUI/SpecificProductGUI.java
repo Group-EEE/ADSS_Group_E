@@ -1,6 +1,7 @@
 package InventoryModule.PresentationGUI;
 
 import InventoryModule.Business.Controllers.ProductController;
+import InventoryModule.Business.SpecificProduct;
 import InventoryModule.Business.SuperLiProduct;
 import SuppliersModule.PresentationGUI.HelperFunctionGUI;
 
@@ -46,6 +47,47 @@ public class SpecificProductGUI {
         //option2 - Remove specific product from store
         JLabel productBarcodeLabel2 = new JLabel("Choose Product");
         JLabel productsId2 = new JLabel("Choose Product's id:");
+        JLabel checkIDLabel2 = HelperFunctionGUI.createCheckLabel("Choose Id",350,70,270,20);
+        JLabel checkNoavaliableProductLabel2 = HelperFunctionGUI.createCheckLabel("Missing Product",350,70,270,20);
+        JLabel checkBarcodeLabel2 = HelperFunctionGUI.createCheckLabel("Choose Barcode",350,40,270,20);
+
+        //option 3 - Report defected specific product
+        JLabel productBarcodeLabel3 = new JLabel("Choose Product");
+        JLabel productsId3 = new JLabel("Choose Product's id:");
+        JLabel checkIDLabel3 = HelperFunctionGUI.createCheckLabel("Choose Id",350,70,270,20);
+        JLabel checkNoavaliableProductLabel3 = HelperFunctionGUI.createCheckLabel("Missing Product",350,70,270,20);
+        JLabel checkBarcodeLabel3 = HelperFunctionGUI.createCheckLabel("Choose Barcode",350,40,270,20);
+
+        JLabel defectReporterName3 = new JLabel("Enter Reporter Name:");
+        JLabel checkReporterName3 = HelperFunctionGUI.createCheckLabel("Enter Name!",350,100,270,20);
+
+        JLabel defectTypeName3 = new JLabel("Enter Defect Type:");
+        JLabel checkTypeName3 = HelperFunctionGUI.createCheckLabel("Enter Defect Type!",350,130,270,20);
+
+        //option 4
+        JLabel productBarcodeLabel4 = new JLabel("Choose Product");
+        JLabel productsId4 = new JLabel("Choose Product's id:");
+        JLabel checkIDLabel4 = HelperFunctionGUI.createCheckLabel("Choose Id",370,70,270,20);
+        JLabel checkNoavaliableProductLabel4 = HelperFunctionGUI.createCheckLabel("Missing Product",370,70,270,20);
+        JLabel checkBarcodeLabel4 = HelperFunctionGUI.createCheckLabel("Choose Barcode",370,40,270,20);
+        JLabel productLocationInStore = new JLabel("Product location in store is:");
+
+        //option 5
+        JLabel productBarcodeLabel5 = new JLabel("Choose Product");
+        JLabel productsId5 = new JLabel("Choose Product's id:");
+        JLabel checkIDLabel5 = HelperFunctionGUI.createCheckLabel("Choose Id",350,70,270,20);
+        JLabel checkNoavaliableProductLabel5 = HelperFunctionGUI.createCheckLabel("Missing Product",350,70,270,20);
+        JLabel checkBarcodeLabel5 = HelperFunctionGUI.createCheckLabel("Choose Barcode",350,40,270,20);
+        JLabel newShelfNumber5 = new JLabel("Choose Shelf Number");
+        JLabel checkShelf = HelperFunctionGUI.createCheckLabel("Choose Shelf Number",350,100,180,20);
+
+        //option 6
+        JLabel productBarcodeLabel6 = new JLabel("Choose Product");
+        JLabel productsId6 = new JLabel("Choose Product's id:");
+        JLabel checkIDLabel6 = HelperFunctionGUI.createCheckLabel("Choose Id",370,70,270,20);
+        JLabel checkNoavaliableProductLabel6 = HelperFunctionGUI.createCheckLabel("Missing Product",370,70,270,20);
+        JLabel checkBarcodeLabel6 = HelperFunctionGUI.createCheckLabel("Choose Barcode",370,40,270,20);
+        JLabel productLocationInStore6 = new JLabel("Product location is:");
 
         //----------------------------------------- Create JTextField ----------------------------------------
         //option 1
@@ -54,6 +96,16 @@ public class SpecificProductGUI {
         JTextField defectTypeField = new JTextField();
         JTextField ProductShelfNumberField = new JTextField();
         JTextField discountAmountField = new JTextField();
+
+        //option 3
+        JTextField ReporterName3 = new JTextField();
+        JTextField DefectType3 = new JTextField();
+
+        //option 4
+        JTextField ProductLocation4 = new JTextField();
+
+        //option 6
+        JTextField ProductLocation6 = new JTextField();
 
         //----------------------------------------- Create JComboBox ----------------------------------------
         JComboBox<String> chooseComboBox = new JComboBox<>(new String[]{"", "Add new specific product to store",
@@ -108,12 +160,45 @@ public class SpecificProductGUI {
         JComboBox<String> productBarcodeComboBox2 = HelperFunctionGUI.createComboBoxProductBarcode();
         JComboBox<String> specificProductID2ComboBox = new JComboBox<>();
 
+        //option 3
+        JComboBox<String> productBarcodeComboBox3= HelperFunctionGUI.createComboBoxProductBarcode();
+        JComboBox<String> specificProductIDComboBox3 = new JComboBox<>();
+
+        //option 4
+        JComboBox<String> productBarcodeComboBox4 = HelperFunctionGUI.createComboBoxProductBarcode();
+        JComboBox<String> specificProductIDComboBox4 = new JComboBox<>();
+
+        //option 5
+        JComboBox<String> productBarcodeComboBox5 = HelperFunctionGUI.createComboBoxProductBarcode();
+        JComboBox<String> specificProductIDComboBox5 = new JComboBox<>();
+        JComboBox<String> shelfNumberComboBox5 = new JComboBox<>();
+        shelfNumberComboBox5.addItem("");
+        for(int i=1; i<101; i++){
+            shelfNumberComboBox5.addItem(Integer.toString(i));
+        }
+
+        //option 6
+        JComboBox<String> productBarcodeComboBox6 = HelperFunctionGUI.createComboBoxProductBarcode();
+        JComboBox<String> specificProductIDComboBox6 = new JComboBox<>();
+
         //----------------------------------------- Create JButton ----------------------------------------
         //option 1
         JButton AddNewProduct = new JButton("Submit");
 
         //option2
         JButton RemoveProduct = new JButton("Submit");
+
+        //option 3
+        JButton ReportDefectedProduct = new JButton("Submit");
+
+        //option 4
+        JButton FindLocation = new JButton("Submit");
+
+        //option 5
+        JButton SetLocation = new JButton("Submit");
+
+        //option 6
+        JButton TransformLocation = new JButton("Submit");
 
         JButton exitButton = HelperFunctionGUI.createExitButton(SpecificProductFrame, OldFrame);
 
@@ -173,10 +258,63 @@ public class SpecificProductGUI {
 
         //option 2
         productBarcodeLabel2.setBounds(10,40, 150,20);
-        productBarcodeComboBox2.setBounds(190,40,270,20);
+        productBarcodeComboBox2.setBounds(190,40,150,20);
 
         productsId2.setBounds(10, 70, 150,20);
-        specificProductID2ComboBox.setBounds(190,70,270,20);
+        specificProductID2ComboBox.setBounds(190,70,150,20);
+        RemoveProduct.setBounds(200, 360, 100, 40);
+
+        //option 3
+
+        productBarcodeLabel3.setBounds(10,40, 150,20);
+        productBarcodeComboBox3.setBounds(190,40,150,20);
+
+        productsId3.setBounds(10, 70, 150,20);
+        specificProductIDComboBox3.setBounds(190,70,150,20);
+        ReportDefectedProduct.setBounds(200, 360, 100, 40);
+
+        defectReporterName3.setBounds(10, 100, 150,20);
+        ReporterName3.setBounds(190, 100, 150,20);
+
+        defectTypeName3.setBounds(10, 130, 150,20);
+        DefectType3.setBounds(190, 130, 150,20);
+
+        //option 4
+        productBarcodeLabel4.setBounds(10,40, 150,20);
+        productBarcodeComboBox4.setBounds(190,40,180,20);
+
+        productsId4.setBounds(10, 70, 150,20);
+        specificProductIDComboBox4.setBounds(190,70,180,20);
+
+        productLocationInStore.setBounds(10, 100, 160,20);
+        ProductLocation4.setBounds(190, 100, 230,20);
+
+        FindLocation.setBounds(200, 360, 100, 40);
+
+        //option 5
+
+        productBarcodeLabel5.setBounds(10,40, 150,20);
+        productBarcodeComboBox5.setBounds(190,40,150,20);
+
+        productsId5.setBounds(10, 70, 150,20);
+        specificProductIDComboBox5.setBounds(190,70,150,20);
+
+        newShelfNumber5.setBounds(10, 100, 150,20);
+        shelfNumberComboBox5.setBounds(190,100,150,20);
+
+        SetLocation.setBounds(200, 360, 100, 40);
+
+        //option 6
+        productBarcodeLabel6.setBounds(10,40, 150,20);
+        productBarcodeComboBox6.setBounds(190,40,180,20);
+
+        productsId6.setBounds(10, 70, 150,20);
+        specificProductIDComboBox6.setBounds(190,70,180,20);
+
+        productLocationInStore6.setBounds(10, 100, 160,20);
+        ProductLocation6.setBounds(190, 100, 250,20);
+
+        TransformLocation.setBounds(200, 360, 100, 40);
 
         //-------------------------------------- Set not visible ---------------------------------------------
 
@@ -197,10 +335,39 @@ public class SpecificProductGUI {
 
         //option 2
         JComponent[] JComponentsRemoveProduct = new JComponent[]{productBarcodeLabel2,productBarcodeComboBox2,
-                productsId2,specificProductID2ComboBox, RemoveProduct};
+                productsId2,specificProductID2ComboBox,RemoveProduct};
         HelperFunctionGUI.hideComponents(JComponentsRemoveProduct);
 
+        //option 3
+        JComponent[] JComponentsDefectedProduct = new JComponent[]{productBarcodeLabel3,productsId3,
+                defectReporterName3, defectTypeName3,ReporterName3, DefectType3,
+                productBarcodeComboBox3,specificProductIDComboBox3,ReportDefectedProduct};
+        HelperFunctionGUI.hideComponents(JComponentsDefectedProduct);
 
+        //option 4
+        JComponent[] JComponentsLocationInStore = new JComponent[]{productBarcodeComboBox4,specificProductIDComboBox4,
+                productBarcodeLabel4, productsId4 ,productLocationInStore ,ProductLocation4 ,FindLocation};
+
+        HelperFunctionGUI.hideComponents(JComponentsLocationInStore);
+
+        //option 5
+        JComponent[] JComponentsNewLocationInStore = new JComponent[]{productBarcodeLabel5, productsId5,
+                newShelfNumber5, productBarcodeComboBox5, specificProductIDComboBox5,shelfNumberComboBox5,
+                SetLocation};
+        HelperFunctionGUI.hideComponents(JComponentsNewLocationInStore);
+
+        //option 6
+        JComponent[] JComponentsTransformLocationInStore = new JComponent[]{productBarcodeLabel6,
+                productsId6, productLocationInStore6, ProductLocation6, productBarcodeComboBox6,
+                specificProductIDComboBox6, TransformLocation};
+
+        HelperFunctionGUI.hideComponents(JComponentsTransformLocationInStore);
+
+        /*
+        productBarcodeLabel6, productsId6, checkIDLabel6, checkNoavaliableProductLabel6,
+        checkBarcodeLabel6, productLocationInStore6, ProductLocation6, productBarcodeComboBox6,
+        specificProductIDComboBox6, TransformLocation
+         */
         //------------------------------------ Add to currFrame -------------------------------------
         HelperFunctionGUI.addComponentsToFrame(SpecificProductFrame, new JComponent[]{chooseLabel,
                 chooseComboBox, productBarcodeLabel,
@@ -217,8 +384,20 @@ public class SpecificProductGUI {
                 checkDiscountLabel, checkDateLabel, checkDefectedLabel,checkLocationInStoreLabel,
                 checkSelectedBranch,checkSupplierLabel,checkSupplierPriceLabel,doesProducthasDiscount,
                 HasDiscountComboBox, productBarcodeLabel2,productBarcodeComboBox2,
-                productsId2,specificProductID2ComboBox, RemoveProduct
+                productsId2,specificProductID2ComboBox, RemoveProduct,checkIDLabel2, checkNoavaliableProductLabel2,
+                checkBarcodeLabel2,productBarcodeLabel3,productsId3,checkIDLabel3,
+                checkNoavaliableProductLabel3,checkBarcodeLabel3, defectReporterName3,checkReporterName3,
+                defectTypeName3, checkTypeName3,ReporterName3, DefectType3,
+                productBarcodeComboBox3,specificProductIDComboBox3,ReportDefectedProduct,
+                productBarcodeComboBox4,specificProductIDComboBox4,
+                productBarcodeLabel4, productsId4 ,productLocationInStore ,ProductLocation4 ,FindLocation,
+                checkIDLabel4 ,checkNoavaliableProductLabel4 ,checkBarcodeLabel4,productBarcodeLabel5, productsId5, newShelfNumber5, checkIDLabel5, checkNoavaliableProductLabel5,
+                checkBarcodeLabel5, productBarcodeComboBox5, specificProductIDComboBox5,shelfNumberComboBox5,
+                SetLocation, checkShelf, productBarcodeLabel6, productsId6, checkIDLabel6, checkNoavaliableProductLabel6,
+                checkBarcodeLabel6, productLocationInStore6, ProductLocation6, productBarcodeComboBox6,
+                specificProductIDComboBox6, TransformLocation
         });
+
 
         // ------------------------------------- Add action listener to JObjects ------------------------------
         productBarcodeComboBox.addActionListener(new ActionListener() {
@@ -234,6 +413,11 @@ public class SpecificProductGUI {
         });
         SpecificProductFrame.setVisible(true);
 
+        /*
+        productBarcodeLabel5, productsId5, newShelfNumber5, checkIDLabel5, checkNoavaliableProductLabel5,
+        checkBarcodeLabel5, productBarcodeComboBox5, specificProductIDComboBox5,shelfNumberComboBox5,
+        SetLocation, checkShelf
+         */
         chooseComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -241,6 +425,11 @@ public class SpecificProductGUI {
 
                 if (choose.equals("")) {
                     HelperFunctionGUI.hideComponents(JComponentsAddProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsRemoveProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsDefectedProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsLocationInStore);
+                    HelperFunctionGUI.hideComponents(JComponentsNewLocationInStore);
+                    HelperFunctionGUI.hideComponents(JComponentsTransformLocationInStore);
                     checkSupplierLabel.setVisible(false);
                     checkDiscountLabel.setVisible(false);
                     checkSupplierPriceLabel.setVisible(false);
@@ -248,34 +437,227 @@ public class SpecificProductGUI {
                     checkDefectedLabel.setVisible(false);
                     checkSelectedBranch.setVisible(false);
                     checkLocationInStoreLabel.setVisible(false);
-
+                    checkIDLabel2.setVisible(false);
+                    checkNoavaliableProductLabel2.setVisible(false);
+                    checkBarcodeLabel2.setVisible(false);
+                    checkIDLabel3.setVisible(false);
+                    checkNoavaliableProductLabel3.setVisible(false);
+                    checkBarcodeLabel3.setVisible(false);
+                    checkReporterName3.setVisible(false);
+                    checkTypeName3.setVisible(false);
+                    checkIDLabel4.setVisible(false);
+                    checkNoavaliableProductLabel4.setVisible(false);
+                    checkBarcodeLabel4.setVisible(false);
+                    checkShelf.setVisible(false);
+                    checkIDLabel5.setVisible(false);
+                    checkNoavaliableProductLabel5.setVisible(false);
+                    checkBarcodeLabel5.setVisible(false);
+                    checkIDLabel6.setVisible(false);
+                    checkNoavaliableProductLabel6.setVisible(false);
+                    checkBarcodeLabel6.setVisible(false);
                 }
                 if (choose.equals("Add new specific product to store")) {
                     HelperFunctionGUI.showComponents(JComponentsAddProduct);
                     HelperFunctionGUI.hideComponents(JComponentsRemoveProduct);
-
+                    HelperFunctionGUI.hideComponents(JComponentsDefectedProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsLocationInStore);
+                    HelperFunctionGUI.hideComponents(JComponentsNewLocationInStore);
+                    HelperFunctionGUI.hideComponents(JComponentsTransformLocationInStore);
+                    checkSupplierLabel.setVisible(false);
+                    checkDiscountLabel.setVisible(false);
+                    checkSupplierPriceLabel.setVisible(false);
+                    checkDateLabel.setVisible(false);
+                    checkDefectedLabel.setVisible(false);
+                    checkSelectedBranch.setVisible(false);
+                    checkLocationInStoreLabel.setVisible(false);
+                    checkIDLabel2.setVisible(false);
+                    checkNoavaliableProductLabel2.setVisible(false);
+                    checkBarcodeLabel2.setVisible(false);
+                    checkIDLabel3.setVisible(false);
+                    checkNoavaliableProductLabel3.setVisible(false);
+                    checkBarcodeLabel3.setVisible(false);
+                    checkReporterName3.setVisible(false);
+                    checkTypeName3.setVisible(false);
+                    checkIDLabel4.setVisible(false);
+                    checkNoavaliableProductLabel4.setVisible(false);
+                    checkBarcodeLabel4.setVisible(false);
+                    checkShelf.setVisible(false);
+                    checkIDLabel5.setVisible(false);
+                    checkNoavaliableProductLabel5.setVisible(false);
+                    checkBarcodeLabel5.setVisible(false);
+                    checkIDLabel6.setVisible(false);
+                    checkNoavaliableProductLabel6.setVisible(false);
+                    checkBarcodeLabel6.setVisible(false);
                 }
                 if (choose.equals("Remove specific product from store")) {
                     HelperFunctionGUI.hideComponents(JComponentsAddProduct);
                     HelperFunctionGUI.showComponents(JComponentsRemoveProduct);
-
-
-
+                    HelperFunctionGUI.hideComponents(JComponentsDefectedProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsLocationInStore);
+                    HelperFunctionGUI.hideComponents(JComponentsNewLocationInStore);
+                    HelperFunctionGUI.hideComponents(JComponentsTransformLocationInStore);
+                    checkSupplierLabel.setVisible(false);
+                    checkDiscountLabel.setVisible(false);
+                    checkSupplierPriceLabel.setVisible(false);
+                    checkDateLabel.setVisible(false);
+                    checkDefectedLabel.setVisible(false);
+                    checkSelectedBranch.setVisible(false);
+                    checkLocationInStoreLabel.setVisible(false);
+                    checkIDLabel2.setVisible(false);
+                    checkNoavaliableProductLabel2.setVisible(false);
+                    checkBarcodeLabel2.setVisible(false);
+                    checkIDLabel3.setVisible(false);
+                    checkNoavaliableProductLabel3.setVisible(false);
+                    checkBarcodeLabel3.setVisible(false);
+                    checkReporterName3.setVisible(false);
+                    checkTypeName3.setVisible(false);
+                    checkIDLabel4.setVisible(false);
+                    checkNoavaliableProductLabel4.setVisible(false);
+                    checkBarcodeLabel4.setVisible(false);
+                    checkShelf.setVisible(false);
+                    checkIDLabel5.setVisible(false);
+                    checkNoavaliableProductLabel5.setVisible(false);
+                    checkBarcodeLabel5.setVisible(false);
+                    checkIDLabel6.setVisible(false);
+                    checkNoavaliableProductLabel6.setVisible(false);
+                    checkBarcodeLabel6.setVisible(false);
                 }
                 if (choose.equals("Report defected specific product")) {
-
+                    HelperFunctionGUI.hideComponents(JComponentsAddProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsRemoveProduct);
+                    HelperFunctionGUI.showComponents(JComponentsDefectedProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsLocationInStore);
+                    HelperFunctionGUI.hideComponents(JComponentsNewLocationInStore);
+                    HelperFunctionGUI.hideComponents(JComponentsTransformLocationInStore);
+                    checkSupplierLabel.setVisible(false);
+                    checkDiscountLabel.setVisible(false);
+                    checkSupplierPriceLabel.setVisible(false);
+                    checkDateLabel.setVisible(false);
+                    checkDefectedLabel.setVisible(false);
+                    checkSelectedBranch.setVisible(false);
+                    checkLocationInStoreLabel.setVisible(false);
+                    checkIDLabel2.setVisible(false);
+                    checkNoavaliableProductLabel2.setVisible(false);
+                    checkBarcodeLabel2.setVisible(false);
+                    checkIDLabel3.setVisible(false);
+                    checkNoavaliableProductLabel3.setVisible(false);
+                    checkBarcodeLabel3.setVisible(false);
+                    checkReporterName3.setVisible(false);
+                    checkTypeName3.setVisible(false);
+                    checkIDLabel4.setVisible(false);
+                    checkNoavaliableProductLabel4.setVisible(false);
+                    checkBarcodeLabel4.setVisible(false);
+                    checkShelf.setVisible(false);
+                    checkIDLabel5.setVisible(false);
+                    checkNoavaliableProductLabel5.setVisible(false);
+                    checkBarcodeLabel5.setVisible(false);
+                    checkIDLabel6.setVisible(false);
+                    checkNoavaliableProductLabel6.setVisible(false);
+                    checkBarcodeLabel6.setVisible(false);
                 }
                 if (choose.equals("Find specific product in store")) {
-
+                    HelperFunctionGUI.hideComponents(JComponentsAddProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsRemoveProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsDefectedProduct);
+                    HelperFunctionGUI.showComponents(JComponentsLocationInStore);
+                    HelperFunctionGUI.hideComponents(JComponentsNewLocationInStore);
+                    HelperFunctionGUI.hideComponents(JComponentsTransformLocationInStore);
+                    checkSupplierLabel.setVisible(false);
+                    checkDiscountLabel.setVisible(false);
+                    checkSupplierPriceLabel.setVisible(false);
+                    checkDateLabel.setVisible(false);
+                    checkDefectedLabel.setVisible(false);
+                    checkSelectedBranch.setVisible(false);
+                    checkLocationInStoreLabel.setVisible(false);
+                    checkIDLabel2.setVisible(false);
+                    checkNoavaliableProductLabel2.setVisible(false);
+                    checkBarcodeLabel2.setVisible(false);
+                    checkIDLabel3.setVisible(false);
+                    checkNoavaliableProductLabel3.setVisible(false);
+                    checkBarcodeLabel3.setVisible(false);
+                    checkReporterName3.setVisible(false);
+                    checkTypeName3.setVisible(false);
+                    checkIDLabel4.setVisible(false);
+                    checkNoavaliableProductLabel4.setVisible(false);
+                    checkBarcodeLabel4.setVisible(false);
+                    checkShelf.setVisible(false);
+                    checkIDLabel5.setVisible(false);
+                    checkNoavaliableProductLabel5.setVisible(false);
+                    checkBarcodeLabel5.setVisible(false);
+                    checkIDLabel6.setVisible(false);
+                    checkNoavaliableProductLabel6.setVisible(false);
+                    checkBarcodeLabel6.setVisible(false);
                 }
                 if (choose.equals("Change specific product place in store")) {
+                    HelperFunctionGUI.hideComponents(JComponentsAddProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsRemoveProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsDefectedProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsLocationInStore);
+                    HelperFunctionGUI.showComponents(JComponentsNewLocationInStore);
+                    HelperFunctionGUI.hideComponents(JComponentsTransformLocationInStore);
+                    checkSupplierLabel.setVisible(false);
+                    checkDiscountLabel.setVisible(false);
+                    checkSupplierPriceLabel.setVisible(false);
+                    checkDateLabel.setVisible(false);
+                    checkDefectedLabel.setVisible(false);
+                    checkSelectedBranch.setVisible(false);
+                    checkLocationInStoreLabel.setVisible(false);
+                    checkIDLabel2.setVisible(false);
+                    checkNoavaliableProductLabel2.setVisible(false);
+                    checkBarcodeLabel2.setVisible(false);
+                    checkIDLabel3.setVisible(false);
+                    checkNoavaliableProductLabel3.setVisible(false);
+                    checkBarcodeLabel3.setVisible(false);
+                    checkReporterName3.setVisible(false);
+                    checkTypeName3.setVisible(false);
+                    checkIDLabel4.setVisible(false);
+                    checkNoavaliableProductLabel4.setVisible(false);
+                    checkBarcodeLabel4.setVisible(false);
+                    checkShelf.setVisible(false);
+                    checkIDLabel5.setVisible(false);
+                    checkNoavaliableProductLabel5.setVisible(false);
+                    checkBarcodeLabel5.setVisible(false);
+                    checkIDLabel6.setVisible(false);
+                    checkNoavaliableProductLabel6.setVisible(false);
+                    checkBarcodeLabel6.setVisible(false);
 
                 }
                 if (choose.equals("Transfer specific product from/to warehouse")) {
-
+                    HelperFunctionGUI.hideComponents(JComponentsAddProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsRemoveProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsDefectedProduct);
+                    HelperFunctionGUI.hideComponents(JComponentsLocationInStore);
+                    HelperFunctionGUI.hideComponents(JComponentsNewLocationInStore);
+                    HelperFunctionGUI.showComponents(JComponentsTransformLocationInStore);
+                    checkSupplierLabel.setVisible(false);
+                    checkDiscountLabel.setVisible(false);
+                    checkSupplierPriceLabel.setVisible(false);
+                    checkDateLabel.setVisible(false);
+                    checkDefectedLabel.setVisible(false);
+                    checkSelectedBranch.setVisible(false);
+                    checkLocationInStoreLabel.setVisible(false);
+                    checkIDLabel2.setVisible(false);
+                    checkNoavaliableProductLabel2.setVisible(false);
+                    checkBarcodeLabel2.setVisible(false);
+                    checkIDLabel3.setVisible(false);
+                    checkNoavaliableProductLabel3.setVisible(false);
+                    checkBarcodeLabel3.setVisible(false);
+                    checkReporterName3.setVisible(false);
+                    checkTypeName3.setVisible(false);
+                    checkIDLabel4.setVisible(false);
+                    checkNoavaliableProductLabel4.setVisible(false);
+                    checkBarcodeLabel4.setVisible(false);
+                    checkShelf.setVisible(false);
+                    checkIDLabel5.setVisible(false);
+                    checkNoavaliableProductLabel5.setVisible(false);
+                    checkBarcodeLabel5.setVisible(false);
+                    checkIDLabel6.setVisible(false);
+                    checkNoavaliableProductLabel6.setVisible(false);
+                    checkBarcodeLabel6.setVisible(false);
                 }
             }
         });
+
 
         AddNewProduct.addActionListener(new ActionListener() {
             @Override
@@ -468,16 +850,273 @@ public class SpecificProductGUI {
         RemoveProduct.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!specificProductID2ComboBox.getSelectedItem().equals("")){
-                    SuperLiProduct s = ProductController.getInstance().getProductByBarcode(Integer.parseInt(productBarcodeComboBox2.getSelectedItem().toString()));
-                    String specific = specificProductID2ComboBox.getSelectedItem().toString();
-                    s.removeSpecificProduct(Integer.parseInt(specific));
-                    SpecificProductFrame.dispose();
-                    OldFrame.setVisible(true);
-                    HelperFunctionGUI.ShowProcessSuccessfully();
+                Boolean isValid = true;
+                if(productBarcodeComboBox2.getSelectedItem().equals("")){
+                    checkBarcodeLabel2.setVisible(true);
+                    checkNoavaliableProductLabel2.setVisible(false);
+                    checkIDLabel2.setVisible(false);
+                    isValid = false;
+                }
+                else{
+                    checkBarcodeLabel2.setVisible(false);
+                    if(specificProductID2ComboBox.getSelectedItem().equals("")){
+                        if(specificProductID2ComboBox.getItemCount()==1){
+                            checkNoavaliableProductLabel2.setVisible(true);
+                            checkIDLabel2.setVisible(false);
+                            isValid = false;
+                        }
+                        else{
+                            checkIDLabel2.setVisible(true);
+                            checkNoavaliableProductLabel2.setVisible(false);
+                            isValid = false;
+                        }
+                    }
+                    else{
+                        checkIDLabel2.setVisible(false);
+                        checkNoavaliableProductLabel2.setVisible(false);
+                        if(isValid){
+                            SuperLiProduct s = ProductController.getInstance().getProductByBarcode(Integer.parseInt(productBarcodeComboBox2.getSelectedItem().toString()));
+                            String specific = specificProductID2ComboBox.getSelectedItem().toString();
+                            s.removeSpecificProduct(Integer.parseInt(specific));
+                            SpecificProductFrame.dispose();
+                            OldFrame.setVisible(true);
+                            HelperFunctionGUI.ShowProcessSuccessfully();
+                        }
+                    }
+
                 }
             }
         });
+
+        //option 3
+        productBarcodeComboBox3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String choose = productBarcodeComboBox3.getSelectedItem().toString();
+                if(!choose.equals(""))
+                    HelperFunctionGUI.setSpecifcProductIDComboBoxField(choose, specificProductIDComboBox3);
+            }
+        });
+
+        ReportDefectedProduct.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkNoavaliableProductLabel3.setVisible(false);
+                checkIDLabel3.setVisible(false);
+                checkBarcodeLabel3.setVisible(false);
+                Boolean isValid = true;
+                String reporterName = null;
+                String defectType = null;
+                if(productBarcodeComboBox3.getSelectedItem().equals("")){
+                    checkBarcodeLabel3.setVisible(true);
+                    checkNoavaliableProductLabel3.setVisible(false);
+                    checkIDLabel3.setVisible(false);
+                    isValid = false;
+                }
+                else{
+                    checkBarcodeLabel3.setVisible(false);
+                    if(specificProductIDComboBox3.getSelectedItem().equals("")){
+                        if(specificProductIDComboBox3.getItemCount()==1){
+                            checkNoavaliableProductLabel3.setVisible(true);
+                            checkIDLabel3.setVisible(false);
+                            isValid = false;
+                        }
+                        else{
+                            checkIDLabel3.setVisible(true);
+                            checkNoavaliableProductLabel3.setVisible(false);
+                            isValid = false;
+                        }
+                    }
+                    else{
+                        checkIDLabel3.setVisible(false);
+                        if(ReporterName3.getText().equals("")){
+                            checkReporterName3.setVisible(true);
+                            isValid = false;
+                        }
+                        else{
+                            reporterName = ReporterName3.getText();
+                            checkReporterName3.setVisible(false);
+
+                        }
+                        if(DefectType3.getText().equals("")){
+                            checkTypeName3.setVisible(true);
+                            isValid = false;
+                        }
+                        else{
+                            defectType = DefectType3.getText();
+                            checkTypeName3.setVisible(false);
+                        }
+                        if(isValid){
+                            SuperLiProduct s = ProductController.getInstance().getProductByBarcode(Integer.parseInt(productBarcodeComboBox3.getSelectedItem().toString()));
+                            String specific = specificProductIDComboBox3.getSelectedItem().toString();
+                            s.add_defected_specific_product(Integer.parseInt(specific), reporterName, defectType);
+                            SpecificProductFrame.dispose();
+                            OldFrame.setVisible(true);
+                            HelperFunctionGUI.ShowProcessSuccessfully();
+                        }
+                    }
+                }
+            }
+        });
+
+        //option 4
+        productBarcodeComboBox4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String choose = productBarcodeComboBox4.getSelectedItem().toString();
+                if(!choose.equals(""))
+                    HelperFunctionGUI.setSpecifcProductIDComboBoxField(choose, specificProductIDComboBox4);
+            }
+        });
+
+        FindLocation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Boolean isValid = true;
+                if(productBarcodeComboBox4.getSelectedItem().equals("")){
+                    checkBarcodeLabel4.setVisible(true);
+                    checkNoavaliableProductLabel4.setVisible(false);
+                    checkIDLabel4.setVisible(false);
+                    isValid = false;
+                }
+                else{
+                    checkBarcodeLabel4.setVisible(false);
+                    if(specificProductIDComboBox4.getSelectedItem().equals("")){
+                        if(specificProductIDComboBox4.getItemCount()==1){
+                            checkNoavaliableProductLabel4.setVisible(true);
+                            checkIDLabel4.setVisible(false);
+                            isValid = false;
+                        }
+                        else{
+                            checkIDLabel4.setVisible(true);
+                            checkNoavaliableProductLabel4.setVisible(false);
+                            isValid = false;
+                        }
+                    }
+                    else{
+                        checkIDLabel4.setVisible(false);
+                        checkNoavaliableProductLabel4.setVisible(false);
+                        if(isValid){
+                            SuperLiProduct s = ProductController.getInstance().getProductByBarcode(Integer.parseInt(productBarcodeComboBox4.getSelectedItem().toString()));
+                            String specific = specificProductIDComboBox4.getSelectedItem().toString();
+                            ProductLocation4.setText(s.getProductLocationInStore(Integer.parseInt(specific)));
+                        }
+                    }
+
+                }
+            }
+        });
+
+        //option 5
+        productBarcodeComboBox5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String choose = productBarcodeComboBox5.getSelectedItem().toString();
+                if(!choose.equals(""))
+                    HelperFunctionGUI.setSpecifcProductIDComboBoxField(choose, specificProductIDComboBox5);
+            }
+        });
+
+        SetLocation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Boolean isValid = true;
+                if(productBarcodeComboBox5.getSelectedItem().equals("")){
+                    checkBarcodeLabel5.setVisible(true);
+                    checkNoavaliableProductLabel5.setVisible(false);
+                    checkIDLabel5.setVisible(false);
+                    isValid = false;
+                }
+                else{
+                    checkBarcodeLabel5.setVisible(false);
+                    if(specificProductIDComboBox5.getSelectedItem().equals("")){
+                        if(specificProductIDComboBox5.getItemCount()==1){
+                            checkNoavaliableProductLabel5.setVisible(true);
+                            checkIDLabel5.setVisible(false);
+                            isValid = false;
+                        }
+                        else{
+                            checkIDLabel5.setVisible(true);
+                            checkNoavaliableProductLabel5.setVisible(false);
+                            isValid = false;
+                        }
+                    }
+                    else{
+                        checkIDLabel5.setVisible(false);
+                        if(shelfNumberComboBox5.getSelectedItem().equals("")){
+                            isValid = false;
+                            checkShelf.setVisible(true);
+                        }
+                        else{
+                            checkIDLabel5.setVisible(false);
+                            checkNoavaliableProductLabel5.setVisible(false);
+                            if(isValid){
+                                SuperLiProduct s = ProductController.getInstance().getProductByBarcode(Integer.parseInt(productBarcodeComboBox5.getSelectedItem().toString()));
+                                String specific = specificProductIDComboBox5.getSelectedItem().toString();
+                                SpecificProduct sp = s.getSpecificProduct(Integer.parseInt(specific));
+                                sp.setLocation_in_Store(Integer.parseInt(shelfNumberComboBox5.getSelectedItem().toString()));
+                                SpecificProductFrame.dispose();
+                                OldFrame.setVisible(true);
+                                HelperFunctionGUI.ShowProcessSuccessfully();
+                            }
+                        }
+                    }
+
+                }
+            }
+        });
+
+        //option 6
+        productBarcodeComboBox6.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String choose = productBarcodeComboBox6.getSelectedItem().toString();
+                if(!choose.equals(""))
+                    HelperFunctionGUI.setSpecifcProductIDComboBoxField(choose, specificProductIDComboBox6);
+            }
+        });
+
+        TransformLocation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Boolean isValid = true;
+                if(productBarcodeComboBox6.getSelectedItem().equals("")){
+                    checkBarcodeLabel6.setVisible(true);
+                    checkNoavaliableProductLabel6.setVisible(false);
+                    checkIDLabel6.setVisible(false);
+                    isValid = false;
+                }
+                else{
+                    checkBarcodeLabel6.setVisible(false);
+                    if(specificProductIDComboBox6.getSelectedItem().equals("")){
+                        if(specificProductIDComboBox6.getItemCount()==1){
+                            checkNoavaliableProductLabel6.setVisible(true);
+                            checkIDLabel6.setVisible(false);
+                            isValid = false;
+                        }
+                        else{
+                            checkIDLabel6.setVisible(true);
+                            checkNoavaliableProductLabel6.setVisible(false);
+                            isValid = false;
+                        }
+                    }
+                    else{
+                        checkIDLabel6.setVisible(false);
+                        checkNoavaliableProductLabel6.setVisible(false);
+                        if(isValid){
+                            SuperLiProduct s = ProductController.getInstance().getProductByBarcode(Integer.parseInt(productBarcodeComboBox6.getSelectedItem().toString()));
+                            String specific = specificProductIDComboBox6.getSelectedItem().toString();
+                            ProductLocation6.setText(ProductController.getInstance().change_Shelf_Warehouse(Integer.parseInt(specific), s.getBarcode()));
+                        }
+                    }
+
+                }
+            }
+        });
+
+
+
+
     }
 
     public static void createDayComboBox(JComboBox<String> dayComboBox) {

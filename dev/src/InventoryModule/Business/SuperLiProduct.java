@@ -163,16 +163,18 @@ public class SuperLiProduct {
     }
 
     //function that return the shelf number if in store or -1 if in warehouse
-    public void getProductLocationInStore(int sp_id){
+    public String getProductLocationInStore(int sp_id){
+        String s = null;
         for(int i=0; i<specificProducts.size();i++) {
             if (specificProducts.get(i).getSp_ID() == sp_id) {
                 if (specificProducts.get(i).getLocation_in_Store() == -1) {
-                    System.out.println("Product is stored in warehouse");
+                    s ="Product is stored in warehouse";
                 } else {
-                    System.out.println("Product is stored in shelf number "+ Integer.toString(specificProducts.get(i).getLocation_in_Store()));
+                    s = "Product is stored in shelf number "+ Integer.toString(specificProducts.get(i).getLocation_in_Store());
                 }
             }
         }
+        return s;
     }
 
     //return the product's category
