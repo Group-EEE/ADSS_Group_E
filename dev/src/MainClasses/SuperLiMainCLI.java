@@ -4,12 +4,12 @@ import InventoryModule.PresentationCLI.StoreKeeperCLI;
 import SuppliersModule.Business.Controllers.OrderController;
 import SuppliersModule.PresentationCLI.SupplierManagerCLI;
 
-import java.util.Scanner;
 
 public class SuperLiMainCLI {
 
     private static SupplierManagerCLI supplierManagerCLI;
     private static StoreKeeperCLI storeKeeperCLI;
+    private static StoreManagerCLI storeManagerCLI;
     private static OrderController orderController;
 
     public static void main(String[] args)
@@ -34,11 +34,12 @@ public class SuperLiMainCLI {
 
         supplierManagerCLI = new SupplierManagerCLI();
         storeKeeperCLI = new StoreKeeperCLI();
+        storeManagerCLI = new StoreManagerCLI(supplierManagerCLI, storeKeeperCLI);
         orderController = OrderController.getInstance();
 
         switch (args[0]) {
             case "StoreManager":
-                StoreManagerCLI.PowerOn(supplierManagerCLI, storeKeeperCLI);
+                storeManagerCLI.PowerOn();
                 break;
 
             case "SupplierManager":

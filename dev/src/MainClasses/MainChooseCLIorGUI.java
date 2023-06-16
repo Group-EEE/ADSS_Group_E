@@ -33,6 +33,7 @@ public class MainChooseCLIorGUI {
             case "GUI":                                             // If args[0] is GUI
                 SuperLiMainGUI.main(new String[]{args[1]});
                 break;
+
             case "CLI":                                             // If args[0] is CLI
                 SuperLiMainCLI.main(new String[]{args[1]});
                 break;

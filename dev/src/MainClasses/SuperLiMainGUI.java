@@ -23,7 +23,7 @@ public class SuperLiMainGUI {
 
         if(!args[0].equals("StoreManager") && !args[0].equals("SupplierManager") && !args[0].equals("StoreKeeper"))
         {
-            System.out.println("The second argument must be StoreManager or SupplierManager or Storekeeper");
+            System.out.println("The second argument must be StoreManager or SupplierManager or StoreKeeper");
             return;
         }
 

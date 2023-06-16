@@ -106,16 +106,13 @@ public class StoreKeeperGUI {
         opt9.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                menuFrame.dispose();
+
                 if(OldFrame == null)
-                {
-                    menuFrame.dispose();
                     SuperLiMainGUI.closeProgram();
-                }
+
                 else
-                {
-                    menuFrame.dispose();
                     OldFrame.setVisible(true);
-                }
             }
         });
 

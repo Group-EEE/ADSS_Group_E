@@ -261,7 +261,7 @@ SupplierProductDiscount table
 | 0008        | 973                 | 45     | 300      |
 
 
-SupplierCategories table
+Supplier_Categories table
 -
 | SupplierNum | Category    |
 |-------------|-------------|
