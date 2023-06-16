@@ -32,7 +32,7 @@ public class ReportsGUI {
         //option 5
         JLabel howManyCategoriesLabel = new JLabel("How many Categories?");
         JLabel chooseCategoriesLabel = new JLabel("Choose categories:");
-        JLabel countingCategorisLabel = HelperFunctionGUI.createCheckLabel("Invalid choose", 200, 130, 250, 20);
+        JLabel countingCategorisLabel = HelperFunctionGUI.createCheckLabel("Invalid choose", 350, 130, 250, 20);
 
         //----------------------------------------- Create JTextField ----------------------------------------
         JTextField nameOfPublisherField = new JTextField();
@@ -67,7 +67,7 @@ public class ReportsGUI {
         for(int i=0 ; i<numOfCategories ; i++)
         {
             categoriesCheckBox[i] = new JCheckBox(categoryNames.get(i));
-            categoriesCheckBox[i].setBounds(200, 130 + i*30, 100, 20);
+            categoriesCheckBox[i].setBounds(150, 130 + i*20, 100, 20);
             categoriesCheckBox[i].setVisible(false);
             ShowOrderReportFrame.add(categoriesCheckBox[i]);
         }
@@ -85,13 +85,19 @@ public class ReportsGUI {
         JScrollPane scrollPane = new JScrollPane(orderReportTextArea);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
+
+        //option 5
+        JTextArea CategoryReportTextArea = new JTextArea();
+        JScrollPane CategoryReportscrollPane = new JScrollPane(CategoryReportTextArea);
+        CategoryReportscrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
         //----------------------------------------- Set bounds ---------------------------------------------
         chooseLabel.setBounds(30, 40, 250, 20);
         chooseComboBox.setBounds(180, 40, 200, 20);
         nameOfPublisherLabel.setBounds(30, 70, 250, 20);
         nameOfPublisherField.setBounds(250, 70, 120, 25);
         IssueButton.setBounds(380, 70, 80, 25);
-        scrollPane.setBounds(40, 150, 400,250);
+        scrollPane.setBounds(40, 100, 400,250);
 
         //option 2
         sendOrderLabel.setBounds(40,350,450, 20);
@@ -102,7 +108,7 @@ public class ReportsGUI {
         howManyCategoriesComboBox.setBounds(170, 100, 250, 20);
         chooseCategoriesLabel.setBounds(30, 130, 250, 20);
         howManyCategoriesLabel.setBounds(30, 100, 250, 20);
-
+        CategoryReportscrollPane.setBounds(40, 270, 400,130);
 
         //-------------------------------------- Set not visible ---------------------------------------------
         sendOrderLabel.setVisible(false);
@@ -116,11 +122,12 @@ public class ReportsGUI {
 
         //option 5
         countingCategorisLabel.setVisible(false);
+        CategoryReportscrollPane.setVisible(false);
         //------------------------------------ Add to currFrame -------------------------------------
         HelperFunctionGUI.addComponentsToFrame(ShowOrderReportFrame, new JComponent[] {chooseComboBox,chooseLabel,sendOrderLabel,
                 yesNoComboBox,IssueButton, scrollPane,nameOfPublisherField,exitButton,
                 nameOfPublisherLabel, howManyCategoriesComboBox,countingCategorisLabel,
-                howManyCategoriesLabel, chooseCategoriesLabel});
+                howManyCategoriesLabel, chooseCategoriesLabel, CategoryReportscrollPane});
 
 
         //option 2
@@ -129,7 +136,7 @@ public class ReportsGUI {
 
         //option 5
         JComponent[] JComponentsCategoryReport = new JComponent[]{chooseCategoriesLabel,
-               howManyCategoriesComboBox, howManyCategoriesLabel};
+               howManyCategoriesComboBox, howManyCategoriesLabel, CategoryReportscrollPane};
         HelperFunctionGUI.hideComponents(JComponentsCategoryReport);
 
 
@@ -140,29 +147,51 @@ public class ReportsGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String choosen = chooseComboBox.getSelectedItem().toString();
+                if (choosen.equals("")) {
+                    HelperFunctionGUI.hideComponents(JComponentsOrderReport);
+                    HelperFunctionGUI.hideComponents(JComponentsCategoryReport);
+                    for (int i = 0; i < numOfCategories; i++)
+                        categoriesCheckBox[i].setVisible(false);
+                    scrollPane.setVisible(false);
+                    IssueButton.setVisible(false);
+                    nameOfPublisherLabel.setVisible(false);
+                    nameOfPublisherField.setVisible(false);
+                }
                 if (choosen.equals("Get all reports in system")) {
+                    orderReportTextArea.setText("");
+                    HelperFunctionGUI.hideComponents(JComponentsOrderReport);
                     HelperFunctionGUI.hideComponents(JComponentsCategoryReport);
                     String details = HelperFunctionGUI.createTextAreaALLReports();
                     orderReportTextArea.setText(details);
+                    for (int i = 0; i < numOfCategories; i++)
+                        categoriesCheckBox[i].setVisible(false);
                     IssueButton.setVisible(false);
                     nameOfPublisherLabel.setVisible(false);
                     nameOfPublisherField.setVisible(false);
                     scrollPane.setVisible(true);
-
                 }
-                if (choosen.equals("")) {
+                if (choosen.equals("Issue order products report")){
+                    orderReportTextArea.setText("");
                     HelperFunctionGUI.hideComponents(JComponentsCategoryReport);
-                    IssueButton.setVisible(false);
-                    nameOfPublisherLabel.setVisible(false);
-                    nameOfPublisherField.setVisible(false);
+                    for (int i = 0; i < numOfCategories; i++)
+                        categoriesCheckBox[i].setVisible(false);
+                    IssueButton.setVisible(true);
+                    nameOfPublisherLabel.setVisible(true);
+                    nameOfPublisherField.setVisible(true);
                 }
-                if (choosen.equals("Issue order products report") || choosen.equals("Issue current supply") ||
-                        choosen.equals("Issue EXP/ defected products report")) {
+                if(choosen.equals("Issue current supply") || choosen.equals("Issue EXP/ defected products report")) {
+                    orderReportTextArea.setText("");
+                    HelperFunctionGUI.hideComponents(JComponentsOrderReport);
+                    HelperFunctionGUI.hideComponents(JComponentsCategoryReport);
+                    for (int i = 0; i < numOfCategories; i++)
+                        categoriesCheckBox[i].setVisible(false);
                     IssueButton.setVisible(true);
                     nameOfPublisherLabel.setVisible(true);
                     nameOfPublisherField.setVisible(true);
                 }
                 if (choosen.equals("Issue report by category")) {
+                    HelperFunctionGUI.hideComponents(JComponentsOrderReport);
+                    scrollPane.setVisible(false);
                     IssueButton.setVisible(true);
                     nameOfPublisherLabel.setVisible(true);
                     nameOfPublisherField.setVisible(true);
@@ -222,14 +251,27 @@ public class ReportsGUI {
                         sendOrderLabel.setVisible(false);
                         yesNoComboBox.setVisible(false);
                     }
-                    if(choosen.equals("Issue report by category")){
+                    if(choosen.equals("Issue report by category") &&
+                            !howManyCategoriesComboBox.getSelectedItem().equals("")){
                         int numOfChosenCategories = Integer.parseInt(howManyCategoriesComboBox.getSelectedItem().toString());
                         int counting = 0;
-                        for (int i = 0; i < numOfCategories; i++)
+                        for (int i = 0; i < numOfCategories; i++){
                             if(categoriesCheckBox[i].isSelected())
                                 counting++;
+                        }
                         if(counting!=numOfChosenCategories)
                             countingCategorisLabel.setVisible(true);
+                        if(counting == numOfChosenCategories){
+                            countingCategorisLabel.setVisible(false);
+                            List<String>chosenCategories = new ArrayList<>();
+                            for (int i = 0; i < numOfCategories; i++){
+                                if(categoriesCheckBox[i].isSelected())
+                                    chosenCategories.add(categoriesCheckBox[i].getText());
+                            }
+                            String details = HelperFunctionGUI.createTextAreaCreateByCategoryReport(nameOfPublisherField.getText(), chosenCategories);
+                            CategoryReportTextArea.setText(details);
+                            CategoryReportscrollPane.setVisible(true);
+                        }
                     }
                     }
                 }

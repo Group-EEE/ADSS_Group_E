@@ -67,7 +67,7 @@ public class CategoryController {
     }
 
     //this function removes category from the categories list
-    public void removeCategory(String name) {
+    public boolean removeCategory(String name) {
         boolean exist = false; //if there is a product that belongs to this category- will be true
         Category c = null;
         for (Map.Entry<String, Category> pair : superLiDB.getCategoriesMap().entrySet()) {
@@ -83,13 +83,14 @@ public class CategoryController {
         }
         if (exist == false) { //we couldnt find product that belongs to this category
             superLiDB.removeCategory(c);
+            return false;
         } else { //exist = true!
-            System.out.println("Can't remove category");
+            return true;
         }
     }
 
     //this function removes subcategory from the subcategories list
-    public void removeSubCategory(String subname, String catname) {
+    public boolean removeSubCategory(String subname, String catname) {
         boolean exist = false; //if there is a product that belongs to this subcategory- will be true
         SubCategory c = null;
         for (Map.Entry<List<String>, SubCategory> pair : superLiDB.getSubCategoriesMap().entrySet()) {
@@ -113,13 +114,14 @@ public class CategoryController {
                 }
             }
             superLiDB.removeSubCategory(c, cat);//remove the subcategory from the controllers' list
+            return false;
         } else {
-            System.out.println("Can't remove subcategory");
+            return true;
         }
     }
 
     //this function removes subsubcategory from the subsubcategories list
-    public void removeSubSubCategory(String subsubname, String subname, String catname) {
+    public boolean removeSubSubCategory(String subsubname, String subname, String catname) {
         boolean exist = false;//if there is a product that belongs to this subsubcategory- will be true
         SubSubCategory c = null;
         for (Map.Entry<List<String>, SubSubCategory> pair : superLiDB.getSubSubCategoriesMap().entrySet()) {//find the subsubcategory by its name in the list
@@ -146,8 +148,9 @@ public class CategoryController {
                 }
             }
             superLiDB.removeSubSubCategory(subsubkey);//remove the subsubcategory from the controllers' list
+            return false;
         } else {
-            System.out.println("Can't remove subsubcategory");
+            return true;
         }
     }
 

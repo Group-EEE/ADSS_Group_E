@@ -23,7 +23,7 @@ public class ByCategoryReport extends Report{
         String details = "";
         details = details + "***** By Category Products Report *****" + "\n";
         details = details + "Report Date: "+ this.getDate().toLocalDate() + "\n";
-        details += "Reporter : "+ Reporter;
+        details += "Reporter : "+ Reporter+ "\n";
         for(int j=0; j<Categories.size();j++) { //for every category in the store, so the report will be
             //by category
             details +="Category Name: " + Categories.get(j) + "\n"; //print category name

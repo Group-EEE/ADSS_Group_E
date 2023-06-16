@@ -478,7 +478,7 @@ public class HelperFunctionGUI {
         return reportController.createExpOrDefectReport(reporter).toString();
     }
     public static String createTextAreaCreateByCategoryReport(String reporter, List<String>categories){
-        return reportController.createCurrSupplyReport(reporter).toString();
+        return reportController.createByCategoryReport(reporter, categories).toString();
     }
     public static String createTextAreaALLReports(){
         return reportController.GetAllIssuedReports();
@@ -497,5 +497,7 @@ public class HelperFunctionGUI {
         for (String item : comboBoxSpecificProductItems)
             specificProductID2ComboBox.addItem(item);
     }
+
+
 }
 

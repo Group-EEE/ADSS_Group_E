@@ -36,7 +36,8 @@ public class CategoryCLI {
                 case "3": //Remove category
                     System.out.println("Please enter Category name to remove:");
                     String cat3 = reader.nextLine();
-                    categoryController.removeCategory(cat3);
+                    if(categoryController.removeCategory(cat3))
+                        System.out.println("Can't remove category");
                     break;
             }
         }
@@ -65,7 +66,8 @@ public class CategoryCLI {
                     String cat2 = reader.nextLine();
                     System.out.println("Please enter SubCategory name to remove:");
                     String subcat2 = reader.nextLine();
-                    categoryController.removeSubCategory(cat2,subcat2);
+                    if(categoryController.removeSubCategory(cat2,subcat2));
+                        System.out.println("Can't remove subcategory");
                     break;
             }
         }
@@ -98,7 +100,8 @@ public class CategoryCLI {
                     String subcat2 = reader.nextLine();
                     System.out.println("Please enter SubCategory name to remove:");
                     String subsubcat2 = reader.nextLine();
-                    categoryController.removeSubSubCategory(subsubcat2, subcat2, cat2);
+                    if(categoryController.removeSubSubCategory(subsubcat2, subcat2, cat2))
+                        System.out.println("Can't remove subsubcategory");
                     break;
             }
         }
