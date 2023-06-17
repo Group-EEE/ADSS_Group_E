@@ -421,6 +421,8 @@ public class Logistical_center_controller {
             }
             if(standby_driver != null) {
                 ScheduleController.getInstance().addStandByDriverToLogisticsShift(standby_driver.getEmployeeID(), shift_id);
+                ScheduleController.getInstance().addStandByDriverToLogisticsShift(standby_driver.getEmployeeID(), shift_id+1);
+
                 return true;
             }
         }

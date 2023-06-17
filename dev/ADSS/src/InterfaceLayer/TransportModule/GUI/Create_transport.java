@@ -1,6 +1,8 @@
 package InterfaceLayer.TransportModule.GUI;
 
+import BussinessLayer.HRModule.Controllers.EmployeeController;
 import BussinessLayer.HRModule.Controllers.ScheduleController;
+import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.ShiftType;
 import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.TransportationModule.controllers.Logistical_center_controller;
@@ -258,6 +260,7 @@ public class Create_transport extends JFrame {
                 int separatorIndex = driver.indexOf("-");
                 String driver_ID = driver.substring(separatorIndex + 1).trim();
                 String driver_name = driver.substring(0, separatorIndex).trim();
+                // check how the destinations are inserted inside in the create transport function in the UI.
                 Logistical_center_controller.getInstance().add_transport(transport_Id, (String) Trucks.getSelectedItem(), driver_name, (String) coldLevel.getSelectedItem(),  plannedDate.getText(), Integer.parseInt(driver_ID));
 
                 String suppliers_list = "";
@@ -278,6 +281,10 @@ public class Create_transport extends JFrame {
                     ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id);
                     ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id+1);
                 }
+                Truck_Driver driver_to_shift = EmployeeController.getInstance().getDriver(Integer.parseInt(driver_ID));
+                int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", planned_date, ShiftType.MORNING);
+                ScheduleController.getInstance().addEmployeeToShift(driver_to_shift, "Logistics", shift_id);
+                ScheduleController.getInstance().addEmployeeToShift(driver_to_shift, "Logistics", shift_id+1);
                 JOptionPane.showMessageDialog(null, "The transport was created successfully");
                 reset_fields();
                 plannedDate.setText("");

@@ -29,7 +29,7 @@ public class Add_Standby_driver extends JFrame {
         dateLabel = new JLabel("Date: ");
         dateComboBox = new JComboBox<>();
 
-        LocalDate today = LocalDate.now().plusDays(1); // Start from tomorrow
+        LocalDate today = LocalDate.now(); // Start from tomorrow
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         // Generate a list of selectable dates for the next week excluding today
