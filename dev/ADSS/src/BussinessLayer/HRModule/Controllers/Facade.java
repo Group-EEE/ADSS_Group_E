@@ -54,6 +54,9 @@ public class Facade {
     public boolean isLoggedUserIsHRManager(){
         return _loggedUser.getEmployeeID() == _HRManagerID;
     }
+    public boolean isLoggedUserHasRole(RoleType roleType){
+        return _loggedUser.hasRole(roleType);
+    }
 
     public boolean logout(){
         if (_loggedUser == null)

@@ -1,7 +1,7 @@
 package InterfaceLayer.GUI.HRModule.EmployeesGUI;
 
 import BussinessLayer.HRModule.Controllers.Facade;
-import InterfaceLayer.GUI.HRModule.Login;
+import InterfaceLayer.GUI.Login;
 
 import javax.swing.*;
 import java.awt.*;

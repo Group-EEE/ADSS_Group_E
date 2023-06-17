@@ -1,8 +1,11 @@
-package InterfaceLayer.GUI.HRModule;
+package InterfaceLayer.GUI;
 import BussinessLayer.HRModule.Controllers.Facade;
+import BussinessLayer.HRModule.Objects.RoleType;
 import InterfaceLayer.GUI.HRModule.EmployeesGUI.EmployeesMenu;
 import InterfaceLayer.GUI.HRModule.HRManager.HRmenu;
+import InterfaceLayer.TransportModule.GUI.Transport_main;
 
+import javax.management.relation.Role;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,11 +13,15 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 public class Login extends JFrame{
+    private static RoleType roleTypePremission;
     private JTextField idTextField;
     private JPasswordField passwordField;
     private JButton loginButton;
 
     private final Facade _facade = Facade.getInstance();
+    public static void setRoleTypePremission(RoleType roleTypePremission) {
+        Login.roleTypePremission = roleTypePremission;
+    }
 
     public Login() {
         // Initialize UI components
@@ -67,17 +74,29 @@ public class Login extends JFrame{
                 }
 
                 String password = new String(passwordField.getPassword());
-
+                JFrame nextFrame = null;
                 try {
                     if (_facade.login(id, password)) {
-                        if (_facade.isLoggedUserIsHRManager()) {
-                            HRmenu hrMenu = new HRmenu();
-                            hrMenu.setVisible(true);
-                            frame.setVisible(false);
-                        } else {
-                            EmployeesMenu employeesMenu = new EmployeesMenu();
-                            employeesMenu.setVisible(true);
-                            frame.setVisible(false);
+                        if (_facade.isLoggedUserHasRole(roleTypePremission)) {
+                            switch (roleTypePremission) {
+                                case HRManager:
+                                    nextFrame = new HRmenu();
+                                    break;
+                                case TransportManager:
+                                    nextFrame = new Transport_main();
+                                    break;
+                                case StoreManager:
+                                    nextFrame = new selectModule();
+                                    break;
+                                case Cashier: //defaulf empoloyee is Cashier
+                                    nextFrame = new EmployeesMenu();
+                                default:
+                                    break;
+                            }
+                            nextFrame.setVisible(true);
+                            frame.dispose();
+                        } else { // not has premission
+                            JOptionPane.showMessageDialog(null, "You don't have permission to access this module", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         // Open the HRmenu screen
 
@@ -90,6 +109,7 @@ public class Login extends JFrame{
                 }
             }
         });
+        frame.setVisible(true);
     }
 
     public static void main(String[] args) {

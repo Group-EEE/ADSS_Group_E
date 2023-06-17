@@ -1,6 +1,6 @@
 package InterfaceLayer.GUI.HRModule.HRManager;
 
-import InterfaceLayer.GUI.HRModule.Login;
+import InterfaceLayer.GUI.Login;
 
 import javax.swing.*;
 import java.awt.*;
