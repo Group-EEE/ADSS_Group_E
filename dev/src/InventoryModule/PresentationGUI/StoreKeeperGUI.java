@@ -1,5 +1,6 @@
 package InventoryModule.PresentationGUI;
 
+import InventoryModule.Business.Controllers.ProductController;
 import MainClasses.SuperLiMainGUI;
 import SuppliersModule.PresentationGUI.HelperFunctionGUI;
 
@@ -117,5 +118,8 @@ public class StoreKeeperGUI {
         });
 
         menuFrame.setVisible(true);
+
+        if(ProductController.getBarcodesOfNewProductsSize() !=0)
+            HelperFunctionGUI.ShowNewProductsToAdd();
     }
 }

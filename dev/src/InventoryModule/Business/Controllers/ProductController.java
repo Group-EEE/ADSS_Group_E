@@ -119,7 +119,7 @@ public class ProductController {
     }
 
 
-    public int getBarcodesOfNewProductsSize(){
+    public static int getBarcodesOfNewProductsSize(){
        return BarcodesOfNewProducts.size();
     }
 

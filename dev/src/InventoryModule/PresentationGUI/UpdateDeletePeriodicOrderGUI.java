@@ -298,7 +298,7 @@ public class UpdateDeletePeriodicOrderGUI {
         JLabel idLabel = new JLabel("Choose id");
         JLabel quantityLabel = new JLabel("Enter quantity");
 
-        JLabel checkIdDelete = HelperFunctionGUI.createCheckLabel("Periodic order cannot change in the day of ordering",100,320,300,20);
+        JLabel checkIdDelete = HelperFunctionGUI.createCheckLabel("Periodic order cannot change in the day of ordering",100,330,300,20);
         JLabel checkQuantityLabel = HelperFunctionGUI.createCheckLabel("cannot supply the requested quantity",260,310,240,20);
 
         //------------------------------------ Create JComboBox ---------------------------------------
@@ -347,6 +347,7 @@ public class UpdateDeletePeriodicOrderGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String barcode = comboBoxBarcodes.getSelectedItem().toString();
+                checkIdDelete.setVisible(false);
 
                 if(barcode.equals(""))textAreaHistory.setText("");
 

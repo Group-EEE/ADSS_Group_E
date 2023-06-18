@@ -92,7 +92,7 @@ public class OrderController {
 
     /**
      * The method that timer performs every 11:00
-     * @param curDay - yhe current day.
+     * @param curDay - The current day.
      */
     public void invitePeriodicOrders(int curDay){
         OrderFromSupplier orderFromSupplier;
@@ -112,8 +112,7 @@ public class OrderController {
      * @return boolean
      */
     public boolean checkInvalidDayForChange(){
-        Calendar.getInstance();
-        int curDay = Calendar.DAY_OF_WEEK;
+        int curDay = getCurDayOfTheWeek();
         return curDay == curPeriodicOrder.getDayForInvite();
     }
 

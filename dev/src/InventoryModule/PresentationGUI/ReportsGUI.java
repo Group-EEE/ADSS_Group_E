@@ -20,9 +20,12 @@ public class ReportsGUI {
         OldFrame = oldFrame;
         reportController = ReportController.getInstance();
         categoryController = CategoryController.getInstance();
+
         //------------------------------------- Create new frame -------------------------------------------
         JFrame ShowOrderReportFrame = HelperFunctionGUI.createNewFrame("Reports");
+
         //----------------------------------------- Create JLabel ----------------------------------------
+
         JLabel chooseLabel = new JLabel("Please choose an option:");
         JLabel nameOfPublisherLabel = new JLabel("Please enter Issue's reporter's name:");
 
@@ -35,8 +38,8 @@ public class ReportsGUI {
         JLabel countingCategorisLabel = HelperFunctionGUI.createCheckLabel("Invalid choose", 350, 130, 250, 20);
 
         //----------------------------------------- Create JTextField ----------------------------------------
-        JTextField nameOfPublisherField = new JTextField();
 
+        JTextField nameOfPublisherField = new JTextField();
 
         //----------------------------------------- Create JTable ----------------------------------------
 
@@ -48,13 +51,12 @@ public class ReportsGUI {
             scrollPanes[i] = new JScrollPane();
         }
 
-
         //----------------------------------------- Create JComboBox ----------------------------------------
         JComboBox<String> chooseComboBox = new JComboBox<>(new String[]{"", "Get all reports in system", "Issue order products report",
                 "Issue current supply", "Issue EXP/ defected products report", "Issue report by category"});
 
         //option 2
-        JComboBox<String> yesNoComboBox = new JComboBox<>(new String[]{"", "yes", "no"});
+        JComboBox<String> yesNoComboBox = new JComboBox<>(new String[]{"", "yes",});
 
 
         //option 5
@@ -222,7 +224,7 @@ public class ReportsGUI {
                     IssueButton.setVisible(true);
                     nameOfPublisherLabel.setVisible(true);
                     nameOfPublisherField.setVisible(true);
-                    scrollPane.setVisible(true);
+                    scrollPane.setVisible(false);
                 }
                 if (choosen.equals("Issue report by category")) {
                     HelperFunctionGUI.hideComponents(JComponentsOrderReport);
@@ -258,7 +260,9 @@ public class ReportsGUI {
                         String[][] data = HelperFunctionGUI.createDataForOpt2(nameOfPublisherField.getText());
                         String[] columns = {"Barcode", "Name", "Manufacturer", "Amount"};
 
-                        setJTable(jTables[0], scrollPanes[0],ShowOrderReportFrame, data, columns);
+                        jTables[1] = new JTable(data, columns);
+                        scrollPanes[1] = new JScrollPane(jTables[1]);
+                        setJTable(jTables[1], scrollPanes[1],ShowOrderReportFrame, data, columns);
 
                         sendOrderLabel.setVisible(true);
                         yesNoComboBox.setVisible(true);
@@ -267,9 +271,10 @@ public class ReportsGUI {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 if(yesNoComboBox.getSelectedItem().toString().equals("yes")){
-                                    scrollPanes[0].setVisible(false);
+                                    scrollPanes[1].setVisible(false);
                                     orderReportTextArea.setText(reportController.makeOrderForLastReport());
                                     scrollPane.setVisible(true);
+                                    HelperFunctionGUI.ShowProcessSuccessfully();
                                 }
                             }});
                     }
@@ -319,8 +324,6 @@ public class ReportsGUI {
 
     public static void setJTable(JTable jTable, JScrollPane scrollPane, JFrame frame, String[][] data, String[] columns)
     {
-        jTable = new JTable(data, columns);
-        scrollPane = new JScrollPane(jTable);
         jTable.setBounds(40, 100, 400,250);
         scrollPane.setBounds(40, 100, 400,250);
         frame.add(scrollPane);

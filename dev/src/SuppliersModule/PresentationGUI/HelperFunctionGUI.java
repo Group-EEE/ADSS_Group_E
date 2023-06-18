@@ -471,6 +471,7 @@ public class HelperFunctionGUI {
     public static String createTextAreaOrderReport(String reporter){
         return reportController.createOrderReport(reporter).toString();
     }
+
     public static String createTextAreaCurrSupplyReport(String reporter){
         return reportController.createCurrSupplyReport(reporter).toString();
     }
@@ -512,6 +513,38 @@ public class HelperFunctionGUI {
             data.add(new String[]{String.valueOf(barcode), superLiProduct.getPName(), superLiProduct.getManufacturer(), String.valueOf(superLiProduct.getSpecificProducts().size())});
         }
         return data.toArray(new String[data.size()][4]);
+    }
+
+    /**
+     * This method create an "AddSuccess" frame.
+     */
+    public static void ShowNewProductsToAdd() {
+        JFrame AddSuccessFrame = new JFrame("New Products To Add");
+        AddSuccessFrame.setSize(200, 200);
+        AddSuccessFrame.setLayout(null);
+
+        JLabel label1 = new JLabel("There are new products");
+        JLabel label2 = new JLabel("that are waiting to be added");
+        JLabel label3 = new JLabel("to the system!");
+
+        label1.setBounds(20, 20, 170, 20);
+        label2.setBounds(10, 40, 170, 20);
+        label3.setBounds(45, 60, 170, 20);
+        AddSuccessFrame.add(label1);
+        AddSuccessFrame.add(label2);
+        AddSuccessFrame.add(label3);
+
+        JButton okButton = new JButton("OK");
+        okButton.setBounds(50, 100, 80, 20);
+        AddSuccessFrame.add(okButton);
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddSuccessFrame.dispose();
+            }
+        });
+
+        AddSuccessFrame.setVisible(true);
     }
 }
 
