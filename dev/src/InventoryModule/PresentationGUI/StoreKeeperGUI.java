@@ -127,6 +127,8 @@ public class StoreKeeperGUI {
         });
 
         menuFrame.setVisible(true);
+        HelperFunctionGUI.checkIfThereAreMissingProducts();
+
 
         if(ProductController.getBarcodesOfNewProductsSize() !=0)
             HelperFunctionGUI.ShowNewProductsToAdd();

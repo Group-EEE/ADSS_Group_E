@@ -440,6 +440,7 @@ public class HelperFunctionGUI {
         }
         return exist;
     }
+
     public static boolean canRemoveSubSubCategory(String SubSubCategoryName) {
         //if exist is true - cant remove
         boolean exist = false; //if there is a product that belongs to this subcategory- will be true
@@ -453,13 +454,14 @@ public class HelperFunctionGUI {
         }
         return exist;
     }
-    public static void setSubSubCategoriesComboBoxField(String Mainchoose,String Subchoose, JComboBox<String> SubSubCategoriesComboBox) {
+
+    public static void setSubSubCategoriesComboBoxField(String Mainchoose, String Subchoose, JComboBox<String> SubSubCategoriesComboBox) {
         SubSubCategoriesComboBox.removeAllItems();
 
         List<String> comboBoxSubCategoriesItems = new ArrayList<>();
         comboBoxSubCategoriesItems.add("");
 
-        List<SubSubCategory> allCategories = categoryController.getAllSubSubByMainandSub(Mainchoose,Subchoose);
+        List<SubSubCategory> allCategories = categoryController.getAllSubSubByMainandSub(Mainchoose, Subchoose);
         for (SubSubCategory subCategory : allCategories)
             comboBoxSubCategoriesItems.add(subCategory.getName());
 
@@ -467,25 +469,29 @@ public class HelperFunctionGUI {
             SubSubCategoriesComboBox.addItem(item);
 
     }
-    public static String createTextAreaOrderReport(String reporter){
+
+    public static String createTextAreaOrderReport(String reporter) {
         return reportController.createOrderReport(reporter).toString();
     }
 
-    public static String createTextAreaCurrSupplyReport(String reporter){
+    public static String createTextAreaCurrSupplyReport(String reporter) {
         return reportController.createCurrSupplyReport(reporter).toString();
     }
-    public static String createTextAreaCreateExpOrDefectReport(String reporter){
+
+    public static String createTextAreaCreateExpOrDefectReport(String reporter) {
         return reportController.createExpOrDefectReport(reporter).toString();
     }
-    public static String createTextAreaCreateByCategoryReport(String reporter, List<String>categories){
+
+    public static String createTextAreaCreateByCategoryReport(String reporter, List<String> categories) {
         return reportController.createByCategoryReport(reporter, categories).toString();
     }
-    public static String createTextAreaALLReports(){
+
+    public static String createTextAreaALLReports() {
         return reportController.GetAllIssuedReports();
     }
 
 
-    public static void setSpecifcProductIDComboBoxField(String choose, JComboBox<String>specificProductID2ComboBox){
+    public static void setSpecifcProductIDComboBoxField(String choose, JComboBox<String> specificProductID2ComboBox) {
         specificProductID2ComboBox.removeAllItems();
         List<String> comboBoxSpecificProductItems = new ArrayList<>();
         comboBoxSpecificProductItems.add("");
@@ -498,15 +504,13 @@ public class HelperFunctionGUI {
             specificProductID2ComboBox.addItem(item);
     }
 
-    public static String[][] createDataForOpt2(String name)
-    {
+    public static String[][] createDataForOpt2(String name) {
         OrderReport orderReport = reportController.createOrderReport(name);
         orderReport.toString();
         List<String[]> data = new ArrayList<>();
         SuperLiProduct superLiProduct;
         List<Integer> allBarcode = orderReport.getBarcodes();
-        for(int i=0 ; i<allBarcode.size(); i++)
-        {
+        for (int i = 0; i < allBarcode.size(); i++) {
             int barcode = allBarcode.get(i);
             superLiProduct = productController.getProductByBarcode(barcode);
             data.add(new String[]{String.valueOf(barcode), superLiProduct.getPName(), superLiProduct.getManufacturer(), String.valueOf(superLiProduct.getSpecificProducts().size())});
@@ -544,6 +548,45 @@ public class HelperFunctionGUI {
         });
 
         AddSuccessFrame.setVisible(true);
+    }
+
+    public static void checkIfThereAreMissingProducts() {
+        boolean missing = false;
+        for (int i = 0; i < ProductController.getProducts().size(); i++) {
+            if (ProductController.getProducts().get(i).getSpecificProducts().size() <= ProductController.getProducts().get(i).getMinimum_Amount()) {
+                missing = true;
+            }
+        }
+        if(missing){
+            JFrame AddSuccessFrame = new JFrame("SHORTAGE MESSAGE!");
+            AddSuccessFrame.setSize(200, 200);
+            AddSuccessFrame.setLayout(null);
+
+            JLabel label1 = new JLabel("There are products");
+            JLabel label2 = new JLabel("that need to be ordered ");
+            JLabel label3 = new JLabel("create order report!");
+
+            label1.setBounds(30, 20, 170, 20);
+            label2.setBounds(20, 40, 170, 20);
+            label3.setBounds(30, 60, 170, 20);
+            AddSuccessFrame.add(label1);
+            AddSuccessFrame.add(label2);
+            AddSuccessFrame.add(label3);
+
+            JButton okButton = new JButton("OK");
+            okButton.setBounds(50, 100, 80, 20);
+            AddSuccessFrame.add(okButton);
+            okButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    AddSuccessFrame.dispose();
+                }
+            });
+
+            AddSuccessFrame.setVisible(true);
+
+        }
+
     }
 }
 
