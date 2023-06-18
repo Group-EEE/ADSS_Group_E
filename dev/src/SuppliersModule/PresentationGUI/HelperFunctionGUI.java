@@ -352,7 +352,7 @@ public class HelperFunctionGUI {
 
     public static void setProductNameField(String choose, JTextField productNameField) {
         productNameField.removeAll();
-        String name = productController.getProductByBarcode(Integer.parseInt(choose)).getPName();
+        String name = supplierController.findGenericProductByBarcode(Integer.parseInt(choose)).getName();
         productNameField.setText(name);
     }
 
