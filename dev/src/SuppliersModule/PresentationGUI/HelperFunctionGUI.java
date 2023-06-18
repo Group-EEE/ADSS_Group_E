@@ -498,6 +498,20 @@ public class HelperFunctionGUI {
             specificProductID2ComboBox.addItem(item);
     }
 
-
+    public static String[][] createDataForOpt2(String name)
+    {
+        OrderReport orderReport = reportController.createOrderReport(name);
+        orderReport.toString();
+        List<String[]> data = new ArrayList<>();
+        SuperLiProduct superLiProduct;
+        List<Integer> allBarcode = orderReport.getBarcodes();
+        for(int i=0 ; i<allBarcode.size(); i++)
+        {
+            int barcode = allBarcode.get(i);
+            superLiProduct = productController.getProductByBarcode(barcode);
+            data.add(new String[]{String.valueOf(barcode), superLiProduct.getPName(), superLiProduct.getManufacturer(), String.valueOf(superLiProduct.getSpecificProducts().size())});
+        }
+        return data.toArray(new String[data.size()][4]);
+    }
 }
 

@@ -38,6 +38,17 @@ public class ReportsGUI {
         JTextField nameOfPublisherField = new JTextField();
 
 
+        //----------------------------------------- Create JTable ----------------------------------------
+
+        JTable[] jTables = new JTable[3];
+        JScrollPane[] scrollPanes = new JScrollPane[3];
+        for(int i=0 ; i < 3 ; i++)
+        {
+            jTables[i] = new JTable();
+            scrollPanes[i] = new JScrollPane();
+        }
+
+
         //----------------------------------------- Create JComboBox ----------------------------------------
         JComboBox<String> chooseComboBox = new JComboBox<>(new String[]{"", "Get all reports in system", "Issue order products report",
                 "Issue current supply", "Issue EXP/ defected products report", "Issue report by category"});
@@ -150,8 +161,13 @@ public class ReportsGUI {
                 if (choosen.equals("")) {
                     HelperFunctionGUI.hideComponents(JComponentsOrderReport);
                     HelperFunctionGUI.hideComponents(JComponentsCategoryReport);
+
+                    for(int i=0 ; i < 3 ; i++)
+                        scrollPanes[i].setVisible(false);
+
                     for (int i = 0; i < numOfCategories; i++)
                         categoriesCheckBox[i].setVisible(false);
+
                     scrollPane.setVisible(false);
                     IssueButton.setVisible(false);
                     nameOfPublisherLabel.setVisible(false);
@@ -163,8 +179,13 @@ public class ReportsGUI {
                     HelperFunctionGUI.hideComponents(JComponentsCategoryReport);
                     String details = HelperFunctionGUI.createTextAreaALLReports();
                     orderReportTextArea.setText(details);
+
+                    for(int i=0 ; i < 3 ; i++)
+                        scrollPanes[i].setVisible(false);
+
                     for (int i = 0; i < numOfCategories; i++)
                         categoriesCheckBox[i].setVisible(false);
+
                     IssueButton.setVisible(false);
                     nameOfPublisherLabel.setVisible(false);
                     nameOfPublisherField.setVisible(false);
@@ -173,8 +194,16 @@ public class ReportsGUI {
                 if (choosen.equals("Issue order products report")){
                     orderReportTextArea.setText("");
                     HelperFunctionGUI.hideComponents(JComponentsCategoryReport);
+
+                    scrollPane.setVisible(false);
+
+                    for(int i=0 ; i < 3 ; i++)
+                        scrollPanes[i].setVisible(false);
+
                     for (int i = 0; i < numOfCategories; i++)
                         categoriesCheckBox[i].setVisible(false);
+
+
                     IssueButton.setVisible(true);
                     nameOfPublisherLabel.setVisible(true);
                     nameOfPublisherField.setVisible(true);
@@ -183,14 +212,24 @@ public class ReportsGUI {
                     orderReportTextArea.setText("");
                     HelperFunctionGUI.hideComponents(JComponentsOrderReport);
                     HelperFunctionGUI.hideComponents(JComponentsCategoryReport);
+
+                    for(int i=0 ; i < 3 ; i++)
+                        scrollPanes[i].setVisible(false);
+
                     for (int i = 0; i < numOfCategories; i++)
                         categoriesCheckBox[i].setVisible(false);
+
                     IssueButton.setVisible(true);
                     nameOfPublisherLabel.setVisible(true);
                     nameOfPublisherField.setVisible(true);
+                    scrollPane.setVisible(true);
                 }
                 if (choosen.equals("Issue report by category")) {
                     HelperFunctionGUI.hideComponents(JComponentsOrderReport);
+
+                    for(int i=0 ; i < 3 ; i++)
+                        scrollPanes[i].setVisible(false);
+
                     scrollPane.setVisible(false);
                     IssueButton.setVisible(true);
                     nameOfPublisherLabel.setVisible(true);
@@ -206,8 +245,6 @@ public class ReportsGUI {
                             yesNoComboBox.setVisible(false);
                         }
                     });
-
-
                 }
             }
         });
@@ -218,22 +255,23 @@ public class ReportsGUI {
                 if(!nameOfPublisherField.getText().equals("")){
                     if(choosen.equals("Issue order products report")){
                         HelperFunctionGUI.hideComponents(JComponentsCategoryReport);
-                        String details = HelperFunctionGUI.createTextAreaOrderReport(nameOfPublisherField.getText());
-                        orderReportTextArea.setText(details);
+                        String[][] data = HelperFunctionGUI.createDataForOpt2(nameOfPublisherField.getText());
+                        String[] columns = {"Barcode", "Name", "Manufacturer", "Amount"};
+
+                        setJTable(jTables[0], scrollPanes[0],ShowOrderReportFrame, data, columns);
+
                         sendOrderLabel.setVisible(true);
                         yesNoComboBox.setVisible(true);
-                        scrollPane.setVisible(true);
+
                         yesNoComboBox.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 if(yesNoComboBox.getSelectedItem().toString().equals("yes")){
+                                    scrollPanes[0].setVisible(false);
                                     orderReportTextArea.setText(reportController.makeOrderForLastReport());
                                     scrollPane.setVisible(true);
                                 }
-
-
-                            }
-                        });
+                            }});
                     }
                     if (choosen.equals( "Issue current supply")){
                         HelperFunctionGUI.hideComponents(JComponentsCategoryReport);
@@ -276,7 +314,16 @@ public class ReportsGUI {
                     }
                 }
         });
-
         ShowOrderReportFrame.setVisible(true);
     }
+
+    public static void setJTable(JTable jTable, JScrollPane scrollPane, JFrame frame, String[][] data, String[] columns)
+    {
+        jTable = new JTable(data, columns);
+        scrollPane = new JScrollPane(jTable);
+        jTable.setBounds(40, 100, 400,250);
+        scrollPane.setBounds(40, 100, 400,250);
+        frame.add(scrollPane);
+    }
+
 }
