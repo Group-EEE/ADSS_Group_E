@@ -73,6 +73,7 @@ public class CreateSupplierGUI {
         //----------------------------------------- Create JButton ----------------------------------------
 
         JButton nextButton = new JButton("Next");
+        JButton exitButton = HelperFunctionGUI.createExitButton(page1Frame, oldFrame);
 
         //-------------------------------------- Set bounds ---------------------------------------------
         nameLabel.setBounds(10, 10, 100,20);

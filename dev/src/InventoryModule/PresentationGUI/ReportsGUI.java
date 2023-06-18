@@ -66,7 +66,6 @@ public class ReportsGUI {
             howManyCategoriesComboBox.addItem(Integer.toString(i));
         }
 
-        //JComboBox<String> allCategoriesComboBox = HelperFunctionGUI.createComboBoxCategories();
 
         //------------------------------------ Create JCheckBox ---------------------------------------
 

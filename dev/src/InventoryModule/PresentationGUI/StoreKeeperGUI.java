@@ -5,6 +5,7 @@ import MainClasses.SuperLiMainGUI;
 import SuppliersModule.PresentationGUI.HelperFunctionGUI;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,6 +19,14 @@ public class StoreKeeperGUI {
         //------------------------------------- Create new frame -------------------------------------------
 
         JFrame menuFrame = HelperFunctionGUI.createNewFrame("Store keeper Menu");
+
+        //------------------------------------- Create jLabel -------------------------------------------
+
+        JLabel jLabel = new JLabel("Welcome to Storekeeper menu");
+        jLabel.setFont(new Font("Ariel", Font.BOLD + Font.ITALIC, 20));
+        jLabel.setForeground(Color.RED);
+        jLabel.setBounds(105, 5, 350, 25);
+        menuFrame.add(jLabel);
 
         //------------------------------------ Create JButtons -------------------------------------------
 
@@ -37,7 +46,7 @@ public class StoreKeeperGUI {
 
         for(int i=0 ; i < 9 ; i++)
         {
-            buttons[i].setBounds(125, i*50, 250, 40);
+            buttons[i].setBounds(125, 40 + i*45, 250, 35);
             menuFrame.add(buttons[i]);
         }
 

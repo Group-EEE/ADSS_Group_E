@@ -4,6 +4,7 @@ import InventoryModule.PresentationGUI.StoreKeeperGUI;
 import SuppliersModule.PresentationGUI.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,6 +15,14 @@ public class StoreManagerGUI {
         //------------------------------------- Create new frame -------------------------------------------
 
         JFrame menuFrame = HelperFunctionGUI.createNewFrame("Supplier Manager Menu");
+
+        //------------------------------------- Create jLabel -------------------------------------------
+
+        JLabel jLabel = new JLabel("Welcome to Store Manager menu");
+        jLabel.setFont(new Font("Ariel", Font.BOLD + Font.ITALIC, 25));
+        jLabel.setForeground(Color.RED);
+        jLabel.setBounds(50, 20, 400, 30);
+        menuFrame.add(jLabel);
 
         //------------------------------------ Create JButtons -------------------------------------------
 

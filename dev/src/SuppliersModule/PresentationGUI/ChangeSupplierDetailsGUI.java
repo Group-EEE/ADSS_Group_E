@@ -71,7 +71,7 @@ public class ChangeSupplierDetailsGUI {
         comboBoxManufacturer.setBounds(230, 130, 80, 20);
         manufacturerApplyButton.setBounds(320, 130, 80, 20);
 
-        updateContactsButton.setBounds(10, 350, 390, 40);
+        updateContactsButton.setBounds(100, 350, 300, 40);
 
         //-------------------------------------- Set not visible -------------------------------------------------------------
 

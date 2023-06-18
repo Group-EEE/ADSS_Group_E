@@ -2,6 +2,7 @@ package SuppliersModule.PresentationGUI;
 import MainClasses.SuperLiMainGUI;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,6 +16,14 @@ public class SupplierManagerGUI {
         //------------------------------------- Create new frame -------------------------------------------
 
         JFrame menuFrame = HelperFunctionGUI.createNewFrame("Supplier Manager Menu");
+
+        //------------------------------------- Create jLabel -------------------------------------------
+
+        JLabel jLabel = new JLabel("Welcome to Supplier Manager menu");
+        jLabel.setFont(new Font("Ariel", Font.BOLD + Font.ITALIC, 20));
+        jLabel.setForeground(Color.RED);
+        jLabel.setBounds(80, 5, 350, 25);
+        menuFrame.add(jLabel);
 
         //------------------------------------ Create JButtons -------------------------------------------
 
@@ -33,7 +42,7 @@ public class SupplierManagerGUI {
 
         for(int i=0 ; i < 8 ; i++)
         {
-            buttons[i].setBounds(150, i*50, 200, 40);
+            buttons[i].setBounds(150, 40 + i*50, 200, 40);
             menuFrame.add(buttons[i]);
         }
 
