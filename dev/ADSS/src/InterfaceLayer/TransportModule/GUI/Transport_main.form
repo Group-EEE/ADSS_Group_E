@@ -45,6 +45,7 @@
             <item value="8. Display site supllier documents"/>
             <item value="9. Display all stores"/>
             <item value="10. Add standby driver"/>
+            <item value="11. Display Transports"/>
           </model>
         </properties>
       </component>

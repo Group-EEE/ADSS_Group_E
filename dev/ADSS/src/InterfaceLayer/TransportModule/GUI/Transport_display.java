@@ -1,6 +1,7 @@
 package InterfaceLayer.TransportModule.GUI;
 
 import BussinessLayer.TransportationModule.objects.Transport;
+import DataAccessLayer.Transport.Transport_dao;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -13,9 +14,11 @@ import java.util.ArrayList;
 public class Transport_display extends JFrame {
     private DefaultTableModel tableModel;
     private ArrayList<Transport> transportList;
+    private Transport_main main_frame;
 
-    public Transport_display() {
+    public Transport_display(Transport_main transport_main) {
         this.transportList = getTransportData(); // Replace with your own method to fetch transport data
+        this.main_frame = transport_main;
 
         setTitle("Transport Display");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -35,17 +38,19 @@ public class Transport_display extends JFrame {
         // Populate table model with transport data
         for (Transport transport : transportList) {
             Object[] rowData = {
-                    transport.getValue1(),
-                    transport.getValue2(),
-                    transport.getValue3(),
-                    transport.getValue4(),
-                    transport.getValue5(),
-                    transport.getValue6(),
-                    transport.getValue7(),
-                    transport.getValue8(),
-                    transport.getValue9(),
-                    transport.getValue10(),
-                    transport.getValue11()
+                    transport.getTransport_ID(),
+                    transport.getDate(),
+                    transport.getDeparture_time(),
+                    transport.getTruck_number(),
+                    transport.getDriver_name(),
+                    transport.getOrigin(),
+                    transport.getRequired_level().toString(),
+                    transport.get_suppliers_name(),
+                    transport.get_stores_name(),
+                    transport.Started() ? "Yes" : "No",
+                    transport.getPlanned_date(),
+                    transport.getDriver_ID(),
+                    transport.getEstimated_end_time()
             };
             tableModel.addRow(rowData);
         }
@@ -59,7 +64,7 @@ public class Transport_display extends JFrame {
 
         // Create back button and add action listener
         JButton backButton = new JButton("Back");
-        backButton.addActionListener((ActionEvent e) -> dispose());
+        backButton.addActionListener((ActionEvent e) -> goBack());
 
         // Add back button to the frame
         add(backButton, BorderLayout.SOUTH);
@@ -72,14 +77,17 @@ public class Transport_display extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                // Add your code here to handle the frame closing event
+                goBack();
             }
         });
     }
 
     private ArrayList<Transport> getTransportData() {
-        // Replace with your own method to fetch the transport data
-        // Return a list of Transport objects
-        return new ArrayList<>();
+        return Transport_dao.getInstance().get_transports();
+    }
+
+    private void goBack() {
+        main_frame.setVisible(true);
+        dispose();
     }
 }

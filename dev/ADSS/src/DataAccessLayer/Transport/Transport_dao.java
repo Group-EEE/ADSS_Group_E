@@ -100,6 +100,7 @@ public class Transport_dao extends DAO {
         insert_suppliers_to_transport(transport, res.getString(8));
         insert_stores_to_transport(transport, res.getString(9));
         insert_products_to_transport(transport);
+        transport.setEstimated_end_time(res.getString(13));
         transports.put(transport.getTransport_ID(), transport);
         return transport;
     }

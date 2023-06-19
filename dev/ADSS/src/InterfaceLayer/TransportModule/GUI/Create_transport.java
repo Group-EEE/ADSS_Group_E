@@ -190,7 +190,7 @@ public class Create_transport extends JFrame {
                 }
                 List<Store> stores = StoresDAO.getInstance().SelectAllStores();
                 for (Store store : stores) {
-                    if (store.get_area() == Integer.parseInt((String) areas.getSelectedItem())){
+                    if (store.get_area() == Integer.parseInt((String) areas.getSelectedItem()) && transportMain.is_store_have_schedule(store)){
                         Stores.addItem(store.getName());
                     }
                 }
@@ -216,13 +216,13 @@ public class Create_transport extends JFrame {
                 List<Store> stores = StoresDAO.getInstance().SelectAllStores();
                 int count = 0;
                 for (Store store : stores) {
-                    if (store.get_area() == Integer.parseInt((String) areas.getSelectedItem())){
+                    if (store.get_area() == Integer.parseInt((String) areas.getSelectedItem()) && transportMain.is_store_have_schedule(store)){
                         Stores.addItem(store.getName());
                         count++;
                     }
                 }
                 if (count == 0){
-                    JOptionPane.showMessageDialog(null, "There are not known stores in that area.");
+                    JOptionPane.showMessageDialog(null, "There are not known stores in that area that currently have an active schedule.");
                 }
                 isFinished = true;
             }
