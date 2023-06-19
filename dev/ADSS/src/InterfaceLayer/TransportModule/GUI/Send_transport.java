@@ -31,14 +31,12 @@ public class Send_transport extends JFrame{
     public Send_transport(Transport_main transportMain, ArrayList<Integer> transport_ids) {
         this.main_frame = transportMain;
         pack();
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(800, 400);
         getContentPane().add(sendTransport);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (screenSize.width - 800) / 2;
-        int y = (screenSize.height - 400) / 2;
-        sendTransport.setLocation(x, y);
+        setLocationRelativeTo(null);
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -92,10 +90,11 @@ public class Send_transport extends JFrame{
         String Time = now.toLocalTime().format(timeFormatter);
         // ======================== check if the transport is in the right status ========================
         // check_if_warehouse_worker_exist_in_all_stores(transport_ID) - need to implement the right functions with Chen
-        if (!controller.check_if_warehouse_worker_exist_in_all_stores(transport_id, today)) {
-            send_message("Transport cancelled, there's no warehouse worker in all of the stores.");
-            goBack();
-        }
+//        if (!controller.check_if_warehouse_worker_exist_in_all_stores(transport_id, today)) {
+//            send_message("Transport cancelled, there's no warehouse worker in all of the stores.");
+//            goBack();
+//            return;
+//        }
         // ======================== Update Date And Time ======================== //
         controller.match_driver_and_truck(transport_id);
         controller.set_time_and_date_for_transport(transport_id, Date, Time);

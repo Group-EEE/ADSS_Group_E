@@ -248,7 +248,15 @@ public class ScheduleController {
             throw new IllegalArgumentException("Invalid store name");
         Schedule schedule = getSchedule(storeName);
         boolean res = _shiftsDAO.updateMustBeFilledRole(schedule.getScheduleID(),shiftID, role.toString(),true);
-        return res && schedule.getShift(shiftID).addMustBeFilledRole(role);
+        List<Shift> shifts = ShiftsDAO.getInstance().getShiftsByScheduleID(schedule.getScheduleID());
+        Shift shift = null;
+        for (Shift s : shifts){
+            if (s.getShiftID() == shiftID){
+                shift = s;
+                break;
+            }
+        }
+        return res && shift.addMustBeFilledRole(role);
     }
 
     //TODO: shiftID getShiftIdByDate(String storeName, Date currentDate,ShiftType shiftType
@@ -310,7 +318,14 @@ public class ScheduleController {
 
     public boolean hasWareHouse(String storeName, int shiftID){
         Schedule schedule = getSchedule(storeName);
-        return schedule.getShift(shiftID).hasFilledRole(RoleType.Warehouse);
+        List<Shift> shifts = ShiftsDAO.getInstance().getShiftsByScheduleID(schedule.getScheduleID());
+        Shift shift = null;
+        for (Shift s : shifts){
+            if (s.getShiftID() == shiftID){
+                shift = s;
+            }
+        }
+        return shift.hasFilledRole(RoleType.Warehouse);
     }
 
     public boolean hasStandByDriver(String storeName, int shiftID){
