@@ -70,16 +70,17 @@ public class Logistical_center_controller {
     }
 
     ///// need to notify HR when the driver is needed to be in the weekly schedule
-    public boolean truck_assigning(String new_truck_registration_plate, String planned_date, Truck_Driver driver){
+    public boolean truck_assigning(String new_truck_registration_plate, String planned_date, Employee E_driver){
         Truck truck = getTruckByNumber(new_truck_registration_plate);
+        Truck_Driver driver =  EmployeesDAO.getInstance().getDriver(E_driver.getEmployeeID());
         // checking if the given parameters are valid, and getting the diver and the truck if they exist.
 
         if (driver.getLicense().getWeight() >= truck.getMax_weight() && driver.getLicense().getCold_level().getValue() <= truck.getCold_level().getValue() && !Transport_dao.getInstance().check_if_driver_taken_that_date(planned_date, driver.getEmployeeID())){
 
             LocalDate date = LocalDate.parse(planned_date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", date, ShiftType.MORNING);
-            ScheduleController.getInstance().addDriverToLogisticsShift(driver.getEmployeeID(), shift_id);
-            ScheduleController.getInstance().addDriverToLogisticsShift(driver.getEmployeeID(), shift_id+1);
+//            ScheduleController.getInstance().addDriverToLogisticsShift(driver.getEmployeeID(), shift_id);
+//            ScheduleController.getInstance().addDriverToLogisticsShift(driver.getEmployeeID(), shift_id+1);
             return true;
         }
         return false;
@@ -102,22 +103,27 @@ public class Logistical_center_controller {
         LocalDate date = LocalDate.parse(planned_date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", date, ShiftType.MORNING);
         // TODO: check with chen that he gives us a function that get the schedule by any day that in that schedule. not only the exact day that is starts.
-        int schedule_id = SchedulesDAO.getInstance().getSchedule(date, "Logistics").getScheduleID();
-        List<Shift> all_shifts = ShiftsDAO.getInstance().getShiftsByScheduleID(schedule_id);
-        Shift current_shift = null;
-        for (Shift shift : all_shifts){
-            if(shift.getShiftID() == shift_id){
-                current_shift = shift;
-                break;
-            }
-        }
-        HashMap<RoleType, Employee> employees = current_shift.getAssignedEmployees();
-        ArrayList<Employee> drivers = new ArrayList<>(employees.values());
+        Schedule schedule = SchedulesDAO.getInstance().getSchedule(date, "Logistics");
+        Shift shift = schedule.getShift(shift_id);
+//        List<Shift> all_shifts = ShiftsDAO.getInstance().getShiftsByScheduleID(schedule_id);
+//        Shift current_shift = null;
+//        for (Shift shift : all_shifts){
+//            if(shift.getShiftID() == shift_id){
+//                current_shift = shift;
+//                break;
+//            }
+//        }
+        List<Employee> drivers = new ArrayList<>(shift.getAssignedEmployees().values());
+
         for (Employee driver : drivers){
             if(!Transport_dao.getInstance().check_if_driver_taken_that_date(planned_date, driver.getEmployeeID())){
-                if(truck_assigning(new_truck_registration_plate, planned_date, (Truck_Driver) driver)){
+                if(truck_assigning(new_truck_registration_plate, planned_date, driver)){
                     Truck truck = getTruckByNumber(new_truck_registration_plate);
-                    truck.setCurrent_driver((Truck_Driver) driver);
+                    truck.setCurrent_driver(EmployeesDAO.getInstance().getDriver(driver.getEmployeeID()));
+                    Truck_Driver truck_driver = EmployeesDAO.getInstance().getDriver(driver.getEmployeeID());
+                    truck_driver.setCurrent_truck(truck);
+                    // update the driver in the transports database
+
                     return true;
                 }
             }
@@ -372,7 +378,7 @@ public class Logistical_center_controller {
             return false;
         }
         if (transport.Started()){
-            System.out.println("this transport is alredy finished.");
+            System.out.println("this transport is already finished.");
             return false;
         }
         return true;
@@ -403,10 +409,13 @@ public class Logistical_center_controller {
         }
     }
 
-    public boolean add_standby_driver_by_date(LocalDate date) {
+    public Truck_Driver add_standby_driver_by_date(LocalDate date) {
         int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", date, ShiftType.MORNING);
-        HashMap<RoleType, Employee> employees = ScheduleController.getInstance().getSchedule("Logistics").getShift(shift_id).getAssignedEmployees();
-        ArrayList<Employee> drivers_in_shift = new ArrayList<>(employees.values());
+        Schedule schedule = ScheduleController.getInstance().getSchedule("Logistics");
+        Shift shift = schedule.getShift(shift_id);
+        List<Employee> drivers_in_shift = shift.getInquiredEmployees();
+        //HashMap<RoleType, Employee> employees = ScheduleController.getInstance().getSchedule("Logistics").getShift(shift_id).getAssignedEmployees();
+        //ArrayList<Employee> drivers_in_shift = new ArrayList<>(employees.values());
         List<Truck_Driver> all_drivers = EmployeesDAO.getInstance().getDrivers();
         Truck_Driver standby_driver = null;
         if(ScheduleController.getInstance().hasStandByDriver("Logistics", shift_id )){
@@ -423,9 +432,9 @@ public class Logistical_center_controller {
                 ScheduleController.getInstance().addStandByDriverToLogisticsShift(standby_driver.getEmployeeID(), shift_id);
                 ScheduleController.getInstance().addStandByDriverToLogisticsShift(standby_driver.getEmployeeID(), shift_id+1);
 
-                return true;
+                return standby_driver;
             }
         }
-        return false;
+        return null;
     }
 }

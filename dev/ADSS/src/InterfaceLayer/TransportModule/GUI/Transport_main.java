@@ -24,7 +24,6 @@ public class Transport_main extends JFrame{
     private String cold_level;
     public Transport_main() {
 
-
         menuOptions.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -46,6 +45,9 @@ public class Transport_main extends JFrame{
             }
 
         });
+
+        setLocationRelativeTo(null);
+
     }
 
     private void open_frame(int choice){
@@ -128,6 +130,10 @@ public class Transport_main extends JFrame{
                 sd.setVisible(true);
                 setVisible(false);
                 break;
+            // TODO: Add case that presents all the transport from the data Base
+            case 11:
+
+
         }
     }
     public void set_cold_level(String level){
@@ -139,6 +145,7 @@ public class Transport_main extends JFrame{
         transportMain.setContentPane(transportMain.panelMain);
         transportMain.setTitle("Transport Manager");
         transportMain.setSize(500, 300);
+        transportMain.setLocationRelativeTo(null);
         transportMain.setVisible(true);
         transportMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

@@ -65,9 +65,10 @@ public class SchedulesDAO extends DAO {
 
     public Schedule getSchedule(LocalDate date, String storeName) {
         List<Schedule> result = new ArrayList<>();
+        LocalDate temp_date = null;
         for (int i = 0; i < 7; i++) {
-            date = date.minusDays(i);
-            result = select(_tableName, makeList(StartDateOfWeekColumnName, StoreNameColumnName), makeList(date.format(formatters), storeName));
+            temp_date = date.minusDays(i);
+            result = select(_tableName, makeList(StartDateOfWeekColumnName, StoreNameColumnName), makeList(temp_date.format(formatters), storeName));
             if (result.size() > 0){
                 break;
             }

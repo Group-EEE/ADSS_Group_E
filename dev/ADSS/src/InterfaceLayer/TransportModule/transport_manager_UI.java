@@ -89,7 +89,7 @@ public class transport_manager_UI {
                     if (ScheduleController.getInstance().hasSchedule("Logistics")) {
                         ArrayList<Integer> chosen_transports = choose_transport_to_send();
                         for (int key : chosen_transports) {
-                            underway_transport_ui.start_transport(key,  null);
+                            underway_transport_ui.start_transport(key);
                         }
                     }
                     else {
@@ -741,6 +741,4 @@ public class transport_manager_UI {
             }
         }
     }
-
-
 }

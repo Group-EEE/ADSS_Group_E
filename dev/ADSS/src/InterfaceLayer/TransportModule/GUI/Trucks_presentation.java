@@ -26,6 +26,9 @@ public class Trucks_presentation extends JFrame{
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(900, 200);
         getContentPane().add(trucksPresentation);
+
+        setLocationRelativeTo(null);
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

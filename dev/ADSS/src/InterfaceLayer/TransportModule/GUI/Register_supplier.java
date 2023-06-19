@@ -40,6 +40,8 @@ public class Register_supplier extends JFrame {
             }
         });
 
+        setLocationRelativeTo(null);
+
         Create.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

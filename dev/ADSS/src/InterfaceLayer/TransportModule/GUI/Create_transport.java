@@ -15,6 +15,7 @@ import DataAccessLayer.Transport.Transport_dao;
 
 import javax.swing.*;
 import javax.swing.JOptionPane;
+import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -52,10 +53,12 @@ public class Create_transport extends JFrame {
     public Create_transport(Transport_main transportMain) {
         this.main_frame = transportMain;
         pack();
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        setSize(900, 1200);
+        setSize(900, 600);
+
         getContentPane().add(createTransport);
+
+        setLocationRelativeTo(null);
 
         selected_suppliers = new HashSet<>();
         selected_stores = new HashSet<>();
@@ -156,11 +159,11 @@ public class Create_transport extends JFrame {
                     isFinished = true;
                     return;
                 }
-                if (Transport_dao.getInstance().check_if_truck_taken_that_date(plannedDate.getText(), (String) Trucks.getSelectedItem())){
-                    JOptionPane.showMessageDialog(null, "This truck is already taken that date.");
-                    isFinished = true;
-                    return;
-                }
+//                if (Transport_dao.getInstance().check_if_truck_taken_that_date(plannedDate.getText(), (String) Trucks.getSelectedItem())){
+//                    JOptionPane.showMessageDialog(null, "This truck is already taken that date.");
+//                    isFinished = true;
+//                    return;
+//                }
                 if (Drivers.getSelectedItem() != null){
                     Drivers.removeAllItems();
                 }
@@ -265,11 +268,13 @@ public class Create_transport extends JFrame {
 
                 String suppliers_list = "";
                 for (String supplier : selected_suppliers){
+                    Logistical_center_controller.getInstance().insert_supplier_to_transport(transport_Id, supplier);
                     suppliers_list += supplier + ",";
                 }
 
                 String stores_list = "";
                 for (String store : selected_stores){
+                    Logistical_center_controller.getInstance().insert_store_to_transport(transport_Id, store);
                     stores_list += store + ",";
                 }
 

@@ -80,7 +80,7 @@ public class underway_transport_controller {
     public void insert_weight_to_siteSupply(int site_supplier_ID, int transport_id, double  weight){
         Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck_Driver driver = get_driver_by_transport_id(transport_id);
-        Truck truck = driver.getCurrent_truck();
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         Site_Supply site_supply = null;
         for(Site_Supply s : driver.getSites_documents()){
             if(s.getId() == site_supplier_ID){
@@ -105,7 +105,7 @@ public class underway_transport_controller {
         Truck_Driver driver = get_driver_by_transport_id(transport_id);
         ArrayList<Site_Supply> empty_array = new ArrayList<>();
         Truck truck = get_truck_by_registration_plate(chosen_transport.getTruck_number());
-
+        chosen_transport.setStarted(true);
         driver.setSites_documents(empty_array);
         truck.setCurrent_weight(truck.getNet_weight());
 
@@ -281,7 +281,7 @@ public class underway_transport_controller {
         Truck new_truck = null;
         // getting the truck that have the minimum weight that suits the current transport weight, and the most close cold level.
         for(Truck t : logistical_center_controller.get_trucks()){
-            if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight && !is_truck_taken_that_day(transport.getTruck_number(), date, true, transport_id)) {
+            if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight && !is_truck_taken_that_day(t.getRegistration_plate(), date, true, transport_id)) {
                 if(t.getCold_level().getValue() == level.getValue()){
                     if (new_truck == null) {
                         new_truck = t;
@@ -313,20 +313,32 @@ public class underway_transport_controller {
             old_driver.setCurrent_truck(new_truck);
 
             new_truck.set_ready_navigator(truck.getNavigator());
+            Transport_dao.getInstance().update_truck_number(transport_id, new_truck.getRegistration_plate());
 
             return true;
         } else if (logistical_center_controller.truck_assigning_drivers_in_shift(new_truck.getRegistration_plate(), transport.getPlanned_date())) {
+            // check what happens here!!!!
+            Truck_Driver new_driver = new_truck.getCurrent_driver();
             truck.setCurrent_driver(null);
             truck.setOccupied(false);
             truck.setCurrent_driver(null);
             // updating the details in the transport document
             transport.setTruck_number(new_truck.getRegistration_plate());
+            transport.setDriver_ID(new_truck.getCurrent_driver().getEmployeeID());
             // add the weight to the new truck.
             new_truck.setCurrent_weight(truck.getCurrent_weight());
+            // add the sites documents to the new driver
+            for (Site_Supply site_supply: old_driver.getSites_documents()){
+                new_truck.getCurrent_driver().Add_site_document(site_supply);
+            }
+            // getting the route to the new truck
+            new_truck.set_ready_navigator(truck.getNavigator());
             // reset the weight of the old truck.
             truck.setCurrent_weight(truck.getNet_weight());
             // reset the truck of the driver to be the new truck.
             old_driver.setCurrent_truck(null);
+            Transport_dao.getInstance().update_truck_number(transport_id, new_truck.getRegistration_plate());
+            Transport_dao.getInstance().update_driver_name_and_id(transport_id, new_driver.getEmployeeID(), new_driver.getFullName());
             return true;
         }
         return false;
@@ -619,5 +631,11 @@ public class underway_transport_controller {
             }
         }
         return false;
+    }
+
+    public void insert_weight_to_transport(int transport_ID){
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
+        transport.insertToWeights(truck.getCurrent_weight());
     }
 }

@@ -6,6 +6,7 @@ import DataAccessLayer.Transport.Transport_dao;
 import InterfaceLayer.TransportModule.underway_transport_UI;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -34,6 +35,10 @@ public class Send_transport extends JFrame{
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(800, 400);
         getContentPane().add(sendTransport);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - 800) / 2;
+        int y = (screenSize.height - 400) / 2;
+        sendTransport.setLocation(x, y);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -77,8 +82,6 @@ public class Send_transport extends JFrame{
         dispose();
     }
     private void Start_transport(int transport_id) {
-//        underway_transport_UI underway_transport = new underway_transport_UI();
-//        underway_transport.start_transport(transport_id,  this);
         underway_transport_controller controller = underway_transport_controller.getInstance();
         // ======================== get Date And Time ======================== //
         LocalDateTime now = LocalDateTime.now();
@@ -100,6 +103,7 @@ public class Send_transport extends JFrame{
         controller.getRandomTimeAfter(Time, transport_id);
         // ========================= starting the transport ======================= //
         controller.set_navigator_for_transport(transport_id);
+        controller.insert_weight_to_transport(transport_id);
         send_message("Transport - " + transport_id + " started.");
         // driving to the first supplier
         setVisible(false);

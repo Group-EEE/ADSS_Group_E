@@ -8,6 +8,7 @@ import DataAccessLayer.Transport.Transport_dao;
 
 import javax.swing.*;
 import javax.swing.JOptionPane;
+import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,7 +54,12 @@ public class Supplier_goods extends JFrame{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(1000, 1000);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - 1000) / 2;
+        int y = (screenSize.height - 1000) / 2;
+        siteSupplies.setLocation(x, y);
         getContentPane().add(siteSupplies);
+
 
         Transport transport = Transport_dao.getInstance().getTransport(transport_id);
         for (Store store : transport.getStores()){
@@ -196,7 +202,6 @@ public class Supplier_goods extends JFrame{
                 for (String item : items.keySet()){
                     controller.insert_item_to_siteSupply(Integer.parseInt(documentID.getText()), transport_id, item, get_amount(items.get(item)));
                     controller.insert_item_to_transport(transport_id, item, get_amount(items.get(item)));
-
                 }
                 controller.insert_weight_to_siteSupply(Integer.parseInt(documentID.getText()), transport_id, total_weight);
                 boolean add_site_to_route = !underway_transport_controller.getInstance().is_store_exist_in_route(transport_id, chosen_store);

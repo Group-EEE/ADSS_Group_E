@@ -23,10 +23,11 @@ public class Change_transport extends JFrame {
         this.parent_frame = supplier_goods;
         this.transport_id = transport_id;
         pack();
-        setLocationRelativeTo(null);
+
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(400, 400);
         getContentPane().add(ChangeTransport);
+        setLocationRelativeTo(null);
 
         for (String store_name : underway_transport_controller.getInstance().get_all_stores_with_goods(transport_id)){
             storesWithGoods.addItem(store_name);
