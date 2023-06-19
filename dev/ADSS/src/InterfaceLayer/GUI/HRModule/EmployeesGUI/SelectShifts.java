@@ -79,11 +79,15 @@ public class SelectShifts extends JFrame {
         if (employeeWorksInStore) {
             // Get the shifts for the store
             List<Shift> shifts = _facade.getSchedule(storeName).getShifts();
+            if(shifts != null || shifts.isEmpty()) {
 
-            for (Shift shift : shifts) {
-                JCheckBox shiftCheckbox = new JCheckBox(shift.toString());
-                shiftPanel.add(shiftCheckbox);
-                shiftCheckboxes.add(shiftCheckbox);
+                for (Shift shift : shifts) {
+                    JCheckBox shiftCheckbox = new JCheckBox(shift.toString());
+                    shiftPanel.add(shiftCheckbox);
+                    shiftCheckboxes.add(shiftCheckbox);
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "there is no available schedual for this store");
             }
         } else {
             JLabel noShiftsLabel = new JLabel("You don't work in this store.");

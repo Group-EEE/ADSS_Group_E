@@ -1,5 +1,5 @@
 package InterfaceLayer.GUI.HRModule.HRManager;
-//TODO: layoutfix
+//TODO: layout fix
 import BussinessLayer.HRModule.Controllers.Facade;
 import BussinessLayer.HRModule.Objects.RoleType;
 
@@ -16,31 +16,60 @@ public class RemoveRoleFromEmployee extends JFrame {
     private int employeeID;
 
     public RemoveRoleFromEmployee() {
-        // Set the size and layout of the frame
+        // Set the size of the frame
         setSize(400, 200);
-        setLayout(new GridLayout(3, 2));
+
+        // Use GridBagLayout
+        setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
 
         // Create a label and text field for employee ID
         JLabel employeeIDLabel = new JLabel("Employee ID:");
-        employeeIDField = new JTextField(20);
+        employeeIDField = new JTextField(5);
 
-        // Add the employee ID label and text field to the frame
-        getContentPane().add(employeeIDLabel);
-        getContentPane().add(employeeIDField);
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        getContentPane().add(employeeIDLabel, constraints);
+
+        constraints.gridx = 1;
+        getContentPane().add(employeeIDField, constraints);
 
         // Create a button to get the employee's roles
         JButton getRolesButton = new JButton("Get Roles");
-        getContentPane().add(getRolesButton);
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        getContentPane().add(getRolesButton, constraints);
 
         // Create a combo box to display the employee's roles
         roleComboBox = new JComboBox<>();
         roleComboBox.setEnabled(false);
-        getContentPane().add(roleComboBox);
+        constraints.gridx = 1;
+        getContentPane().add(roleComboBox, constraints);
 
         // Create a button to remove the selected role
         JButton removeRoleButton = new JButton("Remove Role");
         removeRoleButton.setEnabled(false);
-        getContentPane().add(removeRoleButton);
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        getContentPane().add(removeRoleButton, constraints);
+
+        // Create a button to go back to the main menu
+        JButton backToMenuButton = new JButton("Back to Main Menu");
+        getContentPane().add(backToMenuButton);
+
+        // Add an ActionListener to the backToMenuButton
+        backToMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HRmenu hrmenu = new HRmenu();
+                // Hide this frame
+                setVisible(false);
+
+                // Show the main menu
+                hrmenu.setVisible(true);
+            }
+        });
 
         // Add an ActionListener to the getRolesButton
         getRolesButton.addActionListener(new ActionListener() {
@@ -50,22 +79,27 @@ public class RemoveRoleFromEmployee extends JFrame {
                 if (!employeeIDText.isEmpty()) {
                     try {
                         employeeID = Integer.parseInt(employeeIDText);
-
+                        List<RoleType> employeeRoles = null;
                         // Get the employee's roles from the facade
-                        List<RoleType> employeeRoles = _facade.getEmployeeRoles(employeeID);
-                        if (employeeRoles.isEmpty()) {
-                            JOptionPane.showMessageDialog(RemoveRoleFromEmployee.this, "The employee has no roles.", "No Roles", JOptionPane.INFORMATION_MESSAGE);
-                            roleComboBox.setEnabled(false);
-                            removeRoleButton.setEnabled(false);
-                        } else {
-                            // Populate the roleComboBox with the employee's roles
-                            roleComboBox.removeAllItems();
-                            for (RoleType role : employeeRoles) {
-                                roleComboBox.addItem(role.toString());
+                        try {
+                            employeeRoles = _facade.getEmployeeRoles(employeeID);
+                            if (employeeRoles.isEmpty()) {
+                                JOptionPane.showMessageDialog(RemoveRoleFromEmployee.this, "The employee has no roles.", "No Roles", JOptionPane.INFORMATION_MESSAGE);
+                                roleComboBox.setEnabled(false);
+                                removeRoleButton.setEnabled(false);
+                            } else {
+                                // Populate the roleComboBox with the employee's roles
+                                roleComboBox.removeAllItems();
+                                for (RoleType role : employeeRoles) {
+                                    roleComboBox.addItem(role.toString());
+                                }
+                                roleComboBox.setEnabled(true);
+                                removeRoleButton.setEnabled(true);
                             }
-                            roleComboBox.setEnabled(true);
-                            removeRoleButton.setEnabled(true);
+                        }catch (Exception ex){
+                            JOptionPane.showMessageDialog(RemoveRoleFromEmployee.this, "there is no such employee", "No employee", JOptionPane.INFORMATION_MESSAGE);
                         }
+
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(RemoveRoleFromEmployee.this, "Invalid employee ID. Please enter a valid number.", "Invalid ID", JOptionPane.ERROR_MESSAGE);
                     }

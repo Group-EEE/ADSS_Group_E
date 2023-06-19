@@ -1,10 +1,13 @@
 package InterfaceLayer;
 
-import BussinessLayer.HRModule.Controllers.Facade;
+import BussinessLayer.HRModule.Objects.RoleType;
 import DataAccessLayer.DAO;
 import InterfaceLayer.CLI.HRModule.HRModuleCLI;
+import InterfaceLayer.GUI.Login;
 import InterfaceLayer.TransportModule.transport_manager_UI;
 
+
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -14,15 +17,33 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args){
-        if (args.length != 1) {
+        if (args.length != 2) {
             System.out.println("Invalid input");
             exit(0);
         }
+        RoleType roleMainInput = null;
+        switch (args[1]){
+            case "HRManager":
+                roleMainInput = RoleType.HRManager;
+                break;
+            case "TransportManager":
+                roleMainInput = RoleType.TransportManager;
+                break;
+            case "StoreManager":
+                roleMainInput = RoleType.StoreManager;
+                break;
+            case "employee":
+                roleMainInput = RoleType.Cashier;
+                break;
+            default:
+                System.out.println("Invalid role input");
+                exit(0);
+        }
         try {
             if (args[0].equals("CLI")) {
-                mainCLI();
-            } else if (args[0].equals("GUI")) {
-                mainGUI();
+                mainCLI(roleMainInput);
+            } else if (args[0].equals("GUI")){
+                mainGUI(roleMainInput);
             } else {
                 System.out.println("Invalid input");
                 exit(0);
@@ -37,10 +58,10 @@ public class Main {
                 DAO.connection = null;
             }
             catch (SQLException e){}
-            exit(0);
+            //exit(0);
         }
     }
-    public static void mainCLI(){
+    public static void mainCLI(RoleType roleMainInput) {
         int menuChoice = -1;
         while (true) {
             System.out.println("Welcome to Super-Lee System !\n");
@@ -75,8 +96,12 @@ public class Main {
         _HRModule.start();
     }
 
-    public static void mainGUI(){
-
+    public static void mainGUI(RoleType roleMainInput) {
+        Login.setRoleTypePremission(roleMainInput);
+        SwingUtilities.invokeLater(() -> {
+            Login login = new Login();
+            login.setVisible(true);
+        });
     }
 
 }

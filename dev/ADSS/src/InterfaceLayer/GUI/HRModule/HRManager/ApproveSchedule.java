@@ -1,6 +1,7 @@
 package InterfaceLayer.GUI.HRModule.HRManager;
 
 import BussinessLayer.HRModule.Controllers.Facade;
+import BussinessLayer.HRModule.Controllers.StoreController;
 import BussinessLayer.HRModule.Objects.RoleType;
 import BussinessLayer.HRModule.Objects.Shift;
 
@@ -44,6 +45,23 @@ public class ApproveSchedule extends JFrame {
         getContentPane().add(new JScrollPane(shiftStatusArea));
         getContentPane().add(nextButton);
 
+        // Create a button to go back to the main menu
+        JButton backToMenuButton = new JButton("Back to Main Menu");
+        getContentPane().add(backToMenuButton);
+
+        // Add an ActionListener to the backToMenuButton
+        backToMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HRmenu hrmenu = new HRmenu();
+                // Hide this frame
+                setVisible(false);
+
+                // Show the main menu
+                hrmenu.setVisible(true);
+            }
+        });
+
         // Set the initial state
         nextButton.setEnabled(false);
         shiftStatusArea.setText("Please enter the store name and click Next.");
@@ -78,7 +96,17 @@ public class ApproveSchedule extends JFrame {
         }
 
         String storeName = storeNameField.getText();
-        rejectedShifts = _facade.approveSchedule(storeName);
+        try{
+            _facade.getAllStores().contains(StoreController.getInstance().getStore(storeName));
+        }catch (Exception ex){
+
+            JOptionPane.showMessageDialog(ApproveSchedule.this, "store dosent exist", "Missing Information", JOptionPane.ERROR_MESSAGE);
+        }
+        try{
+            rejectedShifts = _facade.approveSchedule(storeName);
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(ApproveSchedule.this, "the store dosent have a schedual", "Missing Information", JOptionPane.ERROR_MESSAGE);
+        }
         if (currentIndex < rejectedShifts.size()) {
             Shift shift = rejectedShifts.get(currentIndex);
             StringBuilder message = new StringBuilder("Shift ID: " + shift.getShiftID() + "\n");

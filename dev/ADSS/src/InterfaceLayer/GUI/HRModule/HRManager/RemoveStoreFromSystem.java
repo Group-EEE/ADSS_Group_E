@@ -42,6 +42,25 @@ public class RemoveStoreFromSystem extends JFrame {
 
         // Create a "Create" button and add an ActionListener
         JButton createButton = new JButton("remove");
+
+        // Create a button to go back to the main menu
+        JButton backToMenuButton = new JButton("Back to Main Menu");
+        getContentPane().add(backToMenuButton);
+
+        // Add an ActionListener to the backToMenuButton
+        backToMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HRmenu hrmenu = new HRmenu();
+                // Hide this frame
+                setVisible(false);
+
+                // Show the main menu
+                hrmenu.setVisible(true);
+            }
+        });
+
+
         createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,9 +68,9 @@ public class RemoveStoreFromSystem extends JFrame {
 
 
 
-                // Call your createEmployee function and display a message
+                // Call your removeStore function and display a message
                 if (_facade.removeStore(storename)) {
-                    JOptionPane.showMessageDialog(null, "Employee removed successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Store removed successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     // Return to the HRmenu screen
                     HRmenu hrmenu = new HRmenu();
                     hrmenu.setVisible(true);

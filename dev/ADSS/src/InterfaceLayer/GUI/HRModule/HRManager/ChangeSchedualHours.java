@@ -1,5 +1,6 @@
 package InterfaceLayer.GUI.HRModule.HRManager;
 import BussinessLayer.HRModule.Controllers.Facade;
+import BussinessLayer.HRModule.Controllers.StoreController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,6 +41,24 @@ public class ChangeSchedualHours extends JFrame{
 
         // Create a "Change" button and add an ActionListener
         JButton changeButton = new JButton("Change");
+
+        // Create a button to go back to the main menu
+        JButton backToMenuButton = new JButton("Back to Main Menu");
+        getContentPane().add(backToMenuButton);
+
+        // Add an ActionListener to the backToMenuButton
+        backToMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HRmenu hrmenu = new HRmenu();
+                // Hide this frame
+                setVisible(false);
+
+                // Show the main menu
+                hrmenu.setVisible(true);
+            }
+        });
+
         changeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,6 +74,12 @@ public class ChangeSchedualHours extends JFrame{
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(ChangeSchedualHours.this, "Invalid input. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
+                }
+                try{
+                    _facade.getAllStores().contains(StoreController.getInstance().getStore(storeName));
+                }catch (Exception ex){
+
+                    JOptionPane.showMessageDialog(ChangeSchedualHours.this, "store dosent exist", "Missing Information", JOptionPane.ERROR_MESSAGE);
                 }
 
                 // Call the changeHoursShift function from the Facade class

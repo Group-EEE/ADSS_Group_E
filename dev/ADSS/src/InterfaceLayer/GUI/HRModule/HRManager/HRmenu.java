@@ -1,6 +1,6 @@
 package InterfaceLayer.GUI.HRModule.HRManager;
 
-import InterfaceLayer.GUI.HRModule.Login;
+import InterfaceLayer.GUI.Login;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,14 +14,17 @@ public class HRmenu extends JFrame {
             frame.setLocationRelativeTo(null);
 
             JLabel welcomeLabel = new JLabel("Welcome to the Main Menu, please choose your action and press Start:");
+            welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
             JComboBox<String> actionComboBox = new JComboBox<>(new String[]{"create new employee", "create new store", "add employee to store",
                     "add role to employee","create new schedule","approve shifts", "update personal information", "change schedule hours",
                     "remove role from employee", "remove employee from store", "remove employee from system", "remove store from system",
                     "select required roles from a shift", "remove required roles from a shift", "print all employees", "print all stores",
                     "print schedule", "create new driver", "create new logistics schedule", "log out"});
-            actionComboBox.setPreferredSize(new Dimension(100, 20));
-            actionComboBox.setMaximumSize(new Dimension(100, Integer.MAX_VALUE));
+            actionComboBox.setPreferredSize(new Dimension(200, 20));
+            actionComboBox.setMaximumSize(new Dimension(200, 20));
+
+            JButton startButton = new JButton("Start");
 
             // Set up the GridBagLayout
             GridBagLayout gridBagLayout = new GridBagLayout();
@@ -34,8 +37,6 @@ public class HRmenu extends JFrame {
             gridBagConstraints.weighty = 1;
             gridBagConstraints.fill = GridBagConstraints.BOTH;
 
-            JButton startButton = new JButton("Start");
-
             // Set up the BoxLayout
             JPanel panel = new JPanel(gridBagLayout);
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -43,9 +44,9 @@ public class HRmenu extends JFrame {
             // Add components to the panel
             panel.add(Box.createVerticalGlue());
             panel.add(welcomeLabel);
-            panel.add(Box.createVerticalGlue());
+            panel.add(Box.createVerticalStrut(10));
             panel.add(actionComboBox);
-            panel.add(Box.createVerticalGlue());
+            panel.add(Box.createVerticalStrut(10));
             panel.add(startButton);
             panel.add(Box.createVerticalGlue());
 

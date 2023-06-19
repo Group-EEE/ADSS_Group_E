@@ -160,7 +160,7 @@ public class ScheduleController {
             return false;
         }
         Schedule schedule = getSchedule(storeName);
-        boolean res = schedule.changeHoursShift(shiftID, newStartHour, newEndHour);
+        boolean res = schedule.changeHoursShift(newStartHour, newEndHour, shiftID);
         res = res && _shiftsDAO.setStartTime(schedule.getScheduleID(),shiftID, newStartHour);
         res = res && _shiftsDAO.setEndTime(schedule.getScheduleID(),shiftID, newEndHour);
         return res;

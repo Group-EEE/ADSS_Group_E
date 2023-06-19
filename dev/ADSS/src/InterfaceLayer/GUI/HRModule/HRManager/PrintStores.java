@@ -42,7 +42,12 @@ public class PrintStores extends JFrame {
         closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                HRmenu hrmenu = new HRmenu();
+                // Hide this frame
+                setVisible(false);
+
+                // Show the main menu
+                hrmenu.setVisible(true);
             }
         });
 

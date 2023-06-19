@@ -54,6 +54,9 @@ public class Facade {
     public boolean isLoggedUserIsHRManager(){
         return _loggedUser.getEmployeeID() == _HRManagerID;
     }
+    public boolean isLoggedUserHasRole(RoleType roleType){
+        return _loggedUser.hasRole(roleType);
+    }
 
     public boolean logout(){
         if (_loggedUser == null)
@@ -95,9 +98,12 @@ public class Facade {
     }
 
     public boolean createEmployee(int employeeID, String firstName, String lastName, int age, String bankAccount, int salary, String hiringCondition, LocalDate startDateOfEmployement, String password, boolean isHRManager) {
-        if (firstName == null || lastName == null || age < 0 || employeeID < 0 || bankAccount == null){
+        if (firstName == null || firstName.equals("") || lastName == null || lastName.equals("") || age < 0 || employeeID < 0 || bankAccount == null || bankAccount.equals("") || hiringCondition == null|| hiringCondition.equals("") || password == null || password.equals("")){
             System.out.println("Invalid arguments");
             return false;
+        }
+        if(this.getEmployeeFullNameById(employeeID)!=null){
+            throw new IllegalArgumentException("id already exist");
         }
         try{
             _employeeController.createEmployee(employeeID, firstName, lastName, age, bankAccount, salary, hiringCondition, startDateOfEmployement, password);
@@ -136,11 +142,24 @@ public class Facade {
 
     //_storeController
     public boolean createStore(String storeName, String storeAddress, String phone, String siteContactName, int area){
+        if(storeName == null || storeName.equals("") || storeAddress == null || storeAddress.equals("") || phone == null || phone.equals("") ||siteContactName == null || siteContactName.equals("") || area<0){
+            System.out.println("invalid argument");
+            return false;
+        }
         return _storeController.createStore(storeName, storeAddress,phone,siteContactName,area);
     }
 
     public boolean removeStore(String storeName){
-        return _storeController.removeStore(storeName);
+        if(storeName == null || storeName.equals("")){
+            System.out.println("no input");
+            return false;
+        }
+        try {
+            _storeController.removeStore(storeName);
+            return true;
+        }catch (Exception ex){
+            return false;
+        }
     }
 
     public boolean addEmployeeToStore(int employeeID, String storeName){
@@ -152,7 +171,16 @@ public class Facade {
             System.out.println("Store doesn't exist");
             return false;
         }
-        return _storeController.addEmployeeToStore(employeeID, storeName);
+        if(storeName == null || storeName.equals("")){
+            System.out.println("Store doesn't exist");
+            return false;
+        }
+        if(_storeController.addEmployeeToStore(employeeID, storeName)){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public boolean removeEmployeeFromStore(int employeeID, String storeName){
@@ -167,6 +195,10 @@ public class Facade {
     //_ScheduleController
     public boolean createNewStoreSchedule(String StoreName, int day, int month, int year){
         if (!_storeController.existsStore(StoreName)) {
+            System.out.println("Store doesn't exist in order to create for it a schedule");
+            return false;
+        }
+        if (StoreName == null || StoreName.equals("")){
             System.out.println("Store doesn't exist in order to create for it a schedule");
             return false;
         }
@@ -189,7 +221,12 @@ public class Facade {
     }
 
     public Schedule getSchedule(String storeName){
-        return _scheduleController.getSchedule(storeName);
+        try{
+            Schedule schedule = _scheduleController.getSchedule(storeName);
+            return schedule;
+        }catch (Exception e){
+            return null;
+        }
     }
 
     public List<Shift> printEmployeeSchedule(){
@@ -201,6 +238,10 @@ public class Facade {
     }
 
     public boolean changeHoursShift(String storeName, int newStartHour, int newEndHour, int shiftID){
+        if (storeName == null || storeName.equals("")){
+            System.out.println("no input");
+            return false;
+        }
         try{
             _scheduleController.changeShiftHours(storeName, newStartHour, newEndHour, shiftID);
             return true;
