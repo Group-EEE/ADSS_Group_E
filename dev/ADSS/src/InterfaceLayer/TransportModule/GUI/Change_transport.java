@@ -57,7 +57,6 @@ public class Change_transport extends JFrame {
                             break;
                         }
                         //now we need to check if we need to assign a driver to the new truck.
-                        // TODO: check what happens when we need to change truck and employee! that's means we need to have another employee working that day
                         if(controller.change_truck(transport_id)){
                             JOptionPane.showMessageDialog(null,"The trucks finished to transfer all the goods and it's ready to go,\n" +
                                     "The new driver is: " + controller.get_driver_name(transport_id) + " and his driving the truck: " + controller.get_truck_number(transport_id));

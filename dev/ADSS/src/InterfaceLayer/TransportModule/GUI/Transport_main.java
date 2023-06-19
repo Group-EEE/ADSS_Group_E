@@ -142,12 +142,10 @@ public class Transport_main extends JFrame{
                 sd.setVisible(true);
                 setVisible(false);
                 break;
-            // TODO: Add case that presents all the transport from the data Base
             case 11:
                 Transport_display transport_display = new Transport_display(this);
                 transport_display.setVisible(true);
                 setVisible(false);
-
         }
 
     }
