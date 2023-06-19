@@ -3,6 +3,7 @@ package BussinessLayer.HRModule.Controllers;
 import BussinessLayer.HRModule.Objects.*;
 import BussinessLayer.TransportationModule.objects.cold_level;
 import DataAccessLayer.HRMoudle.EmployeesDAO;
+import DataAccessLayer.HRMoudle.ShiftsDAO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,6 +16,7 @@ public class Facade {
     private final StoreController _storeController;
     private final EmployeeController _employeeController;
     private final ScheduleController _scheduleController;
+    private ShiftsDAO shiftsDAO;
 
     private Facade(){
         _storeController = StoreController.getInstance();
@@ -285,5 +287,31 @@ public class Facade {
 
     public boolean hasSchedule(String storeName, int day, int month, int year){
         return _scheduleController.hasSchedule(storeName, day, month, year);
+    }
+
+    public boolean haswarehouse(int shiftid, String storename){
+        if (storename == null || storename.equals("")){
+            System.out.println("no such store");
+            return false;
+        }
+        if(shiftid < 0 || shiftid > 14){
+            System.out.println("invalid shift id");
+            return false;
+        }
+        if(_scheduleController.getSchedule(storename) == null){
+            System.out.println("no schedual for this store");
+            return false;
+        }
+        int schedualid = _scheduleController.getSchedule(storename).getScheduleID();
+        boolean isapproved = shiftsDAO.getApproved(schedualid,shiftid);
+        if (isapproved){
+            List<String> roles = shiftsDAO.getRequiredRoles(schedualid,shiftid);
+            for (int i = 0; i < roles.size(); i++){
+                if (roles.get(i).equals("Warehouse")){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
