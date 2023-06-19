@@ -28,9 +28,8 @@ public class underway_transport_UI {
      *                     the function send the transport to his way.
      */
     // ===== Starting the transport =====
-    public void start_transport(int transport_ID, Send_transport transport_GUI){
+    public void start_transport(int transport_ID){
         boolean aborted = false;
-        Send_transport send_transport = transport_GUI;
         // ======================== get Date And Time ======================== //
         LocalDateTime now = LocalDateTime.now();
         LocalDate today = LocalDate.now();
@@ -41,10 +40,6 @@ public class underway_transport_UI {
         // ======================== check if the transport is in the right status ========================
         // check_if_warehouse_worker_exist_in_all_stores(transport_ID) - need to implement the right functions with Chen
         if (!controller.check_if_warehouse_worker_exist_in_all_stores(transport_ID, today)){
-            if (send_transport != null) {
-                send_transport.send_message("Transport cancelled, there's no warehouse worker in all of the stores.");
-                return;
-            }
             System.out.println("Transport cancelled, there's no warehouse worker in all of the stores.");
             return;
         }
@@ -55,38 +50,30 @@ public class underway_transport_UI {
         controller.getRandomTimeAfter(Time, transport_ID);
         // ========================= starting the transport ======================= //
         controller.set_navigator_for_transport(transport_ID);
-        if (transport_GUI != null){
-            transport_GUI.send_message("Transport - " + transport_ID + " started.");
-        }
-        else {
-            System.out.println("Transport - " + transport_ID + " started.");
-        }
+        controller.insert_weight_to_transport(transport_ID);
+        System.out.println("Transport - " + transport_ID + " started.");
         controller.drive_to_next_location(transport_ID);
         while (controller.is_current_location_not_null(transport_ID)) {
             if (!controller.is_current_location_is_store(transport_ID)) {
                 boolean isValidChoice = false;
                 String ch = null;
-                if (transport_GUI != null) {
-                    transport_GUI.get_items_from_supplier(controller.get_current_location_name(transport_ID));
-                } else {
-                    System.out.println("Hey " + controller.get_current_location_name(transport_ID) + " manager!");
-                    while (!isValidChoice) {
-                        // creating a document
-                        create_site_supply(transport_ID);
-                        // asking if he needs to make another one
-                        System.out.println("Do you have items to ship to another store? (press 1 or 2 only): ");
-                        System.out.println("1 - YES");
-                        System.out.println("2 - NO");
-                        while (true) {
-                            ch = scanner.nextLine();
-                            if (ch.equals("1")) {
-                                break;
-                            } else if (ch.equals("2")) {
-                                isValidChoice = true;
-                                break;
-                            } else {
-                                System.out.println("You must enter 1 or 2.");
-                            }
+                System.out.println("Hey " + controller.get_current_location_name(transport_ID) + " manager!");
+                while (!isValidChoice) {
+                    // creating a document
+                    create_site_supply(transport_ID);
+                    // asking if he needs to make another one
+                    System.out.println("Do you have items to ship to another store? (press 1 or 2 only): ");
+                    System.out.println("1 - YES");
+                    System.out.println("2 - NO");
+                    while (true) {
+                        ch = scanner.nextLine();
+                        if (ch.equals("1")) {
+                            break;
+                        } else if (ch.equals("2")) {
+                            isValidChoice = true;
+                            break;
+                        } else {
+                            System.out.println("You must enter 1 or 2.");
                         }
                     }
                 }
@@ -247,7 +234,7 @@ public class underway_transport_UI {
         System.out.println("The truck max weight is: " + controller.get_truck_weight(transport_ID, "m") + " but her current weight is " + controller.get_truck_weight(transport_ID, "c") + "!!!");
         while (choice != 5) {
             System.out.println("Hey boss, You need to update the current Transport. please choose one of this following options:");
-            System.out.println("1: I want to cancel shipping to a certain store.");
+            System.out.println("1: I want to cancel shipments I currently haveto a certain store.");
             System.out.println("2: I want to change the truck to complete the transport.");
             System.out.println("3: I want to get the goods from the current supplier later / skip this supplier goods for today.");
             System.out.println("4: I want to cancel all the shipping, I tried all, currently we don't have other option!");

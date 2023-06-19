@@ -23,6 +23,7 @@ public Cold_level_choice(Transport_main transportMain, int scene) {
     setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     setSize(900, 200);
     getContentPane().add(choose_level);
+    setLocationRelativeTo(null);
     addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {

@@ -33,10 +33,11 @@ public class Add_truck extends JFrame {
 
     public Add_truck(Transport_main transportMain) {
         this.main_frame = transportMain;
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(600, 280);
         getContentPane().add(create_new_truck);
+
+        setLocationRelativeTo(null);
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -133,27 +134,36 @@ public class Add_truck extends JFrame {
                 if(registration_number.getText().isEmpty() || registration_number.getText().trim().isEmpty()){
                     JOptionPane.showMessageDialog(null, "Please enter a registration number");
                     registration_number.setText("");
+                    return;
                 }
                 else if (truck_model.getText().isEmpty() || truck_model.getText().trim().isEmpty()){
                     JOptionPane.showMessageDialog(null, "Please enter the truck model");
                     truck_model.setText("");
+                    return;
                 }
                 else if (truck_net_weight.getText().isEmpty() || truck_net_weight.getText().trim().isEmpty()){
                     JOptionPane.showMessageDialog(null, "Please enter the truck net weight");
                     truck_net_weight.setText("");
+                    return;
                 }
                 else if (truck_max_weight.getText().isEmpty() || truck_max_weight.getText().trim().isEmpty()){
                     JOptionPane.showMessageDialog(null, "Please enter the truck max weight");
                     truck_max_weight.setText("");
+                    return;
                 }
                 else if (cool_level.getSelectedItem().toString().isEmpty()){
                     JOptionPane.showMessageDialog(null, "Please select a cool level");
+                    return;
                 }
                 if(is_all_filled){
                     Logistical_center_controller.getInstance().add_truck(registration_number_str, truck_model_string, truck_net_weight_double, truck_max_weight_double, cold_level.fromString(cool_level_string), truck_net_weight_double);
-                    JOptionPane.showMessageDialog(null, "Truck:" + registration_number_str +"has been added to the system successfully");
+                    JOptionPane.showMessageDialog(null, "Truck: " + registration_number_str +" has been added to the system successfully");
                 }
-
+                registration_number.setText("");
+                truck_model.setText("");
+                truck_net_weight.setText("");
+                truck_max_weight.setText("");
+                cool_level.setSelectedIndex(0);
             }
         });
 

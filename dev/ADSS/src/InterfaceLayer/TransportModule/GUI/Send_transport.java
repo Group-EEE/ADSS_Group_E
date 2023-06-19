@@ -6,6 +6,7 @@ import DataAccessLayer.Transport.Transport_dao;
 import InterfaceLayer.TransportModule.underway_transport_UI;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -30,10 +31,12 @@ public class Send_transport extends JFrame{
     public Send_transport(Transport_main transportMain, ArrayList<Integer> transport_ids) {
         this.main_frame = transportMain;
         pack();
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(800, 400);
         getContentPane().add(sendTransport);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocationRelativeTo(null);
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -77,8 +80,6 @@ public class Send_transport extends JFrame{
         dispose();
     }
     private void Start_transport(int transport_id) {
-//        underway_transport_UI underway_transport = new underway_transport_UI();
-//        underway_transport.start_transport(transport_id,  this);
         underway_transport_controller controller = underway_transport_controller.getInstance();
         // ======================== get Date And Time ======================== //
         LocalDateTime now = LocalDateTime.now();
@@ -89,10 +90,11 @@ public class Send_transport extends JFrame{
         String Time = now.toLocalTime().format(timeFormatter);
         // ======================== check if the transport is in the right status ========================
         // check_if_warehouse_worker_exist_in_all_stores(transport_ID) - need to implement the right functions with Chen
-        if (!controller.check_if_warehouse_worker_exist_in_all_stores(transport_id, today)) {
-            send_message("Transport cancelled, there's no warehouse worker in all of the stores.");
-            goBack();
-        }
+//        if (!controller.check_if_warehouse_worker_exist_in_all_stores(transport_id, today)) {
+//            send_message("Transport cancelled, there's no warehouse worker in all of the stores.");
+//            goBack();
+//            return;
+//        }
         // ======================== Update Date And Time ======================== //
         controller.match_driver_and_truck(transport_id);
         controller.set_time_and_date_for_transport(transport_id, Date, Time);
@@ -100,8 +102,10 @@ public class Send_transport extends JFrame{
         controller.getRandomTimeAfter(Time, transport_id);
         // ========================= starting the transport ======================= //
         controller.set_navigator_for_transport(transport_id);
+        controller.insert_weight_to_transport(transport_id);
         send_message("Transport - " + transport_id + " started.");
         // driving to the first supplier
+        setVisible(false);
         controller.drive_to_next_location(transport_id);
 
         JOptionPane.showMessageDialog(null,"GPS: You have arrived to " + controller.get_current_location_name(transport_id));

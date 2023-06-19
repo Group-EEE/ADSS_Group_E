@@ -15,6 +15,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -79,7 +80,7 @@ public class underway_transport_controller {
     public void insert_weight_to_siteSupply(int site_supplier_ID, int transport_id, double  weight){
         Transport transport = logistical_center_controller.get_transport_by_id(transport_id);
         Truck_Driver driver = get_driver_by_transport_id(transport_id);
-        Truck truck = driver.getCurrent_truck();
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         Site_Supply site_supply = null;
         for(Site_Supply s : driver.getSites_documents()){
             if(s.getId() == site_supplier_ID){
@@ -104,7 +105,7 @@ public class underway_transport_controller {
         Truck_Driver driver = get_driver_by_transport_id(transport_id);
         ArrayList<Site_Supply> empty_array = new ArrayList<>();
         Truck truck = get_truck_by_registration_plate(chosen_transport.getTruck_number());
-
+        chosen_transport.setStarted(true);
         driver.setSites_documents(empty_array);
         truck.setCurrent_weight(truck.getNet_weight());
 
@@ -253,7 +254,7 @@ public class underway_transport_controller {
         double weight = truck.getCurrent_weight();
         truck = null;
         for(Truck t : logistical_center_controller.get_trucks()){
-            if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight && Transport_dao.getInstance().getInstance().check_if_truck_taken_that_date(transport.getPlanned_date(), t.getRegistration_plate())) {
+            if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight && !Transport_dao.getInstance().getInstance().check_if_truck_taken_that_date(transport.getPlanned_date(), t.getRegistration_plate())) {
                 return true;
             }
         }
@@ -276,10 +277,11 @@ public class underway_transport_controller {
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         cold_level level = transport.getRequired_level();
         double weight = truck.getCurrent_weight();
+        String date = transport.getDate();
         Truck new_truck = null;
         // getting the truck that have the minimum weight that suits the current transport weight, and the most close cold level.
         for(Truck t : logistical_center_controller.get_trucks()){
-            if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight) {
+            if(t.getCold_level().getValue() <= level.getValue() && t.getMax_weight() > weight && !is_truck_taken_that_day(t.getRegistration_plate(), date, true, transport_id)) {
                 if(t.getCold_level().getValue() == level.getValue()){
                     if (new_truck == null) {
                         new_truck = t;
@@ -296,7 +298,7 @@ public class underway_transport_controller {
             }
         }
         Truck_Driver old_driver = truck.getCurrent_driver();
-        if(logistical_center_controller.truck_assigning(new_truck.getRegistration_plate(), transport.getPlanned_date() ,old_driver)){
+        if(old_driver.getLicense().getWeight() >= new_truck.getMax_weight() && old_driver.getLicense().getCold_level().getValue() <= new_truck.getCold_level().getValue()){
             truck.setCurrent_driver(null);
             truck.setOccupied(false);
             truck.setCurrent_driver(null);
@@ -310,19 +312,33 @@ public class underway_transport_controller {
             // reset the truck of the driver to be the new truck.
             old_driver.setCurrent_truck(new_truck);
 
+            new_truck.set_ready_navigator(truck.getNavigator());
+            Transport_dao.getInstance().update_truck_number(transport_id, new_truck.getRegistration_plate());
+
             return true;
         } else if (logistical_center_controller.truck_assigning_drivers_in_shift(new_truck.getRegistration_plate(), transport.getPlanned_date())) {
+            // check what happens here!!!!
+            Truck_Driver new_driver = new_truck.getCurrent_driver();
             truck.setCurrent_driver(null);
             truck.setOccupied(false);
             truck.setCurrent_driver(null);
             // updating the details in the transport document
             transport.setTruck_number(new_truck.getRegistration_plate());
+            transport.setDriver_ID(new_truck.getCurrent_driver().getEmployeeID());
             // add the weight to the new truck.
             new_truck.setCurrent_weight(truck.getCurrent_weight());
+            // add the sites documents to the new driver
+            for (Site_Supply site_supply: old_driver.getSites_documents()){
+                new_truck.getCurrent_driver().Add_site_document(site_supply);
+            }
+            // getting the route to the new truck
+            new_truck.set_ready_navigator(truck.getNavigator());
             // reset the weight of the old truck.
             truck.setCurrent_weight(truck.getNet_weight());
             // reset the truck of the driver to be the new truck.
             old_driver.setCurrent_truck(null);
+            Transport_dao.getInstance().update_truck_number(transport_id, new_truck.getRegistration_plate());
+            Transport_dao.getInstance().update_driver_name_and_id(transport_id, new_driver.getEmployeeID(), new_driver.getFullName());
             return true;
         }
         return false;
@@ -376,6 +392,9 @@ public class underway_transport_controller {
         Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
         if (type.equals("supplier")) {
             int supplier_count = 0;
+            if (truck.get_current_location().is_supplier()){
+                supplier_count++;
+            }
             for (Site site : truck.getNavigator().getRoute()) {
                 if (site.is_supplier()) {
                     supplier_count++;
@@ -438,7 +457,7 @@ public class underway_transport_controller {
             }
         }
         driver.delete_site_document_by_destination(site_name);
-        transport.deleteDestination(site_name);
+        //transport.deleteDestination(site_name);
         truck.getNavigator().delete_site(site_name);
         return check_weight(transport_ID);
     }
@@ -475,9 +494,13 @@ public class underway_transport_controller {
 
     public ArrayList<String> get_all_stores_with_goods(int transport_id){
         ArrayList<String> stores_with_goods = new ArrayList<>();
+        HashSet<String> stores_names = new HashSet<>();
         Truck_Driver driver = get_driver_by_transport_id(transport_id);
         for (Site_Supply site_supply : driver.getSites_documents()) {
-            stores_with_goods.add(site_supply.getStore().getSite_name());
+            stores_names.add(site_supply.getStore().getSite_name());
+        }
+        for (String store_name : stores_names) {
+            stores_with_goods.add(store_name);
         }
         return stores_with_goods;
     }
@@ -532,26 +555,33 @@ public class underway_transport_controller {
 
     public  void getRandomTimeAfter(String currentTimeString, int transport_ID) {
         Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
-        int maxSecondsToAdd = transport.getDestinations().size();
-        // Parse the current time string using the format string
+        ArrayList<Site> destinations = transport.getDestinations();
+        int maxSecondsToAdd = destinations.size() * 1800;  // 30 minutes in seconds
+
+        if (maxSecondsToAdd == 0) {
+            maxSecondsToAdd = 1;  // Ensure maxSecondsToAdd is at least 1
+        }
+
+// Parse the current time string using the format string
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         Calendar now = Calendar.getInstance();
         try {
             now.setTime(dateFormat.parse(currentTimeString));
         } catch (ParseException e) {
+            // Handle the parse exception here
         }
 
-        // Add a random number of seconds to the current time
+// Add a random number of seconds to the current time (30-60 minutes per destination)
         Random random = new Random();
-        int randomSeconds = random.nextInt(maxSecondsToAdd);
+        int randomSeconds = random.nextInt(maxSecondsToAdd) + (30 * 60);  // Random number between 30-60 minutes
         now.add(Calendar.SECOND, randomSeconds);
 
-        // Format the new time as a string using the format string
+// Format the new time as a string using the format string
         String newTimeString = dateFormat.format(now.getTime());
 
         transport.setEstimated_end_time(newTimeString);
 
-        // update dao.
+// Update dao
         Transport_dao.getInstance().update_transport_estimated_end_time(transport_ID, newTimeString);
     }
 
@@ -582,5 +612,30 @@ public class underway_transport_controller {
         Pattern regex = Pattern.compile(pattern);
         Matcher matcher = regex.matcher(timeString);
         return matcher.matches();
+    }
+
+    public boolean is_truck_taken_that_day(String registration_plate, String date, boolean is_transport_exist, int transport_id){
+        ArrayList<Transport> transports = Transport_dao.getInstance().get_transports();
+        if (is_transport_exist) {
+            for (Transport transport : transports) {
+                if (transport.getPlanned_date().equals(date) && transport.getTransport_ID() != transport_id && transport.getTruck_number().equals(registration_plate)) {
+                    return true;
+                }
+            }
+        }
+        else {
+            for (Transport transport : transports) {
+                if (transport.getPlanned_date().equals(date) && transport.getTruck_number().equals(registration_plate)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void insert_weight_to_transport(int transport_ID){
+        Transport transport = logistical_center_controller.get_transport_by_id(transport_ID);
+        Truck truck = get_truck_by_registration_plate(transport.getTruck_number());
+        transport.insertToWeights(truck.getCurrent_weight());
     }
 }

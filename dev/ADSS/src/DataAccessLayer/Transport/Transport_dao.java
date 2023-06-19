@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -98,6 +100,7 @@ public class Transport_dao extends DAO {
         insert_suppliers_to_transport(transport, res.getString(8));
         insert_stores_to_transport(transport, res.getString(9));
         insert_products_to_transport(transport);
+        transport.setEstimated_end_time(res.getString(13));
         transports.put(transport.getTransport_ID(), transport);
         return transport;
     }
@@ -325,6 +328,31 @@ public class Transport_dao extends DAO {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, 1);
             statement.setInt(2, transport_ID);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void update_truck_number(int transport_ID, String new_truck){
+        String query = "UPDATE " + this._tableName + " SET Truck_Number = ? WHERE ID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, new_truck);
+            statement.setInt(2, transport_ID);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void update_driver_name_and_id(int transport_ID, int driver_id, String driver_name){
+        String query = "UPDATE " + this._tableName + " SET Driver_ID = ?, Driver_Name = ? WHERE ID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, driver_id);
+            statement.setString(2, driver_name);
+            statement.setInt(3, transport_ID);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

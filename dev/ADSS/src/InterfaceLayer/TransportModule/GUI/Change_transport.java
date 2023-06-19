@@ -23,15 +23,15 @@ public class Change_transport extends JFrame {
         this.parent_frame = supplier_goods;
         this.transport_id = transport_id;
         pack();
-        setLocationRelativeTo(null);
+
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(400, 400);
         getContentPane().add(ChangeTransport);
+        setLocationRelativeTo(null);
 
         for (String store_name : underway_transport_controller.getInstance().get_all_stores_with_goods(transport_id)){
             storesWithGoods.addItem(store_name);
         }
-        storesWithGoods.setEnabled(false);
 
         excuteSolutionButton.addActionListener(new ActionListener() {
             @Override
@@ -47,6 +47,8 @@ public class Change_transport extends JFrame {
                             JOptionPane.showMessageDialog(null, "The items for the chosen store were dispatched from the truck, but the truck is still in overweight. Please perform another action");
                             break;
                         }
+                        JOptionPane.showMessageDialog(null, "The items we currently have for " + (String) storesWithGoods.getSelectedItem() + " were removed.");
+
                         goBack();
                         break;
                     case 2:
@@ -59,6 +61,7 @@ public class Change_transport extends JFrame {
                             JOptionPane.showMessageDialog(null,"The trucks finished to transfer all the goods and it's ready to go,\n" +
                                     "The new driver is: " + controller.get_driver_name(transport_id) + " and his driving the truck: " + controller.get_truck_number(transport_id));
                             goBack();
+                            break;
                         }
                         JOptionPane.showMessageDialog(null, "Sorry Boss, we have the right truck for the job, but we don't have a driver with a license for that truck right now...");
                         break;
@@ -121,7 +124,6 @@ public class Change_transport extends JFrame {
     private boolean check_supplier(){
         boolean moreThanOne = controller.is_there_more_than_one(transport_id, "supplier");
         if (!moreThanOne){
-            JOptionPane.showMessageDialog(null,"Sorry Boss, this is the only supplier left for today...");
             return false;
         }
         return true;

@@ -1,6 +1,7 @@
 package InterfaceLayer.TransportModule.GUI;
 
 import BussinessLayer.TransportationModule.controllers.Logistical_center_controller;
+import BussinessLayer.TransportationModule.objects.Truck_Driver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +30,7 @@ public class Add_Standby_driver extends JFrame {
         dateLabel = new JLabel("Date: ");
         dateComboBox = new JComboBox<>();
 
-        LocalDate today = LocalDate.now().plusDays(1); // Start from tomorrow
+        LocalDate today = LocalDate.now(); // Start from tomorrow
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         // Generate a list of selectable dates for the next week excluding today
@@ -52,14 +53,17 @@ public class Add_Standby_driver extends JFrame {
 
                 LocalDate date = LocalDate.parse(selectedDate, formatter);
 
-                boolean added = Logistical_center_controller.getInstance().add_standby_driver_by_date(date);
+                Truck_Driver added_driver = Logistical_center_controller.getInstance().add_standby_driver_by_date(date);
 
-                if (added) {
-                    JOptionPane.showMessageDialog(null, "Standby driver added successfully.");
+                if (added_driver != null) {
+                    JOptionPane.showMessageDialog(null, "the driver " + added_driver.getFullName() + " was added as a Standby driver successfully.");
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "Unable to add standby driver for the specified date.");
                 }
+                main_frame.setVisible(true); // Show the main frame
+                dispose(); // Close the current window
+
             }
         });
 

@@ -1,5 +1,7 @@
 package InterfaceLayer.TransportModule.GUI;
 
+import BussinessLayer.HRModule.Controllers.Facade;
+import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.TransportationModule.controllers.Logistical_center_controller;
 import BussinessLayer.TransportationModule.objects.Transport;
 import DataAccessLayer.HRMoudle.StoresDAO;
@@ -12,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Map;
 
 public class Transport_main extends JFrame{
@@ -23,7 +26,6 @@ public class Transport_main extends JFrame{
     private String action;
     private String cold_level;
     public Transport_main() {
-
 
         menuOptions.addActionListener(new ActionListener() {
             @Override
@@ -46,6 +48,9 @@ public class Transport_main extends JFrame{
             }
 
         });
+
+        setLocationRelativeTo(null);
+
     }
 
     private void open_frame(int choice){
@@ -63,10 +68,21 @@ public class Transport_main extends JFrame{
             case 3:
                 if (!StoresDAO.getInstance().isAnyStoreExist()){
                     JOptionPane.showMessageDialog(null, "There's no stores in the Database!");
+                    setVisible(true);
                     break;
                 }
                 if (!Suppliers_dao.getInstance().is_any_supplier_exist()){
                     JOptionPane.showMessageDialog(null, "There's no suppliers in the Database!");
+                    setVisible(true);
+                    break;
+                }
+                int counter = 0;
+                for (Store store: StoresDAO.getInstance().SelectAllStores()){
+                    counter++;
+                }
+                if (counter == 0){
+                    JOptionPane.showMessageDialog(null, "There's no stores that have active schedules in the Database!");
+                    setVisible(true);
                     break;
                 }
                 Create_transport create_transport = new Create_transport(this);
@@ -81,14 +97,15 @@ public class Transport_main extends JFrame{
                 LocalDate currentDate = LocalDate.now();
                 String date_today = currentDate.format(formatter);
                 for (Map.Entry<Integer, Transport> entry : Logistical_center_controller.getInstance().getTransport_Log().entrySet()) {
-                    if (!entry.getValue().Started() && entry.getValue().getPlanned_date().equals(date_today)) {
+                    if (!entry.getValue().Started() && entry.getValue().getPlanned_date().equals(date_today) && all_stores_have_schedules(entry.getValue())) {
                         transport_ids.add(entry.getKey());
                     }
                 }
 
 
                 if (transport_ids.size() == 0){
-                    JOptionPane.showMessageDialog(null, "There's no transports planned for today!");
+                    JOptionPane.showMessageDialog(this, "There's no transports planned for today that all the stores have schedules!");
+                    setVisible(true);
                     break;
                 }
                 Send_transport send_transport = new Send_transport(this, transport_ids);
@@ -125,10 +142,47 @@ public class Transport_main extends JFrame{
                 sd.setVisible(true);
                 setVisible(false);
                 break;
+            case 11:
+                Transport_display transport_display = new Transport_display(this);
+                transport_display.setVisible(true);
+                setVisible(false);
         }
+
     }
     public void set_cold_level(String level){
         cold_level = level;
+    }
+
+    private boolean all_stores_have_schedules(Transport transport){
+        //Facade.getInstance().hasSchedule()
+        Calendar calendar = Calendar.getInstance();
+
+        // Get the day of the month
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Get the month (Note: Month values start from 0 for January)
+        int month = calendar.get(Calendar.MONTH) + 1;
+
+        // Get the year
+        int year = calendar.get(Calendar.YEAR);
+
+        for (Store store: transport.getStores()){
+            if (!Facade.getInstance().hasSchedule(store.getName(), day, month, year)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean is_store_have_schedule(Store store){
+        Calendar calendar = Calendar.getInstance();
+        // Get the day of the month
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        // Get the month (Note: Month values start from 0 for January)
+        int month = calendar.get(Calendar.MONTH) + 1;
+        // Get the year
+        int year = calendar.get(Calendar.YEAR);
+        return Facade.getInstance().hasSchedule(store.getName(), day, month, year);
     }
 
     public static void main(String[] args) {
@@ -136,6 +190,7 @@ public class Transport_main extends JFrame{
         transportMain.setContentPane(transportMain.panelMain);
         transportMain.setTitle("Transport Manager");
         transportMain.setSize(500, 300);
+        transportMain.setLocationRelativeTo(null);
         transportMain.setVisible(true);
         transportMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

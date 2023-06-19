@@ -111,6 +111,7 @@ public class Transport {
         return driver_name;
     }
 
+
     public void setDriver_name(String driver_name) {
         this.driver_name = driver_name;
     }
@@ -280,6 +281,28 @@ public class Transport {
 
     public String getEstimated_end_time() {
         return Estimated_end_time;
+    }
+
+    public String get_suppliers_name(){
+        String suppliers = "";
+        for(Site s : destinations){
+            if(s.is_supplier()){
+                suppliers += s.getSite_name() + ", ";
+            }
+        }
+        suppliers = suppliers.substring(0, suppliers.length() - 2);
+        return suppliers;
+    }
+
+    public String get_stores_name(){
+        String stores = "";
+        for(Site s : destinations){
+            if(s.is_store()){
+                stores += s.getSite_name() + ", ";
+            }
+        }
+        stores = stores.substring(0, stores.length() - 2);
+        return stores;
     }
 
     public void setEstimated_end_time(String estimated_end_time) {

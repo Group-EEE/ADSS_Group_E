@@ -7,8 +7,10 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class Site_Supply_Display extends JFrame {
     private Transport_main main_frame;
@@ -54,11 +56,36 @@ public class Site_Supply_Display extends JFrame {
         JScrollPane outerScrollPane = new JScrollPane(outerTable);
 
         // Add outer table to the frame
+        // Add outer table to the frame
         add(outerScrollPane, BorderLayout.CENTER);
+
+// Create back button and add action listener
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose(); // Close the current frame
+
+                // Perform the same action as the back button
+                main_frame.setVisible(true);
+            }
+        });
+
+// Add back button to the frame
+        add(backButton, BorderLayout.SOUTH);
 
         pack();
         setLocationRelativeTo(null); // Center the frame on the screen
         setVisible(true);
+
+
+        // Override processWindowEvent() to perform the same action as the back button when the frame is closed
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                main_frame.setVisible(true);
+            }
+        });
     }
 
     private JTable createInnerTable(Site_Supply siteSupply) {

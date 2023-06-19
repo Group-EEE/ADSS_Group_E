@@ -1,9 +1,12 @@
 package InterfaceLayer.TransportModule.GUI;
 
+import BussinessLayer.HRModule.Controllers.EmployeeController;
 import BussinessLayer.HRModule.Controllers.ScheduleController;
+import BussinessLayer.HRModule.Objects.Employee;
 import BussinessLayer.HRModule.Objects.ShiftType;
 import BussinessLayer.HRModule.Objects.Store;
 import BussinessLayer.TransportationModule.controllers.Logistical_center_controller;
+import BussinessLayer.TransportationModule.controllers.underway_transport_controller;
 import BussinessLayer.TransportationModule.objects.Supplier;
 import BussinessLayer.TransportationModule.objects.Truck_Driver;
 import DataAccessLayer.HRMoudle.StoresDAO;
@@ -12,6 +15,7 @@ import DataAccessLayer.Transport.Transport_dao;
 
 import javax.swing.*;
 import javax.swing.JOptionPane;
+import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -49,10 +53,12 @@ public class Create_transport extends JFrame {
     public Create_transport(Transport_main transportMain) {
         this.main_frame = transportMain;
         pack();
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        setSize(900, 1200);
+        setSize(900, 600);
+
         getContentPane().add(createTransport);
+
+        setLocationRelativeTo(null);
 
         selected_suppliers = new HashSet<>();
         selected_stores = new HashSet<>();
@@ -124,6 +130,9 @@ public class Create_transport extends JFrame {
                 }
 
                 for (String truckID : trucks_IDs) {
+                    if (underway_transport_controller.getInstance().is_truck_taken_that_day(truckID, current_planned_date, false, 0)){
+                        continue;
+                    }
                     Trucks.addItem(truckID);
                 }
                 update_drivers_list();
@@ -150,11 +159,11 @@ public class Create_transport extends JFrame {
                     isFinished = true;
                     return;
                 }
-                if (Transport_dao.getInstance().check_if_truck_taken_that_date(plannedDate.getText(), (String) Trucks.getSelectedItem())){
-                    JOptionPane.showMessageDialog(null, "This truck is already taken that date.");
-                    isFinished = true;
-                    return;
-                }
+//                if (Transport_dao.getInstance().check_if_truck_taken_that_date(plannedDate.getText(), (String) Trucks.getSelectedItem())){
+//                    JOptionPane.showMessageDialog(null, "This truck is already taken that date.");
+//                    isFinished = true;
+//                    return;
+//                }
                 if (Drivers.getSelectedItem() != null){
                     Drivers.removeAllItems();
                 }
@@ -181,7 +190,7 @@ public class Create_transport extends JFrame {
                 }
                 List<Store> stores = StoresDAO.getInstance().SelectAllStores();
                 for (Store store : stores) {
-                    if (store.get_area() == Integer.parseInt((String) areas.getSelectedItem())){
+                    if (store.get_area() == Integer.parseInt((String) areas.getSelectedItem()) && transportMain.is_store_have_schedule(store)){
                         Stores.addItem(store.getName());
                     }
                 }
@@ -189,7 +198,6 @@ public class Create_transport extends JFrame {
                 isFinished = true;
             }
         });
-        // TODO its not working
         areas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -208,13 +216,13 @@ public class Create_transport extends JFrame {
                 List<Store> stores = StoresDAO.getInstance().SelectAllStores();
                 int count = 0;
                 for (Store store : stores) {
-                    if (store.get_area() == Integer.parseInt((String) areas.getSelectedItem())){
+                    if (store.get_area() == Integer.parseInt((String) areas.getSelectedItem()) && transportMain.is_store_have_schedule(store)){
                         Stores.addItem(store.getName());
                         count++;
                     }
                 }
                 if (count == 0){
-                    JOptionPane.showMessageDialog(null, "There are not known stores in that area.");
+                    JOptionPane.showMessageDialog(null, "There are not known stores in that area that currently have an active schedule.");
                 }
                 isFinished = true;
             }
@@ -255,15 +263,18 @@ public class Create_transport extends JFrame {
                 int separatorIndex = driver.indexOf("-");
                 String driver_ID = driver.substring(separatorIndex + 1).trim();
                 String driver_name = driver.substring(0, separatorIndex).trim();
+                // check how the destinations are inserted inside in the create transport function in the UI.
                 Logistical_center_controller.getInstance().add_transport(transport_Id, (String) Trucks.getSelectedItem(), driver_name, (String) coldLevel.getSelectedItem(),  plannedDate.getText(), Integer.parseInt(driver_ID));
 
                 String suppliers_list = "";
                 for (String supplier : selected_suppliers){
+                    Logistical_center_controller.getInstance().insert_supplier_to_transport(transport_Id, supplier);
                     suppliers_list += supplier + ",";
                 }
 
                 String stores_list = "";
                 for (String store : selected_stores){
+                    Logistical_center_controller.getInstance().insert_store_to_transport(transport_Id, store);
                     stores_list += store + ",";
                 }
 
@@ -275,6 +286,10 @@ public class Create_transport extends JFrame {
                     ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id);
                     ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id+1);
                 }
+                Truck_Driver driver_to_shift = EmployeeController.getInstance().getDriver(Integer.parseInt(driver_ID));
+                int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", planned_date, ShiftType.MORNING);
+                ScheduleController.getInstance().addEmployeeToShift(driver_to_shift, "Logistics", shift_id);
+                ScheduleController.getInstance().addEmployeeToShift(driver_to_shift, "Logistics", shift_id+1);
                 JOptionPane.showMessageDialog(null, "The transport was created successfully");
                 reset_fields();
                 plannedDate.setText("");
