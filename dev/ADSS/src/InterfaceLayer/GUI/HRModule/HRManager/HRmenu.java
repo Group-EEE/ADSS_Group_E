@@ -4,6 +4,8 @@ import InterfaceLayer.GUI.Login;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class HRmenu extends JFrame {
     public HRmenu() {
@@ -55,6 +57,16 @@ public class HRmenu extends JFrame {
 
             // Show the frame
             frame.setVisible(true);
+
+            // Add a WindowListener to the frame
+            addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    // Create an instance of the main menu frame
+                    Login login = new Login();
+                    login.setVisible(true);
+                }
+            });
 
             startButton.addActionListener(e -> {
                 String selectedAction = (String) actionComboBox.getSelectedItem();

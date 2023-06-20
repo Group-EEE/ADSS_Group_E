@@ -6,6 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 public class ChangeSchedualHours extends JFrame{
     private final Facade _facade = Facade.getInstance();
     private JTextField storeNameField;
@@ -56,6 +59,16 @@ public class ChangeSchedualHours extends JFrame{
 
                 // Show the main menu
                 hrmenu.setVisible(true);
+            }
+        });
+
+        // Add a WindowListener to the frame
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Create an instance of the main menu frame
+                HRmenu mainMenu = new HRmenu();
+                mainMenu.setVisible(true);
             }
         });
 
