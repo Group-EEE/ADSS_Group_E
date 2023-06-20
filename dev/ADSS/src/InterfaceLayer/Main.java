@@ -19,12 +19,6 @@ public class Main {
 
     public static void main(String[] args){
         Facade facade = Facade.getInstance();
-        while (true) {
-            String store = scanner.nextLine();
-            Facade.getInstance().createAndFillSchedule(store, 19, 6, 2023);
-            if ( store.equals("exit"))
-                break;
-        }
 
         if (args.length != 2) {
             System.out.println("Invalid input");
@@ -41,12 +35,15 @@ public class Main {
             case "StoreManager":
                 roleMainInput = RoleType.StoreManager;
                 break;
-            case "employee":
-                roleMainInput = RoleType.Cashier;
-                break;
             default:
-                System.out.println("Invalid role input");
-                exit(0);
+                try {
+                    roleMainInput = RoleType.valueOf(args[1]);
+                }catch (Exception e)
+                {
+                    System.out.println("Invalid role input");
+                    exit(0);
+                }
+                break;
         }
         try {
             if (args[0].equals("CLI")) {
@@ -59,15 +56,6 @@ public class Main {
             }
         } catch (Exception e) {
             System.out.println("Goodbye!");
-        }
-        finally {
-            try{
-                if (DAO.connection != null)
-                    DAO.connection.close();
-                DAO.connection = null;
-            }
-            catch (SQLException e){}
-            //exit(0);
         }
     }
     public static void mainCLI(RoleType roleMainInput) {
