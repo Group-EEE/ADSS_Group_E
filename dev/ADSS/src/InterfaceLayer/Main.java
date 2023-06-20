@@ -18,8 +18,14 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args){
-        Facade facade = Facade.getInstance();
-
+//        Facade facade = Facade.getInstance();
+//        while (true){
+//            String store = scanner.nextLine();
+//            facade.createAndFillSchedule(store, 21, 6, 2023);
+//            if (store.equals("exit")){
+//                break;
+//            }
+//        }
         if (args.length != 2) {
             System.out.println("Invalid input");
             exit(0);

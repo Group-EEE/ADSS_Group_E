@@ -7,10 +7,13 @@ import BussinessLayer.TransportationModule.objects.Transport;
 import DataAccessLayer.HRMoudle.StoresDAO;
 import DataAccessLayer.Transport.Suppliers_dao;
 import DataAccessLayer.Transport.Transport_dao;
+import InterfaceLayer.GUI.All_Roles_GUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -25,7 +28,21 @@ public class Transport_main extends JFrame{
     private JTextField txtName;
     private String action;
     private String cold_level;
-    public Transport_main() {
+    private All_Roles_GUI all_roles_gui;
+    public Transport_main(All_Roles_GUI all_roles_gui) {
+        this.all_roles_gui = all_roles_gui;
+        setContentPane(panelMain);
+        setTitle("Transport Manager");
+        setSize(500, 300);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                goBack();
+            }
+        });
 
         menuOptions.addActionListener(new ActionListener() {
             @Override
@@ -185,15 +202,8 @@ public class Transport_main extends JFrame{
         return Facade.getInstance().hasSchedule(store.getName(), day, month, year);
     }
 
-    public static void main(String[] args) {
-        Transport_main transportMain = new Transport_main();
-        transportMain.setContentPane(transportMain.panelMain);
-        transportMain.setTitle("Transport Manager");
-        transportMain.setSize(500, 300);
-        transportMain.setLocationRelativeTo(null);
-        transportMain.setVisible(true);
-        transportMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
+    private void goBack(){
+        all_roles_gui.setVisible(true);
+        dispose();
     }
 }

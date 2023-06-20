@@ -51,14 +51,10 @@ public class Supplier_goods extends JFrame{
         this.parent_frame = sendTransport;
         this.transport_id = transport_id;
         pack();
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        setSize(1000, 1000);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (screenSize.width - 1000) / 2;
-        int y = (screenSize.height - 1000) / 2;
-        siteSupplies.setLocation(x, y);
+        setSize(1100, 700);
         getContentPane().add(siteSupplies);
+        setLocationRelativeTo(null);
 
 
         Transport transport = Transport_dao.getInstance().getTransport(transport_id);
@@ -74,7 +70,7 @@ public class Supplier_goods extends JFrame{
             }
         });
 
-        supplierMessage.setText("Hey " + supplier_name + "! please choose the store you want to deliver the goods to, and insert the items");
+        supplierMessage.setText("Hey " + supplier_name + " manager! please choose the store you want to deliver the goods to, and insert the items");
 
         documentID.addFocusListener(new FocusAdapter() {
             @Override
