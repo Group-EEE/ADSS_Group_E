@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 public class PrintEmployeeScheduleForm extends JFrame {
@@ -40,6 +42,16 @@ public class PrintEmployeeScheduleForm extends JFrame {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
+            }
+        });
+
+        // Add a WindowListener to the frame
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Create an instance of the main menu frame
+                EmployeesMenu mainMenu = new EmployeesMenu();
+                mainMenu.setVisible(true);
             }
         });
 

@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class PrintSchedule extends JFrame {
     private final Facade _facade = Facade.getInstance();
@@ -76,6 +78,16 @@ public class PrintSchedule extends JFrame {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(PrintSchedule.this, "There is no such store.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            }
+        });
+
+        // Add a WindowListener to the frame
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Create an instance of the main menu frame
+                HRmenu mainMenu = new HRmenu();
+                mainMenu.setVisible(true);
             }
         });
 

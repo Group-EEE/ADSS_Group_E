@@ -7,10 +7,7 @@ import BussinessLayer.HRModule.Objects.Shift;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +56,16 @@ public class ApproveSchedule extends JFrame {
 
                 // Show the main menu
                 hrmenu.setVisible(true);
+            }
+        });
+
+        // Add a WindowListener to the frame
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Create an instance of the main menu frame
+                HRmenu mainMenu = new HRmenu();
+                mainMenu.setVisible(true);
             }
         });
 
