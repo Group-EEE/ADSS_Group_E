@@ -178,4 +178,21 @@ public class ShiftsDAO extends DAO {
         return null;
     }
 
+    public boolean have_warehouse_by_schedule_and_shift(int shift_id, int schedule_id){
+        String query = "SELECT * FROM RequiredRolesToEmployees WHERE scheduleID = ? AND shiftID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, schedule_id);
+            statement.setInt(2, shift_id);
+            ResultSet res = statement.executeQuery();
+            while (res.next()) {
+                if (res.getString(3).equals("Warehouse") && res.getBoolean(5) == true){
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+        }
+        return false;
+    }
+
 }

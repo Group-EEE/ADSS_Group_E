@@ -1,5 +1,6 @@
 package BussinessLayer.TransportationModule.controllers;
 
+import BussinessLayer.HRModule.Controllers.Facade;
 import BussinessLayer.HRModule.Controllers.ScheduleController;
 import BussinessLayer.HRModule.Objects.ShiftType;
 import BussinessLayer.HRModule.Objects.Store;
@@ -544,8 +545,8 @@ public class underway_transport_controller {
             if (site.is_store()){
                 Store current_store = (Store) site;
                 int shift_id = ScheduleController.getInstance().getShiftIDByDate(current_store.getName(), date, ShiftType.MORNING);
-                boolean shift1 = ScheduleController.getInstance().hasWareHouse(current_store.getName(), shift_id);
-                boolean shift2 = ScheduleController.getInstance().hasWareHouse(current_store.getName(), shift_id+1);
+                boolean shift1 = Facade.getInstance().haswarehouse(shift_id, current_store.getName());
+                boolean shift2 = Facade.getInstance().haswarehouse(shift_id+1, current_store.getName());
                 if (!shift1 || !shift2) return false;
             }
         }

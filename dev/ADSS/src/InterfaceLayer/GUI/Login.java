@@ -75,7 +75,6 @@ public class Login extends JFrame{
 
                 String password = new String(passwordField.getPassword());
                 JFrame nextFrame = null;
-                roleTypePremission = _facade.getEmployeeRoles(id).get(0);
                 try {
                     if (_facade.login(id, password)) {
                         if (_facade.isLoggedUserHasRole(roleTypePremission)) {
@@ -89,30 +88,14 @@ public class Login extends JFrame{
                                 case StoreManager:
                                     nextFrame = new selectModule();
                                     break;
-                                case Cashier: //defaulf empoloyee is Cashier
-                                    nextFrame = new EmployeesMenu();
-                                    break;
+                                case Cashier:
                                 case Cleaner:
-                                    nextFrame = new EmployeesMenu();
-                                    break;
-                                case Usher:
-                                    nextFrame = new EmployeesMenu();
-                                    break;
                                 case Driver:
-                                    nextFrame = new EmployeesMenu();
-                                    break;
-                                case General:
-                                    nextFrame = new EmployeesMenu();
-                                    break;
-                                case Security:
-                                    nextFrame = new EmployeesMenu();
-                                    break;
                                 case Warehouse:
-                                    nextFrame = new EmployeesMenu();
-                                    break;
+                                case Usher:
+                                case General:
+                                case Security:
                                 case ShiftManager:
-                                    nextFrame = new EmployeesMenu();
-                                    break;
                                 case DriverStandBy:
                                     nextFrame = new EmployeesMenu();
                                     break;
