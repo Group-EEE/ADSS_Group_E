@@ -1,5 +1,6 @@
 package InterfaceLayer.GUI;
 
+import InterfaceLayer.GUI.HRModule.HRManager.HRmenu;
 import InterfaceLayer.TransportModule.GUI.Transport_main;
 
 import javax.swing.*;
@@ -23,8 +24,7 @@ public class selectModule extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Perform actions when the "HRModule" button is clicked
                 // Add your logic here
-                Login login = new Login();
-                login.setVisible(true);
+                HRmenu hrmenu = new HRmenu();
                 dispose();
             }
         });
