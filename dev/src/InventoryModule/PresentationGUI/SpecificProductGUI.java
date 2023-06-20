@@ -36,13 +36,13 @@ public class SpecificProductGUI {
         JLabel endDateDiscountLabel = new JLabel("Select discount end Date"); //combo and what about null
         JLabel doesProducthasDiscount = new JLabel("Has Discount");
 
-        JLabel checkDiscountLabel = HelperFunctionGUI.createCheckLabel("Invalid Value",250, 333, 90,20);
-        JLabel checkDateLabel = HelperFunctionGUI.createCheckLabel("Invalid Value", 390,390, 90,20);
-        JLabel checkDefectedLabel = HelperFunctionGUI.createCheckLabel("Invalid Value", 250, 183, 90,20);
-        JLabel checkSelectedBranch = HelperFunctionGUI.createCheckLabel("Select Value", 250, 273, 90,20);
-        JLabel checkLocationInStoreLabel = HelperFunctionGUI.createCheckLabel("Invalid Value", 250, 303, 90,20);
-        JLabel checkSupplierLabel = HelperFunctionGUI.createCheckLabel("Select Value",300, 65, 270, 20);
-        JLabel checkSupplierPriceLabel = HelperFunctionGUI.createCheckLabel("Invalid Value",250, 93, 90,20);
+        JLabel checkDiscountLabel = HelperFunctionGUI.createCheckLabel("Invalid Value",270, 333, 90,20);
+        JLabel checkDateLabel = HelperFunctionGUI.createCheckLabel("Invalid Value", 400,390, 90,20);
+        JLabel checkDefectedLabel = HelperFunctionGUI.createCheckLabel("Invalid Value", 270, 183, 90,20);
+        JLabel checkSelectedBranch = HelperFunctionGUI.createCheckLabel("Select Value", 270, 273, 90,20);
+        JLabel checkLocationInStoreLabel = HelperFunctionGUI.createCheckLabel("Invalid Value", 270, 303, 90,20);
+        JLabel checkSupplierLabel = HelperFunctionGUI.createCheckLabel("Select Value",320, 65, 270, 20);
+        JLabel checkSupplierPriceLabel = HelperFunctionGUI.createCheckLabel("Invalid Value",270, 93, 90,20);
 
         //option2 - Remove specific product from store
         JLabel productBarcodeLabel2 = new JLabel("Choose Product");
@@ -205,55 +205,55 @@ public class SpecificProductGUI {
         //----------------------------------------- Set bounds ---------------------------------------------
 
         chooseLabel.setBounds(10, 10, 150, 20);
-        chooseComboBox.setBounds(190, 10, 270, 20);
+        chooseComboBox.setBounds(210, 10, 270, 20);
 
         //option 1
         productBarcodeLabel.setBounds(10,33, 150,20);
-        productBarcodeComboBox.setBounds(190,35,270,20);
+        productBarcodeComboBox.setBounds(210,35,270,20);
 
         supplierLabel.setBounds(10, 63, 150,20);
-        SupplierNameComboBox.setBounds(190, 65, 100, 20);
+        SupplierNameComboBox.setBounds(210, 65, 100, 20);
 
         supplierPriceLable.setBounds(10, 93, 160,20);
-        supplierPriceField.setBounds(190, 93, 50,20);
+        supplierPriceField.setBounds(210, 93, 50,20);
 
         expDateLabel.setBounds(10, 123, 150,20);
-        EXPDayComboBox.setBounds(190, 123, 50,20);
-        EXPMonthComboBox.setBounds(250,123,50,20);
-        EXPYearComboBox.setBounds(320, 123, 50, 20);
+        EXPDayComboBox.setBounds(210, 123, 50,20);
+        EXPMonthComboBox.setBounds(270,123,50,20);
+        EXPYearComboBox.setBounds(340, 123, 50, 20);
 
         defectiveproductLabel.setBounds(10, 153, 150,20);
-        defectiveproductComboBox.setBounds(190, 153, 50, 20);
+        defectiveproductComboBox.setBounds(210, 153, 50, 20);
 
         defectReporterNameLabel.setBounds(10, 183, 200,20);
-        defectReporterNameField.setBounds(190, 183, 50,20);
+        defectReporterNameField.setBounds(210, 183, 50,20);
 
         defectTypeLabel.setBounds(10, 213, 150,20);
-        defectTypeField.setBounds(190, 213, 50,20);
+        defectTypeField.setBounds(210, 213, 50,20);
 
         StoredProductLabel.setBounds(10, 243, 200,20);
-        StoredProductComboBox.setBounds(190, 243, 50,20);
+        StoredProductComboBox.setBounds(210, 243, 50,20);
 
         StoreBranchNameLabel.setBounds(10, 273, 200,20);
-        StoreBrunchComboBox.setBounds(190, 273, 50,20);
+        StoreBrunchComboBox.setBounds(210, 273, 50,20);
 
         ProductShelfNumberLabel.setBounds(10, 303, 200,20);
-        ProductShelfNumberField.setBounds(190, 303, 50,20);
+        ProductShelfNumberField.setBounds(210, 303, 50,20);
 
         discountAmountLabel.setBounds(10, 333, 150,20);
-        discountAmountField.setBounds(190, 333, 50,20);
-        doesProducthasDiscount.setBounds(330, 333, 90,20);
-        HasDiscountComboBox.setBounds(410,333, 70,20);
+        discountAmountField.setBounds(210, 333, 50,20);
+        doesProducthasDiscount.setBounds(350, 333, 90,20);
+        HasDiscountComboBox.setBounds(430,333, 50,20);
 
         startDateDiscountLabel.setBounds(10, 363, 150,20);
-        startDateDayDiscountComboBox.setBounds(190, 363, 50,20);
-        startDateMonthDiscountComboBox.setBounds(250,363, 50,20);
-        startDateYearDiscountComboBox.setBounds(320,363, 50,20);
+        startDateDayDiscountComboBox.setBounds(210, 363, 50,20);
+        startDateMonthDiscountComboBox.setBounds(270,363, 50,20);
+        startDateYearDiscountComboBox.setBounds(340,363, 50,20);
 
         endDateDiscountLabel.setBounds(10, 390, 150,20);
-        endDateDayDiscountComboBox.setBounds(190, 390, 50,20);
-        endDateMonthDiscountComboBox.setBounds(250,390, 50,20);
-        endDateYearDiscountComboBox.setBounds(320,390, 50,20);
+        endDateDayDiscountComboBox.setBounds(210, 390, 50,20);
+        endDateMonthDiscountComboBox.setBounds(270,390, 50,20);
+        endDateYearDiscountComboBox.setBounds(340,390, 50,20);
         AddNewProduct.setBounds(310, 410, 100, 40);
 
         //option 2

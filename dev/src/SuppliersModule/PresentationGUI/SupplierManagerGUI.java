@@ -19,7 +19,7 @@ public class SupplierManagerGUI {
 
         //------------------------------------- Create jLabel -------------------------------------------
 
-        JLabel jLabel = new JLabel("Welcome to Supplier Manager menu");
+        JLabel jLabel = new JLabel("Welcome To Supplier Manager Menu");
         jLabel.setFont(new Font("Ariel", Font.BOLD + Font.ITALIC, 20));
         jLabel.setForeground(Color.RED);
         jLabel.setBounds(80, 5, 350, 25);

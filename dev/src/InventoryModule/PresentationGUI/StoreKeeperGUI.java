@@ -22,7 +22,7 @@ public class StoreKeeperGUI {
 
         //------------------------------------- Create jLabel -------------------------------------------
 
-        JLabel jLabel = new JLabel("Welcome to Storekeeper menu");
+        JLabel jLabel = new JLabel("Welcome To Storekeeper Menu");
         jLabel.setFont(new Font("Ariel", Font.BOLD + Font.ITALIC, 20));
         jLabel.setForeground(Color.RED);
         jLabel.setBounds(105, 5, 350, 25);
