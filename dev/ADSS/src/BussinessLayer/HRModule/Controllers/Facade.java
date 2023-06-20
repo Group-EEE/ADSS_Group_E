@@ -6,6 +6,7 @@ import DataAccessLayer.HRMoudle.EmployeesDAO;
 import DataAccessLayer.HRMoudle.ShiftsDAO;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 
 public class Facade {
@@ -16,7 +17,7 @@ public class Facade {
     private final StoreController _storeController;
     private final EmployeeController _employeeController;
     private final ScheduleController _scheduleController;
-    private ShiftsDAO shiftsDAO;
+//    private ShiftsDAO shiftsDAO;
 
     private Facade(){
         _storeController = StoreController.getInstance();
@@ -303,14 +304,15 @@ public class Facade {
             return false;
         }
         int schedualid = _scheduleController.getSchedule(storename).getScheduleID();
-        boolean isapproved = shiftsDAO.getApproved(schedualid,shiftid);
+        boolean isapproved = ShiftsDAO.getInstance().getApproved(schedualid,shiftid);
         if (isapproved){
-            List<String> roles = shiftsDAO.getRequiredRoles(schedualid,shiftid);
-            for (int i = 0; i < roles.size(); i++){
-                if (roles.get(i).equals("Warehouse")){
-                    return true;
-                }
-            }
+            return ShiftsDAO.getInstance().have_warehouse_by_schedule_and_shift(shiftid, schedualid);
+//            HashMap<String, Integer> roles = ShiftsDAO.getInstance().getAssignedEmployees(schedualid,shiftid);
+//            for (String key : roles.keySet()){
+//                if (key.equals("Warehouse") && roles.get(key) == 1){
+//                    return true;
+//                }
+//            }
         }
         return false;
     }

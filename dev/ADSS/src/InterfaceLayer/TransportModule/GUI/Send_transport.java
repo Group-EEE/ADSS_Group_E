@@ -89,12 +89,12 @@ public class Send_transport extends JFrame{
         String Date = now.toLocalDate().format(dateFormatter);
         String Time = now.toLocalTime().format(timeFormatter);
         // ======================== check if the transport is in the right status ========================
-        // check_if_warehouse_worker_exist_in_all_stores(transport_ID) - need to implement the right functions with Chen
-//        if (!controller.check_if_warehouse_worker_exist_in_all_stores(transport_id, today)) {
-//            send_message("Transport cancelled, there's no warehouse worker in all of the stores.");
-//            goBack();
-//            return;
-//        }
+         //check_if_warehouse_worker_exist_in_all_stores(transport_ID) - need to implement the right functions with Chen
+        if (!controller.check_if_warehouse_worker_exist_in_all_stores(transport_id, today)) {
+            send_message("Transport cancelled, there's no warehouse worker in all of the stores.");
+            goBack();
+            return;
+        }
         // ======================== Update Date And Time ======================== //
         controller.match_driver_and_truck(transport_id);
         controller.set_time_and_date_for_transport(transport_id, Date, Time);

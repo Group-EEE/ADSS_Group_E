@@ -122,13 +122,24 @@ public class ScheduleController {
                 shift.addInquiredEmployee(_employeesDAO.getEmployee(employeeID));
             }
             for (Map.Entry<String, Integer> entry : _shiftsDAO.getAssignedEmployees(shift.getScheduleID(),shift.getShiftID()).entrySet()){
-                shift.addFilledRole(RoleType.valueOf(entry.getKey()), _employeesDAO.getEmployee(entry.getValue()));
+                try {
+                    shift.addFilledRole(RoleType.valueOf(entry.getKey()), _employeesDAO.getEmployee(entry.getValue()));
+                }
+                catch (Exception ex){
+                    System.out.println("This code is bad.");
+                }
+
             }
             shift.setRejected(_shiftsDAO.getRejected(shift.getScheduleID(),shift.getShiftID()));
             shift.setApproved(_shiftsDAO.getApproved(shift.getScheduleID(),shift.getShiftID()));
         }
         schedule.setShifts(shifts);
         return schedule;
+    }
+
+    public Schedule get_schedule_object_only(String StoreName){
+        int scheduleID = _storesDAO.getActiveSchedule(StoreName);
+        return  _schedulesDAO.getSchedule(scheduleID);
     }
 
     public List<Shift> getEmployeeSchedule(Employee employee){
@@ -268,6 +279,7 @@ public class ScheduleController {
         if (shiftType == null)
             throw new IllegalArgumentException("Invalid shift type");
         Schedule schedule = getSchedule(storeName);
+        //Schedule schedule = get_schedule_object_only(storeName);
         long days = ChronoUnit.DAYS.between(schedule.getStartDateOfWeek(), currentDate);
         if (days > 7)
             throw new IllegalArgumentException("Invalid date");
@@ -276,6 +288,8 @@ public class ScheduleController {
         else
             return (int)days*2 + 1;
     }
+
+
 
 
     public boolean isThereStandByDriverAndWareHouse(String storeName,LocalDate localDate, ShiftType shiftType){
@@ -344,8 +358,8 @@ public class ScheduleController {
     public boolean hasSchedule(String storeName, int day, int month, int year){
         for (int i = 0; i < 7; i++) {
             try{
-                _schedulesDAO.getSchedule(LocalDate.of(year,month,day).minus(i,ChronoUnit.DAYS),storeName);
-                return true;
+        _schedulesDAO.getSchedule(LocalDate.of(year,month,day).minus(i,ChronoUnit.DAYS),storeName);
+        return true;
             }catch (IllegalArgumentException e){
                continue;
             }
