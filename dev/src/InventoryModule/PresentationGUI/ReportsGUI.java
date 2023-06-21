@@ -327,5 +327,4 @@ public class ReportsGUI {
         scrollPane.setBounds(40, 100, 400,250);
         frame.add(scrollPane);
     }
-
 }

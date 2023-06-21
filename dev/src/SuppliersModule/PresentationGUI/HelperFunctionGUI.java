@@ -151,7 +151,6 @@ public class HelperFunctionGUI {
      */
     public static void ShowProcessSuccessfully() {
         JFrame ProcessSuccessfullyFrame = new JFrame("The process ended successfully");
-        ProcessSuccessfullyFrame.setSize(300, 300);
         ProcessSuccessfullyFrame.setLayout(null);
 
         JLabel addSuccessLabel = new JLabel("The process ended successfully");
@@ -171,6 +170,7 @@ public class HelperFunctionGUI {
         ProcessSuccessfullyFrame.setVisible(true);
         ProcessSuccessfullyFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         ProcessSuccessfullyFrame.setResizable(false);
+        ProcessSuccessfullyFrame.setBounds(500,200,300,300);
     }
 
 
@@ -179,7 +179,6 @@ public class HelperFunctionGUI {
      */
     public static void ShowAddSuccess() {
         JFrame AddSuccessFrame = new JFrame("Add success");
-        AddSuccessFrame.setSize(200, 200);
         AddSuccessFrame.setLayout(null);
 
         JLabel addSuccessLabel = new JLabel("Add success");
@@ -197,11 +196,12 @@ public class HelperFunctionGUI {
         });
 
         AddSuccessFrame.setVisible(true);
+        AddSuccessFrame.setBounds(550,250,200,200);
+
     }
 
     public static JFrame createNewFrame(String title) {
         JFrame page1Frame = new JFrame(title);
-        page1Frame.setSize(500, 500);
         page1Frame.setLayout(null);
         ImageIcon backgroundImage = new ImageIcon(HelperFunctionGUI.class.getResource("/SuperMarketImage.jpg"));
         JLabel backgroundLabel = new JLabel(backgroundImage);
@@ -209,6 +209,7 @@ public class HelperFunctionGUI {
         page1Frame.setContentPane(backgroundLabel);
         page1Frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         page1Frame.setResizable(false);
+        page1Frame.setBounds(400,100,500,500);
         return page1Frame;
     }
 
@@ -354,10 +355,13 @@ public class HelperFunctionGUI {
         return comboBoxProductBarcode;
     }
 
-    public static void setProductNameField(String choose, JTextField productNameField) {
+    public static void setProductNameField(String choose, JTextField productNameField, JTextField ManufacturerField) {
         productNameField.removeAll();
-        String name = supplierController.findGenericProductByBarcode(Integer.parseInt(choose)).getName();
+        GenericProduct genericProduct = supplierController.findGenericProductByBarcode(Integer.parseInt(choose));
+        String name = genericProduct.getName();
+        String manufacturer = genericProduct.getMyManufacturer().getName();
         productNameField.setText(name);
+        ManufacturerField.setText(manufacturer);
     }
 
     public static JComboBox<String> createComboBoxofnewProductBarcode() {
@@ -554,6 +558,7 @@ public class HelperFunctionGUI {
         AddSuccessFrame.setVisible(true);
         AddSuccessFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         AddSuccessFrame.setResizable(false);
+        AddSuccessFrame.setBounds(550,250,200,200);
     }
 
     public static void checkIfThereAreMissingProducts() {
@@ -565,7 +570,6 @@ public class HelperFunctionGUI {
         }
         if(missing){
             JFrame MissingFrame = new JFrame("SHORTAGE MESSAGE!");
-            MissingFrame.setSize(200, 200);
             MissingFrame.setLayout(null);
 
             JLabel label1 = new JLabel("There are products");
@@ -592,6 +596,7 @@ public class HelperFunctionGUI {
             MissingFrame.setVisible(true);
             MissingFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
             MissingFrame.setResizable(false);
+            MissingFrame.setBounds(550,250,200,200);
         }
 
     }

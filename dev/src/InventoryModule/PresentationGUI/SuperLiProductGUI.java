@@ -33,7 +33,7 @@ public class SuperLiProductGUI {
         JLabel ManufacturerLabel = new JLabel("Enter Manufacturer");
         JLabel MinimumAmountLabel = new JLabel("Enter Minimum amount");
         JLabel checkCostumerPriceLabel = HelperFunctionGUI.createCheckLabel("Invalid Value",350, 100, 150, 20);
-        JLabel checkSupplyDaysLabel = HelperFunctionGUI.createCheckLabel("Invalid Value",350, 210, 150, 20);
+        JLabel checkSupplyDaysLabel = HelperFunctionGUI.createCheckLabel("Invalid Value",350, 220, 150, 20);
         JLabel checkMinimumAmountLabel = HelperFunctionGUI.createCheckLabel("Invalid Value",350,280,150,20);
 
         //option 2
@@ -137,7 +137,7 @@ public class SuperLiProductGUI {
             public void actionPerformed(ActionEvent e) {
                 String choose = productBarcodeComboBox.getSelectedItem().toString();
                 if(!choose.equals(""))
-                    HelperFunctionGUI.setProductNameField(choose, productNameField);
+                    HelperFunctionGUI.setProductNameField(choose, productNameField, ManufacturerField);
                 else{
                     productNameField.setText("");
                     checkSupplyDaysLabel.setVisible(false);
