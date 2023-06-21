@@ -210,6 +210,7 @@ public class Transport_main extends JFrame{
             @Override
             public void windowClosing(WindowEvent e) {
                 // Create an instance of the main menu frame
+                all_roles_gui = new All_Roles_GUI("TransportManager");
                 all_roles_gui.setVisible(true);
                 dispose();
             }
