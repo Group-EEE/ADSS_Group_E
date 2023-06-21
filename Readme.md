@@ -104,22 +104,22 @@ You may return to the previous menu by selecting the exit option.
 If you chose a TransportManager role choose Transposemodule and than the following menu will open:
 
 Hey Boss! what would you like to do?
-0 - register a supplier to the System
-1 - See all the trucks with a cold level of your choice:
-1- Freeze
-2- Cold
-3- Dry
-2 - create a new transport
-3 - send transports
-4 - Add new truck to the system
-5 - Display all drivers in the system
-6 - Display all trucks in the system
-7 - Display all transport documents in the system
-8 - Display all site supplies documents in the system
-9 - Display all stores in the system
-10 - Display all suppliers in the system
-11 - Add standby driver to existing schedule by date.
-12 - quit
+0. register a supplier to the System
+1. See all the trucks with a cold level of your choice:
+    1. Freeze
+    2. Cold
+    3. Dry
+2. create a new transport
+3. send transports
+4. Add new truck to the system
+5. Display all drivers in the system
+6. Display all trucks in the system
+7. Display all transport documents in the system
+8. Display all site supplies documents in the system
+9. Display all stores in the system
+10. Display all suppliers in the system
+11. Add standby driver to existing schedule by date.
+12. quit
 
 Using this menu, you can navigate between the supplier manager's menu and the StoreKeeper's menu.
 This way, you can access all the actions that the supplier manager and the StoreKeeper can do.
