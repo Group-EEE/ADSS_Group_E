@@ -30,9 +30,9 @@ public class CombineTest {
     public void CreatAOrderDueToShortage(){
         SuperLiDB superLiDB = SuperLiDB.getInstance();
         int s = superLiDB.getSizeOfOrderFromSuppliers();
-        reportController.createOrderReport("yoni");
+        reportController.createOrderReport("yoni").toString();
         reportController.makeOrderForLastReport();
-        assertNotEquals(s+1, superLiDB.getSizeOfOrderFromSuppliers());
+        assertNotEquals(s, superLiDB.getSizeOfOrderFromSuppliers());
     }
 
     @Test

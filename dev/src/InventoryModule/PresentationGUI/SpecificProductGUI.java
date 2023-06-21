@@ -363,11 +363,6 @@ public class SpecificProductGUI {
 
         HelperFunctionGUI.hideComponents(JComponentsTransformLocationInStore);
 
-        /*
-        productBarcodeLabel6, productsId6, checkIDLabel6, checkNoavaliableProductLabel6,
-        checkBarcodeLabel6, productLocationInStore6, ProductLocation6, productBarcodeComboBox6,
-        specificProductIDComboBox6, TransformLocation
-         */
         //------------------------------------ Add to currFrame -------------------------------------
         HelperFunctionGUI.addComponentsToFrame(SpecificProductFrame, new JComponent[]{chooseLabel,
                 chooseComboBox, productBarcodeLabel,
