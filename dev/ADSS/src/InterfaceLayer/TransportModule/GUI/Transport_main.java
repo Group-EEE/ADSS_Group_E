@@ -8,6 +8,7 @@ import DataAccessLayer.HRMoudle.StoresDAO;
 import DataAccessLayer.Transport.Suppliers_dao;
 import DataAccessLayer.Transport.Transport_dao;
 import InterfaceLayer.GUI.All_Roles_GUI;
+import InterfaceLayer.GUI.HRModule.HRManager.HRmenu;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -203,7 +204,15 @@ public class Transport_main extends JFrame{
     }
 
     private void goBack(){
-        all_roles_gui.setVisible(true);
-        dispose();
+//        all_roles_gui.setVisible(true);
+//        dispose();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Create an instance of the main menu frame
+                all_roles_gui.setVisible(true);
+                dispose();
+            }
+        });
     }
 }

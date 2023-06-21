@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class selectModule extends JFrame {
+    private All_Roles_GUI all_roles_gui;
     public selectModule() {
         setTitle("Select Module");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,7 +35,8 @@ public class selectModule extends JFrame {
         JButton transportModuleButton = new JButton("TransportModule");
         transportModuleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Transport_main transport_main = new Transport_main();
+                all_roles_gui = new All_Roles_GUI("TransportModule");
+                Transport_main transport_main = new Transport_main(all_roles_gui);
                 transport_main.setVisible(true);
                 dispose();
             }

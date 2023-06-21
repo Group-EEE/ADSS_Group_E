@@ -1,5 +1,6 @@
 package InterfaceLayer.GUI;
 
+import InterfaceLayer.GUI.HRModule.HRManager.HRmenu;
 import InterfaceLayer.TransportModule.GUI.Transport_main;
 
 import javax.swing.*;
@@ -54,6 +55,9 @@ public class All_Roles_GUI extends JFrame{
     }
 
     private void start_HR_GUI() {
+        HRmenu hRmenu = new HRmenu();
+        hRmenu.setVisible(true);
+        dispose();
         // HR_main hr_main = new HR_main(this); or something like that I don't know
     }
 }

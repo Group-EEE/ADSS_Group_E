@@ -17,6 +17,7 @@ public class Login extends JFrame{
     private JTextField idTextField;
     private JPasswordField passwordField;
     private JButton loginButton;
+    private All_Roles_GUI all_roles_gui;
 
     private final Facade _facade = Facade.getInstance();
     public static void setRoleTypePremission(RoleType roleTypePremission) {
@@ -83,7 +84,7 @@ public class Login extends JFrame{
                                     nextFrame = new HRmenu();
                                     break;
                                 case TransportManager:
-                                    nextFrame = new Transport_main();
+                                    nextFrame = new Transport_main(all_roles_gui);
                                     break;
                                 case StoreManager:
                                     nextFrame = new selectModule();
