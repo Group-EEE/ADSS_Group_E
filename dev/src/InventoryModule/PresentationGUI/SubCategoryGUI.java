@@ -29,7 +29,6 @@ public class SubCategoryGUI {
         JLabel SubCategoryLabel2 = new JLabel("Subcategory name:");
         JLabel cantRemoveSub = HelperFunctionGUI.createCheckLabel("Can't remove subcategory", 170, 200, 175, 20);
 
-
         //----------------------------------------- Create JComboBox ----------------------------------------
         JComboBox<String> chooseOptionComboBox = new JComboBox<>(new String[]{"", "Add new subcategory", "Remove subcategory"});
 

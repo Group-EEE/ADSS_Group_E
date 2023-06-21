@@ -21,6 +21,7 @@ public class OrderReport extends Report{
         Reporter = reporter;
         barcodes = new ArrayList<>();
         amount = new ArrayList<>();
+        ReportController.addReport(this); //add the report to report controller to save its details
     }
 
     //this function returns the report type, used to print all reports' information
@@ -58,7 +59,6 @@ public class OrderReport extends Report{
                 amount.add((ProductController.getProducts().get(i).getMinimum_Amount()+20)-ProductController.getProducts().get(i).getSpecificProducts().size());
             }
         }
-        ReportController.addReport(this); //add the report to report controller to save its details
         return details;
     }
 

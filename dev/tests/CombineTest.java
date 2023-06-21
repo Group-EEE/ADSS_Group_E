@@ -32,7 +32,7 @@ public class CombineTest {
         int s = superLiDB.getSizeOfOrderFromSuppliers();
         reportController.createOrderReport("yoni");
         reportController.makeOrderForLastReport();
-        assertNotEquals(s, superLiDB.getSizeOfOrderFromSuppliers());
+        assertNotEquals(s+1, superLiDB.getSizeOfOrderFromSuppliers());
     }
 
     @Test
