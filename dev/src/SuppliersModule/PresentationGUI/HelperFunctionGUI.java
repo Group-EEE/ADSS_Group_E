@@ -169,6 +169,8 @@ public class HelperFunctionGUI {
         });
 
         ProcessSuccessfullyFrame.setVisible(true);
+        ProcessSuccessfullyFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        ProcessSuccessfullyFrame.setResizable(false);
     }
 
 
@@ -205,6 +207,8 @@ public class HelperFunctionGUI {
         JLabel backgroundLabel = new JLabel(backgroundImage);
         page1Frame.setLayout(new BorderLayout());
         page1Frame.setContentPane(backgroundLabel);
+        page1Frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        page1Frame.setResizable(false);
         return page1Frame;
     }
 
@@ -548,6 +552,8 @@ public class HelperFunctionGUI {
         });
 
         AddSuccessFrame.setVisible(true);
+        AddSuccessFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        AddSuccessFrame.setResizable(false);
     }
 
     public static void checkIfThereAreMissingProducts() {
@@ -558,9 +564,9 @@ public class HelperFunctionGUI {
             }
         }
         if(missing){
-            JFrame AddSuccessFrame = new JFrame("SHORTAGE MESSAGE!");
-            AddSuccessFrame.setSize(200, 200);
-            AddSuccessFrame.setLayout(null);
+            JFrame MissingFrame = new JFrame("SHORTAGE MESSAGE!");
+            MissingFrame.setSize(200, 200);
+            MissingFrame.setLayout(null);
 
             JLabel label1 = new JLabel("There are products");
             JLabel label2 = new JLabel("that need to be ordered ");
@@ -569,22 +575,23 @@ public class HelperFunctionGUI {
             label1.setBounds(30, 20, 170, 20);
             label2.setBounds(20, 40, 170, 20);
             label3.setBounds(30, 60, 170, 20);
-            AddSuccessFrame.add(label1);
-            AddSuccessFrame.add(label2);
-            AddSuccessFrame.add(label3);
+            MissingFrame.add(label1);
+            MissingFrame.add(label2);
+            MissingFrame.add(label3);
 
             JButton okButton = new JButton("OK");
             okButton.setBounds(50, 100, 80, 20);
-            AddSuccessFrame.add(okButton);
+            MissingFrame.add(okButton);
             okButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    AddSuccessFrame.dispose();
+                    MissingFrame.dispose();
                 }
             });
 
-            AddSuccessFrame.setVisible(true);
-
+            MissingFrame.setVisible(true);
+            MissingFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+            MissingFrame.setResizable(false);
         }
 
     }
