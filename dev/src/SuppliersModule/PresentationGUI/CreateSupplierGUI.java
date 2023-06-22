@@ -765,6 +765,5 @@ public class CreateSupplierGUI {
 
         page5Frame.setVisible(true);
     }
-
 }
 
