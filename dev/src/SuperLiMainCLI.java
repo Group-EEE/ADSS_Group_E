@@ -1,4 +1,5 @@
 import InventoryModule.PresentationCLI.StoreKeeperCLI;
+import StoreManagerCLIorGUI.StoreManagerCLI;
 import SuppliersModule.Business.Controllers.OrderController;
 import SuppliersModule.PresentationCLI.SupplierManagerCLI;
 

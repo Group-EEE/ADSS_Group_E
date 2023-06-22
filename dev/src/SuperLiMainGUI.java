@@ -1,4 +1,7 @@
+import InventoryModule.PresentationGUI.StoreKeeperGUI;
+import StoreManagerCLIorGUI.StoreManagerGUI;
 import SuppliersModule.Business.Controllers.OrderController;
+import SuppliersModule.PresentationGUI.SupplierManagerGUI;
 
 public class SuperLiMainGUI {
 
@@ -39,10 +42,5 @@ public class SuperLiMainGUI {
                 StoreKeeperGUI.powerOn(null);
                 break;
         }
-    }
-
-    public static void closeProgram()
-    {
-        orderController.cancelTimer();
     }
 }
