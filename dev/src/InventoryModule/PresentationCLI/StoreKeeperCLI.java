@@ -42,8 +42,12 @@ public class StoreKeeperCLI {
     //this method will print the main menu of Inventory Module
     public void Start(){
         String c = "";
+
+        checkIfThereAreMissingProducts();
+
         if(productController.getBarcodesOfNewProductsSize() !=0)
             System.out.println("There are new products that are waiting to be added to the system!");
+
         while (!c.equals("0")){ //main menu of all possible choices of information the employee needs
             Scanner option = new Scanner(System.in);
             System.out.println("Please choose an option");
@@ -155,6 +159,19 @@ public class StoreKeeperCLI {
             }
         }
     }
+
+    public static void checkIfThereAreMissingProducts() {
+        boolean missing = false;
+        for (int i = 0; i < ProductController.getProducts().size(); i++) {
+            if (ProductController.getProducts().get(i).getSpecificProducts().size() <= ProductController.getProducts().get(i).getMinimum_Amount()) {
+                missing = true;
+            }
+        }
+        if(missing)
+            System.out.println("There are products that need to be ordered create order report!");
+    }
+
+
     /*public static void addData(){
         productController.addProduct(123, "pasta", "barila", 5, 10,"cooking", "italian","gluten free",5,"barila", 100);
         productController.addProduct(456, "bamba", "osem", 4,5,"snack", "salty", "contain peanuts", 3, "osem", 150);
