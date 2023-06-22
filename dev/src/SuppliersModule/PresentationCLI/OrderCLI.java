@@ -269,7 +269,6 @@ public class OrderCLI {
             System.out.println("Periodic order cannot change in the day of ordering");
             return null;
         }
-
         return barcodeAndId;
     }
 }
