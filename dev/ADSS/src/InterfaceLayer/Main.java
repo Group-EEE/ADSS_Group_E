@@ -31,7 +31,7 @@ public class Main {
 //            exit(0);
 //        }
         RoleType roleMainInput = null;
-        switch (/*args[1]*/ "StoreManager"){
+        switch (args[1]){
             case "HRManager":
                 roleMainInput = RoleType.HRManager;
                 break;
@@ -66,36 +66,38 @@ public class Main {
     }
     public static void mainCLI(RoleType roleMainInput) {
         String  menuChoice = "";
-            if (roleMainInput.toString().equals("HRManager")){
-                mainCLIHR();
-                exit(0);
-            } else if (roleMainInput.toString().equals("TransportManager")) {
-                mainCLITransport();
-                exit(0);
-            }
-            else {
-                while (true) {
-                    System.out.println("Welcome to Super-Lee System !\n");
-                    System.out.println("Please select the required module:");
-                    System.out.println("1. HR Module");
-                    System.out.println("2. Transport Module");
-                    System.out.println("0. Exit");
-                    try {
-                        menuChoice = scanner.nextLine();
-                    } catch (Exception e) {
-                        System.out.println("Invalid input");
+
+            while (true) {
+                System.out.println("Welcome to Super-Lee System !\n");
+                System.out.println("Please select the required module:");
+                System.out.println("1. HR Module");
+                System.out.println("2. Transport Module");
+                System.out.println("0. Exit");
+                try {
+                    menuChoice = scanner.nextLine();
+                } catch (Exception e) {
+                    System.out.println("Invalid input");
+                    continue;
+                }
+                if (menuChoice.equals("1")) {
+                    if (roleMainInput.toString().equals("TransportManager")) {
+                        System.out.println("Sorry boss, you are the Transport Manager you don't have access for that!");
                         continue;
                     }
-                    if (menuChoice.equals("1"))
-                        mainCLIHR();
-                    else if (menuChoice.equals("2"))
-                        mainCLITransport();
-                    else if (menuChoice.equals("0")) {
-                        return;
-                    } else
-                        System.out.println("Invalid input");
+                    mainCLIHR();
                 }
-        }
+                else if (menuChoice.equals("2")) {
+                    if (roleMainInput.toString().equals("HRManager")) {
+                        System.out.println("Sorry boss, you are the HR Manager you don't have access for that!");
+                        continue;
+                    }
+                    mainCLITransport();
+                }
+                else if (menuChoice.equals("0")) {
+                    return;
+                } else
+                    System.out.println("Invalid input");
+            }
     }
 
     public static void mainCLITransport() {
