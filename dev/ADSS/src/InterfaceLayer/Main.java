@@ -21,17 +21,17 @@ public class Main {
 //        Facade facade = Facade.getInstance();
 //        while (true){
 //            String store = scanner.nextLine();
-//            facade.createAndFillSchedule(store, 21, 6, 2023);
+//            facade.createAndFillSchedule(store, 28, 6, 2023);
 //            if (store.equals("exit")){
 //                break;
 //            }
 //        }
-        if (args.length != 2) {
-            System.out.println("Invalid input");
-            exit(0);
-        }
+//        if (args.length != 2) {
+//            System.out.println("Invalid input");
+//            exit(0);
+//        }
         RoleType roleMainInput = null;
-        switch (args[1]){
+        switch (/*args[1]*/ "StoreManager"){
             case "HRManager":
                 roleMainInput = RoleType.HRManager;
                 break;
@@ -52,7 +52,7 @@ public class Main {
                 break;
         }
         try {
-            if (args[0].equals("CLI")) {
+            if (args[0].equals("CLI")) { // delete here the true
                 mainCLI(roleMainInput);
             } else if (args[0].equals("GUI")){
                 mainGUI(roleMainInput);
@@ -65,27 +65,36 @@ public class Main {
         }
     }
     public static void mainCLI(RoleType roleMainInput) {
-        int menuChoice = -1;
-        while (true) {
-            System.out.println("Welcome to Super-Lee System !\n");
-            System.out.println("Please select the required module:");
-            System.out.println("1. HR Module");
-            System.out.println("2. Transport Module");
-            System.out.println("0. Exit");
-            try {
-                menuChoice = scanner.nextInt();
-            } catch (Exception e) {
-                System.out.println("Goodbye!");
+        String  menuChoice = "";
+            if (roleMainInput.toString().equals("HRManager")){
+                mainCLIHR();
+                exit(0);
+            } else if (roleMainInput.toString().equals("TransportManager")) {
+                mainCLITransport();
                 exit(0);
             }
-            if (menuChoice == 1)
-                mainCLIHR();
-            else if (menuChoice == 2)
-                mainCLITransport();
-            else if (menuChoice == 0) {
-                return;
-            } else
-                System.out.println("Invalid input");
+            else {
+                while (true) {
+                    System.out.println("Welcome to Super-Lee System !\n");
+                    System.out.println("Please select the required module:");
+                    System.out.println("1. HR Module");
+                    System.out.println("2. Transport Module");
+                    System.out.println("0. Exit");
+                    try {
+                        menuChoice = scanner.nextLine();
+                    } catch (Exception e) {
+                        System.out.println("Invalid input");
+                        continue;
+                    }
+                    if (menuChoice.equals("1"))
+                        mainCLIHR();
+                    else if (menuChoice.equals("2"))
+                        mainCLITransport();
+                    else if (menuChoice.equals("0")) {
+                        return;
+                    } else
+                        System.out.println("Invalid input");
+                }
         }
     }
 
@@ -101,10 +110,10 @@ public class Main {
 
     public static void mainGUI(RoleType roleMainInput) {
         Login.setRoleTypePremission(roleMainInput);
-        SwingUtilities.invokeLater(() -> {
+//        SwingUtilities.invokeLater(() -> {
             Login login = new Login();
-            login.setVisible(true);
-        });
+//            login.setVisible(true);
+//        });
     }
 
 }

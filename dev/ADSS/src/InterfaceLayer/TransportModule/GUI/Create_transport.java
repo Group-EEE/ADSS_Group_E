@@ -283,13 +283,19 @@ public class Create_transport extends JFrame {
                 Logistical_center_controller.getInstance().insert_sites_names_to_transport(transport_Id, stores_list, suppliers_list);
                 for (String store : stores_list.split(",")){
                     int shift_id = ScheduleController.getInstance().getShiftIDByDate(store, planned_date, ShiftType.MORNING);
-                    ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id);
-                    ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id+1);
+                    try {
+                        ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id);
+                        ScheduleController.getInstance().addMustBeFilledWareHouse(store, shift_id + 1);
+                    }
+                    catch (Exception ex){}
                 }
                 Truck_Driver driver_to_shift = EmployeeController.getInstance().getDriver(Integer.parseInt(driver_ID));
                 int shift_id = ScheduleController.getInstance().getShiftIDByDate("Logistics", planned_date, ShiftType.MORNING);
-                ScheduleController.getInstance().addEmployeeToShift(driver_to_shift, "Logistics", shift_id);
-                ScheduleController.getInstance().addEmployeeToShift(driver_to_shift, "Logistics", shift_id+1);
+                try {
+                    ScheduleController.getInstance().addEmployeeToShift(driver_to_shift, "Logistics", shift_id);
+                    ScheduleController.getInstance().addEmployeeToShift(driver_to_shift, "Logistics", shift_id + 1);
+                }
+                catch (Exception exc){}
                 JOptionPane.showMessageDialog(null, "The transport was created successfully");
                 reset_fields();
                 plannedDate.setText("");

@@ -346,9 +346,9 @@ public abstract class DAO {
             }
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Got Exception:");
-            System.out.println(e.getMessage());
-            System.out.println(sql);
+           //System.out.println("Got Exception:");
+            //System.out.println(e.getMessage());
+            //System.out.println(sql);
             return false;
         }
         return true;

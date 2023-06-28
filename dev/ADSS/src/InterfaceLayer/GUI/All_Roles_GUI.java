@@ -52,6 +52,7 @@ public class All_Roles_GUI extends JFrame{
     private void start_Transport_GUI() {
         Transport_main transport_main = new Transport_main(this);
         transport_main.setVisible(true);
+        dispose();
     }
 
     private void start_HR_GUI() {

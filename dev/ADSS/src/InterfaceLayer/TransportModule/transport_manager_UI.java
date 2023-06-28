@@ -67,7 +67,7 @@ public class transport_manager_UI {
                     if (input.length() <= 2 && choice >= 0 && choice < 13) {
                         isValid = true;
                     } else {
-                        System.out.println("Input must be an int between 0-14. ");
+                        System.out.println("Input must be an int between 0-12. ");
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("Invalid input. Please enter a valid int between 0-14. ");
