@@ -4,6 +4,7 @@ import BussinessLayer.HRModule.Controllers.Facade;
 import BussinessLayer.HRModule.Objects.RoleType;
 import DataAccessLayer.DAO;
 import InterfaceLayer.CLI.HRModule.HRModuleCLI;
+import InterfaceLayer.GUI.All_Roles_GUI;
 import InterfaceLayer.GUI.Login;
 import InterfaceLayer.TransportModule.transport_manager_UI;
 
@@ -41,6 +42,9 @@ public class Main {
             case "StoreManager":
                 roleMainInput = RoleType.StoreManager;
                 break;
+            case "Employee":
+                roleMainInput = RoleType.Employee;
+                break;
             default:
                 try {
                     roleMainInput = RoleType.valueOf(args[1]);
@@ -70,7 +74,7 @@ public class Main {
             while (true) {
                 System.out.println("Welcome to Super-Lee System !\n");
                 System.out.println("Please select the required module:");
-                System.out.println("1. HR Module");
+                System.out.println("1. HR Module (HRManager or Employee)");
                 System.out.println("2. Transport Module");
                 System.out.println("0. Exit");
                 try {
@@ -87,7 +91,7 @@ public class Main {
                     mainCLIHR();
                 }
                 else if (menuChoice.equals("2")) {
-                    if (roleMainInput.toString().equals("HRManager")) {
+                    if (roleMainInput.toString().equals("HRManager") || roleMainInput.toString().equals("Employee")) {
                         System.out.println("Sorry boss, you are the HR Manager you don't have access for that!");
                         continue;
                     }
@@ -111,11 +115,10 @@ public class Main {
     }
 
     public static void mainGUI(RoleType roleMainInput) {
-        Login.setRoleTypePremission(roleMainInput);
-//        SwingUtilities.invokeLater(() -> {
-            Login login = new Login();
-//            login.setVisible(true);
-//        });
+//        Login.setRoleTypePremission(roleMainInput);
+//            Login login = new Login();
+        All_Roles_GUI all_roles_gui = new All_Roles_GUI(roleMainInput.toString());
+        all_roles_gui.setVisible(true);
     }
 
 }

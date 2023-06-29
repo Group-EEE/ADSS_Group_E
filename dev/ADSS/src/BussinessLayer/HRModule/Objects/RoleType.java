@@ -12,4 +12,5 @@ public enum RoleType {
     Driver,
     DriverStandBy,
     TransportManager,
+    Employee,
     StoreManager; }

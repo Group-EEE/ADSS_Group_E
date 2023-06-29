@@ -1,5 +1,6 @@
 package InterfaceLayer.GUI;
 
+import BussinessLayer.HRModule.Objects.RoleType;
 import InterfaceLayer.GUI.HRModule.HRManager.HRmenu;
 import InterfaceLayer.TransportModule.GUI.Transport_main;
 
@@ -12,6 +13,7 @@ public class All_Roles_GUI extends JFrame{
     private JButton logisticsManagerButton;
     private JButton HRManagerButton;
     private JLabel message;
+    private JButton employeeButton;
 
     public All_Roles_GUI(String Role){
         pack();
@@ -26,8 +28,8 @@ public class All_Roles_GUI extends JFrame{
         HRManagerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Role.equals("LogisticsManager")) {
-                    JOptionPane.showMessageDialog(null, "Sorry Boss, you have access only to the Transport's Menu.");
+                if (Role.equals("TransportManager") || Role.equals("Employee")) {
+                    JOptionPane.showMessageDialog(null, "Sorry Boss, you have access only to the HR's Menu.");
                     return;
                 }
                 // here will be the code that will be executed when the user clicks on the HRManagerButton
@@ -39,12 +41,25 @@ public class All_Roles_GUI extends JFrame{
         logisticsManagerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Role.equals("HRManager")) {
-                    JOptionPane.showMessageDialog(null, "Sorry Boss, you have access only to the HR's Menu.");
+                if (Role.equals("HRManager") || Role.equals("Employee")) {
+                    JOptionPane.showMessageDialog(null, "Sorry Boss, you have access only to the Transport's Menu.");
                     return;
                 }
                 // here will be the code that will be executed when the user clicks on the logisticsManagerButton
                 start_Transport_GUI();
+            }
+        });
+        employeeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Role.equals("HRManager") || Role.equals("TransportManager")) {
+                    JOptionPane.showMessageDialog(null, "Sorry Boss, you have access only to the Employee's Menu.");
+                    return;
+                }
+                // here will be the code that will be executed when the user clicks on the logisticsManagerButton
+                Login.setRoleTypePremission(RoleType.Employee);
+                Login login = new Login();
+                dispose();
             }
         });
     }

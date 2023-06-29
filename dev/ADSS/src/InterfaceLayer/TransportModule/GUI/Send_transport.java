@@ -40,7 +40,7 @@ public class Send_transport extends JFrame{
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                goBack();
+
             }
         });
         transportIDs.setPrototypeDisplayValue("Prototype Value");

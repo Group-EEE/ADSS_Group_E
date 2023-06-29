@@ -63,12 +63,12 @@ public class Supplier_goods extends JFrame{
         }
         chosen_store = (String) storesInTransport.getSelectedItem();
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                goBack();
-            }
-        });
+//        addWindowListener(new WindowAdapter() {
+//            @Override
+//            public void windowClosing(WindowEvent e) {
+//                goBack();
+//            }
+//        });
 
         supplierMessage.setText("Hey " + supplier_name + " manager! please choose the store you want to deliver the goods to, and insert the items");
 

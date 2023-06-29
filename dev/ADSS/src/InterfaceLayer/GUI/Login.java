@@ -78,7 +78,6 @@ public class Login extends JFrame{
                 JFrame nextFrame = null;
                 try {
                     if (_facade.login(id, password)) {
-                        if (_facade.isLoggedUserHasRole(roleTypePremission)) {
                             switch (roleTypePremission) {
                                 case HRManager:
                                     nextFrame = new HRmenu();
@@ -98,6 +97,7 @@ public class Login extends JFrame{
                                 case Security:
                                 case ShiftManager:
                                 case DriverStandBy:
+                                case Employee:
                                     nextFrame = new EmployeesMenu();
                                     break;
                                 default:
@@ -105,9 +105,6 @@ public class Login extends JFrame{
                             }
                             nextFrame.setVisible(true);
                             frame.dispose();
-                        } else { // not has premission
-                            JOptionPane.showMessageDialog(null, "You don't have permission to access this module", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
                         // Open the HRmenu screen
 
                     } else {

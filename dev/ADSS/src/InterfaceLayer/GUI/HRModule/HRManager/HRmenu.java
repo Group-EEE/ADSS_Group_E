@@ -1,5 +1,6 @@
 package InterfaceLayer.GUI.HRModule.HRManager;
 
+import InterfaceLayer.GUI.All_Roles_GUI;
 import InterfaceLayer.GUI.Login;
 
 import javax.swing.*;
@@ -63,8 +64,10 @@ public class HRmenu extends JFrame {
                 @Override
                 public void windowClosing(WindowEvent e) {
                     // Create an instance of the main menu frame
-                    Login login = new Login();
-                    login.setVisible(true);
+                    //Login login = new Login();
+                    //login.setVisible(true);
+                    All_Roles_GUI all_roles_gui = new All_Roles_GUI("HRManager");
+                    all_roles_gui.setVisible(true);
                 }
             });
 
@@ -168,8 +171,8 @@ public class HRmenu extends JFrame {
                         frame.dispose();
                         break;
                     case "log out":
-                        Login login = new Login();
-                        login.setVisible(true);
+                        All_Roles_GUI all_roles_gui = new All_Roles_GUI("HRManager");
+                        all_roles_gui.setVisible(true);
                         frame.dispose();
                         break;
                 }
