@@ -72,7 +72,7 @@ public class All_Roles_GUI extends JFrame{
 
     private void start_HR_GUI() {
         HRmenu hRmenu = new HRmenu();
-        hRmenu.setVisible(true);
+        //hRmenu.setVisible(true);
         dispose();
         // HR_main hr_main = new HR_main(this); or something like that I don't know
     }

@@ -103,7 +103,7 @@ public class Login extends JFrame{
                                 default:
                                     break;
                             }
-                            nextFrame.setVisible(true);
+                            //nextFrame.setVisible(true);
                             frame.dispose();
                         // Open the HRmenu screen
 
@@ -116,7 +116,7 @@ public class Login extends JFrame{
                 }
             }
         });
-        frame.setVisible(true);
+        //frame.setVisible(true);
     }
 
     public static void main(String[] args) {

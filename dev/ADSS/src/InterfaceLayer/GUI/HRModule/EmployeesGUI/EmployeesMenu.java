@@ -39,7 +39,7 @@ public class EmployeesMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SelectShifts selectShifts = new SelectShifts();
-                selectShifts.setVisible(true);
+                //selectShifts.setVisible(true);
                 dispose();
             }
         });
@@ -48,7 +48,7 @@ public class EmployeesMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 UpdateInformation updateInformation = new UpdateInformation();
-                updateInformation.setVisible(true);
+                //updateInformation.setVisible(true);
                 dispose();
             }
         });

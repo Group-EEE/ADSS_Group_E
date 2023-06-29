@@ -205,7 +205,7 @@ public class Transport_main extends JFrame{
 
     private void goBack(){
             // Create an instance of the main menu frame
-            all_roles_gui = new All_Roles_GUI("LogisticsManager");
+            all_roles_gui = new All_Roles_GUI("TransportManager");
             all_roles_gui.setVisible(true);
             dispose();
     }

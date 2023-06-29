@@ -51,7 +51,7 @@ public class PrintEmployees extends JFrame {
                         setVisible(false);
 
                         // Show the main menu
-                        hrmenu.setVisible(true);
+                        //hrmenu.setVisible(true);
                     }
                 });
 
@@ -61,7 +61,7 @@ public class PrintEmployees extends JFrame {
             public void windowClosing(WindowEvent e) {
                 // Create an instance of the main menu frame
                 HRmenu mainMenu = new HRmenu();
-                mainMenu.setVisible(true);
+                //mainMenu.setVisible(true);
             }
         });
 

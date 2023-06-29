@@ -51,7 +51,7 @@ public class PrintEmployeeScheduleForm extends JFrame {
             public void windowClosing(WindowEvent e) {
                 // Create an instance of the main menu frame
                 EmployeesMenu mainMenu = new EmployeesMenu();
-                mainMenu.setVisible(true);
+                //mainMenu.setVisible(true);
             }
         });
 
@@ -61,7 +61,7 @@ public class PrintEmployeeScheduleForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 EmployeesMenu employeesMenu = new EmployeesMenu();
-                employeesMenu.setVisible(true);
+                //employeesMenu.setVisible(true);
                 dispose();
             }
         });
