@@ -19,18 +19,6 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args){
-//        Facade facade = Facade.getInstance();
-//        while (true){
-//            String store = scanner.nextLine();
-//            facade.createAndFillSchedule(store, 28, 6, 2023);
-//            if (store.equals("exit")){
-//                break;
-//            }
-//        }
-//        if (args.length != 2) {
-//            System.out.println("Invalid input");
-//            exit(0);
-//        }
         RoleType roleMainInput = null;
         switch (args[1]){
             case "HRManager":
@@ -115,8 +103,6 @@ public class Main {
     }
 
     public static void mainGUI(RoleType roleMainInput) {
-//        Login.setRoleTypePremission(roleMainInput);
-//            Login login = new Login();
         All_Roles_GUI all_roles_gui = new All_Roles_GUI(roleMainInput.toString());
         all_roles_gui.setVisible(true);
     }
